@@ -1,5 +1,5 @@
 # Add all the application routes to the app.routes file
-->         /calculate-ni-frontend              app.Routes
+->         /calculate-ni              app.Routes
 ->         /                          health.Routes
 
 GET        /admin/metrics             com.kenshoo.play.metrics.MetricsController.metrics
