@@ -123,23 +123,13 @@ lazy val `frontend` = project
     scalaVersion := "2.12.12", 
     scalacOptions -= "-Xfatal-warnings",    
     scalaJSUseMainModuleInitializer := false,
-      libraryDependencies ++= Seq(
-        "org.scala-js" %%% "scalajs-dom" % "1.1.0",
-        "org.scala-js" %%% "scalajs-java-time" % "1.0.0"
-      ),
-        majorVersion := 0    
-    // copyJs := {
-    //   import Path._
-    //   import scala.sys.process._
-    //   val fastOpt = (fastOptJS / crossTarget).value / "frontend-fastopt.js"      
-    //   val fullOpt = (fullOptJS / crossTarget).value / "frontend-opt.js"
-    //   val latest = if (fastOpt.lastModified > fullOpt.lastModified) fastOpt else fullOpt
-    //   val dest = file("react") / "src" / "calculation.js"
-    //   IO.copyFile(latest, dest)
-    //   println(s"copied $latest to $dest")
-    //   "frontend/add-export.sh".!
-    // },
-    // copyJs := copyJs.triggeredBy(fastOptJS in Compile, fullOptJS in Compile).value
+    libraryDependencies ++= Seq(
+      "org.scala-js" %%% "scalajs-dom" % "1.1.0",
+      "org.scala-js" %%% "scalajs-java-time" % "1.0.0"
+    ),
+    publish := {},
+    publishLocal := {},
+    majorVersion := 0    
   )
   .enablePlugins(ScalaJSPlugin)
   .dependsOn(common.js)
