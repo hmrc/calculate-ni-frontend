@@ -38,6 +38,7 @@ lazy val microservice = Project(appName, file("."))
       compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
       "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
     ),
+    PlayKeys.playDefaultPort := 8668,
     convertConfig := Def.taskDyn({
       // generate the JSON config file from the HOCON
       val sourceFile = file("national-insurance.conf")
