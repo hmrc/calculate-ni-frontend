@@ -33,3 +33,7 @@ test-result
 tmp
 .idea_modules
 bin
+app/assets/configuration.json
+app/assets/javascripts/calculation.js
+project/metals.sbt
+*/target
