@@ -1,3 +1,4 @@
+import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
 
 val appName = "calculate-ni-frontend"
@@ -65,6 +66,8 @@ lazy val microservice = Project(appName, file("."))
 
   )
   .settings(publishingSettings: _*)
+  .configs(IntegrationTest)
+  .settings(integrationTestSettings(): _*)
   .settings(resolvers += Resolver.jcenterRepo)
 
 val circeVersion = "0.13.0"
