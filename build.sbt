@@ -5,7 +5,7 @@ val appName = "calculate-ni-frontend"
 
 val silencerVersion = "1.7.0"
 
-//val copyInJS = taskKey[Unit]("Build and copy in the JS file")
+val copyInJS = taskKey[Unit]("Build and copy in the JS file")
 val convertConfig = taskKey[Any]("Convert the configuration file from HOCON to JSON")
 
 lazy val microservice = Project(appName, file("."))
@@ -56,14 +56,13 @@ lazy val microservice = Project(appName, file("."))
         }
       }
     }).value,
-    convertConfig := convertConfig.triggeredBy(compile in Compile).value
-    // copyInJS := {
-    //     // generate the Javascript logic 
-    //     val Attributed(outFiles) = (frontend / Compile / fullOptJS).value
-    //     IO.copyFile(outFiles, file("app") / "assets" / "javascripts" / "calculation.js")      
-    // },
-    // copyInJS := copyInJS.triggeredBy(compile in Compile).value
-
+    convertConfig := convertConfig.triggeredBy(compile in Compile).value,
+    copyInJS := {
+        // generate the Javascript logic 
+        val Attributed(outFiles) = (frontend / Compile / fullOptJS).value
+        IO.copyFile(outFiles, file("app") / "assets" / "javascripts" / "calculation.js")      
+    },
+    copyInJS := copyInJS.triggeredBy(compile in Compile).value
   )
   .settings(publishingSettings: _*)
   .configs(IntegrationTest)
@@ -72,29 +71,28 @@ lazy val microservice = Project(appName, file("."))
 
 val circeVersion = "0.13.0"
 
-lazy val common = // crossProject(JSPlatform, JVMPlatform).
-  // withoutSuffixFor(JVMPlatform).
-  // crossType(CrossType.Pure).
-  project
-    .settings(
-      scalaVersion := "2.12.12",
-      libraryDependencies ++= Seq(
-        "io.circe" %% "circe-core",
-        "io.circe" %% "circe-generic",
-        "io.circe" %% "circe-parser"
-      ).map(_ % circeVersion),
-      libraryDependencies ++= Seq(
-        "org.typelevel" %% "cats-core" % "2.2.0",
-        "org.typelevel" %% "spire" % "0.17.0"
-      ),
-      scalacOptions -= "-Xfatal-warnings",
-      addCompilerPlugin(
-        "org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full
-      ),
-      publish := {},
-      publishLocal := {},
-      majorVersion := 0
-    )
+lazy val common = crossProject(JSPlatform, JVMPlatform)
+  .withoutSuffixFor(JVMPlatform)
+  .crossType(CrossType.Pure)
+  .settings(
+    scalaVersion := "2.12.12",
+    libraryDependencies ++= Seq(
+      "io.circe" %%% "circe-core",
+      "io.circe" %%% "circe-generic",
+      "io.circe" %%% "circe-parser"
+    ).map(_ % circeVersion),
+    libraryDependencies ++= Seq(
+      "org.typelevel" %%% "cats-core" % "2.2.0",
+      "org.typelevel" %%% "spire" % "0.17.0"
+    ),
+    scalacOptions -= "-Xfatal-warnings",
+    addCompilerPlugin(
+      "org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full
+    ),
+    publish := {},
+    publishLocal := {},
+    majorVersion := 0
+  )
 
 lazy val `schema-converter` = project
   .settings(
@@ -120,21 +118,21 @@ lazy val calc = project.
     publish := {},
     publishLocal := {},
     majorVersion := 0    
-  ).dependsOn(common)
+  ).dependsOn(common.jvm)
 
 
-// lazy val `frontend` = project
-//   .settings(
-//     scalaVersion := "2.12.12", 
-//     scalacOptions -= "-Xfatal-warnings",    
-//     scalaJSUseMainModuleInitializer := false,
-//     libraryDependencies ++= Seq(
-//       "org.scala-js" %%% "scalajs-dom" % "1.1.0",
-//       "org.scala-js" %%% "scalajs-java-time" % "1.0.0"
-//     ),
-//     publish := {},
-//     publishLocal := {},
-//     majorVersion := 0    
-//   )
-//   .enablePlugins(ScalaJSPlugin)
-//   .dependsOn(common.js)
+lazy val `frontend` = project
+  .settings(
+    scalaVersion := "2.12.12", 
+    scalacOptions -= "-Xfatal-warnings",    
+    scalaJSUseMainModuleInitializer := false,
+    libraryDependencies ++= Seq(
+      "org.scala-js" %%% "scalajs-dom" % "1.1.0",
+      "org.scala-js" %%% "scalajs-java-time" % "1.0.0"
+    ),
+    publish := {},
+    publishLocal := {},
+    majorVersion := 0    
+  )
+  .enablePlugins(ScalaJSPlugin)
+  .dependsOn(common.js)
