@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
-import { fpn, fcn, taxYearString } from '../config';
+import { fpn, taxYearString } from '../config';
 import uniqid from 'uniqid';
 import moment from 'moment';
-import { taxYears } from '../config'
+import { taxYearsCategories } from '../config'
 import isEmpty from 'lodash/isEmpty'
+
+import numeral from 'numeral'
+import 'numeral/locales/en-gb';
+
 
 import ErrorSummary from './helpers/ErrorSummary'
 import { momentDateFormat } from '../config'
 
 // types
-import { Row, TableProps } from '../interfaces';
+import { Row, TableProps, TaxYear } from '../interfaces';
 
-export interface TaxYear {
-  from: Date
-  to: Date
-}
+numeral.locale('en-gb');
 
 function Table(props: TableProps) {
 
-  const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
+  // const [taxYear, setTaxYear] = useState<TaxYear>(taxYearsCategories[0])
+  const [taxYears, setTaxYears] = useState<TaxYear[]>(taxYearsCategories)
   const [grossTotal, setGrossTotal] = useState<Number>(0)
   const [activeRowID, setActiveRowID] = useState<string | null>(null)
 
@@ -46,22 +48,19 @@ function Table(props: TableProps) {
     }, 0))
   }
 
-  const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    moment.defaultFormat = momentDateFormat;
-    const dspl = e.target.value.split(' - ')
-    setTaxYear({
-      from: moment(dspl[0], moment.defaultFormat).toDate(),
-      to: moment(dspl[1], moment.defaultFormat).toDate()
-    })
-  }
+  const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => (
+    props.setTaxYear(taxYears[taxYears.findIndex(ty => ty.id === e.target.value)])
+  )
 
   const handleClick = () => {
+    const lastRow = props.rows[props.rows.length -1]
     props.setRows([...props.rows, {
       id: uniqid(),
-      category: props.categories[0],
-      period: props.periods[0],
-      qty: '1',
-      gross: '0'
+      category: lastRow.category,
+      period: lastRow.period,
+      gross: lastRow.gross,
+      ee: '0',
+      er: '0'
     }])
   }
 
@@ -79,9 +78,9 @@ function Table(props: TableProps) {
         <div className="form-group half">
           <label className="form-label">Tax year:</label>
           <div className="select tax-year">
-            <select value={taxYearString(taxYear)} onChange={(e) => handleTaxYearChange(e)}>
+            <select value={props.taxYear.id} onChange={(e) => handleTaxYearChange(e)}>
                 {taxYears.map((y, i) => (
-                  <option key={i} value={taxYearString(y)}>{taxYearString(y)}</option>
+                  <option key={i} value={y.id}>{taxYearString(y)}</option>
                 ))}
             </select>
           </div>
@@ -111,7 +110,6 @@ function Table(props: TableProps) {
           <tr>
             <th>Period</th>
             <th>Category</th>
-            <th>Qty</th>
             <th>Gross Pay</th>
             {/* <th>LEL</th>
             <th>ET</th>
@@ -135,21 +133,10 @@ function Table(props: TableProps) {
               </td>
               <td>
                 <select name="category" value={r.category} onChange={(e) => handleSelectChange(r, e)}>
-                  {props.categories.map((c, i) => (
-                    <option key={i} value={c}>{fcn(c)}</option>
+                  {props.taxYear.categories.map((c, i) => (
+                    <option key={i} value={c}>{c}</option>
                   ))}
                 </select>
-              </td>
-              <td className={`${props.rowsErrors[`${r.id}`] && props.rowsErrors[`${r.id}`]['name'] && props.rowsErrors[`${r.id}`]['qty']['name'] && props.rowsErrors[`${r.id}`]['qty']['name'] == 'Quantity' ? "error-cell" : ""}`}>
-                <input
-                  className="period-qty"
-                  name={`${r.id}-qty`}
-                  type="text"
-                  id={`${r.id}-qty`}
-                  value={r.qty}
-                  onChange={(e) => handleChange(r, e)}
-                  onBlur={handleBlur}
-                  />
               </td>
               <td className={`${props.rowsErrors[`${r.id}`] && props.rowsErrors[`${r.id}`]['gross'] && props.rowsErrors[`${r.id}`]['gross']['name'] && props.rowsErrors[`${r.id}`]['gross']['name'] == 'Gross' ? "error-cell" : ""}`}>
                 <input
@@ -162,8 +149,8 @@ function Table(props: TableProps) {
                   onBlur={handleBlur}
                 />
               </td>
-              <td></td>
-              <td></td>
+              <td>{numeral(r.ee).format('$0,0.00')}</td>
+              <td>{numeral(r.er).format('$0,0.00')}</td>
               {/* <td></td>
               <td></td>
               <td></td>
@@ -196,10 +183,11 @@ function Table(props: TableProps) {
             <button className="button govuk-button govuk-button--secondary" onClick={() => {
               props.setRows([{
                 id: uniqid(),
-                category: props.categories[0],
+                category: props.taxYear.categories[0],
                 period: props.periods[0],
-                qty: '1',
-                gross: '0'
+                gross: '0',
+                ee: '0',
+                er: '0'
               }])
               props.resetTotals()
             }}>
@@ -210,7 +198,7 @@ function Table(props: TableProps) {
 
         <div className="container">
           <div className="form-group subsection">
-            <button className="button" onClick={() => props.runCalcs(props.rows, grossTotal, taxYear.from)}>
+            <button className="button" onClick={() => props.runCalcs(props.rows, grossTotal, props.taxYear.from)}>
               Calculate
             </button>
           </div>

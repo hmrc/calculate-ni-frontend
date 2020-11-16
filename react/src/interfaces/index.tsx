@@ -16,8 +16,9 @@ export interface Row {
   id: string
   category: string
   period: string
-  qty: string
   gross: string
+  ee: string
+  er: string
 }
 
 export interface Calculated {
@@ -25,6 +26,13 @@ export interface Calculated {
 }
 
 // Table
+export interface TaxYear {
+  id: string
+  from: Date
+  to: Date
+  categories: string[]
+}
+
 export interface TableProps {
   rows: Row[]
   setRows: (r: Row[]) => void
@@ -32,14 +40,11 @@ export interface TableProps {
   errors: object
   rowsErrors: ErrorSummaryProps['rowsErrors']
   resetTotals: () => void
-  categories: string[]
   periods: string[]
+  setTaxYear: (ty: TaxYear) => void
+  taxYear: TaxYear
 }
 
-export interface TaxYear {
-  from: Date
-  to: Date
-}
 
 // Totals
 export interface TotalsProps {

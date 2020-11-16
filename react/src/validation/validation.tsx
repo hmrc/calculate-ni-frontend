@@ -37,21 +37,6 @@ const validateInput = (data: Data) => {
   data.rows.map(r => {
     rowsErrors[r.id] = {};
 
-    // Row Quantity
-    if (Validator.isEmpty(r.qty)) {
-      rowsErrors[r.id].qty = {};
-      rowsErrors[r.id].qty.link = `${r.id}-qty`
-      rowsErrors[r.id].qty.name = `Quantity`
-      rowsErrors[r.id].qty.message = 'cannot be empty'
-    }
-
-    if (!Validator.isEmpty(r.qty) && !Validator.isNumeric(r.qty)) {
-      rowsErrors[r.id].qty = {};
-      rowsErrors[r.id].qty.link = `${r.id}-qty`
-      rowsErrors[r.id].qty.name = `Quantity`
-      rowsErrors[r.id].qty.message = 'must be a number'
-    }
-
     // Row Gross
     if (Validator.isEmpty(r.gross)) {
       rowsErrors[r.id].gross = {};

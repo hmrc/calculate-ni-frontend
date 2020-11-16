@@ -4,10 +4,10 @@ import validateInput from './validation/validation'
 import configuration from './configuration.json'
 import { ClassOne } from './calculation'
 import { calcOverUnderPayment, calcNi } from './config'
-import { categories as c, periods as p, fpn, fcn, taxYearString } from './config';
+import { periods as p, fpn, taxYearString, taxYearsCategories } from './config';
 
 // types
-import { S, Row, ErrorSummaryProps } from './interfaces'
+import { S, Row, ErrorSummaryProps, TaxYear } from './interfaces'
 
 // css
 import './gov-polyfill.css';
@@ -38,13 +38,16 @@ function App() {
   })
 
   const [periods] = useState<Array<string>>(p)
-  const [categories] = useState<Array<string>>(c)
+  
+  // const [categories] = useState<Array<string>>(c)
+  const [taxYear, setTaxYear] = useState<TaxYear>(taxYearsCategories[0])
   const [rows, setRows] = useState<Array<Row>>([{
     id: uniqid(),
-    category: categories[0],
+    category: taxYear.categories[0],
     period: periods[0],
-    qty: '1',
-    gross: '0'
+    gross: '0',
+    ee: '0',
+    er: '0'
   }])
     
   const [netContributionsTotal, setNetContributionsTotal] = useState<number>(0)
@@ -69,6 +72,8 @@ function App() {
   const [niPaidNet, setNiPaidNet] = useState<string>('')
   const [niPaidEmployee, setNiPaidEmployee] = useState<string>('')
   const [niPaidEmployer, setNiPaidEmployer] = useState<number>(0)
+
+  // const [niData, setNiData] = useState<Calculated[]>([])
 
   // update NI Paid Employer after Ni Paid Net & Employee have updated
   useEffect(() => {
@@ -108,7 +113,35 @@ function App() {
       const c = new ClassOne(JSON.stringify(configuration));
       setGrossTotal(t)
 
-      const calculations = r.map(r => JSON.parse(c.calculate(ty, parseInt(r.gross), r.category, r.period, parseInt(r.qty), false)))
+      const calculations = r
+        .map((r, i) => {
+          // TODO: Remove qty (hard coded as 1 below)
+          const res = JSON.parse(c.calculate(ty, parseInt(r.gross), r.category, r.period, 1, false))
+          
+          const ee = Object.keys(res).reduce((prev, key) => {
+            return prev + res[key][1]
+          }, 0).toString()
+
+          const er = Object.keys(res).reduce((prev, key) => {
+            return prev + res[key][2]
+          }, 0).toString()
+
+          const newRows = [...rows]
+          newRows[i].ee = ee
+          newRows[i].er = er
+          
+          // setRows with prev and next
+          setRows(newRows)
+          
+          return res
+        })
+
+      // r.map(r => {
+      //   setNiData(prevData => [
+      //     ...prevData, 
+      //     JSON.parse(c.calculate(ty, r.gross, r.category, r.period, r.qty, false))
+      //   ])
+      // })
 
       // Employee Contributions
       const employee = calcNi(calculations, 1)
@@ -169,8 +202,9 @@ function App() {
             resetTotals={resetTotals}
             rows={rows}
             setRows={setRows}
-            categories={categories}
             periods={periods}
+            taxYear={taxYear}
+            setTaxYear={setTaxYear}
           />
         </div>
 
