@@ -1,0 +1,147 @@
+:root {
+  --border-divider: #B1B4B6;
+  --select-border: #0b0c0c;
+  --input-border: #0b0c0c;
+  --select-focus: blue;
+  --select-arrow: var(--select-border);
+  --table-head-border: #979797;
+  --table-head-fill: #DFE3E8;
+  --table-body-border: #DFE3E8;
+  --active-highlight-bg: #A5CFF1;
+  --active-highlight-border: #979797;
+}
+
+.App {
+  margin: 0 auto;
+  max-width: 1024px;
+}
+
+.App header {
+  border-bottom: 10px solid #008670;
+  margin-bottom: 30px;
+}
+
+.App header img {
+  width: 613px;
+}
+
+
+
+button.toggle {
+  background: none;
+  border: none;
+  color: #1D70B8;
+  cursor: pointer;
+  padding: 0;
+  float: right;
+  font-size: 18px;
+}
+button.toggle:focus {
+  outline: none;
+}
+
+/* Typography */
+.section-heading {
+  color: #0B0C0C;
+  font-size: 21px;
+}
+
+
+/* Forms */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control.full {
+  width: 100%;
+}
+
+.form-control.half {
+  width: 50%;
+}
+
+.form-control.third {
+  width: 33%;
+}
+
+fieldset legend {
+  font-size: 22px;
+  margin-bottom: 25px;
+}
+
+.form-label {
+  font-size: 18px;
+}
+
+select {
+  /* A reset of styles, including removing the default dropdown arrow */
+  appearance: none;
+  /* Additional resets for further consistency */
+  background-color: transparent;
+  border: none;
+  padding: 0 1em 0 0;
+  margin: 0;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  outline: none;
+}
+
+/* Select wrapping element */
+.select {
+  width: 100%;
+  background: url('select-dropdown-arrows.svg') no-repeat right 10px center;
+  border: 2px solid var(--select-border);
+  padding: 0 0.5em;
+  cursor: pointer;
+  line-height: 29px;
+}
+
+.select.tax-year {
+  width: 250px;
+}
+
+
+
+/* Container */
+.container {
+  clear: both;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.container.half {
+  flex-grow: 1;
+  width: 50%;
+}
+
+.container.half + .half {
+  margin-left: 4%;
+}
+
+
+.container .item {
+  flex-grow: 1;
+}
+
+.container .item + .item {
+  margin-left: 4%;
+}
+
+/* Details */
+.details {
+  padding-bottom: 15px;
+}
+
+
+
+/* helpers */
+.float-left {
+  float: left
+}
+
+.nomar {
+  margin: 0 !important;
+}

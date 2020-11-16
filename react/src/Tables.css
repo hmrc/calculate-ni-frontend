@@ -1,0 +1,176 @@
+table thead th, table td, table tbody th {
+  border: none;
+  font-weight: 400;
+}
+
+tr.active td {
+  background: var(--active-highlight-bg);
+}
+
+.table-wrapper {
+  border-color: #B1B4B6;
+  border-style: solid;
+  border-width: 1px 0;
+  padding: 30px 0 15px;
+}
+
+.table-wrapper table td, .table-wrapper table th {
+  font-size: 16px;
+}
+
+table.contribution-details .gross-pay, table.contribution-details .period-qty {
+  border: none;
+}
+
+table.contribution-details input:focus {
+  outline: none;
+}
+
+table.contribution-details td:has(input:focus) {
+  background: green !important;
+}
+
+.table-wrapper thead th, .table-wrapper tbody td {
+  padding: 10px;
+}
+
+.table-wrapper thead th {
+  background: var(--table-head-fill);
+  border: 1px solid var(--table-head-border);
+  font-weight: 400;
+  color: #333333;
+  text-align: center;
+}
+
+.table-wrapper thead tr.clear th {
+  padding-left: 0;
+}
+
+.table-wrapper thead tr.clear th {
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: 1px solid var(--table-head-border);
+  color: #0B0C0C;
+  text-align: left;
+}
+
+.table-wrapper thead tr.clear th span {
+  display: block;
+  padding-left: 10px;
+}
+
+.table-wrapper thead tr.clear th:first-child span {
+  padding-left: 0;
+}
+
+.table-wrapper thead tr.clear th.border span {
+  border-left: 1px solid var(--table-head-border)
+}
+
+.table-wrapper thead tr.clear th.lg {
+  font-size: 21px;
+}
+
+.table-wrapper tbody td {
+  border: 1px solid var(--table-body-border);
+  color: #333333;
+}
+
+.table-wrapper tbody tr.active td {
+  border: 1px solid var(--active-highlight-border);
+}
+
+.table-wrapper tbody tr.active td input {
+  background: var(--active-highlight-bg);
+}
+
+.spaced-table-wrapper {
+  margin: 0 -20px;
+}
+
+.spaced-table {
+  border-collapse: separate;
+  border-spacing: 20px;
+}
+
+.spaced-table td {
+  /* padding: 5px; */
+}
+
+.spaced-table th {
+  padding: 0;
+}
+
+.spaced-table td.input-cell, .spaced-table td.readonly {
+  padding: 0;
+  vertical-align: bottom;
+}
+
+.spaced-table td.input-cell .form-group {
+  margin-bottom: 0;
+}
+
+.spaced-table td.input-cell input {
+  border: 2px solid var(--input-border);
+  width: calc(100% - 14px);
+  padding: 0 5px;
+  height: 36px;
+  line-height: 36px;
+}
+
+.spaced-table td.input-cell input.half {
+  width: 50%;
+}
+
+.spaced-table .govuk-error-message {
+  margin-bottom: 5px;
+}
+
+/* Totals table */
+.totals {
+  border-color: var(--border-divider);
+  border-style: solid;
+  border-width: 0 0 1px;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+}
+
+.totals-table td.readonly {
+  padding-bottom: 0;
+}
+
+.totals-table th.error-line-label {
+  padding-bottom: 0;
+  vertical-align: bottom;
+}
+
+.totals-table th.error-line-label span {
+  display: block;
+  height: 40px;
+  line-height: 40px;
+}
+
+.totals-table td.readonly span {
+  background-color: #E6E6E6;
+  border: 2px solid var(--input-border);
+  display: block;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 5px;
+}
+
+.totals-table td.right, .totals-table th.right {
+  text-align: right;
+}
+
+
+/* Summary */
+table.summary tr.sections th {
+  padding-bottom: 10px;
+}
+
+.bor-bottom {
+  border-color: var(--border-divider);
+  border-style: solid;
+  border-width: 0 0 1px;
+}
