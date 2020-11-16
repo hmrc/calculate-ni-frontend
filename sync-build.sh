@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 
 rsync -av --delete react/build/ app/assets/build/
 
