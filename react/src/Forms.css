@@ -1,0 +1,15 @@
+.govuk-error-message {
+  font-weight: 700;
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.25;
+  display: block;
+  margin-bottom: 15px;
+  clear: both;
+  color: #d4351c;
+}
+
+.govuk-input--error,
+.spaced-table td.input-cell .govuk-input--error {
+  border: 2px solid #d4351c;
+}

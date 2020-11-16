@@ -37,3 +37,4 @@ app/assets/configuration.json
 app/assets/javascripts/calculation.js
 project/metals.sbt
 */target
+react/build
