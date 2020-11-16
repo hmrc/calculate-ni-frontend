@@ -76,7 +76,7 @@ val reactSource = file("..").getCanonicalFile / "react" / "src"
 convertConfig := Def.taskDyn({
   // generate the JSON config file from the HOCON
   val sourceFile = file("..").getCanonicalFile / "national-insurance.conf"
-  val destFile = reactSource / "application.conf"
+  val destFile = reactSource / "configuration.json"
 
   if (!destFile.exists || destFile.lastModified < sourceFile.lastModified) {
     Def.task{
@@ -92,7 +92,7 @@ convertConfig := Def.taskDyn({
 
 copyInJS := {
   // generate the Javascript logic
-  val Attributed(outFiles) = (frontend / Compile / fullOptJS).value
+  val Attributed(outFiles) = (frontend / Compile / fastOptJS).value
   val dest = reactSource / "calculation.js"
   println(s"copying $outFiles to $dest")
   IO.copyFile(outFiles, dest)

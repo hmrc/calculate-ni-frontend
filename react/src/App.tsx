@@ -69,8 +69,8 @@ function App() {
   const [state, dispatch] = React.useReducer(stateReducer, initialState)
   const [grossTotal, setGrossTotal] = useState<Number | null>(null)
 
-  const [niPaidNet, setNiPaidNet] = useState<string>('')
-  const [niPaidEmployee, setNiPaidEmployee] = useState<string>('')
+  const [niPaidNet, setNiPaidNet] = useState<string>('0')
+  const [niPaidEmployee, setNiPaidEmployee] = useState<string>('0')
   const [niPaidEmployer, setNiPaidEmployer] = useState<number>(0)
 
   // const [niData, setNiData] = useState<Calculated[]>([])

@@ -702,6 +702,8 @@ const $d_O = new $TypeData().initClass({
   O: 1
 }, (void 0), (void 0), $is_O, $isArrayOf_O);
 $c_O.prototype.$classData = $d_O;
+class $c_Lcats_EvalInstances1 extends $c_O {
+}
 function $f_Lcats_SemigroupalArityFunctions__map2__O__O__F2__Lcats_Semigroupal__Lcats_Functor__O($thiz, f0, f1, f, semigroupal, functor) {
   return functor.map__O__F1__O(semigroupal.product__O__O__O(f0, f1), new $c_sjsr_AnonFunction1(((this$1, f$1) => ((x0$1$2) => {
     const x0$1 = $as_T2(x0$1$2);
@@ -833,8 +835,8 @@ class $c_Lcats_package$ extends $c_O {
     $n_Lcats_package$ = this;
     this.Lcats_package$__f_catsInstancesForId = new $c_Lcats_package$$anon$1();
     this.Lcats_package$__f_catsRepresentableForId = new $c_Lcats_package$$anon$2();
-    const evidence$31 = this.Lcats_package$__f_catsInstancesForId;
-    this.Lcats_package$__f_catsParallelForId = new $c_Lcats_Parallel$$anon$2(evidence$31);
+    const evidence$32 = this.Lcats_package$__f_catsInstancesForId;
+    this.Lcats_package$__f_catsParallelForId = new $c_Lcats_Parallel$$anon$2(evidence$32);
     this.Lcats_package$__f_Eq = $m_Lcats_kernel_Eq$();
     this.Lcats_package$__f_PartialOrder = $m_Lcats_kernel_PartialOrder$();
     this.Lcats_package$__f_Order = $m_Lcats_kernel_Order$();
@@ -859,32 +861,12 @@ function $m_Lcats_package$() {
   };
   return $n_Lcats_package$
 }
-class $c_Lcats_syntax_Tuple2SemigroupalOps extends $c_O {
-  constructor(t2) {
-    super();
-    this.Lcats_syntax_Tuple2SemigroupalOps__f_t2 = null;
-    this.Lcats_syntax_Tuple2SemigroupalOps__f_t2 = t2
-  };
-  mapN__F2__Lcats_Functor__Lcats_Semigroupal__O(f, functor, semigroupal) {
-    const this$1 = $m_Lcats_Semigroupal$();
-    const f0 = this.Lcats_syntax_Tuple2SemigroupalOps__f_t2._1__O();
-    const f1 = this.Lcats_syntax_Tuple2SemigroupalOps__f_t2._2__O();
-    return $f_Lcats_SemigroupalArityFunctions__map2__O__O__F2__Lcats_Semigroupal__Lcats_Functor__O(this$1, f0, f1, f, semigroupal, functor)
-  };
-}
-const $d_Lcats_syntax_Tuple2SemigroupalOps = new $TypeData().initClass({
-  Lcats_syntax_Tuple2SemigroupalOps: 0
-}, false, "cats.syntax.Tuple2SemigroupalOps", {
-  Lcats_syntax_Tuple2SemigroupalOps: 1,
-  O: 1
-});
-$c_Lcats_syntax_Tuple2SemigroupalOps.prototype.$classData = $d_Lcats_syntax_Tuple2SemigroupalOps;
 class $c_Leoi_EoiJsonEncoding$ extends $c_O {
   fromJson__T__s_util_Either(in$1) {
     const this$5 = $m_Lio_circe_parser_package$();
     $m_Lio_circe_Decoder$();
-    const inst$macro$127 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1().inst$macro$1__Lio_circe_generic_decoding_DerivedDecoder();
-    const t = new $c_sjsr_AnonFunction0(((this$1, inst$macro$127$1) => (() => inst$macro$127$1))(this, inst$macro$127));
+    const inst$macro$145 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1().inst$macro$1__Lio_circe_generic_decoding_DerivedDecoder();
+    const t = new $c_sjsr_AnonFunction0(((this$1, inst$macro$145$1) => (() => inst$macro$145$1))(this, inst$macro$145));
     const lv = new $c_Lshapeless_Lazy$$anon$1(t);
     const exported = $as_Lio_circe_Decoder(lv.value__O());
     return $f_Lio_circe_Parser__decode__T__Lio_circe_Decoder__s_util_Either(this$5, in$1, exported)
@@ -908,11 +890,9 @@ class $c_Leoi_package$ extends $c_O {
   constructor() {
     super();
     this.Leoi_package$__f_Zero = null;
-    this.Leoi_package$__f_bitmap$init$0 = 0;
     $n_Leoi_package$ = this;
     const this$1 = $m_s_package$().BigDecimal__s_math_BigDecimal$();
-    this.Leoi_package$__f_Zero = this$1.exact__T__s_math_BigDecimal("0");
-    this.Leoi_package$__f_bitmap$init$0 = (((1 | this.Leoi_package$__f_bitmap$init$0) << 24) >> 24)
+    this.Leoi_package$__f_Zero = this$1.exact__T__s_math_BigDecimal("0")
   };
 }
 const $d_Leoi_package$ = new $TypeData().initClass({
@@ -3368,6 +3348,9 @@ function $asArrayOf_F0(obj, depth) {
 }
 function $f_F1__compose__F1__F1($thiz, g) {
   return new $c_sjsr_AnonFunction1(((this$1, g$1) => ((x$2) => this$1.apply__O__O(g$1.apply__O__O(x$2))))($thiz, g))
+}
+function $f_F1__andThen__F1__F1($thiz, g) {
+  return new $c_sjsr_AnonFunction1(((this$1, g$1) => ((x$2) => g$1.apply__O__O(this$1.apply__O__O(x$2))))($thiz, g))
 }
 function $is_F1(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.F1)))
@@ -6142,6 +6125,8 @@ function $f_Lspire_std_ShortInstances__$init$__V($thiz) {
   $thiz.Lspire_implicits$__f_ShortAlgebra = new $c_Lspire_std_ShortAlgebra();
   $thiz.Lspire_implicits$__f_ShortTag = new $c_Lspire_math_NumberTag$BuiltinIntTag(0, (-32768), 32767)
 }
+class $c_Lcats_EvalInstances0 extends $c_Lcats_EvalInstances1 {
+}
 const $ct_Lcats_data_AndThenInstances0__ = (function($thiz) {
   $thiz.Lcats_data_AndThenInstances0__f_catsDataArrowForAndThen = new $c_Lcats_data_AndThenInstances0$$anon$3($thiz);
   return $thiz
@@ -6165,6 +6150,114 @@ function $f_Lcats_instances_Function1Instances__$init$__V($thiz) {
 }
 function $f_Lcats_instances_SortedSetInstances__$init$__V($thiz) {
   $thiz.cats$instances$SortedSetInstances$_setter_$catsStdInstancesForSortedSet_$eq__Lcats_Foldable__V(new $c_Lcats_instances_SortedSetInstances$$anon$1($thiz))
+}
+class $c_Lcats_instances_package$equiv$ extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_instances_package$equiv$__f_catsContravariantMonoidalForEquiv = null;
+    $n_Lcats_instances_package$equiv$ = this;
+    $f_Lcats_instances_EquivInstances__$init$__V(this)
+  };
+  cats$instances$EquivInstances$_setter_$catsContravariantMonoidalForEquiv_$eq__Lcats_ContravariantMonoidal__V(x$1) {
+    this.Lcats_instances_package$equiv$__f_catsContravariantMonoidalForEquiv = x$1
+  };
+}
+const $d_Lcats_instances_package$equiv$ = new $TypeData().initClass({
+  Lcats_instances_package$equiv$: 0
+}, false, "cats.instances.package$equiv$", {
+  Lcats_instances_package$equiv$: 1,
+  O: 1,
+  Lcats_instances_EquivInstances: 1
+});
+$c_Lcats_instances_package$equiv$.prototype.$classData = $d_Lcats_instances_package$equiv$;
+let $n_Lcats_instances_package$equiv$;
+function $m_Lcats_instances_package$equiv$() {
+  if ((!$n_Lcats_instances_package$equiv$)) {
+    $n_Lcats_instances_package$equiv$ = new $c_Lcats_instances_package$equiv$()
+  };
+  return $n_Lcats_instances_package$equiv$
+}
+class $c_Lcats_instances_package$invariant$ extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_instances_package$invariant$__f_catsInvariantMonoidalSemigroup = null;
+    this.Lcats_instances_package$invariant$__f_catsInvariantMonoidalCommutativeSemigroup = null;
+    $n_Lcats_instances_package$invariant$ = this;
+    $f_Lcats_instances_InvariantMonoidalInstances__$init$__V(this)
+  };
+  cats$instances$InvariantMonoidalInstances$_setter_$catsInvariantMonoidalSemigroup_$eq__Lcats_InvariantMonoidal__V(x$1) {
+    this.Lcats_instances_package$invariant$__f_catsInvariantMonoidalSemigroup = x$1
+  };
+  cats$instances$InvariantMonoidalInstances$_setter_$catsInvariantMonoidalCommutativeSemigroup_$eq__Lcats_InvariantMonoidal__V(x$1) {
+    this.Lcats_instances_package$invariant$__f_catsInvariantMonoidalCommutativeSemigroup = x$1
+  };
+}
+const $d_Lcats_instances_package$invariant$ = new $TypeData().initClass({
+  Lcats_instances_package$invariant$: 0
+}, false, "cats.instances.package$invariant$", {
+  Lcats_instances_package$invariant$: 1,
+  O: 1,
+  Lcats_instances_InvariantMonoidalInstances: 1
+});
+$c_Lcats_instances_package$invariant$.prototype.$classData = $d_Lcats_instances_package$invariant$;
+let $n_Lcats_instances_package$invariant$;
+function $m_Lcats_instances_package$invariant$() {
+  if ((!$n_Lcats_instances_package$invariant$)) {
+    $n_Lcats_instances_package$invariant$ = new $c_Lcats_instances_package$invariant$()
+  };
+  return $n_Lcats_instances_package$invariant$
+}
+class $c_Lcats_instances_package$ordering$ extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_instances_package$ordering$__f_catsContravariantMonoidalForOrdering = null;
+    $n_Lcats_instances_package$ordering$ = this;
+    $f_Lcats_instances_OrderingInstances__$init$__V(this)
+  };
+  cats$instances$OrderingInstances$_setter_$catsContravariantMonoidalForOrdering_$eq__Lcats_ContravariantMonoidal__V(x$1) {
+    this.Lcats_instances_package$ordering$__f_catsContravariantMonoidalForOrdering = x$1
+  };
+}
+const $d_Lcats_instances_package$ordering$ = new $TypeData().initClass({
+  Lcats_instances_package$ordering$: 0
+}, false, "cats.instances.package$ordering$", {
+  Lcats_instances_package$ordering$: 1,
+  O: 1,
+  Lcats_instances_OrderingInstances: 1
+});
+$c_Lcats_instances_package$ordering$.prototype.$classData = $d_Lcats_instances_package$ordering$;
+let $n_Lcats_instances_package$ordering$;
+function $m_Lcats_instances_package$ordering$() {
+  if ((!$n_Lcats_instances_package$ordering$)) {
+    $n_Lcats_instances_package$ordering$ = new $c_Lcats_instances_package$ordering$()
+  };
+  return $n_Lcats_instances_package$ordering$
+}
+class $c_Lcats_instances_package$partialOrdering$ extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_instances_package$partialOrdering$__f_catsContravariantMonoidalForPartialOrdering = null;
+    $n_Lcats_instances_package$partialOrdering$ = this;
+    $f_Lcats_instances_PartialOrderingInstances__$init$__V(this)
+  };
+  cats$instances$PartialOrderingInstances$_setter_$catsContravariantMonoidalForPartialOrdering_$eq__Lcats_ContravariantMonoidal__V(x$1) {
+    this.Lcats_instances_package$partialOrdering$__f_catsContravariantMonoidalForPartialOrdering = x$1
+  };
+}
+const $d_Lcats_instances_package$partialOrdering$ = new $TypeData().initClass({
+  Lcats_instances_package$partialOrdering$: 0
+}, false, "cats.instances.package$partialOrdering$", {
+  Lcats_instances_package$partialOrdering$: 1,
+  O: 1,
+  Lcats_instances_PartialOrderingInstances: 1
+});
+$c_Lcats_instances_package$partialOrdering$.prototype.$classData = $d_Lcats_instances_package$partialOrdering$;
+let $n_Lcats_instances_package$partialOrdering$;
+function $m_Lcats_instances_package$partialOrdering$() {
+  if ((!$n_Lcats_instances_package$partialOrdering$)) {
+    $n_Lcats_instances_package$partialOrdering$ = new $c_Lcats_instances_package$partialOrdering$()
+  };
+  return $n_Lcats_instances_package$partialOrdering$
 }
 class $c_Lcats_kernel_HashFunctions extends $c_Lcats_kernel_EqFunctions {
 }
@@ -7309,9 +7402,9 @@ class $c_ju_regex_Matcher extends $c_O {
     this.ju_regex_Matcher__f_regionEnd0 = regionEnd0;
     this.ju_regex_Matcher__f_regexp = this.ju_regex_Matcher__f_pattern0.newJSRegExp__sjs_js_RegExp();
     const this$1 = this.ju_regex_Matcher__f_input0;
-    const beginIndex = this.ju_regex_Matcher__f_regionStart0;
-    const endIndex = this.ju_regex_Matcher__f_regionEnd0;
-    const this$2 = $f_T__substring__I__I__T(this$1, beginIndex, endIndex);
+    const start = this.ju_regex_Matcher__f_regionStart0;
+    const end = this.ju_regex_Matcher__f_regionEnd0;
+    const this$2 = $f_T__substring__I__I__T(this$1, start, end);
     this.ju_regex_Matcher__f_inputstr = this$2;
     this.ju_regex_Matcher__f_lastMatch = null;
     this.ju_regex_Matcher__f_lastMatchIsValid = false;
@@ -7945,6 +8038,9 @@ class $c_sc_TraversableOnce$appender$1$ extends $c_O {
   compose__F1__F1(g) {
     return $f_F1__compose__F1__F1(this, g)
   };
+  andThen__F1__F1(g) {
+    return $f_F1__andThen__F1__F1(this, g)
+  };
   toString__T() {
     return "<function1>"
   };
@@ -7987,6 +8083,9 @@ class $c_sc_TraversableOnce$counter$1$ extends $c_O {
   compose__F1__F1(g) {
     return $f_F1__compose__F1__F1(this, g)
   };
+  andThen__F1__F1(g) {
+    return $f_F1__andThen__F1__F1(this, g)
+  };
   toString__T() {
     return "<function1>"
   };
@@ -8024,6 +8123,9 @@ class $c_sc_TraversableOnce$folder$1$ extends $c_O {
   };
   compose__F1__F1(g) {
     return $f_F1__compose__F1__F1(this, g)
+  };
+  andThen__F1__F1(g) {
+    return $f_F1__andThen__F1__F1(this, g)
   };
   toString__T() {
     return "<function1>"
@@ -8343,6 +8445,9 @@ class $c_sci_HashSet$acc$1$ extends $c_O {
   compose__F1__F1(g) {
     return $f_F1__compose__F1__F1(this, g)
   };
+  andThen__F1__F1(g) {
+    return $f_F1__andThen__F1__F1(this, g)
+  };
   toString__T() {
     return "<function1>"
   };
@@ -8373,6 +8478,9 @@ $c_sci_HashSet$acc$1$.prototype.$classData = $d_sci_HashSet$acc$1$;
 class $c_sci_List$$anon$1 extends $c_O {
   compose__F1__F1(g) {
     return $f_F1__compose__F1__F1(this, g)
+  };
+  andThen__F1__F1(g) {
+    return $f_F1__andThen__F1__F1(this, g)
   };
   toString__T() {
     return "<function1>"
@@ -8680,6 +8788,9 @@ class $c_sr_AbstractFunction1 extends $c_O {
   compose__F1__F1(g) {
     return $f_F1__compose__F1__F1(this, g)
   };
+  andThen__F1__F1(g) {
+    return $f_F1__andThen__F1__F1(this, g)
+  };
   toString__T() {
     return "<function1>"
   };
@@ -8791,6 +8902,9 @@ class $c_s_util_hashing_MurmurHash3$hasher$1$ extends $c_O {
   compose__F1__F1(g) {
     return $f_F1__compose__F1__F1(this, g)
   };
+  andThen__F1__F1(g) {
+    return $f_F1__andThen__F1__F1(this, g)
+  };
   toString__T() {
     return "<function1>"
   };
@@ -8840,6 +8954,9 @@ class $c_s_util_hashing_MurmurHash3$hasher$3$ extends $c_O {
   };
   compose__F1__F1(g) {
     return $f_F1__compose__F1__F1(this, g)
+  };
+  andThen__F1__F1(g) {
+    return $f_F1__andThen__F1__F1(this, g)
   };
   toString__T() {
     return "<function1>"
@@ -8979,6 +9096,47 @@ function $f_Lspire_std_StringInstances__$init$__V($thiz) {
   $thiz.Lspire_implicits$__f_StringAlgebra = new $c_Lspire_std_StringMonoid();
   $thiz.Lspire_implicits$__f_StringOrder = new $c_Lspire_std_StringOrder()
 }
+class $c_Lcats_Eval extends $c_O {
+  map__F1__Lcats_Eval(f) {
+    return this.flatMap__F1__Lcats_Eval(new $c_sjsr_AnonFunction1(((this$1, f$1) => ((a$2) => new $c_Lcats_Now(f$1.apply__O__O(a$2))))(this, f)))
+  };
+  flatMap__F1__Lcats_Eval(f) {
+    if ((this instanceof $c_Lcats_Eval$FlatMap)) {
+      const x2 = $as_Lcats_Eval$FlatMap(this);
+      return new $c_Lcats_Eval$$anon$1(this, x2, f)
+    } else if (false) {
+      const x3 = $as_Lcats_Eval$Defer(this);
+      return new $c_Lcats_Eval$$anon$3(this, x3, f)
+    } else {
+      return new $c_Lcats_Eval$$anon$4(this, f)
+    }
+  };
+}
+function $as_Lcats_Eval(obj) {
+  return (((obj instanceof $c_Lcats_Eval) || (obj === null)) ? obj : $throwClassCastException(obj, "cats.Eval"))
+}
+function $isArrayOf_Lcats_Eval(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lcats_Eval)))
+}
+function $asArrayOf_Lcats_Eval(obj, depth) {
+  return (($isArrayOf_Lcats_Eval(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lcats.Eval;", depth))
+}
+const $ct_Lcats_EvalInstances__ = (function($thiz) {
+  $thiz.Lcats_EvalInstances__f_catsBimonadForEval = new $c_Lcats_EvalInstances$$anon$6($thiz);
+  $thiz.Lcats_EvalInstances__f_catsDeferForEval = new $c_Lcats_EvalInstances$$anon$7($thiz);
+  $thiz.Lcats_EvalInstances__f_catsReducibleForEval = new $c_Lcats_EvalInstances$$anon$8($thiz);
+  $thiz.Lcats_EvalInstances__f_catsRepresentableForEval = new $c_Lcats_EvalInstances$$anon$11($thiz);
+  return $thiz
+});
+class $c_Lcats_EvalInstances extends $c_Lcats_EvalInstances0 {
+  constructor() {
+    super();
+    this.Lcats_EvalInstances__f_catsBimonadForEval = null;
+    this.Lcats_EvalInstances__f_catsDeferForEval = null;
+    this.Lcats_EvalInstances__f_catsReducibleForEval = null;
+    this.Lcats_EvalInstances__f_catsRepresentableForEval = null
+  };
+}
 function $is_Lcats_Semigroupal(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lcats_Semigroupal)))
 }
@@ -8990,30 +9148,6 @@ function $isArrayOf_Lcats_Semigroupal(obj, depth) {
 }
 function $asArrayOf_Lcats_Semigroupal(obj, depth) {
   return (($isArrayOf_Lcats_Semigroupal(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lcats.Semigroupal;", depth))
-}
-class $c_Lcats_Show$ extends $c_O {
-  constructor() {
-    super();
-    this.Lcats_Show$__f_catsContravariantForShow = null;
-    $n_Lcats_Show$ = this;
-    this.Lcats_Show$__f_catsContravariantForShow = new $c_Lcats_Show$$anon$4()
-  };
-}
-const $d_Lcats_Show$ = new $TypeData().initClass({
-  Lcats_Show$: 0
-}, false, "cats.Show$", {
-  Lcats_Show$: 1,
-  O: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lcats_Show$.prototype.$classData = $d_Lcats_Show$;
-let $n_Lcats_Show$;
-function $m_Lcats_Show$() {
-  if ((!$n_Lcats_Show$)) {
-    $n_Lcats_Show$ = new $c_Lcats_Show$()
-  };
-  return $n_Lcats_Show$
 }
 const $ct_Lcats_data_NonEmptyListInstances__ = (function($thiz) {
   $thiz.Lcats_data_NonEmptyListInstances__f_catsDataInstancesForNonEmptyList = new $c_Lcats_data_NonEmptyListInstances$$anon$2($thiz);
@@ -9115,7 +9249,29 @@ function $isArrayOf_Lcats_kernel_Semigroup(obj, depth) {
 function $asArrayOf_Lcats_kernel_Semigroup(obj, depth) {
   return (($isArrayOf_Lcats_kernel_Semigroup(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lcats.kernel.Semigroup;", depth))
 }
-class $c_Leoi_EoiJsonEncoding$$anon$33 extends $c_O {
+class $c_Lcats_syntax_Tuple2SemigroupalOps extends $c_O {
+  constructor(t2) {
+    super();
+    this.Lcats_syntax_Tuple2SemigroupalOps__f_t2 = null;
+    this.Lcats_syntax_Tuple2SemigroupalOps__f_t2 = t2
+  };
+  mapN__F2__Lcats_Functor__Lcats_Semigroupal__O(f, functor, semigroupal) {
+    const this$1 = $m_Lcats_Semigroupal$();
+    const f0 = this.Lcats_syntax_Tuple2SemigroupalOps__f_t2._1__O();
+    const f1 = this.Lcats_syntax_Tuple2SemigroupalOps__f_t2._2__O();
+    return $f_Lcats_SemigroupalArityFunctions__map2__O__O__F2__Lcats_Semigroupal__Lcats_Functor__O(this$1, f0, f1, f, semigroupal, functor)
+  };
+}
+const $d_Lcats_syntax_Tuple2SemigroupalOps = new $TypeData().initClass({
+  Lcats_syntax_Tuple2SemigroupalOps: 0
+}, false, "cats.syntax.Tuple2SemigroupalOps", {
+  Lcats_syntax_Tuple2SemigroupalOps: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcats_syntax_Tuple2SemigroupalOps.prototype.$classData = $d_Lcats_syntax_Tuple2SemigroupalOps;
+class $c_Leoi_EoiJsonEncoding$$anon$35 extends $c_O {
   apply__T__s_Option(in$1) {
     let $$x1;
     try {
@@ -9139,22 +9295,22 @@ class $c_Leoi_EoiJsonEncoding$$anon$33 extends $c_O {
     return $$x1.toOption__s_Option()
   };
 }
-const $d_Leoi_EoiJsonEncoding$$anon$33 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$$anon$33: 0
-}, false, "eoi.EoiJsonEncoding$$anon$33", {
-  Leoi_EoiJsonEncoding$$anon$33: 1,
+const $d_Leoi_EoiJsonEncoding$$anon$35 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$$anon$35: 0
+}, false, "eoi.EoiJsonEncoding$$anon$35", {
+  Leoi_EoiJsonEncoding$$anon$35: 1,
   O: 1,
   Lio_circe_KeyDecoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$$anon$33.prototype.$classData = $d_Leoi_EoiJsonEncoding$$anon$33;
-class $c_Leoi_EoiJsonEncoding$$anon$34 extends $c_O {
+$c_Leoi_EoiJsonEncoding$$anon$35.prototype.$classData = $d_Leoi_EoiJsonEncoding$$anon$35;
+class $c_Leoi_EoiJsonEncoding$$anon$36 extends $c_O {
   constructor(inner$2, order$1) {
     super();
-    this.Leoi_EoiJsonEncoding$$anon$34__f_inner$2 = null;
-    this.Leoi_EoiJsonEncoding$$anon$34__f_order$1 = null;
-    this.Leoi_EoiJsonEncoding$$anon$34__f_inner$2 = inner$2;
-    this.Leoi_EoiJsonEncoding$$anon$34__f_order$1 = order$1
+    this.Leoi_EoiJsonEncoding$$anon$36__f_inner$2 = null;
+    this.Leoi_EoiJsonEncoding$$anon$36__f_order$1 = null;
+    this.Leoi_EoiJsonEncoding$$anon$36__f_inner$2 = inner$2;
+    this.Leoi_EoiJsonEncoding$$anon$36__f_order$1 = order$1
   };
   apply__T__s_Option(key) {
     const xs = $f_T__split__T__I__AT(key, ",", 0);
@@ -9182,7 +9338,7 @@ class $c_Leoi_EoiJsonEncoding$$anon$34 extends $c_O {
           if (((l === "(inf") || (l === "[inf"))) {
             lP = new $c_s_Some(new $c_Lspire_math_interval_Unbound())
           } else if ((($uI(l.length) >= 0) && ($as_T(l.substring(0, $uI("(".length))) === "("))) {
-            const $$x1 = this.Leoi_EoiJsonEncoding$$anon$34__f_inner$2;
+            const $$x1 = this.Leoi_EoiJsonEncoding$$anon$36__f_inner$2;
             const this$7 = new $c_sci_StringOps(l);
             const this$ = this$7.sci_StringOps__f_repr;
             const until = $uI(this$.length);
@@ -9194,7 +9350,7 @@ class $c_Leoi_EoiJsonEncoding$$anon$34 extends $c_O {
               lP = new $c_s_Some(new $c_Lspire_math_interval_Open(arg1))
             }
           } else if ((($uI(l.length) >= 0) && ($as_T(l.substring(0, $uI("[".length))) === "["))) {
-            const $$x2 = this.Leoi_EoiJsonEncoding$$anon$34__f_inner$2;
+            const $$x2 = this.Leoi_EoiJsonEncoding$$anon$36__f_inner$2;
             const this$12 = new $c_sci_StringOps(l);
             const this$$1 = this$12.sci_StringOps__f_repr;
             const until$1 = $uI(this$$1.length);
@@ -9212,7 +9368,7 @@ class $c_Leoi_EoiJsonEncoding$$anon$34 extends $c_O {
           if (((h === "inf)") || (h === "inf]"))) {
             hP = new $c_s_Some(new $c_Lspire_math_interval_Unbound())
           } else if ($f_T__endsWith__T__Z(h, ")")) {
-            const $$x3 = this.Leoi_EoiJsonEncoding$$anon$34__f_inner$2;
+            const $$x3 = this.Leoi_EoiJsonEncoding$$anon$36__f_inner$2;
             const this$16 = new $c_sci_StringOps(h);
             const this$17 = $$x3.apply__T__s_Option($as_T($f_sc_IndexedSeqOptimized__dropRight__I__O(this$16, 1)));
             if (this$17.isEmpty__Z()) {
@@ -9222,7 +9378,7 @@ class $c_Leoi_EoiJsonEncoding$$anon$34 extends $c_O {
               hP = new $c_s_Some(new $c_Lspire_math_interval_Open(arg1$2))
             }
           } else if ($f_T__endsWith__T__Z(h, "]")) {
-            const $$x4 = this.Leoi_EoiJsonEncoding$$anon$34__f_inner$2;
+            const $$x4 = this.Leoi_EoiJsonEncoding$$anon$36__f_inner$2;
             const this$19 = new $c_sci_StringOps(h);
             const this$20 = $$x4.apply__T__s_Option($as_T($f_sc_IndexedSeqOptimized__dropRight__I__O(this$19, 1)));
             if (this$20.isEmpty__Z()) {
@@ -9239,7 +9395,7 @@ class $c_Leoi_EoiJsonEncoding$$anon$34 extends $c_O {
           return $as_s_Option(new $c_Lcats_syntax_Tuple2SemigroupalOps(t2).mapN__F2__Lcats_Functor__Lcats_Semigroupal__O(new $c_sjsr_AnonFunction2(((this$5$1) => ((x$6$2, x$7$2) => {
             const x$6 = $as_Lspire_math_interval_Bound(x$6$2);
             const x$7 = $as_Lspire_math_interval_Bound(x$7$2);
-            return $m_Lspire_math_Interval$().fromBounds__Lspire_math_interval_Bound__Lspire_math_interval_Bound__Lcats_kernel_Order__Lspire_math_Interval(x$6, x$7, this$5$1.Leoi_EoiJsonEncoding$$anon$34__f_order$1)
+            return $m_Lspire_math_Interval$().fromBounds__Lspire_math_interval_Bound__Lspire_math_interval_Bound__Lcats_kernel_Order__Lspire_math_Interval(x$6, x$7, this$5$1.Leoi_EoiJsonEncoding$$anon$36__f_order$1)
           }))(this)), $m_Lcats_implicits$().Lcats_implicits$__f_catsStdInstancesForOption, $as_Lcats_Semigroupal($m_Lcats_implicits$().Lcats_implicits$__f_catsStdInstancesForOption)))
         }
       }
@@ -9247,16 +9403,16 @@ class $c_Leoi_EoiJsonEncoding$$anon$34 extends $c_O {
     return $m_s_None$()
   };
 }
-const $d_Leoi_EoiJsonEncoding$$anon$34 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$$anon$34: 0
-}, false, "eoi.EoiJsonEncoding$$anon$34", {
-  Leoi_EoiJsonEncoding$$anon$34: 1,
+const $d_Leoi_EoiJsonEncoding$$anon$36 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$$anon$36: 0
+}, false, "eoi.EoiJsonEncoding$$anon$36", {
+  Leoi_EoiJsonEncoding$$anon$36: 1,
   O: 1,
   Lio_circe_KeyDecoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$$anon$34.prototype.$classData = $d_Leoi_EoiJsonEncoding$$anon$34;
-class $c_Leoi_EoiJsonEncoding$$anon$35 extends $c_O {
+$c_Leoi_EoiJsonEncoding$$anon$36.prototype.$classData = $d_Leoi_EoiJsonEncoding$$anon$36;
+class $c_Leoi_EoiJsonEncoding$$anon$37 extends $c_O {
   apply__T__s_Option(key) {
     const this$2 = new $c_sci_StringOps(key);
     const x1 = $f_sc_IndexedSeqOptimized__toList__sci_List(this$2);
@@ -9272,26 +9428,71 @@ class $c_Leoi_EoiJsonEncoding$$anon$35 extends $c_O {
     return $m_s_None$()
   };
 }
-const $d_Leoi_EoiJsonEncoding$$anon$35 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$$anon$35: 0
-}, false, "eoi.EoiJsonEncoding$$anon$35", {
-  Leoi_EoiJsonEncoding$$anon$35: 1,
+const $d_Leoi_EoiJsonEncoding$$anon$37 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$$anon$37: 0
+}, false, "eoi.EoiJsonEncoding$$anon$37", {
+  Leoi_EoiJsonEncoding$$anon$37: 1,
   O: 1,
   Lio_circe_KeyDecoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$$anon$35.prototype.$classData = $d_Leoi_EoiJsonEncoding$$anon$35;
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$18$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
-  if (((1 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$18 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$36($thiz);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (1 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+$c_Leoi_EoiJsonEncoding$$anon$37.prototype.$classData = $d_Leoi_EoiJsonEncoding$$anon$37;
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$28$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
+  if (((1 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$28 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$38($thiz);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (1 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$18
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$28
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$11$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
-  if (((2 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$37($thiz);
-    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$14$2($thiz);
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$17$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
+  if (((2 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$39($thiz);
+    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$22$2($thiz);
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    const zipWithKeys = $m_Lshapeless_ops_hlist$ZipWithKeys$().Lshapeless_ops_hlist$ZipWithKeys$__f_hnilZipWithKeys;
+    $m_Lshapeless_Witness$();
+    const this$1 = $m_s_Symbol$();
+    const value0 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$1, "upperRate"));
+    new $c_Lshapeless_Witness$$anon$1(value0);
+    const zipWithKeys$1 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys);
+    $m_Lshapeless_Witness$();
+    const this$4 = $m_s_Symbol$();
+    const value0$1 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$4, "mainRate"));
+    new $c_Lshapeless_Witness$$anon$1(value0$1);
+    const zipWithKeys$2 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$1);
+    $m_Lshapeless_Witness$();
+    const this$7 = $m_s_Symbol$();
+    const value0$2 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$7, "upperLimit"));
+    new $c_Lshapeless_Witness$$anon$1(value0$2);
+    const zipWithKeys$3 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$2);
+    $m_Lshapeless_Witness$();
+    const this$10 = $m_s_Symbol$();
+    const value0$3 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$10, "lowerLimit"));
+    new $c_Lshapeless_Witness$$anon$1(value0$3);
+    const zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$3);
+    const ev = $m_s_Predef$().s_Predef$__f_singleton_$less$colon$less;
+    const gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1(zip, gen, ev);
+    const t = new $c_sjsr_AnonFunction0(((this$14) => (() => this$14.inst$macro$28__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
+    const decode = new $c_Lshapeless_Lazy$$anon$1(t);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$17 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (2 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
+  };
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$17
+});
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$36$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
+  if (((4 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$36 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$40($thiz);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (4 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
+  };
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$36
+});
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$29$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
+  if (((8 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$41($thiz);
+    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$32$1($thiz);
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     const zipWithKeys = $m_Lshapeless_ops_hlist$ZipWithKeys$().Lshapeless_ops_hlist$ZipWithKeys$__f_hnilZipWithKeys;
@@ -9307,24 +9508,24 @@ const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$11$lz
     const zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$1);
     const ev = $m_s_Predef$().s_Predef$__f_singleton_$less$colon$less;
     const gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1(zip, gen, ev);
-    const t = new $c_sjsr_AnonFunction0(((this$8) => (() => this$8.inst$macro$18__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
+    const t = new $c_sjsr_AnonFunction0(((this$8) => (() => this$8.inst$macro$36__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
     const decode = new $c_Lshapeless_Lazy$$anon$1(t);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$11 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (2 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$29 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (8 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$11
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$29
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$70$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
-  if (((4 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$70 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$38($thiz);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (4 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$88$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
+  if (((16 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$88 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$42($thiz);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (16 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$70
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$88
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$65$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
-  if (((8 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$39($thiz);
-    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$67$1($thiz);
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$83$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
+  if (((32 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$43($thiz);
+    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$85$1($thiz);
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     const zipWithKeys = $m_Lshapeless_ops_hlist$ZipWithKeys$().Lshapeless_ops_hlist$ZipWithKeys$__f_hnilZipWithKeys;
     $m_Lshapeless_Witness$();
@@ -9334,45 +9535,45 @@ const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$65$lz
     const zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys);
     const ev = $m_s_Predef$().s_Predef$__f_singleton_$less$colon$less;
     const gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1(zip, gen, ev);
-    const t = new $c_sjsr_AnonFunction0(((this$5) => (() => this$5.inst$macro$70__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
+    const t = new $c_sjsr_AnonFunction0(((this$5) => (() => this$5.inst$macro$88__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
     const decode = new $c_Lshapeless_Lazy$$anon$1(t);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$65 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (8 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$83 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (32 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$65
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$83
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$74$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
-  if (((16 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$74 = $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilReprDecoder;
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (16 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$92$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
+  if (((64 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$92 = $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilReprDecoder;
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (64 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$74
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$92
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$71$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
-  if (((32 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$40($thiz);
-    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$72$1($thiz);
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$89$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
+  if (((128 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$44($thiz);
+    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$90$1($thiz);
     const zip = $m_Lshapeless_ops_hlist$ZipWithKeys$().Lshapeless_ops_hlist$ZipWithKeys$__f_hnilZipWithKeys;
     const ev = $m_s_Predef$().s_Predef$__f_singleton_$less$colon$less;
     const gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1(zip, gen, ev);
-    const t = new $c_sjsr_AnonFunction0(((this$2) => (() => this$2.inst$macro$74__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
+    const t = new $c_sjsr_AnonFunction0(((this$2) => (() => this$2.inst$macro$92__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
     const decode = new $c_Lshapeless_Lazy$$anon$1(t);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$71 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (32 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$89 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (128 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$71
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$89
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$84$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
-  if (((64 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$84 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41($thiz);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (64 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$102$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
+  if (((256 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$102 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$45($thiz);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (256 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$84
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$102
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$75$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
-  if (((128 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$42($thiz);
-    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$79$1($thiz);
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$93$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
+  if (((512 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$46($thiz);
+    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$97$2($thiz);
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
@@ -9394,24 +9595,24 @@ const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$75$lz
     const zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$2);
     const ev = $m_s_Predef$().s_Predef$__f_singleton_$less$colon$less;
     const gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1(zip, gen, ev);
-    const t = new $c_sjsr_AnonFunction0(((this$11) => (() => this$11.inst$macro$84__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
+    const t = new $c_sjsr_AnonFunction0(((this$11) => (() => this$11.inst$macro$102__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
     const decode = new $c_Lshapeless_Lazy$$anon$1(t);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$75 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (128 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$93 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (512 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$75
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$93
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$93$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
-  if (((256 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$93 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43($thiz);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (256 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$111$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
+  if (((1024 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$111 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$47($thiz);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (1024 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$93
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$111
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$86$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
-  if (((512 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$44($thiz);
-    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$89$1($thiz);
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$104$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
+  if (((2048 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$48($thiz);
+    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$107$1($thiz);
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     const zipWithKeys = $m_Lshapeless_ops_hlist$ZipWithKeys$().Lshapeless_ops_hlist$ZipWithKeys$__f_hnilZipWithKeys;
@@ -9427,38 +9628,38 @@ const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$86$lz
     const zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$1);
     const ev = $m_s_Predef$().s_Predef$__f_singleton_$less$colon$less;
     const gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1(zip, gen, ev);
-    const t = new $c_sjsr_AnonFunction0(((this$8) => (() => this$8.inst$macro$93__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
+    const t = new $c_sjsr_AnonFunction0(((this$8) => (() => this$8.inst$macro$111__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
     const decode = new $c_Lshapeless_Lazy$$anon$1(t);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$86 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (512 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$104 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (2048 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$86
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$104
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$95$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
-  if (((1024 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$45($thiz);
-    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$96$1($thiz);
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$113$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
+  if (((4096 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$49($thiz);
+    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$114$1($thiz);
     const zip = $m_Lshapeless_ops_hlist$ZipWithKeys$().Lshapeless_ops_hlist$ZipWithKeys$__f_hnilZipWithKeys;
     const ev = $m_s_Predef$().s_Predef$__f_singleton_$less$colon$less;
     const gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1(zip, gen, ev);
-    const t = new $c_sjsr_AnonFunction0(((this$2) => (() => this$2.inst$macro$74__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
+    const t = new $c_sjsr_AnonFunction0(((this$2) => (() => this$2.inst$macro$92__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
     const decode = new $c_Lshapeless_Lazy$$anon$1(t);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$95 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (1024 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$113 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (4096 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$95
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$113
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$105$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
-  if (((2048 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$105 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46($thiz);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (2048 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$123$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
+  if (((8192 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$123 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$50($thiz);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (8192 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$105
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$123
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$98$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
-  if (((4096 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$47($thiz);
-    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$101$1($thiz);
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$116$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
+  if (((16384 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$51($thiz);
+    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$119$2($thiz);
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     const zipWithKeys = $m_Lshapeless_ops_hlist$ZipWithKeys$().Lshapeless_ops_hlist$ZipWithKeys$__f_hnilZipWithKeys;
@@ -9474,24 +9675,24 @@ const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$98$lz
     const zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$1);
     const ev = $m_s_Predef$().s_Predef$__f_singleton_$less$colon$less;
     const gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1(zip, gen, ev);
-    const t = new $c_sjsr_AnonFunction0(((this$8) => (() => this$8.inst$macro$105__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
+    const t = new $c_sjsr_AnonFunction0(((this$8) => (() => this$8.inst$macro$123__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
     const decode = new $c_Lshapeless_Lazy$$anon$1(t);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$98 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (4096 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$116 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (16384 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$98
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$116
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$64$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
-  if (((8192 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$64 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48($thiz);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (8192 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$82$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
+  if (((32768 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$82 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52($thiz);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (32768 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$64
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$82
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$61$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
-  if (((16384 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$49($thiz);
-    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$63$1($thiz);
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$79$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
+  if (((65536 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$53($thiz);
+    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$81$1($thiz);
     $m_Lshapeless_ops_coproduct$ZipWithKeys$();
     $m_Lshapeless_ops_coproduct$ZipWithKeys$();
     $m_Lshapeless_ops_coproduct$ZipWithKeys$();
@@ -9531,24 +9732,24 @@ const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$61$lz
     const zip = new $c_Lshapeless_ops_coproduct$ZipWithKeys$$anon$28(zipWithKeys$5);
     const ev = $m_s_Predef$().s_Predef$__f_singleton_$less$colon$less;
     const gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$2(zip, gen, ev);
-    const t = new $c_sjsr_AnonFunction0(((this$20) => (() => this$20.inst$macro$64__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
+    const t = new $c_sjsr_AnonFunction0(((this$20) => (() => this$20.inst$macro$82__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
     const decode = new $c_Lshapeless_Lazy$$anon$1(t);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$61 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (16384 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$79 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (65536 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$61
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$79
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$50$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
-  if (((1048576 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$50 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55($thiz);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (1048576 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$68$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
+  if (((4194304 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$68 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59($thiz);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (4194304 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$50
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$68
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$39$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
-  if (((2097152 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$56($thiz);
-    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$44$1($thiz);
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$57$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
+  if (((8388608 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$60($thiz);
+    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$62$1($thiz);
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
@@ -9576,24 +9777,24 @@ const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$39$lz
     const zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$3);
     const ev = $m_s_Predef$().s_Predef$__f_singleton_$less$colon$less;
     const gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1(zip, gen, ev);
-    const t = new $c_sjsr_AnonFunction0(((this$14) => (() => this$14.inst$macro$50__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
+    const t = new $c_sjsr_AnonFunction0(((this$14) => (() => this$14.inst$macro$68__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
     const decode = new $c_Lshapeless_Lazy$$anon$1(t);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$39 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (2097152 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$57 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (8388608 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$39
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$57
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$38$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
-  if (((67108864 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$38 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61($thiz);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (67108864 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$56$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
+  if (((268435456 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$56 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65($thiz);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (268435456 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$38
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$56
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$19$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
-  if (((134217728 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$62($thiz);
-    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$28$1($thiz);
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$37$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
+  if (((536870912 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$66($thiz);
+    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$46$1($thiz);
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
@@ -9645,160 +9846,186 @@ const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$19$lz
     const zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$7);
     const ev = $m_s_Predef$().s_Predef$__f_singleton_$less$colon$less;
     const gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1(zip, gen, ev);
-    const t = new $c_sjsr_AnonFunction0(((this$26) => (() => this$26.inst$macro$38__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
+    const t = new $c_sjsr_AnonFunction0(((this$26) => (() => this$26.inst$macro$56__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
     const decode = new $c_Lshapeless_Lazy$$anon$1(t);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$19 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (134217728 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$37 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (536870912 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$19
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$37
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$10$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
-  if (((268435456 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$10 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63($thiz);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (268435456 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$16$lzycompute__Lio_circe_generic_decoding_ReprDecoder = (function($thiz) {
+  if (((1073741824 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$16 = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67($thiz);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = (1073741824 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$10
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$16
 });
-const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$1$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
-  if (((536870912 & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0)) {
-    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$64($thiz);
-    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$9$2($thiz);
+const $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$1$lzycompute__Lio_circe_generic_decoding_DerivedDecoder = (function($thiz) {
+  if ((((-2147483648) & $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0)) {
+    new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$68($thiz);
+    const gen = new $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$15$2($thiz);
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     const zipWithKeys = $m_Lshapeless_ops_hlist$ZipWithKeys$().Lshapeless_ops_hlist$ZipWithKeys$__f_hnilZipWithKeys;
     $m_Lshapeless_Witness$();
     const this$1 = $m_s_Symbol$();
-    const value0 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$1, "classTwo"));
+    const value0 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$1, "classFour"));
     new $c_Lshapeless_Witness$$anon$1(value0);
     const zipWithKeys$1 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys);
     $m_Lshapeless_Witness$();
     const this$4 = $m_s_Symbol$();
-    const value0$1 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$4, "classOne"));
+    const value0$1 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$4, "classThree"));
     new $c_Lshapeless_Witness$$anon$1(value0$1);
     const zipWithKeys$2 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$1);
     $m_Lshapeless_Witness$();
     const this$7 = $m_s_Symbol$();
-    const value0$2 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$7, "categoryNames"));
+    const value0$2 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$7, "classTwo"));
     new $c_Lshapeless_Witness$$anon$1(value0$2);
-    const zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$2);
+    const zipWithKeys$3 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$2);
+    $m_Lshapeless_Witness$();
+    const this$10 = $m_s_Symbol$();
+    const value0$3 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$10, "classOneAB"));
+    new $c_Lshapeless_Witness$$anon$1(value0$3);
+    const zipWithKeys$4 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$3);
+    $m_Lshapeless_Witness$();
+    const this$13 = $m_s_Symbol$();
+    const value0$4 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$13, "classOne"));
+    new $c_Lshapeless_Witness$$anon$1(value0$4);
+    const zipWithKeys$5 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$4);
+    $m_Lshapeless_Witness$();
+    const this$16 = $m_s_Symbol$();
+    const value0$5 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$16, "categoryNames"));
+    new $c_Lshapeless_Witness$$anon$1(value0$5);
+    const zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$5);
     const ev = $m_s_Predef$().s_Predef$__f_singleton_$less$colon$less;
     const gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1(zip, gen, ev);
-    const t = new $c_sjsr_AnonFunction0(((this$11) => (() => this$11.inst$macro$10__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
+    const t = new $c_sjsr_AnonFunction0(((this$20) => (() => this$20.inst$macro$16__Lio_circe_generic_decoding_ReprDecoder()))($thiz));
     const decode = new $c_Lshapeless_Lazy$$anon$1(t);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$1 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
-    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = (536870912 | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0)
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$1 = new $c_Lio_circe_generic_decoding_DerivedDecoder$$anon$1(decode, gen$1);
+    $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = ((-2147483648) | $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0)
   };
-  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$1
+  return $thiz.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$1
 });
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1 extends $c_O {
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1 extends $c_O {
   constructor() {
     super();
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$18 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$11 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$70 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$65 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$74 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$71 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$84 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$75 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$93 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$86 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$95 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$105 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$98 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$64 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$61 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$60 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$55 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$107 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$54 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$51 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$50 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$39 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$119 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$114 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$113 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$110 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$38 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$19 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$10 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$1 = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0 = 0
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$28 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$17 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$36 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$29 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$88 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$83 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$92 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$89 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$102 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$93 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$111 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$104 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$113 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$123 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$116 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$82 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$79 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$78 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$73 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$125 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$72 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$69 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$68 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$57 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$137 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$132 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$131 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$128 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$56 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$37 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$16 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$1 = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0 = 0
   };
-  inst$macro$18__Lio_circe_generic_decoding_ReprDecoder() {
-    return (((1 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$18$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$18)
+  inst$macro$28__Lio_circe_generic_decoding_ReprDecoder() {
+    return (((1 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$28$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$28)
   };
-  inst$macro$11__Lio_circe_generic_decoding_DerivedDecoder() {
-    return (((2 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$11$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$11)
+  inst$macro$17__Lio_circe_generic_decoding_DerivedDecoder() {
+    return (((2 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$17$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$17)
   };
-  inst$macro$70__Lio_circe_generic_decoding_ReprDecoder() {
-    return (((4 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$70$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$70)
+  inst$macro$36__Lio_circe_generic_decoding_ReprDecoder() {
+    return (((4 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$36$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$36)
   };
-  inst$macro$65__Lio_circe_generic_decoding_DerivedDecoder() {
-    return (((8 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$65$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$65)
+  inst$macro$29__Lio_circe_generic_decoding_DerivedDecoder() {
+    return (((8 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$29$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$29)
   };
-  inst$macro$74__Lio_circe_generic_decoding_ReprDecoder() {
-    return (((16 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$74$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$74)
+  inst$macro$88__Lio_circe_generic_decoding_ReprDecoder() {
+    return (((16 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$88$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$88)
   };
-  inst$macro$71__Lio_circe_generic_decoding_DerivedDecoder() {
-    return (((32 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$71$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$71)
+  inst$macro$83__Lio_circe_generic_decoding_DerivedDecoder() {
+    return (((32 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$83$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$83)
   };
-  inst$macro$84__Lio_circe_generic_decoding_ReprDecoder() {
-    return (((64 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$84$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$84)
+  inst$macro$92__Lio_circe_generic_decoding_ReprDecoder() {
+    return (((64 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$92$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$92)
   };
-  inst$macro$75__Lio_circe_generic_decoding_DerivedDecoder() {
-    return (((128 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$75$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$75)
+  inst$macro$89__Lio_circe_generic_decoding_DerivedDecoder() {
+    return (((128 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$89$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$89)
   };
-  inst$macro$93__Lio_circe_generic_decoding_ReprDecoder() {
-    return (((256 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$93$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$93)
+  inst$macro$102__Lio_circe_generic_decoding_ReprDecoder() {
+    return (((256 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$102$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$102)
   };
-  inst$macro$86__Lio_circe_generic_decoding_DerivedDecoder() {
-    return (((512 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$86$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$86)
+  inst$macro$93__Lio_circe_generic_decoding_DerivedDecoder() {
+    return (((512 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$93$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$93)
   };
-  inst$macro$95__Lio_circe_generic_decoding_DerivedDecoder() {
-    return (((1024 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$95$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$95)
+  inst$macro$111__Lio_circe_generic_decoding_ReprDecoder() {
+    return (((1024 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$111$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$111)
   };
-  inst$macro$105__Lio_circe_generic_decoding_ReprDecoder() {
-    return (((2048 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$105$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$105)
+  inst$macro$104__Lio_circe_generic_decoding_DerivedDecoder() {
+    return (((2048 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$104$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$104)
   };
-  inst$macro$98__Lio_circe_generic_decoding_DerivedDecoder() {
-    return (((4096 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$98$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$98)
+  inst$macro$113__Lio_circe_generic_decoding_DerivedDecoder() {
+    return (((4096 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$113$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$113)
   };
-  inst$macro$64__Lio_circe_generic_decoding_ReprDecoder() {
-    return (((8192 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$64$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$64)
+  inst$macro$123__Lio_circe_generic_decoding_ReprDecoder() {
+    return (((8192 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$123$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$123)
   };
-  inst$macro$61__Lio_circe_generic_decoding_DerivedDecoder() {
-    return (((16384 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$61$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$61)
+  inst$macro$116__Lio_circe_generic_decoding_DerivedDecoder() {
+    return (((16384 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$116$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$116)
   };
-  inst$macro$50__Lio_circe_generic_decoding_ReprDecoder() {
-    return (((1048576 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$50$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$50)
+  inst$macro$82__Lio_circe_generic_decoding_ReprDecoder() {
+    return (((32768 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$82$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$82)
   };
-  inst$macro$39__Lio_circe_generic_decoding_DerivedDecoder() {
-    return (((2097152 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$39$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$39)
+  inst$macro$79__Lio_circe_generic_decoding_DerivedDecoder() {
+    return (((65536 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$79$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$79)
   };
-  inst$macro$38__Lio_circe_generic_decoding_ReprDecoder() {
-    return (((67108864 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$38$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$38)
+  inst$macro$68__Lio_circe_generic_decoding_ReprDecoder() {
+    return (((4194304 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$68$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$68)
   };
-  inst$macro$19__Lio_circe_generic_decoding_DerivedDecoder() {
-    return (((134217728 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$19$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$19)
+  inst$macro$57__Lio_circe_generic_decoding_DerivedDecoder() {
+    return (((8388608 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$57$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$57)
   };
-  inst$macro$10__Lio_circe_generic_decoding_ReprDecoder() {
-    return (((268435456 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$10$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$10)
+  inst$macro$56__Lio_circe_generic_decoding_ReprDecoder() {
+    return (((268435456 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$56$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$56)
+  };
+  inst$macro$37__Lio_circe_generic_decoding_DerivedDecoder() {
+    return (((536870912 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$37$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$37)
+  };
+  inst$macro$16__Lio_circe_generic_decoding_ReprDecoder() {
+    return (((1073741824 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$16$lzycompute__Lio_circe_generic_decoding_ReprDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$16)
   };
   inst$macro$1__Lio_circe_generic_decoding_DerivedDecoder() {
-    return (((536870912 & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__inst$macro$1$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1__f_inst$macro$1)
+    return ((((-2147483648) & this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_bitmap$0) === 0) ? $p_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__inst$macro$1$lzycompute__Lio_circe_generic_decoding_DerivedDecoder(this) : this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1__f_inst$macro$1)
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1: 1,
   O: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1;
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1;
 const $ct_Lio_circe_BiggerDecimalJsonNumber__T__ = (function($thiz, input) {
   $thiz.Lio_circe_BiggerDecimalJsonNumber__f_input = input;
   return $thiz
@@ -10125,30 +10352,6 @@ const $d_Lio_circe_Decoder$$anon$1 = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lio_circe_Decoder$$anon$1.prototype.$classData = $d_Lio_circe_Decoder$$anon$1;
-class $c_Lio_circe_Decoder$$anon$15 extends $c_O {
-  constructor(a$1) {
-    super();
-    this.Lio_circe_Decoder$$anon$15__f_a$1 = null;
-    this.Lio_circe_Decoder$$anon$15__f_a$1 = a$1
-  };
-  tryDecode__Lio_circe_ACursor__s_util_Either(c) {
-    return $f_Lio_circe_Decoder__tryDecode__Lio_circe_ACursor__s_util_Either(this, c)
-  };
-  apply__Lio_circe_HCursor__s_util_Either(c) {
-    $m_s_package$();
-    const value = this.Lio_circe_Decoder$$anon$15__f_a$1;
-    return new $c_s_util_Right(value)
-  };
-}
-const $d_Lio_circe_Decoder$$anon$15 = new $TypeData().initClass({
-  Lio_circe_Decoder$$anon$15: 0
-}, false, "io.circe.Decoder$$anon$15", {
-  Lio_circe_Decoder$$anon$15: 1,
-  O: 1,
-  Lio_circe_Decoder: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lio_circe_Decoder$$anon$15.prototype.$classData = $d_Lio_circe_Decoder$$anon$15;
 class $c_Lio_circe_Decoder$$anon$2 extends $c_O {
   constructor(outer, f$2) {
     super();
@@ -11554,25 +11757,6 @@ const $d_Lio_circe_KeyDecoder$$anon$7 = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lio_circe_KeyDecoder$$anon$7.prototype.$classData = $d_Lio_circe_KeyDecoder$$anon$7;
-class $c_Lio_circe_KeyDecoder$$anon$8$$anon$9 extends $c_O {
-  constructor(outer, a$1) {
-    super();
-    this.Lio_circe_KeyDecoder$$anon$8$$anon$9__f_a$1 = null;
-    this.Lio_circe_KeyDecoder$$anon$8$$anon$9__f_a$1 = a$1
-  };
-  apply__T__s_Option(key) {
-    return new $c_s_Some(this.Lio_circe_KeyDecoder$$anon$8$$anon$9__f_a$1)
-  };
-}
-const $d_Lio_circe_KeyDecoder$$anon$8$$anon$9 = new $TypeData().initClass({
-  Lio_circe_KeyDecoder$$anon$8$$anon$9: 0
-}, false, "io.circe.KeyDecoder$$anon$8$$anon$9", {
-  Lio_circe_KeyDecoder$$anon$8$$anon$9: 1,
-  O: 1,
-  Lio_circe_KeyDecoder: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lio_circe_KeyDecoder$$anon$8$$anon$9.prototype.$classData = $d_Lio_circe_KeyDecoder$$anon$8$$anon$9;
 class $c_Lio_circe_KeyDecoder$AlwaysKeyDecoder extends $c_O {
   apply__T__s_Option(key) {
     return new $c_s_Some(this.decodeSafe__T__O(key))
@@ -13977,6 +14161,74 @@ function $m_ju_UUID$() {
   };
   return $n_ju_UUID$
 }
+class $c_ju_concurrent_TimeUnit$ extends $c_O {
+  constructor() {
+    super();
+    this.ju_concurrent_TimeUnit$__f_NANOSECONDS = null;
+    this.ju_concurrent_TimeUnit$__f_MICROSECONDS = null;
+    this.ju_concurrent_TimeUnit$__f_MILLISECONDS = null;
+    this.ju_concurrent_TimeUnit$__f_SECONDS = null;
+    this.ju_concurrent_TimeUnit$__f_MINUTES = null;
+    this.ju_concurrent_TimeUnit$__f_HOURS = null;
+    this.ju_concurrent_TimeUnit$__f_DAYS = null;
+    this.ju_concurrent_TimeUnit$__f__values = null;
+    $n_ju_concurrent_TimeUnit$ = this;
+    this.ju_concurrent_TimeUnit$__f_NANOSECONDS = new $c_ju_concurrent_TimeUnit$$anon$1();
+    this.ju_concurrent_TimeUnit$__f_MICROSECONDS = new $c_ju_concurrent_TimeUnit$$anon$2();
+    this.ju_concurrent_TimeUnit$__f_MILLISECONDS = new $c_ju_concurrent_TimeUnit$$anon$3();
+    this.ju_concurrent_TimeUnit$__f_SECONDS = new $c_ju_concurrent_TimeUnit$$anon$4();
+    this.ju_concurrent_TimeUnit$__f_MINUTES = new $c_ju_concurrent_TimeUnit$$anon$5();
+    this.ju_concurrent_TimeUnit$__f_HOURS = new $c_ju_concurrent_TimeUnit$$anon$6();
+    this.ju_concurrent_TimeUnit$__f_DAYS = new $c_ju_concurrent_TimeUnit$$anon$7();
+    this.ju_concurrent_TimeUnit$__f__values = $makeNativeArrayWrapper($d_ju_concurrent_TimeUnit.getArrayOf(), [this.ju_concurrent_TimeUnit$__f_NANOSECONDS, this.ju_concurrent_TimeUnit$__f_MICROSECONDS, this.ju_concurrent_TimeUnit$__f_MILLISECONDS, this.ju_concurrent_TimeUnit$__f_SECONDS, this.ju_concurrent_TimeUnit$__f_MINUTES, this.ju_concurrent_TimeUnit$__f_HOURS, this.ju_concurrent_TimeUnit$__f_DAYS])
+  };
+  java$util$concurrent$TimeUnit$$x__J__J__J__J(a, b, max) {
+    const ahi = a.RTLong__f_hi;
+    const bhi = max.RTLong__f_hi;
+    if (((ahi === bhi) ? (((-2147483648) ^ a.RTLong__f_lo) > ((-2147483648) ^ max.RTLong__f_lo)) : (ahi > bhi))) {
+      return new $c_RTLong((-1), 2147483647)
+    } else {
+      const lo = max.RTLong__f_lo;
+      const hi = max.RTLong__f_hi;
+      const lo$1 = ((-lo) | 0);
+      const hi$1 = ((lo !== 0) ? (~hi) : ((-hi) | 0));
+      const ahi$1 = a.RTLong__f_hi;
+      if (((ahi$1 === hi$1) ? (((-2147483648) ^ a.RTLong__f_lo) < ((-2147483648) ^ lo$1)) : (ahi$1 < hi$1))) {
+        return new $c_RTLong(1, (-2147483648))
+      } else {
+        const alo = a.RTLong__f_lo;
+        const blo = b.RTLong__f_lo;
+        const a0 = (65535 & alo);
+        const a1 = ((alo >>> 16) | 0);
+        const b0 = (65535 & blo);
+        const b1 = ((blo >>> 16) | 0);
+        const a0b0 = $imul(a0, b0);
+        const a1b0 = $imul(a1, b0);
+        const a0b1 = $imul(a0, b1);
+        const lo$2 = ((a0b0 + (((a1b0 + a0b1) | 0) << 16)) | 0);
+        const c1part = ((((a0b0 >>> 16) | 0) + a0b1) | 0);
+        const hi$2 = (((((((($imul(alo, b.RTLong__f_hi) + $imul(a.RTLong__f_hi, blo)) | 0) + $imul(a1, b1)) | 0) + ((c1part >>> 16) | 0)) | 0) + (((((65535 & c1part) + a1b0) | 0) >>> 16) | 0)) | 0);
+        return new $c_RTLong(lo$2, hi$2)
+      }
+    }
+  };
+}
+const $d_ju_concurrent_TimeUnit$ = new $TypeData().initClass({
+  ju_concurrent_TimeUnit$: 0
+}, false, "java.util.concurrent.TimeUnit$", {
+  ju_concurrent_TimeUnit$: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_ju_concurrent_TimeUnit$.prototype.$classData = $d_ju_concurrent_TimeUnit$;
+let $n_ju_concurrent_TimeUnit$;
+function $m_ju_concurrent_TimeUnit$() {
+  if ((!$n_ju_concurrent_TimeUnit$)) {
+    $n_ju_concurrent_TimeUnit$ = new $c_ju_concurrent_TimeUnit$()
+  };
+  return $n_ju_concurrent_TimeUnit$
+}
 const $p_ju_regex_Pattern__jsPattern__T = (function($thiz) {
   return $as_T($thiz.ju_regex_Pattern__f_jsRegExp.source)
 });
@@ -14914,6 +15166,295 @@ function $m_scm_StringBuilder$() {
   };
   return $n_scm_StringBuilder$
 }
+const $p_s_concurrent_duration_Duration$__words__T__sci_List = (function($thiz, s) {
+  const this$1 = $as_T(s.trim());
+  const xs = $f_T__split__T__I__AT(this$1, "\\s+", 0);
+  let i = (((-1) + xs.u.length) | 0);
+  let result = $m_sci_Nil$();
+  while ((i >= 0)) {
+    const this$5 = result;
+    const index = i;
+    const x = xs.get(index);
+    result = new $c_sci_$colon$colon(x, this$5);
+    i = (((-1) + i) | 0)
+  };
+  return result
+});
+const $p_s_concurrent_duration_Duration$__expandLabels__T__sci_List = (function($thiz, labels) {
+  const x1 = $p_s_concurrent_duration_Duration$__words__T__sci_List($thiz, labels);
+  if ((!(x1 instanceof $c_sci_$colon$colon))) {
+    throw new $c_s_MatchError(x1)
+  };
+  const x2 = $as_sci_$colon$colon(x1);
+  const hd = $as_T(x2.sci_$colon$colon__f_head);
+  const rest = x2.sci_$colon$colon__f_tl;
+  const f = ((this$1) => ((s$2) => {
+    const s = $as_T(s$2);
+    $m_sci_List$();
+    const array = [s, (s + "s")];
+    let i = (((-1) + $uI(array.length)) | 0);
+    let result = $m_sci_Nil$();
+    while ((i >= 0)) {
+      const this$5 = result;
+      const index = i;
+      const x = array[index];
+      result = new $c_sci_$colon$colon(x, this$5);
+      i = (((-1) + i) | 0)
+    };
+    return result
+  }))($thiz);
+  const this$6 = $m_sci_List$();
+  const bf = this$6.scg_GenTraversableFactory__f_ReusableCBFInstance;
+  let $$x1;
+  if ($p_sci_List__isLikeListReusableCBF__scg_CanBuildFrom__Z(rest, bf)) {
+    if ((rest === $m_sci_Nil$())) {
+      $$x1 = $m_sci_Nil$()
+    } else {
+      let rest$1 = rest;
+      let appender = null;
+      let lastList = null;
+      while ((rest$1 !== $m_sci_Nil$())) {
+        const arg1 = rest$1.head__O();
+        const c = $as_sc_GenTraversableOnce(f(arg1)).seq__sc_TraversableOnce();
+        const this$7 = rest$1;
+        rest$1 = this$7.tail__sci_List();
+        if ((c !== $m_sci_Nil$())) {
+          if ((lastList !== null)) {
+            if ((appender === null)) {
+              appender = new $c_sci_List$Appender$1(rest)
+            };
+            const this$8 = lastList;
+            const f$1 = appender;
+            let these = this$8;
+            while ((!these.isEmpty__Z())) {
+              const v1 = these.head__O();
+              f$1.apply__O__V(v1);
+              const this$9 = these;
+              these = this$9.tail__sci_List()
+            };
+            lastList = null
+          };
+          if ((c instanceof $c_sci_$colon$colon)) {
+            lastList = $as_sci_$colon$colon(c)
+          } else {
+            if ((appender === null)) {
+              appender = new $c_sci_List$Appender$1(rest)
+            };
+            c.foreach__F1__V(appender)
+          }
+        }
+      };
+      let result$1;
+      if (((appender === null) || (appender.sci_List$Appender$1__f_h === null))) {
+        result$1 = ((lastList === null) ? $m_sci_Nil$() : lastList)
+      } else {
+        if ((lastList !== null)) {
+          appender.appendLast__sci_$colon$colon__V(lastList)
+        };
+        result$1 = appender.sci_List$Appender$1__f_h
+      };
+      $$x1 = result$1
+    }
+  } else {
+    $m_sci_List$();
+    const b = new $c_scm_ListBuffer();
+    let these$1 = rest;
+    while ((!these$1.isEmpty__Z())) {
+      const arg1$1 = these$1.head__O();
+      const xs = $as_sc_GenTraversableOnce(f(arg1$1)).seq__sc_TraversableOnce();
+      b.$plus$plus$eq__sc_TraversableOnce__scm_ListBuffer(xs);
+      const this$11 = these$1;
+      these$1 = this$11.tail__sci_List()
+    };
+    $$x1 = b.toList__sci_List()
+  };
+  const this$12 = $as_sci_List($$x1);
+  return new $c_sci_$colon$colon(hd, this$12)
+});
+class $c_s_concurrent_duration_Duration$ extends $c_O {
+  constructor() {
+    super();
+    this.s_concurrent_duration_Duration$__f_timeUnitLabels = null;
+    this.s_concurrent_duration_Duration$__f_timeUnitName = null;
+    this.s_concurrent_duration_Duration$__f_timeUnit = null;
+    this.s_concurrent_duration_Duration$__f_Zero = null;
+    this.s_concurrent_duration_Duration$__f_Undefined = null;
+    this.s_concurrent_duration_Duration$__f_Inf = null;
+    this.s_concurrent_duration_Duration$__f_MinusInf = null;
+    $n_s_concurrent_duration_Duration$ = this;
+    $m_sci_List$();
+    const self = $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_DAYS;
+    const $$x6 = new $c_T2(self, "d day");
+    const self$1 = $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_HOURS;
+    const $$x5 = new $c_T2(self$1, "h hr hour");
+    const self$2 = $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_MINUTES;
+    const $$x4 = new $c_T2(self$2, "m min minute");
+    const self$3 = $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_SECONDS;
+    const $$x3 = new $c_T2(self$3, "s sec second");
+    const self$4 = $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_MILLISECONDS;
+    const $$x2 = new $c_T2(self$4, "ms milli millisecond");
+    const self$5 = $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_MICROSECONDS;
+    const $$x1 = new $c_T2(self$5, "\u00b5s micro microsecond");
+    const self$6 = $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_NANOSECONDS;
+    const array = [$$x6, $$x5, $$x4, $$x3, $$x2, $$x1, new $c_T2(self$6, "ns nano nanosecond")];
+    let i = (((-1) + $uI(array.length)) | 0);
+    let result = $m_sci_Nil$();
+    while ((i >= 0)) {
+      const this$18 = result;
+      const index = i;
+      const x = array[index];
+      result = new $c_sci_$colon$colon(x, this$18);
+      i = (((-1) + i) | 0)
+    };
+    this.s_concurrent_duration_Duration$__f_timeUnitLabels = result;
+    const this$19 = this.s_concurrent_duration_Duration$__f_timeUnitLabels;
+    $m_sci_Map$();
+    const b = new $c_sci_Map$MapBuilderImpl();
+    b.$plus$plus$eq__sc_TraversableOnce__sci_Map$MapBuilderImpl(this$19);
+    const this$23 = b.result__sci_Map();
+    const f = new $c_sjsr_AnonFunction1(((this$21) => ((s$2) => {
+      const s = $as_T(s$2);
+      const this$22 = $p_s_concurrent_duration_Duration$__words__T__sci_List($m_s_concurrent_duration_Duration$(), s);
+      return $as_T($f_sc_LinearSeqOptimized__last__O(this$22))
+    }))(this));
+    const this$24 = new $c_sci_MapLike$$anon$2(this$23, f);
+    this.s_concurrent_duration_Duration$__f_timeUnitName = this$24;
+    const this$33 = this.s_concurrent_duration_Duration$__f_timeUnitLabels;
+    const f$2 = ((this$2$1) => ((x0$1$2) => {
+      const x0$1 = $as_T2(x0$1$2);
+      if ((x0$1 !== null)) {
+        const unit = $as_ju_concurrent_TimeUnit(x0$1._1__O());
+        const names = $as_T(x0$1._2__O());
+        const this$29 = $p_s_concurrent_duration_Duration$__expandLabels__T__sci_List($m_s_concurrent_duration_Duration$(), names);
+        const f$1 = ((this$25, unit$1) => ((x$5$2) => {
+          const x$5 = $as_T(x$5$2);
+          return new $c_T2(x$5, unit$1)
+        }))(this$2$1, unit);
+        const this$28 = $m_sci_List$();
+        const bf = this$28.scg_GenTraversableFactory__f_ReusableCBFInstance;
+        let $$x7;
+        if ($p_sci_List__isLikeListReusableCBF__scg_CanBuildFrom__Z(this$29, bf)) {
+          if ((this$29 === $m_sci_Nil$())) {
+            $$x7 = $m_sci_Nil$()
+          } else {
+            const arg1 = this$29.head__O();
+            const h = new $c_sci_$colon$colon(f$1(arg1), $m_sci_Nil$());
+            let t = h;
+            let rest = this$29.tail__sci_List();
+            while ((rest !== $m_sci_Nil$())) {
+              const arg1$1 = rest.head__O();
+              const nx = new $c_sci_$colon$colon(f$1(arg1$1), $m_sci_Nil$());
+              t.sci_$colon$colon__f_tl = nx;
+              t = nx;
+              const this$30 = rest;
+              rest = this$30.tail__sci_List()
+            };
+            $$x7 = h
+          }
+        } else {
+          const b$1 = $p_sc_TraversableLike__builder$1__scg_CanBuildFrom__scm_Builder(this$29, bf);
+          let these = this$29;
+          while ((!these.isEmpty__Z())) {
+            const arg1$2 = these.head__O();
+            b$1.$plus$eq__O__scm_Builder(f$1(arg1$2));
+            const this$31 = these;
+            these = this$31.tail__sci_List()
+          };
+          $$x7 = b$1.result__O()
+        };
+        return $as_sci_List($$x7)
+      } else {
+        throw new $c_s_MatchError(x0$1)
+      }
+    }))(this);
+    const this$32 = $m_sci_List$();
+    const bf$1 = this$32.scg_GenTraversableFactory__f_ReusableCBFInstance;
+    let $$x8;
+    if ($p_sci_List__isLikeListReusableCBF__scg_CanBuildFrom__Z(this$33, bf$1)) {
+      if ((this$33 === $m_sci_Nil$())) {
+        $$x8 = $m_sci_Nil$()
+      } else {
+        let rest$1 = this$33;
+        let appender = null;
+        let lastList = null;
+        while ((rest$1 !== $m_sci_Nil$())) {
+          const arg1$3 = rest$1.head__O();
+          const c = $as_sc_GenTraversableOnce(f$2(arg1$3)).seq__sc_TraversableOnce();
+          const this$34 = rest$1;
+          rest$1 = this$34.tail__sci_List();
+          if ((c !== $m_sci_Nil$())) {
+            if ((lastList !== null)) {
+              if ((appender === null)) {
+                appender = new $c_sci_List$Appender$1(this$33)
+              };
+              const this$35 = lastList;
+              const f$3 = appender;
+              let these$1 = this$35;
+              while ((!these$1.isEmpty__Z())) {
+                const v1 = these$1.head__O();
+                f$3.apply__O__V(v1);
+                const this$36 = these$1;
+                these$1 = this$36.tail__sci_List()
+              };
+              lastList = null
+            };
+            if ((c instanceof $c_sci_$colon$colon)) {
+              lastList = $as_sci_$colon$colon(c)
+            } else {
+              if ((appender === null)) {
+                appender = new $c_sci_List$Appender$1(this$33)
+              };
+              c.foreach__F1__V(appender)
+            }
+          }
+        };
+        let result$1;
+        if (((appender === null) || (appender.sci_List$Appender$1__f_h === null))) {
+          result$1 = ((lastList === null) ? $m_sci_Nil$() : lastList)
+        } else {
+          if ((lastList !== null)) {
+            appender.appendLast__sci_$colon$colon__V(lastList)
+          };
+          result$1 = appender.sci_List$Appender$1__f_h
+        };
+        $$x8 = result$1
+      }
+    } else {
+      $m_sci_List$();
+      const b$2 = new $c_scm_ListBuffer();
+      let these$2 = this$33;
+      while ((!these$2.isEmpty__Z())) {
+        const arg1$4 = these$2.head__O();
+        const xs = $as_sc_GenTraversableOnce(f$2(arg1$4)).seq__sc_TraversableOnce();
+        b$2.$plus$plus$eq__sc_TraversableOnce__scm_ListBuffer(xs);
+        const this$38 = these$2;
+        these$2 = this$38.tail__sci_List()
+      };
+      $$x8 = b$2.toList__sci_List()
+    };
+    this.s_concurrent_duration_Duration$__f_timeUnit = $as_sc_TraversableOnce($$x8).toMap__s_Predef$$less$colon$less__sci_Map($m_s_Predef$().s_Predef$__f_singleton_$less$colon$less);
+    this.s_concurrent_duration_Duration$__f_Zero = new $c_s_concurrent_duration_FiniteDuration($L0, $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_DAYS);
+    this.s_concurrent_duration_Duration$__f_Undefined = new $c_s_concurrent_duration_Duration$$anon$1();
+    this.s_concurrent_duration_Duration$__f_Inf = new $c_s_concurrent_duration_Duration$$anon$2();
+    this.s_concurrent_duration_Duration$__f_MinusInf = new $c_s_concurrent_duration_Duration$$anon$3()
+  };
+}
+const $d_s_concurrent_duration_Duration$ = new $TypeData().initClass({
+  s_concurrent_duration_Duration$: 0
+}, false, "scala.concurrent.duration.Duration$", {
+  s_concurrent_duration_Duration$: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_s_concurrent_duration_Duration$.prototype.$classData = $d_s_concurrent_duration_Duration$;
+let $n_s_concurrent_duration_Duration$;
+function $m_s_concurrent_duration_Duration$() {
+  if ((!$n_s_concurrent_duration_Duration$)) {
+    $n_s_concurrent_duration_Duration$ = new $c_s_concurrent_duration_Duration$()
+  };
+  return $n_s_concurrent_duration_Duration$
+}
 const $p_s_math_BigDecimal$__cache$lzycompute__As_math_BigDecimal = (function($thiz) {
   if ((!$thiz.s_math_BigDecimal$__f_bitmap$0)) {
     $thiz.s_math_BigDecimal$__f_cache = $newArrayObject($d_s_math_BigDecimal.getArrayOf(), [((1 + (($thiz.s_math_BigDecimal$__f_maxCached - $thiz.s_math_BigDecimal$__f_minCached) | 0)) | 0)]);
@@ -15184,6 +15725,9 @@ class $c_sr_AbstractPartialFunction extends $c_O {
   };
   apply__O__O(x) {
     return this.applyOrElse__O__F1__O(x, $m_s_PartialFunction$().s_PartialFunction$__f_empty_pf)
+  };
+  andThen__F1__F1(g) {
+    return new $c_s_PartialFunction$AndThen(this, g)
   };
 }
 class $c_sr_LazyRef extends $c_O {
@@ -15862,6 +16406,64 @@ const $d_Lspire_std_FloatInstances$$anon$1 = new $TypeData().initClass({
   Lspire_math_NumberTag: 1
 });
 $c_Lspire_std_FloatInstances$$anon$1.prototype.$classData = $d_Lspire_std_FloatInstances$$anon$1;
+function $is_Lcats_Eval$Defer(obj) {
+  return false
+}
+function $as_Lcats_Eval$Defer(obj) {
+  return (($is_Lcats_Eval$Defer(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "cats.Eval$Defer"))
+}
+function $isArrayOf_Lcats_Eval$Defer(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lcats_Eval$Defer)))
+}
+function $asArrayOf_Lcats_Eval$Defer(obj, depth) {
+  return (($isArrayOf_Lcats_Eval$Defer(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lcats.Eval$Defer;", depth))
+}
+class $c_Lcats_Eval$FlatMap extends $c_Lcats_Eval {
+}
+function $as_Lcats_Eval$FlatMap(obj) {
+  return (((obj instanceof $c_Lcats_Eval$FlatMap) || (obj === null)) ? obj : $throwClassCastException(obj, "cats.Eval$FlatMap"))
+}
+function $isArrayOf_Lcats_Eval$FlatMap(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lcats_Eval$FlatMap)))
+}
+function $asArrayOf_Lcats_Eval$FlatMap(obj, depth) {
+  return (($isArrayOf_Lcats_Eval$FlatMap(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lcats.Eval$FlatMap;", depth))
+}
+class $c_Lcats_Eval$Leaf extends $c_Lcats_Eval {
+}
+class $c_Lcats_EvalInstances$$anon$11 extends $c_O {
+  constructor(outer) {
+    super();
+    this.Lcats_EvalInstances$$anon$11__f_F = null;
+    const instance = outer.Lcats_EvalInstances__f_catsBimonadForEval;
+    this.Lcats_EvalInstances$$anon$11__f_F = instance
+  };
+}
+const $d_Lcats_EvalInstances$$anon$11 = new $TypeData().initClass({
+  Lcats_EvalInstances$$anon$11: 0
+}, false, "cats.EvalInstances$$anon$11", {
+  Lcats_EvalInstances$$anon$11: 1,
+  O: 1,
+  Lcats_Representable: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcats_EvalInstances$$anon$11.prototype.$classData = $d_Lcats_EvalInstances$$anon$11;
+class $c_Lcats_EvalInstances$$anon$7 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+}
+const $d_Lcats_EvalInstances$$anon$7 = new $TypeData().initClass({
+  Lcats_EvalInstances$$anon$7: 0
+}, false, "cats.EvalInstances$$anon$7", {
+  Lcats_EvalInstances$$anon$7: 1,
+  O: 1,
+  Lcats_Defer: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcats_EvalInstances$$anon$7.prototype.$classData = $d_Lcats_EvalInstances$$anon$7;
 class $c_Lcats_SemigroupK$$anon$1 extends $c_O {
   constructor(outer) {
     super();
@@ -15886,24 +16488,32 @@ const $d_Lcats_SemigroupK$$anon$1 = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lcats_SemigroupK$$anon$1.prototype.$classData = $d_Lcats_SemigroupK$$anon$1;
-class $c_Lcats_Semigroupal$ extends $c_O {
+class $c_Lcats_UnorderedFoldable$ extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_UnorderedFoldable$__f_cats$UnorderedFoldable$$orEvalMonoid = null;
+    this.Lcats_UnorderedFoldable$__f_cats$UnorderedFoldable$$andEvalMonoid = null;
+    $n_Lcats_UnorderedFoldable$ = this;
+    this.Lcats_UnorderedFoldable$__f_cats$UnorderedFoldable$$orEvalMonoid = new $c_Lcats_UnorderedFoldable$$anon$1();
+    this.Lcats_UnorderedFoldable$__f_cats$UnorderedFoldable$$andEvalMonoid = new $c_Lcats_UnorderedFoldable$$anon$2()
+  };
 }
-const $d_Lcats_Semigroupal$ = new $TypeData().initClass({
-  Lcats_Semigroupal$: 0
-}, false, "cats.Semigroupal$", {
-  Lcats_Semigroupal$: 1,
+const $d_Lcats_UnorderedFoldable$ = new $TypeData().initClass({
+  Lcats_UnorderedFoldable$: 0
+}, false, "cats.UnorderedFoldable$", {
+  Lcats_UnorderedFoldable$: 1,
   O: 1,
-  Lcats_SemigroupalArityFunctions: 1,
+  Lcats_ScalaVersionSpecificTraverseInstances: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lcats_Semigroupal$.prototype.$classData = $d_Lcats_Semigroupal$;
-let $n_Lcats_Semigroupal$;
-function $m_Lcats_Semigroupal$() {
-  if ((!$n_Lcats_Semigroupal$)) {
-    $n_Lcats_Semigroupal$ = new $c_Lcats_Semigroupal$()
+$c_Lcats_UnorderedFoldable$.prototype.$classData = $d_Lcats_UnorderedFoldable$;
+let $n_Lcats_UnorderedFoldable$;
+function $m_Lcats_UnorderedFoldable$() {
+  if ((!$n_Lcats_UnorderedFoldable$)) {
+    $n_Lcats_UnorderedFoldable$ = new $c_Lcats_UnorderedFoldable$()
   };
-  return $n_Lcats_Semigroupal$
+  return $n_Lcats_UnorderedFoldable$
 }
 class $c_Lcats_arrow_FunctionK$$anon$4 extends $c_O {
 }
@@ -16074,6 +16684,90 @@ function $f_Lcats_instances_StreamInstances__$init$__V($thiz) {
 function $f_Lcats_instances_VectorInstances__$init$__V($thiz) {
   $thiz.cats$instances$VectorInstances$_setter_$catsStdInstancesForVector_$eq__Lcats_Traverse__V(new $c_Lcats_instances_VectorInstances$$anon$1($thiz))
 }
+class $c_Lcats_instances_package$eq$ extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_instances_package$eq$__f_catsContravariantMonoidalForEq = null;
+    $n_Lcats_instances_package$eq$ = this;
+    $f_Lcats_instances_EqInstances__$init$__V(this)
+  };
+  cats$instances$EqInstances$_setter_$catsContravariantMonoidalForEq_$eq__Lcats_ContravariantMonoidal__V(x$1) {
+    this.Lcats_instances_package$eq$__f_catsContravariantMonoidalForEq = x$1
+  };
+}
+const $d_Lcats_instances_package$eq$ = new $TypeData().initClass({
+  Lcats_instances_package$eq$: 0
+}, false, "cats.instances.package$eq$", {
+  Lcats_instances_package$eq$: 1,
+  O: 1,
+  Lcats_instances_EqInstances: 1,
+  Lcats_kernel_instances_EqInstances: 1,
+  Lcats_kernel_EqToEquivConversion: 1
+});
+$c_Lcats_instances_package$eq$.prototype.$classData = $d_Lcats_instances_package$eq$;
+let $n_Lcats_instances_package$eq$;
+function $m_Lcats_instances_package$eq$() {
+  if ((!$n_Lcats_instances_package$eq$)) {
+    $n_Lcats_instances_package$eq$ = new $c_Lcats_instances_package$eq$()
+  };
+  return $n_Lcats_instances_package$eq$
+}
+class $c_Lcats_instances_package$order$ extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_instances_package$order$__f_catsContravariantMonoidalForOrder = null;
+    $n_Lcats_instances_package$order$ = this;
+    $f_Lcats_instances_OrderInstances__$init$__V(this)
+  };
+  cats$instances$OrderInstances$_setter_$catsContravariantMonoidalForOrder_$eq__Lcats_ContravariantMonoidal__V(x$1) {
+    this.Lcats_instances_package$order$__f_catsContravariantMonoidalForOrder = x$1
+  };
+}
+const $d_Lcats_instances_package$order$ = new $TypeData().initClass({
+  Lcats_instances_package$order$: 0
+}, false, "cats.instances.package$order$", {
+  Lcats_instances_package$order$: 1,
+  O: 1,
+  Lcats_instances_OrderInstances: 1,
+  Lcats_kernel_instances_OrderInstances: 1,
+  Lcats_kernel_OrderToOrderingConversion: 1
+});
+$c_Lcats_instances_package$order$.prototype.$classData = $d_Lcats_instances_package$order$;
+let $n_Lcats_instances_package$order$;
+function $m_Lcats_instances_package$order$() {
+  if ((!$n_Lcats_instances_package$order$)) {
+    $n_Lcats_instances_package$order$ = new $c_Lcats_instances_package$order$()
+  };
+  return $n_Lcats_instances_package$order$
+}
+class $c_Lcats_instances_package$partialOrder$ extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_instances_package$partialOrder$__f_catsContravariantMonoidalForPartialOrder = null;
+    $n_Lcats_instances_package$partialOrder$ = this;
+    $f_Lcats_instances_PartialOrderInstances__$init$__V(this)
+  };
+  cats$instances$PartialOrderInstances$_setter_$catsContravariantMonoidalForPartialOrder_$eq__Lcats_ContravariantMonoidal__V(x$1) {
+    this.Lcats_instances_package$partialOrder$__f_catsContravariantMonoidalForPartialOrder = x$1
+  };
+}
+const $d_Lcats_instances_package$partialOrder$ = new $TypeData().initClass({
+  Lcats_instances_package$partialOrder$: 0
+}, false, "cats.instances.package$partialOrder$", {
+  Lcats_instances_package$partialOrder$: 1,
+  O: 1,
+  Lcats_instances_PartialOrderInstances: 1,
+  Lcats_kernel_instances_PartialOrderInstances: 1,
+  Lcats_kernel_PartialOrderToPartialOrderingConversion: 1
+});
+$c_Lcats_instances_package$partialOrder$.prototype.$classData = $d_Lcats_instances_package$partialOrder$;
+let $n_Lcats_instances_package$partialOrder$;
+function $m_Lcats_instances_package$partialOrder$() {
+  if ((!$n_Lcats_instances_package$partialOrder$)) {
+    $n_Lcats_instances_package$partialOrder$ = new $c_Lcats_instances_package$partialOrder$()
+  };
+  return $n_Lcats_instances_package$partialOrder$
+}
 function $is_Lcats_kernel_CommutativeSemigroup(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lcats_kernel_CommutativeSemigroup)))
 }
@@ -16127,6 +16821,18 @@ const $d_Lcats_kernel_Eq$$anon$6 = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lcats_kernel_Eq$$anon$6.prototype.$classData = $d_Lcats_kernel_Eq$$anon$6;
+function $is_Lcats_kernel_Monoid(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lcats_kernel_Monoid)))
+}
+function $as_Lcats_kernel_Monoid(obj) {
+  return (($is_Lcats_kernel_Monoid(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "cats.kernel.Monoid"))
+}
+function $isArrayOf_Lcats_kernel_Monoid(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lcats_kernel_Monoid)))
+}
+function $asArrayOf_Lcats_kernel_Monoid(obj, depth) {
+  return (($isArrayOf_Lcats_kernel_Monoid(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lcats.kernel.Monoid;", depth))
+}
 function $f_Lcats_kernel_PartialOrder__eqv__O__O__Z($thiz, x, y) {
   return ($thiz.partialCompare__O__O__D(x, y) === 0.0)
 }
@@ -16141,25 +16847,6 @@ function $isArrayOf_Lcats_kernel_PartialOrder(obj, depth) {
 }
 function $asArrayOf_Lcats_kernel_PartialOrder(obj, depth) {
   return (($isArrayOf_Lcats_kernel_PartialOrder(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lcats.kernel.PartialOrder;", depth))
-}
-class $c_Lcats_kernel_Semigroup$ extends $c_Lcats_kernel_SemigroupFunctions {
-}
-const $d_Lcats_kernel_Semigroup$ = new $TypeData().initClass({
-  Lcats_kernel_Semigroup$: 0
-}, false, "cats.kernel.Semigroup$", {
-  Lcats_kernel_Semigroup$: 1,
-  Lcats_kernel_SemigroupFunctions: 1,
-  O: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lcats_kernel_Semigroup$.prototype.$classData = $d_Lcats_kernel_Semigroup$;
-let $n_Lcats_kernel_Semigroup$;
-function $m_Lcats_kernel_Semigroup$() {
-  if ((!$n_Lcats_kernel_Semigroup$)) {
-    $n_Lcats_kernel_Semigroup$ = new $c_Lcats_kernel_Semigroup$()
-  };
-  return $n_Lcats_kernel_Semigroup$
 }
 const $p_Lcats_kernel_instances_ListEq__loop$3__sci_List__sci_List__Z = (function($thiz, xs, ys) {
   while (true) {
@@ -16239,181 +16926,181 @@ const $d_Lcats_package$$anon$2 = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lcats_package$$anon$2.prototype.$classData = $d_Lcats_package$$anon$2;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$36 extends $c_Lio_circe_generic_decoding_ReprDecoder {
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$38 extends $c_Lio_circe_generic_decoding_ReprDecoder {
   constructor(outer) {
     super();
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$36__f_circeGenericDecoderForsmallEarningsException = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$36__f_bitmap$init$0 = false;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$36__f_circeGenericDecoderForsmallEarningsException = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeBigDecimal;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$36__f_bitmap$init$0 = true
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$38__f_circeGenericDecoderForupperRate = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$38__f_circeGenericDecoderForupperRate = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeBigDecimal
   };
   apply__Lio_circe_HCursor__s_util_Either(c) {
-    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$36__f_circeGenericDecoderForsmallEarningsException.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("weeklyRate")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$36__f_circeGenericDecoderForsmallEarningsException.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("smallEarningsException")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
+    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$38__f_circeGenericDecoderForupperRate.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("lowerLimit")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$38__f_circeGenericDecoderForupperRate.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("upperLimit")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$38__f_circeGenericDecoderForupperRate.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("mainRate")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$38__f_circeGenericDecoderForupperRate.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("upperRate")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$36 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$36: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$36", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$36: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$38 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$38: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$38", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$38: 1,
   Lio_circe_generic_decoding_ReprDecoder: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$36.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$36;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$38 extends $c_Lio_circe_generic_decoding_ReprDecoder {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$38.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$38;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$40 extends $c_Lio_circe_generic_decoding_ReprDecoder {
   constructor(outer) {
     super();
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$38__f_circeGenericDecoderForvalue = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$38__f_bitmap$init$0 = false;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$38__f_circeGenericDecoderForvalue = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeBigDecimal;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$38__f_bitmap$init$0 = true
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$40__f_circeGenericDecoderForsmallEarningsException = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$40__f_circeGenericDecoderForsmallEarningsException = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeBigDecimal
   };
   apply__Lio_circe_HCursor__s_util_Either(c) {
-    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$38__f_circeGenericDecoderForvalue.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("value")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
+    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$40__f_circeGenericDecoderForsmallEarningsException.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("weeklyRate")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$40__f_circeGenericDecoderForsmallEarningsException.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("smallEarningsException")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$38 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$38: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$38", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$38: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$40 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$40: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$40", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$40: 1,
   Lio_circe_generic_decoding_ReprDecoder: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$38.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$38;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41 extends $c_Lio_circe_generic_decoding_ReprDecoder {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$40.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$40;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$42 extends $c_Lio_circe_generic_decoding_ReprDecoder {
   constructor(outer) {
     super();
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41__f_circeGenericDecoderForupper = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41__f_circeGenericDecoderForflags = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41__f_bitmap$init$0 = 0;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41__f_circeGenericDecoderForupper = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeBigDecimal;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41__f_bitmap$init$0 = (((1 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41__f_bitmap$init$0) << 24) >> 24);
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41__f_circeGenericDecoderForflags = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeInt;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41__f_bitmap$init$0 = (((2 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41__f_bitmap$init$0) << 24) >> 24)
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$42__f_circeGenericDecoderForvalue = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$42__f_circeGenericDecoderForvalue = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeBigDecimal
   };
   apply__Lio_circe_HCursor__s_util_Either(c) {
-    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41__f_circeGenericDecoderForupper.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("lower")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41__f_circeGenericDecoderForupper.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("upper")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41__f_circeGenericDecoderForflags.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("flags")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
+    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$42__f_circeGenericDecoderForvalue.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("value")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$42 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$42: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$42", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$42: 1,
   Lio_circe_generic_decoding_ReprDecoder: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$41;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43 extends $c_Lio_circe_generic_decoding_ReprDecoder {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$42.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$42;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$45 extends $c_Lio_circe_generic_decoding_ReprDecoder {
   constructor(outer) {
     super();
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43__f_circeGenericDecoderForupper = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43__f_circeGenericDecoderForflags = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43__f_bitmap$init$0 = 0;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43__f_circeGenericDecoderForupper = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeBigDecimal;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43__f_bitmap$init$0 = (((1 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43__f_bitmap$init$0) << 24) >> 24);
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43__f_circeGenericDecoderForflags = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeInt;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43__f_bitmap$init$0 = (((2 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43__f_bitmap$init$0) << 24) >> 24)
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$45__f_circeGenericDecoderForupper = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$45__f_circeGenericDecoderForflags = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$45__f_circeGenericDecoderForupper = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeBigDecimal;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$45__f_circeGenericDecoderForflags = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeInt
   };
   apply__Lio_circe_HCursor__s_util_Either(c) {
-    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43__f_circeGenericDecoderForupper.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("upper")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43__f_circeGenericDecoderForflags.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("flags")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
+    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$45__f_circeGenericDecoderForupper.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("lower")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$45__f_circeGenericDecoderForupper.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("upper")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$45__f_circeGenericDecoderForflags.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("flags")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$45 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$45: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$45", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$45: 1,
   Lio_circe_generic_decoding_ReprDecoder: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$43;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46 extends $c_Lio_circe_generic_decoding_ReprDecoder {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$45.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$45;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$47 extends $c_Lio_circe_generic_decoding_ReprDecoder {
   constructor(outer) {
     super();
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46__f_circeGenericDecoderForlower = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46__f_circeGenericDecoderForflags = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46__f_bitmap$init$0 = 0;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46__f_circeGenericDecoderForlower = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeBigDecimal;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46__f_bitmap$init$0 = (((1 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46__f_bitmap$init$0) << 24) >> 24);
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46__f_circeGenericDecoderForflags = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeInt;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46__f_bitmap$init$0 = (((2 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46__f_bitmap$init$0) << 24) >> 24)
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$47__f_circeGenericDecoderForupper = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$47__f_circeGenericDecoderForflags = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$47__f_circeGenericDecoderForupper = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeBigDecimal;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$47__f_circeGenericDecoderForflags = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeInt
   };
   apply__Lio_circe_HCursor__s_util_Either(c) {
-    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46__f_circeGenericDecoderForlower.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("lower")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46__f_circeGenericDecoderForflags.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("flags")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
+    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$47__f_circeGenericDecoderForupper.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("upper")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$47__f_circeGenericDecoderForflags.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("flags")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$47 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$47: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$47", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$47: 1,
   Lio_circe_generic_decoding_ReprDecoder: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$46;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48 extends $c_Lio_circe_generic_decoding_ReprDecoder {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$47.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$47;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$50 extends $c_Lio_circe_generic_decoding_ReprDecoder {
   constructor(outer) {
     super();
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForAbove = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForAll = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForBelow = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForBounded = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForEmpty = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForPoint = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_bitmap$init$0 = 0;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_$outer = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$50__f_circeGenericDecoderForlower = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$50__f_circeGenericDecoderForflags = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$50__f_circeGenericDecoderForlower = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeBigDecimal;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$50__f_circeGenericDecoderForflags = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeInt
+  };
+  apply__Lio_circe_HCursor__s_util_Either(c) {
+    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$50__f_circeGenericDecoderForlower.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("lower")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$50__f_circeGenericDecoderForflags.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("flags")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
+  };
+}
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$50 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$50: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$50", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$50: 1,
+  Lio_circe_generic_decoding_ReprDecoder: 1,
+  O: 1,
+  Lio_circe_Decoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$50.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$50;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52 extends $c_Lio_circe_generic_decoding_ReprDecoder {
+  constructor(outer) {
+    super();
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForAbove = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForAll = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForBelow = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForBounded = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForEmpty = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForPoint = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_$outer = null;
     if ((outer === null)) {
       throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
     } else {
-      this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_$outer = outer
+      this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_$outer = outer
     };
     $m_Lio_circe_Decoder$();
-    const t = new $c_sjsr_AnonFunction0(((this$1) => (() => this$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_$outer.inst$macro$98__Lio_circe_generic_decoding_DerivedDecoder()))(this));
+    const t = new $c_sjsr_AnonFunction0(((this$1) => (() => this$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_$outer.inst$macro$116__Lio_circe_generic_decoding_DerivedDecoder()))(this));
     const lv = new $c_Lshapeless_Lazy$$anon$1(t);
     const exported = $as_Lio_circe_Decoder(lv.value__O());
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForAbove = exported;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_bitmap$init$0 = (((1 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_bitmap$init$0) << 24) >> 24);
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForAbove = exported;
     $m_Lio_circe_Decoder$();
-    const t$1 = new $c_sjsr_AnonFunction0(((this$2$1) => (() => this$2$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_$outer.inst$macro$95__Lio_circe_generic_decoding_DerivedDecoder()))(this));
+    const t$1 = new $c_sjsr_AnonFunction0(((this$2$1) => (() => this$2$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_$outer.inst$macro$113__Lio_circe_generic_decoding_DerivedDecoder()))(this));
     const lv$1 = new $c_Lshapeless_Lazy$$anon$1(t$1);
     const exported$1 = $as_Lio_circe_Decoder(lv$1.value__O());
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForAll = exported$1;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_bitmap$init$0 = (((2 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_bitmap$init$0) << 24) >> 24);
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForAll = exported$1;
     $m_Lio_circe_Decoder$();
-    const t$2 = new $c_sjsr_AnonFunction0(((this$3$1) => (() => this$3$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_$outer.inst$macro$86__Lio_circe_generic_decoding_DerivedDecoder()))(this));
+    const t$2 = new $c_sjsr_AnonFunction0(((this$3$1) => (() => this$3$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_$outer.inst$macro$104__Lio_circe_generic_decoding_DerivedDecoder()))(this));
     const lv$2 = new $c_Lshapeless_Lazy$$anon$1(t$2);
     const exported$2 = $as_Lio_circe_Decoder(lv$2.value__O());
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForBelow = exported$2;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_bitmap$init$0 = (((4 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_bitmap$init$0) << 24) >> 24);
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForBelow = exported$2;
     $m_Lio_circe_Decoder$();
-    const t$3 = new $c_sjsr_AnonFunction0(((this$4$1) => (() => this$4$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_$outer.inst$macro$75__Lio_circe_generic_decoding_DerivedDecoder()))(this));
+    const t$3 = new $c_sjsr_AnonFunction0(((this$4$1) => (() => this$4$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_$outer.inst$macro$93__Lio_circe_generic_decoding_DerivedDecoder()))(this));
     const lv$3 = new $c_Lshapeless_Lazy$$anon$1(t$3);
     const exported$3 = $as_Lio_circe_Decoder(lv$3.value__O());
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForBounded = exported$3;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_bitmap$init$0 = (((8 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_bitmap$init$0) << 24) >> 24);
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForBounded = exported$3;
     $m_Lio_circe_Decoder$();
-    const t$4 = new $c_sjsr_AnonFunction0(((this$5$1) => (() => this$5$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_$outer.inst$macro$71__Lio_circe_generic_decoding_DerivedDecoder()))(this));
+    const t$4 = new $c_sjsr_AnonFunction0(((this$5$1) => (() => this$5$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_$outer.inst$macro$89__Lio_circe_generic_decoding_DerivedDecoder()))(this));
     const lv$4 = new $c_Lshapeless_Lazy$$anon$1(t$4);
     const exported$4 = $as_Lio_circe_Decoder(lv$4.value__O());
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForEmpty = exported$4;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_bitmap$init$0 = (((16 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_bitmap$init$0) << 24) >> 24);
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForEmpty = exported$4;
     $m_Lio_circe_Decoder$();
-    const t$5 = new $c_sjsr_AnonFunction0(((this$6$1) => (() => this$6$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_$outer.inst$macro$65__Lio_circe_generic_decoding_DerivedDecoder()))(this));
+    const t$5 = new $c_sjsr_AnonFunction0(((this$6$1) => (() => this$6$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_$outer.inst$macro$83__Lio_circe_generic_decoding_DerivedDecoder()))(this));
     const lv$5 = new $c_Lshapeless_Lazy$$anon$1(t$5);
     const exported$5 = $as_Lio_circe_Decoder(lv$5.value__O());
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForPoint = exported$5;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_bitmap$init$0 = (((32 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_bitmap$init$0) << 24) >> 24)
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForPoint = exported$5
   };
   apply__Lio_circe_HCursor__s_util_Either(c) {
     const result = c.downField__T__Lio_circe_ACursor("Above");
-    const x1 = (result.succeeded__Z() ? new $c_s_Some(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForAbove.tryDecode__Lio_circe_ACursor__s_util_Either(result)) : $m_s_None$());
+    const x1 = (result.succeeded__Z() ? new $c_s_Some(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForAbove.tryDecode__Lio_circe_ACursor__s_util_Either(result)) : $m_s_None$());
     if ((x1 instanceof $c_s_Some)) {
       const x2 = $as_s_Some(x1);
       const result$2 = $as_s_util_Either(x2.s_Some__f_value);
@@ -16432,7 +17119,7 @@ class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48 extends 
       const x = $m_s_None$();
       if ((x === x1)) {
         const result$3 = c.downField__T__Lio_circe_ACursor("All");
-        const x1$3 = (result$3.succeeded__Z() ? new $c_s_Some(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForAll.tryDecode__Lio_circe_ACursor__s_util_Either(result$3)) : $m_s_None$());
+        const x1$3 = (result$3.succeeded__Z() ? new $c_s_Some(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForAll.tryDecode__Lio_circe_ACursor__s_util_Either(result$3)) : $m_s_None$());
         let x1$18;
         if ((x1$3 instanceof $c_s_Some)) {
           const x2$3 = $as_s_Some(x1$3);
@@ -16455,7 +17142,7 @@ class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48 extends 
             throw new $c_s_MatchError(x1$3)
           };
           const result$5 = c.downField__T__Lio_circe_ACursor("Below");
-          const x1$5 = (result$5.succeeded__Z() ? new $c_s_Some(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForBelow.tryDecode__Lio_circe_ACursor__s_util_Either(result$5)) : $m_s_None$());
+          const x1$5 = (result$5.succeeded__Z() ? new $c_s_Some(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForBelow.tryDecode__Lio_circe_ACursor__s_util_Either(result$5)) : $m_s_None$());
           let x1$17;
           if ((x1$5 instanceof $c_s_Some)) {
             const x2$5 = $as_s_Some(x1$5);
@@ -16478,7 +17165,7 @@ class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48 extends 
               throw new $c_s_MatchError(x1$5)
             };
             const result$7 = c.downField__T__Lio_circe_ACursor("Bounded");
-            const x1$7 = (result$7.succeeded__Z() ? new $c_s_Some(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForBounded.tryDecode__Lio_circe_ACursor__s_util_Either(result$7)) : $m_s_None$());
+            const x1$7 = (result$7.succeeded__Z() ? new $c_s_Some(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForBounded.tryDecode__Lio_circe_ACursor__s_util_Either(result$7)) : $m_s_None$());
             let x1$16;
             if ((x1$7 instanceof $c_s_Some)) {
               const x2$7 = $as_s_Some(x1$7);
@@ -16501,7 +17188,7 @@ class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48 extends 
                 throw new $c_s_MatchError(x1$7)
               };
               const result$9 = c.downField__T__Lio_circe_ACursor("Empty");
-              const x1$9 = (result$9.succeeded__Z() ? new $c_s_Some(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForEmpty.tryDecode__Lio_circe_ACursor__s_util_Either(result$9)) : $m_s_None$());
+              const x1$9 = (result$9.succeeded__Z() ? new $c_s_Some(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForEmpty.tryDecode__Lio_circe_ACursor__s_util_Either(result$9)) : $m_s_None$());
               let x1$15;
               if ((x1$9 instanceof $c_s_Some)) {
                 const x2$9 = $as_s_Some(x1$9);
@@ -16524,7 +17211,7 @@ class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48 extends 
                   throw new $c_s_MatchError(x1$9)
                 };
                 const result$11 = c.downField__T__Lio_circe_ACursor("Point");
-                const x1$11 = (result$11.succeeded__Z() ? new $c_s_Some(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48__f_circeGenericDecoderForPoint.tryDecode__Lio_circe_ACursor__s_util_Either(result$11)) : $m_s_None$());
+                const x1$11 = (result$11.succeeded__Z() ? new $c_s_Some(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52__f_circeGenericDecoderForPoint.tryDecode__Lio_circe_ACursor__s_util_Either(result$11)) : $m_s_None$());
                 let x1$14;
                 if ((x1$11 instanceof $c_s_Some)) {
                   const x2$11 = $as_s_Some(x1$11);
@@ -16621,461 +17308,192 @@ class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48 extends 
     }
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52: 1,
   Lio_circe_generic_decoding_ReprDecoder: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$48;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55 extends $c_Lio_circe_generic_decoding_ReprDecoder {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$52;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59 extends $c_Lio_circe_generic_decoding_ReprDecoder {
   constructor(outer) {
     super();
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_circeGenericDecoderForyear = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_circeGenericDecoderForfourWeek = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_bitmap$init$0 = 0;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_$outer = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59__f_circeGenericDecoderForyear = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59__f_circeGenericDecoderForfourWeek = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59__f_$outer = null;
     if ((outer === null)) {
       throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
     } else {
-      this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_$outer = outer
+      this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59__f_$outer = outer
     };
     $m_Lio_circe_Decoder$();
-    const t = new $c_sjsr_AnonFunction0(((this$1) => (() => this$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_$outer.inst$macro$61__Lio_circe_generic_decoding_DerivedDecoder()))(this));
+    const t = new $c_sjsr_AnonFunction0(((this$1) => (() => this$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59__f_$outer.inst$macro$79__Lio_circe_generic_decoding_DerivedDecoder()))(this));
     const lv = new $c_Lshapeless_Lazy$$anon$1(t);
     const exported = $as_Lio_circe_Decoder(lv.value__O());
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_circeGenericDecoderForyear = exported;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_bitmap$init$0 = (((1 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_bitmap$init$0) << 24) >> 24);
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59__f_circeGenericDecoderForyear = exported;
     $m_Lio_circe_Decoder$();
     $m_Lio_circe_Decoder$();
-    const t$1 = new $c_sjsr_AnonFunction0(((this$2$1) => (() => this$2$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_$outer.inst$macro$61__Lio_circe_generic_decoding_DerivedDecoder()))(this));
+    const t$1 = new $c_sjsr_AnonFunction0(((this$2$1) => (() => this$2$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59__f_$outer.inst$macro$79__Lio_circe_generic_decoding_DerivedDecoder()))(this));
     const lv$1 = new $c_Lshapeless_Lazy$$anon$1(t$1);
     const exported$1 = $as_Lio_circe_Decoder(lv$1.value__O());
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_circeGenericDecoderForfourWeek = new $c_Lio_circe_Decoder$$anon$39(exported$1);
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_bitmap$init$0 = (((2 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_bitmap$init$0) << 24) >> 24)
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59__f_circeGenericDecoderForfourWeek = new $c_Lio_circe_Decoder$$anon$39(exported$1)
   };
   apply__Lio_circe_HCursor__s_util_Either(c) {
-    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_circeGenericDecoderForyear.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("year")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_circeGenericDecoderForfourWeek.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("month")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_circeGenericDecoderForfourWeek.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("week")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55__f_circeGenericDecoderForfourWeek.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("fourWeek")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
+    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59__f_circeGenericDecoderForyear.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("year")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59__f_circeGenericDecoderForfourWeek.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("month")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59__f_circeGenericDecoderForfourWeek.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("week")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59__f_circeGenericDecoderForfourWeek.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("fourWeek")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59: 1,
   Lio_circe_generic_decoding_ReprDecoder: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$55;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61 extends $c_Lio_circe_generic_decoding_ReprDecoder {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$59;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65 extends $c_Lio_circe_generic_decoding_ReprDecoder {
   constructor(outer) {
     super();
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderForyear = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderForfourWeek = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderForemployer = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderForcontractedOutStandardRate = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderFortrigger = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_bitmap$init$0 = 0;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_$outer = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderForyear = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderForfourWeek = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderForemployer = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderForcontractedOutStandardRate = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderFortrigger = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_$outer = null;
     if ((outer === null)) {
       throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
     } else {
-      this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_$outer = outer
+      this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_$outer = outer
     };
     $m_Lio_circe_Decoder$();
-    const t = new $c_sjsr_AnonFunction0(((this$1) => (() => this$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_$outer.inst$macro$61__Lio_circe_generic_decoding_DerivedDecoder()))(this));
+    const t = new $c_sjsr_AnonFunction0(((this$1) => (() => this$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_$outer.inst$macro$79__Lio_circe_generic_decoding_DerivedDecoder()))(this));
     const lv = new $c_Lshapeless_Lazy$$anon$1(t);
     const exported = $as_Lio_circe_Decoder(lv.value__O());
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderForyear = exported;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_bitmap$init$0 = (((1 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_bitmap$init$0) << 24) >> 24);
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderForyear = exported;
     $m_Lio_circe_Decoder$();
     $m_Lio_circe_Decoder$();
-    const t$1 = new $c_sjsr_AnonFunction0(((this$2$1) => (() => this$2$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_$outer.inst$macro$61__Lio_circe_generic_decoding_DerivedDecoder()))(this));
+    const t$1 = new $c_sjsr_AnonFunction0(((this$2$1) => (() => this$2$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_$outer.inst$macro$79__Lio_circe_generic_decoding_DerivedDecoder()))(this));
     const lv$1 = new $c_Lshapeless_Lazy$$anon$1(t$1);
     const exported$1 = $as_Lio_circe_Decoder(lv$1.value__O());
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderForfourWeek = new $c_Lio_circe_Decoder$$anon$39(exported$1);
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_bitmap$init$0 = (((2 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_bitmap$init$0) << 24) >> 24);
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderForfourWeek = new $c_Lio_circe_Decoder$$anon$39(exported$1);
     $m_Lio_circe_Decoder$();
-    const decodeK = new $c_Leoi_EoiJsonEncoding$$anon$35();
+    const decodeK = new $c_Leoi_EoiJsonEncoding$$anon$37();
     const decodeV = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeBigDecimal;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderForemployer = new $c_Lio_circe_Decoder$$anon$41(decodeK, decodeV);
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_bitmap$init$0 = (((4 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_bitmap$init$0) << 24) >> 24);
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderForemployer = new $c_Lio_circe_Decoder$$anon$41(decodeK, decodeV);
     $m_Lio_circe_Decoder$();
     const d = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeBoolean;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderForcontractedOutStandardRate = new $c_Lio_circe_Decoder$$anon$39(d);
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_bitmap$init$0 = (((8 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_bitmap$init$0) << 24) >> 24);
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderForcontractedOutStandardRate = new $c_Lio_circe_Decoder$$anon$39(d);
     $m_Lio_circe_Decoder$();
-    const t$2 = new $c_sjsr_AnonFunction0(((this$3$1) => (() => this$3$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_$outer.inst$macro$39__Lio_circe_generic_decoding_DerivedDecoder()))(this));
+    const t$2 = new $c_sjsr_AnonFunction0(((this$3$1) => (() => this$3$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_$outer.inst$macro$57__Lio_circe_generic_decoding_DerivedDecoder()))(this));
     const lv$2 = new $c_Lshapeless_Lazy$$anon$1(t$2);
     const exported$2 = $as_Lio_circe_Decoder(lv$2.value__O());
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderFortrigger = exported$2;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_bitmap$init$0 = (((16 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_bitmap$init$0) << 24) >> 24)
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderFortrigger = exported$2
   };
   apply__Lio_circe_HCursor__s_util_Either(c) {
-    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderForyear.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("year")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderForfourWeek.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("month")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderForfourWeek.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("week")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderForfourWeek.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("fourWeek")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderForemployer.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("employee")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderForemployer.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("employer")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderForcontractedOutStandardRate.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("contractedOutStandardRate")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61__f_circeGenericDecoderFortrigger.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("trigger")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
+    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderForyear.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("year")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderForfourWeek.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("month")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderForfourWeek.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("week")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderForfourWeek.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("fourWeek")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderForemployer.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("employee")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderForemployer.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("employer")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderForcontractedOutStandardRate.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("contractedOutStandardRate")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65__f_circeGenericDecoderFortrigger.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("trigger")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65: 1,
   Lio_circe_generic_decoding_ReprDecoder: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$61;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63 extends $c_Lio_circe_generic_decoding_ReprDecoder {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$65;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67 extends $c_Lio_circe_generic_decoding_ReprDecoder {
   constructor(outer) {
     super();
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_circeGenericDecoderForcategoryNames = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_circeGenericDecoderForclassOne = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_circeGenericDecoderForclassTwo = null;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_bitmap$init$0 = 0;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_$outer = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForcategoryNames = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForclassOne = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForclassTwo = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForclassThree = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForclassFour = null;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_$outer = null;
     if ((outer === null)) {
       throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
     } else {
-      this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_$outer = outer
+      this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_$outer = outer
     };
     $m_Lio_circe_Decoder$();
-    const decodeK = new $c_Leoi_EoiJsonEncoding$$anon$35();
+    const decodeK = new $c_Leoi_EoiJsonEncoding$$anon$37();
     const decodeV = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeString;
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_circeGenericDecoderForcategoryNames = new $c_Lio_circe_Decoder$$anon$41(decodeK, decodeV);
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_bitmap$init$0 = (((1 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_bitmap$init$0) << 24) >> 24);
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForcategoryNames = new $c_Lio_circe_Decoder$$anon$41(decodeK, decodeV);
     $m_Lio_circe_Decoder$();
-    const inner = new $c_Leoi_EoiJsonEncoding$$anon$33();
+    const inner = new $c_Leoi_EoiJsonEncoding$$anon$35();
     $m_Leoi_package$();
     const order = new $c_Leoi_package$$anon$1();
-    const decodeK$2 = new $c_Leoi_EoiJsonEncoding$$anon$34(inner, order);
+    const decodeK$2 = new $c_Leoi_EoiJsonEncoding$$anon$36(inner, order);
     $m_Lio_circe_Decoder$();
     const decodeK$1 = $m_Lio_circe_KeyDecoder$().Lio_circe_KeyDecoder$__f_decodeKeyString;
     $m_Lio_circe_Decoder$();
-    const t = new $c_sjsr_AnonFunction0(((this$6) => (() => this$6.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_$outer.inst$macro$19__Lio_circe_generic_decoding_DerivedDecoder()))(this));
+    const t = new $c_sjsr_AnonFunction0(((this$6) => (() => this$6.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_$outer.inst$macro$37__Lio_circe_generic_decoding_DerivedDecoder()))(this));
     const lv = new $c_Lshapeless_Lazy$$anon$1(t);
     const exported = $as_Lio_circe_Decoder(lv.value__O());
     const decodeV$1 = new $c_Lio_circe_Decoder$$anon$41(decodeK$1, exported);
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_circeGenericDecoderForclassOne = new $c_Lio_circe_Decoder$$anon$41(decodeK$2, decodeV$1);
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_bitmap$init$0 = (((2 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_bitmap$init$0) << 24) >> 24);
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForclassOne = new $c_Lio_circe_Decoder$$anon$41(decodeK$2, decodeV$1);
     $m_Lio_circe_Decoder$();
-    const inner$1 = new $c_Leoi_EoiJsonEncoding$$anon$33();
+    const inner$1 = new $c_Leoi_EoiJsonEncoding$$anon$35();
     $m_Leoi_package$();
     const order$1 = new $c_Leoi_package$$anon$1();
-    const decodeK$3 = new $c_Leoi_EoiJsonEncoding$$anon$34(inner$1, order$1);
+    const decodeK$3 = new $c_Leoi_EoiJsonEncoding$$anon$36(inner$1, order$1);
     $m_Lio_circe_Decoder$();
-    const t$1 = new $c_sjsr_AnonFunction0(((this$2$1) => (() => this$2$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_$outer.inst$macro$11__Lio_circe_generic_decoding_DerivedDecoder()))(this));
+    const t$1 = new $c_sjsr_AnonFunction0(((this$2$1) => (() => this$2$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_$outer.inst$macro$29__Lio_circe_generic_decoding_DerivedDecoder()))(this));
     const lv$1 = new $c_Lshapeless_Lazy$$anon$1(t$1);
     const exported$1 = $as_Lio_circe_Decoder(lv$1.value__O());
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_circeGenericDecoderForclassTwo = new $c_Lio_circe_Decoder$$anon$41(decodeK$3, exported$1);
-    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_bitmap$init$0 = (((4 | this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_bitmap$init$0) << 24) >> 24)
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForclassTwo = new $c_Lio_circe_Decoder$$anon$41(decodeK$3, exported$1);
+    $m_Lio_circe_Decoder$();
+    const inner$2 = new $c_Leoi_EoiJsonEncoding$$anon$35();
+    $m_Leoi_package$();
+    const order$2 = new $c_Leoi_package$$anon$1();
+    const decodeK$4 = new $c_Leoi_EoiJsonEncoding$$anon$36(inner$2, order$2);
+    const decodeV$2 = $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_decodeBigDecimal;
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForclassThree = new $c_Lio_circe_Decoder$$anon$41(decodeK$4, decodeV$2);
+    $m_Lio_circe_Decoder$();
+    const inner$3 = new $c_Leoi_EoiJsonEncoding$$anon$35();
+    $m_Leoi_package$();
+    const order$3 = new $c_Leoi_package$$anon$1();
+    const decodeK$5 = new $c_Leoi_EoiJsonEncoding$$anon$36(inner$3, order$3);
+    $m_Lio_circe_Decoder$();
+    const t$2 = new $c_sjsr_AnonFunction0(((this$3$1) => (() => this$3$1.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_$outer.inst$macro$17__Lio_circe_generic_decoding_DerivedDecoder()))(this));
+    const lv$2 = new $c_Lshapeless_Lazy$$anon$1(t$2);
+    const exported$2 = $as_Lio_circe_Decoder(lv$2.value__O());
+    this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForclassFour = new $c_Lio_circe_Decoder$$anon$41(decodeK$5, exported$2)
   };
   apply__Lio_circe_HCursor__s_util_Either(c) {
-    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_circeGenericDecoderForcategoryNames.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("categoryNames")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_circeGenericDecoderForclassOne.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("classOne")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63__f_circeGenericDecoderForclassTwo.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("classTwo")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
+    return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForcategoryNames.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("categoryNames")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForclassOne.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("classOne")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForclassThree.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("classOneAB")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForclassTwo.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("classTwo")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForclassThree.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("classThree")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67__f_circeGenericDecoderForclassFour.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("classFour")), $m_Lio_circe_generic_decoding_ReprDecoder$().Lio_circe_generic_decoding_ReprDecoder$__f_hnilResult, $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance), $m_Lio_circe_Decoder$().Lio_circe_Decoder$__f_resultInstance))
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67: 1,
   Lio_circe_generic_decoding_ReprDecoder: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$63;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$101$1 extends $c_O {
-  constructor(outer) {
-    super()
-  };
-  from__Lshapeless_$colon$colon__Lspire_math_Above(p) {
-    if ((p !== null)) {
-      const pat$macro$99 = $as_s_math_BigDecimal(p.Lshapeless_$colon$colon__f_head);
-      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
-      if ((p2 !== null)) {
-        const pat$macro$100 = $uI(p2.Lshapeless_$colon$colon__f_head);
-        const p3 = $as_Lshapeless_HNil(p2.Lshapeless_$colon$colon__f_tail);
-        const x = $m_Lshapeless_HNil$();
-        if ((x === p3)) {
-          return new $c_Lspire_math_Above(pat$macro$99, pat$macro$100)
-        }
-      }
-    };
-    throw new $c_s_MatchError(p)
-  };
-  from__O__O(r) {
-    return this.from__Lshapeless_$colon$colon__Lspire_math_Above($as_Lshapeless_$colon$colon(r))
-  };
-}
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$101$1 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$101$1: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$101$1", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$101$1: 1,
-  O: 1,
-  Lshapeless_Generic: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$101$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$101$1;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$14$2 extends $c_O {
-  constructor(outer) {
-    super()
-  };
-  from__Lshapeless_$colon$colon__Leoi_ClassTwo(p) {
-    if ((p !== null)) {
-      const pat$macro$12 = $as_s_math_BigDecimal(p.Lshapeless_$colon$colon__f_head);
-      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
-      if ((p2 !== null)) {
-        const pat$macro$13 = $as_s_math_BigDecimal(p2.Lshapeless_$colon$colon__f_head);
-        const p3 = $as_Lshapeless_HNil(p2.Lshapeless_$colon$colon__f_tail);
-        const x = $m_Lshapeless_HNil$();
-        if ((x === p3)) {
-          return new $c_Leoi_ClassTwo(pat$macro$12, pat$macro$13)
-        }
-      }
-    };
-    throw new $c_s_MatchError(p)
-  };
-  from__O__O(r) {
-    return this.from__Lshapeless_$colon$colon__Leoi_ClassTwo($as_Lshapeless_$colon$colon(r))
-  };
-}
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$14$2 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$14$2: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$14$2", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$14$2: 1,
-  O: 1,
-  Lshapeless_Generic: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$14$2.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$14$2;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$28$1 extends $c_O {
-  constructor(outer) {
-    super()
-  };
-  from__Lshapeless_$colon$colon__Leoi_RateDefinition(p) {
-    if ((p !== null)) {
-      const pat$macro$20 = $as_Lspire_math_Interval(p.Lshapeless_$colon$colon__f_head);
-      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
-      if ((p2 !== null)) {
-        const pat$macro$21 = $as_s_Option(p2.Lshapeless_$colon$colon__f_head);
-        const p3 = $as_Lshapeless_$colon$colon(p2.Lshapeless_$colon$colon__f_tail);
-        if ((p3 !== null)) {
-          const pat$macro$22 = $as_s_Option(p3.Lshapeless_$colon$colon__f_head);
-          const p4 = $as_Lshapeless_$colon$colon(p3.Lshapeless_$colon$colon__f_tail);
-          if ((p4 !== null)) {
-            const pat$macro$23 = $as_s_Option(p4.Lshapeless_$colon$colon__f_head);
-            const p5 = $as_Lshapeless_$colon$colon(p4.Lshapeless_$colon$colon__f_tail);
-            if ((p5 !== null)) {
-              const pat$macro$24 = $as_sci_Map(p5.Lshapeless_$colon$colon__f_head);
-              const p6 = $as_Lshapeless_$colon$colon(p5.Lshapeless_$colon$colon__f_tail);
-              if ((p6 !== null)) {
-                const pat$macro$25 = $as_sci_Map(p6.Lshapeless_$colon$colon__f_head);
-                const p7 = $as_Lshapeless_$colon$colon(p6.Lshapeless_$colon$colon__f_tail);
-                if ((p7 !== null)) {
-                  const pat$macro$26 = $as_s_Option(p7.Lshapeless_$colon$colon__f_head);
-                  const p8 = $as_Lshapeless_$colon$colon(p7.Lshapeless_$colon$colon__f_tail);
-                  if ((p8 !== null)) {
-                    const pat$macro$27 = $as_Leoi_Bands(p8.Lshapeless_$colon$colon__f_head);
-                    const p9 = $as_Lshapeless_HNil(p8.Lshapeless_$colon$colon__f_tail);
-                    const x = $m_Lshapeless_HNil$();
-                    if ((x === p9)) {
-                      return new $c_Leoi_RateDefinition(pat$macro$20, pat$macro$21, pat$macro$22, pat$macro$23, pat$macro$24, pat$macro$25, pat$macro$26, pat$macro$27)
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    };
-    throw new $c_s_MatchError(p)
-  };
-  from__O__O(r) {
-    return this.from__Lshapeless_$colon$colon__Leoi_RateDefinition($as_Lshapeless_$colon$colon(r))
-  };
-}
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$28$1 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$28$1: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$28$1", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$28$1: 1,
-  O: 1,
-  Lshapeless_Generic: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$28$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$28$1;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$44$1 extends $c_O {
-  constructor(outer) {
-    super()
-  };
-  from__Lshapeless_$colon$colon__Leoi_Bands(p) {
-    if ((p !== null)) {
-      const pat$macro$40 = $as_Lspire_math_Interval(p.Lshapeless_$colon$colon__f_head);
-      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
-      if ((p2 !== null)) {
-        const pat$macro$41 = $as_s_Option(p2.Lshapeless_$colon$colon__f_head);
-        const p3 = $as_Lshapeless_$colon$colon(p2.Lshapeless_$colon$colon__f_tail);
-        if ((p3 !== null)) {
-          const pat$macro$42 = $as_s_Option(p3.Lshapeless_$colon$colon__f_head);
-          const p4 = $as_Lshapeless_$colon$colon(p3.Lshapeless_$colon$colon__f_tail);
-          if ((p4 !== null)) {
-            const pat$macro$43 = $as_s_Option(p4.Lshapeless_$colon$colon__f_head);
-            const p5 = $as_Lshapeless_HNil(p4.Lshapeless_$colon$colon__f_tail);
-            const x = $m_Lshapeless_HNil$();
-            if ((x === p5)) {
-              return new $c_Leoi_Bands(pat$macro$40, pat$macro$41, pat$macro$42, pat$macro$43)
-            }
-          }
-        }
-      }
-    };
-    throw new $c_s_MatchError(p)
-  };
-  from__O__O(r) {
-    return this.from__Lshapeless_$colon$colon__Leoi_Bands($as_Lshapeless_$colon$colon(r))
-  };
-}
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$44$1 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$44$1: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$44$1", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$44$1: 1,
-  O: 1,
-  Lshapeless_Generic: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$44$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$44$1;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$63$1 extends $c_O {
-  constructor(outer) {
-    super()
-  };
-  from__O__O(r) {
-    const p = $as_Lshapeless_$colon$plus$colon(r);
-    return $as_Lspire_math_Interval($m_Lshapeless_Coproduct$().unsafeGet__Lshapeless_Coproduct__O(p))
-  };
-}
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$63$1 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$63$1: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$63$1", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$63$1: 1,
-  O: 1,
-  Lshapeless_Generic: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$63$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$63$1;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$67$1 extends $c_O {
-  constructor(outer) {
-    super()
-  };
-  from__Lshapeless_$colon$colon__Lspire_math_Point(p) {
-    if ((p !== null)) {
-      const pat$macro$66 = $as_s_math_BigDecimal(p.Lshapeless_$colon$colon__f_head);
-      const p2 = $as_Lshapeless_HNil(p.Lshapeless_$colon$colon__f_tail);
-      const x = $m_Lshapeless_HNil$();
-      if ((x === p2)) {
-        return new $c_Lspire_math_Point(pat$macro$66)
-      }
-    };
-    throw new $c_s_MatchError(p)
-  };
-  from__O__O(r) {
-    return this.from__Lshapeless_$colon$colon__Lspire_math_Point($as_Lshapeless_$colon$colon(r))
-  };
-}
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$67$1 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$67$1: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$67$1", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$67$1: 1,
-  O: 1,
-  Lshapeless_Generic: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$67$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$67$1;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$72$1 extends $c_O {
-  constructor(outer) {
-    super()
-  };
-  from__Lshapeless_HNil__Lspire_math_Empty(p) {
-    const x = $m_Lshapeless_HNil$();
-    if ((x === p)) {
-      return new $c_Lspire_math_Empty()
-    } else {
-      throw new $c_s_MatchError(p)
-    }
-  };
-  from__O__O(r) {
-    return this.from__Lshapeless_HNil__Lspire_math_Empty($as_Lshapeless_HNil(r))
-  };
-}
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$72$1 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$72$1: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$72$1", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$72$1: 1,
-  O: 1,
-  Lshapeless_Generic: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$72$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$72$1;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$79$1 extends $c_O {
-  constructor(outer) {
-    super()
-  };
-  from__Lshapeless_$colon$colon__Lspire_math_Bounded(p) {
-    if ((p !== null)) {
-      const pat$macro$76 = $as_s_math_BigDecimal(p.Lshapeless_$colon$colon__f_head);
-      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
-      if ((p2 !== null)) {
-        const pat$macro$77 = $as_s_math_BigDecimal(p2.Lshapeless_$colon$colon__f_head);
-        const p3 = $as_Lshapeless_$colon$colon(p2.Lshapeless_$colon$colon__f_tail);
-        if ((p3 !== null)) {
-          const pat$macro$78 = $uI(p3.Lshapeless_$colon$colon__f_head);
-          const p4 = $as_Lshapeless_HNil(p3.Lshapeless_$colon$colon__f_tail);
-          const x = $m_Lshapeless_HNil$();
-          if ((x === p4)) {
-            return new $c_Lspire_math_Bounded(pat$macro$76, pat$macro$77, pat$macro$78)
-          }
-        }
-      }
-    };
-    throw new $c_s_MatchError(p)
-  };
-  from__O__O(r) {
-    return this.from__Lshapeless_$colon$colon__Lspire_math_Bounded($as_Lshapeless_$colon$colon(r))
-  };
-}
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$79$1 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$79$1: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$79$1", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$79$1: 1,
-  O: 1,
-  Lshapeless_Generic: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$79$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$79$1;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$89$1 extends $c_O {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$67;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$107$1 extends $c_O {
   constructor(outer) {
     super()
   };
   from__Lshapeless_$colon$colon__Lspire_math_Below(p) {
     if ((p !== null)) {
-      const pat$macro$87 = $as_s_math_BigDecimal(p.Lshapeless_$colon$colon__f_head);
+      const pat$macro$105 = $as_s_math_BigDecimal(p.Lshapeless_$colon$colon__f_head);
       const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
       if ((p2 !== null)) {
-        const pat$macro$88 = $uI(p2.Lshapeless_$colon$colon__f_head);
+        const pat$macro$106 = $uI(p2.Lshapeless_$colon$colon__f_head);
         const p3 = $as_Lshapeless_HNil(p2.Lshapeless_$colon$colon__f_tail);
         const x = $m_Lshapeless_HNil$();
         if ((x === p3)) {
-          return new $c_Lspire_math_Below(pat$macro$87, pat$macro$88)
+          return new $c_Lspire_math_Below(pat$macro$105, pat$macro$106)
         }
       }
     };
@@ -17085,54 +17503,17 @@ class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$89$1 e
     return this.from__Lshapeless_$colon$colon__Lspire_math_Below($as_Lshapeless_$colon$colon(r))
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$89$1 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$89$1: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$89$1", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$89$1: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$107$1 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$107$1: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$107$1", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$107$1: 1,
   O: 1,
   Lshapeless_Generic: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$89$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$89$1;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$9$2 extends $c_O {
-  constructor(outer) {
-    super()
-  };
-  from__Lshapeless_$colon$colon__Leoi_Configuration(p) {
-    if ((p !== null)) {
-      const pat$macro$6 = $as_sci_Map(p.Lshapeless_$colon$colon__f_head);
-      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
-      if ((p2 !== null)) {
-        const pat$macro$7 = $as_sci_Map(p2.Lshapeless_$colon$colon__f_head);
-        const p3 = $as_Lshapeless_$colon$colon(p2.Lshapeless_$colon$colon__f_tail);
-        if ((p3 !== null)) {
-          const pat$macro$8 = $as_sci_Map(p3.Lshapeless_$colon$colon__f_head);
-          const p4 = $as_Lshapeless_HNil(p3.Lshapeless_$colon$colon__f_tail);
-          const x = $m_Lshapeless_HNil$();
-          if ((x === p4)) {
-            return new $c_Leoi_Configuration(pat$macro$6, pat$macro$7, pat$macro$8)
-          }
-        }
-      }
-    };
-    throw new $c_s_MatchError(p)
-  };
-  from__O__O(r) {
-    return this.from__Lshapeless_$colon$colon__Leoi_Configuration($as_Lshapeless_$colon$colon(r))
-  };
-}
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$9$2 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$9$2: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$9$2", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$9$2: 1,
-  O: 1,
-  Lshapeless_Generic: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$9$2.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$9$2;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$96$1 extends $c_O {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$107$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$107$1;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$114$1 extends $c_O {
   constructor(outer) {
     super()
   };
@@ -17148,16 +17529,381 @@ class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$96$1 e
     return this.from__Lshapeless_HNil__Lspire_math_All($as_Lshapeless_HNil(r))
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$96$1 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$96$1: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$96$1", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$96$1: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$114$1 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$114$1: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$114$1", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$114$1: 1,
   O: 1,
   Lshapeless_Generic: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$96$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$anon$macro$96$1;
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$114$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$114$1;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$119$2 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+  from__Lshapeless_$colon$colon__Lspire_math_Above(p) {
+    if ((p !== null)) {
+      const pat$macro$117 = $as_s_math_BigDecimal(p.Lshapeless_$colon$colon__f_head);
+      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
+      if ((p2 !== null)) {
+        const pat$macro$118 = $uI(p2.Lshapeless_$colon$colon__f_head);
+        const p3 = $as_Lshapeless_HNil(p2.Lshapeless_$colon$colon__f_tail);
+        const x = $m_Lshapeless_HNil$();
+        if ((x === p3)) {
+          return new $c_Lspire_math_Above(pat$macro$117, pat$macro$118)
+        }
+      }
+    };
+    throw new $c_s_MatchError(p)
+  };
+  from__O__O(r) {
+    return this.from__Lshapeless_$colon$colon__Lspire_math_Above($as_Lshapeless_$colon$colon(r))
+  };
+}
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$119$2 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$119$2: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$119$2", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$119$2: 1,
+  O: 1,
+  Lshapeless_Generic: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$119$2.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$119$2;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$15$2 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+  from__Lshapeless_$colon$colon__Leoi_Configuration(p) {
+    if ((p !== null)) {
+      const pat$macro$9 = $as_sci_Map(p.Lshapeless_$colon$colon__f_head);
+      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
+      if ((p2 !== null)) {
+        const pat$macro$10 = $as_sci_Map(p2.Lshapeless_$colon$colon__f_head);
+        const p3 = $as_Lshapeless_$colon$colon(p2.Lshapeless_$colon$colon__f_tail);
+        if ((p3 !== null)) {
+          const pat$macro$11 = $as_sci_Map(p3.Lshapeless_$colon$colon__f_head);
+          const p4 = $as_Lshapeless_$colon$colon(p3.Lshapeless_$colon$colon__f_tail);
+          if ((p4 !== null)) {
+            const pat$macro$12 = $as_sci_Map(p4.Lshapeless_$colon$colon__f_head);
+            const p5 = $as_Lshapeless_$colon$colon(p4.Lshapeless_$colon$colon__f_tail);
+            if ((p5 !== null)) {
+              const pat$macro$13 = $as_sci_Map(p5.Lshapeless_$colon$colon__f_head);
+              const p6 = $as_Lshapeless_$colon$colon(p5.Lshapeless_$colon$colon__f_tail);
+              if ((p6 !== null)) {
+                const pat$macro$14 = $as_sci_Map(p6.Lshapeless_$colon$colon__f_head);
+                const p7 = $as_Lshapeless_HNil(p6.Lshapeless_$colon$colon__f_tail);
+                const x = $m_Lshapeless_HNil$();
+                if ((x === p7)) {
+                  return new $c_Leoi_Configuration(pat$macro$9, pat$macro$10, pat$macro$11, pat$macro$12, pat$macro$13, pat$macro$14)
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+    throw new $c_s_MatchError(p)
+  };
+  from__O__O(r) {
+    return this.from__Lshapeless_$colon$colon__Leoi_Configuration($as_Lshapeless_$colon$colon(r))
+  };
+}
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$15$2 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$15$2: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$15$2", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$15$2: 1,
+  O: 1,
+  Lshapeless_Generic: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$15$2.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$15$2;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$22$2 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+  from__Lshapeless_$colon$colon__Leoi_ClassFour(p) {
+    if ((p !== null)) {
+      const pat$macro$18 = $as_s_math_BigDecimal(p.Lshapeless_$colon$colon__f_head);
+      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
+      if ((p2 !== null)) {
+        const pat$macro$19 = $as_s_math_BigDecimal(p2.Lshapeless_$colon$colon__f_head);
+        const p3 = $as_Lshapeless_$colon$colon(p2.Lshapeless_$colon$colon__f_tail);
+        if ((p3 !== null)) {
+          const pat$macro$20 = $as_s_math_BigDecimal(p3.Lshapeless_$colon$colon__f_head);
+          const p4 = $as_Lshapeless_$colon$colon(p3.Lshapeless_$colon$colon__f_tail);
+          if ((p4 !== null)) {
+            const pat$macro$21 = $as_s_math_BigDecimal(p4.Lshapeless_$colon$colon__f_head);
+            const p5 = $as_Lshapeless_HNil(p4.Lshapeless_$colon$colon__f_tail);
+            const x = $m_Lshapeless_HNil$();
+            if ((x === p5)) {
+              return new $c_Leoi_ClassFour(pat$macro$18, pat$macro$19, pat$macro$20, pat$macro$21)
+            }
+          }
+        }
+      }
+    };
+    throw new $c_s_MatchError(p)
+  };
+  from__O__O(r) {
+    return this.from__Lshapeless_$colon$colon__Leoi_ClassFour($as_Lshapeless_$colon$colon(r))
+  };
+}
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$22$2 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$22$2: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$22$2", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$22$2: 1,
+  O: 1,
+  Lshapeless_Generic: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$22$2.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$22$2;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$32$1 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+  from__Lshapeless_$colon$colon__Leoi_ClassTwo(p) {
+    if ((p !== null)) {
+      const pat$macro$30 = $as_s_math_BigDecimal(p.Lshapeless_$colon$colon__f_head);
+      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
+      if ((p2 !== null)) {
+        const pat$macro$31 = $as_s_math_BigDecimal(p2.Lshapeless_$colon$colon__f_head);
+        const p3 = $as_Lshapeless_HNil(p2.Lshapeless_$colon$colon__f_tail);
+        const x = $m_Lshapeless_HNil$();
+        if ((x === p3)) {
+          return new $c_Leoi_ClassTwo(pat$macro$30, pat$macro$31)
+        }
+      }
+    };
+    throw new $c_s_MatchError(p)
+  };
+  from__O__O(r) {
+    return this.from__Lshapeless_$colon$colon__Leoi_ClassTwo($as_Lshapeless_$colon$colon(r))
+  };
+}
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$32$1 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$32$1: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$32$1", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$32$1: 1,
+  O: 1,
+  Lshapeless_Generic: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$32$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$32$1;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$46$1 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+  from__Lshapeless_$colon$colon__Leoi_RateDefinition(p) {
+    if ((p !== null)) {
+      const pat$macro$38 = $as_Lspire_math_Interval(p.Lshapeless_$colon$colon__f_head);
+      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
+      if ((p2 !== null)) {
+        const pat$macro$39 = $as_s_Option(p2.Lshapeless_$colon$colon__f_head);
+        const p3 = $as_Lshapeless_$colon$colon(p2.Lshapeless_$colon$colon__f_tail);
+        if ((p3 !== null)) {
+          const pat$macro$40 = $as_s_Option(p3.Lshapeless_$colon$colon__f_head);
+          const p4 = $as_Lshapeless_$colon$colon(p3.Lshapeless_$colon$colon__f_tail);
+          if ((p4 !== null)) {
+            const pat$macro$41 = $as_s_Option(p4.Lshapeless_$colon$colon__f_head);
+            const p5 = $as_Lshapeless_$colon$colon(p4.Lshapeless_$colon$colon__f_tail);
+            if ((p5 !== null)) {
+              const pat$macro$42 = $as_sci_Map(p5.Lshapeless_$colon$colon__f_head);
+              const p6 = $as_Lshapeless_$colon$colon(p5.Lshapeless_$colon$colon__f_tail);
+              if ((p6 !== null)) {
+                const pat$macro$43 = $as_sci_Map(p6.Lshapeless_$colon$colon__f_head);
+                const p7 = $as_Lshapeless_$colon$colon(p6.Lshapeless_$colon$colon__f_tail);
+                if ((p7 !== null)) {
+                  const pat$macro$44 = $as_s_Option(p7.Lshapeless_$colon$colon__f_head);
+                  const p8 = $as_Lshapeless_$colon$colon(p7.Lshapeless_$colon$colon__f_tail);
+                  if ((p8 !== null)) {
+                    const pat$macro$45 = $as_Leoi_Bands(p8.Lshapeless_$colon$colon__f_head);
+                    const p9 = $as_Lshapeless_HNil(p8.Lshapeless_$colon$colon__f_tail);
+                    const x = $m_Lshapeless_HNil$();
+                    if ((x === p9)) {
+                      return new $c_Leoi_RateDefinition(pat$macro$38, pat$macro$39, pat$macro$40, pat$macro$41, pat$macro$42, pat$macro$43, pat$macro$44, pat$macro$45)
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+    throw new $c_s_MatchError(p)
+  };
+  from__O__O(r) {
+    return this.from__Lshapeless_$colon$colon__Leoi_RateDefinition($as_Lshapeless_$colon$colon(r))
+  };
+}
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$46$1 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$46$1: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$46$1", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$46$1: 1,
+  O: 1,
+  Lshapeless_Generic: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$46$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$46$1;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$62$1 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+  from__Lshapeless_$colon$colon__Leoi_Bands(p) {
+    if ((p !== null)) {
+      const pat$macro$58 = $as_Lspire_math_Interval(p.Lshapeless_$colon$colon__f_head);
+      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
+      if ((p2 !== null)) {
+        const pat$macro$59 = $as_s_Option(p2.Lshapeless_$colon$colon__f_head);
+        const p3 = $as_Lshapeless_$colon$colon(p2.Lshapeless_$colon$colon__f_tail);
+        if ((p3 !== null)) {
+          const pat$macro$60 = $as_s_Option(p3.Lshapeless_$colon$colon__f_head);
+          const p4 = $as_Lshapeless_$colon$colon(p3.Lshapeless_$colon$colon__f_tail);
+          if ((p4 !== null)) {
+            const pat$macro$61 = $as_s_Option(p4.Lshapeless_$colon$colon__f_head);
+            const p5 = $as_Lshapeless_HNil(p4.Lshapeless_$colon$colon__f_tail);
+            const x = $m_Lshapeless_HNil$();
+            if ((x === p5)) {
+              return new $c_Leoi_Bands(pat$macro$58, pat$macro$59, pat$macro$60, pat$macro$61)
+            }
+          }
+        }
+      }
+    };
+    throw new $c_s_MatchError(p)
+  };
+  from__O__O(r) {
+    return this.from__Lshapeless_$colon$colon__Leoi_Bands($as_Lshapeless_$colon$colon(r))
+  };
+}
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$62$1 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$62$1: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$62$1", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$62$1: 1,
+  O: 1,
+  Lshapeless_Generic: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$62$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$62$1;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$81$1 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+  from__O__O(r) {
+    const p = $as_Lshapeless_$colon$plus$colon(r);
+    return $as_Lspire_math_Interval($m_Lshapeless_Coproduct$().unsafeGet__Lshapeless_Coproduct__O(p))
+  };
+}
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$81$1 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$81$1: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$81$1", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$81$1: 1,
+  O: 1,
+  Lshapeless_Generic: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$81$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$81$1;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$85$1 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+  from__Lshapeless_$colon$colon__Lspire_math_Point(p) {
+    if ((p !== null)) {
+      const pat$macro$84 = $as_s_math_BigDecimal(p.Lshapeless_$colon$colon__f_head);
+      const p2 = $as_Lshapeless_HNil(p.Lshapeless_$colon$colon__f_tail);
+      const x = $m_Lshapeless_HNil$();
+      if ((x === p2)) {
+        return new $c_Lspire_math_Point(pat$macro$84)
+      }
+    };
+    throw new $c_s_MatchError(p)
+  };
+  from__O__O(r) {
+    return this.from__Lshapeless_$colon$colon__Lspire_math_Point($as_Lshapeless_$colon$colon(r))
+  };
+}
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$85$1 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$85$1: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$85$1", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$85$1: 1,
+  O: 1,
+  Lshapeless_Generic: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$85$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$85$1;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$90$1 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+  from__Lshapeless_HNil__Lspire_math_Empty(p) {
+    const x = $m_Lshapeless_HNil$();
+    if ((x === p)) {
+      return new $c_Lspire_math_Empty()
+    } else {
+      throw new $c_s_MatchError(p)
+    }
+  };
+  from__O__O(r) {
+    return this.from__Lshapeless_HNil__Lspire_math_Empty($as_Lshapeless_HNil(r))
+  };
+}
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$90$1 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$90$1: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$90$1", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$90$1: 1,
+  O: 1,
+  Lshapeless_Generic: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$90$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$90$1;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$97$2 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+  from__Lshapeless_$colon$colon__Lspire_math_Bounded(p) {
+    if ((p !== null)) {
+      const pat$macro$94 = $as_s_math_BigDecimal(p.Lshapeless_$colon$colon__f_head);
+      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
+      if ((p2 !== null)) {
+        const pat$macro$95 = $as_s_math_BigDecimal(p2.Lshapeless_$colon$colon__f_head);
+        const p3 = $as_Lshapeless_$colon$colon(p2.Lshapeless_$colon$colon__f_tail);
+        if ((p3 !== null)) {
+          const pat$macro$96 = $uI(p3.Lshapeless_$colon$colon__f_head);
+          const p4 = $as_Lshapeless_HNil(p3.Lshapeless_$colon$colon__f_tail);
+          const x = $m_Lshapeless_HNil$();
+          if ((x === p4)) {
+            return new $c_Lspire_math_Bounded(pat$macro$94, pat$macro$95, pat$macro$96)
+          }
+        }
+      }
+    };
+    throw new $c_s_MatchError(p)
+  };
+  from__O__O(r) {
+    return this.from__Lshapeless_$colon$colon__Lspire_math_Bounded($as_Lshapeless_$colon$colon(r))
+  };
+}
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$97$2 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$97$2: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$97$2", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$97$2: 1,
+  O: 1,
+  Lshapeless_Generic: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$97$2.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$anon$macro$97$2;
 class $c_Leoi_Period$ extends $c_s_Enumeration {
   constructor() {
     super();
@@ -17165,41 +17911,12 @@ class $c_Leoi_Period$ extends $c_s_Enumeration {
     this.Leoi_Period$__f_Month = null;
     this.Leoi_Period$__f_FourWeek = null;
     this.Leoi_Period$__f_Year = null;
-    this.Leoi_Period$__f_bitmap$init$0 = 0;
     $ct_s_Enumeration__I__(this, 0);
     $n_Leoi_Period$ = this;
     this.Leoi_Period$__f_Week = new $c_Leoi_Period$Vala("Wk", 52);
-    this.Leoi_Period$__f_bitmap$init$0 = (((2 | this.Leoi_Period$__f_bitmap$init$0) << 24) >> 24);
     this.Leoi_Period$__f_Month = new $c_Leoi_Period$Vala("Mnth", 12);
-    this.Leoi_Period$__f_bitmap$init$0 = (((4 | this.Leoi_Period$__f_bitmap$init$0) << 24) >> 24);
     this.Leoi_Period$__f_FourWeek = new $c_Leoi_Period$Vala("4Wk", 13);
-    this.Leoi_Period$__f_bitmap$init$0 = (((8 | this.Leoi_Period$__f_bitmap$init$0) << 24) >> 24);
-    this.Leoi_Period$__f_Year = new $c_Leoi_Period$Vala("Ann", 1);
-    this.Leoi_Period$__f_bitmap$init$0 = (((16 | this.Leoi_Period$__f_bitmap$init$0) << 24) >> 24)
-  };
-  Week__Leoi_Period$Vala() {
-    if (((((2 & this.Leoi_Period$__f_bitmap$init$0) << 24) >> 24) === 0)) {
-      throw new $c_s_UninitializedFieldError("Uninitialized field: /Users/sb/code/ni-calculations/common/src/main/scala/Period.scala: 8")
-    };
-    return this.Leoi_Period$__f_Week
-  };
-  Month__Leoi_Period$Vala() {
-    if (((((4 & this.Leoi_Period$__f_bitmap$init$0) << 24) >> 24) === 0)) {
-      throw new $c_s_UninitializedFieldError("Uninitialized field: /Users/sb/code/ni-calculations/common/src/main/scala/Period.scala: 9")
-    };
-    return this.Leoi_Period$__f_Month
-  };
-  FourWeek__Leoi_Period$Vala() {
-    if (((((8 & this.Leoi_Period$__f_bitmap$init$0) << 24) >> 24) === 0)) {
-      throw new $c_s_UninitializedFieldError("Uninitialized field: /Users/sb/code/ni-calculations/common/src/main/scala/Period.scala: 10")
-    };
-    return this.Leoi_Period$__f_FourWeek
-  };
-  Year__Leoi_Period$Vala() {
-    if (((((16 & this.Leoi_Period$__f_bitmap$init$0) << 24) >> 24) === 0)) {
-      throw new $c_s_UninitializedFieldError("Uninitialized field: /Users/sb/code/ni-calculations/common/src/main/scala/Period.scala: 11")
-    };
-    return this.Leoi_Period$__f_Year
+    this.Leoi_Period$__f_Year = new $c_Leoi_Period$Vala("Ann", 1)
   };
   apply__T__Leoi_Period$Vala(in$1) {
     const this$1 = this.values__s_Enumeration$ValueSet();
@@ -17856,6 +18573,12 @@ class $c_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$1$$anon$2 extends $c
     const cbf = this$1.scg_GenTraversableFactory__f_ReusableCBFInstance;
     return $as_sci_Vector($f_sc_TraversableOnce__to__scg_CanBuildFrom__O(this, cbf))
   };
+  toMap__s_Predef$$less$colon$less__sci_Map(ev) {
+    $m_sci_Map$();
+    const b = new $c_sci_Map$MapBuilderImpl();
+    b.$plus$plus$eq__sc_TraversableOnce__sci_Map$MapBuilderImpl(this);
+    return b.result__sci_Map()
+  };
   mkString__T__T__T__T(start, sep, end) {
     return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
   };
@@ -17934,6 +18657,12 @@ class $c_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5$$anon$6 extends $c
     const this$1 = $m_sci_Vector$();
     const cbf = this$1.scg_GenTraversableFactory__f_ReusableCBFInstance;
     return $as_sci_Vector($f_sc_TraversableOnce__to__scg_CanBuildFrom__O(this, cbf))
+  };
+  toMap__s_Predef$$less$colon$less__sci_Map(ev) {
+    $m_sci_Map$();
+    const b = new $c_sci_Map$MapBuilderImpl();
+    b.$plus$plus$eq__sc_TraversableOnce__sci_Map$MapBuilderImpl(this);
+    return b.result__sci_Map()
   };
   mkString__T__T__T__T(start, sep, end) {
     return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
@@ -18276,6 +19005,9 @@ $c_Lio_circe_numbers_BiggerDecimal$$anon$2.prototype.$classData = $d_Lio_circe_n
 class $c_Lio_circe_scalajs_package$$anon$1 extends $c_O {
   compose__F1__F1(g) {
     return $f_F1__compose__F1__F1(this, g)
+  };
+  andThen__F1__F1(g) {
+    return $f_F1__andThen__F1__F1(this, g)
   };
   toString__T() {
     return "<function1>"
@@ -21622,6 +22354,27 @@ const $d_ju_Formatter = new $TypeData().initClass({
   Ljava_io_Flushable: 1
 });
 $c_ju_Formatter.prototype.$classData = $d_ju_Formatter;
+class $c_ju_concurrent_TimeUnit extends $c_jl_Enum {
+}
+function $as_ju_concurrent_TimeUnit(obj) {
+  return (((obj instanceof $c_ju_concurrent_TimeUnit) || (obj === null)) ? obj : $throwClassCastException(obj, "java.util.concurrent.TimeUnit"))
+}
+function $isArrayOf_ju_concurrent_TimeUnit(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.ju_concurrent_TimeUnit)))
+}
+function $asArrayOf_ju_concurrent_TimeUnit(obj, depth) {
+  return (($isArrayOf_ju_concurrent_TimeUnit(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Ljava.util.concurrent.TimeUnit;", depth))
+}
+const $d_ju_concurrent_TimeUnit = new $TypeData().initClass({
+  ju_concurrent_TimeUnit: 0
+}, false, "java.util.concurrent.TimeUnit", {
+  ju_concurrent_TimeUnit: 1,
+  jl_Enum: 1,
+  O: 1,
+  jl_Comparable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_ju_concurrent_TimeUnit.prototype.$classData = $d_ju_concurrent_TimeUnit;
 class $c_RTLong extends $c_jl_Number {
   constructor(lo, hi) {
     super();
@@ -21893,6 +22646,9 @@ class $c_s_Predef$$eq$colon$eq extends $c_O {
   compose__F1__F1(g) {
     return new $c_sjsr_AnonFunction1(((this$1, g$1) => ((x$2) => this$1.apply__O__O(g$1.apply__O__O(x$2))))(this, g))
   };
+  andThen__F1__F1(g) {
+    return new $c_sjsr_AnonFunction1(((this$1, g$1) => ((x$2) => g$1.apply__O__O(this$1.apply__O__O(x$2))))(this, g))
+  };
   toString__T() {
     return "<function1>"
   };
@@ -21900,6 +22656,9 @@ class $c_s_Predef$$eq$colon$eq extends $c_O {
 class $c_s_Predef$$less$colon$less extends $c_O {
   compose__F1__F1(g) {
     return new $c_sjsr_AnonFunction1(((this$1, g$1) => ((x$2) => this$1.apply__O__O(g$1.apply__O__O(x$2))))(this, g))
+  };
+  andThen__F1__F1(g) {
+    return new $c_sjsr_AnonFunction1(((this$1, g$1) => ((x$2) => g$1.apply__O__O(this$1.apply__O__O(x$2))))(this, g))
   };
   toString__T() {
     return "<function1>"
@@ -21968,6 +22727,12 @@ class $c_sc_AbstractIterator extends $c_O {
     const this$1 = $m_sci_Vector$();
     const cbf = this$1.scg_GenTraversableFactory__f_ReusableCBFInstance;
     return $as_sci_Vector($f_sc_TraversableOnce__to__scg_CanBuildFrom__O(this, cbf))
+  };
+  toMap__s_Predef$$less$colon$less__sci_Map(ev) {
+    $m_sci_Map$();
+    const b = new $c_sci_Map$MapBuilderImpl();
+    b.$plus$plus$eq__sc_TraversableOnce__sci_Map$MapBuilderImpl(this);
+    return b.result__sci_Map()
   };
   mkString__T__T__T__T(start, sep, end) {
     return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
@@ -22278,6 +23043,12 @@ class $c_sci_RedBlackTree$TreeIterator extends $c_O {
     const this$1 = $m_sci_Vector$();
     const cbf = this$1.scg_GenTraversableFactory__f_ReusableCBFInstance;
     return $as_sci_Vector($f_sc_TraversableOnce__to__scg_CanBuildFrom__O(this, cbf))
+  };
+  toMap__s_Predef$$less$colon$less__sci_Map(ev) {
+    $m_sci_Map$();
+    const b = new $c_sci_Map$MapBuilderImpl();
+    b.$plus$plus$eq__sc_TraversableOnce__sci_Map$MapBuilderImpl(this);
+    return b.result__sci_Map()
   };
   mkString__T__T__T__T(start, sep, end) {
     return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
@@ -22691,6 +23462,12 @@ class $c_sjs_js_WrappedDictionary$DictionaryIterator extends $c_O {
     const cbf = this$1.scg_GenTraversableFactory__f_ReusableCBFInstance;
     return $as_sci_Vector($f_sc_TraversableOnce__to__scg_CanBuildFrom__O(this, cbf))
   };
+  toMap__s_Predef$$less$colon$less__sci_Map(ev) {
+    $m_sci_Map$();
+    const b = new $c_sci_Map$MapBuilderImpl();
+    b.$plus$plus$eq__sc_TraversableOnce__sci_Map$MapBuilderImpl(this);
+    return b.result__sci_Map()
+  };
   mkString__T__T__T__T(start, sep, end) {
     return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
   };
@@ -22922,6 +23699,128 @@ const $d_Lshapeless_\uff3f0 = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lshapeless_\uff3f0.prototype.$classData = $d_Lshapeless_\uff3f0;
+class $c_Lcats_Eval$$anon$1 extends $c_Lcats_Eval$FlatMap {
+  constructor(outer, x2$1, f$2) {
+    super();
+    this.Lcats_Eval$$anon$1__f_start = null;
+    this.Lcats_Eval$$anon$1__f_run = null;
+    this.Lcats_Eval$$anon$1__f_x2$1 = null;
+    this.Lcats_Eval$$anon$1__f_f$2 = null;
+    this.Lcats_Eval$$anon$1__f_x2$1 = x2$1;
+    this.Lcats_Eval$$anon$1__f_f$2 = f$2;
+    this.Lcats_Eval$$anon$1__f_start = x2$1.start__F0();
+    this.Lcats_Eval$$anon$1__f_run = new $c_sjsr_AnonFunction1(((this$1) => ((s$2) => new $c_Lcats_Eval$$anon$1$$anon$2(this$1, s$2)))(this))
+  };
+  start__F0() {
+    return this.Lcats_Eval$$anon$1__f_start
+  };
+  run__F1() {
+    return this.Lcats_Eval$$anon$1__f_run
+  };
+}
+const $d_Lcats_Eval$$anon$1 = new $TypeData().initClass({
+  Lcats_Eval$$anon$1: 0
+}, false, "cats.Eval$$anon$1", {
+  Lcats_Eval$$anon$1: 1,
+  Lcats_Eval$FlatMap: 1,
+  Lcats_Eval: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcats_Eval$$anon$1.prototype.$classData = $d_Lcats_Eval$$anon$1;
+class $c_Lcats_Eval$$anon$1$$anon$2 extends $c_Lcats_Eval$FlatMap {
+  constructor(outer, s$1) {
+    super();
+    this.Lcats_Eval$$anon$1$$anon$2__f_start = null;
+    this.Lcats_Eval$$anon$1$$anon$2__f_run = null;
+    this.Lcats_Eval$$anon$1$$anon$2__f_$outer = null;
+    this.Lcats_Eval$$anon$1$$anon$2__f_s$1 = null;
+    if ((outer === null)) {
+      throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
+    } else {
+      this.Lcats_Eval$$anon$1$$anon$2__f_$outer = outer
+    };
+    this.Lcats_Eval$$anon$1$$anon$2__f_s$1 = s$1;
+    this.Lcats_Eval$$anon$1$$anon$2__f_start = new $c_sjsr_AnonFunction0(((this$1) => (() => $as_Lcats_Eval(this$1.Lcats_Eval$$anon$1$$anon$2__f_$outer.Lcats_Eval$$anon$1__f_x2$1.run__F1().apply__O__O(this$1.Lcats_Eval$$anon$1$$anon$2__f_s$1))))(this));
+    this.Lcats_Eval$$anon$1$$anon$2__f_run = outer.Lcats_Eval$$anon$1__f_f$2
+  };
+  start__F0() {
+    return this.Lcats_Eval$$anon$1$$anon$2__f_start
+  };
+  run__F1() {
+    return this.Lcats_Eval$$anon$1$$anon$2__f_run
+  };
+}
+const $d_Lcats_Eval$$anon$1$$anon$2 = new $TypeData().initClass({
+  Lcats_Eval$$anon$1$$anon$2: 0
+}, false, "cats.Eval$$anon$1$$anon$2", {
+  Lcats_Eval$$anon$1$$anon$2: 1,
+  Lcats_Eval$FlatMap: 1,
+  Lcats_Eval: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcats_Eval$$anon$1$$anon$2.prototype.$classData = $d_Lcats_Eval$$anon$1$$anon$2;
+class $c_Lcats_Eval$$anon$3 extends $c_Lcats_Eval$FlatMap {
+  constructor(outer, x3$1, f$2) {
+    super();
+    this.Lcats_Eval$$anon$3__f_start = null;
+    this.Lcats_Eval$$anon$3__f_run = null;
+    this.Lcats_Eval$$anon$3__f_start = x3$1.thunk__F0();
+    this.Lcats_Eval$$anon$3__f_run = f$2
+  };
+  start__F0() {
+    return this.Lcats_Eval$$anon$3__f_start
+  };
+  run__F1() {
+    return this.Lcats_Eval$$anon$3__f_run
+  };
+}
+const $d_Lcats_Eval$$anon$3 = new $TypeData().initClass({
+  Lcats_Eval$$anon$3: 0
+}, false, "cats.Eval$$anon$3", {
+  Lcats_Eval$$anon$3: 1,
+  Lcats_Eval$FlatMap: 1,
+  Lcats_Eval: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcats_Eval$$anon$3.prototype.$classData = $d_Lcats_Eval$$anon$3;
+class $c_Lcats_Eval$$anon$4 extends $c_Lcats_Eval$FlatMap {
+  constructor(outer, f$2) {
+    super();
+    this.Lcats_Eval$$anon$4__f_start = null;
+    this.Lcats_Eval$$anon$4__f_run = null;
+    this.Lcats_Eval$$anon$4__f_$outer = null;
+    if ((outer === null)) {
+      throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
+    } else {
+      this.Lcats_Eval$$anon$4__f_$outer = outer
+    };
+    this.Lcats_Eval$$anon$4__f_start = new $c_sjsr_AnonFunction0(((this$1) => (() => this$1.Lcats_Eval$$anon$4__f_$outer))(this));
+    this.Lcats_Eval$$anon$4__f_run = f$2
+  };
+  start__F0() {
+    return this.Lcats_Eval$$anon$4__f_start
+  };
+  run__F1() {
+    return this.Lcats_Eval$$anon$4__f_run
+  };
+}
+const $d_Lcats_Eval$$anon$4 = new $TypeData().initClass({
+  Lcats_Eval$$anon$4: 0
+}, false, "cats.Eval$$anon$4", {
+  Lcats_Eval$$anon$4: 1,
+  Lcats_Eval$FlatMap: 1,
+  Lcats_Eval: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcats_Eval$$anon$4.prototype.$classData = $d_Lcats_Eval$$anon$4;
 class $c_Lcats_MonoidK$$anon$1 extends $c_O {
   constructor(outer) {
     super();
@@ -22931,6 +23830,9 @@ class $c_Lcats_MonoidK$$anon$1 extends $c_O {
     } else {
       this.Lcats_MonoidK$$anon$1__f_$outer = outer
     }
+  };
+  empty__O() {
+    return this.Lcats_MonoidK$$anon$1__f_$outer.empty__O()
   };
   combine__O__O__O(x, y) {
     return this.Lcats_MonoidK$$anon$1__f_$outer.combineK__O__O__O(x, y)
@@ -22948,14 +23850,14 @@ const $d_Lcats_MonoidK$$anon$1 = new $TypeData().initClass({
 });
 $c_Lcats_MonoidK$$anon$1.prototype.$classData = $d_Lcats_MonoidK$$anon$1;
 class $c_Lcats_Parallel$$anon$2 extends $c_O {
-  constructor(evidence$31$1) {
+  constructor(evidence$32$1) {
     super();
     this.Lcats_Parallel$$anon$2__f_monad = null;
     this.Lcats_Parallel$$anon$2__f_applicative = null;
     this.Lcats_Parallel$$anon$2__f_sequential = null;
     this.Lcats_Parallel$$anon$2__f_parallel = null;
-    this.Lcats_Parallel$$anon$2__f_monad = evidence$31$1;
-    this.Lcats_Parallel$$anon$2__f_applicative = evidence$31$1;
+    this.Lcats_Parallel$$anon$2__f_monad = evidence$32$1;
+    this.Lcats_Parallel$$anon$2__f_applicative = evidence$32$1;
     this.Lcats_Parallel$$anon$2__f_sequential = new $c_Lcats_arrow_FunctionK$$anon$4();
     this.Lcats_Parallel$$anon$2__f_parallel = new $c_Lcats_arrow_FunctionK$$anon$4()
   };
@@ -22971,6 +23873,75 @@ const $d_Lcats_Parallel$$anon$2 = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lcats_Parallel$$anon$2.prototype.$classData = $d_Lcats_Parallel$$anon$2;
+class $c_Lcats_Semigroupal$ extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_Semigroupal$__f_catsSemigroupalForOrder = null;
+    this.Lcats_Semigroupal$__f_catsSemigroupalForPartialOrder = null;
+    this.Lcats_Semigroupal$__f_catsSemigroupalForOrdering = null;
+    this.Lcats_Semigroupal$__f_catsSemigroupalForPartialOrdering = null;
+    this.Lcats_Semigroupal$__f_catsSemigroupalForEq = null;
+    this.Lcats_Semigroupal$__f_catsSemigroupalForEquiv = null;
+    this.Lcats_Semigroupal$__f_catsSemigroupalForMonoid = null;
+    this.Lcats_Semigroupal$__f_catsSemigroupalForSemigroup = null;
+    this.Lcats_Semigroupal$__f_catsSemigroupalForCommutativeSemigroup = null;
+    $n_Lcats_Semigroupal$ = this;
+    this.Lcats_Semigroupal$__f_catsSemigroupalForOrder = $m_Lcats_instances_package$order$().Lcats_instances_package$order$__f_catsContravariantMonoidalForOrder;
+    this.Lcats_Semigroupal$__f_catsSemigroupalForPartialOrder = $m_Lcats_instances_package$partialOrder$().Lcats_instances_package$partialOrder$__f_catsContravariantMonoidalForPartialOrder;
+    this.Lcats_Semigroupal$__f_catsSemigroupalForOrdering = $m_Lcats_instances_package$ordering$().Lcats_instances_package$ordering$__f_catsContravariantMonoidalForOrdering;
+    this.Lcats_Semigroupal$__f_catsSemigroupalForPartialOrdering = $m_Lcats_instances_package$partialOrdering$().Lcats_instances_package$partialOrdering$__f_catsContravariantMonoidalForPartialOrdering;
+    this.Lcats_Semigroupal$__f_catsSemigroupalForEq = $m_Lcats_instances_package$eq$().Lcats_instances_package$eq$__f_catsContravariantMonoidalForEq;
+    this.Lcats_Semigroupal$__f_catsSemigroupalForEquiv = $m_Lcats_instances_package$equiv$().Lcats_instances_package$equiv$__f_catsContravariantMonoidalForEquiv;
+    const this$1 = $m_Lcats_instances_package$invariant$();
+    this.Lcats_Semigroupal$__f_catsSemigroupalForMonoid = new $c_Lcats_instances_InvariantMonoidalInstances$$anon$1(this$1);
+    this.Lcats_Semigroupal$__f_catsSemigroupalForSemigroup = $m_Lcats_instances_package$invariant$().Lcats_instances_package$invariant$__f_catsInvariantMonoidalSemigroup;
+    this.Lcats_Semigroupal$__f_catsSemigroupalForCommutativeSemigroup = $m_Lcats_instances_package$invariant$().Lcats_instances_package$invariant$__f_catsInvariantMonoidalCommutativeSemigroup
+  };
+}
+const $d_Lcats_Semigroupal$ = new $TypeData().initClass({
+  Lcats_Semigroupal$: 0
+}, false, "cats.Semigroupal$", {
+  Lcats_Semigroupal$: 1,
+  O: 1,
+  Lcats_ScalaVersionSpecificSemigroupalInstances: 1,
+  Lcats_SemigroupalArityFunctions: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcats_Semigroupal$.prototype.$classData = $d_Lcats_Semigroupal$;
+let $n_Lcats_Semigroupal$;
+function $m_Lcats_Semigroupal$() {
+  if ((!$n_Lcats_Semigroupal$)) {
+    $n_Lcats_Semigroupal$ = new $c_Lcats_Semigroupal$()
+  };
+  return $n_Lcats_Semigroupal$
+}
+class $c_Lcats_Show$ extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_Show$__f_catsContravariantForShow = null;
+    $n_Lcats_Show$ = this;
+    this.Lcats_Show$__f_catsContravariantForShow = new $c_Lcats_Show$$anon$4()
+  };
+}
+const $d_Lcats_Show$ = new $TypeData().initClass({
+  Lcats_Show$: 0
+}, false, "cats.Show$", {
+  Lcats_Show$: 1,
+  O: 1,
+  Lcats_ScalaVersionSpecificShowInstances: 1,
+  Lcats_ShowInstances: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcats_Show$.prototype.$classData = $d_Lcats_Show$;
+let $n_Lcats_Show$;
+function $m_Lcats_Show$() {
+  if ((!$n_Lcats_Show$)) {
+    $n_Lcats_Show$ = new $c_Lcats_Show$()
+  };
+  return $n_Lcats_Show$
+}
 class $c_Lcats_Show$$anon$2 extends $c_O {
   constructor(f$1) {
     super();
@@ -23021,92 +23992,127 @@ const $d_Lcats_Show$$anon$4 = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lcats_Show$$anon$4.prototype.$classData = $d_Lcats_Show$$anon$4;
-const $p_Lcats_data_AndThen__runLoop__O__O = (function($thiz, start) {
-  let self = $thiz;
-  let current = start;
-  let continue$1 = true;
-  while (continue$1) {
+const $p_Lcats_data_AndThen__loop$1__Lcats_data_AndThen__O__O = (function($thiz, self, current) {
+  while (true) {
     let rc13 = false;
     let x4 = null;
     const x1 = self;
-    matchEnd14: {
-      if ((x1 instanceof $c_Lcats_data_AndThen$Single)) {
-        const x2 = $as_Lcats_data_AndThen$Single(x1);
-        const f = x2.Lcats_data_AndThen$Single__f_f;
-        current = f.apply__O__O(current);
-        continue$1 = false;
-        break matchEnd14
-      };
-      if ((x1 instanceof $c_Lcats_data_AndThen$Concat)) {
-        rc13 = true;
-        x4 = $as_Lcats_data_AndThen$Concat(x1);
-        const p5 = x4.Lcats_data_AndThen$Concat__f_left;
-        const right = x4.Lcats_data_AndThen$Concat__f_right;
-        if ((p5 instanceof $c_Lcats_data_AndThen$Single)) {
-          const x6 = $as_Lcats_data_AndThen$Single(p5);
-          const f$2 = x6.Lcats_data_AndThen$Single__f_f;
-          current = f$2.apply__O__O(current);
-          self = right;
-          break matchEnd14
-        }
-      };
-      if (rc13) {
-        const left = x4.Lcats_data_AndThen$Concat__f_left;
-        const right$2 = x4.Lcats_data_AndThen$Concat__f_right;
-        if ((left instanceof $c_Lcats_data_AndThen$Concat)) {
-          const x9 = $as_Lcats_data_AndThen$Concat(left);
-          self = x9.rotateAccum__Lcats_data_AndThen__Lcats_data_AndThen(right$2);
-          break matchEnd14
-        }
-      };
-      throw new $c_s_MatchError(x1)
+    if ((x1 instanceof $c_Lcats_data_AndThen$Single)) {
+      const x2 = $as_Lcats_data_AndThen$Single(x1);
+      const f = x2.Lcats_data_AndThen$Single__f_f;
+      return f.apply__O__O(current)
+    };
+    if ((x1 instanceof $c_Lcats_data_AndThen$Concat)) {
+      rc13 = true;
+      x4 = $as_Lcats_data_AndThen$Concat(x1);
+      const p5 = x4.Lcats_data_AndThen$Concat__f_left;
+      const right = x4.Lcats_data_AndThen$Concat__f_right;
+      if ((p5 instanceof $c_Lcats_data_AndThen$Single)) {
+        const x6 = $as_Lcats_data_AndThen$Single(p5);
+        const f$2 = x6.Lcats_data_AndThen$Single__f_f;
+        const temp$current = f$2.apply__O__O(current);
+        self = right;
+        current = temp$current;
+        continue
+      }
+    };
+    if (rc13) {
+      const left = x4.Lcats_data_AndThen$Concat__f_left;
+      const right$2 = x4.Lcats_data_AndThen$Concat__f_right;
+      if ((left instanceof $c_Lcats_data_AndThen$Concat)) {
+        const x9 = $as_Lcats_data_AndThen$Concat(left);
+        self = $p_Lcats_data_AndThen__loop$2__Lcats_data_AndThen__Lcats_data_AndThen__Lcats_data_AndThen(x9, x9, right$2);
+        continue
+      }
+    };
+    throw new $c_s_MatchError(x1)
+  }
+});
+const $p_Lcats_data_AndThen__loop$2__Lcats_data_AndThen__Lcats_data_AndThen__Lcats_data_AndThen = (function($thiz, left, right) {
+  while (true) {
+    const x1 = left;
+    if ((x1 instanceof $c_Lcats_data_AndThen$Concat)) {
+      const x2 = $as_Lcats_data_AndThen$Concat(x1);
+      const left1 = x2.Lcats_data_AndThen$Concat__f_left;
+      const right1 = x2.Lcats_data_AndThen$Concat__f_right;
+      const temp$right = new $c_Lcats_data_AndThen$Concat(right1, right);
+      left = left1;
+      right = temp$right
+    } else {
+      return new $c_Lcats_data_AndThen$Concat(x1, right)
     }
-  };
-  return current
+  }
 });
 class $c_Lcats_data_AndThen extends $c_O {
   apply__O__O(a) {
-    return $p_Lcats_data_AndThen__runLoop__O__O(this, a)
+    return $p_Lcats_data_AndThen__loop$1__Lcats_data_AndThen__O__O(this, this, a)
+  };
+  andThen__F1__Lcats_data_AndThen(g) {
+    if ((g instanceof $c_Lcats_data_AndThen)) {
+      const x2 = $as_Lcats_data_AndThen(g);
+      return $m_Lcats_data_AndThen$().andThen__Lcats_data_AndThen__Lcats_data_AndThen__Lcats_data_AndThen(this, x2)
+    } else {
+      if ((this instanceof $c_Lcats_data_AndThen$Single)) {
+        const x2$2 = $as_Lcats_data_AndThen$Single(this);
+        const f = x2$2.Lcats_data_AndThen$Single__f_f;
+        const index = x2$2.Lcats_data_AndThen$Single__f_index;
+        if ((index < 128)) {
+          return new $c_Lcats_data_AndThen$Single(f.andThen__F1__F1(g), ((1 + index) | 0))
+        }
+      };
+      if ((this instanceof $c_Lcats_data_AndThen$Concat)) {
+        const x3 = $as_Lcats_data_AndThen$Concat(this);
+        const left = x3.Lcats_data_AndThen$Concat__f_left;
+        const p4 = x3.Lcats_data_AndThen$Concat__f_right;
+        if ((p4 instanceof $c_Lcats_data_AndThen$Single)) {
+          const x5 = $as_Lcats_data_AndThen$Single(p4);
+          const f$2 = x5.Lcats_data_AndThen$Single__f_f;
+          const index$2 = x5.Lcats_data_AndThen$Single__f_index;
+          if ((index$2 < 128)) {
+            return new $c_Lcats_data_AndThen$Concat(left, new $c_Lcats_data_AndThen$Single(f$2.andThen__F1__F1(g), ((1 + index$2) | 0)))
+          }
+        }
+      };
+      return new $c_Lcats_data_AndThen$Concat(this, new $c_Lcats_data_AndThen$Single(g, 0))
+    }
   };
   compose__F1__Lcats_data_AndThen(g) {
-    if ((this instanceof $c_Lcats_data_AndThen$Single)) {
-      const x2 = $as_Lcats_data_AndThen$Single(this);
-      const f = x2.Lcats_data_AndThen$Single__f_f;
-      const index = x2.Lcats_data_AndThen$Single__f_index;
-      if ((index !== 127)) {
-        return new $c_Lcats_data_AndThen$Single(f.compose__F1__F1(g), ((1 + index) | 0))
-      }
-    };
-    const right = $m_Lcats_data_AndThen$().apply__F1__Lcats_data_AndThen(g);
-    return new $c_Lcats_data_AndThen$Concat(right, this)
-  };
-  rotateAccum__Lcats_data_AndThen__Lcats_data_AndThen(_right) {
-    let self = this;
-    let right = _right;
-    let continue$1 = true;
-    while (continue$1) {
-      const x1 = self;
-      if ((x1 instanceof $c_Lcats_data_AndThen$Concat)) {
-        const x2 = $as_Lcats_data_AndThen$Concat(x1);
-        const left = x2.Lcats_data_AndThen$Concat__f_left;
-        const inner = x2.Lcats_data_AndThen$Concat__f_right;
-        self = left;
-        const right$1 = right;
-        right = new $c_Lcats_data_AndThen$Concat(inner, right$1)
-      } else {
-        const this$1 = self;
-        const right$2 = right;
-        self = new $c_Lcats_data_AndThen$Concat(this$1, right$2);
-        continue$1 = false
-      }
-    };
-    return self
+    if ((g instanceof $c_Lcats_data_AndThen)) {
+      const x2 = $as_Lcats_data_AndThen(g);
+      return $m_Lcats_data_AndThen$().andThen__Lcats_data_AndThen__Lcats_data_AndThen__Lcats_data_AndThen(x2, this)
+    } else {
+      if ((this instanceof $c_Lcats_data_AndThen$Single)) {
+        const x2$2 = $as_Lcats_data_AndThen$Single(this);
+        const f = x2$2.Lcats_data_AndThen$Single__f_f;
+        const index = x2$2.Lcats_data_AndThen$Single__f_index;
+        if ((index < 128)) {
+          return new $c_Lcats_data_AndThen$Single(f.compose__F1__F1(g), ((1 + index) | 0))
+        }
+      };
+      if ((this instanceof $c_Lcats_data_AndThen$Concat)) {
+        const x3 = $as_Lcats_data_AndThen$Concat(this);
+        const p4 = x3.Lcats_data_AndThen$Concat__f_left;
+        const right = x3.Lcats_data_AndThen$Concat__f_right;
+        if ((p4 instanceof $c_Lcats_data_AndThen$Single)) {
+          const x5 = $as_Lcats_data_AndThen$Single(p4);
+          const f$2 = x5.Lcats_data_AndThen$Single__f_f;
+          const index$2 = x5.Lcats_data_AndThen$Single__f_index;
+          if ((index$2 < 128)) {
+            return new $c_Lcats_data_AndThen$Concat(new $c_Lcats_data_AndThen$Single(f$2.compose__F1__F1(g), ((1 + index$2) | 0)), right)
+          }
+        }
+      };
+      return new $c_Lcats_data_AndThen$Concat(new $c_Lcats_data_AndThen$Single(g, 0), this)
+    }
   };
   toString__T() {
     return ("AndThen$" + $systemIdentityHashCode(this))
   };
   compose__F1__F1(g) {
     return this.compose__F1__Lcats_data_AndThen(g)
+  };
+  andThen__F1__F1(g) {
+    return this.andThen__F1__Lcats_data_AndThen(g)
   };
 }
 function $as_Lcats_data_AndThen(obj) {
@@ -23131,6 +24137,64 @@ class $c_Lcats_data_AndThen$ extends $c_Lcats_data_AndThenInstances0 {
       return new $c_Lcats_data_AndThen$Single(f, 0)
     }
   };
+  andThen__Lcats_data_AndThen__Lcats_data_AndThen__Lcats_data_AndThen(ab, bc) {
+    if ((ab instanceof $c_Lcats_data_AndThen$Single)) {
+      const x2 = $as_Lcats_data_AndThen$Single(ab);
+      const f = x2.Lcats_data_AndThen$Single__f_f;
+      const indexf = x2.Lcats_data_AndThen$Single__f_index;
+      if ((bc instanceof $c_Lcats_data_AndThen$Single)) {
+        const x2$2 = $as_Lcats_data_AndThen$Single(bc);
+        const g = x2$2.Lcats_data_AndThen$Single__f_f;
+        const indexg = x2$2.Lcats_data_AndThen$Single__f_index;
+        return ((((indexf + indexg) | 0) < 128) ? new $c_Lcats_data_AndThen$Single(f.andThen__F1__F1(g), ((1 + ((indexf + indexg) | 0)) | 0)) : new $c_Lcats_data_AndThen$Concat(ab, bc))
+      };
+      if ((bc instanceof $c_Lcats_data_AndThen$Concat)) {
+        const x3 = $as_Lcats_data_AndThen$Concat(bc);
+        const p4 = x3.Lcats_data_AndThen$Concat__f_left;
+        const right = x3.Lcats_data_AndThen$Concat__f_right;
+        if ((p4 instanceof $c_Lcats_data_AndThen$Single)) {
+          const x5 = $as_Lcats_data_AndThen$Single(p4);
+          const g$2 = x5.Lcats_data_AndThen$Single__f_f;
+          const indexg$2 = x5.Lcats_data_AndThen$Single__f_index;
+          if ((((indexf + indexg$2) | 0) < 128)) {
+            return new $c_Lcats_data_AndThen$Concat(new $c_Lcats_data_AndThen$Single(f.andThen__F1__F1(g$2), ((1 + ((indexf + indexg$2) | 0)) | 0)), right)
+          }
+        }
+      };
+      return new $c_Lcats_data_AndThen$Concat(ab, bc)
+    };
+    if ((ab instanceof $c_Lcats_data_AndThen$Concat)) {
+      const x3$2 = $as_Lcats_data_AndThen$Concat(ab);
+      const leftf = x3$2.Lcats_data_AndThen$Concat__f_left;
+      const p4$2 = x3$2.Lcats_data_AndThen$Concat__f_right;
+      if ((p4$2 instanceof $c_Lcats_data_AndThen$Single)) {
+        const x5$2 = $as_Lcats_data_AndThen$Single(p4$2);
+        const f$2 = x5$2.Lcats_data_AndThen$Single__f_f;
+        const indexf$2 = x5$2.Lcats_data_AndThen$Single__f_index;
+        if ((bc instanceof $c_Lcats_data_AndThen$Single)) {
+          const x2$3 = $as_Lcats_data_AndThen$Single(bc);
+          const g$3 = x2$3.Lcats_data_AndThen$Single__f_f;
+          const indexg$3 = x2$3.Lcats_data_AndThen$Single__f_index;
+          return ((((indexf$2 + indexg$3) | 0) < 128) ? new $c_Lcats_data_AndThen$Concat(leftf, new $c_Lcats_data_AndThen$Single(f$2.andThen__F1__F1(g$3), ((1 + ((indexf$2 + indexg$3) | 0)) | 0))) : new $c_Lcats_data_AndThen$Concat(ab, bc))
+        };
+        if ((bc instanceof $c_Lcats_data_AndThen$Concat)) {
+          const x3$3 = $as_Lcats_data_AndThen$Concat(bc);
+          const p4$3 = x3$3.Lcats_data_AndThen$Concat__f_left;
+          const right$2 = x3$3.Lcats_data_AndThen$Concat__f_right;
+          if ((p4$3 instanceof $c_Lcats_data_AndThen$Single)) {
+            const x5$3 = $as_Lcats_data_AndThen$Single(p4$3);
+            const g$4 = x5$3.Lcats_data_AndThen$Single__f_f;
+            const indexg$4 = x5$3.Lcats_data_AndThen$Single__f_index;
+            if ((((indexf$2 + indexg$4) | 0) < 128)) {
+              return new $c_Lcats_data_AndThen$Concat(leftf, new $c_Lcats_data_AndThen$Concat(new $c_Lcats_data_AndThen$Single(f$2.andThen__F1__F1(g$4), ((1 + ((indexf$2 + indexg$4) | 0)) | 0)), right$2))
+            }
+          }
+        };
+        return new $c_Lcats_data_AndThen$Concat(ab, bc)
+      }
+    };
+    return new $c_Lcats_data_AndThen$Concat(ab, bc)
+  };
 }
 const $d_Lcats_data_AndThen$ = new $TypeData().initClass({
   Lcats_data_AndThen$: 0
@@ -23150,177 +24214,6 @@ function $m_Lcats_data_AndThen$() {
   };
   return $n_Lcats_data_AndThen$
 }
-class $c_Lcats_data_NonEmptyList extends $c_O {
-  constructor(head, tail) {
-    super();
-    this.Lcats_data_NonEmptyList__f_head = null;
-    this.Lcats_data_NonEmptyList__f_tail = null;
-    this.Lcats_data_NonEmptyList__f_head = head;
-    this.Lcats_data_NonEmptyList__f_tail = tail
-  };
-  toList__sci_List() {
-    const x$1 = this.Lcats_data_NonEmptyList__f_head;
-    const this$1 = this.Lcats_data_NonEmptyList__f_tail;
-    return new $c_sci_$colon$colon(x$1, this$1)
-  };
-  map__F1__Lcats_data_NonEmptyList(f) {
-    const $$x2 = f.apply__O__O(this.Lcats_data_NonEmptyList__f_head);
-    const $$x1 = this.Lcats_data_NonEmptyList__f_tail;
-    const this$1 = $m_sci_List$();
-    return new $c_Lcats_data_NonEmptyList($$x2, $as_sci_List($$x1.map__F1__scg_CanBuildFrom__O(f, this$1.scg_GenTraversableFactory__f_ReusableCBFInstance)))
-  };
-  concat__sci_List__Lcats_data_NonEmptyList(other) {
-    const $$x1 = this.Lcats_data_NonEmptyList__f_head;
-    const x$3 = this.Lcats_data_NonEmptyList__f_tail;
-    return new $c_Lcats_data_NonEmptyList($$x1, other.$colon$colon$colon__sci_List__sci_List(x$3))
-  };
-  concatNel__Lcats_data_NonEmptyList__Lcats_data_NonEmptyList(other) {
-    const $$x1 = this.Lcats_data_NonEmptyList__f_head;
-    const x$4 = this.Lcats_data_NonEmptyList__f_tail;
-    return new $c_Lcats_data_NonEmptyList($$x1, other.toList__sci_List().$colon$colon$colon__sci_List__sci_List(x$4))
-  };
-  flatMap__F1__Lcats_data_NonEmptyList(f) {
-    const this$9 = $as_Lcats_data_NonEmptyList(f.apply__O__O(this.Lcats_data_NonEmptyList__f_head));
-    const this$3 = this.Lcats_data_NonEmptyList__f_tail;
-    const f$2 = ((this$1, f$1) => ((a$2) => $as_Lcats_data_NonEmptyList(f$1.apply__O__O(a$2)).toList__sci_List()))(this, f);
-    const this$2 = $m_sci_List$();
-    const bf = this$2.scg_GenTraversableFactory__f_ReusableCBFInstance;
-    let $$x1;
-    if ($p_sci_List__isLikeListReusableCBF__scg_CanBuildFrom__Z(this$3, bf)) {
-      if ((this$3 === $m_sci_Nil$())) {
-        $$x1 = $m_sci_Nil$()
-      } else {
-        let rest = this$3;
-        let appender = null;
-        let lastList = null;
-        while ((rest !== $m_sci_Nil$())) {
-          const arg1 = rest.head__O();
-          const c = $as_sc_GenTraversableOnce(f$2(arg1)).seq__sc_TraversableOnce();
-          const this$4 = rest;
-          rest = this$4.tail__sci_List();
-          if ((c !== $m_sci_Nil$())) {
-            if ((lastList !== null)) {
-              if ((appender === null)) {
-                appender = new $c_sci_List$Appender$1(this$3)
-              };
-              const this$5 = lastList;
-              const f$3 = appender;
-              let these = this$5;
-              while ((!these.isEmpty__Z())) {
-                const v1 = these.head__O();
-                f$3.apply__O__V(v1);
-                const this$6 = these;
-                these = this$6.tail__sci_List()
-              };
-              lastList = null
-            };
-            if ((c instanceof $c_sci_$colon$colon)) {
-              lastList = $as_sci_$colon$colon(c)
-            } else {
-              if ((appender === null)) {
-                appender = new $c_sci_List$Appender$1(this$3)
-              };
-              c.foreach__F1__V(appender)
-            }
-          }
-        };
-        let result;
-        if (((appender === null) || (appender.sci_List$Appender$1__f_h === null))) {
-          result = ((lastList === null) ? $m_sci_Nil$() : lastList)
-        } else {
-          if ((lastList !== null)) {
-            appender.appendLast__sci_$colon$colon__V(lastList)
-          };
-          result = appender.sci_List$Appender$1__f_h
-        };
-        $$x1 = result
-      }
-    } else {
-      $m_sci_List$();
-      const b = new $c_scm_ListBuffer();
-      let these$1 = this$3;
-      while ((!these$1.isEmpty__Z())) {
-        const arg1$1 = these$1.head__O();
-        const xs = $as_sc_GenTraversableOnce(f$2(arg1$1)).seq__sc_TraversableOnce();
-        b.$plus$plus$eq__sc_TraversableOnce__scm_ListBuffer(xs);
-        const this$8 = these$1;
-        these$1 = this$8.tail__sci_List()
-      };
-      $$x1 = b.toList__sci_List()
-    };
-    const l = $as_sci_List($$x1);
-    return this$9.concat__sci_List__Lcats_data_NonEmptyList(l)
-  };
-  toString__T() {
-    return ("NonEmpty" + this.toList__sci_List())
-  };
-  productPrefix__T() {
-    return "NonEmptyList"
-  };
-  productArity__I() {
-    return 2
-  };
-  productElement__I__O(x$1) {
-    switch (x$1) {
-      case 0: {
-        return this.Lcats_data_NonEmptyList__f_head;
-        break
-      }
-      case 1: {
-        return this.Lcats_data_NonEmptyList__f_tail;
-        break
-      }
-      default: {
-        throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + x$1))
-      }
-    }
-  };
-  productIterator__sc_Iterator() {
-    return new $c_sr_ScalaRunTime$$anon$1(this)
-  };
-  hashCode__I() {
-    const this$2 = $m_s_util_hashing_MurmurHash3$();
-    return this$2.productHash__s_Product__I__I(this, (-889275714))
-  };
-  equals__O__Z(x$1) {
-    if ((this === x$1)) {
-      return true
-    } else if ((x$1 instanceof $c_Lcats_data_NonEmptyList)) {
-      const NonEmptyList$1 = $as_Lcats_data_NonEmptyList(x$1);
-      const x = this.Lcats_data_NonEmptyList__f_head;
-      const y = NonEmptyList$1.Lcats_data_NonEmptyList__f_head;
-      if ($m_sr_BoxesRunTime$().equals__O__O__Z(x, y)) {
-        const x$2 = this.Lcats_data_NonEmptyList__f_tail;
-        const x$2$1 = NonEmptyList$1.Lcats_data_NonEmptyList__f_tail;
-        return ((x$2 === null) ? (x$2$1 === null) : x$2.equals__O__Z(x$2$1))
-      } else {
-        return false
-      }
-    } else {
-      return false
-    }
-  };
-}
-function $as_Lcats_data_NonEmptyList(obj) {
-  return (((obj instanceof $c_Lcats_data_NonEmptyList) || (obj === null)) ? obj : $throwClassCastException(obj, "cats.data.NonEmptyList"))
-}
-function $isArrayOf_Lcats_data_NonEmptyList(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lcats_data_NonEmptyList)))
-}
-function $asArrayOf_Lcats_data_NonEmptyList(obj, depth) {
-  return (($isArrayOf_Lcats_data_NonEmptyList(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lcats.data.NonEmptyList;", depth))
-}
-const $d_Lcats_data_NonEmptyList = new $TypeData().initClass({
-  Lcats_data_NonEmptyList: 0
-}, false, "cats.data.NonEmptyList", {
-  Lcats_data_NonEmptyList: 1,
-  O: 1,
-  s_Product: 1,
-  s_Equals: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lcats_data_NonEmptyList.prototype.$classData = $d_Lcats_data_NonEmptyList;
 class $c_Lcats_data_Validated extends $c_O {
   product__Lcats_data_Validated__Lcats_kernel_Semigroup__Lcats_data_Validated(fb, EE) {
     const x1 = new $c_T2(this, fb);
@@ -23396,6 +24289,10 @@ class $c_Lcats_instances_Function1Instances$$anon$9 extends $c_O {
   combineK__O__O__O(x, y) {
     return this.combineK__F1__F1__F1($as_F1(x), $as_F1(y))
   };
+  empty__O() {
+    const this$1 = this.Lcats_instances_Function1Instances$$anon$9__f_category;
+    return $as_F1($f_Lcats_arrow_Arrow__id__O(this$1))
+  };
 }
 const $d_Lcats_instances_Function1Instances$$anon$9 = new $TypeData().initClass({
   Lcats_instances_Function1Instances$$anon$9: 0
@@ -23424,6 +24321,41 @@ const $d_Lcats_instances_HashInstances$$anon$1 = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lcats_instances_HashInstances$$anon$1.prototype.$classData = $d_Lcats_instances_HashInstances$$anon$1;
+class $c_Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2 extends $c_O {
+  constructor(outer, fa$1, fb$1) {
+    super();
+    this.Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2__f_empty = null;
+    this.Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2__f_fa$1 = null;
+    this.Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2__f_fb$1 = null;
+    this.Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2__f_fa$1 = fa$1;
+    this.Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2__f_fb$1 = fb$1;
+    const self = fa$1.empty__O();
+    const y = fb$1.empty__O();
+    this.Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2__f_empty = new $c_T2(self, y)
+  };
+  combine__T2__T2__T2(x, y) {
+    const self = this.Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2__f_fa$1.combine__O__O__O(x._1__O(), y._1__O());
+    const y$1 = this.Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2__f_fb$1.combine__O__O__O(x._2__O(), y._2__O());
+    return new $c_T2(self, y$1)
+  };
+  combine__O__O__O(x, y) {
+    return this.combine__T2__T2__T2($as_T2(x), $as_T2(y))
+  };
+  empty__O() {
+    return this.Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2__f_empty
+  };
+}
+const $d_Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2 = new $TypeData().initClass({
+  Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2: 0
+}, false, "cats.instances.InvariantMonoidalInstances$$anon$1$$anon$2", {
+  Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2: 1,
+  O: 1,
+  Lcats_kernel_Monoid: 1,
+  Lcats_kernel_Semigroup: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2.prototype.$classData = $d_Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2;
 class $c_Lcats_instances_InvariantMonoidalInstances$$anon$7$$anon$8 extends $c_O {
   constructor(outer, fa$5, fb$3) {
     super();
@@ -23646,26 +24578,6 @@ class $c_Lcats_kernel_Comparison extends $c_O {
     this.Lcats_kernel_Comparison__f_toDouble = 0.0
   };
 }
-class $c_Lcats_kernel_Eq$ extends $c_Lcats_kernel_EqFunctions {
-}
-const $d_Lcats_kernel_Eq$ = new $TypeData().initClass({
-  Lcats_kernel_Eq$: 0
-}, false, "cats.kernel.Eq$", {
-  Lcats_kernel_Eq$: 1,
-  Lcats_kernel_EqFunctions: 1,
-  O: 1,
-  Lcats_kernel_EqToEquivConversion: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lcats_kernel_Eq$.prototype.$classData = $d_Lcats_kernel_Eq$;
-let $n_Lcats_kernel_Eq$;
-function $m_Lcats_kernel_Eq$() {
-  if ((!$n_Lcats_kernel_Eq$)) {
-    $n_Lcats_kernel_Eq$ = new $c_Lcats_kernel_Eq$()
-  };
-  return $n_Lcats_kernel_Eq$
-}
 class $c_Lcats_kernel_Hash$ extends $c_Lcats_kernel_HashFunctions {
 }
 const $d_Lcats_kernel_Hash$ = new $TypeData().initClass({
@@ -23746,6 +24658,9 @@ class $c_Lcats_kernel_instances_ListMonoid extends $c_O {
   combine__O__O__O(x, y) {
     return this.combine__sci_List__sci_List__sci_List($as_sci_List(x), $as_sci_List(y))
   };
+  empty__O() {
+    return $m_sci_Nil$()
+  };
 }
 const $d_Lcats_kernel_instances_ListMonoid = new $TypeData().initClass({
   Lcats_kernel_instances_ListMonoid: 0
@@ -23765,6 +24680,10 @@ class $c_Lcats_kernel_instances_QueueMonoid extends $c_O {
     const this$1 = $m_sci_Queue$();
     return $as_sci_Queue(x$1.$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O(y$1, this$1.scg_GenTraversableFactory__f_ReusableCBFInstance))
   };
+  empty__O() {
+    $m_sci_Queue$();
+    return $m_sci_Queue$EmptyQueue$()
+  };
 }
 const $d_Lcats_kernel_instances_QueueMonoid = new $TypeData().initClass({
   Lcats_kernel_instances_QueueMonoid: 0
@@ -23782,6 +24701,10 @@ class $c_Lcats_kernel_instances_StreamMonoid extends $c_O {
     const x$1 = $as_sci_Stream(x);
     const y$1 = $as_sci_Stream(y);
     return $as_sci_Stream(x$1.$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O(y$1, $m_sci_Stream$().sci_Stream$__f_ReusableCBF))
+  };
+  empty__O() {
+    $m_s_package$();
+    return $m_sci_Stream$Empty$()
   };
 }
 const $d_Lcats_kernel_instances_StreamMonoid = new $TypeData().initClass({
@@ -23802,6 +24725,9 @@ class $c_Lcats_kernel_instances_StringMonoid extends $c_O {
   combine__O__O__O(x, y) {
     return this.combine__T__T__T($as_T(x), $as_T(y))
   };
+  empty__O() {
+    return ""
+  };
 }
 const $d_Lcats_kernel_instances_StringMonoid = new $TypeData().initClass({
   Lcats_kernel_instances_StringMonoid: 0
@@ -23820,6 +24746,10 @@ class $c_Lcats_kernel_instances_VectorMonoid extends $c_O {
     const y$1 = $as_sci_Vector(y);
     const this$1 = $m_sci_Vector$();
     return $as_sci_Vector(x$1.$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O(y$1, this$1.scg_GenTraversableFactory__f_ReusableCBFInstance))
+  };
+  empty__O() {
+    const this$1 = $m_s_package$().s_package$__f_Vector;
+    return this$1.sci_Vector$__f_NIL
   };
 }
 const $d_Lcats_kernel_instances_VectorMonoid = new $TypeData().initClass({
@@ -23846,12 +24776,12 @@ class $c_Leoi_Bands extends $c_O {
     this.Leoi_Bands__f_fourWeek = fourWeek
   };
   interval__Leoi_Period$Vala__I__Lspire_math_Interval(period, qty) {
-    const x = $m_Leoi_Period$().Year__Leoi_Period$Vala();
+    const x = $m_Leoi_Period$().Leoi_Period$__f_Year;
     let raw;
     if (((x === null) ? (period === null) : x.equals__O__Z(period))) {
       raw = this.Leoi_Bands__f_year
     } else {
-      const x$3 = $m_Leoi_Period$().Month__Leoi_Period$Vala();
+      const x$3 = $m_Leoi_Period$().Leoi_Period$__f_Month;
       if (((x$3 === null) ? (period === null) : x$3.equals__O__Z(period))) {
         const this$1 = this.Leoi_Bands__f_month;
         let $$x2;
@@ -23866,7 +24796,7 @@ class $c_Leoi_Bands extends $c_O {
         const this$3 = $m_s_math_BigDecimal$();
         raw = $$x1.$times__O__Lcats_kernel_Order__Lalgebra_ring_Semiring__Lspire_math_Interval(this$3.apply__I__Ljava_math_MathContext__s_math_BigDecimal(qty, this$3.s_math_BigDecimal$__f_defaultMathContext), $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra, $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra)
       } else {
-        const x$5 = $m_Leoi_Period$().Week__Leoi_Period$Vala();
+        const x$5 = $m_Leoi_Period$().Leoi_Period$__f_Week;
         if (((x$5 === null) ? (period === null) : x$5.equals__O__Z(period))) {
           const this$4 = this.Leoi_Bands__f_week;
           let $$x5;
@@ -23881,7 +24811,7 @@ class $c_Leoi_Bands extends $c_O {
           const this$6 = $m_s_math_BigDecimal$();
           raw = $$x4.$times__O__Lcats_kernel_Order__Lalgebra_ring_Semiring__Lspire_math_Interval(this$6.apply__I__Ljava_math_MathContext__s_math_BigDecimal(qty, this$6.s_math_BigDecimal$__f_defaultMathContext), $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra, $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra)
         } else {
-          const x$7 = $m_Leoi_Period$().FourWeek__Leoi_Period$Vala();
+          const x$7 = $m_Leoi_Period$().Leoi_Period$__f_FourWeek;
           if ((!((x$7 === null) ? (period === null) : x$7.equals__O__Z(period)))) {
             throw new $c_s_MatchError(period)
           };
@@ -24038,6 +24968,112 @@ const $d_Leoi_Bands = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Leoi_Bands.prototype.$classData = $d_Leoi_Bands;
+class $c_Leoi_ClassFour extends $c_O {
+  constructor(lowerLimit, upperLimit, mainRate, upperRate) {
+    super();
+    this.Leoi_ClassFour__f_lowerLimit = null;
+    this.Leoi_ClassFour__f_upperLimit = null;
+    this.Leoi_ClassFour__f_mainRate = null;
+    this.Leoi_ClassFour__f_upperRate = null;
+    this.Leoi_ClassFour__f_lowerLimit = lowerLimit;
+    this.Leoi_ClassFour__f_upperLimit = upperLimit;
+    this.Leoi_ClassFour__f_mainRate = mainRate;
+    this.Leoi_ClassFour__f_upperRate = upperRate
+  };
+  productPrefix__T() {
+    return "ClassFour"
+  };
+  productArity__I() {
+    return 4
+  };
+  productElement__I__O(x$1) {
+    switch (x$1) {
+      case 0: {
+        return this.Leoi_ClassFour__f_lowerLimit;
+        break
+      }
+      case 1: {
+        return this.Leoi_ClassFour__f_upperLimit;
+        break
+      }
+      case 2: {
+        return this.Leoi_ClassFour__f_mainRate;
+        break
+      }
+      case 3: {
+        return this.Leoi_ClassFour__f_upperRate;
+        break
+      }
+      default: {
+        throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + x$1))
+      }
+    }
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    const this$2 = $m_s_util_hashing_MurmurHash3$();
+    return this$2.productHash__s_Product__I__I(this, (-889275714))
+  };
+  toString__T() {
+    return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
+  };
+  equals__O__Z(x$1) {
+    if ((this === x$1)) {
+      return true
+    } else if ((x$1 instanceof $c_Leoi_ClassFour)) {
+      const ClassFour$1 = $as_Leoi_ClassFour(x$1);
+      const x = this.Leoi_ClassFour__f_lowerLimit;
+      const x$2 = ClassFour$1.Leoi_ClassFour__f_lowerLimit;
+      let $$x2;
+      if (((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))) {
+        const x$3 = this.Leoi_ClassFour__f_upperLimit;
+        const x$4 = ClassFour$1.Leoi_ClassFour__f_upperLimit;
+        $$x2 = ((x$3 === null) ? (x$4 === null) : x$3.equals__O__Z(x$4))
+      } else {
+        $$x2 = false
+      };
+      let $$x1;
+      if ($$x2) {
+        const x$5 = this.Leoi_ClassFour__f_mainRate;
+        const x$6 = ClassFour$1.Leoi_ClassFour__f_mainRate;
+        $$x1 = ((x$5 === null) ? (x$6 === null) : x$5.equals__O__Z(x$6))
+      } else {
+        $$x1 = false
+      };
+      if ($$x1) {
+        const x$7 = this.Leoi_ClassFour__f_upperRate;
+        const x$8 = ClassFour$1.Leoi_ClassFour__f_upperRate;
+        return ((x$7 === null) ? (x$8 === null) : x$7.equals__O__Z(x$8))
+      } else {
+        return false
+      }
+    } else {
+      return false
+    }
+  };
+}
+function $as_Leoi_ClassFour(obj) {
+  return (((obj instanceof $c_Leoi_ClassFour) || (obj === null)) ? obj : $throwClassCastException(obj, "eoi.ClassFour"))
+}
+function $isArrayOf_Leoi_ClassFour(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Leoi_ClassFour)))
+}
+function $asArrayOf_Leoi_ClassFour(obj, depth) {
+  return (($isArrayOf_Leoi_ClassFour(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Leoi.ClassFour;", depth))
+}
+const $d_Leoi_ClassFour = new $TypeData().initClass({
+  Leoi_ClassFour: 0
+}, false, "eoi.ClassFour", {
+  Leoi_ClassFour: 1,
+  O: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Leoi_ClassFour.prototype.$classData = $d_Leoi_ClassFour;
 class $c_Leoi_ClassTwo extends $c_O {
   constructor(weeklyRate, smallEarningsException) {
     super();
@@ -24117,14 +25153,62 @@ const $d_Leoi_ClassTwo = new $TypeData().initClass({
 });
 $c_Leoi_ClassTwo.prototype.$classData = $d_Leoi_ClassTwo;
 class $c_Leoi_Configuration extends $c_O {
-  constructor(categoryNames, classOne, classTwo) {
+  constructor(categoryNames, classOne, classOneAB, classTwo, classThree, classFour) {
     super();
     this.Leoi_Configuration__f_categoryNames = null;
     this.Leoi_Configuration__f_classOne = null;
+    this.Leoi_Configuration__f_classOneAB = null;
     this.Leoi_Configuration__f_classTwo = null;
+    this.Leoi_Configuration__f_classThree = null;
+    this.Leoi_Configuration__f_classFour = null;
     this.Leoi_Configuration__f_categoryNames = categoryNames;
     this.Leoi_Configuration__f_classOne = classOne;
-    this.Leoi_Configuration__f_classTwo = classTwo
+    this.Leoi_Configuration__f_classOneAB = classOneAB;
+    this.Leoi_Configuration__f_classTwo = classTwo;
+    this.Leoi_Configuration__f_classThree = classThree;
+    this.Leoi_Configuration__f_classFour = classFour
+  };
+  calculateClassOneAAndB__Ljava_time_LocalDate__s_math_BigDecimal__s_Option(on, amount) {
+    $m_Leoi_package$();
+    const value = this.Leoi_Configuration__f_classOneAB;
+    const this$3 = new $c_Leoi_package$RichIntervalMap(value).at__O__Lcats_kernel_Order__s_Option(on, ($m_Leoi_package$(), new $c_Leoi_package$$anon$1()));
+    if (this$3.isEmpty__Z()) {
+      return $m_s_None$()
+    } else {
+      const arg1 = this$3.get__O();
+      const x$1 = $as_s_math_BigDecimal(arg1);
+      return new $c_s_Some(amount.$times__s_math_BigDecimal__s_math_BigDecimal(x$1))
+    }
+  };
+  calculateClassThree__Ljava_time_LocalDate__I__s_Option(on, numberOfWeeks) {
+    $m_Leoi_package$();
+    const value = this.Leoi_Configuration__f_classThree;
+    const this$3 = new $c_Leoi_package$RichIntervalMap(value).at__O__Lcats_kernel_Order__s_Option(on, ($m_Leoi_package$(), new $c_Leoi_package$$anon$1()));
+    if (this$3.isEmpty__Z()) {
+      return $m_s_None$()
+    } else {
+      const arg1 = this$3.get__O();
+      const x$2 = $as_s_math_BigDecimal(arg1);
+      const this$4 = $m_s_math_BigDecimal$();
+      return new $c_s_Some(x$2.$times__s_math_BigDecimal__s_math_BigDecimal(this$4.apply__I__Ljava_math_MathContext__s_math_BigDecimal(numberOfWeeks, this$4.s_math_BigDecimal$__f_defaultMathContext)))
+    }
+  };
+  calculateClassFour__Ljava_time_LocalDate__s_math_BigDecimal__s_Option(on, amount) {
+    $m_Leoi_package$();
+    const value = this.Leoi_Configuration__f_classFour;
+    const this$3 = new $c_Leoi_package$RichIntervalMap(value).at__O__Lcats_kernel_Order__s_Option(on, ($m_Leoi_package$(), new $c_Leoi_package$$anon$1()));
+    if (this$3.isEmpty__Z()) {
+      return $m_s_None$()
+    } else {
+      const arg1 = this$3.get__O();
+      const f = $as_Leoi_ClassFour(arg1);
+      const lowerBand = $m_Lspire_math_Interval$().closed__O__O__Lcats_kernel_Order__Lspire_math_Interval(f.Leoi_ClassFour__f_lowerLimit, f.Leoi_ClassFour__f_upperLimit, $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra);
+      $m_Lspire_math_Interval$();
+      const a = f.Leoi_ClassFour__f_upperLimit;
+      $m_Lspire_implicits$();
+      const upperBand = new $c_Lspire_math_Above(a, 1);
+      return new $c_s_Some(new $c_T2($m_Leoi_package$RichBD$().inBand$extension__s_math_BigDecimal__Lspire_math_Interval__s_math_BigDecimal(($m_Leoi_package$(), amount), lowerBand).$times__s_math_BigDecimal__s_math_BigDecimal(f.Leoi_ClassFour__f_mainRate), $m_Leoi_package$RichBD$().inBand$extension__s_math_BigDecimal__Lspire_math_Interval__s_math_BigDecimal(($m_Leoi_package$(), amount), upperBand).$times__s_math_BigDecimal__s_math_BigDecimal(f.Leoi_ClassFour__f_upperRate)))
+    }
   };
   calculateClassOne__Ljava_time_LocalDate__s_math_BigDecimal__C__Leoi_Period$Vala__I__Z__sci_Map(on, amount, cat, period, qty, contractedOutStandardRate) {
     $m_Leoi_package$();
@@ -24139,7 +25223,7 @@ class $c_Leoi_Configuration extends $c_O {
     return "Configuration"
   };
   productArity__I() {
-    return 3
+    return 6
   };
   productElement__I__O(x$1) {
     switch (x$1) {
@@ -24152,7 +25236,19 @@ class $c_Leoi_Configuration extends $c_O {
         break
       }
       case 2: {
+        return this.Leoi_Configuration__f_classOneAB;
+        break
+      }
+      case 3: {
         return this.Leoi_Configuration__f_classTwo;
+        break
+      }
+      case 4: {
+        return this.Leoi_Configuration__f_classThree;
+        break
+      }
+      case 5: {
+        return this.Leoi_Configuration__f_classFour;
         break
       }
       default: {
@@ -24177,18 +25273,42 @@ class $c_Leoi_Configuration extends $c_O {
       const Configuration$1 = $as_Leoi_Configuration(x$1);
       const x = this.Leoi_Configuration__f_categoryNames;
       const x$2 = Configuration$1.Leoi_Configuration__f_categoryNames;
-      let $$x1;
+      let $$x4;
       if (((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))) {
         const x$3 = this.Leoi_Configuration__f_classOne;
         const x$4 = Configuration$1.Leoi_Configuration__f_classOne;
-        $$x1 = ((x$3 === null) ? (x$4 === null) : x$3.equals__O__Z(x$4))
+        $$x4 = ((x$3 === null) ? (x$4 === null) : x$3.equals__O__Z(x$4))
+      } else {
+        $$x4 = false
+      };
+      let $$x3;
+      if ($$x4) {
+        const x$5 = this.Leoi_Configuration__f_classOneAB;
+        const x$6 = Configuration$1.Leoi_Configuration__f_classOneAB;
+        $$x3 = ((x$5 === null) ? (x$6 === null) : x$5.equals__O__Z(x$6))
+      } else {
+        $$x3 = false
+      };
+      let $$x2;
+      if ($$x3) {
+        const x$7 = this.Leoi_Configuration__f_classTwo;
+        const x$8 = Configuration$1.Leoi_Configuration__f_classTwo;
+        $$x2 = ((x$7 === null) ? (x$8 === null) : x$7.equals__O__Z(x$8))
+      } else {
+        $$x2 = false
+      };
+      let $$x1;
+      if ($$x2) {
+        const x$9 = this.Leoi_Configuration__f_classThree;
+        const x$10 = Configuration$1.Leoi_Configuration__f_classThree;
+        $$x1 = ((x$9 === null) ? (x$10 === null) : x$9.equals__O__Z(x$10))
       } else {
         $$x1 = false
       };
       if ($$x1) {
-        const x$5 = this.Leoi_Configuration__f_classTwo;
-        const x$6 = Configuration$1.Leoi_Configuration__f_classTwo;
-        return ((x$5 === null) ? (x$6 === null) : x$5.equals__O__Z(x$6))
+        const x$11 = this.Leoi_Configuration__f_classFour;
+        const x$12 = Configuration$1.Leoi_Configuration__f_classFour;
+        return ((x$11 === null) ? (x$12 === null) : x$11.equals__O__Z(x$12))
       } else {
         return false
       }
@@ -24217,182 +25337,198 @@ const $d_Leoi_Configuration = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Leoi_Configuration.prototype.$classData = $d_Leoi_Configuration;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$37 extends $c_O {
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$39 extends $c_O {
   constructor(outer) {
     super()
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$37 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$37: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$37", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$37: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$39 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$39: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$39", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$39: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$37.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$37;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$39 extends $c_O {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$39.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$39;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$41 extends $c_O {
   constructor(outer) {
     super()
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$39 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$39: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$39", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$39: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$41 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$41: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$41", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$41: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$39.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$39;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$40 extends $c_O {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$41.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$41;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$43 extends $c_O {
   constructor(outer) {
     super()
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$40 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$40: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$40", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$40: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$43 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$43: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$43", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$43: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$40.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$40;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$42 extends $c_O {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$43.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$43;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$44 extends $c_O {
   constructor(outer) {
     super()
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$42 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$42: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$42", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$42: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$44 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$44: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$44", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$44: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$42.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$42;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$44 extends $c_O {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$44.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$44;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$46 extends $c_O {
   constructor(outer) {
     super()
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$44 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$44: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$44", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$44: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$46 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$46: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$46", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$46: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$44.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$44;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$45 extends $c_O {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$46.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$46;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$48 extends $c_O {
   constructor(outer) {
     super()
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$45 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$45: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$45", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$45: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$48 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$48: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$48", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$48: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$45.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$45;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$47 extends $c_O {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$48.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$48;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$49 extends $c_O {
   constructor(outer) {
     super()
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$47 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$47: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$47", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$47: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$49 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$49: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$49", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$49: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$47.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$47;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$49 extends $c_O {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$49.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$49;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$51 extends $c_O {
   constructor(outer) {
     super()
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$49 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$49: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$49", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$49: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$51 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$51: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$51", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$51: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$49.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$49;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$56 extends $c_O {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$51.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$51;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$53 extends $c_O {
   constructor(outer) {
     super()
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$56 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$56: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$56", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$56: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$53 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$53: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$53", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$53: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$56.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$56;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$62 extends $c_O {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$53.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$53;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$60 extends $c_O {
   constructor(outer) {
     super()
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$62 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$62: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$62", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$62: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$60 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$60: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$60", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$60: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$62.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$62;
-class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$64 extends $c_O {
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$60.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$60;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$66 extends $c_O {
   constructor(outer) {
     super()
   };
 }
-const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$64 = new $TypeData().initClass({
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$64: 0
-}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$64", {
-  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$64: 1,
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$66 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$66: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$66", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$66: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$64.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$126$1$$anon$64;
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$66.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$66;
+class $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$68 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+}
+const $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$68 = new $TypeData().initClass({
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$68: 0
+}, false, "eoi.EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$68", {
+  Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$68: 1,
+  O: 1,
+  Lshapeless_DefaultSymbolicLabelling: 1,
+  Lshapeless_package$DepFn0: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$68.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1$$anon$68;
 class $c_Leoi_RateDefinition extends $c_O {
   constructor(year, month, week, fourWeek, employee, employer, contractedOutStandardRate, trigger) {
     super();
@@ -24560,7 +25696,6 @@ class $c_Leoi_frontend_ClassOne extends $c_O {
     super();
     this.Leoi_frontend_ClassOne__f_json = null;
     this.Leoi_frontend_ClassOne__f_config = null;
-    this.Leoi_frontend_ClassOne__f_bitmap$init$0 = false;
     this.Leoi_frontend_ClassOne__f_json = json;
     const x1 = $m_Leoi_EoiJsonEncoding$().fromJson__T__s_util_Either(json);
     let $$x1;
@@ -24575,8 +25710,7 @@ class $c_Leoi_frontend_ClassOne extends $c_O {
     } else {
       throw new $c_s_MatchError(x1)
     };
-    this.Leoi_frontend_ClassOne__f_config = $$x1;
-    this.Leoi_frontend_ClassOne__f_bitmap$init$0 = true
+    this.Leoi_frontend_ClassOne__f_config = $$x1
   };
   convertDate__sjs_js_Date__Ljava_time_LocalDate(in$1) {
     const year = $doubleToInt($uD(in$1.getFullYear()));
@@ -24584,14 +25718,8 @@ class $c_Leoi_frontend_ClassOne extends $c_O {
     const dayOfMonth = $doubleToInt($uD(in$1.getDate()));
     return $m_Ljava_time_LocalDate$().of__I__I__I__Ljava_time_LocalDate(year, month, dayOfMonth)
   };
-  config__Leoi_Configuration() {
-    if ((!this.Leoi_frontend_ClassOne__f_bitmap$init$0)) {
-      throw new $c_s_UninitializedFieldError("Uninitialized field: /Users/sb/code/ni-calculations/frontend/src/main/scala/Frontend.scala: 15")
-    };
-    return this.Leoi_frontend_ClassOne__f_config
-  };
   calculate__sjs_js_Date__D__T__T__I__Z__T(on, amount, cat, period, qty, contractedOutStandardRate) {
-    const $$x3 = this.config__Leoi_Configuration();
+    const $$x3 = this.Leoi_frontend_ClassOne__f_config;
     const $$x2 = this.convertDate__sjs_js_Date__Ljava_time_LocalDate(on);
     const this$2 = $m_s_package$().BigDecimal__s_math_BigDecimal$();
     const x = ("" + amount);
@@ -24609,7 +25737,7 @@ class $c_Leoi_frontend_ClassOne extends $c_O {
     return $m_Lio_circe_Printer$().Lio_circe_Printer$__f_spaces2.print__Lio_circe_Json__T(this$8)
   };
   isCosrApplicable__sjs_js_Date__Z(on) {
-    const this$1 = this.config__Leoi_Configuration().Leoi_Configuration__f_classOne;
+    const this$1 = this.Leoi_frontend_ClassOne__f_config.Leoi_Configuration__f_classOne;
     const this$4 = this$1.keySet__sci_Set().find__F1__s_Option(new $c_sjsr_AnonFunction1(((this$2, on$1) => ((x$1$2) => {
       const x$1 = $as_Lspire_math_Interval(x$1$2);
       return x$1.contains__O__Lcats_kernel_Order__Z(this$2.convertDate__sjs_js_Date__Ljava_time_LocalDate(on$1), ($m_Leoi_package$(), new $c_Leoi_package$$anon$1()))
@@ -24618,14 +25746,14 @@ class $c_Leoi_frontend_ClassOne extends $c_O {
       throw $ct_ju_NoSuchElementException__T__(new $c_ju_NoSuchElementException(), ("Cannot find an interval for " + on))
     };
     const interval = $as_Lspire_math_Interval(this$4.get__O());
-    return $as_sc_MapLike(this.config__Leoi_Configuration().Leoi_Configuration__f_classOne.apply__O__O(interval)).values__sc_Iterable().exists__F1__Z(new $c_sjsr_AnonFunction1(((this$3$1) => ((x$2$2) => {
+    return $as_sc_MapLike(this.Leoi_frontend_ClassOne__f_config.Leoi_Configuration__f_classOne.apply__O__O(interval)).values__sc_Iterable().exists__F1__Z(new $c_sjsr_AnonFunction1(((this$3$1) => ((x$2$2) => {
       const x$2 = $as_Leoi_RateDefinition(x$2$2);
       const this$5 = x$2.Leoi_RateDefinition__f_contractedOutStandardRate;
       return (!this$5.isEmpty__Z())
     }))(this)))
   };
   getApplicableCategories__sjs_js_Date__T(on) {
-    const this$1 = this.config__Leoi_Configuration().Leoi_Configuration__f_classOne;
+    const this$1 = this.Leoi_frontend_ClassOne__f_config.Leoi_Configuration__f_classOne;
     const this$4 = this$1.keySet__sci_Set().find__F1__s_Option(new $c_sjsr_AnonFunction1(((this$2, on$1) => ((x$3$2) => {
       const x$3 = $as_Lspire_math_Interval(x$3$2);
       return x$3.contains__O__Lcats_kernel_Order__Z(this$2.convertDate__sjs_js_Date__Ljava_time_LocalDate(on$1), ($m_Leoi_package$(), new $c_Leoi_package$$anon$1()))
@@ -24634,7 +25762,7 @@ class $c_Leoi_frontend_ClassOne extends $c_O {
       throw $ct_ju_NoSuchElementException__T__(new $c_ju_NoSuchElementException(), ("Cannot find an interval for " + on))
     };
     const interval = $as_Lspire_math_Interval(this$4.get__O());
-    const $$x4 = $as_sc_MapLike(this.config__Leoi_Configuration().Leoi_Configuration__f_classOne.apply__O__O(interval)).values__sc_Iterable();
+    const $$x4 = $as_sc_MapLike(this.Leoi_frontend_ClassOne__f_config.Leoi_Configuration__f_classOne.apply__O__O(interval)).values__sc_Iterable();
     const $$x1 = new $c_sjsr_AnonFunction1(((this$3$1) => ((x$2) => {
       const x = $as_Leoi_RateDefinition(x$2);
       const this$5 = x.Leoi_RateDefinition__f_employee;
@@ -24686,6 +25814,40 @@ class $c_Leoi_frontend_ClassOne extends $c_O {
     };
     return $as_sc_TraversableOnce($$x5).mkString__T()
   };
+  calculateClassOneAAndB__sjs_js_Date__D__T(on, amount) {
+    const $$x2 = this.Leoi_frontend_ClassOne__f_config;
+    const $$x1 = this.convertDate__sjs_js_Date__Ljava_time_LocalDate(on);
+    const this$1 = $m_s_math_BigDecimal$();
+    const this$2 = $$x2.calculateClassOneAAndB__Ljava_time_LocalDate__s_math_BigDecimal__s_Option($$x1, this$1.decimal__D__Ljava_math_MathContext__s_math_BigDecimal(amount, this$1.s_math_BigDecimal$__f_defaultMathContext));
+    if (this$2.isEmpty__Z()) {
+      throw $ct_ju_NoSuchElementException__T__(new $c_ju_NoSuchElementException(), ("Class One A and B undefined for " + on))
+    };
+    const this$3 = $as_s_math_BigDecimal(this$2.get__O());
+    return this$3.s_math_BigDecimal__f_bigDecimal.toString__T()
+  };
+  calculateClassThree__sjs_js_Date__I__T(on, numberOfWeeks) {
+    const this$1 = this.Leoi_frontend_ClassOne__f_config.calculateClassThree__Ljava_time_LocalDate__I__s_Option(this.convertDate__sjs_js_Date__Ljava_time_LocalDate(on), numberOfWeeks);
+    if (this$1.isEmpty__Z()) {
+      throw $ct_ju_NoSuchElementException__T__(new $c_ju_NoSuchElementException(), ("Class Three undefined for " + on))
+    };
+    const this$2 = $as_s_math_BigDecimal(this$1.get__O());
+    return this$2.s_math_BigDecimal__f_bigDecimal.toString__T()
+  };
+  calculateClassFour__Ljava_time_LocalDate__D__T(on, amount) {
+    const $$x1 = this.Leoi_frontend_ClassOne__f_config;
+    const this$1 = $m_s_math_BigDecimal$();
+    const this$2 = $$x1.calculateClassFour__Ljava_time_LocalDate__s_math_BigDecimal__s_Option(on, this$1.decimal__D__Ljava_math_MathContext__s_math_BigDecimal(amount, this$1.s_math_BigDecimal$__f_defaultMathContext));
+    if (this$2.isEmpty__Z()) {
+      throw $ct_ju_NoSuchElementException__T__(new $c_ju_NoSuchElementException(), ("Class Three undefined for " + on))
+    };
+    const x1 = $as_T2(this$2.get__O());
+    if ((x1 === null)) {
+      throw new $c_s_MatchError(x1)
+    };
+    const l = $as_s_math_BigDecimal(x1._1__O());
+    const h = $as_s_math_BigDecimal(x1._2__O());
+    return ((l.s_math_BigDecimal__f_bigDecimal.toString__T() + ",") + h.s_math_BigDecimal__f_bigDecimal.toString__T())
+  };
   productPrefix__T() {
     return "ClassOne"
   };
@@ -24733,6 +25895,30 @@ class $c_Leoi_frontend_ClassOne extends $c_O {
   };
   $js$exported$meth$getApplicableCategories__sjs_js_Date__O(on) {
     return this.getApplicableCategories__sjs_js_Date__T(on)
+  };
+  $js$exported$meth$calculateClassOneAAndB__sjs_js_Date__D__O(on, amount) {
+    return this.calculateClassOneAAndB__sjs_js_Date__D__T(on, amount)
+  };
+  $js$exported$meth$calculateClassThree__sjs_js_Date__I__O(on, numberOfWeeks) {
+    return this.calculateClassThree__sjs_js_Date__I__T(on, numberOfWeeks)
+  };
+  $js$exported$meth$calculateClassFour__Ljava_time_LocalDate__D__O(on, amount) {
+    return this.calculateClassFour__Ljava_time_LocalDate__D__T(on, amount)
+  };
+  "calculateClassFour"(arg, arg$2) {
+    const prep0 = $as_Ljava_time_LocalDate(arg);
+    const prep1 = $uD(arg$2);
+    return this.$js$exported$meth$calculateClassFour__Ljava_time_LocalDate__D__O(prep0, prep1)
+  };
+  "calculateClassThree"(arg, arg$2) {
+    const prep0 = arg;
+    const prep1 = $uI(arg$2);
+    return this.$js$exported$meth$calculateClassThree__sjs_js_Date__I__O(prep0, prep1)
+  };
+  "calculateClassOneAAndB"(arg, arg$2) {
+    const prep0 = arg;
+    const prep1 = $uD(arg$2);
+    return this.$js$exported$meth$calculateClassOneAAndB__sjs_js_Date__D__O(prep0, prep1)
   };
   "getApplicableCategories"(arg) {
     const prep0 = arg;
@@ -25638,6 +26824,356 @@ const $d_ju_concurrent_CopyOnWriteArrayListIterator = new $TypeData().initClass(
   ju_SizeChangeEvent: 1
 });
 $c_ju_concurrent_CopyOnWriteArrayListIterator.prototype.$classData = $d_ju_concurrent_CopyOnWriteArrayListIterator;
+class $c_ju_concurrent_TimeUnit$$anon$1 extends $c_ju_concurrent_TimeUnit {
+  constructor() {
+    super();
+    $ct_jl_Enum__T__I__(this, "NANOSECONDS", 0)
+  };
+  convert__J__ju_concurrent_TimeUnit__J(a, u) {
+    return u.toNanos__J__J(a)
+  };
+  toNanos__J__J(a) {
+    return a
+  };
+  toMicros__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 1000, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+  toMillis__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 1000000, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+  toSeconds__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 1000000000, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+  toMinutes__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, (-129542144), 13);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+  toHours__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 817405952, 838);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+  toDays__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, (-1857093632), 20116);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+}
+const $d_ju_concurrent_TimeUnit$$anon$1 = new $TypeData().initClass({
+  ju_concurrent_TimeUnit$$anon$1: 0
+}, false, "java.util.concurrent.TimeUnit$$anon$1", {
+  ju_concurrent_TimeUnit$$anon$1: 1,
+  ju_concurrent_TimeUnit: 1,
+  jl_Enum: 1,
+  O: 1,
+  jl_Comparable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_ju_concurrent_TimeUnit$$anon$1.prototype.$classData = $d_ju_concurrent_TimeUnit$$anon$1;
+class $c_ju_concurrent_TimeUnit$$anon$2 extends $c_ju_concurrent_TimeUnit {
+  constructor() {
+    super();
+    $ct_jl_Enum__T__I__(this, "MICROSECONDS", 1)
+  };
+  convert__J__ju_concurrent_TimeUnit__J(a, u) {
+    return u.toMicros__J__J(a)
+  };
+  toNanos__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(1000, 0), new $c_RTLong((-1511828489), 2147483))
+  };
+  toMicros__J__J(a) {
+    return a
+  };
+  toMillis__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 1000, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+  toSeconds__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 1000000, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+  toMinutes__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 60000000, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+  toHours__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, (-694967296), 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+  toDays__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 500654080, 20);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+}
+const $d_ju_concurrent_TimeUnit$$anon$2 = new $TypeData().initClass({
+  ju_concurrent_TimeUnit$$anon$2: 0
+}, false, "java.util.concurrent.TimeUnit$$anon$2", {
+  ju_concurrent_TimeUnit$$anon$2: 1,
+  ju_concurrent_TimeUnit: 1,
+  jl_Enum: 1,
+  O: 1,
+  jl_Comparable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_ju_concurrent_TimeUnit$$anon$2.prototype.$classData = $d_ju_concurrent_TimeUnit$$anon$2;
+class $c_ju_concurrent_TimeUnit$$anon$3 extends $c_ju_concurrent_TimeUnit {
+  constructor() {
+    super();
+    $ct_jl_Enum__T__I__(this, "MILLISECONDS", 2)
+  };
+  convert__J__ju_concurrent_TimeUnit__J(a, u) {
+    return u.toMillis__J__J(a)
+  };
+  toNanos__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(1000000, 0), new $c_RTLong(2077252342, 2147))
+  };
+  toMicros__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(1000, 0), new $c_RTLong((-1511828489), 2147483))
+  };
+  toMillis__J__J(a) {
+    return a
+  };
+  toSeconds__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 1000, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+  toMinutes__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 60000, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+  toHours__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 3600000, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+  toDays__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 86400000, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+}
+const $d_ju_concurrent_TimeUnit$$anon$3 = new $TypeData().initClass({
+  ju_concurrent_TimeUnit$$anon$3: 0
+}, false, "java.util.concurrent.TimeUnit$$anon$3", {
+  ju_concurrent_TimeUnit$$anon$3: 1,
+  ju_concurrent_TimeUnit: 1,
+  jl_Enum: 1,
+  O: 1,
+  jl_Comparable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_ju_concurrent_TimeUnit$$anon$3.prototype.$classData = $d_ju_concurrent_TimeUnit$$anon$3;
+class $c_ju_concurrent_TimeUnit$$anon$4 extends $c_ju_concurrent_TimeUnit {
+  constructor() {
+    super();
+    $ct_jl_Enum__T__I__(this, "SECONDS", 3)
+  };
+  convert__J__ju_concurrent_TimeUnit__J(a, u) {
+    return u.toSeconds__J__J(a)
+  };
+  toNanos__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(1000000000, 0), new $c_RTLong(633437444, 2))
+  };
+  toMicros__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(1000000, 0), new $c_RTLong(2077252342, 2147))
+  };
+  toMillis__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(1000, 0), new $c_RTLong((-1511828489), 2147483))
+  };
+  toSeconds__J__J(a) {
+    return a
+  };
+  toMinutes__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 60, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+  toHours__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 3600, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+  toDays__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 86400, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+}
+const $d_ju_concurrent_TimeUnit$$anon$4 = new $TypeData().initClass({
+  ju_concurrent_TimeUnit$$anon$4: 0
+}, false, "java.util.concurrent.TimeUnit$$anon$4", {
+  ju_concurrent_TimeUnit$$anon$4: 1,
+  ju_concurrent_TimeUnit: 1,
+  jl_Enum: 1,
+  O: 1,
+  jl_Comparable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_ju_concurrent_TimeUnit$$anon$4.prototype.$classData = $d_ju_concurrent_TimeUnit$$anon$4;
+class $c_ju_concurrent_TimeUnit$$anon$5 extends $c_ju_concurrent_TimeUnit {
+  constructor() {
+    super();
+    $ct_jl_Enum__T__I__(this, "MINUTES", 4)
+  };
+  convert__J__ju_concurrent_TimeUnit__J(a, u) {
+    return u.toMinutes__J__J(a)
+  };
+  toNanos__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong((-129542144), 13), new $c_RTLong(153722867, 0))
+  };
+  toMicros__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(60000000, 0), new $c_RTLong((-895955376), 35))
+  };
+  toMillis__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(60000, 0), new $c_RTLong(1692789776, 35791))
+  };
+  toSeconds__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(60, 0), new $c_RTLong(572662306, 35791394))
+  };
+  toMinutes__J__J(a) {
+    return a
+  };
+  toHours__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 60, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+  toDays__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 1440, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+}
+const $d_ju_concurrent_TimeUnit$$anon$5 = new $TypeData().initClass({
+  ju_concurrent_TimeUnit$$anon$5: 0
+}, false, "java.util.concurrent.TimeUnit$$anon$5", {
+  ju_concurrent_TimeUnit$$anon$5: 1,
+  ju_concurrent_TimeUnit: 1,
+  jl_Enum: 1,
+  O: 1,
+  jl_Comparable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_ju_concurrent_TimeUnit$$anon$5.prototype.$classData = $d_ju_concurrent_TimeUnit$$anon$5;
+class $c_ju_concurrent_TimeUnit$$anon$6 extends $c_ju_concurrent_TimeUnit {
+  constructor() {
+    super();
+    $ct_jl_Enum__T__I__(this, "HOURS", 5)
+  };
+  convert__J__ju_concurrent_TimeUnit__J(a, u) {
+    return u.toHours__J__J(a)
+  };
+  toNanos__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(817405952, 838), new $c_RTLong(2562047, 0))
+  };
+  toMicros__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong((-694967296), 0), new $c_RTLong((-1732919508), 0))
+  };
+  toMillis__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(3600000, 0), new $c_RTLong((-2047687697), 596))
+  };
+  toSeconds__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(3600, 0), new $c_RTLong(1011703407, 596523))
+  };
+  toMinutes__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(60, 0), new $c_RTLong(572662306, 35791394))
+  };
+  toHours__J__J(a) {
+    return a
+  };
+  toDays__J__J(a) {
+    const this$1 = $m_RTLong$();
+    const lo = this$1.divideImpl__I__I__I__I__I(a.RTLong__f_lo, a.RTLong__f_hi, 24, 0);
+    const hi = this$1.RTLong$__f_org$scalajs$linker$runtime$RuntimeLong$$hiReturn;
+    return new $c_RTLong(lo, hi)
+  };
+}
+const $d_ju_concurrent_TimeUnit$$anon$6 = new $TypeData().initClass({
+  ju_concurrent_TimeUnit$$anon$6: 0
+}, false, "java.util.concurrent.TimeUnit$$anon$6", {
+  ju_concurrent_TimeUnit$$anon$6: 1,
+  ju_concurrent_TimeUnit: 1,
+  jl_Enum: 1,
+  O: 1,
+  jl_Comparable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_ju_concurrent_TimeUnit$$anon$6.prototype.$classData = $d_ju_concurrent_TimeUnit$$anon$6;
+class $c_ju_concurrent_TimeUnit$$anon$7 extends $c_ju_concurrent_TimeUnit {
+  constructor() {
+    super();
+    $ct_jl_Enum__T__I__(this, "DAYS", 6)
+  };
+  convert__J__ju_concurrent_TimeUnit__J(a, u) {
+    return u.toDays__J__J(a)
+  };
+  toNanos__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong((-1857093632), 20116), new $c_RTLong(106751, 0))
+  };
+  toMicros__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(500654080, 20), new $c_RTLong(106751991, 0))
+  };
+  toMillis__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(86400000, 0), new $c_RTLong((-622191233), 24))
+  };
+  toSeconds__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(86400, 0), new $c_RTLong(579025220, 24855))
+  };
+  toMinutes__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(1440, 0), new $c_RTLong(381774870, 1491308))
+  };
+  toHours__J__J(a) {
+    return $m_ju_concurrent_TimeUnit$().java$util$concurrent$TimeUnit$$x__J__J__J__J(a, new $c_RTLong(24, 0), new $c_RTLong(1431655765, 89478485))
+  };
+  toDays__J__J(a) {
+    return a
+  };
+}
+const $d_ju_concurrent_TimeUnit$$anon$7 = new $TypeData().initClass({
+  ju_concurrent_TimeUnit$$anon$7: 0
+}, false, "java.util.concurrent.TimeUnit$$anon$7", {
+  ju_concurrent_TimeUnit$$anon$7: 1,
+  ju_concurrent_TimeUnit: 1,
+  jl_Enum: 1,
+  O: 1,
+  jl_Comparable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_ju_concurrent_TimeUnit$$anon$7.prototype.$classData = $d_ju_concurrent_TimeUnit$$anon$7;
 class $c_Lorg_scalajs_linker_runtime_UndefinedBehaviorError extends $c_jl_VirtualMachineError {
   constructor(cause) {
     super();
@@ -25783,6 +27319,9 @@ class $c_s_PartialFunction$$anon$1 extends $c_O {
   runWith__F1__F1(action) {
     return $m_s_PartialFunction$().s_PartialFunction$__f_scala$PartialFunction$$constFalse
   };
+  andThen__F1__F1(g) {
+    return this
+  };
   apply__O__O(v1) {
     this.apply__O__E(v1)
   };
@@ -25798,6 +27337,48 @@ const $d_s_PartialFunction$$anon$1 = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_s_PartialFunction$$anon$1.prototype.$classData = $d_s_PartialFunction$$anon$1;
+class $c_s_PartialFunction$AndThen extends $c_O {
+  constructor(pf, k) {
+    super();
+    this.s_PartialFunction$AndThen__f_pf = null;
+    this.s_PartialFunction$AndThen__f_k = null;
+    this.s_PartialFunction$AndThen__f_pf = pf;
+    this.s_PartialFunction$AndThen__f_k = k
+  };
+  runWith__F1__F1(action) {
+    return $f_s_PartialFunction__runWith__F1__F1(this, action)
+  };
+  compose__F1__F1(g) {
+    return $f_F1__compose__F1__F1(this, g)
+  };
+  toString__T() {
+    return "<function1>"
+  };
+  isDefinedAt__O__Z(x) {
+    return this.s_PartialFunction$AndThen__f_pf.isDefinedAt__O__Z(x)
+  };
+  apply__O__O(x) {
+    return this.s_PartialFunction$AndThen__f_k.apply__O__O(this.s_PartialFunction$AndThen__f_pf.apply__O__O(x))
+  };
+  applyOrElse__O__F1__O(x, default$1) {
+    const z = this.s_PartialFunction$AndThen__f_pf.applyOrElse__O__F1__O(x, $m_s_PartialFunction$().s_PartialFunction$__f_scala$PartialFunction$$fallback_pf);
+    return ((!$m_s_PartialFunction$().scala$PartialFunction$$fallbackOccurred__O__Z(z)) ? this.s_PartialFunction$AndThen__f_k.apply__O__O(z) : default$1.apply__O__O(x))
+  };
+  andThen__F1__F1(g) {
+    return new $c_s_PartialFunction$AndThen(this, g)
+  };
+}
+const $d_s_PartialFunction$AndThen = new $TypeData().initClass({
+  s_PartialFunction$AndThen: 0
+}, false, "scala.PartialFunction$AndThen", {
+  s_PartialFunction$AndThen: 1,
+  O: 1,
+  s_PartialFunction: 1,
+  F1: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_s_PartialFunction$AndThen.prototype.$classData = $d_s_PartialFunction$AndThen;
 class $c_s_PartialFunction$Lifted extends $c_sr_AbstractFunction1 {
   constructor(pf) {
     super();
@@ -27986,11 +29567,10 @@ const $d_scm_WrappedArrayBuilder = new $TypeData().initClass({
   scg_Clearable: 1
 });
 $c_scm_WrappedArrayBuilder.prototype.$classData = $d_scm_WrappedArrayBuilder;
-function $is_s_concurrent_duration_Duration(obj) {
-  return false
+class $c_s_concurrent_duration_Duration extends $c_O {
 }
 function $as_s_concurrent_duration_Duration(obj) {
-  return (($is_s_concurrent_duration_Duration(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.concurrent.duration.Duration"))
+  return (((obj instanceof $c_s_concurrent_duration_Duration) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.concurrent.duration.Duration"))
 }
 function $isArrayOf_s_concurrent_duration_Duration(obj, depth) {
   return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.s_concurrent_duration_Duration)))
@@ -28205,6 +29785,9 @@ class $c_Lspire_std_StringMonoid extends $c_O {
   combine__O__O__O(x, y) {
     return this.combine__T__T__T($as_T(x), $as_T(y))
   };
+  empty__O() {
+    return ""
+  };
 }
 const $d_Lspire_std_StringMonoid = new $TypeData().initClass({
   Lspire_std_StringMonoid: 0
@@ -28217,6 +29800,59 @@ const $d_Lspire_std_StringMonoid = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lspire_std_StringMonoid.prototype.$classData = $d_Lspire_std_StringMonoid;
+class $c_Lcats_Eval$ extends $c_Lcats_EvalInstances {
+  constructor() {
+    super();
+    this.Lcats_Eval$__f_Unit = null;
+    this.Lcats_Eval$__f_True = null;
+    this.Lcats_Eval$__f_False = null;
+    this.Lcats_Eval$__f_Zero = null;
+    this.Lcats_Eval$__f_One = null;
+    $ct_Lcats_EvalInstances__(this);
+    $n_Lcats_Eval$ = this;
+    this.Lcats_Eval$__f_Unit = new $c_Lcats_Now((void 0));
+    this.Lcats_Eval$__f_True = new $c_Lcats_Now(true);
+    this.Lcats_Eval$__f_False = new $c_Lcats_Now(false);
+    this.Lcats_Eval$__f_Zero = new $c_Lcats_Now(0);
+    this.Lcats_Eval$__f_One = new $c_Lcats_Now(1)
+  };
+}
+const $d_Lcats_Eval$ = new $TypeData().initClass({
+  Lcats_Eval$: 0
+}, false, "cats.Eval$", {
+  Lcats_Eval$: 1,
+  Lcats_EvalInstances: 1,
+  Lcats_EvalInstances0: 1,
+  Lcats_EvalInstances1: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcats_Eval$.prototype.$classData = $d_Lcats_Eval$;
+let $n_Lcats_Eval$;
+function $m_Lcats_Eval$() {
+  if ((!$n_Lcats_Eval$)) {
+    $n_Lcats_Eval$ = new $c_Lcats_Eval$()
+  };
+  return $n_Lcats_Eval$
+}
+class $c_Lcats_EvalInstances$$anon$8 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+}
+const $d_Lcats_EvalInstances$$anon$8 = new $TypeData().initClass({
+  Lcats_EvalInstances$$anon$8: 0
+}, false, "cats.EvalInstances$$anon$8", {
+  Lcats_EvalInstances$$anon$8: 1,
+  O: 1,
+  Lcats_Reducible: 1,
+  Lcats_Foldable: 1,
+  Lcats_UnorderedFoldable: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcats_EvalInstances$$anon$8.prototype.$classData = $d_Lcats_EvalInstances$$anon$8;
 const $ct_Lcats_NonEmptyReducible__Lcats_Foldable__ = (function($thiz, G) {
   $thiz.Lcats_NonEmptyReducible__f_G = G;
   return $thiz
@@ -28226,6 +29862,18 @@ class $c_Lcats_NonEmptyReducible extends $c_O {
     super();
     this.Lcats_NonEmptyReducible__f_G = null
   };
+}
+function $is_Lcats_data_NonEmptyList(obj) {
+  return false
+}
+function $as_Lcats_data_NonEmptyList(obj) {
+  return (($is_Lcats_data_NonEmptyList(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "cats.data.NonEmptyList"))
+}
+function $isArrayOf_Lcats_data_NonEmptyList(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lcats_data_NonEmptyList)))
+}
+function $asArrayOf_Lcats_data_NonEmptyList(obj, depth) {
+  return (($isArrayOf_Lcats_data_NonEmptyList(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lcats.data.NonEmptyList;", depth))
 }
 class $c_Lcats_data_NonEmptyList$ extends $c_Lcats_data_NonEmptyListInstances {
   constructor() {
@@ -28412,6 +30060,28 @@ const $d_Lcats_instances_EitherInstances$$anon$1 = new $TypeData().initClass({
   Lcats_Bifunctor: 1
 });
 $c_Lcats_instances_EitherInstances$$anon$1.prototype.$classData = $d_Lcats_instances_EitherInstances$$anon$1;
+class $c_Lcats_instances_InvariantMonoidalInstances$$anon$1 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+  product__O__O__O(fa, fb) {
+    const fa$1 = $as_Lcats_kernel_Monoid(fa);
+    const fb$1 = $as_Lcats_kernel_Monoid(fb);
+    return new $c_Lcats_instances_InvariantMonoidalInstances$$anon$1$$anon$2(this, fa$1, fb$1)
+  };
+}
+const $d_Lcats_instances_InvariantMonoidalInstances$$anon$1 = new $TypeData().initClass({
+  Lcats_instances_InvariantMonoidalInstances$$anon$1: 0
+}, false, "cats.instances.InvariantMonoidalInstances$$anon$1", {
+  Lcats_instances_InvariantMonoidalInstances$$anon$1: 1,
+  O: 1,
+  Lcats_InvariantSemigroupal: 1,
+  Lcats_Semigroupal: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  Lcats_Invariant: 1
+});
+$c_Lcats_instances_InvariantMonoidalInstances$$anon$1.prototype.$classData = $d_Lcats_instances_InvariantMonoidalInstances$$anon$1;
 class $c_Lcats_instances_OrderInstances$$anon$1$$anon$2 extends $c_O {
   constructor(outer, fa$1, fb$1) {
     super();
@@ -28809,17 +30479,17 @@ const $d_Lcats_kernel_instances_BitSetPartialOrder = new $TypeData().initClass({
 });
 $c_Lcats_kernel_instances_BitSetPartialOrder.prototype.$classData = $d_Lcats_kernel_instances_BitSetPartialOrder;
 class $c_Leoi_Configuration$$anonfun$calculateClassOne$2 extends $c_sr_AbstractPartialFunction {
-  constructor(outer, contractedOutStandardRate$1, period$1, qty$1, amount$2, cat$1) {
+  constructor(outer, contractedOutStandardRate$1, period$1, qty$1, amount$4, cat$1) {
     super();
     this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_contractedOutStandardRate$1 = false;
     this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_period$1 = null;
     this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_qty$1 = 0;
-    this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_amount$2 = null;
+    this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_amount$4 = null;
     this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_cat$1 = 0;
     this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_contractedOutStandardRate$1 = contractedOutStandardRate$1;
     this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_period$1 = period$1;
     this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_qty$1 = qty$1;
-    this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_amount$2 = amount$2;
+    this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_amount$4 = amount$4;
     this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_cat$1 = cat$1
   };
   applyOrElse__T2__F1__O(x1, default$1) {
@@ -28832,18 +30502,18 @@ class $c_Leoi_Configuration$$anonfun$calculateClassOne$2 extends $c_sr_AbstractP
         $$x1 = true
       } else {
         const arg1 = this$1.get__O();
-        const x$1 = $uZ(arg1);
-        $$x1 = (x$1 === this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_contractedOutStandardRate$1)
+        const x$3 = $uZ(arg1);
+        $$x1 = (x$3 === this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_contractedOutStandardRate$1)
       };
-      if (($$x1 && d.Leoi_RateDefinition__f_trigger.interval__Leoi_Period$Vala__I__Lspire_math_Interval(this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_period$1, this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_qty$1).contains__O__Lcats_kernel_Order__Z(this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_amount$2, $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra))) {
+      if (($$x1 && d.Leoi_RateDefinition__f_trigger.interval__Leoi_Period$Vala__I__Lspire_math_Interval(this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_period$1, this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_qty$1).contains__O__Lcats_kernel_Order__Z(this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_amount$4, $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra))) {
         const x1$3 = this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_period$1;
-        const x = $m_Leoi_Period$().Year__Leoi_Period$Vala();
+        const x = $m_Leoi_Period$().Leoi_Period$__f_Year;
         let interval;
         if (((x === null) ? (x1$3 === null) : x.equals__O__Z(x1$3))) {
           interval = d.Leoi_RateDefinition__f_year
         } else {
-          const x$3 = $m_Leoi_Period$().Month__Leoi_Period$Vala();
-          if (((x$3 === null) ? (x1$3 === null) : x$3.equals__O__Z(x1$3))) {
+          const x$4 = $m_Leoi_Period$().Leoi_Period$__f_Month;
+          if (((x$4 === null) ? (x1$3 === null) : x$4.equals__O__Z(x1$3))) {
             const this$2 = d.Leoi_RateDefinition__f_month;
             let $$x3;
             if (this$2.isEmpty__Z()) {
@@ -28857,10 +30527,10 @@ class $c_Leoi_Configuration$$anonfun$calculateClassOne$2 extends $c_sr_AbstractP
             const this$4 = $m_s_math_BigDecimal$();
             const i = this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_qty$1;
             const this$7 = $$x2.$times__O__Lcats_kernel_Order__Lalgebra_ring_Semiring__Lspire_math_Interval(this$4.apply__I__Ljava_math_MathContext__s_math_BigDecimal(i, this$4.s_math_BigDecimal$__f_defaultMathContext), $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra, $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra);
-            const f = ((this$4$1) => ((x$2$2$2) => {
-              const x$2$2 = $as_s_math_BigDecimal(x$2$2$2);
+            const f = ((this$4$1) => ((x$4$2$2) => {
+              const x$4$2 = $as_s_math_BigDecimal(x$4$2$2);
               $m_Leoi_package$();
-              return x$2$2.setScale__I__s_Enumeration$Value__s_math_BigDecimal(0, $m_s_math_BigDecimal$RoundingMode$().s_math_BigDecimal$RoundingMode$__f_CEILING)
+              return x$4$2.setScale__I__s_Enumeration$Value__s_math_BigDecimal(0, $m_s_math_BigDecimal$RoundingMode$().s_math_BigDecimal$RoundingMode$__f_CEILING)
             }))(this);
             const evidence$1 = $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra;
             const $$x7 = $m_Lspire_math_Interval$();
@@ -28902,8 +30572,8 @@ class $c_Leoi_Configuration$$anonfun$calculateClassOne$2 extends $c_sr_AbstractP
             };
             interval = $$x7.fromBounds__Lspire_math_interval_Bound__Lspire_math_interval_Bound__Lcats_kernel_Order__Lspire_math_Interval($$x6, $$x5, evidence$1)
           } else {
-            const x$5 = $m_Leoi_Period$().Week__Leoi_Period$Vala();
-            if (((x$5 === null) ? (x1$3 === null) : x$5.equals__O__Z(x1$3))) {
+            const x$6 = $m_Leoi_Period$().Leoi_Period$__f_Week;
+            if (((x$6 === null) ? (x1$3 === null) : x$6.equals__O__Z(x1$3))) {
               const this$10 = d.Leoi_RateDefinition__f_week;
               let $$x9;
               if (this$10.isEmpty__Z()) {
@@ -28917,10 +30587,10 @@ class $c_Leoi_Configuration$$anonfun$calculateClassOne$2 extends $c_sr_AbstractP
               const this$12 = $m_s_math_BigDecimal$();
               const i$1 = this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_qty$1;
               const this$15 = $$x8.$times__O__Lcats_kernel_Order__Lalgebra_ring_Semiring__Lspire_math_Interval(this$12.apply__I__Ljava_math_MathContext__s_math_BigDecimal(i$1, this$12.s_math_BigDecimal$__f_defaultMathContext), $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra, $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra);
-              const f$1 = ((this$6$1) => ((x$3$2$2) => {
-                const x$3$2 = $as_s_math_BigDecimal(x$3$2$2);
+              const f$1 = ((this$6$1) => ((x$5$2$2) => {
+                const x$5$2 = $as_s_math_BigDecimal(x$5$2$2);
                 $m_Leoi_package$();
-                return x$3$2.setScale__I__s_Enumeration$Value__s_math_BigDecimal(0, $m_s_math_BigDecimal$RoundingMode$().s_math_BigDecimal$RoundingMode$__f_CEILING)
+                return x$5$2.setScale__I__s_Enumeration$Value__s_math_BigDecimal(0, $m_s_math_BigDecimal$RoundingMode$().s_math_BigDecimal$RoundingMode$__f_CEILING)
               }))(this);
               const evidence$1$1 = $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra;
               const $$x13 = $m_Lspire_math_Interval$();
@@ -28962,8 +30632,8 @@ class $c_Leoi_Configuration$$anonfun$calculateClassOne$2 extends $c_sr_AbstractP
               };
               interval = $$x13.fromBounds__Lspire_math_interval_Bound__Lspire_math_interval_Bound__Lcats_kernel_Order__Lspire_math_Interval($$x12, $$x11, evidence$1$1)
             } else {
-              const x$7 = $m_Leoi_Period$().FourWeek__Leoi_Period$Vala();
-              if ((!((x$7 === null) ? (x1$3 === null) : x$7.equals__O__Z(x1$3)))) {
+              const x$8 = $m_Leoi_Period$().Leoi_Period$__f_FourWeek;
+              if ((!((x$8 === null) ? (x1$3 === null) : x$8.equals__O__Z(x1$3)))) {
                 throw new $c_s_MatchError(x1$3)
               };
               const this$18 = d.Leoi_RateDefinition__f_fourWeek;
@@ -28979,10 +30649,10 @@ class $c_Leoi_Configuration$$anonfun$calculateClassOne$2 extends $c_sr_AbstractP
               const this$20 = $m_s_math_BigDecimal$();
               const i$2 = this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_qty$1;
               const this$23 = $$x14.$times__O__Lcats_kernel_Order__Lalgebra_ring_Semiring__Lspire_math_Interval(this$20.apply__I__Ljava_math_MathContext__s_math_BigDecimal(i$2, this$20.s_math_BigDecimal$__f_defaultMathContext), $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra, $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra);
-              const f$2 = ((this$8$1) => ((x$4$2$2) => {
-                const x$4$2 = $as_s_math_BigDecimal(x$4$2$2);
+              const f$2 = ((this$8$1) => ((x$6$2$2) => {
+                const x$6$2 = $as_s_math_BigDecimal(x$6$2$2);
                 $m_Leoi_package$();
-                return x$4$2.setScale__I__s_Enumeration$Value__s_math_BigDecimal(0, $m_s_math_BigDecimal$RoundingMode$().s_math_BigDecimal$RoundingMode$__f_CEILING)
+                return x$6$2.setScale__I__s_Enumeration$Value__s_math_BigDecimal(0, $m_s_math_BigDecimal$RoundingMode$().s_math_BigDecimal$RoundingMode$__f_CEILING)
               }))(this);
               const evidence$1$2 = $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra;
               const $$x19 = $m_Lspire_math_Interval$();
@@ -29028,7 +30698,7 @@ class $c_Leoi_Configuration$$anonfun$calculateClassOne$2 extends $c_sr_AbstractP
         };
         const $$x20 = $m_Leoi_package$RichBD$();
         $m_Leoi_package$();
-        const in$1 = this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_amount$2;
+        const in$1 = this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_amount$4;
         const amountInBand = $$x20.inBand$extension__s_math_BigDecimal__Lspire_math_Interval__s_math_BigDecimal(in$1, interval);
         const employeeRate = $as_s_math_BigDecimal(d.Leoi_RateDefinition__f_employee.getOrElse__O__F0__O($bC(this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_cat$1), new $c_sjsr_AnonFunction0(((this$9$1) => (() => {
           const this$27 = $m_s_package$().BigDecimal__s_math_BigDecimal$();
@@ -29057,10 +30727,10 @@ class $c_Leoi_Configuration$$anonfun$calculateClassOne$2 extends $c_sr_AbstractP
         $$x1 = true
       } else {
         const arg1 = this$1.get__O();
-        const x$1 = $uZ(arg1);
-        $$x1 = (x$1 === this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_contractedOutStandardRate$1)
+        const x$3 = $uZ(arg1);
+        $$x1 = (x$3 === this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_contractedOutStandardRate$1)
       };
-      if (($$x1 && d.Leoi_RateDefinition__f_trigger.interval__Leoi_Period$Vala__I__Lspire_math_Interval(this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_period$1, this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_qty$1).contains__O__Lcats_kernel_Order__Z(this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_amount$2, $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra))) {
+      if (($$x1 && d.Leoi_RateDefinition__f_trigger.interval__Leoi_Period$Vala__I__Lspire_math_Interval(this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_period$1, this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_qty$1).contains__O__Lcats_kernel_Order__Z(this.Leoi_Configuration$$anonfun$calculateClassOne$2__f_amount$4, $m_Lspire_implicits$().Lspire_implicits$__f_BigDecimalAlgebra))) {
         return true
       }
     };
@@ -31305,11 +32975,214 @@ function $m_scm_Set$() {
   };
   return $n_scm_Set$
 }
-function $is_s_concurrent_duration_FiniteDuration(obj) {
-  return false
+class $c_s_concurrent_duration_Duration$Infinite extends $c_s_concurrent_duration_Duration {
+  $plus__s_concurrent_duration_Duration__s_concurrent_duration_Duration(other) {
+    if ((other === $m_s_concurrent_duration_Duration$().s_concurrent_duration_Duration$__f_Undefined)) {
+      return $m_s_concurrent_duration_Duration$().s_concurrent_duration_Duration$__f_Undefined
+    };
+    if ((other instanceof $c_s_concurrent_duration_Duration$Infinite)) {
+      const x2 = $as_s_concurrent_duration_Duration$Infinite(other);
+      if ((x2 !== this)) {
+        return $m_s_concurrent_duration_Duration$().s_concurrent_duration_Duration$__f_Undefined
+      }
+    };
+    return this
+  };
+}
+function $as_s_concurrent_duration_Duration$Infinite(obj) {
+  return (((obj instanceof $c_s_concurrent_duration_Duration$Infinite) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.concurrent.duration.Duration$Infinite"))
+}
+function $isArrayOf_s_concurrent_duration_Duration$Infinite(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.s_concurrent_duration_Duration$Infinite)))
+}
+function $asArrayOf_s_concurrent_duration_Duration$Infinite(obj, depth) {
+  return (($isArrayOf_s_concurrent_duration_Duration$Infinite(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.concurrent.duration.Duration$Infinite;", depth))
+}
+const $p_s_concurrent_duration_FiniteDuration__bounded__J__Z = (function($thiz, max) {
+  const lo = max.RTLong__f_lo;
+  const hi = max.RTLong__f_hi;
+  const lo$1 = ((-lo) | 0);
+  const hi$1 = ((lo !== 0) ? (~hi) : ((-hi) | 0));
+  const b = $thiz.s_concurrent_duration_FiniteDuration__f_length;
+  const bhi = b.RTLong__f_hi;
+  if (((hi$1 === bhi) ? (((-2147483648) ^ lo$1) <= ((-2147483648) ^ b.RTLong__f_lo)) : (hi$1 < bhi))) {
+    const t = $thiz.s_concurrent_duration_FiniteDuration__f_length;
+    const lo$2 = t.RTLong__f_lo;
+    const hi$2 = t.RTLong__f_hi;
+    const bhi$1 = max.RTLong__f_hi;
+    return ((hi$2 === bhi$1) ? (((-2147483648) ^ lo$2) <= ((-2147483648) ^ max.RTLong__f_lo)) : (hi$2 < bhi$1))
+  } else {
+    return false
+  }
+});
+const $p_s_concurrent_duration_FiniteDuration__unitString__T = (function($thiz) {
+  const $$x1 = $as_T($m_s_concurrent_duration_Duration$().s_concurrent_duration_Duration$__f_timeUnitName.apply__O__O($thiz.s_concurrent_duration_FiniteDuration__f_unit));
+  const t = $thiz.s_concurrent_duration_FiniteDuration__f_length;
+  const lo = t.RTLong__f_lo;
+  const hi = t.RTLong__f_hi;
+  return ($$x1 + (((lo === 1) && (hi === 0)) ? "" : "s"))
+});
+const $p_s_concurrent_duration_FiniteDuration__safeAdd__J__J__J = (function($thiz, a, b) {
+  const ahi = b.RTLong__f_hi;
+  let $$x2;
+  if (((ahi === 0) ? (b.RTLong__f_lo !== 0) : (ahi > 0))) {
+    const bhi = b.RTLong__f_hi;
+    const lo = (((-1) - b.RTLong__f_lo) | 0);
+    const hi = ((2147483647 - bhi) | 0);
+    const ahi$1 = a.RTLong__f_hi;
+    $$x2 = ((ahi$1 === hi) ? (((-2147483648) ^ a.RTLong__f_lo) > ((-2147483648) ^ lo)) : (ahi$1 > hi))
+  } else {
+    $$x2 = false
+  };
+  let $$x1;
+  if ($$x2) {
+    $$x1 = true
+  } else {
+    const ahi$2 = b.RTLong__f_hi;
+    if ((ahi$2 < 0)) {
+      const bhi$1 = b.RTLong__f_hi;
+      const lo$1 = ((-b.RTLong__f_lo) | 0);
+      const hi$1 = ((lo$1 !== 0) ? ((2147483647 - bhi$1) | 0) : (((-2147483648) - bhi$1) | 0));
+      const ahi$3 = a.RTLong__f_hi;
+      $$x1 = ((ahi$3 === hi$1) ? (((-2147483648) ^ a.RTLong__f_lo) < ((-2147483648) ^ lo$1)) : (ahi$3 < hi$1))
+    } else {
+      $$x1 = false
+    }
+  };
+  if ($$x1) {
+    throw $ct_jl_IllegalArgumentException__T__(new $c_jl_IllegalArgumentException(), "integer overflow")
+  };
+  const alo = a.RTLong__f_lo;
+  const ahi$4 = a.RTLong__f_hi;
+  const bhi$2 = b.RTLong__f_hi;
+  const lo$2 = ((alo + b.RTLong__f_lo) | 0);
+  const hi$2 = ((((-2147483648) ^ lo$2) < ((-2147483648) ^ alo)) ? ((1 + ((ahi$4 + bhi$2) | 0)) | 0) : ((ahi$4 + bhi$2) | 0));
+  return new $c_RTLong(lo$2, hi$2)
+});
+const $p_s_concurrent_duration_FiniteDuration__add__J__ju_concurrent_TimeUnit__s_concurrent_duration_FiniteDuration = (function($thiz, otherLength, otherUnit) {
+  const t = otherUnit.convert__J__ju_concurrent_TimeUnit__J(new $c_RTLong(1, 0), $thiz.s_concurrent_duration_FiniteDuration__f_unit);
+  const lo = t.RTLong__f_lo;
+  const hi = t.RTLong__f_hi;
+  let commonUnit;
+  if (((lo === 0) && (hi === 0))) {
+    commonUnit = $thiz.s_concurrent_duration_FiniteDuration__f_unit
+  } else {
+    commonUnit = otherUnit
+  };
+  const t$1 = $p_s_concurrent_duration_FiniteDuration__safeAdd__J__J__J($thiz, commonUnit.convert__J__ju_concurrent_TimeUnit__J($thiz.s_concurrent_duration_FiniteDuration__f_length, $thiz.s_concurrent_duration_FiniteDuration__f_unit), commonUnit.convert__J__ju_concurrent_TimeUnit__J(otherLength, otherUnit));
+  const lo$1 = t$1.RTLong__f_lo;
+  const hi$1 = t$1.RTLong__f_hi;
+  return new $c_s_concurrent_duration_FiniteDuration(new $c_RTLong(lo$1, hi$1), commonUnit)
+});
+class $c_s_concurrent_duration_FiniteDuration extends $c_s_concurrent_duration_Duration {
+  constructor(length, unit) {
+    super();
+    this.s_concurrent_duration_FiniteDuration__f_length = $L0;
+    this.s_concurrent_duration_FiniteDuration__f_unit = null;
+    this.s_concurrent_duration_FiniteDuration__f_length = length;
+    this.s_concurrent_duration_FiniteDuration__f_unit = unit;
+    const x = $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_NANOSECONDS;
+    let requirement;
+    if ((x === unit)) {
+      requirement = $p_s_concurrent_duration_FiniteDuration__bounded__J__Z(this, new $c_RTLong((-1), 2147483647))
+    } else {
+      const x$3 = $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_MICROSECONDS;
+      if ((x$3 === unit)) {
+        requirement = $p_s_concurrent_duration_FiniteDuration__bounded__J__Z(this, new $c_RTLong((-1511828489), 2147483))
+      } else {
+        const x$5 = $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_MILLISECONDS;
+        if ((x$5 === unit)) {
+          requirement = $p_s_concurrent_duration_FiniteDuration__bounded__J__Z(this, new $c_RTLong(2077252342, 2147))
+        } else {
+          const x$7 = $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_SECONDS;
+          if ((x$7 === unit)) {
+            requirement = $p_s_concurrent_duration_FiniteDuration__bounded__J__Z(this, new $c_RTLong(633437444, 2))
+          } else {
+            const x$9 = $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_MINUTES;
+            if ((x$9 === unit)) {
+              requirement = $p_s_concurrent_duration_FiniteDuration__bounded__J__Z(this, new $c_RTLong(153722867, 0))
+            } else {
+              const x$11 = $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_HOURS;
+              if ((x$11 === unit)) {
+                requirement = $p_s_concurrent_duration_FiniteDuration__bounded__J__Z(this, new $c_RTLong(2562047, 0))
+              } else {
+                const x$13 = $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_DAYS;
+                if ((x$13 === unit)) {
+                  requirement = $p_s_concurrent_duration_FiniteDuration__bounded__J__Z(this, new $c_RTLong(106751, 0))
+                } else {
+                  const t = $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_DAYS.convert__J__ju_concurrent_TimeUnit__J(length, unit);
+                  const lo = t.RTLong__f_lo;
+                  const hi = t.RTLong__f_hi;
+                  requirement = (((hi === (-1)) ? (((-2147483648) ^ lo) >= 2147376897) : (hi > (-1))) && ((hi === 0) ? (((-2147483648) ^ lo) <= (-2147376897)) : (hi < 0)))
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+    if ((!requirement)) {
+      throw $ct_jl_IllegalArgumentException__T__(new $c_jl_IllegalArgumentException(), "requirement failed: Duration is limited to +-(2^63-1)ns (ca. 292 years)")
+    }
+  };
+  toString__T() {
+    return ((this.s_concurrent_duration_FiniteDuration__f_length + " ") + $p_s_concurrent_duration_FiniteDuration__unitString__T(this))
+  };
+  compare__s_concurrent_duration_Duration__I(other) {
+    if ((other instanceof $c_s_concurrent_duration_FiniteDuration)) {
+      const x2 = $as_s_concurrent_duration_FiniteDuration(other);
+      const t = this.s_concurrent_duration_FiniteDuration__f_unit.toNanos__J__J(this.s_concurrent_duration_FiniteDuration__f_length);
+      const lo = t.RTLong__f_lo;
+      const hi = t.RTLong__f_hi;
+      const this$2 = new $c_sr_RichLong(new $c_RTLong(lo, hi));
+      const t$1 = x2.s_concurrent_duration_FiniteDuration__f_unit.toNanos__J__J(x2.s_concurrent_duration_FiniteDuration__f_length);
+      const lo$1 = t$1.RTLong__f_lo;
+      const hi$1 = t$1.RTLong__f_hi;
+      const t$3 = this$2.sr_RichLong__f_self;
+      const lo$3 = t$3.RTLong__f_lo;
+      const hi$3 = t$3.RTLong__f_hi;
+      const t$4 = $uJ(new $c_RTLong(lo$3, hi$3));
+      const lo$4 = t$4.RTLong__f_lo;
+      const hi$4 = t$4.RTLong__f_hi;
+      const t$5 = $uJ(new $c_RTLong(lo$1, hi$1));
+      const lo$5 = t$5.RTLong__f_lo;
+      const hi$5 = t$5.RTLong__f_hi;
+      return $m_RTLong$().org$scalajs$linker$runtime$RuntimeLong$$compare__I__I__I__I__I(lo$4, hi$4, lo$5, hi$5)
+    } else {
+      return ((-other.compare__s_concurrent_duration_Duration__I(this)) | 0)
+    }
+  };
+  $plus__s_concurrent_duration_Duration__s_concurrent_duration_Duration(other) {
+    if ((other instanceof $c_s_concurrent_duration_FiniteDuration)) {
+      const x2 = $as_s_concurrent_duration_FiniteDuration(other);
+      return $p_s_concurrent_duration_FiniteDuration__add__J__ju_concurrent_TimeUnit__s_concurrent_duration_FiniteDuration(this, x2.s_concurrent_duration_FiniteDuration__f_length, x2.s_concurrent_duration_FiniteDuration__f_unit)
+    } else {
+      return other
+    }
+  };
+  equals__O__Z(other) {
+    if ((other instanceof $c_s_concurrent_duration_FiniteDuration)) {
+      const x2 = $as_s_concurrent_duration_FiniteDuration(other);
+      const t = this.s_concurrent_duration_FiniteDuration__f_unit.toNanos__J__J(this.s_concurrent_duration_FiniteDuration__f_length);
+      const lo = t.RTLong__f_lo;
+      const hi = t.RTLong__f_hi;
+      const b = x2.s_concurrent_duration_FiniteDuration__f_unit.toNanos__J__J(x2.s_concurrent_duration_FiniteDuration__f_length);
+      return ((lo === b.RTLong__f_lo) && (hi === b.RTLong__f_hi))
+    } else {
+      return (this === other)
+    }
+  };
+  hashCode__I() {
+    const t = this.s_concurrent_duration_FiniteDuration__f_unit.toNanos__J__J(this.s_concurrent_duration_FiniteDuration__f_length);
+    const lo = t.RTLong__f_lo;
+    return lo
+  };
+  compare__O__I(that) {
+    return this.compare__s_concurrent_duration_Duration__I($as_s_concurrent_duration_Duration(that))
+  };
 }
 function $as_s_concurrent_duration_FiniteDuration(obj) {
-  return (($is_s_concurrent_duration_FiniteDuration(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.concurrent.duration.FiniteDuration"))
+  return (((obj instanceof $c_s_concurrent_duration_FiniteDuration) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.concurrent.duration.FiniteDuration"))
 }
 function $isArrayOf_s_concurrent_duration_FiniteDuration(obj, depth) {
   return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.s_concurrent_duration_FiniteDuration)))
@@ -31317,6 +33190,18 @@ function $isArrayOf_s_concurrent_duration_FiniteDuration(obj, depth) {
 function $asArrayOf_s_concurrent_duration_FiniteDuration(obj, depth) {
   return (($isArrayOf_s_concurrent_duration_FiniteDuration(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.concurrent.duration.FiniteDuration;", depth))
 }
+const $d_s_concurrent_duration_FiniteDuration = new $TypeData().initClass({
+  s_concurrent_duration_FiniteDuration: 0
+}, false, "scala.concurrent.duration.FiniteDuration", {
+  s_concurrent_duration_FiniteDuration: 1,
+  s_concurrent_duration_Duration: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  s_math_Ordered: 1,
+  jl_Comparable: 1
+});
+$c_s_concurrent_duration_FiniteDuration.prototype.$classData = $d_s_concurrent_duration_FiniteDuration;
 function $f_s_math_Ordering__lteq__O__O__Z($thiz, x, y) {
   return ($thiz.compare__O__O__I(x, y) <= 0)
 }
@@ -32508,6 +34393,149 @@ const $d_Lspire_std_StringOrder = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lspire_std_StringOrder.prototype.$classData = $d_Lspire_std_StringOrder;
+class $c_Lcats_Now extends $c_Lcats_Eval$Leaf {
+  constructor(value) {
+    super();
+    this.Lcats_Now__f_value = null;
+    this.Lcats_Now__f_value = value
+  };
+  productPrefix__T() {
+    return "Now"
+  };
+  productArity__I() {
+    return 1
+  };
+  productElement__I__O(x$1) {
+    if ((x$1 === 0)) {
+      return this.Lcats_Now__f_value
+    } else {
+      throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + x$1))
+    }
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    const this$2 = $m_s_util_hashing_MurmurHash3$();
+    return this$2.productHash__s_Product__I__I(this, (-889275714))
+  };
+  toString__T() {
+    return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
+  };
+  equals__O__Z(x$1) {
+    if ((this === x$1)) {
+      return true
+    } else if ((x$1 instanceof $c_Lcats_Now)) {
+      const Now$1 = $as_Lcats_Now(x$1);
+      const x = this.Lcats_Now__f_value;
+      const y = Now$1.Lcats_Now__f_value;
+      return $m_sr_BoxesRunTime$().equals__O__O__Z(x, y)
+    } else {
+      return false
+    }
+  };
+}
+function $as_Lcats_Now(obj) {
+  return (((obj instanceof $c_Lcats_Now) || (obj === null)) ? obj : $throwClassCastException(obj, "cats.Now"))
+}
+function $isArrayOf_Lcats_Now(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lcats_Now)))
+}
+function $asArrayOf_Lcats_Now(obj, depth) {
+  return (($isArrayOf_Lcats_Now(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lcats.Now;", depth))
+}
+const $d_Lcats_Now = new $TypeData().initClass({
+  Lcats_Now: 0
+}, false, "cats.Now", {
+  Lcats_Now: 1,
+  Lcats_Eval$Leaf: 1,
+  Lcats_Eval: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  s_Product: 1,
+  s_Equals: 1
+});
+$c_Lcats_Now.prototype.$classData = $d_Lcats_Now;
+class $c_Lcats_UnorderedFoldable$$anon$1 extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_UnorderedFoldable$$anon$1__f_empty = null;
+    this.Lcats_UnorderedFoldable$$anon$1__f_empty = $m_Lcats_Eval$().Lcats_Eval$__f_False
+  };
+  combine__Lcats_Eval__Lcats_Eval__Lcats_Eval(lx, ly) {
+    return lx.flatMap__F1__Lcats_Eval(new $c_sjsr_AnonFunction1(((this$1, ly$1) => ((x0$1$2) => {
+      const x0$1 = $uZ(x0$1$2);
+      if ((x0$1 === true)) {
+        return $m_Lcats_Eval$().Lcats_Eval$__f_True
+      } else if ((x0$1 === false)) {
+        return ly$1
+      } else {
+        throw new $c_s_MatchError(x0$1)
+      }
+    }))(this, ly)))
+  };
+  combine__O__O__O(x, y) {
+    return this.combine__Lcats_Eval__Lcats_Eval__Lcats_Eval($as_Lcats_Eval(x), $as_Lcats_Eval(y))
+  };
+  empty__O() {
+    return this.Lcats_UnorderedFoldable$$anon$1__f_empty
+  };
+}
+const $d_Lcats_UnorderedFoldable$$anon$1 = new $TypeData().initClass({
+  Lcats_UnorderedFoldable$$anon$1: 0
+}, false, "cats.UnorderedFoldable$$anon$1", {
+  Lcats_UnorderedFoldable$$anon$1: 1,
+  O: 1,
+  Lcats_kernel_CommutativeMonoid: 1,
+  Lcats_kernel_Monoid: 1,
+  Lcats_kernel_Semigroup: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  Lcats_kernel_CommutativeSemigroup: 1
+});
+$c_Lcats_UnorderedFoldable$$anon$1.prototype.$classData = $d_Lcats_UnorderedFoldable$$anon$1;
+class $c_Lcats_UnorderedFoldable$$anon$2 extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_UnorderedFoldable$$anon$2__f_empty = null;
+    this.Lcats_UnorderedFoldable$$anon$2__f_empty = $m_Lcats_Eval$().Lcats_Eval$__f_True
+  };
+  combine__Lcats_Eval__Lcats_Eval__Lcats_Eval(lx, ly) {
+    return lx.flatMap__F1__Lcats_Eval(new $c_sjsr_AnonFunction1(((this$1, ly$1) => ((x0$1$2) => {
+      const x0$1 = $uZ(x0$1$2);
+      if ((x0$1 === true)) {
+        return ly$1
+      } else if ((x0$1 === false)) {
+        return $m_Lcats_Eval$().Lcats_Eval$__f_False
+      } else {
+        throw new $c_s_MatchError(x0$1)
+      }
+    }))(this, ly)))
+  };
+  combine__O__O__O(x, y) {
+    return this.combine__Lcats_Eval__Lcats_Eval__Lcats_Eval($as_Lcats_Eval(x), $as_Lcats_Eval(y))
+  };
+  empty__O() {
+    return this.Lcats_UnorderedFoldable$$anon$2__f_empty
+  };
+}
+const $d_Lcats_UnorderedFoldable$$anon$2 = new $TypeData().initClass({
+  Lcats_UnorderedFoldable$$anon$2: 0
+}, false, "cats.UnorderedFoldable$$anon$2", {
+  Lcats_UnorderedFoldable$$anon$2: 1,
+  O: 1,
+  Lcats_kernel_CommutativeMonoid: 1,
+  Lcats_kernel_Monoid: 1,
+  Lcats_kernel_Semigroup: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  Lcats_kernel_CommutativeSemigroup: 1
+});
+$c_Lcats_UnorderedFoldable$$anon$2.prototype.$classData = $d_Lcats_UnorderedFoldable$$anon$2;
+function $f_Lcats_arrow_Arrow__id__O($thiz) {
+  return $thiz.lift__F1__O(new $c_sjsr_AnonFunction1(((this$1) => ((x$2) => x$2))($thiz)))
+}
 class $c_Lcats_data_AndThen$Concat extends $c_Lcats_data_AndThen {
   constructor(left, right) {
     super();
@@ -32761,6 +34789,9 @@ class $c_Lcats_instances_SetInstances$$anon$1 extends $c_O {
     const y$1 = $as_sci_Set(y);
     return $as_sci_Set(x$1.union__sc_GenSet__O(y$1))
   };
+  empty__O() {
+    return $m_sci_Set$EmptySet$()
+  };
 }
 const $d_Lcats_instances_SetInstances$$anon$1 = new $TypeData().initClass({
   Lcats_instances_SetInstances$$anon$1: 0
@@ -32888,61 +34919,6 @@ const $d_Lcats_kernel_instances_BigDecimalOrder = new $TypeData().initClass({
   Lcats_kernel_Hash: 1
 });
 $c_Lcats_kernel_instances_BigDecimalOrder.prototype.$classData = $d_Lcats_kernel_instances_BigDecimalOrder;
-class $c_Lcats_kernel_instances_BigIntOrder extends $c_O {
-  partialCompare__O__O__D(x, y) {
-    return $f_Lcats_kernel_Order__partialCompare__O__O__D(this, x, y)
-  };
-  eqv__s_math_BigInt__s_math_BigInt__Z(x, y) {
-    return ((x === null) ? (y === null) : x.equals__O__Z(y))
-  };
-  neqv__s_math_BigInt__s_math_BigInt__Z(x, y) {
-    return (!((x === null) ? (y === null) : x.equals__O__Z(y)))
-  };
-  lteqv__O__O__Z(x, y) {
-    const x$1 = $as_s_math_BigInt(x);
-    const y$1 = $as_s_math_BigInt(y);
-    return $f_s_math_Ordered__$less$eq__O__Z(x$1, y$1)
-  };
-  lt__O__O__Z(x, y) {
-    const x$1 = $as_s_math_BigInt(x);
-    const y$1 = $as_s_math_BigInt(y);
-    return $f_s_math_Ordered__$less__O__Z(x$1, y$1)
-  };
-  gteqv__O__O__Z(x, y) {
-    const x$1 = $as_s_math_BigInt(x);
-    const y$1 = $as_s_math_BigInt(y);
-    return $f_s_math_Ordered__$greater$eq__O__Z(x$1, y$1)
-  };
-  gt__O__O__Z(x, y) {
-    const x$1 = $as_s_math_BigInt(x);
-    const y$1 = $as_s_math_BigInt(y);
-    return $f_s_math_Ordered__$greater__O__Z(x$1, y$1)
-  };
-  neqv__O__O__Z(x, y) {
-    return this.neqv__s_math_BigInt__s_math_BigInt__Z($as_s_math_BigInt(x), $as_s_math_BigInt(y))
-  };
-  eqv__O__O__Z(x, y) {
-    return this.eqv__s_math_BigInt__s_math_BigInt__Z($as_s_math_BigInt(x), $as_s_math_BigInt(y))
-  };
-  compare__O__O__I(x, y) {
-    const x$1 = $as_s_math_BigInt(x);
-    const y$1 = $as_s_math_BigInt(y);
-    return x$1.s_math_BigInt__f_bigInteger.compareTo__Ljava_math_BigInteger__I(y$1.s_math_BigInt__f_bigInteger)
-  };
-}
-const $d_Lcats_kernel_instances_BigIntOrder = new $TypeData().initClass({
-  Lcats_kernel_instances_BigIntOrder: 0
-}, false, "cats.kernel.instances.BigIntOrder", {
-  Lcats_kernel_instances_BigIntOrder: 1,
-  O: 1,
-  Lcats_kernel_Order: 1,
-  Lcats_kernel_PartialOrder: 1,
-  Lcats_kernel_Eq: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1,
-  Lcats_kernel_Hash: 1
-});
-$c_Lcats_kernel_instances_BigIntOrder.prototype.$classData = $d_Lcats_kernel_instances_BigIntOrder;
 class $c_Lio_circe_CursorOp$DeleteGoParent$ extends $c_Lio_circe_CursorOp$UnconstrainedOp {
   productPrefix__T() {
     return "DeleteGoParent"
@@ -34330,6 +36306,84 @@ function $m_scm_IndexedSeq$() {
   };
   return $n_scm_IndexedSeq$
 }
+class $c_s_concurrent_duration_Duration$$anon$1 extends $c_s_concurrent_duration_Duration$Infinite {
+  toString__T() {
+    return "Duration.Undefined"
+  };
+  equals__O__Z(other) {
+    return false
+  };
+  $plus__s_concurrent_duration_Duration__s_concurrent_duration_Duration(other) {
+    return this
+  };
+  compare__s_concurrent_duration_Duration__I(other) {
+    return ((other === this) ? 0 : 1)
+  };
+  compare__O__I(that) {
+    return this.compare__s_concurrent_duration_Duration__I($as_s_concurrent_duration_Duration(that))
+  };
+}
+const $d_s_concurrent_duration_Duration$$anon$1 = new $TypeData().initClass({
+  s_concurrent_duration_Duration$$anon$1: 0
+}, false, "scala.concurrent.duration.Duration$$anon$1", {
+  s_concurrent_duration_Duration$$anon$1: 1,
+  s_concurrent_duration_Duration$Infinite: 1,
+  s_concurrent_duration_Duration: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  s_math_Ordered: 1,
+  jl_Comparable: 1
+});
+$c_s_concurrent_duration_Duration$$anon$1.prototype.$classData = $d_s_concurrent_duration_Duration$$anon$1;
+class $c_s_concurrent_duration_Duration$$anon$2 extends $c_s_concurrent_duration_Duration$Infinite {
+  toString__T() {
+    return "Duration.Inf"
+  };
+  compare__s_concurrent_duration_Duration__I(other) {
+    return ((other === $m_s_concurrent_duration_Duration$().s_concurrent_duration_Duration$__f_Undefined) ? (-1) : ((other === this) ? 0 : 1))
+  };
+  compare__O__I(that) {
+    return this.compare__s_concurrent_duration_Duration__I($as_s_concurrent_duration_Duration(that))
+  };
+}
+const $d_s_concurrent_duration_Duration$$anon$2 = new $TypeData().initClass({
+  s_concurrent_duration_Duration$$anon$2: 0
+}, false, "scala.concurrent.duration.Duration$$anon$2", {
+  s_concurrent_duration_Duration$$anon$2: 1,
+  s_concurrent_duration_Duration$Infinite: 1,
+  s_concurrent_duration_Duration: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  s_math_Ordered: 1,
+  jl_Comparable: 1
+});
+$c_s_concurrent_duration_Duration$$anon$2.prototype.$classData = $d_s_concurrent_duration_Duration$$anon$2;
+class $c_s_concurrent_duration_Duration$$anon$3 extends $c_s_concurrent_duration_Duration$Infinite {
+  toString__T() {
+    return "Duration.MinusInf"
+  };
+  compare__s_concurrent_duration_Duration__I(other) {
+    return ((other === this) ? 0 : (-1))
+  };
+  compare__O__I(that) {
+    return this.compare__s_concurrent_duration_Duration__I($as_s_concurrent_duration_Duration(that))
+  };
+}
+const $d_s_concurrent_duration_Duration$$anon$3 = new $TypeData().initClass({
+  s_concurrent_duration_Duration$$anon$3: 0
+}, false, "scala.concurrent.duration.Duration$$anon$3", {
+  s_concurrent_duration_Duration$$anon$3: 1,
+  s_concurrent_duration_Duration$Infinite: 1,
+  s_concurrent_duration_Duration: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  s_math_Ordered: 1,
+  jl_Comparable: 1
+});
+$c_s_concurrent_duration_Duration$$anon$3.prototype.$classData = $d_s_concurrent_duration_Duration$$anon$3;
 class $c_s_math_Ordering$$anon$1 extends $c_O {
   constructor(outer, f$1) {
     super();
@@ -35255,67 +37309,6 @@ const $d_ju_LinkedHashMap = new $TypeData().initClass({
   jl_Cloneable: 1
 });
 $c_ju_LinkedHashMap.prototype.$classData = $d_ju_LinkedHashMap;
-class $c_s_UninitializedFieldError extends $c_jl_RuntimeException {
-  constructor(msg) {
-    super();
-    this.s_UninitializedFieldError__f_msg = null;
-    this.s_UninitializedFieldError__f_msg = msg;
-    $ct_jl_Throwable__T__jl_Throwable__Z__Z__(this, msg, null, true, true)
-  };
-  productPrefix__T() {
-    return "UninitializedFieldError"
-  };
-  productArity__I() {
-    return 1
-  };
-  productElement__I__O(x$1) {
-    if ((x$1 === 0)) {
-      return this.s_UninitializedFieldError__f_msg
-    } else {
-      throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + x$1))
-    }
-  };
-  productIterator__sc_Iterator() {
-    return new $c_sr_ScalaRunTime$$anon$1(this)
-  };
-  hashCode__I() {
-    const this$2 = $m_s_util_hashing_MurmurHash3$();
-    return this$2.productHash__s_Product__I__I(this, (-889275714))
-  };
-  equals__O__Z(x$1) {
-    if ((this === x$1)) {
-      return true
-    } else if ((x$1 instanceof $c_s_UninitializedFieldError)) {
-      const UninitializedFieldError$1 = $as_s_UninitializedFieldError(x$1);
-      return (this.s_UninitializedFieldError__f_msg === UninitializedFieldError$1.s_UninitializedFieldError__f_msg)
-    } else {
-      return false
-    }
-  };
-}
-function $as_s_UninitializedFieldError(obj) {
-  return (((obj instanceof $c_s_UninitializedFieldError) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.UninitializedFieldError"))
-}
-function $isArrayOf_s_UninitializedFieldError(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.s_UninitializedFieldError)))
-}
-function $asArrayOf_s_UninitializedFieldError(obj, depth) {
-  return (($isArrayOf_s_UninitializedFieldError(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.UninitializedFieldError;", depth))
-}
-const $d_s_UninitializedFieldError = new $TypeData().initClass({
-  s_UninitializedFieldError: 0
-}, false, "scala.UninitializedFieldError", {
-  s_UninitializedFieldError: 1,
-  jl_RuntimeException: 1,
-  jl_Exception: 1,
-  jl_Throwable: 1,
-  O: 1,
-  Ljava_io_Serializable: 1,
-  s_Product: 1,
-  s_Equals: 1,
-  s_Serializable: 1
-});
-$c_s_UninitializedFieldError.prototype.$classData = $d_s_UninitializedFieldError;
 function $is_sc_GenIterable(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.sc_GenIterable)))
 }
@@ -36021,10 +38014,14 @@ class $c_Lcats_kernel_instances_BigDecimalGroup extends $c_O {
     const this$1 = $m_s_package$().BigDecimal__s_math_BigDecimal$();
     this.Lcats_kernel_instances_BigDecimalGroup__f_empty = this$1.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$1.s_math_BigDecimal$__f_defaultMathContext)
   };
+  combine__s_math_BigDecimal__s_math_BigDecimal__s_math_BigDecimal(x, y) {
+    return $ct_s_math_BigDecimal__Ljava_math_BigDecimal__Ljava_math_MathContext__(new $c_s_math_BigDecimal(), x.s_math_BigDecimal__f_bigDecimal.add__Ljava_math_BigDecimal__Ljava_math_BigDecimal(y.s_math_BigDecimal__f_bigDecimal), x.s_math_BigDecimal__f_mc)
+  };
   combine__O__O__O(x, y) {
-    const x$1 = $as_s_math_BigDecimal(x);
-    const y$1 = $as_s_math_BigDecimal(y);
-    return x$1.$plus__s_math_BigDecimal__s_math_BigDecimal(y$1)
+    return this.combine__s_math_BigDecimal__s_math_BigDecimal__s_math_BigDecimal($as_s_math_BigDecimal(x), $as_s_math_BigDecimal(y))
+  };
+  empty__O() {
+    return this.Lcats_kernel_instances_BigDecimalGroup__f_empty
   };
 }
 const $d_Lcats_kernel_instances_BigDecimalGroup = new $TypeData().initClass({
@@ -36053,6 +38050,9 @@ class $c_Lcats_kernel_instances_BigIntGroup extends $c_O {
     const y$1 = $as_s_math_BigInt(y);
     return x$1.$plus__s_math_BigInt__s_math_BigInt(y$1)
   };
+  empty__O() {
+    return this.Lcats_kernel_instances_BigIntGroup__f_empty
+  };
 }
 const $d_Lcats_kernel_instances_BigIntGroup = new $TypeData().initClass({
   Lcats_kernel_instances_BigIntGroup: 0
@@ -36072,6 +38072,9 @@ $c_Lcats_kernel_instances_BigIntGroup.prototype.$classData = $d_Lcats_kernel_ins
 class $c_Lcats_kernel_instances_ByteGroup extends $c_O {
   combine__B__B__B(x, y) {
     return ((((x + y) | 0) << 24) >> 24)
+  };
+  empty__O() {
+    return 0
   };
   combine__O__O__O(x, y) {
     return this.combine__B__B__B($uB(x), $uB(y))
@@ -36098,6 +38101,9 @@ class $c_Lcats_kernel_instances_DurationGroup extends $c_O {
     const y$1 = $as_s_concurrent_duration_Duration(y);
     return x$1.$plus__s_concurrent_duration_Duration__s_concurrent_duration_Duration(y$1)
   };
+  empty__O() {
+    return $m_s_concurrent_duration_Duration$().s_concurrent_duration_Duration$__f_Zero
+  };
 }
 const $d_Lcats_kernel_instances_DurationGroup = new $TypeData().initClass({
   Lcats_kernel_instances_DurationGroup: 0
@@ -36118,7 +38124,10 @@ class $c_Lcats_kernel_instances_FiniteDurationGroup extends $c_O {
   combine__O__O__O(x, y) {
     const x$1 = $as_s_concurrent_duration_FiniteDuration(x);
     const y$1 = $as_s_concurrent_duration_FiniteDuration(y);
-    return x$1.$plus__s_concurrent_duration_FiniteDuration__s_concurrent_duration_FiniteDuration(y$1)
+    return $p_s_concurrent_duration_FiniteDuration__add__J__ju_concurrent_TimeUnit__s_concurrent_duration_FiniteDuration(x$1, y$1.s_concurrent_duration_FiniteDuration__f_length, y$1.s_concurrent_duration_FiniteDuration__f_unit)
+  };
+  empty__O() {
+    return $m_s_concurrent_duration_Duration$().s_concurrent_duration_Duration$__f_Zero
   };
 }
 const $d_Lcats_kernel_instances_FiniteDurationGroup = new $TypeData().initClass({
@@ -36139,6 +38148,9 @@ $c_Lcats_kernel_instances_FiniteDurationGroup.prototype.$classData = $d_Lcats_ke
 class $c_Lcats_kernel_instances_ShortGroup extends $c_O {
   combine__S__S__S(x, y) {
     return ((((x + y) | 0) << 16) >> 16)
+  };
+  empty__O() {
+    return 0
   };
   combine__O__O__O(x, y) {
     return this.combine__S__S__S($uS(x), $uS(y))
@@ -37158,9 +39170,6 @@ class $c_s_math_BigDecimal extends $c_s_math_ScalaNumber {
   equals__s_math_BigDecimal__Z(that) {
     return (this.s_math_BigDecimal__f_bigDecimal.compareTo__Ljava_math_BigDecimal__I(that.s_math_BigDecimal__f_bigDecimal) === 0)
   };
-  $plus__s_math_BigDecimal__s_math_BigDecimal(that) {
-    return $ct_s_math_BigDecimal__Ljava_math_BigDecimal__Ljava_math_MathContext__(new $c_s_math_BigDecimal(), this.s_math_BigDecimal__f_bigDecimal.add__Ljava_math_BigDecimal__Ljava_math_BigDecimal(that.s_math_BigDecimal__f_bigDecimal), this.s_math_BigDecimal__f_mc)
-  };
   $minus__s_math_BigDecimal__s_math_BigDecimal(that) {
     return $ct_s_math_BigDecimal__Ljava_math_BigDecimal__Ljava_math_MathContext__(new $c_s_math_BigDecimal(), this.s_math_BigDecimal__f_bigDecimal.subtract__Ljava_math_BigDecimal__Ljava_math_BigDecimal(that.s_math_BigDecimal__f_bigDecimal), this.s_math_BigDecimal__f_mc)
   };
@@ -38125,6 +40134,9 @@ class $c_Lcats_kernel_instances_BitSetSemilattice extends $c_O {
     const y$1 = $as_sci_BitSet(y);
     return $as_sci_BitSet($f_sc_BitSetLike__$bar__sc_BitSet__sc_BitSetLike(x$1, y$1))
   };
+  empty__O() {
+    return $m_sci_BitSet$().sci_BitSet$__f_empty
+  };
 }
 const $d_Lcats_kernel_instances_BitSetSemilattice = new $TypeData().initClass({
   Lcats_kernel_instances_BitSetSemilattice: 0
@@ -38160,22 +40172,22 @@ class $c_Lcats_kernel_instances_DurationOrder extends $c_O {
   lteqv__O__O__Z(x, y) {
     const x$1 = $as_s_concurrent_duration_Duration(x);
     const y$1 = $as_s_concurrent_duration_Duration(y);
-    return x$1.$less$eq__O__Z(y$1)
+    return $f_s_math_Ordered__$less$eq__O__Z(x$1, y$1)
   };
   lt__O__O__Z(x, y) {
     const x$1 = $as_s_concurrent_duration_Duration(x);
     const y$1 = $as_s_concurrent_duration_Duration(y);
-    return x$1.$less__O__Z(y$1)
+    return $f_s_math_Ordered__$less__O__Z(x$1, y$1)
   };
   gteqv__O__O__Z(x, y) {
     const x$1 = $as_s_concurrent_duration_Duration(x);
     const y$1 = $as_s_concurrent_duration_Duration(y);
-    return x$1.$greater$eq__O__Z(y$1)
+    return $f_s_math_Ordered__$greater$eq__O__Z(x$1, y$1)
   };
   gt__O__O__Z(x, y) {
     const x$1 = $as_s_concurrent_duration_Duration(x);
     const y$1 = $as_s_concurrent_duration_Duration(y);
-    return x$1.$greater__O__Z(y$1)
+    return $f_s_math_Ordered__$greater__O__Z(x$1, y$1)
   };
   neqv__O__O__Z(x, y) {
     return this.neqv__s_concurrent_duration_Duration__s_concurrent_duration_Duration__Z($as_s_concurrent_duration_Duration(x), $as_s_concurrent_duration_Duration(y))
@@ -38186,7 +40198,7 @@ class $c_Lcats_kernel_instances_DurationOrder extends $c_O {
   compare__O__O__I(x, y) {
     const x$1 = $as_s_concurrent_duration_Duration(x);
     const y$1 = $as_s_concurrent_duration_Duration(y);
-    return x$1.compare__O__I(y$1)
+    return x$1.compare__s_concurrent_duration_Duration__I(y$1)
   };
 }
 const $d_Lcats_kernel_instances_DurationOrder = new $TypeData().initClass({
@@ -38223,22 +40235,22 @@ class $c_Lcats_kernel_instances_FiniteDurationOrder extends $c_O {
   lteqv__O__O__Z(x, y) {
     const x$1 = $as_s_concurrent_duration_FiniteDuration(x);
     const y$1 = $as_s_concurrent_duration_FiniteDuration(y);
-    return x$1.$less$eq__O__Z(y$1)
+    return $f_s_math_Ordered__$less$eq__O__Z(x$1, y$1)
   };
   lt__O__O__Z(x, y) {
     const x$1 = $as_s_concurrent_duration_FiniteDuration(x);
     const y$1 = $as_s_concurrent_duration_FiniteDuration(y);
-    return x$1.$less__O__Z(y$1)
+    return $f_s_math_Ordered__$less__O__Z(x$1, y$1)
   };
   gteqv__O__O__Z(x, y) {
     const x$1 = $as_s_concurrent_duration_FiniteDuration(x);
     const y$1 = $as_s_concurrent_duration_FiniteDuration(y);
-    return x$1.$greater$eq__O__Z(y$1)
+    return $f_s_math_Ordered__$greater$eq__O__Z(x$1, y$1)
   };
   gt__O__O__Z(x, y) {
     const x$1 = $as_s_concurrent_duration_FiniteDuration(x);
     const y$1 = $as_s_concurrent_duration_FiniteDuration(y);
-    return x$1.$greater__O__Z(y$1)
+    return $f_s_math_Ordered__$greater__O__Z(x$1, y$1)
   };
   neqv__O__O__Z(x, y) {
     return this.neqv__s_concurrent_duration_FiniteDuration__s_concurrent_duration_FiniteDuration__Z($as_s_concurrent_duration_FiniteDuration(x), $as_s_concurrent_duration_FiniteDuration(y))
@@ -38821,7 +40833,10 @@ class $c_Lcats_data_AndThenInstances0$$anon$3 extends $c_O {
   compose__O__O__O(f, g) {
     const f$1 = $as_Lcats_data_AndThen(f);
     const g$1 = $as_Lcats_data_AndThen(g);
-    return f$1.compose__F1__Lcats_data_AndThen(g$1)
+    return $m_Lcats_data_AndThen$().andThen__Lcats_data_AndThen__Lcats_data_AndThen__Lcats_data_AndThen(g$1, f$1)
+  };
+  lift__F1__O(f) {
+    return $m_Lcats_data_AndThen$().apply__F1__Lcats_data_AndThen(f)
   };
 }
 const $d_Lcats_data_AndThenInstances0$$anon$3 = new $TypeData().initClass({
@@ -38849,6 +40864,9 @@ class $c_Lcats_instances_Function1Instances$$anon$8 extends $c_O {
     const f$1 = $as_F1(f);
     const g$1 = $as_F1(g);
     return f$1.compose__F1__F1(g$1)
+  };
+  lift__F1__O(f) {
+    return f
   };
 }
 const $d_Lcats_instances_Function1Instances$$anon$8 = new $TypeData().initClass({
@@ -39062,6 +41080,13 @@ class $c_sc_AbstractTraversable extends $c_O {
     const cbf = this$1.scg_GenTraversableFactory__f_ReusableCBFInstance;
     return $as_sci_Vector($f_sc_TraversableLike__to__scg_CanBuildFrom__O(this, cbf))
   };
+  toMap__s_Predef$$less$colon$less__sci_Map(ev) {
+    $m_sci_Map$();
+    const b = new $c_sci_Map$MapBuilderImpl();
+    const xs = this.seq__sc_TraversableOnce();
+    b.$plus$plus$eq__sc_TraversableOnce__sci_Map$MapBuilderImpl(xs);
+    return b.result__sci_Map()
+  };
   mkString__T__T__T__T(start, sep, end) {
     return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
   };
@@ -39207,13 +41232,13 @@ const $d_sr_RichLong = new $TypeData().initClass({
   sr_RangedProxy: 1
 });
 $c_sr_RichLong.prototype.$classData = $d_sr_RichLong;
-function $f_Lcats_Monad__map__O__F1__O($thiz, fa, f) {
-  return $thiz.flatMap__O__F1__O(fa, new $c_sjsr_AnonFunction1(((this$1, f$1) => ((a$2) => this$1.pure__O__O(f$1.apply__O__O(a$2))))($thiz, f)))
-}
 class $c_Lcats_kernel_instances_UnitAlgebra extends $c_O {
   combine__O__O__O(x, y) {
     $as_jl_Void(x);
     $as_jl_Void(y)
+  };
+  empty__O() {
+    return (void 0)
   };
 }
 const $d_Lcats_kernel_instances_UnitAlgebra = new $TypeData().initClass({
@@ -39348,6 +41373,67 @@ class $c_Lcats_data_ValidatedApplicative extends $c_O {
     return fa$1.map__F1__Lcats_data_Validated(f)
   };
 }
+class $c_Lcats_kernel_instances_BigIntOrder extends $c_O {
+  partialCompare__O__O__D(x, y) {
+    return $f_Lcats_kernel_Order__partialCompare__O__O__D(this, x, y)
+  };
+  eqv__s_math_BigInt__s_math_BigInt__Z(x, y) {
+    return ((x === null) ? (y === null) : x.equals__O__Z(y))
+  };
+  neqv__s_math_BigInt__s_math_BigInt__Z(x, y) {
+    return (!((x === null) ? (y === null) : x.equals__O__Z(y)))
+  };
+  lteqv__O__O__Z(x, y) {
+    const x$1 = $as_s_math_BigInt(x);
+    const y$1 = $as_s_math_BigInt(y);
+    return $f_s_math_Ordered__$less$eq__O__Z(x$1, y$1)
+  };
+  lt__O__O__Z(x, y) {
+    const x$1 = $as_s_math_BigInt(x);
+    const y$1 = $as_s_math_BigInt(y);
+    return $f_s_math_Ordered__$less__O__Z(x$1, y$1)
+  };
+  gteqv__O__O__Z(x, y) {
+    const x$1 = $as_s_math_BigInt(x);
+    const y$1 = $as_s_math_BigInt(y);
+    return $f_s_math_Ordered__$greater$eq__O__Z(x$1, y$1)
+  };
+  gt__O__O__Z(x, y) {
+    const x$1 = $as_s_math_BigInt(x);
+    const y$1 = $as_s_math_BigInt(y);
+    return $f_s_math_Ordered__$greater__O__Z(x$1, y$1)
+  };
+  neqv__O__O__Z(x, y) {
+    return this.neqv__s_math_BigInt__s_math_BigInt__Z($as_s_math_BigInt(x), $as_s_math_BigInt(y))
+  };
+  eqv__O__O__Z(x, y) {
+    return this.eqv__s_math_BigInt__s_math_BigInt__Z($as_s_math_BigInt(x), $as_s_math_BigInt(y))
+  };
+  compare__O__O__I(x, y) {
+    const x$1 = $as_s_math_BigInt(x);
+    const y$1 = $as_s_math_BigInt(y);
+    return x$1.s_math_BigInt__f_bigInteger.compareTo__Ljava_math_BigInteger__I(y$1.s_math_BigInt__f_bigInteger)
+  };
+}
+const $d_Lcats_kernel_instances_BigIntOrder = new $TypeData().initClass({
+  Lcats_kernel_instances_BigIntOrder: 0
+}, false, "cats.kernel.instances.BigIntOrder", {
+  Lcats_kernel_instances_BigIntOrder: 1,
+  O: 1,
+  Lcats_kernel_Order: 1,
+  Lcats_kernel_PartialOrder: 1,
+  Lcats_kernel_Eq: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  Lcats_kernel_Hash: 1,
+  Lcats_kernel_instances_BigIntUnboundedEnum: 1,
+  Lcats_kernel_UnboundedEnumerable: 1,
+  Lcats_kernel_Next: 1,
+  Lcats_kernel_PartialNext: 1,
+  Lcats_kernel_Previous: 1,
+  Lcats_kernel_PartialPrevious: 1
+});
+$c_Lcats_kernel_instances_BigIntOrder.prototype.$classData = $d_Lcats_kernel_instances_BigIntOrder;
 function $is_sc_GenSet(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.sc_GenSet)))
 }
@@ -39697,6 +41783,9 @@ class $c_Lcats_kernel_instances_DoubleGroup extends $c_O {
   combine$mcD$sp__D__D__D(x, y) {
     return (x + y)
   };
+  empty__O() {
+    return 0.0
+  };
   combine__O__O__O(x, y) {
     const x$1 = $uD(x);
     const y$1 = $uD(y);
@@ -39728,6 +41817,9 @@ class $c_Lcats_kernel_instances_FloatGroup extends $c_O {
   combine$mcF$sp__F__F__F(x, y) {
     return $fround((x + y))
   };
+  empty__O() {
+    return 0.0
+  };
   combine__O__O__O(x, y) {
     const x$1 = $uF(x);
     const y$1 = $uF(y);
@@ -39758,6 +41850,9 @@ $c_Lcats_kernel_instances_FloatGroup.prototype.$classData = $d_Lcats_kernel_inst
 class $c_Lcats_kernel_instances_IntGroup extends $c_O {
   combine$mcI$sp__I__I__I(x, y) {
     return ((x + y) | 0)
+  };
+  empty__O() {
+    return 0
   };
   combine__O__O__O(x, y) {
     const x$1 = $uI(x);
@@ -39794,6 +41889,9 @@ class $c_Lcats_kernel_instances_LongGroup extends $c_O {
     const lo = ((alo + y.RTLong__f_lo) | 0);
     const hi = ((((-2147483648) ^ lo) < ((-2147483648) ^ alo)) ? ((1 + ((ahi + bhi) | 0)) | 0) : ((ahi + bhi) | 0));
     return new $c_RTLong(lo, hi)
+  };
+  empty__O() {
+    return $L0
   };
   combine__O__O__O(x, y) {
     const t = $uJ(x);
@@ -39840,9 +41938,6 @@ class $c_Lio_circe_KeyDecoder$$anon$8 extends $c_O {
   map__O__F1__O(fa, f) {
     const fa$1 = $as_Lio_circe_KeyDecoder(fa);
     return new $c_Lio_circe_KeyDecoder$$anon$1(fa$1, f)
-  };
-  pure__O__O(x) {
-    return new $c_Lio_circe_KeyDecoder$$anon$8$$anon$9(this, x)
   };
 }
 const $d_Lio_circe_KeyDecoder$$anon$8 = new $TypeData().initClass({
@@ -39967,17 +42062,14 @@ class $c_Lcats_instances_Function0Instances$$anon$4 extends $c_O {
   constructor(outer) {
     super()
   };
-  map__O__F1__O(fa, f) {
-    return $f_Lcats_Monad__map__O__F1__O(this, fa, f)
+  map__F0__F1__F0(fa, fn) {
+    return new $c_sjsr_AnonFunction0(((this$1, fn$1, fa$1) => (() => fn$1.apply__O__O(fa$1.apply__O())))(this, fn, fa))
   };
-  product__O__O__O(fa, fb) {
-    return $f_Lcats_FlatMap__product__O__O__O(this, fa, fb)
+  map2__F0__F0__F2__F0(fa, fb, fn) {
+    return new $c_sjsr_AnonFunction0(((this$1, fn$1, fa$1, fb$1) => (() => fn$1.apply__O__O__O(fa$1.apply__O(), fb$1.apply__O())))(this, fn, fa, fb))
   };
-  map2__O__O__F2__O(fa, fb, f) {
-    return $f_Lcats_FlatMap__map2__O__O__F2__O(this, fa, fb, f)
-  };
-  pure__O__F0(x) {
-    return new $c_sjsr_AnonFunction0(((this$1, x$1) => (() => x$1))(this, x))
+  product__F0__F0__F0(fa, fb) {
+    return new $c_sjsr_AnonFunction0(((this$1, fa$1, fb$1) => (() => new $c_T2(fa$1.apply__O(), fb$1.apply__O())))(this, fa, fb))
   };
   flatMap__F0__F1__F0(fa, f) {
     return new $c_sjsr_AnonFunction0(((this$1, f$1, fa$1) => (() => $as_F0(f$1.apply__O__O(fa$1.apply__O())).apply__O()))(this, f, fa))
@@ -39985,8 +42077,14 @@ class $c_Lcats_instances_Function0Instances$$anon$4 extends $c_O {
   flatMap__O__F1__O(fa, f) {
     return this.flatMap__F0__F1__F0($as_F0(fa), f)
   };
-  pure__O__O(x) {
-    return this.pure__O__F0(x)
+  product__O__O__O(fa, fb) {
+    return this.product__F0__F0__F0($as_F0(fa), $as_F0(fb))
+  };
+  map2__O__O__F2__O(fa, fb, f) {
+    return this.map2__F0__F0__F2__F0($as_F0(fa), $as_F0(fb), f)
+  };
+  map__O__F1__O(fa, f) {
+    return this.map__F0__F1__F0($as_F0(fa), f)
   };
 }
 const $d_Lcats_instances_Function0Instances$$anon$4 = new $TypeData().initClass({
@@ -40011,94 +42109,37 @@ const $d_Lcats_instances_Function0Instances$$anon$4 = new $TypeData().initClass(
   Lcats_CoflatMap: 1
 });
 $c_Lcats_instances_Function0Instances$$anon$4.prototype.$classData = $d_Lcats_instances_Function0Instances$$anon$4;
-class $c_Lcats_kernel_instances_BooleanOrder extends $c_O {
-  constructor() {
-    super();
-    this.Lcats_kernel_instances_BooleanOrder__f_partialOrder = null;
-    this.Lcats_kernel_instances_BooleanOrder__f_partialOrder = this
-  };
-  partialCompare__O__O__D(x, y) {
-    return $f_Lcats_kernel_Order__partialCompare__O__O__D(this, x, y)
-  };
-  compare$mcZ$sp__Z__Z__I(x, y) {
-    return ((x === y) ? 0 : (x ? 1 : (-1)))
-  };
-  eqv$mcZ$sp__Z__Z__Z(x, y) {
-    return (x === y)
-  };
-  neqv$mcZ$sp__Z__Z__Z(x, y) {
-    return (x !== y)
-  };
-  gt$mcZ$sp__Z__Z__Z(x, y) {
-    return (x && (!y))
-  };
-  lt$mcZ$sp__Z__Z__Z(x, y) {
-    return ((!x) && y)
-  };
-  gteqv$mcZ$sp__Z__Z__Z(x, y) {
-    return ((x === y) || x)
-  };
-  lteqv$mcZ$sp__Z__Z__Z(x, y) {
-    return ((x === y) || y)
-  };
-  lteqv__O__O__Z(x, y) {
-    const x$1 = $uZ(x);
-    const y$1 = $uZ(y);
-    return this.lteqv$mcZ$sp__Z__Z__Z(x$1, y$1)
-  };
-  gteqv__O__O__Z(x, y) {
-    const x$1 = $uZ(x);
-    const y$1 = $uZ(y);
-    return this.gteqv$mcZ$sp__Z__Z__Z(x$1, y$1)
-  };
-  lt__O__O__Z(x, y) {
-    const x$1 = $uZ(x);
-    const y$1 = $uZ(y);
-    return this.lt$mcZ$sp__Z__Z__Z(x$1, y$1)
-  };
-  gt__O__O__Z(x, y) {
-    const x$1 = $uZ(x);
-    const y$1 = $uZ(y);
-    return this.gt$mcZ$sp__Z__Z__Z(x$1, y$1)
-  };
-  neqv__O__O__Z(x, y) {
-    const x$1 = $uZ(x);
-    const y$1 = $uZ(y);
-    return this.neqv$mcZ$sp__Z__Z__Z(x$1, y$1)
-  };
-  eqv__O__O__Z(x, y) {
-    const x$1 = $uZ(x);
-    const y$1 = $uZ(y);
-    return this.eqv$mcZ$sp__Z__Z__Z(x$1, y$1)
-  };
-  compare__O__O__I(x, y) {
-    const x$1 = $uZ(x);
-    const y$1 = $uZ(y);
-    return this.compare$mcZ$sp__Z__Z__I(x$1, y$1)
-  };
+class $c_Lcats_kernel_Eq$ extends $c_Lcats_kernel_EqFunctions {
 }
-const $d_Lcats_kernel_instances_BooleanOrder = new $TypeData().initClass({
-  Lcats_kernel_instances_BooleanOrder: 0
-}, false, "cats.kernel.instances.BooleanOrder", {
-  Lcats_kernel_instances_BooleanOrder: 1,
+const $d_Lcats_kernel_Eq$ = new $TypeData().initClass({
+  Lcats_kernel_Eq$: 0
+}, false, "cats.kernel.Eq$", {
+  Lcats_kernel_Eq$: 1,
+  Lcats_kernel_EqFunctions: 1,
   O: 1,
-  Lcats_kernel_Order$mcZ$sp: 1,
-  Lcats_kernel_Order: 1,
-  Lcats_kernel_PartialOrder: 1,
-  Lcats_kernel_Eq: 1,
+  Lcats_kernel_EqToEquivConversion: 1,
+  Lcats_kernel_ScalaVersionSpecificOrderInstances: 1,
+  Lcats_kernel_ScalaVersionSpecificPartialOrderInstances: 1,
+  Lcats_kernel_ScalaVersionSpecificHashInstances: 1,
+  Lcats_kernel_ScalaVersionSpecificEqInstances: 1,
+  Lcats_kernel_instances_TupleOrderInstances: 1,
+  Lcats_kernel_instances_TuplePartialOrderInstances: 1,
+  Lcats_kernel_instances_TupleHashInstances: 1,
+  Lcats_kernel_instances_TupleEqInstances: 1,
+  Lcats_kernel_PartialOrderInstances: 1,
+  Lcats_kernel_HashInstances: 1,
+  Lcats_kernel_EqInstances: 1,
   s_Serializable: 1,
-  Ljava_io_Serializable: 1,
-  Lcats_kernel_PartialOrder$mcZ$sp: 1,
-  Lcats_kernel_Eq$mcZ$sp: 1,
-  Lcats_kernel_Hash$mcZ$sp: 1,
-  Lcats_kernel_Hash: 1,
-  Lcats_kernel_instances_BooleanBounded: 1,
-  Lcats_kernel_LowerBounded$mcZ$sp: 1,
-  Lcats_kernel_LowerBounded: 1,
-  Lcats_kernel_UpperBounded$mcZ$sp: 1,
-  Lcats_kernel_UpperBounded: 1
+  Ljava_io_Serializable: 1
 });
-$c_Lcats_kernel_instances_BooleanOrder.prototype.$classData = $d_Lcats_kernel_instances_BooleanOrder;
+$c_Lcats_kernel_Eq$.prototype.$classData = $d_Lcats_kernel_Eq$;
+let $n_Lcats_kernel_Eq$;
+function $m_Lcats_kernel_Eq$() {
+  if ((!$n_Lcats_kernel_Eq$)) {
+    $n_Lcats_kernel_Eq$ = new $c_Lcats_kernel_Eq$()
+  };
+  return $n_Lcats_kernel_Eq$
+}
 class $c_Lcats_kernel_instances_ByteOrder extends $c_O {
   constructor() {
     super();
@@ -40187,473 +42228,6 @@ const $d_Lcats_kernel_instances_ByteOrder = new $TypeData().initClass({
   Lcats_kernel_UpperBounded: 1
 });
 $c_Lcats_kernel_instances_ByteOrder.prototype.$classData = $d_Lcats_kernel_instances_ByteOrder;
-class $c_Lcats_kernel_instances_CharOrder extends $c_O {
-  constructor() {
-    super();
-    this.Lcats_kernel_instances_CharOrder__f_partialOrder = null;
-    this.Lcats_kernel_instances_CharOrder__f_partialOrder = this
-  };
-  partialCompare__O__O__D(x, y) {
-    return $f_Lcats_kernel_Order__partialCompare__O__O__D(this, x, y)
-  };
-  compare$mcC$sp__C__C__I(x, y) {
-    return ((x < y) ? (-1) : ((x > y) ? 1 : 0))
-  };
-  eqv$mcC$sp__C__C__Z(x, y) {
-    return (x === y)
-  };
-  neqv$mcC$sp__C__C__Z(x, y) {
-    return (x !== y)
-  };
-  gt$mcC$sp__C__C__Z(x, y) {
-    return (x > y)
-  };
-  gteqv$mcC$sp__C__C__Z(x, y) {
-    return (x >= y)
-  };
-  lt$mcC$sp__C__C__Z(x, y) {
-    return (x < y)
-  };
-  lteqv$mcC$sp__C__C__Z(x, y) {
-    return (x <= y)
-  };
-  lteqv__O__O__Z(x, y) {
-    const x$1 = $uC(x);
-    const y$1 = $uC(y);
-    return this.lteqv$mcC$sp__C__C__Z(x$1, y$1)
-  };
-  lt__O__O__Z(x, y) {
-    const x$1 = $uC(x);
-    const y$1 = $uC(y);
-    return this.lt$mcC$sp__C__C__Z(x$1, y$1)
-  };
-  gteqv__O__O__Z(x, y) {
-    const x$1 = $uC(x);
-    const y$1 = $uC(y);
-    return this.gteqv$mcC$sp__C__C__Z(x$1, y$1)
-  };
-  gt__O__O__Z(x, y) {
-    const x$1 = $uC(x);
-    const y$1 = $uC(y);
-    return this.gt$mcC$sp__C__C__Z(x$1, y$1)
-  };
-  neqv__O__O__Z(x, y) {
-    const x$1 = $uC(x);
-    const y$1 = $uC(y);
-    return this.neqv$mcC$sp__C__C__Z(x$1, y$1)
-  };
-  eqv__O__O__Z(x, y) {
-    const x$1 = $uC(x);
-    const y$1 = $uC(y);
-    return this.eqv$mcC$sp__C__C__Z(x$1, y$1)
-  };
-  compare__O__O__I(x, y) {
-    const x$1 = $uC(x);
-    const y$1 = $uC(y);
-    return this.compare$mcC$sp__C__C__I(x$1, y$1)
-  };
-}
-const $d_Lcats_kernel_instances_CharOrder = new $TypeData().initClass({
-  Lcats_kernel_instances_CharOrder: 0
-}, false, "cats.kernel.instances.CharOrder", {
-  Lcats_kernel_instances_CharOrder: 1,
-  O: 1,
-  Lcats_kernel_Order$mcC$sp: 1,
-  Lcats_kernel_Order: 1,
-  Lcats_kernel_PartialOrder: 1,
-  Lcats_kernel_Eq: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1,
-  Lcats_kernel_PartialOrder$mcC$sp: 1,
-  Lcats_kernel_Eq$mcC$sp: 1,
-  Lcats_kernel_Hash$mcC$sp: 1,
-  Lcats_kernel_Hash: 1,
-  Lcats_kernel_instances_CharBounded: 1,
-  Lcats_kernel_LowerBounded$mcC$sp: 1,
-  Lcats_kernel_LowerBounded: 1,
-  Lcats_kernel_UpperBounded$mcC$sp: 1,
-  Lcats_kernel_UpperBounded: 1
-});
-$c_Lcats_kernel_instances_CharOrder.prototype.$classData = $d_Lcats_kernel_instances_CharOrder;
-class $c_Lcats_kernel_instances_IntOrder extends $c_O {
-  constructor() {
-    super();
-    this.Lcats_kernel_instances_IntOrder__f_partialOrder = null;
-    this.Lcats_kernel_instances_IntOrder__f_partialOrder = this
-  };
-  partialCompare__O__O__D(x, y) {
-    return $f_Lcats_kernel_Order__partialCompare__O__O__D(this, x, y)
-  };
-  compare$mcI$sp__I__I__I(x, y) {
-    return ((x < y) ? (-1) : ((x > y) ? 1 : 0))
-  };
-  eqv$mcI$sp__I__I__Z(x, y) {
-    return (x === y)
-  };
-  neqv$mcI$sp__I__I__Z(x, y) {
-    return (x !== y)
-  };
-  gt$mcI$sp__I__I__Z(x, y) {
-    return (x > y)
-  };
-  gteqv$mcI$sp__I__I__Z(x, y) {
-    return (x >= y)
-  };
-  lt$mcI$sp__I__I__Z(x, y) {
-    return (x < y)
-  };
-  lteqv$mcI$sp__I__I__Z(x, y) {
-    return (x <= y)
-  };
-  lteqv__O__O__Z(x, y) {
-    const x$1 = $uI(x);
-    const y$1 = $uI(y);
-    return this.lteqv$mcI$sp__I__I__Z(x$1, y$1)
-  };
-  lt__O__O__Z(x, y) {
-    const x$1 = $uI(x);
-    const y$1 = $uI(y);
-    return this.lt$mcI$sp__I__I__Z(x$1, y$1)
-  };
-  gteqv__O__O__Z(x, y) {
-    const x$1 = $uI(x);
-    const y$1 = $uI(y);
-    return this.gteqv$mcI$sp__I__I__Z(x$1, y$1)
-  };
-  gt__O__O__Z(x, y) {
-    const x$1 = $uI(x);
-    const y$1 = $uI(y);
-    return this.gt$mcI$sp__I__I__Z(x$1, y$1)
-  };
-  neqv__O__O__Z(x, y) {
-    const x$1 = $uI(x);
-    const y$1 = $uI(y);
-    return this.neqv$mcI$sp__I__I__Z(x$1, y$1)
-  };
-  eqv__O__O__Z(x, y) {
-    const x$1 = $uI(x);
-    const y$1 = $uI(y);
-    return this.eqv$mcI$sp__I__I__Z(x$1, y$1)
-  };
-  compare__O__O__I(x, y) {
-    const x$1 = $uI(x);
-    const y$1 = $uI(y);
-    return this.compare$mcI$sp__I__I__I(x$1, y$1)
-  };
-}
-const $d_Lcats_kernel_instances_IntOrder = new $TypeData().initClass({
-  Lcats_kernel_instances_IntOrder: 0
-}, false, "cats.kernel.instances.IntOrder", {
-  Lcats_kernel_instances_IntOrder: 1,
-  O: 1,
-  Lcats_kernel_Order$mcI$sp: 1,
-  Lcats_kernel_Order: 1,
-  Lcats_kernel_PartialOrder: 1,
-  Lcats_kernel_Eq: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1,
-  Lcats_kernel_PartialOrder$mcI$sp: 1,
-  Lcats_kernel_Eq$mcI$sp: 1,
-  Lcats_kernel_Hash$mcI$sp: 1,
-  Lcats_kernel_Hash: 1,
-  Lcats_kernel_instances_IntBounded: 1,
-  Lcats_kernel_LowerBounded$mcI$sp: 1,
-  Lcats_kernel_LowerBounded: 1,
-  Lcats_kernel_UpperBounded$mcI$sp: 1,
-  Lcats_kernel_UpperBounded: 1
-});
-$c_Lcats_kernel_instances_IntOrder.prototype.$classData = $d_Lcats_kernel_instances_IntOrder;
-class $c_Lcats_kernel_instances_LongOrder extends $c_O {
-  constructor() {
-    super();
-    this.Lcats_kernel_instances_LongOrder__f_partialOrder = null;
-    this.Lcats_kernel_instances_LongOrder__f_partialOrder = this
-  };
-  partialCompare__O__O__D(x, y) {
-    return $f_Lcats_kernel_Order__partialCompare__O__O__D(this, x, y)
-  };
-  compare$mcJ$sp__J__J__I(x, y) {
-    const ahi = x.RTLong__f_hi;
-    const bhi = y.RTLong__f_hi;
-    if (((ahi === bhi) ? (((-2147483648) ^ x.RTLong__f_lo) < ((-2147483648) ^ y.RTLong__f_lo)) : (ahi < bhi))) {
-      return (-1)
-    } else {
-      const ahi$1 = x.RTLong__f_hi;
-      const bhi$1 = y.RTLong__f_hi;
-      if (((ahi$1 === bhi$1) ? (((-2147483648) ^ x.RTLong__f_lo) > ((-2147483648) ^ y.RTLong__f_lo)) : (ahi$1 > bhi$1))) {
-        return 1
-      } else {
-        return 0
-      }
-    }
-  };
-  eqv$mcJ$sp__J__J__Z(x, y) {
-    return ((x.RTLong__f_lo === y.RTLong__f_lo) && (x.RTLong__f_hi === y.RTLong__f_hi))
-  };
-  neqv$mcJ$sp__J__J__Z(x, y) {
-    return (!((x.RTLong__f_lo === y.RTLong__f_lo) && (x.RTLong__f_hi === y.RTLong__f_hi)))
-  };
-  gt$mcJ$sp__J__J__Z(x, y) {
-    const ahi = x.RTLong__f_hi;
-    const bhi = y.RTLong__f_hi;
-    return ((ahi === bhi) ? (((-2147483648) ^ x.RTLong__f_lo) > ((-2147483648) ^ y.RTLong__f_lo)) : (ahi > bhi))
-  };
-  gteqv$mcJ$sp__J__J__Z(x, y) {
-    const ahi = x.RTLong__f_hi;
-    const bhi = y.RTLong__f_hi;
-    return ((ahi === bhi) ? (((-2147483648) ^ x.RTLong__f_lo) >= ((-2147483648) ^ y.RTLong__f_lo)) : (ahi > bhi))
-  };
-  lt$mcJ$sp__J__J__Z(x, y) {
-    const ahi = x.RTLong__f_hi;
-    const bhi = y.RTLong__f_hi;
-    return ((ahi === bhi) ? (((-2147483648) ^ x.RTLong__f_lo) < ((-2147483648) ^ y.RTLong__f_lo)) : (ahi < bhi))
-  };
-  lteqv$mcJ$sp__J__J__Z(x, y) {
-    const ahi = x.RTLong__f_hi;
-    const bhi = y.RTLong__f_hi;
-    return ((ahi === bhi) ? (((-2147483648) ^ x.RTLong__f_lo) <= ((-2147483648) ^ y.RTLong__f_lo)) : (ahi < bhi))
-  };
-  lteqv__O__O__Z(x, y) {
-    const t = $uJ(x);
-    const lo = t.RTLong__f_lo;
-    const hi = t.RTLong__f_hi;
-    const t$1 = $uJ(y);
-    const lo$1 = t$1.RTLong__f_lo;
-    const hi$1 = t$1.RTLong__f_hi;
-    return this.lteqv$mcJ$sp__J__J__Z(new $c_RTLong(lo, hi), new $c_RTLong(lo$1, hi$1))
-  };
-  lt__O__O__Z(x, y) {
-    const t = $uJ(x);
-    const lo = t.RTLong__f_lo;
-    const hi = t.RTLong__f_hi;
-    const t$1 = $uJ(y);
-    const lo$1 = t$1.RTLong__f_lo;
-    const hi$1 = t$1.RTLong__f_hi;
-    return this.lt$mcJ$sp__J__J__Z(new $c_RTLong(lo, hi), new $c_RTLong(lo$1, hi$1))
-  };
-  gteqv__O__O__Z(x, y) {
-    const t = $uJ(x);
-    const lo = t.RTLong__f_lo;
-    const hi = t.RTLong__f_hi;
-    const t$1 = $uJ(y);
-    const lo$1 = t$1.RTLong__f_lo;
-    const hi$1 = t$1.RTLong__f_hi;
-    return this.gteqv$mcJ$sp__J__J__Z(new $c_RTLong(lo, hi), new $c_RTLong(lo$1, hi$1))
-  };
-  gt__O__O__Z(x, y) {
-    const t = $uJ(x);
-    const lo = t.RTLong__f_lo;
-    const hi = t.RTLong__f_hi;
-    const t$1 = $uJ(y);
-    const lo$1 = t$1.RTLong__f_lo;
-    const hi$1 = t$1.RTLong__f_hi;
-    return this.gt$mcJ$sp__J__J__Z(new $c_RTLong(lo, hi), new $c_RTLong(lo$1, hi$1))
-  };
-  neqv__O__O__Z(x, y) {
-    const t = $uJ(x);
-    const lo = t.RTLong__f_lo;
-    const hi = t.RTLong__f_hi;
-    const t$1 = $uJ(y);
-    const lo$1 = t$1.RTLong__f_lo;
-    const hi$1 = t$1.RTLong__f_hi;
-    return this.neqv$mcJ$sp__J__J__Z(new $c_RTLong(lo, hi), new $c_RTLong(lo$1, hi$1))
-  };
-  eqv__O__O__Z(x, y) {
-    const t = $uJ(x);
-    const lo = t.RTLong__f_lo;
-    const hi = t.RTLong__f_hi;
-    const t$1 = $uJ(y);
-    const lo$1 = t$1.RTLong__f_lo;
-    const hi$1 = t$1.RTLong__f_hi;
-    return this.eqv$mcJ$sp__J__J__Z(new $c_RTLong(lo, hi), new $c_RTLong(lo$1, hi$1))
-  };
-  compare__O__O__I(x, y) {
-    const t = $uJ(x);
-    const lo = t.RTLong__f_lo;
-    const hi = t.RTLong__f_hi;
-    const t$1 = $uJ(y);
-    const lo$1 = t$1.RTLong__f_lo;
-    const hi$1 = t$1.RTLong__f_hi;
-    return this.compare$mcJ$sp__J__J__I(new $c_RTLong(lo, hi), new $c_RTLong(lo$1, hi$1))
-  };
-}
-const $d_Lcats_kernel_instances_LongOrder = new $TypeData().initClass({
-  Lcats_kernel_instances_LongOrder: 0
-}, false, "cats.kernel.instances.LongOrder", {
-  Lcats_kernel_instances_LongOrder: 1,
-  O: 1,
-  Lcats_kernel_Order$mcJ$sp: 1,
-  Lcats_kernel_Order: 1,
-  Lcats_kernel_PartialOrder: 1,
-  Lcats_kernel_Eq: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1,
-  Lcats_kernel_PartialOrder$mcJ$sp: 1,
-  Lcats_kernel_Eq$mcJ$sp: 1,
-  Lcats_kernel_Hash$mcJ$sp: 1,
-  Lcats_kernel_Hash: 1,
-  Lcats_kernel_instances_LongBounded: 1,
-  Lcats_kernel_LowerBounded$mcJ$sp: 1,
-  Lcats_kernel_LowerBounded: 1,
-  Lcats_kernel_UpperBounded$mcJ$sp: 1,
-  Lcats_kernel_UpperBounded: 1
-});
-$c_Lcats_kernel_instances_LongOrder.prototype.$classData = $d_Lcats_kernel_instances_LongOrder;
-class $c_Lcats_kernel_instances_ShortOrder extends $c_O {
-  constructor() {
-    super();
-    this.Lcats_kernel_instances_ShortOrder__f_partialOrder = null;
-    this.Lcats_kernel_instances_ShortOrder__f_partialOrder = this
-  };
-  partialCompare__O__O__D(x, y) {
-    return $f_Lcats_kernel_Order__partialCompare__O__O__D(this, x, y)
-  };
-  compare$mcS$sp__S__S__I(x, y) {
-    return ((x < y) ? (-1) : ((x > y) ? 1 : 0))
-  };
-  eqv$mcS$sp__S__S__Z(x, y) {
-    return (x === y)
-  };
-  neqv$mcS$sp__S__S__Z(x, y) {
-    return (x !== y)
-  };
-  gt$mcS$sp__S__S__Z(x, y) {
-    return (x > y)
-  };
-  gteqv$mcS$sp__S__S__Z(x, y) {
-    return (x >= y)
-  };
-  lt$mcS$sp__S__S__Z(x, y) {
-    return (x < y)
-  };
-  lteqv$mcS$sp__S__S__Z(x, y) {
-    return (x <= y)
-  };
-  lteqv__O__O__Z(x, y) {
-    const x$1 = $uS(x);
-    const y$1 = $uS(y);
-    return this.lteqv$mcS$sp__S__S__Z(x$1, y$1)
-  };
-  lt__O__O__Z(x, y) {
-    const x$1 = $uS(x);
-    const y$1 = $uS(y);
-    return this.lt$mcS$sp__S__S__Z(x$1, y$1)
-  };
-  gteqv__O__O__Z(x, y) {
-    const x$1 = $uS(x);
-    const y$1 = $uS(y);
-    return this.gteqv$mcS$sp__S__S__Z(x$1, y$1)
-  };
-  gt__O__O__Z(x, y) {
-    const x$1 = $uS(x);
-    const y$1 = $uS(y);
-    return this.gt$mcS$sp__S__S__Z(x$1, y$1)
-  };
-  neqv__O__O__Z(x, y) {
-    const x$1 = $uS(x);
-    const y$1 = $uS(y);
-    return this.neqv$mcS$sp__S__S__Z(x$1, y$1)
-  };
-  eqv__O__O__Z(x, y) {
-    const x$1 = $uS(x);
-    const y$1 = $uS(y);
-    return this.eqv$mcS$sp__S__S__Z(x$1, y$1)
-  };
-  compare__O__O__I(x, y) {
-    const x$1 = $uS(x);
-    const y$1 = $uS(y);
-    return this.compare$mcS$sp__S__S__I(x$1, y$1)
-  };
-}
-const $d_Lcats_kernel_instances_ShortOrder = new $TypeData().initClass({
-  Lcats_kernel_instances_ShortOrder: 0
-}, false, "cats.kernel.instances.ShortOrder", {
-  Lcats_kernel_instances_ShortOrder: 1,
-  O: 1,
-  Lcats_kernel_Order$mcS$sp: 1,
-  Lcats_kernel_Order: 1,
-  Lcats_kernel_PartialOrder: 1,
-  Lcats_kernel_Eq: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1,
-  Lcats_kernel_PartialOrder$mcS$sp: 1,
-  Lcats_kernel_Eq$mcS$sp: 1,
-  Lcats_kernel_Hash$mcS$sp: 1,
-  Lcats_kernel_Hash: 1,
-  Lcats_kernel_instances_ShortBounded: 1,
-  Lcats_kernel_LowerBounded$mcS$sp: 1,
-  Lcats_kernel_LowerBounded: 1,
-  Lcats_kernel_UpperBounded$mcS$sp: 1,
-  Lcats_kernel_UpperBounded: 1
-});
-$c_Lcats_kernel_instances_ShortOrder.prototype.$classData = $d_Lcats_kernel_instances_ShortOrder;
-class $c_Lcats_kernel_instances_UnitOrder extends $c_O {
-  constructor() {
-    super();
-    this.Lcats_kernel_instances_UnitOrder__f_partialOrder = null;
-    this.Lcats_kernel_instances_UnitOrder__f_partialOrder = this
-  };
-  partialCompare__O__O__D(x, y) {
-    return $f_Lcats_kernel_Order__partialCompare__O__O__D(this, x, y)
-  };
-  lteqv__O__O__Z(x, y) {
-    $as_jl_Void(x);
-    $as_jl_Void(y);
-    return true
-  };
-  gteqv__O__O__Z(x, y) {
-    $as_jl_Void(x);
-    $as_jl_Void(y);
-    return true
-  };
-  lt__O__O__Z(x, y) {
-    $as_jl_Void(x);
-    $as_jl_Void(y);
-    return false
-  };
-  gt__O__O__Z(x, y) {
-    $as_jl_Void(x);
-    $as_jl_Void(y);
-    return false
-  };
-  neqv__O__O__Z(x, y) {
-    $as_jl_Void(x);
-    $as_jl_Void(y);
-    return false
-  };
-  eqv__O__O__Z(x, y) {
-    $as_jl_Void(x);
-    $as_jl_Void(y);
-    return true
-  };
-  compare__O__O__I(x, y) {
-    $as_jl_Void(x);
-    $as_jl_Void(y);
-    return 0
-  };
-}
-const $d_Lcats_kernel_instances_UnitOrder = new $TypeData().initClass({
-  Lcats_kernel_instances_UnitOrder: 0
-}, false, "cats.kernel.instances.UnitOrder", {
-  Lcats_kernel_instances_UnitOrder: 1,
-  O: 1,
-  Lcats_kernel_Order$mcV$sp: 1,
-  Lcats_kernel_Order: 1,
-  Lcats_kernel_PartialOrder: 1,
-  Lcats_kernel_Eq: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1,
-  Lcats_kernel_PartialOrder$mcV$sp: 1,
-  Lcats_kernel_Eq$mcV$sp: 1,
-  Lcats_kernel_Hash$mcV$sp: 1,
-  Lcats_kernel_Hash: 1,
-  Lcats_kernel_instances_UnitBounded: 1,
-  Lcats_kernel_LowerBounded$mcV$sp: 1,
-  Lcats_kernel_LowerBounded: 1,
-  Lcats_kernel_UpperBounded$mcV$sp: 1,
-  Lcats_kernel_UpperBounded: 1
-});
-$c_Lcats_kernel_instances_UnitOrder.prototype.$classData = $d_Lcats_kernel_instances_UnitOrder;
 class $c_Lio_circe_Decoder$$anon$77 extends $c_O {
   map2__O__O__F2__O(fa, fb, f) {
     return $f_Lcats_FlatMap__map2__O__O__F2__O(this, fa, fb, f)
@@ -40677,10 +42251,6 @@ class $c_Lio_circe_Decoder$$anon$77 extends $c_O {
   map__O__F1__O(fa, f) {
     const fa$1 = $as_Lio_circe_Decoder(fa);
     return new $c_Lio_circe_Decoder$$anon$1(fa$1, f)
-  };
-  pure__O__O(x) {
-    $m_Lio_circe_Decoder$();
-    return new $c_Lio_circe_Decoder$$anon$15(x)
   };
   combineK__O__O__O(x, y) {
     return this.combineK__Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_Decoder($as_Lio_circe_Decoder(x), $as_Lio_circe_Decoder(y))
@@ -40784,6 +42354,12 @@ class $c_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$1 extends $c_O {
     const this$1 = $m_sci_Vector$();
     const cbf = this$1.scg_GenTraversableFactory__f_ReusableCBFInstance;
     return $as_sci_Vector($f_sc_TraversableLike__to__scg_CanBuildFrom__O(this, cbf))
+  };
+  toMap__s_Predef$$less$colon$less__sci_Map(ev) {
+    $m_sci_Map$();
+    const b = new $c_sci_Map$MapBuilderImpl();
+    b.$plus$plus$eq__sc_TraversableOnce__sci_Map$MapBuilderImpl(this);
+    return b.result__sci_Map()
   };
   mkString__T__T__T__T(start, sep, end) {
     return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
@@ -40905,6 +42481,12 @@ class $c_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5 extends $c_O {
     const this$1 = $m_sci_Vector$();
     const cbf = this$1.scg_GenTraversableFactory__f_ReusableCBFInstance;
     return $as_sci_Vector($f_sc_TraversableLike__to__scg_CanBuildFrom__O(this, cbf))
+  };
+  toMap__s_Predef$$less$colon$less__sci_Map(ev) {
+    $m_sci_Map$();
+    const b = new $c_sci_Map$MapBuilderImpl();
+    b.$plus$plus$eq__sc_TraversableOnce__sci_Map$MapBuilderImpl(this);
+    return b.result__sci_Map()
   };
   mkString__T__T__T__T(start, sep, end) {
     return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
@@ -41264,6 +42846,9 @@ class $c_Lspire_std_UnitAlgebra extends $c_O {
     $as_jl_Void(x);
     $as_jl_Void(y)
   };
+  empty__O() {
+    return (void 0)
+  };
   compare__O__O__I(x, y) {
     $as_jl_Void(x);
     $as_jl_Void(y);
@@ -41432,6 +43017,14 @@ class $c_sci_StringOps extends $c_O {
     const cbf = this$1.scg_GenTraversableFactory__f_ReusableCBFInstance;
     return $as_sci_Vector($f_sc_TraversableLike__to__scg_CanBuildFrom__O(this, cbf))
   };
+  toMap__s_Predef$$less$colon$less__sci_Map(ev) {
+    $m_sci_Map$();
+    const b = new $c_sci_Map$MapBuilderImpl();
+    const this$ = this.sci_StringOps__f_repr;
+    const xs = new $c_sci_WrappedString(this$);
+    b.$plus$plus$eq__sc_TraversableOnce__sci_Map$MapBuilderImpl(xs);
+    return b.result__sci_Map()
+  };
   mkString__T__T__T__T(start, sep, end) {
     return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
   };
@@ -41562,10 +43155,6 @@ class $c_Lcats_instances_EitherInstances$$anon$2 extends $c_O {
   flatMap__O__F1__O(fa, f) {
     const fa$1 = $as_s_util_Either(fa);
     return fa$1.flatMap__F1__s_util_Either(f)
-  };
-  pure__O__O(x) {
-    $m_s_package$();
-    return new $c_s_util_Right(x)
   };
 }
 const $d_Lcats_instances_EitherInstances$$anon$2 = new $TypeData().initClass({
@@ -41720,6 +43309,14 @@ class $c_scm_ArrayOps$ofRef extends $c_O {
     const cbf = this$1.scg_GenTraversableFactory__f_ReusableCBFInstance;
     return $as_sci_Vector($f_sc_TraversableLike__to__scg_CanBuildFrom__O(this, cbf))
   };
+  toMap__s_Predef$$less$colon$less__sci_Map(ev) {
+    $m_sci_Map$();
+    const b = new $c_sci_Map$MapBuilderImpl();
+    const this$ = this.scm_ArrayOps$ofRef__f_repr;
+    const xs = new $c_scm_WrappedArray$ofRef(this$);
+    b.$plus$plus$eq__sc_TraversableOnce__sci_Map$MapBuilderImpl(xs);
+    return b.result__sci_Map()
+  };
   mkString__T__T__T__T(start, sep, end) {
     return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
   };
@@ -41799,27 +43396,58 @@ const $d_scm_ArrayOps$ofRef = new $TypeData().initClass({
   sc_CustomParallelizable: 1
 });
 $c_scm_ArrayOps$ofRef.prototype.$classData = $d_scm_ArrayOps$ofRef;
-class $c_Lcats_instances_QueueInstances$$anon$1 extends $c_O {
+class $c_Lcats_EvalInstances$$anon$6 extends $c_O {
   constructor(outer) {
     super()
   };
   product__O__O__O(fa, fb) {
     return $f_Lcats_FlatMap__product__O__O__O(this, fa, fb)
   };
-  pure__O__sci_Queue(x) {
-    $m_sci_Queue$();
-    const array = [x];
-    const $$x1 = $m_sci_Nil$();
-    let i = (((-1) + $uI(array.length)) | 0);
-    let result = $m_sci_Nil$();
-    while ((i >= 0)) {
-      const this$4 = result;
-      const index = i;
-      const x$1 = array[index];
-      result = new $c_sci_$colon$colon(x$1, this$4);
-      i = (((-1) + i) | 0)
-    };
-    return $ct_sci_Queue__sci_List__sci_List__(new $c_sci_Queue(), $$x1, result)
+  map2__O__O__F2__O(fa, fb, f) {
+    return $f_Lcats_FlatMap__map2__O__O__F2__O(this, fa, fb, f)
+  };
+  flatMap__O__F1__O(fa, f) {
+    const fa$1 = $as_Lcats_Eval(fa);
+    return fa$1.flatMap__F1__Lcats_Eval(f)
+  };
+  map__O__F1__O(fa, f) {
+    const fa$1 = $as_Lcats_Eval(fa);
+    return fa$1.map__F1__Lcats_Eval(f)
+  };
+}
+const $d_Lcats_EvalInstances$$anon$6 = new $TypeData().initClass({
+  Lcats_EvalInstances$$anon$6: 0
+}, false, "cats.EvalInstances$$anon$6", {
+  Lcats_EvalInstances$$anon$6: 1,
+  O: 1,
+  Lcats_Bimonad: 1,
+  Lcats_Monad: 1,
+  Lcats_FlatMap: 1,
+  Lcats_Apply: 1,
+  Lcats_Functor: 1,
+  Lcats_Invariant: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  Lcats_InvariantSemigroupal: 1,
+  Lcats_Semigroupal: 1,
+  Lcats_ApplyArityFunctions: 1,
+  Lcats_Applicative: 1,
+  Lcats_InvariantMonoidal: 1,
+  Lcats_Comonad: 1,
+  Lcats_CoflatMap: 1,
+  Lcats_StackSafeMonad: 1,
+  Lcats_CommutativeMonad: 1,
+  Lcats_CommutativeFlatMap: 1,
+  Lcats_CommutativeApply: 1,
+  Lcats_CommutativeApplicative: 1
+});
+$c_Lcats_EvalInstances$$anon$6.prototype.$classData = $d_Lcats_EvalInstances$$anon$6;
+class $c_Lcats_instances_QueueInstances$$anon$1 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+  product__O__O__O(fa, fb) {
+    return $f_Lcats_FlatMap__product__O__O__O(this, fa, fb)
   };
   map2__sci_Queue__sci_Queue__F2__sci_Queue(fa, fb, f) {
     if (fb.isEmpty__Z()) {
@@ -41863,14 +43491,15 @@ class $c_Lcats_instances_QueueInstances$$anon$1 extends $c_O {
     const bf = this$1.scg_GenTraversableFactory__f_ReusableCBFInstance;
     return $as_sci_Queue($f_sc_TraversableLike__map__F1__scg_CanBuildFrom__O(fa$1, f, bf))
   };
-  pure__O__O(x) {
-    return this.pure__O__sci_Queue(x)
-  };
   combineK__O__O__O(x, y) {
     const x$1 = $as_sci_Queue(x);
     const y$1 = $as_sci_Queue(y);
     const this$1 = $m_sci_Queue$();
     return $as_sci_Queue(x$1.$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O(y$1, this$1.scg_GenTraversableFactory__f_ReusableCBFInstance))
+  };
+  empty__O() {
+    $m_sci_Queue$();
+    return $m_sci_Queue$EmptyQueue$()
   };
 }
 const $d_Lcats_instances_QueueInstances$$anon$1 = new $TypeData().initClass({
@@ -42021,14 +43650,14 @@ function $asArrayOf_sjs_js_ArrayOps(obj, depth) {
 }
 class $c_Lcats_instances_ListInstances$$anon$1 extends $c_O {
   constructor(outer) {
-    super()
+    super();
+    this.Lcats_instances_ListInstances$$anon$1__f_evalNil = null;
+    $m_Lcats_Eval$();
+    const a = $m_sci_Nil$();
+    this.Lcats_instances_ListInstances$$anon$1__f_evalNil = new $c_Lcats_Now(a)
   };
   product__O__O__O(fa, fb) {
     return $f_Lcats_FlatMap__product__O__O__O(this, fa, fb)
-  };
-  pure__O__sci_List(x) {
-    const this$1 = $m_sci_Nil$();
-    return new $c_sci_$colon$colon(x, this$1)
   };
   map2__sci_List__sci_List__F2__sci_List(fa, fb, f) {
     if (fb.isEmpty__Z()) {
@@ -42154,14 +43783,14 @@ class $c_Lcats_instances_ListInstances$$anon$1 extends $c_O {
     const this$1 = $m_sci_List$();
     return $as_sci_List(fa$1.map__F1__scg_CanBuildFrom__O(f, this$1.scg_GenTraversableFactory__f_ReusableCBFInstance))
   };
-  pure__O__O(x) {
-    return this.pure__O__sci_List(x)
-  };
   combineK__O__O__O(x, y) {
     const x$1 = $as_sci_List(x);
     const y$1 = $as_sci_List(y);
     const this$1 = $m_sci_List$();
     return $as_sci_List(x$1.$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O(y$1, this$1.scg_GenTraversableFactory__f_ReusableCBFInstance))
+  };
+  empty__O() {
+    return $m_sci_Nil$()
   };
 }
 const $d_Lcats_instances_ListInstances$$anon$1 = new $TypeData().initClass({
@@ -42204,13 +43833,6 @@ class $c_Lcats_instances_StreamInstances$$anon$1 extends $c_O {
     const stream = new $c_sjsr_AnonFunction0(((this$1, y$1) => (() => y$1))(this, y));
     return new $c_sci_Stream$ConsWrapper(stream).$hash$colon$colon$colon__sci_Stream__sci_Stream(x)
   };
-  pure__O__sci_Stream(x) {
-    $m_s_package$();
-    const array = [x];
-    const xs = $ct_sjs_js_WrappedArray__sjs_js_Array__(new $c_sjs_js_WrappedArray(), array);
-    const this$4 = new $c_sc_IndexedSeqLike$Elements(xs, 0, $uI(xs.sjs_js_WrappedArray__f_scala$scalajs$js$WrappedArray$$array.length));
-    return $f_sc_Iterator__toStream__sci_Stream(this$4)
-  };
   map2__sci_Stream__sci_Stream__F2__sci_Stream(fa, fb, f) {
     return (fb.isEmpty__Z() ? ($m_s_package$(), $m_sci_Stream$Empty$()) : $as_sci_Stream(fa.flatMap__F1__scg_CanBuildFrom__O(new $c_sjsr_AnonFunction1(((this$2, fb$1, f$1) => ((a$2) => $as_sci_Stream(fb$1.map__F1__scg_CanBuildFrom__O(new $c_sjsr_AnonFunction1(((this$3, f$1$1, a) => ((b$2) => f$1$1.apply__O__O__O(a, b$2)))(this$2, f$1, a$2)), $m_sci_Stream$().sci_Stream$__f_ReusableCBF))))(this, fb, f)), $m_sci_Stream$().sci_Stream$__f_ReusableCBF)))
   };
@@ -42228,11 +43850,11 @@ class $c_Lcats_instances_StreamInstances$$anon$1 extends $c_O {
     const fa$1 = $as_sci_Stream(fa);
     return $as_sci_Stream(fa$1.map__F1__scg_CanBuildFrom__O(f, $m_sci_Stream$().sci_Stream$__f_ReusableCBF))
   };
-  pure__O__O(x) {
-    return this.pure__O__sci_Stream(x)
-  };
   combineK__O__O__O(x, y) {
     return this.combineK__sci_Stream__sci_Stream__sci_Stream($as_sci_Stream(x), $as_sci_Stream(y))
+  };
+  empty__O() {
+    return $m_sci_Stream$Empty$()
   };
 }
 const $d_Lcats_instances_StreamInstances$$anon$1 = new $TypeData().initClass({
@@ -42265,34 +43887,46 @@ const $d_Lcats_instances_StreamInstances$$anon$1 = new $TypeData().initClass({
 $c_Lcats_instances_StreamInstances$$anon$1.prototype.$classData = $d_Lcats_instances_StreamInstances$$anon$1;
 class $c_Lcats_instances_VectorInstances$$anon$1 extends $c_O {
   constructor(outer) {
-    super()
+    super();
+    this.Lcats_instances_VectorInstances$$anon$1__f_evalEmpty = null;
+    $m_Lcats_Eval$();
+    const this$1 = $m_s_package$().s_package$__f_Vector;
+    const a = this$1.sci_Vector$__f_NIL;
+    this.Lcats_instances_VectorInstances$$anon$1__f_evalEmpty = new $c_Lcats_Now(a)
   };
   product__O__O__O(fa, fb) {
     return $f_Lcats_FlatMap__product__O__O__O(this, fa, fb)
   };
-  map2__O__O__F2__O(fa, fb, f) {
-    return $f_Lcats_FlatMap__map2__O__O__F2__O(this, fa, fb, f)
-  };
-  pure__O__sci_Vector(x) {
-    const this$3 = $m_s_package$().s_package$__f_Vector;
-    const array = [x];
-    if (($uI(array.length) === 0)) {
-      return this$3.sci_Vector$__f_NIL
+  map2__sci_Vector__sci_Vector__F2__sci_Vector(fa, fb, f) {
+    if ($f_sc_SeqLike__isEmpty__Z(fb)) {
+      const this$1 = $m_s_package$().s_package$__f_Vector;
+      return this$1.sci_Vector$__f_NIL
     } else {
+      $m_sci_Vector$();
+      $m_sci_Vector$();
       const b = new $c_sci_VectorBuilder();
-      let i = 0;
-      const len = $uI(array.length);
-      while ((i < len)) {
-        const index = i;
-        const arg1 = array[index];
-        b.$plus$eq__O__sci_VectorBuilder(arg1);
-        i = ((1 + i) | 0)
+      const this$4 = fa.iterator__sci_VectorIterator();
+      while (this$4.sci_VectorIterator__f__hasNext) {
+        const arg1 = this$4.next__O();
+        const this$5 = $m_sci_Vector$();
+        const bf$1 = this$5.scg_GenTraversableFactory__f_ReusableCBFInstance;
+        const b$1 = $p_sc_TraversableLike__builder$1__scg_CanBuildFrom__scm_Builder(fb, bf$1);
+        const this$6 = fb.iterator__sci_VectorIterator();
+        while (this$6.sci_VectorIterator__f__hasNext) {
+          const arg1$1 = this$6.next__O();
+          b$1.$plus$eq__O__scm_Builder(f.apply__O__O__O(arg1, arg1$1))
+        };
+        const this$7 = $as_sci_Vector(b$1.result__O());
+        $as_sci_VectorBuilder($f_scg_Growable__$plus$plus$eq__sc_TraversableOnce__scg_Growable(b, this$7))
       };
       return b.result__sci_Vector()
     }
   };
   algebra__Lcats_kernel_Semigroup() {
     return new $c_Lcats_kernel_instances_VectorMonoid()
+  };
+  map2__O__O__F2__O(fa, fb, f) {
+    return this.map2__sci_Vector__sci_Vector__F2__sci_Vector($as_sci_Vector(fa), $as_sci_Vector(fb), f)
   };
   flatMap__O__F1__O(fa, f) {
     const fa$1 = $as_sci_Vector(fa);
@@ -42306,14 +43940,15 @@ class $c_Lcats_instances_VectorInstances$$anon$1 extends $c_O {
     const bf = this$1.scg_GenTraversableFactory__f_ReusableCBFInstance;
     return $as_sci_Vector($f_sc_TraversableLike__map__F1__scg_CanBuildFrom__O(fa$1, f, bf))
   };
-  pure__O__O(x) {
-    return this.pure__O__sci_Vector(x)
-  };
   combineK__O__O__O(x, y) {
     const x$1 = $as_sci_Vector(x);
     const y$1 = $as_sci_Vector(y);
     const this$1 = $m_sci_Vector$();
     return $as_sci_Vector(x$1.$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O(y$1, this$1.scg_GenTraversableFactory__f_ReusableCBFInstance))
+  };
+  empty__O() {
+    const this$1 = $m_s_package$().s_package$__f_Vector;
+    return this$1.sci_Vector$__f_NIL
   };
 }
 const $d_Lcats_instances_VectorInstances$$anon$1 = new $TypeData().initClass({
@@ -42344,6 +43979,43 @@ const $d_Lcats_instances_VectorInstances$$anon$1 = new $TypeData().initClass({
   Lcats_Align: 1
 });
 $c_Lcats_instances_VectorInstances$$anon$1.prototype.$classData = $d_Lcats_instances_VectorInstances$$anon$1;
+class $c_Lcats_kernel_Semigroup$ extends $c_Lcats_kernel_SemigroupFunctions {
+}
+const $d_Lcats_kernel_Semigroup$ = new $TypeData().initClass({
+  Lcats_kernel_Semigroup$: 0
+}, false, "cats.kernel.Semigroup$", {
+  Lcats_kernel_Semigroup$: 1,
+  Lcats_kernel_SemigroupFunctions: 1,
+  O: 1,
+  Lcats_kernel_ScalaVersionSpecificMonoidInstances: 1,
+  Lcats_kernel_instances_TupleCommutativeGroupInstances: 1,
+  Lcats_kernel_instances_TupleBoundedSemilatticeInstances: 1,
+  Lcats_kernel_instances_TupleGroupInstances: 1,
+  Lcats_kernel_instances_TupleCommutativeMonoidInstances: 1,
+  Lcats_kernel_instances_TupleSemilatticeInstances: 1,
+  Lcats_kernel_instances_TupleMonoidInstances: 1,
+  Lcats_kernel_instances_TupleCommutativeSemigroupInstances: 1,
+  Lcats_kernel_instances_TupleBandInstances: 1,
+  Lcats_kernel_instances_TupleSemigroupInstances: 1,
+  Lcats_kernel_GroupInstances: 1,
+  Lcats_kernel_BoundedSemilatticeInstances: 1,
+  Lcats_kernel_SemilatticeInstances: 1,
+  Lcats_kernel_CommutativeMonoidInstances: 1,
+  Lcats_kernel_MonoidInstances: 1,
+  Lcats_kernel_BandInstances: 1,
+  Lcats_kernel_CommutativeSemigroupInstances: 1,
+  Lcats_kernel_SemigroupInstances: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcats_kernel_Semigroup$.prototype.$classData = $d_Lcats_kernel_Semigroup$;
+let $n_Lcats_kernel_Semigroup$;
+function $m_Lcats_kernel_Semigroup$() {
+  if ((!$n_Lcats_kernel_Semigroup$)) {
+    $n_Lcats_kernel_Semigroup$ = new $c_Lcats_kernel_Semigroup$()
+  };
+  return $n_Lcats_kernel_Semigroup$
+}
 function $is_sc_Map(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.sc_Map)))
 }
@@ -42450,11 +44122,14 @@ class $c_sc_AbstractSeq extends $c_sc_AbstractIterable {
   compose__F1__F1(g) {
     return $f_F1__compose__F1__F1(this, g)
   };
+  andThen__F1__F1(g) {
+    return new $c_s_PartialFunction$AndThen(this, g)
+  };
 }
 class $c_Lcats_data_NonEmptyListInstances$$anon$2 extends $c_Lcats_NonEmptyReducible {
   constructor(outer) {
     super();
-    $ct_Lcats_NonEmptyReducible__Lcats_Foldable__(this, $m_Lcats_instances_package$list$().Lcats_instances_package$list$__f_catsStdInstancesForList)
+    $ct_Lcats_NonEmptyReducible__Lcats_Foldable__(this, ($m_Lcats_UnorderedFoldable$(), $m_Lcats_instances_package$list$().Lcats_instances_package$list$__f_catsStdInstancesForList))
   };
   product__O__O__O(fa, fb) {
     return $f_Lcats_FlatMap__product__O__O__O(this, fa, fb)
@@ -42468,10 +44143,6 @@ class $c_Lcats_data_NonEmptyListInstances$$anon$2 extends $c_Lcats_NonEmptyReduc
   flatMap__O__F1__O(fa, f) {
     const fa$1 = $as_Lcats_data_NonEmptyList(fa);
     return fa$1.flatMap__F1__Lcats_data_NonEmptyList(f)
-  };
-  pure__O__O(x) {
-    $m_Lcats_data_NonEmptyList$();
-    return new $c_Lcats_data_NonEmptyList(x, $m_sci_Nil$())
   };
   map__O__F1__O(fa, f) {
     const fa$1 = $as_Lcats_data_NonEmptyList(fa);
@@ -42579,6 +44250,9 @@ class $c_sc_AbstractMap extends $c_sc_AbstractIterable {
   thisCollection__sc_Traversable() {
     return this
   };
+  andThen__F1__F1(g) {
+    return new $c_s_PartialFunction$AndThen(this, g)
+  };
   seq__sc_TraversableOnce() {
     return this.seq__sc_Map()
   };
@@ -42622,6 +44296,9 @@ class $c_sc_AbstractSet extends $c_sc_AbstractIterable {
   compose__F1__F1(g) {
     return $f_F1__compose__F1__F1(this, g)
   };
+  andThen__F1__F1(g) {
+    return $f_F1__andThen__F1__F1(this, g)
+  };
 }
 function $is_sc_SortedSet(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.sc_SortedSet)))
@@ -42659,12 +44336,630 @@ function $isArrayOf_sci_Set(obj, depth) {
 function $asArrayOf_sci_Set(obj, depth) {
   return (($isArrayOf_sci_Set(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.collection.immutable.Set;", depth))
 }
+class $c_Lcats_kernel_instances_BooleanOrder extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_kernel_instances_BooleanOrder__f_order = null;
+    this.Lcats_kernel_instances_BooleanOrder__f_order = this
+  };
+  partialCompare__O__O__D(x, y) {
+    return $f_Lcats_kernel_Order__partialCompare__O__O__D(this, x, y)
+  };
+  compare$mcZ$sp__Z__Z__I(x, y) {
+    return ((x === y) ? 0 : (x ? 1 : (-1)))
+  };
+  eqv$mcZ$sp__Z__Z__Z(x, y) {
+    return (x === y)
+  };
+  neqv$mcZ$sp__Z__Z__Z(x, y) {
+    return (x !== y)
+  };
+  gt$mcZ$sp__Z__Z__Z(x, y) {
+    return (x && (!y))
+  };
+  lt$mcZ$sp__Z__Z__Z(x, y) {
+    return ((!x) && y)
+  };
+  gteqv$mcZ$sp__Z__Z__Z(x, y) {
+    return ((x === y) || x)
+  };
+  lteqv$mcZ$sp__Z__Z__Z(x, y) {
+    return ((x === y) || y)
+  };
+  lteqv__O__O__Z(x, y) {
+    const x$1 = $uZ(x);
+    const y$1 = $uZ(y);
+    return this.lteqv$mcZ$sp__Z__Z__Z(x$1, y$1)
+  };
+  gteqv__O__O__Z(x, y) {
+    const x$1 = $uZ(x);
+    const y$1 = $uZ(y);
+    return this.gteqv$mcZ$sp__Z__Z__Z(x$1, y$1)
+  };
+  lt__O__O__Z(x, y) {
+    const x$1 = $uZ(x);
+    const y$1 = $uZ(y);
+    return this.lt$mcZ$sp__Z__Z__Z(x$1, y$1)
+  };
+  gt__O__O__Z(x, y) {
+    const x$1 = $uZ(x);
+    const y$1 = $uZ(y);
+    return this.gt$mcZ$sp__Z__Z__Z(x$1, y$1)
+  };
+  neqv__O__O__Z(x, y) {
+    const x$1 = $uZ(x);
+    const y$1 = $uZ(y);
+    return this.neqv$mcZ$sp__Z__Z__Z(x$1, y$1)
+  };
+  eqv__O__O__Z(x, y) {
+    const x$1 = $uZ(x);
+    const y$1 = $uZ(y);
+    return this.eqv$mcZ$sp__Z__Z__Z(x$1, y$1)
+  };
+  compare__O__O__I(x, y) {
+    const x$1 = $uZ(x);
+    const y$1 = $uZ(y);
+    return this.compare$mcZ$sp__Z__Z__I(x$1, y$1)
+  };
+}
+const $d_Lcats_kernel_instances_BooleanOrder = new $TypeData().initClass({
+  Lcats_kernel_instances_BooleanOrder: 0
+}, false, "cats.kernel.instances.BooleanOrder", {
+  Lcats_kernel_instances_BooleanOrder: 1,
+  O: 1,
+  Lcats_kernel_Order$mcZ$sp: 1,
+  Lcats_kernel_Order: 1,
+  Lcats_kernel_PartialOrder: 1,
+  Lcats_kernel_Eq: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  Lcats_kernel_PartialOrder$mcZ$sp: 1,
+  Lcats_kernel_Eq$mcZ$sp: 1,
+  Lcats_kernel_Hash$mcZ$sp: 1,
+  Lcats_kernel_Hash: 1,
+  Lcats_kernel_instances_BooleanBounded: 1,
+  Lcats_kernel_LowerBounded$mcZ$sp: 1,
+  Lcats_kernel_LowerBounded: 1,
+  Lcats_kernel_UpperBounded$mcZ$sp: 1,
+  Lcats_kernel_UpperBounded: 1,
+  Lcats_kernel_instances_BooleanEnumerable: 1,
+  Lcats_kernel_BoundedEnumerable$mcZ$sp: 1,
+  Lcats_kernel_BoundedEnumerable: 1,
+  Lcats_kernel_PartialPreviousUpperBounded: 1,
+  Lcats_kernel_PartialPrevious: 1,
+  Lcats_kernel_PartialNext: 1,
+  Lcats_kernel_PartialNextLowerBounded: 1,
+  Lcats_kernel_PartialNextLowerBounded$mcZ$sp: 1,
+  Lcats_kernel_PartialNext$mcZ$sp: 1,
+  Lcats_kernel_PartialPrevious$mcZ$sp: 1,
+  Lcats_kernel_PartialPreviousUpperBounded$mcZ$sp: 1
+});
+$c_Lcats_kernel_instances_BooleanOrder.prototype.$classData = $d_Lcats_kernel_instances_BooleanOrder;
+class $c_Lcats_kernel_instances_CharOrder extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_kernel_instances_CharOrder__f_order = null;
+    this.Lcats_kernel_instances_CharOrder__f_order = this
+  };
+  partialCompare__O__O__D(x, y) {
+    return $f_Lcats_kernel_Order__partialCompare__O__O__D(this, x, y)
+  };
+  compare$mcC$sp__C__C__I(x, y) {
+    return ((x < y) ? (-1) : ((x > y) ? 1 : 0))
+  };
+  eqv$mcC$sp__C__C__Z(x, y) {
+    return (x === y)
+  };
+  neqv$mcC$sp__C__C__Z(x, y) {
+    return (x !== y)
+  };
+  gt$mcC$sp__C__C__Z(x, y) {
+    return (x > y)
+  };
+  gteqv$mcC$sp__C__C__Z(x, y) {
+    return (x >= y)
+  };
+  lt$mcC$sp__C__C__Z(x, y) {
+    return (x < y)
+  };
+  lteqv$mcC$sp__C__C__Z(x, y) {
+    return (x <= y)
+  };
+  lteqv__O__O__Z(x, y) {
+    const x$1 = $uC(x);
+    const y$1 = $uC(y);
+    return this.lteqv$mcC$sp__C__C__Z(x$1, y$1)
+  };
+  lt__O__O__Z(x, y) {
+    const x$1 = $uC(x);
+    const y$1 = $uC(y);
+    return this.lt$mcC$sp__C__C__Z(x$1, y$1)
+  };
+  gteqv__O__O__Z(x, y) {
+    const x$1 = $uC(x);
+    const y$1 = $uC(y);
+    return this.gteqv$mcC$sp__C__C__Z(x$1, y$1)
+  };
+  gt__O__O__Z(x, y) {
+    const x$1 = $uC(x);
+    const y$1 = $uC(y);
+    return this.gt$mcC$sp__C__C__Z(x$1, y$1)
+  };
+  neqv__O__O__Z(x, y) {
+    const x$1 = $uC(x);
+    const y$1 = $uC(y);
+    return this.neqv$mcC$sp__C__C__Z(x$1, y$1)
+  };
+  eqv__O__O__Z(x, y) {
+    const x$1 = $uC(x);
+    const y$1 = $uC(y);
+    return this.eqv$mcC$sp__C__C__Z(x$1, y$1)
+  };
+  compare__O__O__I(x, y) {
+    const x$1 = $uC(x);
+    const y$1 = $uC(y);
+    return this.compare$mcC$sp__C__C__I(x$1, y$1)
+  };
+}
+const $d_Lcats_kernel_instances_CharOrder = new $TypeData().initClass({
+  Lcats_kernel_instances_CharOrder: 0
+}, false, "cats.kernel.instances.CharOrder", {
+  Lcats_kernel_instances_CharOrder: 1,
+  O: 1,
+  Lcats_kernel_Order$mcC$sp: 1,
+  Lcats_kernel_Order: 1,
+  Lcats_kernel_PartialOrder: 1,
+  Lcats_kernel_Eq: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  Lcats_kernel_PartialOrder$mcC$sp: 1,
+  Lcats_kernel_Eq$mcC$sp: 1,
+  Lcats_kernel_Hash$mcC$sp: 1,
+  Lcats_kernel_Hash: 1,
+  Lcats_kernel_instances_CharBounded: 1,
+  Lcats_kernel_LowerBounded$mcC$sp: 1,
+  Lcats_kernel_LowerBounded: 1,
+  Lcats_kernel_UpperBounded$mcC$sp: 1,
+  Lcats_kernel_UpperBounded: 1,
+  Lcats_kernel_instances_CharEnumerable: 1,
+  Lcats_kernel_BoundedEnumerable$mcC$sp: 1,
+  Lcats_kernel_BoundedEnumerable: 1,
+  Lcats_kernel_PartialPreviousUpperBounded: 1,
+  Lcats_kernel_PartialPrevious: 1,
+  Lcats_kernel_PartialNext: 1,
+  Lcats_kernel_PartialNextLowerBounded: 1,
+  Lcats_kernel_PartialNextLowerBounded$mcC$sp: 1,
+  Lcats_kernel_PartialNext$mcC$sp: 1,
+  Lcats_kernel_PartialPrevious$mcC$sp: 1,
+  Lcats_kernel_PartialPreviousUpperBounded$mcC$sp: 1
+});
+$c_Lcats_kernel_instances_CharOrder.prototype.$classData = $d_Lcats_kernel_instances_CharOrder;
+class $c_Lcats_kernel_instances_IntOrder extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_kernel_instances_IntOrder__f_order = null;
+    this.Lcats_kernel_instances_IntOrder__f_order = this
+  };
+  partialCompare__O__O__D(x, y) {
+    return $f_Lcats_kernel_Order__partialCompare__O__O__D(this, x, y)
+  };
+  compare$mcI$sp__I__I__I(x, y) {
+    return ((x < y) ? (-1) : ((x > y) ? 1 : 0))
+  };
+  eqv$mcI$sp__I__I__Z(x, y) {
+    return (x === y)
+  };
+  neqv$mcI$sp__I__I__Z(x, y) {
+    return (x !== y)
+  };
+  gt$mcI$sp__I__I__Z(x, y) {
+    return (x > y)
+  };
+  gteqv$mcI$sp__I__I__Z(x, y) {
+    return (x >= y)
+  };
+  lt$mcI$sp__I__I__Z(x, y) {
+    return (x < y)
+  };
+  lteqv$mcI$sp__I__I__Z(x, y) {
+    return (x <= y)
+  };
+  lteqv__O__O__Z(x, y) {
+    const x$1 = $uI(x);
+    const y$1 = $uI(y);
+    return this.lteqv$mcI$sp__I__I__Z(x$1, y$1)
+  };
+  lt__O__O__Z(x, y) {
+    const x$1 = $uI(x);
+    const y$1 = $uI(y);
+    return this.lt$mcI$sp__I__I__Z(x$1, y$1)
+  };
+  gteqv__O__O__Z(x, y) {
+    const x$1 = $uI(x);
+    const y$1 = $uI(y);
+    return this.gteqv$mcI$sp__I__I__Z(x$1, y$1)
+  };
+  gt__O__O__Z(x, y) {
+    const x$1 = $uI(x);
+    const y$1 = $uI(y);
+    return this.gt$mcI$sp__I__I__Z(x$1, y$1)
+  };
+  neqv__O__O__Z(x, y) {
+    const x$1 = $uI(x);
+    const y$1 = $uI(y);
+    return this.neqv$mcI$sp__I__I__Z(x$1, y$1)
+  };
+  eqv__O__O__Z(x, y) {
+    const x$1 = $uI(x);
+    const y$1 = $uI(y);
+    return this.eqv$mcI$sp__I__I__Z(x$1, y$1)
+  };
+  compare__O__O__I(x, y) {
+    const x$1 = $uI(x);
+    const y$1 = $uI(y);
+    return this.compare$mcI$sp__I__I__I(x$1, y$1)
+  };
+}
+const $d_Lcats_kernel_instances_IntOrder = new $TypeData().initClass({
+  Lcats_kernel_instances_IntOrder: 0
+}, false, "cats.kernel.instances.IntOrder", {
+  Lcats_kernel_instances_IntOrder: 1,
+  O: 1,
+  Lcats_kernel_Order$mcI$sp: 1,
+  Lcats_kernel_Order: 1,
+  Lcats_kernel_PartialOrder: 1,
+  Lcats_kernel_Eq: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  Lcats_kernel_PartialOrder$mcI$sp: 1,
+  Lcats_kernel_Eq$mcI$sp: 1,
+  Lcats_kernel_Hash$mcI$sp: 1,
+  Lcats_kernel_Hash: 1,
+  Lcats_kernel_instances_IntBounded: 1,
+  Lcats_kernel_LowerBounded$mcI$sp: 1,
+  Lcats_kernel_LowerBounded: 1,
+  Lcats_kernel_UpperBounded$mcI$sp: 1,
+  Lcats_kernel_UpperBounded: 1,
+  Lcats_kernel_instances_IntEnumerable: 1,
+  Lcats_kernel_BoundedEnumerable$mcI$sp: 1,
+  Lcats_kernel_BoundedEnumerable: 1,
+  Lcats_kernel_PartialPreviousUpperBounded: 1,
+  Lcats_kernel_PartialPrevious: 1,
+  Lcats_kernel_PartialNext: 1,
+  Lcats_kernel_PartialNextLowerBounded: 1,
+  Lcats_kernel_PartialNextLowerBounded$mcI$sp: 1,
+  Lcats_kernel_PartialNext$mcI$sp: 1,
+  Lcats_kernel_PartialPrevious$mcI$sp: 1,
+  Lcats_kernel_PartialPreviousUpperBounded$mcI$sp: 1
+});
+$c_Lcats_kernel_instances_IntOrder.prototype.$classData = $d_Lcats_kernel_instances_IntOrder;
+class $c_Lcats_kernel_instances_LongOrder extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_kernel_instances_LongOrder__f_order = null;
+    this.Lcats_kernel_instances_LongOrder__f_order = this
+  };
+  partialCompare__O__O__D(x, y) {
+    return $f_Lcats_kernel_Order__partialCompare__O__O__D(this, x, y)
+  };
+  compare$mcJ$sp__J__J__I(x, y) {
+    const ahi = x.RTLong__f_hi;
+    const bhi = y.RTLong__f_hi;
+    if (((ahi === bhi) ? (((-2147483648) ^ x.RTLong__f_lo) < ((-2147483648) ^ y.RTLong__f_lo)) : (ahi < bhi))) {
+      return (-1)
+    } else {
+      const ahi$1 = x.RTLong__f_hi;
+      const bhi$1 = y.RTLong__f_hi;
+      if (((ahi$1 === bhi$1) ? (((-2147483648) ^ x.RTLong__f_lo) > ((-2147483648) ^ y.RTLong__f_lo)) : (ahi$1 > bhi$1))) {
+        return 1
+      } else {
+        return 0
+      }
+    }
+  };
+  eqv$mcJ$sp__J__J__Z(x, y) {
+    return ((x.RTLong__f_lo === y.RTLong__f_lo) && (x.RTLong__f_hi === y.RTLong__f_hi))
+  };
+  neqv$mcJ$sp__J__J__Z(x, y) {
+    return (!((x.RTLong__f_lo === y.RTLong__f_lo) && (x.RTLong__f_hi === y.RTLong__f_hi)))
+  };
+  gt$mcJ$sp__J__J__Z(x, y) {
+    const ahi = x.RTLong__f_hi;
+    const bhi = y.RTLong__f_hi;
+    return ((ahi === bhi) ? (((-2147483648) ^ x.RTLong__f_lo) > ((-2147483648) ^ y.RTLong__f_lo)) : (ahi > bhi))
+  };
+  gteqv$mcJ$sp__J__J__Z(x, y) {
+    const ahi = x.RTLong__f_hi;
+    const bhi = y.RTLong__f_hi;
+    return ((ahi === bhi) ? (((-2147483648) ^ x.RTLong__f_lo) >= ((-2147483648) ^ y.RTLong__f_lo)) : (ahi > bhi))
+  };
+  lt$mcJ$sp__J__J__Z(x, y) {
+    const ahi = x.RTLong__f_hi;
+    const bhi = y.RTLong__f_hi;
+    return ((ahi === bhi) ? (((-2147483648) ^ x.RTLong__f_lo) < ((-2147483648) ^ y.RTLong__f_lo)) : (ahi < bhi))
+  };
+  lteqv$mcJ$sp__J__J__Z(x, y) {
+    const ahi = x.RTLong__f_hi;
+    const bhi = y.RTLong__f_hi;
+    return ((ahi === bhi) ? (((-2147483648) ^ x.RTLong__f_lo) <= ((-2147483648) ^ y.RTLong__f_lo)) : (ahi < bhi))
+  };
+  lteqv__O__O__Z(x, y) {
+    const t = $uJ(x);
+    const lo = t.RTLong__f_lo;
+    const hi = t.RTLong__f_hi;
+    const t$1 = $uJ(y);
+    const lo$1 = t$1.RTLong__f_lo;
+    const hi$1 = t$1.RTLong__f_hi;
+    return this.lteqv$mcJ$sp__J__J__Z(new $c_RTLong(lo, hi), new $c_RTLong(lo$1, hi$1))
+  };
+  lt__O__O__Z(x, y) {
+    const t = $uJ(x);
+    const lo = t.RTLong__f_lo;
+    const hi = t.RTLong__f_hi;
+    const t$1 = $uJ(y);
+    const lo$1 = t$1.RTLong__f_lo;
+    const hi$1 = t$1.RTLong__f_hi;
+    return this.lt$mcJ$sp__J__J__Z(new $c_RTLong(lo, hi), new $c_RTLong(lo$1, hi$1))
+  };
+  gteqv__O__O__Z(x, y) {
+    const t = $uJ(x);
+    const lo = t.RTLong__f_lo;
+    const hi = t.RTLong__f_hi;
+    const t$1 = $uJ(y);
+    const lo$1 = t$1.RTLong__f_lo;
+    const hi$1 = t$1.RTLong__f_hi;
+    return this.gteqv$mcJ$sp__J__J__Z(new $c_RTLong(lo, hi), new $c_RTLong(lo$1, hi$1))
+  };
+  gt__O__O__Z(x, y) {
+    const t = $uJ(x);
+    const lo = t.RTLong__f_lo;
+    const hi = t.RTLong__f_hi;
+    const t$1 = $uJ(y);
+    const lo$1 = t$1.RTLong__f_lo;
+    const hi$1 = t$1.RTLong__f_hi;
+    return this.gt$mcJ$sp__J__J__Z(new $c_RTLong(lo, hi), new $c_RTLong(lo$1, hi$1))
+  };
+  neqv__O__O__Z(x, y) {
+    const t = $uJ(x);
+    const lo = t.RTLong__f_lo;
+    const hi = t.RTLong__f_hi;
+    const t$1 = $uJ(y);
+    const lo$1 = t$1.RTLong__f_lo;
+    const hi$1 = t$1.RTLong__f_hi;
+    return this.neqv$mcJ$sp__J__J__Z(new $c_RTLong(lo, hi), new $c_RTLong(lo$1, hi$1))
+  };
+  eqv__O__O__Z(x, y) {
+    const t = $uJ(x);
+    const lo = t.RTLong__f_lo;
+    const hi = t.RTLong__f_hi;
+    const t$1 = $uJ(y);
+    const lo$1 = t$1.RTLong__f_lo;
+    const hi$1 = t$1.RTLong__f_hi;
+    return this.eqv$mcJ$sp__J__J__Z(new $c_RTLong(lo, hi), new $c_RTLong(lo$1, hi$1))
+  };
+  compare__O__O__I(x, y) {
+    const t = $uJ(x);
+    const lo = t.RTLong__f_lo;
+    const hi = t.RTLong__f_hi;
+    const t$1 = $uJ(y);
+    const lo$1 = t$1.RTLong__f_lo;
+    const hi$1 = t$1.RTLong__f_hi;
+    return this.compare$mcJ$sp__J__J__I(new $c_RTLong(lo, hi), new $c_RTLong(lo$1, hi$1))
+  };
+}
+const $d_Lcats_kernel_instances_LongOrder = new $TypeData().initClass({
+  Lcats_kernel_instances_LongOrder: 0
+}, false, "cats.kernel.instances.LongOrder", {
+  Lcats_kernel_instances_LongOrder: 1,
+  O: 1,
+  Lcats_kernel_Order$mcJ$sp: 1,
+  Lcats_kernel_Order: 1,
+  Lcats_kernel_PartialOrder: 1,
+  Lcats_kernel_Eq: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  Lcats_kernel_PartialOrder$mcJ$sp: 1,
+  Lcats_kernel_Eq$mcJ$sp: 1,
+  Lcats_kernel_Hash$mcJ$sp: 1,
+  Lcats_kernel_Hash: 1,
+  Lcats_kernel_instances_LongBounded: 1,
+  Lcats_kernel_UpperBounded$mcJ$sp: 1,
+  Lcats_kernel_UpperBounded: 1,
+  Lcats_kernel_LowerBounded$mcJ$sp: 1,
+  Lcats_kernel_LowerBounded: 1,
+  Lcats_kernel_instances_LongEnumerable: 1,
+  Lcats_kernel_BoundedEnumerable$mcJ$sp: 1,
+  Lcats_kernel_BoundedEnumerable: 1,
+  Lcats_kernel_PartialPreviousUpperBounded: 1,
+  Lcats_kernel_PartialPrevious: 1,
+  Lcats_kernel_PartialNext: 1,
+  Lcats_kernel_PartialNextLowerBounded: 1,
+  Lcats_kernel_PartialNextLowerBounded$mcJ$sp: 1,
+  Lcats_kernel_PartialNext$mcJ$sp: 1,
+  Lcats_kernel_PartialPrevious$mcJ$sp: 1,
+  Lcats_kernel_PartialPreviousUpperBounded$mcJ$sp: 1
+});
+$c_Lcats_kernel_instances_LongOrder.prototype.$classData = $d_Lcats_kernel_instances_LongOrder;
+class $c_Lcats_kernel_instances_ShortOrder extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_kernel_instances_ShortOrder__f_order = null;
+    this.Lcats_kernel_instances_ShortOrder__f_order = this
+  };
+  partialCompare__O__O__D(x, y) {
+    return $f_Lcats_kernel_Order__partialCompare__O__O__D(this, x, y)
+  };
+  compare$mcS$sp__S__S__I(x, y) {
+    return ((x < y) ? (-1) : ((x > y) ? 1 : 0))
+  };
+  eqv$mcS$sp__S__S__Z(x, y) {
+    return (x === y)
+  };
+  neqv$mcS$sp__S__S__Z(x, y) {
+    return (x !== y)
+  };
+  gt$mcS$sp__S__S__Z(x, y) {
+    return (x > y)
+  };
+  gteqv$mcS$sp__S__S__Z(x, y) {
+    return (x >= y)
+  };
+  lt$mcS$sp__S__S__Z(x, y) {
+    return (x < y)
+  };
+  lteqv$mcS$sp__S__S__Z(x, y) {
+    return (x <= y)
+  };
+  lteqv__O__O__Z(x, y) {
+    const x$1 = $uS(x);
+    const y$1 = $uS(y);
+    return this.lteqv$mcS$sp__S__S__Z(x$1, y$1)
+  };
+  lt__O__O__Z(x, y) {
+    const x$1 = $uS(x);
+    const y$1 = $uS(y);
+    return this.lt$mcS$sp__S__S__Z(x$1, y$1)
+  };
+  gteqv__O__O__Z(x, y) {
+    const x$1 = $uS(x);
+    const y$1 = $uS(y);
+    return this.gteqv$mcS$sp__S__S__Z(x$1, y$1)
+  };
+  gt__O__O__Z(x, y) {
+    const x$1 = $uS(x);
+    const y$1 = $uS(y);
+    return this.gt$mcS$sp__S__S__Z(x$1, y$1)
+  };
+  neqv__O__O__Z(x, y) {
+    const x$1 = $uS(x);
+    const y$1 = $uS(y);
+    return this.neqv$mcS$sp__S__S__Z(x$1, y$1)
+  };
+  eqv__O__O__Z(x, y) {
+    const x$1 = $uS(x);
+    const y$1 = $uS(y);
+    return this.eqv$mcS$sp__S__S__Z(x$1, y$1)
+  };
+  compare__O__O__I(x, y) {
+    const x$1 = $uS(x);
+    const y$1 = $uS(y);
+    return this.compare$mcS$sp__S__S__I(x$1, y$1)
+  };
+}
+const $d_Lcats_kernel_instances_ShortOrder = new $TypeData().initClass({
+  Lcats_kernel_instances_ShortOrder: 0
+}, false, "cats.kernel.instances.ShortOrder", {
+  Lcats_kernel_instances_ShortOrder: 1,
+  O: 1,
+  Lcats_kernel_Order$mcS$sp: 1,
+  Lcats_kernel_Order: 1,
+  Lcats_kernel_PartialOrder: 1,
+  Lcats_kernel_Eq: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  Lcats_kernel_PartialOrder$mcS$sp: 1,
+  Lcats_kernel_Eq$mcS$sp: 1,
+  Lcats_kernel_Hash$mcS$sp: 1,
+  Lcats_kernel_Hash: 1,
+  Lcats_kernel_instances_ShortBounded: 1,
+  Lcats_kernel_LowerBounded$mcS$sp: 1,
+  Lcats_kernel_LowerBounded: 1,
+  Lcats_kernel_UpperBounded$mcS$sp: 1,
+  Lcats_kernel_UpperBounded: 1,
+  Lcats_kernel_instances_ShortEnumerable: 1,
+  Lcats_kernel_BoundedEnumerable$mcS$sp: 1,
+  Lcats_kernel_BoundedEnumerable: 1,
+  Lcats_kernel_PartialPreviousUpperBounded: 1,
+  Lcats_kernel_PartialPrevious: 1,
+  Lcats_kernel_PartialNext: 1,
+  Lcats_kernel_PartialNextLowerBounded: 1,
+  Lcats_kernel_PartialNextLowerBounded$mcS$sp: 1,
+  Lcats_kernel_PartialNext$mcS$sp: 1,
+  Lcats_kernel_PartialPrevious$mcS$sp: 1,
+  Lcats_kernel_PartialPreviousUpperBounded$mcS$sp: 1
+});
+$c_Lcats_kernel_instances_ShortOrder.prototype.$classData = $d_Lcats_kernel_instances_ShortOrder;
+class $c_Lcats_kernel_instances_UnitOrder extends $c_O {
+  constructor() {
+    super();
+    this.Lcats_kernel_instances_UnitOrder__f_order = null;
+    this.Lcats_kernel_instances_UnitOrder__f_order = this
+  };
+  partialCompare__O__O__D(x, y) {
+    return $f_Lcats_kernel_Order__partialCompare__O__O__D(this, x, y)
+  };
+  lteqv__O__O__Z(x, y) {
+    $as_jl_Void(x);
+    $as_jl_Void(y);
+    return true
+  };
+  gteqv__O__O__Z(x, y) {
+    $as_jl_Void(x);
+    $as_jl_Void(y);
+    return true
+  };
+  lt__O__O__Z(x, y) {
+    $as_jl_Void(x);
+    $as_jl_Void(y);
+    return false
+  };
+  gt__O__O__Z(x, y) {
+    $as_jl_Void(x);
+    $as_jl_Void(y);
+    return false
+  };
+  neqv__O__O__Z(x, y) {
+    $as_jl_Void(x);
+    $as_jl_Void(y);
+    return false
+  };
+  eqv__O__O__Z(x, y) {
+    $as_jl_Void(x);
+    $as_jl_Void(y);
+    return true
+  };
+  compare__O__O__I(x, y) {
+    $as_jl_Void(x);
+    $as_jl_Void(y);
+    return 0
+  };
+}
+const $d_Lcats_kernel_instances_UnitOrder = new $TypeData().initClass({
+  Lcats_kernel_instances_UnitOrder: 0
+}, false, "cats.kernel.instances.UnitOrder", {
+  Lcats_kernel_instances_UnitOrder: 1,
+  O: 1,
+  Lcats_kernel_Order$mcV$sp: 1,
+  Lcats_kernel_Order: 1,
+  Lcats_kernel_PartialOrder: 1,
+  Lcats_kernel_Eq: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  Lcats_kernel_PartialOrder$mcV$sp: 1,
+  Lcats_kernel_Eq$mcV$sp: 1,
+  Lcats_kernel_Hash$mcV$sp: 1,
+  Lcats_kernel_Hash: 1,
+  Lcats_kernel_instances_UnitBounded: 1,
+  Lcats_kernel_LowerBounded$mcV$sp: 1,
+  Lcats_kernel_LowerBounded: 1,
+  Lcats_kernel_UpperBounded$mcV$sp: 1,
+  Lcats_kernel_UpperBounded: 1,
+  Lcats_kernel_instances_UnitEnumerable: 1,
+  Lcats_kernel_BoundedEnumerable$mcV$sp: 1,
+  Lcats_kernel_BoundedEnumerable: 1,
+  Lcats_kernel_PartialPreviousUpperBounded: 1,
+  Lcats_kernel_PartialPrevious: 1,
+  Lcats_kernel_PartialNext: 1,
+  Lcats_kernel_PartialNextLowerBounded: 1,
+  Lcats_kernel_PartialNextLowerBounded$mcV$sp: 1,
+  Lcats_kernel_PartialNext$mcV$sp: 1,
+  Lcats_kernel_PartialPrevious$mcV$sp: 1,
+  Lcats_kernel_PartialPreviousUpperBounded$mcV$sp: 1
+});
+$c_Lcats_kernel_instances_UnitOrder.prototype.$classData = $d_Lcats_kernel_instances_UnitOrder;
 class $c_Lcats_package$$anon$1 extends $c_O {
   product__O__O__O(fa, fb) {
     return $f_Lcats_FlatMap__product__O__O__O(this, fa, fb)
-  };
-  pure__O__O(a) {
-    return a
   };
   flatMap__O__F1__O(a, f) {
     return f.apply__O__O(a)
@@ -42909,27 +45204,20 @@ class $c_Lcats_instances_OptionInstances$$anon$1 extends $c_O {
   constructor(outer) {
     super()
   };
-  product__O__O__O(fa, fb) {
-    return $f_Lcats_FlatMap__product__O__O__O(this, fa, fb)
-  };
   combineK__s_Option__s_Option__s_Option(x, y) {
     return (x.isEmpty__Z() ? y : x)
   };
   map2__s_Option__s_Option__F2__s_Option(fa, fb, f) {
-    if (fa.isEmpty__Z()) {
-      return $m_s_None$()
-    } else {
-      const arg1 = fa.get__O();
-      if (fb.isEmpty__Z()) {
-        return $m_s_None$()
-      } else {
-        const arg1$1 = fb.get__O();
-        return new $c_s_Some(f.apply__O__O__O(arg1, arg1$1))
-      }
-    }
+    return (((!fa.isEmpty__Z()) && (!fb.isEmpty__Z())) ? new $c_s_Some(f.apply__O__O__O(fa.get__O(), fb.get__O())) : $m_s_None$())
+  };
+  product__s_Option__s_Option__s_Option(fa, fb) {
+    return (((!fa.isEmpty__Z()) && (!fb.isEmpty__Z())) ? new $c_s_Some(new $c_T2(fa.get__O(), fb.get__O())) : $m_s_None$())
   };
   algebra__Lcats_kernel_Semigroup() {
     return new $c_Lcats_MonoidK$$anon$1(this)
+  };
+  product__O__O__O(fa, fb) {
+    return this.product__s_Option__s_Option__s_Option($as_s_Option(fa), $as_s_Option(fb))
   };
   map2__O__O__F2__O(fa, fb, f) {
     return this.map2__s_Option__s_Option__F2__s_Option($as_s_Option(fa), $as_s_Option(fb), f)
@@ -42942,11 +45230,11 @@ class $c_Lcats_instances_OptionInstances$$anon$1 extends $c_O {
     const fa$1 = $as_s_Option(fa);
     return (fa$1.isEmpty__Z() ? $m_s_None$() : new $c_s_Some(f.apply__O__O(fa$1.get__O())))
   };
-  pure__O__O(x) {
-    return new $c_s_Some(x)
-  };
   combineK__O__O__O(x, y) {
     return this.combineK__s_Option__s_Option__s_Option($as_s_Option(x), $as_s_Option(y))
+  };
+  empty__O() {
+    return $m_s_None$()
   };
 }
 const $d_Lcats_instances_OptionInstances$$anon$1 = new $TypeData().initClass({
@@ -43064,6 +45352,9 @@ class $c_sci_AbstractMap extends $c_sc_AbstractMap {
   empty__sci_Map() {
     $m_sci_Map$();
     return $m_sci_Map$EmptyMap$()
+  };
+  toMap__s_Predef$$less$colon$less__sci_Map(ev) {
+    return this
   };
   keySet__sci_Set() {
     return $ct_sci_MapLike$ImmutableDefaultKeySet__sci_MapLike__(new $c_sci_MapLike$ImmutableDefaultKeySet(), this)
@@ -44325,6 +46616,9 @@ class $c_sci_TreeSet extends $c_O {
   compose__F1__F1(g) {
     return $f_F1__compose__F1__F1(this, g)
   };
+  andThen__F1__F1(g) {
+    return $f_F1__andThen__F1__F1(this, g)
+  };
   exists__F1__Z(p) {
     const tree = this.sci_TreeSet__f_tree;
     const start = $m_s_None$();
@@ -44379,6 +46673,12 @@ class $c_sci_TreeSet extends $c_O {
     const this$1 = $m_sci_Vector$();
     const cbf = this$1.scg_GenTraversableFactory__f_ReusableCBFInstance;
     return $as_sci_Vector($f_sc_TraversableLike__to__scg_CanBuildFrom__O(this, cbf))
+  };
+  toMap__s_Predef$$less$colon$less__sci_Map(ev) {
+    $m_sci_Map$();
+    const b = new $c_sci_Map$MapBuilderImpl();
+    b.$plus$plus$eq__sc_TraversableOnce__sci_Map$MapBuilderImpl(this);
+    return b.result__sci_Map()
   };
   mkString__T__T__T__T(start, sep, end) {
     return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
@@ -44974,6 +47274,9 @@ class $c_sci_MapLike$$anon$2 extends $c_sc_MapLike$MappedValues {
   };
   $plus__T2__sci_Map(kv) {
     return $f_sci_DefaultMap__$plus__T2__sci_Map(this, kv)
+  };
+  toMap__s_Predef$$less$colon$less__sci_Map(ev) {
+    return this
   };
   keySet__sci_Set() {
     return $ct_sci_MapLike$ImmutableDefaultKeySet__sci_MapLike__(new $c_sci_MapLike$ImmutableDefaultKeySet(), this)
@@ -50137,6 +52440,9 @@ class $c_scm_AbstractSet extends $c_scm_AbstractIterable {
   compose__F1__F1(g) {
     return $f_F1__compose__F1__F1(this, g)
   };
+  andThen__F1__F1(g) {
+    return $f_F1__andThen__F1__F1(this, g)
+  };
   seq__sc_TraversableOnce() {
     return this
   };
@@ -52518,6 +54824,13 @@ class $c_scm_ListBuffer extends $c_scm_AbstractBuffer {
   head__O() {
     return this.scm_ListBuffer__f_scala$collection$mutable$ListBuffer$$start.head__O()
   };
+  toMap__s_Predef$$less$colon$less__sci_Map(ev) {
+    const this$1 = this.scm_ListBuffer__f_scala$collection$mutable$ListBuffer$$start;
+    $m_sci_Map$();
+    const b = new $c_sci_Map$MapBuilderImpl();
+    b.$plus$plus$eq__sc_TraversableOnce__sci_Map$MapBuilderImpl(this$1);
+    return b.result__sci_Map()
+  };
   mkString__T__T__T__T(start, sep, end) {
     const this$1 = this.scm_ListBuffer__f_scala$collection$mutable$ListBuffer$$start;
     return $f_sc_TraversableOnce__mkString__T__T__T__T(this$1, start, sep, end)
@@ -54532,6 +56845,7 @@ const $d_Lcats_instances_package$all$ = new $TypeData().initClass({
   Lcats_kernel_instances_VectorInstances: 1,
   Lcats_kernel_instances_VectorInstances1: 1,
   Lcats_kernel_instances_VectorInstances2: 1,
+  Lcats_instances_PartialFunctionInstances: 1,
   Lcats_instances_AllInstancesBinCompat0: 1,
   Lcats_instances_FunctionInstancesBinCompat0: 1,
   Lcats_instances_Tuple2InstancesBinCompat0: 1,
@@ -54895,6 +57209,8 @@ const $d_Lcats_implicits$ = new $TypeData().initClass({
   Lcats_syntax_AlternativeSyntax: 1,
   Lcats_syntax_AlignSyntax: 1,
   Lcats_Align$ToAlignOps: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
   Lcats_syntax_ApplicativeSyntax: 1,
   Lcats_syntax_ApplicativeErrorSyntax: 1,
   Lcats_syntax_ApplySyntax: 1,
@@ -54965,6 +57281,7 @@ const $d_Lcats_implicits$ = new $TypeData().initClass({
   Lcats_syntax_VectorSyntax: 1,
   Lcats_syntax_WriterSyntax: 1,
   Lcats_syntax_ParallelFoldMapASyntax: 1,
+  Lcats_syntax_ParallelTraverseFilterSyntax: 1,
   Lcats_syntax_AllSyntaxBinCompat0: 1,
   Lcats_syntax_UnorderedTraverseSyntax: 1,
   Lcats_UnorderedTraverse$ToUnorderedTraverseOps: 1,
@@ -55118,6 +57435,7 @@ const $d_Lcats_implicits$ = new $TypeData().initClass({
   Lcats_kernel_instances_VectorInstances: 1,
   Lcats_kernel_instances_VectorInstances1: 1,
   Lcats_kernel_instances_VectorInstances2: 1,
+  Lcats_instances_PartialFunctionInstances: 1,
   Lcats_instances_AllInstancesBinCompat0: 1,
   Lcats_instances_FunctionInstancesBinCompat0: 1,
   Lcats_instances_Tuple2InstancesBinCompat0: 1,
