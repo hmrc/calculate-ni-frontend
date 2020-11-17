@@ -42,12 +42,6 @@ function Table(props: TableProps) {
     ))
   }
 
-  const handleBlur = () => {
-    setGrossTotal(props.rows.reduce((c, acc) => {
-      return c += parseInt(acc.gross)
-    }, 0))
-  }
-
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => (
     props.setTaxYear(taxYears[taxYears.findIndex(ty => ty.id === e.target.value)])
   )
@@ -146,7 +140,6 @@ function Table(props: TableProps) {
                   id={`${r.id}-gross`}
                   value={r.gross}
                   onChange={(e) => handleChange(r, e)}
-                  onBlur={handleBlur}
                 />
               </td>
               <td>{numeral(r.ee).format('$0,0.00')}</td>

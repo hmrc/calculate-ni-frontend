@@ -105,13 +105,27 @@ function App() {
     setNetContributionsTotal(0)
     setEmployeeContributionsTotal(0)
     setEmployerContributionsTotal(0)
+    
+    setGrossTotal(0)
+
+    setUnderpaymentNet(0)
+    setUnderpaymentEmployee(0)
+    setUnderpaymentEmployer(0)
+
+    setOverpaymentNet(0)
+    setOverpaymentEmployee(0)
+    setOverpaymentEmployer(0)
+
   }
 
   const runCalcs = (r: Row[], t: Number, ty: Date) => {
 
     if (isValid()) {
       const c = new ClassOne(JSON.stringify(configuration));
-      setGrossTotal(t)
+
+      setGrossTotal(rows.reduce((c, acc) => {
+        return c += parseInt(acc.gross)
+      }, 0))
 
       const calculations = r
         .map((r, i) => {
