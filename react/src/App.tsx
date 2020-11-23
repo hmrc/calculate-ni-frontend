@@ -3,18 +3,23 @@ import uniqid from 'uniqid';
 import validateInput from './validation/validation'
 import configuration from './configuration.json'
 import { ClassOne } from './calculation'
-import { calcOverUnderPayment, calcNi } from './config'
-import { periods as p, fpn, taxYearString, taxYearsCategories } from './config';
+import { 
+  calcOverUnderPayment, 
+  calcNi, 
+  taxYearString, 
+  periods as p, 
+  taxYearsCategories } from './config'
 
 // types
 import { S, Row, ErrorSummaryProps, TaxYear } from './interfaces'
 
 // css
-import './gov-polyfill.css';
-import './App.css';
-import './Forms.css';
-import './Tables.css'
-import './Errors.css';
+import './styles/gov-polyfill.css';
+import './styles/App.css';
+import './styles/Forms.css';
+import './styles/Tables.css'
+import './styles/Errors.css';
+import './styles/SavePrint.css';
 
 // img
 import logo from '../src/logo.png';
@@ -22,6 +27,7 @@ import logo from '../src/logo.png';
 import Details from './components/Details'
 import Table from './components/Table'
 import Totals from './components/Totals'
+import SavePrint from './components/SavePrint'
 
 function App() {    
   const initialState = {
@@ -39,7 +45,6 @@ function App() {
 
   const [periods] = useState<Array<string>>(p)
   
-  // const [categories] = useState<Array<string>>(c)
   const [taxYear, setTaxYear] = useState<TaxYear>(taxYearsCategories[0])
   const [rows, setRows] = useState<Array<Row>>([{
     id: uniqid(),
@@ -73,6 +78,8 @@ function App() {
   const [niPaidEmployee, setNiPaidEmployee] = useState<string>('0')
   const [niPaidEmployer, setNiPaidEmployer] = useState<number>(0)
 
+  const [showSummary, setShowSummary] = useState<Boolean>(false)
+
   // const [niData, setNiData] = useState<Calculated[]>([])
 
   // update NI Paid Employer after Ni Paid Net & Employee have updated
@@ -105,7 +112,7 @@ function App() {
     setNetContributionsTotal(0)
     setEmployeeContributionsTotal(0)
     setEmployerContributionsTotal(0)
-    
+
     setGrossTotal(0)
 
     setUnderpaymentNet(0)
@@ -144,7 +151,6 @@ function App() {
           newRows[i].ee = ee
           newRows[i].er = er
           
-          // setRows with prev and next
           setRows(newRows)
           
           return res
@@ -180,68 +186,84 @@ function App() {
 
   return (
     <div className="App">
+      <div className="main">
 
-      <header>
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
+        <header>
+          <img src={logo} className="App-logo" alt="logo" />
+        </header>
 
-      <form onSubmit={handleSubmit} noValidate>
-        
-        <fieldset className="details">
-          <legend className="float-left">Details</legend>
-          <button 
-            type="button" 
-            className="toggle"
-            onClick={() => setShowDetails(!showDetails)}>
-              {showDetails ? 'Close details' : 'Open details'}
-          </button>
-
-          {showDetails ? 
-            <Details
-              fullName={state.fullName}
-              ni={state.ni}
-              reference={state.reference}
-              preparedBy={state.preparedBy}
-              date={state.date}
-              handleChange={handleChange}
-            /> : null
-          }
-        </fieldset>
-
-        <div className="form-group table-wrapper">
-          <Table 
-            runCalcs={runCalcs}
-            errors={errors}
-            rowsErrors={rowsErrors}
-            resetTotals={resetTotals}
-            rows={rows}
-            setRows={setRows}
-            periods={periods}
+        {showSummary ?
+          <SavePrint
+            setShowSummary={setShowSummary}
+            details={state}
+            taxYearString={taxYearString(taxYear)}
             taxYear={taxYear}
-            setTaxYear={setTaxYear}
+            rows={rows}
+            periods={periods}
           />
-        </div>
+        :
+          <form onSubmit={handleSubmit} noValidate>
+            
+            <fieldset className="details">
+              <legend className="float-left">Details</legend>
+              <button 
+                type="button" 
+                className="toggle"
+                onClick={() => setShowDetails(!showDetails)}>
+                  {showDetails ? 'Close details' : 'Open details'}
+              </button>
 
-        <Totals 
-          grossTotal={grossTotal}
-          niPaidNet={niPaidNet}
-          setNiPaidNet={setNiPaidNet}
-          niPaidEmployee={niPaidEmployee}
-          setNiPaidEmployee={setNiPaidEmployee}
-          niPaidEmployer={niPaidEmployer}
-          errors={errors}
-          netContributionsTotal={netContributionsTotal}
-          employeeContributionsTotal={employeeContributionsTotal}
-          employerContributionsTotal={employerContributionsTotal}
-          underpaymentNet={underpaymentNet}
-          overpaymentNet={overpaymentNet}
-          underpaymentEmployee={underpaymentEmployee}
-          overpaymentEmployee={overpaymentEmployee}
-          underpaymentEmployer={underpaymentEmployer}
-          overpaymentEmployer={overpaymentEmployer}
-        />
+              {showDetails ? 
+                <Details
+                  fullName={state.fullName}
+                  ni={state.ni}
+                  reference={state.reference}
+                  preparedBy={state.preparedBy}
+                  date={state.date}
+                  handleChange={handleChange}
+                /> : null
+              }
+            </fieldset>
 
-      </form>
+            <div className="form-group table-wrapper">
+              <Table 
+                runCalcs={runCalcs}
+                errors={errors}
+                rowsErrors={rowsErrors}
+                resetTotals={resetTotals}
+                rows={rows}
+                setRows={setRows}
+                periods={periods}
+                taxYear={taxYear}
+                setTaxYear={setTaxYear}
+                setShowSummary={setShowSummary}
+              />
+            </div>
+
+            <Totals 
+              grossTotal={grossTotal}
+              niPaidNet={niPaidNet}
+              setNiPaidNet={setNiPaidNet}
+              niPaidEmployee={niPaidEmployee}
+              setNiPaidEmployee={setNiPaidEmployee}
+              niPaidEmployer={niPaidEmployer}
+              errors={errors}
+              netContributionsTotal={netContributionsTotal}
+              employeeContributionsTotal={employeeContributionsTotal}
+              employerContributionsTotal={employerContributionsTotal}
+              underpaymentNet={underpaymentNet}
+              overpaymentNet={overpaymentNet}
+              underpaymentEmployee={underpaymentEmployee}
+              overpaymentEmployee={overpaymentEmployee}
+              underpaymentEmployer={underpaymentEmployer}
+              overpaymentEmployer={overpaymentEmployer}
+            />
+
+          </form>
+
+        }
+      
+      </div>
     </div>
   );
 }

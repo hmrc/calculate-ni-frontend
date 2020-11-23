@@ -43,6 +43,17 @@ export interface TableProps {
   periods: string[]
   setTaxYear: (ty: TaxYear) => void
   taxYear: TaxYear
+  setShowSummary: (v: Boolean) => void
+}
+
+export interface CT {
+  rows: Row[]
+  rowsErrors?: ErrorSummaryProps['rowsErrors']
+  activeRowID?: string | null
+  periods: string[]
+  taxYear: TaxYear
+  handleChange?: (r: Row, e: React.ChangeEvent<HTMLInputElement>) => void
+  handleSelectChange?: (r: Row, e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 
@@ -85,4 +96,21 @@ export interface ErrorSummaryProps {
       }
     }
   }
+}
+
+// Save Print
+export interface SavePrintProps {
+  setShowSummary: (v: Boolean) => void
+  details: S
+  taxYearString: string
+  rows: Row[]
+  periods: string[]
+  taxYear: TaxYear
+}
+
+// Helpers
+export interface  SummaryListRowProps {
+  listKey: string
+  listValue: string
+  rowClasses?: String
 }

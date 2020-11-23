@@ -1,0 +1,114 @@
+#save-print-wrapper {
+  color: #6F777B;
+}
+
+#save-print-wrapper .govuk-heading-l {
+  color: #6F777B;
+  font-weight: 400;
+  font-size: 21px;
+  margin: 20px 0 15px;
+}
+
+#save-print-wrapper .details {
+  border-bottom: 1px solid #B1B4B6;
+  padding-top: 10px !important;
+}
+
+#save-print-wrapper .contribution-details,
+#save-print-wrapper .contribution-details td,
+#save-print-wrapper .contribution-details th,
+#save-print-wrapper .govuk-summary-list {
+  font-size: 14px;
+}
+
+#save-print-wrapper .contribution-details th.lg {
+  font-weight: 400;
+}
+
+#save-print-wrapper .contribution-details th,
+#save-print-wrapper .contribution-details th.border {
+  font-weight: 700;
+}
+
+#save-print-wrapper .govuk-summary-list .govuk-summary-list__row {
+  margin-bottom: 5px;
+  overflow: hidden;
+}
+#save-print-wrapper .govuk-summary-list .govuk-summary-list__row dt,
+#save-print-wrapper .govuk-summary-list .govuk-summary-list__row dd {
+  float: left;
+  width: 70%;
+}
+
+#save-print-wrapper .govuk-summary-list .govuk-summary-list__row dt {
+  font-weight: 700;
+  width: 30%;
+}
+
+/* @media (min-width: 40.0625em) {
+  .govuk-summary-list {
+      margin-bottom: 30px;
+  }
+}
+
+@media (min-width: 40.0625em) {
+  .govuk-summary-list {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+  }
+}
+@media (min-width: 40.0625em) {
+  .govuk-summary-list {
+      font-size: 19px;
+      font-size: 1.1875rem;
+      line-height: 1.31579;
+  }
+}
+
+.govuk-summary-list {
+  font-family: "GDS Transport",arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.25;
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+
+
+.govuk-summary-list__row {
+  display: table-row;
+}
+
+
+
+@media (min-width: 40.0625em) {
+  .govuk-summary-list__key {
+      width: 50%;
+  }
+}
+.govuk-summary-list__key {
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+.govuk-summary-list__key, .govuk-summary-list__value {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+@media (min-width: 40.0625em) {
+  .govuk-summary-list__key, .govuk-summary-list__value, .govuk-summary-list__actions {
+    display: table-cell;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+  }
+}
+.govuk-summary-list__key, .govuk-summary-list__value, .govuk-summary-list__actions {
+    margin: 0;
+} */
+
+

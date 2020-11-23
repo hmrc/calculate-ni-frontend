@@ -11,6 +11,10 @@
   --active-highlight-border: #979797;
 }
 
+#root {
+  position: relative;
+}
+
 .App {
   margin: 0 auto;
   max-width: 1024px;
@@ -92,7 +96,7 @@ select {
 /* Select wrapping element */
 .select {
   width: 100%;
-  background: url('select-dropdown-arrows.svg') no-repeat right 10px center;
+  background: url('../select-dropdown-arrows.svg') no-repeat right 10px center;
   border: 2px solid var(--select-border);
   padding: 0 0.5em;
   cursor: pointer;
@@ -128,6 +132,16 @@ select {
 
 .container .item + .item {
   margin-left: 4%;
+}
+
+/* Two Col */
+.two-col {
+  overflow: hidden;
+}
+
+.two-col .half {
+  float: left;
+  width: 50%;
 }
 
 /* Details */

@@ -36,7 +36,7 @@ const validateInput = (data: Data) => {
 
   data.rows.map(r => {
     rowsErrors[r.id] = {};
-
+    
     // Row Gross
     if (Validator.isEmpty(r.gross)) {
       rowsErrors[r.id].gross = {};
@@ -44,7 +44,7 @@ const validateInput = (data: Data) => {
       rowsErrors[r.id].gross.name = `Gross`
       rowsErrors[r.id].gross.message = 'cannot be empty'
     }
-
+    
     if (!Validator.isEmpty(r.gross) && !Validator.isNumeric(r.gross)) {
       rowsErrors[r.id].gross = {};
       rowsErrors[r.id].gross.link = `${r.id}-gross`
@@ -74,7 +74,7 @@ const validateInput = (data: Data) => {
   return {
     errors,
     rowsErrors,
-    isValid: isEmpty(errors)
+    isValid: isEmpty(errors) && isEmpty(rowsErrors)
   }
 }
 
