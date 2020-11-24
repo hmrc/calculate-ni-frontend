@@ -15,4 +15,4 @@ addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.7.5")
 
 addSbtPlugin("org.irundaia.sbt" % "sbt-sassify" % "1.4.11")
 
-addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.33")
+addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.3.1")
