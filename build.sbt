@@ -52,7 +52,8 @@ lazy val microservice = Project(appName, file("."))
       if (result != 0)
         throw new Exception("npm run build failed.")
       result
-    }
+    },
+    dist := {dist dependsOn (npmInstall, npmRunBuild)}.value
   )
   .settings(publishingSettings: _*)
 //  .settings(JavaScriptBuild.settings: _*)
