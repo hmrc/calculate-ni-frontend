@@ -22,6 +22,21 @@ function ContributionsTable(props: CT) {
           <th>Period</th>
           <th>Category</th>
           <th>Gross Pay</th>
+          {/* 
+            INJECT DYNAMIC COLUMNS
+            Conditionally show based on a bool passed to the component on whether dynamic columns should be shown
+            Map over the bands, convert the name to the correct band name uppercased
+          */}
+          
+          {/* {props.niData.map(r => Object.keys(r).map(k => 
+            <th key={r[k]}></th>
+          ))} */}
+            {/* return (
+              <th>props.niData[k]</th>
+            )
+          })} */}
+
+          
           {/* <th>LEL</th>
           <th>ET</th>
           <th>UEL</th>
@@ -57,7 +72,8 @@ function ContributionsTable(props: CT) {
               <div>{r.category}</div>
               }
             </td>
-            <td className={`${props.rowsErrors && props.rowsErrors[`${r.id}`] && props.rowsErrors[`${r.id}`]['gross'] && props.rowsErrors[`${r.id}`]['gross']['name'] && props.rowsErrors[`${r.id}`]['gross']['name'] == 'Gross' ? "error-cell" : ""}`}>
+            <td className={
+              `${props.rowsErrors?.[`${r.id}`]?.['gross']?.['name'] === 'Gross' ? "error-cell" : ""}`}>
               {props.handleChange ?
                 <input
                   className="gross-pay"
@@ -71,6 +87,18 @@ function ContributionsTable(props: CT) {
               <div>{r.gross}</div>
               }
             </td>
+
+            {/* 
+            INJECT DYNAMIC COLUMNS
+
+            Map over the bands, output the formatted value
+            */}
+            {/* {props.niData.map((k, i) => {
+              return (
+                <td>props.niData[k][0]</td>
+              )
+            })} */}
+
             <td>{numeral(r.ee).format('$0,0.00')}</td>
             <td>{numeral(r.er).format('$0,0.00')}</td>
             {/* <td></td>

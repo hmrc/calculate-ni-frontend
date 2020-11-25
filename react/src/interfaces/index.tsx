@@ -44,6 +44,7 @@ export interface TableProps {
   setTaxYear: (ty: TaxYear) => void
   taxYear: TaxYear
   setShowSummary: (v: Boolean) => void
+  niData: Calculated[]
 }
 
 export interface CT {
@@ -52,6 +53,7 @@ export interface CT {
   activeRowID?: string | null
   periods: string[]
   taxYear: TaxYear
+  niData: Calculated[]
   handleChange?: (r: Row, e: React.ChangeEvent<HTMLInputElement>) => void
   handleSelectChange?: (r: Row, e: React.ChangeEvent<HTMLSelectElement>) => void
 }
@@ -106,6 +108,7 @@ export interface SavePrintProps {
   rows: Row[]
   periods: string[]
   taxYear: TaxYear
+  niData: Calculated[]
 }
 
 // Helpers

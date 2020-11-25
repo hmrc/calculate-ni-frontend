@@ -11,7 +11,7 @@ import {
   taxYearsCategories } from './config'
 
 // types
-import { S, Row, ErrorSummaryProps, TaxYear } from './interfaces'
+import { S, Row, ErrorSummaryProps, TaxYear, Calculated } from './interfaces'
 
 // css
 import './styles/gov-polyfill.css';
@@ -80,7 +80,7 @@ function App() {
 
   const [showSummary, setShowSummary] = useState<Boolean>(false)
 
-  // const [niData, setNiData] = useState<Calculated[]>([])
+  const [niData, setNiData] = useState<Calculated[]>([])
 
   // update NI Paid Employer after Ni Paid Net & Employee have updated
   useEffect(() => {
@@ -109,6 +109,9 @@ function App() {
   }
 
   const resetTotals = () => {
+    setNiPaidNet('0')
+    setNiPaidEmployee('0')
+
     setNetContributionsTotal(0)
     setEmployeeContributionsTotal(0)
     setEmployerContributionsTotal(0)
@@ -138,6 +141,8 @@ function App() {
         .map((r, i) => {
           // TODO: Remove qty (hard coded as 1 below)
           const res = JSON.parse(c.calculate(ty, parseInt(r.gross), r.category, r.period, 1, false))
+
+          console.log(res)
           
           const ee = Object.keys(res).reduce((prev, key) => {
             return prev + res[key][1]
@@ -156,12 +161,13 @@ function App() {
           return res
         })
 
-      // r.map(r => {
-      //   setNiData(prevData => [
-      //     ...prevData, 
-      //     JSON.parse(c.calculate(ty, r.gross, r.category, r.period, r.qty, false))
-      //   ])
-      // })
+      // TODO: Avoid two calls to calculate
+      r.map(r => {
+        setNiData(prevData => [
+          ...prevData, 
+          JSON.parse(c.calculate(ty, parseInt(r.gross), r.category, r.period, 1, false))
+        ])
+      })
 
       // Employee Contributions
       const employee = calcNi(calculations, 1)
@@ -200,6 +206,7 @@ function App() {
             taxYear={taxYear}
             rows={rows}
             periods={periods}
+            niData={niData}
           />
         :
           <form onSubmit={handleSubmit} noValidate>
@@ -237,6 +244,7 @@ function App() {
                 taxYear={taxYear}
                 setTaxYear={setTaxYear}
                 setShowSummary={setShowSummary}
+                niData={niData}
               />
             </div>
 

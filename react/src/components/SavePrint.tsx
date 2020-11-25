@@ -58,6 +58,7 @@ function SavePrint(props: SavePrintProps) {
           rows={props.rows}
           periods={props.periods}
           taxYear={props.taxYear}
+          niData={props.niData}
         />
         
       </div>
