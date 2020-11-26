@@ -1,5 +1,6 @@
 import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
+import scala.sys.process._
 
 val reactDirectory           = settingKey[File]("The directory where the react application is located")
 val installReactDependencies = taskKey[Unit]("Install the dependencies for the react application")
@@ -24,7 +25,14 @@ copyInJS := {
   val Attributed(outFiles) = (frontend / Compile / fastOptJS).value
   val dest = reactDirectory.value / "src" / "calculation.js"
   println(s"copying $outFiles to $dest")
-  IO.copyFile(outFiles, dest)
+
+  // this is a hack for scalajs 0.6, if we can upgrade to 1 this can
+  // be replaced with IO.copyFile(outFiles, dest)
+//  IO.copyFile(outFiles, dest)
+  (Process("sed" ::
+    """s/(typeof __ScalaJSEnv === "object" && __ScalaJSEnv) ? __ScalaJSEnv ://""" ::
+    outFiles.getAbsolutePath :: Nil,
+    baseDirectory.value) #> dest).run()
   dest
 }
 
@@ -158,6 +166,7 @@ lazy val calc = project.
 
 /** ScalaJS calculation logic, used by the react frontend */
 lazy val `frontend` = project
+  .enablePlugins(ScalaJSPlugin)
   .settings(
     scalaVersion := "2.12.12",
     majorVersion := 0,        
@@ -167,8 +176,8 @@ lazy val `frontend` = project
       "org.scala-js" %%% "scalajs-dom" % "1.1.0",
       "org.scala-js" %%% "scalajs-java-time" % "1.0.0"
     ),
+    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
     publish := {},
     publishLocal := {}
   )
-  .enablePlugins(ScalaJSPlugin)
   .dependsOn(common.js)
