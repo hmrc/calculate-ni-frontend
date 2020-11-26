@@ -7,12 +7,18 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@types/jest": "^24.0.0",
+    "@types/lodash": "^4.14.165",
     "@types/node": "^12.0.0",
     "@types/numeral": "0.0.28",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/uniqid": "^5.2.0",
     "@types/validator": "^13.1.0",
+<<<<<<< HEAD
+=======
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1",
+>>>>>>> afe6ca0d00b0f922ea9fb7c11be0b1dff6c9b350
     "numeral": "^2.0.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
