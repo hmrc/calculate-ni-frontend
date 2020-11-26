@@ -3,11 +3,13 @@ package frontend
 
 import scala.scalajs.js.annotation._
 import scala.scalajs.js.Date
+import scala.scalajs.js
 import java.time.LocalDate
 import io.circe.generic.auto._, io.circe.syntax._
 
+@ScalaJSDefined
 @JSExportTopLevel("ClassOne")
-case class ClassOne(json: String) {
+class ClassOne(json: String) extends js.Object {
 
   implicit def convertDate(in: Date): LocalDate =
     LocalDate.of(in.getFullYear.toInt, in.getMonth.toInt, in.getDate.toInt)
@@ -17,7 +19,6 @@ case class ClassOne(json: String) {
     case Left(err) => throw new IllegalArgumentException(s"$err")
   }
 
-  @JSExport
   def calculate(
     on: Date,
     amount: Double,
@@ -30,7 +31,6 @@ case class ClassOne(json: String) {
     ret.asJson.toString
   }
 
-  @JSExport
   def isCosrApplicable(on: Date): Boolean = {
     val interval = config.classOne.keys.find(_.contains(on)).getOrElse(
       throw new NoSuchElementException(s"Cannot find an interval for $on")
@@ -38,7 +38,6 @@ case class ClassOne(json: String) {
     config.classOne(interval).values.exists(_.contractedOutStandardRate.isDefined)
   }
 
-  @JSExport
   def getApplicableCategories(on: Date): String = {
     val interval = config.classOne.keys.find(_.contains(on)).getOrElse(
       throw new NoSuchElementException(s"Cannot find an interval for $on")
@@ -48,7 +47,6 @@ case class ClassOne(json: String) {
     ).toList.sorted.distinct.map{ch => s"$ch"}.mkString
   }
 
-  @JSExport
   def calculateClassOneAAndB(
     on: Date,
     amount: Double
@@ -56,7 +54,6 @@ case class ClassOne(json: String) {
     throw new NoSuchElementException(s"Class One A and B undefined for $on")
   ).toString
 
-  @JSExport
   def calculateClassThree(
     on: Date,
     numberOfWeeks: Int
@@ -64,7 +61,6 @@ case class ClassOne(json: String) {
     throw new NoSuchElementException(s"Class Three undefined for $on")
   ).toString
 
-  @JSExport
   def calculateClassFour(
     on: LocalDate,
     amount: Double
