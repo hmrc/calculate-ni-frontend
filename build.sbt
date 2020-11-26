@@ -1,13 +1,65 @@
 import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
 
-val uiDirectory = SettingKey[File]("ui-directory")
-val npmInstall = TaskKey[Int]("npm-install")
-val npmRunBuild = TaskKey[Int]("npm-run-build")
+val reactDirectory           = settingKey[File]("The directory where the react application is located")
+val installReactDependencies = taskKey[Unit]("Install the dependencies for the react application")
+val buildReactApp            = taskKey[Unit]("Build the react application")
+val copyInJS                 = taskKey[File]("Build and copy in the JS file")
+val convertConfig            = taskKey[Any]("Convert the configuration file from HOCON to JSON")
+val moveReact                = taskKey[Int]("move the compiled react application into the play assets")
+val build                    = taskKey[Unit]("Copy JS and Config to react app")
 
 val appName = "calculate-ni-frontend"
 
 val silencerVersion = "1.7.0"
+
+installReactDependencies := {
+  val result = JavaScriptBuild.npmProcess(reactDirectory.value, "install").run().exitValue()
+  if (result != 0)
+    throw new Exception("Npm install failed.")
+}
+
+copyInJS := {
+  // generate the Javascript logic
+  val Attributed(outFiles) = (frontend / Compile / fastOptJS).value
+  val dest = reactDirectory.value / "src" / "calculation.js"
+  println(s"copying $outFiles to $dest")
+  IO.copyFile(outFiles, dest)
+  dest
+}
+
+convertConfig := Def.taskDyn({
+  // generate the JSON config file from the HOCON
+  val sourceFile = file(".").getCanonicalFile / "national-insurance.conf"
+  val destFile = reactDirectory.value / "src" / "configuration.json"
+
+  if (!destFile.exists || destFile.lastModified < sourceFile.lastModified) {
+    Def.task{
+      (`schema-converter` / Compile / run).toTask(" " + List(sourceFile, destFile).mkString(" ")).value
+    }
+  } else {
+    Def.task {
+      println("config is up-to-date")
+      ()
+    }
+  }
+}).value
+
+buildReactApp := {
+  val deps: Unit = installReactDependencies.value
+  val reactJsFile: Unit = copyInJS.value
+  val config: Unit = convertConfig.value
+  val result = JavaScriptBuild.npmProcess(reactDirectory.value, "run", "build").run().exitValue()
+  if (result != 0)
+    throw new Exception("npm run build failed.")
+}
+
+moveReact := {
+  val reactApp: Unit = buildReactApp.value
+  import scala.sys.process.{Process, ProcessBuilder}
+  val result = Process("./sync-build.sh" :: Nil, baseDirectory.value).run().exitValue()
+  1
+}
 
 lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin)
@@ -40,31 +92,13 @@ lazy val microservice = Project(appName, file("."))
       "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
     ),
     PlayKeys.playDefaultPort := 8668,
-    uiDirectory := (baseDirectory in Compile) { _ /"react" }.value,    
-    npmInstall := {
-      val result = JavaScriptBuild.npmProcess(uiDirectory.value, "install").run().exitValue()
-      if (result != 0)
-        throw new Exception("Npm install failed.")
-      result
-    },
-    npmRunBuild := {
-      val result = JavaScriptBuild.npmProcess(uiDirectory.value, "run", "build").run().exitValue()
-      if (result != 0)
-        throw new Exception("npm run build failed.")
-      result
-    },
-    npmRunBuild := ( npmRunBuild dependsOn npmInstall).value, 
-    dist := (dist dependsOn npmRunBuild).value
+    reactDirectory := (baseDirectory in Compile) { _ /"react" }.value,    
+    dist := (dist dependsOn moveReact).value
   )
   .settings(publishingSettings: _*)
-//  .settings(JavaScriptBuild.settings: _*)
   .configs(IntegrationTest)
   .settings(integrationTestSettings(): _*)
   .settings(resolvers += Resolver.jcenterRepo)
-
-val copyInJS = taskKey[Unit]("Build and copy in the JS file")
-val convertConfig = taskKey[Any]("Convert the configuration file from HOCON to JSON")
-val build = taskKey[Unit]("Copy JS and Config to react app")
 
 val circeVersion = "0.13.0"
 
@@ -138,35 +172,3 @@ lazy val `frontend` = project
   )
   .enablePlugins(ScalaJSPlugin)
   .dependsOn(common.js)
-
-val reactSource = file(".").getCanonicalFile / "react" / "src"
-
-convertConfig := Def.taskDyn({
-  // generate the JSON config file from the HOCON
-  val sourceFile = file(".").getCanonicalFile / "national-insurance.conf"
-  val destFile = reactSource / "configuration.json"
-
-  if (!destFile.exists || destFile.lastModified < sourceFile.lastModified) {
-    Def.task{
-      (`schema-converter` / Compile / run).toTask(" " + List(sourceFile, destFile).mkString(" ")).value
-    }
-  } else {
-    Def.task {
-      println("config is up-to-date")
-      ()
-    }
-  }
-}).value
-
-copyInJS := {
-  // generate the Javascript logic
-  val Attributed(outFiles) = (frontend / Compile / fastOptJS).value
-  val dest = reactSource / "calculation.js"
-  println(s"copying $outFiles to $dest")
-  IO.copyFile(outFiles, dest)
-}
-
-build := {
-  convertConfig.value;
-  copyInJS.value
-}
