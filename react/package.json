@@ -14,11 +14,8 @@
     "@types/react-dom": "^16.9.0",
     "@types/uniqid": "^5.2.0",
     "@types/validator": "^13.1.0",
-<<<<<<< HEAD
-=======
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
->>>>>>> afe6ca0d00b0f922ea9fb7c11be0b1dff6c9b350
     "numeral": "^2.0.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
