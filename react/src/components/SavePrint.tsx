@@ -1,5 +1,8 @@
 import React from 'react'
 
+// components
+import SavePrintSummary from './SavePrintSummary'
+
 // helpers
 import SummaryListRow from './helpers/SummaryListRow'
 
@@ -59,6 +62,10 @@ function SavePrint(props: SavePrintProps) {
           periods={props.periods}
           taxYear={props.taxYear}
           niData={props.niData}
+        />
+
+        <SavePrintSummary
+
         />
         
       </div>

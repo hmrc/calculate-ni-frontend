@@ -28,13 +28,9 @@ function ContributionsTable(props: CT) {
             Map over the bands, convert the name to the correct band name uppercased
           */}
           
-          {/* {props.niData.map(r => Object.keys(r).map(k => 
-            <th key={r[k]}></th>
-          ))} */}
-            {/* return (
-              <th>props.niData[k]</th>
-            )
-          })} */}
+          {props.niData.map(r => Object.keys(r).map(k =>
+            <th key={k}>{k}</th>
+          ))}
 
           
           {/* <th>LEL</th>
@@ -87,17 +83,9 @@ function ContributionsTable(props: CT) {
               <div>{r.gross}</div>
               }
             </td>
-
-            {/* 
-            INJECT DYNAMIC COLUMNS
-
-            Map over the bands, output the formatted value
-            */}
-            {/* {props.niData.map((k, i) => {
-              return (
-                <td>props.niData[k][0]</td>
-              )
-            })} */}
+            {props.niData.map(r => Object.keys(r).map(k =>
+              <td key={`${k}-val`}>{numeral(r[k][0]).format('$0,0.00')}</td>
+            ))}
 
             <td>{numeral(r.ee).format('$0,0.00')}</td>
             <td>{numeral(r.er).format('$0,0.00')}</td>
