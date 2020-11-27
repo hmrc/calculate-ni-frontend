@@ -142,7 +142,6 @@ function App() {
           // TODO: Remove qty (hard coded as 1 below)
           const res = JSON.parse(c.calculate(ty, parseInt(r.gross), r.category, r.period, 1, false))
 
-          console.log(res)
           
           const ee = Object.keys(res).reduce((prev, key) => {
             return prev + res[key][1]
@@ -155,13 +154,16 @@ function App() {
           const newRows = [...rows]
           newRows[i].ee = ee
           newRows[i].er = er
+
+          // add the bands data to the row
+          newRows[i].bands = res
           
           setRows(newRows)
           
           return res
         })
 
-      // TODO: Avoid two calls to calculate
+      // TODO: Avoid two calls to calculate (may be superceeded by rows.bands)
       r.map(r => {
         setNiData(prevData => [
           ...prevData, 
@@ -207,6 +209,22 @@ function App() {
             rows={rows}
             periods={periods}
             niData={niData}
+
+            grossTotal={grossTotal}
+            niPaidNet={niPaidNet}
+            setNiPaidNet={setNiPaidNet}
+            niPaidEmployee={niPaidEmployee}
+            setNiPaidEmployee={setNiPaidEmployee}
+            niPaidEmployer={niPaidEmployer}
+            netContributionsTotal={netContributionsTotal}
+            employeeContributionsTotal={employeeContributionsTotal}
+            employerContributionsTotal={employerContributionsTotal}
+            underpaymentNet={underpaymentNet}
+            overpaymentNet={overpaymentNet}
+            underpaymentEmployee={underpaymentEmployee}
+            overpaymentEmployee={overpaymentEmployee}
+            underpaymentEmployer={underpaymentEmployer}
+            overpaymentEmployer={overpaymentEmployer}
           />
         :
           <form onSubmit={handleSubmit} noValidate>
@@ -265,6 +283,7 @@ function App() {
               overpaymentEmployee={overpaymentEmployee}
               underpaymentEmployer={underpaymentEmployer}
               overpaymentEmployer={overpaymentEmployer}
+              isSaveAndPrint={false}
             />
 
           </form>

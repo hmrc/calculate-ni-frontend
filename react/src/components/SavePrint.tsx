@@ -1,6 +1,7 @@
 import React from 'react'
 
 // components
+import Totals from './Totals'
 import SavePrintSummary from './SavePrintSummary'
 
 // helpers
@@ -63,9 +64,30 @@ function SavePrint(props: SavePrintProps) {
           taxYear={props.taxYear}
           niData={props.niData}
         />
+        
+        <div className="ni-due">
+          <p><strong>NI due</strong> [TBC]</p>
+        </div>
 
-        <SavePrintSummary
-
+        
+        <h2 className="heading-sap-sm">Summary</h2>
+        <Totals 
+          grossTotal={props.grossTotal}
+          niPaidNet={props.niPaidNet}
+          setNiPaidNet={props.setNiPaidNet}
+          niPaidEmployee={props.niPaidEmployee}
+          setNiPaidEmployee={props.setNiPaidEmployee}
+          niPaidEmployer={props.niPaidEmployer}
+          netContributionsTotal={props.netContributionsTotal}
+          employeeContributionsTotal={props.employeeContributionsTotal}
+          employerContributionsTotal={props.employerContributionsTotal}
+          underpaymentNet={props.underpaymentNet}
+          overpaymentNet={props.overpaymentNet}
+          underpaymentEmployee={props.underpaymentEmployee}
+          overpaymentEmployee={props.overpaymentEmployee}
+          underpaymentEmployer={props.underpaymentEmployer}
+          overpaymentEmployer={props.overpaymentEmployer}
+          isSaveAndPrint={true}
         />
         
       </div>

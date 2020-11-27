@@ -19,6 +19,7 @@ export interface Row {
   gross: string
   ee: string
   er: string
+  bands?: Calculated
 }
 
 export interface Calculated {
@@ -61,7 +62,7 @@ export interface CT {
 
 // Totals
 export interface TotalsProps {
-  errors: {
+  errors?: {
     niPaidNet?: string
     niPaidEmployee?: string
   }
@@ -81,6 +82,7 @@ export interface TotalsProps {
   // handleNiChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
   setNiPaidNet: (v: string) => void
   setNiPaidEmployee: (v: string) => void
+  isSaveAndPrint: boolean
 }
 
 // Errors
@@ -109,6 +111,21 @@ export interface SavePrintProps {
   periods: string[]
   taxYear: TaxYear
   niData: Calculated[]
+  grossTotal: Number | null
+  niPaidNet: string
+  setNiPaidNet: (v: string) => void
+  niPaidEmployee: string
+  setNiPaidEmployee: (v: string) => void
+  niPaidEmployer: number
+  netContributionsTotal: number
+  employeeContributionsTotal: number
+  employerContributionsTotal: number
+  underpaymentNet: number
+  overpaymentNet: number
+  underpaymentEmployee: number
+  overpaymentEmployee: number
+  underpaymentEmployer: number
+  overpaymentEmployer: number
 }
 
 // Helpers

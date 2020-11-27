@@ -15,36 +15,30 @@ function ContributionsTable(props: CT) {
       <thead>
         <tr className="clear">
           <th className="lg" colSpan={3}><span>Contribution payment details</span></th>
-          {/* <th className="border" colSpan={3}><span>Earnings</span></th> */}
-          <th className="border" colSpan={2}><span>Net contributions</span></th>
+          {props.niData.length > 0 &&
+            <th className="border" colSpan={Object.keys(props.niData[0]).length}><span>Earnings</span></th>
+          }
+          <th className="border" colSpan={props.niData.length > 0 ? 3 : 2}><span>Net contributions</span></th>
         </tr>
         <tr>
           <th>Period</th>
           <th>Category</th>
           <th>Gross Pay</th>
-          {/* 
-            INJECT DYNAMIC COLUMNS
-            Conditionally show based on a bool passed to the component on whether dynamic columns should be shown
-            Map over the bands, convert the name to the correct band name uppercased
-          */}
-          
-          {props.niData.map(r => Object.keys(r).map(k =>
+          {/* Bands */}
+          {props.niData.map(row => Object.keys(row).map(k =>
             <th key={k}>{k}</th>
           ))}
 
-          
-          {/* <th>LEL</th>
-          <th>ET</th>
-          <th>UEL</th>
-          <th>Total</th> */}
+          {props.niData.length > 0 &&
+            <th>Total</th>
+          }
           <th>EE</th>
           <th>ER</th>
-          {/* <th>Rebate</th> */}
         </tr>
       </thead>
       
       <tbody>
-        {props.rows.map(r => (
+        {props.rows.map((r, i) => (
           <tr className={props.activeRowID === r.id ? "active" : ""} key={r.id} id={r.id}>
             <td>
               {props.handleSelectChange ?
@@ -86,14 +80,18 @@ function ContributionsTable(props: CT) {
             {props.niData.map(r => Object.keys(r).map(k =>
               <td key={`${k}-val`}>{numeral(r[k][0]).format('$0,0.00')}</td>
             ))}
-
+            {/* Total */}
+            {props.niData.length > 0 && 
+            <td>
+              {numeral(
+                Object.keys(props.niData[i]).reduce((prev, key) => {
+                  return prev + props.niData[i][key][0]
+                }, 0)
+              ).format('$0,0.00')}
+            </td>
+            }
             <td>{numeral(r.ee).format('$0,0.00')}</td>
             <td>{numeral(r.er).format('$0,0.00')}</td>
-            {/* <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td> */}
           </tr>
         ))}
         {/* <td>

@@ -50,6 +50,10 @@ button.toggle:focus {
   font-size: 21px;
 }
 
+strong {
+  font-weight: 700;
+}
+
 
 /* Forms */
 .form-group {
