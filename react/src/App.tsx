@@ -80,8 +80,6 @@ function App() {
 
   const [showSummary, setShowSummary] = useState<Boolean>(false)
 
-  // const [niData, setNiData] = useState<Calculated[]>([])
-
   // update NI Paid Employer after Ni Paid Net & Employee have updated
   useEffect(() => {
     setNiPaidEmployer(parseFloat(niPaidNet) - parseFloat(niPaidEmployee))
@@ -139,18 +137,21 @@ function App() {
 
       const calculations = r
         .map((r, i) => {
-          // TODO: Remove qty (hard coded as 1 below)
-          const res = JSON.parse(c.calculate(ty, parseInt(r.gross), r.category, r.period, 1, false))
+          const pd = (r.period === 'Frt' ? 'Wk' : r.period)
+          const pdQty = (r.period === 'Frt' ? 2 : 1)
+          const res = JSON.parse(c.calculate(ty, parseFloat(r.gross), r.category, pd, pdQty, false))
 
-          
+          // Employee Contributions
           const ee = Object.keys(res).reduce((prev, key) => {
             return prev + res[key][1]
           }, 0).toString()
 
+          // Employer Contributions
           const er = Object.keys(res).reduce((prev, key) => {
             return prev + res[key][2]
           }, 0).toString()
 
+          // Add contributions to each row
           const newRows = [...rows]
           newRows[i].ee = ee
           newRows[i].er = er
@@ -162,14 +163,6 @@ function App() {
           
           return res
         })
-
-      // TODO: Avoid two calls to calculate (may be superceeded by rows.bands)
-      // r.map(r => {
-      //   setNiData(prevData => [
-      //     ...prevData, 
-      //     JSON.parse(c.calculate(ty, parseInt(r.gross), r.category, r.period, 1, false))
-      //   ])
-      // })
 
       // Employee Contributions
       const employee = calcNi(calculations, 1)
@@ -208,7 +201,6 @@ function App() {
             taxYear={taxYear}
             rows={rows}
             periods={periods}
-            // niData={niData}
 
             grossTotal={grossTotal}
             niPaidNet={niPaidNet}
@@ -262,7 +254,6 @@ function App() {
                 taxYear={taxYear}
                 setTaxYear={setTaxYear}
                 setShowSummary={setShowSummary}
-                // niData={niData}
               />
             </div>
 

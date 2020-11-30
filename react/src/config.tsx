@@ -29,6 +29,7 @@ export const fcn = (str: string) => {
 
 export const periods = [
   'Wk',
+  'Frt',
   'Mnth',
   '4Wk'
 ]
@@ -37,6 +38,8 @@ export const fpn = (str: string) => {
   switch (str) {
     case 'Wk':
       return 'Weekly'
+    case 'Frt':
+      return 'Fortnightly'
     case 'Mnth':
       return 'Monthly'
     case '4Wk':

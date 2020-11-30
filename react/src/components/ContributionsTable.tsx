@@ -1,5 +1,5 @@
 import React from 'react'
-import { fpn } from '../config';
+import { fpn, fcn } from '../config';
 
 // types
 import { CT } from '../interfaces'
@@ -58,7 +58,7 @@ function ContributionsTable(props: CT) {
               {props.handleSelectChange ?
                 <select name="category" value={r.category} onChange={(e) => props.handleSelectChange?.(r, e)}>
                   {props.taxYear.categories.map((c, i) => (
-                    <option key={i} value={c}>{c}</option>
+                    <option key={i} value={c}>{fcn(c)}</option>
                   ))}
                 </select>
               : 
