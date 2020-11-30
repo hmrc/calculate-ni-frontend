@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { onlyUnique } from '../config'
 
 // components
 import Totals from './Totals'
-import SavePrintSummary from './SavePrintSummary'
+import CategoryTotals from './CategoryTotals'
 
 // helpers
 import SummaryListRow from './helpers/SummaryListRow'
@@ -12,6 +13,14 @@ import { SavePrintProps } from '../interfaces'
 import ContributionsTable from './ContributionsTable'
 
 function SavePrint(props: SavePrintProps) {
+  const [uniqueCategories, setUniqueCategories] = useState<string[]>([])
+
+  const getUniqueCategories = () => {
+    return props.rows
+      .map(r => r.category)
+      .filter(onlyUnique)
+  }
+
   return (
     <div id="save-print-wrapper">
       <div className="print-content">
@@ -62,12 +71,17 @@ function SavePrint(props: SavePrintProps) {
           rows={props.rows}
           periods={props.periods}
           taxYear={props.taxYear}
-          niData={props.niData}
         />
         
         <div className="ni-due">
           <p><strong>NI due</strong> [TBC]</p>
         </div>
+
+        {/* Category Totals */}
+        <CategoryTotals
+          rows={props.rows}
+          categoriesList={getUniqueCategories()}
+        />
 
         
         <h2 className="heading-sap-sm">Summary</h2>

@@ -12,6 +12,10 @@ export interface Errors {
   niPaidEmployee: string
 }
 
+export interface Calculated {
+  [key: string]: number[]
+}
+
 export interface Row {
   id: string
   category: string
@@ -20,10 +24,6 @@ export interface Row {
   ee: string
   er: string
   bands?: Calculated
-}
-
-export interface Calculated {
-  [key: string]: number[]
 }
 
 // Table
@@ -45,7 +45,7 @@ export interface TableProps {
   setTaxYear: (ty: TaxYear) => void
   taxYear: TaxYear
   setShowSummary: (v: Boolean) => void
-  niData: Calculated[]
+  // niData: Calculated[]
 }
 
 export interface CT {
@@ -54,7 +54,7 @@ export interface CT {
   activeRowID?: string | null
   periods: string[]
   taxYear: TaxYear
-  niData: Calculated[]
+  // niData: Calculated[]
   handleChange?: (r: Row, e: React.ChangeEvent<HTMLInputElement>) => void
   handleSelectChange?: (r: Row, e: React.ChangeEvent<HTMLSelectElement>) => void
 }
@@ -110,7 +110,7 @@ export interface SavePrintProps {
   rows: Row[]
   periods: string[]
   taxYear: TaxYear
-  niData: Calculated[]
+  // niData: Calculated[]
   grossTotal: Number | null
   niPaidNet: string
   setNiPaidNet: (v: string) => void
@@ -126,6 +126,11 @@ export interface SavePrintProps {
   overpaymentEmployee: number
   underpaymentEmployer: number
   overpaymentEmployer: number
+}
+
+export interface CategoryTotalsProps {
+  rows: Row[]
+  categoriesList: string[]
 }
 
 // Helpers

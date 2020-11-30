@@ -15,21 +15,21 @@ function ContributionsTable(props: CT) {
       <thead>
         <tr className="clear">
           <th className="lg" colSpan={3}><span>Contribution payment details</span></th>
-          {props.niData.length > 0 &&
-            <th className="border" colSpan={Object.keys(props.niData[0]).length}><span>Earnings</span></th>
+          {props.rows[0].bands &&
+            <th className="border" colSpan={Object.keys(props.rows[0].bands).length}><span>Earnings</span></th>
           }
-          <th className="border" colSpan={props.niData.length > 0 ? 3 : 2}><span>Net contributions</span></th>
+          <th className="border" colSpan={props.rows[0].bands ? 3 : 2}><span>Net contributions</span></th>
         </tr>
         <tr>
           <th>Period</th>
           <th>Category</th>
           <th>Gross Pay</th>
-          {/* Bands */}
-          {props.niData.map(row => Object.keys(row).map(k =>
+          {/* Bands - by tax year, so we can just take the first band to map the rows */}
+          {props.rows[0].bands && Object.keys(props.rows[0].bands).map(k =>
             <th key={k}>{k}</th>
-          ))}
+          )}
 
-          {props.niData.length > 0 &&
+          {props.rows[0].bands &&
             <th>Total</th>
           }
           <th>EE</th>
@@ -40,6 +40,7 @@ function ContributionsTable(props: CT) {
       <tbody>
         {props.rows.map((r, i) => (
           <tr className={props.activeRowID === r.id ? "active" : ""} key={r.id} id={r.id}>
+            {/* Period */}
             <td>
               {props.handleSelectChange ?
                 <select name="period" value={r.period} onChange={(e) => props.handleSelectChange?.(r, e)}>
@@ -51,6 +52,8 @@ function ContributionsTable(props: CT) {
               <div>{fpn(r.period)}</div>
               }
             </td>
+
+            {/* Category */}
             <td>
               {props.handleSelectChange ?
                 <select name="category" value={r.category} onChange={(e) => props.handleSelectChange?.(r, e)}>
@@ -62,6 +65,8 @@ function ContributionsTable(props: CT) {
               <div>{r.category}</div>
               }
             </td>
+
+            {/* Gross Pay */}
             <td className={
               `${props.rowsErrors?.[`${r.id}`]?.['gross']?.['name'] === 'Gross' ? "error-cell" : ""}`}>
               {props.handleChange ?
@@ -77,20 +82,25 @@ function ContributionsTable(props: CT) {
               <div>{r.gross}</div>
               }
             </td>
-            {props.niData.map(r => Object.keys(r).map(k =>
-              <td key={`${k}-val`}>{numeral(r[k][0]).format('$0,0.00')}</td>
-            ))}
+
+            {/* Bands */}
+            {r.bands && Object.keys(r.bands).map(k =>
+              <td key={`${k}-val`}>{numeral(r.bands?.[k][0]).format('$0,0.00')}</td>
+            )}
+
             {/* Total */}
-            {props.niData.length > 0 && 
-            <td>
-              {numeral(
-                Object.keys(props.niData[i]).reduce((prev, key) => {
-                  return prev + props.niData[i][key][0]
-                }, 0)
-              ).format('$0,0.00')}
-            </td>
+            {r.bands && 
+              // Total (if calculate has run)
+              <td>
+                {numeral(
+                  (parseFloat(r.ee) + parseFloat(r.er)).toString()
+                ).format('$0,0.00')}
+              </td>
             }
+
+            {/* EE */}
             <td>{numeral(r.ee).format('$0,0.00')}</td>
+            {/* ER */}
             <td>{numeral(r.er).format('$0,0.00')}</td>
           </tr>
         ))}

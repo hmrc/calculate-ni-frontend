@@ -6,37 +6,26 @@ import { TaxYear } from './interfaces'
 
 export const momentDateFormat = 'MMMM Do YYYY'
 
-// export const fcn = (str: string) => {
-//   switch (str) {
-//     case 'A':
-//       return 'A - Regular'
-//       case 'B':
-//         return 'B - Married women and widows'
-//       case 'C':
-//         return 'C - Pension age'
-//       case 'J':
-//         return 'J - Deferred'
-//       case 'H':
-//         return 'H - Apprentice under 25'
-//       case 'M':
-//         return 'M - Under 21'
-//       case 'Z':
-//         return 'Z - Deferred and under 21'
-//       case 'X':
-//         return 'X - Exempt'
-//   }
-// }
-
-// export const categories = [
-//   'A',
-//   'B',
-//   'C',
-//   'J',
-//   'H',
-//   'M',
-//   'Z',
-//   'X'
-// ]
+export const fcn = (str: string) => {
+  switch (str) {
+    case 'A':
+      return 'A - Regular'
+      case 'B':
+        return 'B - Married women and widows'
+      case 'C':
+        return 'C - Pension age'
+      case 'J':
+        return 'J - Deferred'
+      case 'H':
+        return 'H - Apprentice under 25'
+      case 'M':
+        return 'M - Under 21'
+      case 'Z':
+        return 'Z - Deferred and under 21'
+      case 'X':
+        return 'X - Exempt'
+  }
+}
 
 export const periods = [
   'Wk',
@@ -455,3 +444,5 @@ export const calcNi = (c: Calculated[], arrPosition: number) => (
     }, 0)
   }, 0)
 )
+
+export const onlyUnique = (value: any, index: number, self: any[]) => self.indexOf(value) === index;

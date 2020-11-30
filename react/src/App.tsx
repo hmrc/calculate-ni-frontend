@@ -80,7 +80,7 @@ function App() {
 
   const [showSummary, setShowSummary] = useState<Boolean>(false)
 
-  const [niData, setNiData] = useState<Calculated[]>([])
+  // const [niData, setNiData] = useState<Calculated[]>([])
 
   // update NI Paid Employer after Ni Paid Net & Employee have updated
   useEffect(() => {
@@ -164,12 +164,12 @@ function App() {
         })
 
       // TODO: Avoid two calls to calculate (may be superceeded by rows.bands)
-      r.map(r => {
-        setNiData(prevData => [
-          ...prevData, 
-          JSON.parse(c.calculate(ty, parseInt(r.gross), r.category, r.period, 1, false))
-        ])
-      })
+      // r.map(r => {
+      //   setNiData(prevData => [
+      //     ...prevData, 
+      //     JSON.parse(c.calculate(ty, parseInt(r.gross), r.category, r.period, 1, false))
+      //   ])
+      // })
 
       // Employee Contributions
       const employee = calcNi(calculations, 1)
@@ -208,7 +208,7 @@ function App() {
             taxYear={taxYear}
             rows={rows}
             periods={periods}
-            niData={niData}
+            // niData={niData}
 
             grossTotal={grossTotal}
             niPaidNet={niPaidNet}
@@ -262,7 +262,7 @@ function App() {
                 taxYear={taxYear}
                 setTaxYear={setTaxYear}
                 setShowSummary={setShowSummary}
-                niData={niData}
+                // niData={niData}
               />
             </div>
 
