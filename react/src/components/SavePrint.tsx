@@ -71,6 +71,7 @@ function SavePrint(props: SavePrintProps) {
           rows={props.rows}
           periods={props.periods}
           taxYear={props.taxYear}
+          showBands={true}
         />
         
         <div className="ni-due">

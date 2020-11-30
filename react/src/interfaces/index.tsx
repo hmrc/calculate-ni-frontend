@@ -57,6 +57,7 @@ export interface CT {
   // niData: Calculated[]
   handleChange?: (r: Row, e: React.ChangeEvent<HTMLInputElement>) => void
   handleSelectChange?: (r: Row, e: React.ChangeEvent<HTMLSelectElement>) => void
+  showBands: boolean
 }
 
 

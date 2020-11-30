@@ -103,6 +103,7 @@ function Table(props: TableProps) {
         taxYear={props.taxYear}
         handleChange={handleChange}
         handleSelectChange={handleSelectChange}
+        showBands={false}
         // niData={props.niData}
       />
       

@@ -15,21 +15,21 @@ function ContributionsTable(props: CT) {
       <thead>
         <tr className="clear">
           <th className="lg" colSpan={3}><span>Contribution payment details</span></th>
-          {props.rows[0].bands &&
+          {props.showBands && props.rows[0].bands &&
             <th className="border" colSpan={Object.keys(props.rows[0].bands).length}><span>Earnings</span></th>
           }
-          <th className="border" colSpan={props.rows[0].bands ? 3 : 2}><span>Net contributions</span></th>
+          <th className="border" colSpan={props.showBands && props.rows[0].bands ? 3 : 2}><span>Net contributions</span></th>
         </tr>
         <tr>
           <th>Period</th>
           <th>Category</th>
           <th>Gross Pay</th>
           {/* Bands - by tax year, so we can just take the first band to map the rows */}
-          {props.rows[0].bands && Object.keys(props.rows[0].bands).map(k =>
+          {props.showBands && props.rows[0].bands && Object.keys(props.rows[0].bands).map(k =>
             <th key={k}>{k}</th>
           )}
 
-          {props.rows[0].bands &&
+          {props.showBands && props.rows[0].bands &&
             <th>Total</th>
           }
           <th>EE</th>
@@ -84,12 +84,12 @@ function ContributionsTable(props: CT) {
             </td>
 
             {/* Bands */}
-            {r.bands && Object.keys(r.bands).map(k =>
+            {props.showBands && r.bands && Object.keys(r.bands).map(k =>
               <td key={`${k}-val`}>{numeral(r.bands?.[k][0]).format('$0,0.00')}</td>
             )}
 
             {/* Total */}
-            {r.bands && 
+            {props.showBands && r.bands && 
               // Total (if calculate has run)
               <td>
                 {numeral(
