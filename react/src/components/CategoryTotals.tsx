@@ -13,6 +13,12 @@ function CategoryTotals(props: CategoryTotalsProps) {
     <div className="category-totals">
       <table>
         <thead>
+          <tr className="clear">
+            {props.rows[0].bands &&
+              <th className="border" colSpan={Object.keys(props.rows[0].bands).length + 2}>&nbsp;</th>
+            }
+            <th className="border" colSpan={3}><span>Net contributions</span></th>
+          </tr>
           <tr>
             <th>Category</th>
             <th>Gross Pay</th>
@@ -97,7 +103,8 @@ function CategoryTotals(props: CategoryTotalsProps) {
             </td>
             {/* Bands (by tax year), so we can just take the first band to map the rows */}
             {props.rows[0].bands && Object.keys(props.rows[0].bands).map(k =>
-              <td key={`${k}-band-total`}>{k} ???</td>
+              // <td key={`${k}-band-total`}>{k} ???</td>
+              <td key={`${k}-band-total`}>&ndash;</td>
             )}
 
             {/* All total conts */}

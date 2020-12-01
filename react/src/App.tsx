@@ -11,7 +11,7 @@ import {
   taxYearsCategories } from './config'
 
 // types
-import { S, Row, ErrorSummaryProps, TaxYear, Calculated } from './interfaces'
+import { S, Row, ErrorSummaryProps, TaxYear } from './interfaces'
 
 // css
 import './styles/gov-polyfill.css';
@@ -126,7 +126,7 @@ function App() {
 
   }
 
-  const runCalcs = (r: Row[], t: Number, ty: Date) => {
+  const runCalcs = (r: Row[], ty: Date) => {
 
     if (isValid()) {
       const c = new ClassOne(JSON.stringify(configuration));

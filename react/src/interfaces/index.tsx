@@ -37,7 +37,7 @@ export interface TaxYear {
 export interface TableProps {
   rows: Row[]
   setRows: (r: Row[]) => void
-  runCalcs: (r: Row[], t: Number, ty: Date) => void
+  runCalcs: (r: Row[], ty: Date) => void
   errors: object
   rowsErrors: ErrorSummaryProps['rowsErrors']
   resetTotals: () => void

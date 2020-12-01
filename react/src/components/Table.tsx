@@ -18,8 +18,7 @@ numeral.locale('en-gb');
 
 function Table(props: TableProps) {
 
-  const [taxYears, setTaxYears] = useState<TaxYear[]>(taxYearsCategories)
-  const [grossTotal, setGrossTotal] = useState<Number>(0)
+  const [taxYears] = useState<TaxYear[]>(taxYearsCategories)
   const [activeRowID, setActiveRowID] = useState<string | null>(null)
 
   const handleSetActiveRow = (r: Row) => {
@@ -104,7 +103,6 @@ function Table(props: TableProps) {
         handleChange={handleChange}
         handleSelectChange={handleSelectChange}
         showBands={false}
-        // niData={props.niData}
       />
       
       <div className="container">
@@ -136,7 +134,7 @@ function Table(props: TableProps) {
 
         <div className="container">
           <div className="form-group subsection">
-            <button className="button nomar" onClick={() => props.runCalcs(props.rows, grossTotal, props.taxYear.from)}>
+            <button className="button nomar" onClick={() => props.runCalcs(props.rows, props.taxYear.from)}>
               Calculate
             </button>
           </div>

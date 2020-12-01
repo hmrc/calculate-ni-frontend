@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { onlyUnique } from '../config'
 
 // components
@@ -13,7 +13,6 @@ import { SavePrintProps } from '../interfaces'
 import ContributionsTable from './ContributionsTable'
 
 function SavePrint(props: SavePrintProps) {
-  const [uniqueCategories, setUniqueCategories] = useState<string[]>([])
 
   const getUniqueCategories = () => {
     return props.rows
