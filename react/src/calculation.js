@@ -1,3 +1,4 @@
+/* eslint-disable */
 export let ClassOne;
 (function(){
 'use strict';

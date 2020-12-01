@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { fpn, taxYearString } from '../config';
+import { taxYearString } from '../config';
 import uniqid from 'uniqid';
-import moment from 'moment';
 import { taxYearsCategories } from '../config'
 import isEmpty from 'lodash/isEmpty'
 
@@ -10,7 +9,7 @@ import 'numeral/locales/en-gb';
 
 
 import ErrorSummary from './helpers/ErrorSummary'
-import { momentDateFormat } from '../config'
+import ContributionsTable from './ContributionsTable'
 
 // types
 import { Row, TableProps, TaxYear } from '../interfaces';
@@ -19,9 +18,7 @@ numeral.locale('en-gb');
 
 function Table(props: TableProps) {
 
-  // const [taxYear, setTaxYear] = useState<TaxYear>(taxYearsCategories[0])
-  const [taxYears, setTaxYears] = useState<TaxYear[]>(taxYearsCategories)
-  const [grossTotal, setGrossTotal] = useState<Number>(0)
+  const [taxYears] = useState<TaxYear[]>(taxYearsCategories)
   const [activeRowID, setActiveRowID] = useState<string | null>(null)
 
   const handleSetActiveRow = (r: Row) => {
@@ -81,86 +78,32 @@ function Table(props: TableProps) {
         </div>
 
         <div className="form-group half">
-          <button type="button" className="button govuk-button govuk-button--secondary nomar">
+          <button 
+            type="button" 
+            className="button govuk-button govuk-button--secondary nomar"
+            onClick={() => props.setShowSummary(true)}>
             Save and print
           </button>
         </div>
       </div>
 
-      {!isEmpty(props.errors) &&
+      {!isEmpty(props.errors) || !isEmpty(props.rowsErrors) &&
         <ErrorSummary
           errors={props.errors}
           rowsErrors={props.rowsErrors}
         />
       }
 
-      <table className="contribution-details">
-        <thead>
-          <tr className="clear">
-            <th className="lg" colSpan={4}><span>Contribution payment details</span></th>
-            {/* <th className="border" colSpan={3}><span>Earnings</span></th> */}
-            <th className="border" colSpan={2}><span>Net contributions</span></th>
-          </tr>
-          <tr>
-            <th>Period</th>
-            <th>Category</th>
-            <th>Gross Pay</th>
-            {/* <th>LEL</th>
-            <th>ET</th>
-            <th>UEL</th>
-            <th>Total</th> */}
-            <th>EE</th>
-            <th>ER</th>
-            {/* <th>Rebate</th> */}
-          </tr>
-        </thead>
-        
-        <tbody>
-          {props.rows.map(r => (
-            <tr className={activeRowID === r.id ? "active" : ""} key={r.id} id={r.id}>
-              <td>
-                <select name="period" value={r.period} onChange={(e) => handleSelectChange(r, e)}>
-                  {props.periods.map((p, i) => (
-                    <option key={i} value={p}>{fpn(p)}</option>
-                  ))}
-                </select>
-              </td>
-              <td>
-                <select name="category" value={r.category} onChange={(e) => handleSelectChange(r, e)}>
-                  {props.taxYear.categories.map((c, i) => (
-                    <option key={i} value={c}>{c}</option>
-                  ))}
-                </select>
-              </td>
-              <td className={`${props.rowsErrors[`${r.id}`] && props.rowsErrors[`${r.id}`]['gross'] && props.rowsErrors[`${r.id}`]['gross']['name'] && props.rowsErrors[`${r.id}`]['gross']['name'] == 'Gross' ? "error-cell" : ""}`}>
-                <input
-                  className="gross-pay"
-                  name={`${r.id}-gross`}
-                  type="text"
-                  id={`${r.id}-gross`}
-                  value={r.gross}
-                  onChange={(e) => handleChange(r, e)}
-                />
-              </td>
-              <td>{numeral(r.ee).format('$0,0.00')}</td>
-              <td>{numeral(r.er).format('$0,0.00')}</td>
-              {/* <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td> */}
-            </tr>
-          ))}
-          {/* <td>
-            <button 
-              type="button"
-              onClick={() => handleDelete(r)}
-              className="button govuk-button govuk-button--warning">
-                Delete
-            </button>
-          </td> */}
-        </tbody>
-      </table>
+      <ContributionsTable 
+        rows={props.rows} 
+        rowsErrors={props.rowsErrors}
+        activeRowID={activeRowID}
+        periods={props.periods}
+        taxYear={props.taxYear}
+        handleChange={handleChange}
+        handleSelectChange={handleSelectChange}
+        showBands={false}
+      />
       
       <div className="container">
         <div className="container">
@@ -191,7 +134,7 @@ function Table(props: TableProps) {
 
         <div className="container">
           <div className="form-group subsection">
-            <button className="button" onClick={() => props.runCalcs(props.rows, grossTotal, props.taxYear.from)}>
+            <button className="button nomar" onClick={() => props.runCalcs(props.rows, props.taxYear.from)}>
               Calculate
             </button>
           </div>
