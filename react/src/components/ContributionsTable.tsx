@@ -43,7 +43,7 @@ function ContributionsTable(props: CT) {
             {/* Period */}
             <td>
               {props.handleSelectChange ?
-                <select name="period" value={r.period} onChange={(e) => props.handleSelectChange?.(r, e)}>
+                <select name="period" value={r.period} onChange={(e) => props.handleSelectChange?.(r, e)} className="borderless">
                   {props.periods.map((p, i) => (
                     <option key={i} value={p}>{fpn(p)}</option>
                   ))}
@@ -56,7 +56,7 @@ function ContributionsTable(props: CT) {
             {/* Category */}
             <td>
               {props.handleSelectChange ?
-                <select name="category" value={r.category} onChange={(e) => props.handleSelectChange?.(r, e)}>
+                <select name="category" value={r.category} onChange={(e) => props.handleSelectChange?.(r, e)} className="borderless">
                   {props.taxYear.categories.map((c, i) => (
                     <option key={i} value={c}>{fcn(c)}</option>
                   ))}

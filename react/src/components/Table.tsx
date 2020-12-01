@@ -67,14 +67,15 @@ function Table(props: TableProps) {
     <div>
       <div className="container">
         <div className="form-group half">
-          <label className="form-label">Tax year:</label>
-          <div className="select tax-year">
-            <select value={props.taxYear.id} onChange={(e) => handleTaxYearChange(e)}>
-                {taxYears.map((y, i) => (
-                  <option key={i} value={y.id}>{taxYearString(y)}</option>
-                ))}
-            </select>
-          </div>
+          <label className="govuk-label" htmlFor="taxYear">
+            Sort by
+          </label>
+          <select value={props.taxYear.id} onChange={(e) => handleTaxYearChange(e)} id="taxYear" name="taxYear" className="govuk-select">
+            {taxYears.map((y, i) => (
+              <option key={i} value={y.id}>{taxYearString(y)}</option>
+            ))}
+          </select>
+
         </div>
 
         <div className="form-group half">

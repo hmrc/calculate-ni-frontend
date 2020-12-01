@@ -81,7 +81,52 @@ fieldset legend {
   font-size: 18px;
 }
 
-select {
+.govuk-select {
+  font-family: "GDS Transport",arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  max-width: 100%;
+  height: 40px;
+  height: 2.5rem;
+  padding: 5px;
+  border: 2px solid #0b0c0c;
+}
+
+@media (min-width: 40.0625em) {
+  .govuk-select {
+      font-size: 19px;
+  }
+}
+
+.govuk-select:focus {
+  outline: 3px solid #fd0;
+  outline-offset: 0;
+  -webkit-box-shadow: inset 0 0 0 2px;
+  box-shadow: inset 0 0 0 2px;
+}
+
+.govuk-label {
+  font-family: "GDS Transport",arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  color: #0b0c0c;
+  display: block;
+  margin-bottom: 5px;
+}
+
+@media (min-width: 40.0625em) {
+  .govuk-label {
+    font-size: 19px;
+  }
+}
+
+select.borderless {
   /* A reset of styles, including removing the default dropdown arrow */
   appearance: none;
   /* Additional resets for further consistency */
