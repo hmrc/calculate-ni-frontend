@@ -38,6 +38,9 @@ class ClassOne(json: String) extends js.Object {
     config.classOne(interval).values.exists(_.contractedOutStandardRate.isDefined)
   }
 
+  def getTaxYears: Iterable[String] = 
+    config.classOne.keys.map(_.toString)
+
   def getApplicableCategories(on: Date): String = {
     val interval = config.classOne.keys.find(_.contains(on)).getOrElse(
       throw new NoSuchElementException(s"Cannot find an interval for $on")
