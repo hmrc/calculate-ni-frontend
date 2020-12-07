@@ -312,3 +312,8 @@ table.contribution-details td:not(.input) {
     padding-left: 10px;
   }
 }
+
+#save-print-wrapper th {
+  height: 30px;
+  line-height: 30px;
+}
