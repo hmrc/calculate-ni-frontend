@@ -1,4 +1,10 @@
 /* Headings */
+h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
 .details-heading {
   font-size: 22px;
   font-weight: normal;
@@ -64,7 +70,7 @@
 }
 
 /* Icon */
-.icon.arrow-down, .icon.arrow-up {
+.icon.arrow-down, .icon.arrow-up, .icon.arrow-right {
   padding-left: 20px;
   position: relative;
 }
@@ -105,7 +111,22 @@
   left: 0%;
   z-index: 100;
 	border-bottom: 7px solid var(--link);
-	/* border-top: 7px solid transparent; */
 	border-left: 7px solid transparent;
 	border-right: 7px solid transparent;
+}
+
+.icon.arrow-right:before {
+	content: "";
+  width:0px;
+  height:0px;
+  position:absolute;
+  top: calc(50% - 1px);
+  transform: translateY(-50%);
+  left: 8px;
+  z-index: 100;
+  
+  border-top: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-bottom: 7px solid transparent;
+	border-left: 7px solid var(--link);
 }

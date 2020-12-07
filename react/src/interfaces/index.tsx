@@ -1,4 +1,8 @@
 // App
+export interface HeaderProps {
+  serviceName: string
+}
+
 export interface S {
   fullName: string
   ni: string

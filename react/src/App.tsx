@@ -27,6 +27,7 @@ import './styles/SavePrint.css';
 // img
 import logo from '../src/assets/HMRC-logo-black-trans.png';
 
+import Header from './components/Header'
 import Details from './components/Details'
 import Table from './components/Table'
 import Totals from './components/Totals'
@@ -47,7 +48,7 @@ function App() {
     ...action,
   })
 
-  const serviceName = "Class 1 NI Assessment"
+  const serviceName = "Calculate National Insurance contributions"
 
   const [periods] = useState<Array<string>>(p)
   
@@ -193,111 +194,35 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <div className="main">
+    <>
+      <Header serviceName={serviceName} />
+      <div className="App">
+        <div className="main">
 
-        {/* <header>
-          <img src={logo} className="App-logo" alt="logo" />
-        </header> */}
+          <main id="main-content" role="main">
 
-        <header role="banner">
-          <div className="hmrc-internal-header app-header">
-            <div className="govuk-width-container">
-              <div className="hmrc-logo app-header__title">
-                <a href="#" className="hmrc-logo__link">
-                  HM Revenue &amp; Customs
-                </a>
-              </div>
-
-              <div className="hmrc-internal-service-name app-header__link">
-                <a href="/" className="hmrc-internal-service-name__link">
-                {serviceName}
-              </a></div>
-            </div>
-          </div>
-        </header>
-
-        <main>
-
-        {(!isEmpty(errors) || !isEmpty(rowsErrors)) &&
-          <ErrorSummary
-            errors={errors}
-            rowsErrors={rowsErrors}
-          />
-        }
-
-          {showSummary ?
-            <SavePrint
-              setShowSummary={setShowSummary}
-              details={state}
-              taxYearString={taxYearString(taxYear)}
-              taxYear={taxYear}
-              rows={rows}
-              periods={periods}
-
-              grossTotal={grossTotal}
-              niPaidNet={niPaidNet}
-              setNiPaidNet={setNiPaidNet}
-              niPaidEmployee={niPaidEmployee}
-              setNiPaidEmployee={setNiPaidEmployee}
-              niPaidEmployer={niPaidEmployer}
-              netContributionsTotal={netContributionsTotal}
-              employeeContributionsTotal={employeeContributionsTotal}
-              employerContributionsTotal={employerContributionsTotal}
-              underpaymentNet={underpaymentNet}
-              overpaymentNet={overpaymentNet}
-              underpaymentEmployee={underpaymentEmployee}
-              overpaymentEmployee={overpaymentEmployee}
-              underpaymentEmployer={underpaymentEmployer}
-              overpaymentEmployer={overpaymentEmployer}
+          {(!isEmpty(errors) || !isEmpty(rowsErrors)) &&
+            <ErrorSummary
+              errors={errors}
+              rowsErrors={rowsErrors}
             />
-          :
-            <form onSubmit={handleSubmit} noValidate>
-              
-              <div className="clear">
-                <h2 className="govuk-heading-m details-heading">Details</h2>
-                <button 
-                  type="button" 
-                  className={`toggle icon ${showDetails ? 'arrow-up' : 'arrow-down'}`}
-                  onClick={() => setShowDetails(!showDetails)}>
-                    {showDetails ? 'Close details' : 'Open details'}
-                </button>
-              </div>
+          }
 
-              {showDetails ? 
-                <Details
-                  fullName={state.fullName}
-                  ni={state.ni}
-                  reference={state.reference}
-                  preparedBy={state.preparedBy}
-                  date={state.date}
-                  handleChange={handleChange}
-                /> : null
-              }
+            {showSummary ?
+              <SavePrint
+                setShowSummary={setShowSummary}
+                details={state}
+                taxYearString={taxYearString(taxYear)}
+                taxYear={taxYear}
+                rows={rows}
+                periods={periods}
 
-              <div className="form-group table-wrapper">
-                <Table 
-                  runCalcs={runCalcs}
-                  errors={errors}
-                  rowsErrors={rowsErrors}
-                  resetTotals={resetTotals}
-                  rows={rows}
-                  setRows={setRows}
-                  periods={periods}
-                  taxYear={taxYear}
-                  setTaxYear={setTaxYear}
-                  setShowSummary={setShowSummary}
-                />
-              </div>
-
-              <Totals 
                 grossTotal={grossTotal}
                 niPaidNet={niPaidNet}
                 setNiPaidNet={setNiPaidNet}
                 niPaidEmployee={niPaidEmployee}
                 setNiPaidEmployee={setNiPaidEmployee}
                 niPaidEmployer={niPaidEmployer}
-                errors={errors}
                 netContributionsTotal={netContributionsTotal}
                 employeeContributionsTotal={employeeContributionsTotal}
                 employerContributionsTotal={employerContributionsTotal}
@@ -307,17 +232,77 @@ function App() {
                 overpaymentEmployee={overpaymentEmployee}
                 underpaymentEmployer={underpaymentEmployer}
                 overpaymentEmployer={overpaymentEmployer}
-                isSaveAndPrint={false}
               />
+            :
+              <>
+                <h1>Class 1 NI Assessment</h1>
+                <form onSubmit={handleSubmit} noValidate>
+                  
+                  <div className="clear">
+                    <h2 className="govuk-heading-m details-heading">Details</h2>
+                    <button 
+                      type="button" 
+                      className={`toggle icon ${showDetails ? 'arrow-up' : 'arrow-right'}`}
+                      onClick={() => setShowDetails(!showDetails)}>
+                        {showDetails ? 'Close details' : 'Open details'}
+                    </button>
+                  </div>
 
-            </form>
+                  {showDetails ? 
+                    <Details
+                      fullName={state.fullName}
+                      ni={state.ni}
+                      reference={state.reference}
+                      preparedBy={state.preparedBy}
+                      date={state.date}
+                      handleChange={handleChange}
+                    /> : null
+                  }
 
-          }
+                  <div className="form-group table-wrapper">
+                    <Table 
+                      runCalcs={runCalcs}
+                      errors={errors}
+                      rowsErrors={rowsErrors}
+                      resetTotals={resetTotals}
+                      rows={rows}
+                      setRows={setRows}
+                      periods={periods}
+                      taxYear={taxYear}
+                      setTaxYear={setTaxYear}
+                      setShowSummary={setShowSummary}
+                    />
+                  </div>
 
-        </main>
-      
+                  <Totals 
+                    grossTotal={grossTotal}
+                    niPaidNet={niPaidNet}
+                    setNiPaidNet={setNiPaidNet}
+                    niPaidEmployee={niPaidEmployee}
+                    setNiPaidEmployee={setNiPaidEmployee}
+                    niPaidEmployer={niPaidEmployer}
+                    errors={errors}
+                    netContributionsTotal={netContributionsTotal}
+                    employeeContributionsTotal={employeeContributionsTotal}
+                    employerContributionsTotal={employerContributionsTotal}
+                    underpaymentNet={underpaymentNet}
+                    overpaymentNet={overpaymentNet}
+                    underpaymentEmployee={underpaymentEmployee}
+                    overpaymentEmployee={overpaymentEmployee}
+                    underpaymentEmployer={underpaymentEmployer}
+                    overpaymentEmployer={overpaymentEmployer}
+                    isSaveAndPrint={false}
+                  />
+
+                </form>
+              </>
+            }
+
+          </main>
+        
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
