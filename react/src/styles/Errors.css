@@ -1,8 +1,14 @@
 .govuk-error-summary {
-  margin-bottom: 0;
+  margin-bottom: 30px;
   padding: 20px;
   color: #0b0c0c;
-  border: 5px solid #d4351c;
+  border: 5px solid var(--error);
+}
+
+@media (min-width: 760px) {
+  .govuk-error-summary {
+      margin-bottom: 50px;
+  }
 }
 
 .govuk-error-summary__title {
@@ -23,6 +29,23 @@
   margin-bottom: 0;
 }
 
+.govuk-error-summary__list a:link, 
+.govuk-error-summary__list a:visited, 
+.govuk-error-summary__list a:hover, 
+.govuk-error-summary__list a:active {
+  color: var(--error);
+  font-weight: 700;
+}
+
+.govuk-error-summary__list a:focus {
+  outline: 3px solid transparent;
+  color: #0b0c0c;
+  background-color: var(--focus-outline);
+  -webkit-box-shadow: 0 -2px var(--focus-outline), 0 4px #0b0c0c;
+  box-shadow: 0 -2px var(--focus-outline), 0 4px #0b0c0c;
+  text-decoration: none;
+}
+
 .govuk-list {
   font-size: 19px;
   line-height: 1.31579;
@@ -34,17 +57,12 @@
   margin-bottom: 5px;
 }
 
-.govuk-error-summary__list a:link, .govuk-error-summary__list a:visited, .govuk-error-summary__list a:hover, .govuk-error-summary__list a:active {
-  color: #d4351c;
-  font-weight: 700;
+td.error-cell input {
+  outline: 2px solid var(--error);
+  outline-offset: -2px;
 }
 
-td.error-cell,
-tr.active td.error-cell {
-  background-color: #D4351C;
-}
-
-td.error-cell input,
-.table-wrapper tbody tr.active td.error-cell input {
-  background-color: #D4351C;
+td.error-cell input:focus {
+  outline: 3px solid var(--focus-outline);
+  outline-offset: -3px;
 }

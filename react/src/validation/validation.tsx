@@ -34,7 +34,7 @@ const validateInput = (data: Data) => {
   let errors: Errors = {}
   let rowsErrors: RowsErrors = {}
 
-  data.rows.map(r => {
+  data.rows.forEach(r => {
     
     // Row Gross
     if (Validator.isEmpty(r.gross)) {
@@ -56,7 +56,7 @@ const validateInput = (data: Data) => {
 
   // NI Net
   if (Validator.isEmpty(data.niPaidNet)) {
-    errors.niPaidNet = 'NI paid cannot be empty'
+    errors.niPaidNet = 'Enter the National insurance (NI) paid for the net contributions'
   }
   
   if (!Validator.isEmpty(data.niPaidNet) && !Validator.isNumeric(data.niPaidNet)) {
@@ -65,7 +65,7 @@ const validateInput = (data: Data) => {
   
   // NI Employee
   if (Validator.isEmpty(data.niPaidEmployee)) {
-    errors.niPaidEmployee = 'NI paid cannot be empty'
+    errors.niPaidEmployee = 'Enter the National insurance (NI) paid for the employee contributions'
   }
   
   if (!Validator.isEmpty(data.niPaidEmployee) && !Validator.isNumeric(data.niPaidEmployee)) {

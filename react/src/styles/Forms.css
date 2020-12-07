@@ -9,7 +9,60 @@
   color: #d4351c;
 }
 
-.govuk-input--error,
-.spaced-table td.input-cell .govuk-input--error {
+.govuk-input:focus {
+  outline: 3px solid #fd0;
+  outline-offset: 0;
+  -webkit-box-shadow: inset 0 0 0 2px;
+  box-shadow: inset 0 0 0 2px;
+}
+
+.govuk-input--error, .spaced-table td.input-cell .govuk-input--error  
+{
   border: 2px solid #d4351c;
+}
+
+.spaced-table td.input-cell .govuk-input--error:focus,
+.govuk-input--error:focus {
+  border-color: #0b0c0c;
+}
+
+select.borderless {
+  /* A reset of styles, including removing the default dropdown arrow */
+  /* appearance: none; */
+  /* Additional resets for further consistency */
+  background-color: transparent;
+  border: none;
+  padding: 0 1em 0 0;
+  margin: 0;
+  /* width: 100%; */
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  outline: none;
+}
+
+.borderless {
+  margin-right: 6px;
+  width: 100%;
+}
+.borderless:focus {
+  outline: 3px solid #fd0;
+  outline-offset: -3px;
+  -webkit-box-shadow: inset 0 0 0 5px;
+  box-shadow: inset 0 0 0 5px;
+  width: 100%;
+}
+
+/* Calc Specific */
+table.contribution-details input, table.contribution-details select {
+  height: 100%;
+  padding: 0 10px;
+}
+table.contribution-details input {
+  width: calc(100% - 20px);
+}
+
+.legend-small {
+  font-size: 18px;
 }

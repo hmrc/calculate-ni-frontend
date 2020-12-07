@@ -31,7 +31,7 @@ function Totals (props: TotalsProps) {
               <td className={`${props.isSaveAndPrint ? '' : 'readonly'}`}><span>{numeral(props.employerContributionsTotal).format('$0,0.00')}</span></td>
             </tr>
             <tr>
-              <th className="right error-line-label"><span>NI Paid</span></th>
+              <th className="right error-line-label"><span>NI paid</span></th>
               {props.isSaveAndPrint ? 
                 <td>
                   {numeral(props.niPaidNet).format('$0,0.00')}
@@ -39,7 +39,8 @@ function Totals (props: TotalsProps) {
               :
                 <td className="input-cell">
                   <div className={`form-group ${props.errors?.niPaidNet ? "form-group-error" : ""}`}>
-                    {props.errors?.niPaidNet && <span className='govuk-error-message'>{props.errors.niPaidNet}</span>}
+                    <label className="govuk-visually-hidden" htmlFor="niPaidNet">NI paid net contributions</label>
+                    {props.errors?.niPaidNet && <span className='govuk-error-message' id="niPaidNet-error">{props.errors.niPaidNet}</span>}
                     <input 
                       type="text" 
                       inputMode="decimal"
@@ -48,6 +49,7 @@ function Totals (props: TotalsProps) {
                       className={`govuk-input ${props.errors?.niPaidNet ? "govuk-input--error" : ""}`} 
                       value={props.niPaidNet}
                       onChange={(e) => props.setNiPaidNet(e.target.value)}
+                      aria-describedby={`${props.errors?.niPaidNet ? 'niPaidNet-error' : ''}`}
                     />
                   </div>
                 </td>
@@ -59,15 +61,17 @@ function Totals (props: TotalsProps) {
               :
                 <td className="input-cell">
                   <div className={`form-group ${props.errors?.niPaidEmployee ? "form-group-error" : ""}`}>
-                    {props.errors?.niPaidEmployee && <span className='govuk-error-message'>{props.errors?.niPaidEmployee}</span>}
+                    <label className="govuk-visually-hidden" htmlFor="niPaidEmployee">NI paid employee contributions</label>
+                    {props.errors?.niPaidEmployee && <span className='govuk-error-message' id="niPaidEmployee-error">{props.errors?.niPaidEmployee}</span>}
                     <input 
                       type="text" 
                       inputMode="decimal"
-                      name="NiPaidEmployee"
-                      id="NiPaidEmployee"
+                      name="niPaidEmployee"
+                      id="niPaidEmployee"
                       className={`govuk-input ${props.errors?.niPaidEmployee ? "govuk-input--error" : ""}`} 
                       value={props.niPaidEmployee}
                       onChange={(e) => props.setNiPaidEmployee(e.target.value)}
+                      aria-describedby={`${props.errors?.niPaidEmployee ? 'niPaidEmployee-error' : ''}`}
                     />
                   </div>
                 </td>
