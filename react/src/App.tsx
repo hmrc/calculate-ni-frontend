@@ -204,13 +204,13 @@ function App() {
           <div className="hmrc-internal-header app-header">
             <div className="govuk-width-container">
               <div className="hmrc-logo app-header__title">
-                <a href="https://www.gov.uk/government/organisations/hm-revenue-customs" title="Go to the HMRC homepage" className="hmrc-logo__link">
+                <a href="#" className="hmrc-logo__link">
                   HM Revenue &amp; Customs
                 </a>
               </div>
 
               <div className="hmrc-internal-service-name app-header__link">
-                <a href="/" title="Go to the HMRC Design Library homepage" className="hmrc-internal-service-name__link">
+                <a href="/" className="hmrc-internal-service-name__link">
                 {serviceName}
               </a></div>
             </div>
