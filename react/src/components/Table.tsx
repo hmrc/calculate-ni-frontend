@@ -98,23 +98,23 @@ function Table(props: TableProps) {
       
       <div className="container">
         <div className="container">
-          <div className="form-group subsection">
-            <button className="button nomar" onClick={() => props.runCalcs(props.rows, props.taxYear.from)}>
+          <div className="form-group">
+            <button className="govuk-button nomar" onClick={() => props.runCalcs(props.rows, props.taxYear.from)}>
               Calculate
             </button>
           </div>
         </div>
 
         <div className="container">
-          <div className="form-group subsection">        
+          <div className="form-group repeat-button">        
             <button 
-              className="button govuk-button govuk-button--secondary" 
+              className="button govuk-button govuk-button--secondary nomar" 
               onClick={() => handleClick()}>
               Repeat row
             </button>
           </div>
 
-          <div className="form-group subsection">
+          <div className="form-group">
             <button className="button govuk-button govuk-button--secondary nomar" onClick={() => {
               props.setRows([{
                 id: uniqid(),

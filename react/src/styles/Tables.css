@@ -18,6 +18,10 @@ tr.active td {
   font-size: 16px;
 }
 
+table.contribution-details {
+  margin-bottom: 15px;
+}
+
 table.contribution-details .gross-pay, table.contribution-details .period-qty {
   border: none;
 }
@@ -38,16 +42,31 @@ table.contribution-details td:has(input:focus) {
   background: green !important;
 }
 
-.table-wrapper thead th, .table-wrapper tbody td.input {
-  /* padding: 10px; */
-  height: 40px;
-  padding: 0;
+.table-wrapper tbody td {
+  line-height: 40px;
 }
 
-.table-wrapper thead th, .table-wrapper tbody td {
-  /* padding: 10px; */
+@media screen and (min-width: 760px) {
+  .table-wrapper tbody td {
+    line-height: 21px;
+  }
+}
+
+.table-wrapper thead th, .table-wrapper tbody td, .table-wrapper tbody td.input {
   height: 40px;
-  padding: 0 10px;
+}
+
+@media screen and (min-width: 760px) {
+  .table-wrapper thead th, .table-wrapper tbody td.input {
+    padding: 0;
+  }
+}
+
+@media screen and (min-width: 760px) {
+  .table-wrapper thead th, .table-wrapper tbody td {
+    height: 40px;
+    padding: 0 10px;
+  }
 }
 
 .table-wrapper thead th {
@@ -100,8 +119,11 @@ table.contribution-details td:has(input:focus) {
   background: var(--active-highlight-bg);
 }
 
-.spaced-table-wrapper {
-  margin: 0 -20px;
+
+@media screen and (min-width: 760px) {
+  .spaced-table-wrapper {
+    margin: 0 -20px;
+  }
 }
 
 .spaced-table {
@@ -109,17 +131,18 @@ table.contribution-details td:has(input:focus) {
   border-spacing: 20px;
 }
 
-.spaced-table td {
-  /* padding: 5px; */
-}
-
 .spaced-table th {
   padding: 0;
 }
 
 .spaced-table td.input-cell, .spaced-table td.readonly {
-  padding: 0;
   vertical-align: bottom;
+}
+
+@media screen and (min-width: 760px) {
+  .spaced-table td.input-cell, .spaced-table td.readonly {
+    padding: 0;
+  } 
 }
 
 .spaced-table td.input-cell .form-group {
@@ -189,4 +212,103 @@ table.summary tr.sections th {
   border-color: var(--border-divider);
   border-style: solid;
   border-width: 0 0 1px;
+}
+
+/* Responsive Tables */
+/* 
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	/* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	tr { border: 1px solid #ccc; }
+	
+	td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+	}
+	
+	td:before { 
+    /* Now like a table header */
+    color: #505a5f;
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+	
+	/*
+	  Cell labels
+	*/
+	.contribution-details td:nth-of-type(1):before { content: "Select period"; }
+	.contribution-details td:nth-of-type(2):before { content: "Select NI category letter"; }
+	.contribution-details td:nth-of-type(3):before { content: "	Enter gross pay"; }
+	.contribution-details td:nth-of-type(4):before { content: "Employee"; }
+  .contribution-details td:nth-of-type(5):before { content: "Employer"; }
+  
+  .totals-table td:nth-of-type(1):before { content: "Gross pay"; }
+  .totals-table td:nth-of-type(2):before { content: "Net contributions"; }
+  .totals-table td:nth-of-type(3):before { content: "Employee contributions"; }
+  .totals-table td:nth-of-type(4):before { content: "Employer contributions"; }
+  
+  .category-totals td:nth-of-type(1):before { content: "Category"; }
+  .category-totals td:nth-of-type(2):before { content: "Gross Pay"; }
+  .category-totals td:nth-of-type(3):before { content: "Total"; }
+  .category-totals td:nth-of-type(4):before { content: "Employee"; }
+  .category-totals td:nth-of-type(5):before { content: "Employer"; }
+
+
+  /* Totals */
+  /* - tbody th */
+  .totals-table tbody th.right {
+    height: 40px;
+    line-height: 40px;
+    text-align: left;
+    padding-left: 50%;
+  }
+
+  #save-print-wrapper table td {
+    height: 30px;
+    line-height: 30px;
+  }
+
+  /* Overwrite margins for standard contribution table on non .input cells */
+  #save-print-wrapper .contribution-details td {
+    padding-left: 50%;
+  }
+
+  #save-print-wrapper td:before {
+    top: 0;
+  }
+}
+
+/* Contribution Details */
+table.contribution-details td:not(.input) {
+  padding-left: calc(50% + 10px);
+}
+@media screen and (min-width: 760px) {
+  table.contribution-details td:not(.input) {
+    padding-left: 10px;
+  }
 }

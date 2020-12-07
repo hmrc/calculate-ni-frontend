@@ -201,13 +201,6 @@ function App() {
 
           <main id="main-content" role="main">
 
-          {(!isEmpty(errors) || !isEmpty(rowsErrors)) &&
-            <ErrorSummary
-              errors={errors}
-              rowsErrors={rowsErrors}
-            />
-          }
-
             {showSummary ?
               <SavePrint
                 setShowSummary={setShowSummary}
@@ -235,6 +228,14 @@ function App() {
               />
             :
               <>
+
+                {(!isEmpty(errors) || !isEmpty(rowsErrors)) &&
+                  <ErrorSummary
+                    errors={errors}
+                    rowsErrors={rowsErrors}
+                  />
+                }
+
                 <h1>Class 1 NI Assessment</h1>
                 <form onSubmit={handleSubmit} noValidate>
                   

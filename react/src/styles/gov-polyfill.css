@@ -83,139 +83,6 @@ input.form-control, input[type="text"], input[type="password"], textarea.form-co
 
 
 
-.button, 
-.button:visited, 
-.button.disabled:hover, 
-.button[disabled="disabled"]:hover, 
-.button[disabled]:hover, 
-.button.disabled:hover, 
-.button[disabled]:hover, 
-.button--small, .button--small:visited, .button--small.disabled:hover, 
-.button--small[disabled="disabled"]:hover, .button--small[disabled]:hover, 
-.toggle__button--active, .toggle__button--active:hover, 
-.toggle__button--active:focus, .button[disabled="disabled"] {
-  background-color: #00703c;
-}
-@media (min-width: 641px) {
-  .button {
-    font-size: 19px;
-    line-height: 1.31579;
-  }
-}
-.button {
-  text-transform: capitalize;
-  background-color: #00823b;
-  position: relative;
-  display: -moz-inline-stack;
-  display: inline-block;
-  padding: .526315em .789473em .263157em;
-  border: none;
-  border-radius: 0;
-  outline: 1px solid transparent;
-  outline-offset: -1px;
-  -webkit-appearance: none;
-  -webkit-box-shadow: 0 2px 0 #003618;
-  box-shadow: 0 2px 0 #003618;
-  font-size: 1em;
-  line-height: 1.25;
-  text-decoration: none;
-  -webkit-font-smoothing: antialiased;
-  cursor: pointer;
-  color: #fff;
-  font-family: "nta",Arial,sans-serif;
-  font-weight: 400;
-  text-transform: none;
-  font-size: 16px;
-  line-height: 1.25;
-  margin: 0 .78947em 0 0;
-}
-.button {
-  *overflow: visible;
-}
-
-.button:active, .button--small:active {
-  -webkit-box-shadow: 0 0 0 #00703c;
-  box-shadow: 0 0 0 #00703c;
-}
-input:focus, textarea:focus, select:focus, .button:focus {
-  outline-offset: 0;
-}
-/* button:link, button:link:focus, button:hover, button:focus, button:visited, .button:link, .button:link:focus, .button:hover, .button:focus, .button:visited {
-  color: #fff;
-} */
-.button:active {
-  top: 2px;
-  -webkit-box-shadow: 0 0 0 #00823b;
-  box-shadow: 0 0 0 #00823b;
-}
-
-.button:focus:not(:active):not(:hover) {
-  border-color: #fd0;
-  color: #0b0c0c;
-  background-color: #fd0;
-  -webkit-box-shadow: 0 2px 0 #0b0c0c;
-  box-shadow: 0 2px 0 #0b0c0c;
-}
-.button:focus {
-  border-color: #fd0;
-  outline: 3px solid transparent !important;
-  -webkit-box-shadow: inset 0 0 0 1px #fd0;
-  box-shadow: inset 0 0 0 1px #fd0;
-}
-.page-nav__link:focus, .js-enabled .add-focus, .modal-dialog__content:focus, .button:focus, details summary:focus, .error-summary:focus {
-  outline-color: #ffdd00;
-}
-.button:focus {
-  outline: 3px solid #ffbf47;
-}
-
-/* Secondary button */
-.govuk-button--secondary, .govuk-button--secondary:link, .govuk-button--secondary:visited, .govuk-button--secondary:active, .govuk-button--secondary:hover {
-  color: #0b0c0c;
-}
-.govuk-button--secondary {
-  background-color: #f3f2f1;
-  -webkit-box-shadow: 0 2px 0 #929191;
-  box-shadow: 0 2px 0 #929191;
-}
-.govuk-button--secondary:hover {
-  background-color: #dbdad9;
-}
-.govuk-button--secondary, .govuk-button--secondary:link, .govuk-button--secondary:visited, .govuk-button--secondary:active, .govuk-button--secondary:hover {
-  color: #0b0c0c;
-}
-.govuk-button:focus:not(:active):not(:hover) {
-  border-color: #fd0;
-  color: #0b0c0c;
-  background-color: #fd0;
-  -webkit-box-shadow: 0 2px 0 #0b0c0c;
-  box-shadow: 0 2px 0 #0b0c0c;
-}
-.govuk-button:focus {
-  border-color: #fd0;
-  outline: 3px solid transparent;
-  -webkit-box-shadow: inset 0 0 0 1px #fd0;
-  box-shadow: inset 0 0 0 1px #fd0;
-}
-
-/* Warning button */
-.govuk-button--warning, .govuk-button--warning:link, .govuk-button--warning:visited, .govuk-button--warning:active, .govuk-button--warning:hover {
-  color: #fff;
-}
-.govuk-button--warning {
-  background-color: #d4351c;
-  -webkit-box-shadow: 0 2px 0 #55150b;
-  box-shadow: 0 2px 0 #55150b;
-}
-.govuk-button--warning:hover {
-  background-color: #aa2a16;
-}
-
-
-
-
-
-
 
 /* TABLES */
 table {
@@ -244,7 +111,8 @@ table thead th {
     line-height: 1.31579;
   }
 }
-table th, table td {
+
+/* table th, table td {
   font-family: "nta", Arial, sans-serif;
   font-weight: 400;
   text-transform: none;
@@ -253,7 +121,7 @@ table th, table td {
   padding: 0.63158em 1.05263em 0.47368em 0;
   text-align: left;
   border-bottom: 1px solid #bfc1c3;
-}
+} */
 table .numeric {
   text-align: right;
 }
@@ -692,3 +560,175 @@ table thead th {
   white-space: inherit !important;
 }
 
+
+
+
+
+
+.button, 
+.button:visited, 
+.button.disabled:hover, 
+.button[disabled="disabled"]:hover, 
+.button[disabled]:hover, 
+.button.disabled:hover, 
+.button[disabled]:hover, 
+.button--small, .button--small:visited, .button--small.disabled:hover, 
+.button--small[disabled="disabled"]:hover, .button--small[disabled]:hover, 
+.toggle__button--active, .toggle__button--active:hover, 
+.toggle__button--active:focus, .button[disabled="disabled"] {
+  background-color: #00703c;
+}
+@media (min-width: 641px) {
+  .button {
+    font-size: 19px;
+    line-height: 1.31579;
+  }
+}
+.button {
+  text-transform: capitalize;
+  background-color: #00823b;
+  position: relative;
+  display: -moz-inline-stack;
+  display: inline-block;
+  padding: .526315em .789473em .263157em;
+  border: none;
+  border-radius: 0;
+  outline: 1px solid transparent;
+  outline-offset: -1px;
+  -webkit-appearance: none;
+  -webkit-box-shadow: 0 2px 0 #003618;
+  box-shadow: 0 2px 0 #003618;
+  font-size: 1em;
+  line-height: 1.25;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+  color: #fff;
+  font-family: "nta",Arial,sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 16px;
+  line-height: 1.25;
+  margin: 0 .78947em 0 0;
+}
+.button {
+  *overflow: visible;
+}
+
+.button:active, .button--small:active {
+  -webkit-box-shadow: 0 0 0 #00703c;
+  box-shadow: 0 0 0 #00703c;
+}
+input:focus, textarea:focus, select:focus, .button:focus {
+  outline-offset: 0;
+}
+/* button:link, button:link:focus, button:hover, button:focus, button:visited, .button:link, .button:link:focus, .button:hover, .button:focus, .button:visited {
+  color: #fff;
+} */
+.button:active {
+  top: 2px;
+  -webkit-box-shadow: 0 0 0 #00823b;
+  box-shadow: 0 0 0 #00823b;
+}
+
+.button:focus:not(:active):not(:hover) {
+  border-color: #fd0;
+  color: #0b0c0c;
+  background-color: #fd0;
+  -webkit-box-shadow: 0 2px 0 #0b0c0c;
+  box-shadow: 0 2px 0 #0b0c0c;
+}
+.button:focus {
+  border-color: #fd0;
+  outline: 3px solid transparent !important;
+  -webkit-box-shadow: inset 0 0 0 1px #fd0;
+  box-shadow: inset 0 0 0 1px #fd0;
+}
+.page-nav__link:focus, .js-enabled .add-focus, .modal-dialog__content:focus, .button:focus, details summary:focus, .error-summary:focus {
+  outline-color: #ffdd00;
+}
+.button:focus {
+  outline: 3px solid #ffbf47;
+}
+
+
+
+
+
+.govuk-button {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 22px;
+  padding: 8px 10px 7px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  color: #fff;
+  background-color: #00703c;
+  -webkit-box-shadow: 0 2px 0 #002d18;
+  box-shadow: 0 2px 0 #002d18;
+  text-align: center;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Secondary button */
+.govuk-button--secondary, .govuk-button--secondary:link, .govuk-button--secondary:visited, .govuk-button--secondary:active, .govuk-button--secondary:hover {
+  color: #0b0c0c;
+}
+.govuk-button--secondary {
+  background-color: #f3f2f1;
+  -webkit-box-shadow: 0 2px 0 #929191;
+  box-shadow: 0 2px 0 #929191;
+}
+.govuk-button--secondary:hover {
+  background-color: #dbdad9;
+}
+.govuk-button--secondary, .govuk-button--secondary:link, .govuk-button--secondary:visited, .govuk-button--secondary:active, .govuk-button--secondary:hover {
+  color: #0b0c0c;
+}
+.govuk-button:focus:not(:active):not(:hover) {
+  border-color: #fd0;
+  color: #0b0c0c;
+  background-color: #fd0;
+  -webkit-box-shadow: 0 2px 0 #0b0c0c;
+  box-shadow: 0 2px 0 #0b0c0c;
+}
+.govuk-button:focus {
+  border-color: #fd0;
+  outline: 3px solid transparent;
+  -webkit-box-shadow: inset 0 0 0 1px #fd0;
+  box-shadow: inset 0 0 0 1px #fd0;
+}
+
+/* Warning button */
+.govuk-button--warning, .govuk-button--warning:link, .govuk-button--warning:visited, .govuk-button--warning:active, .govuk-button--warning:hover {
+  color: #fff;
+}
+.govuk-button--warning {
+  background-color: #d4351c;
+  -webkit-box-shadow: 0 2px 0 #55150b;
+  box-shadow: 0 2px 0 #55150b;
+}
+.govuk-button--warning:hover {
+  background-color: #aa2a16;
+}
