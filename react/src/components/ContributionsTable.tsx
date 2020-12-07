@@ -21,19 +21,19 @@ function ContributionsTable(props: CT) {
           <th className="border" colSpan={props.showBands && props.rows[0].bands ? 3 : 2}><span>Net contributions</span></th>
         </tr>
         <tr>
-          <th>Period</th>
-          <th>Category</th>
-          <th>Gross Pay</th>
+          <th><strong>Select period</strong></th>
+          <th><strong>Select NI category letter</strong></th>
+          <th><strong>Enter gross pay</strong></th>
           {/* Bands - by tax year, so we can just take the first band to map the rows */}
           {props.showBands && props.rows[0].bands && Object.keys(props.rows[0].bands).map(k =>
             <th key={k}>{k}</th>
           )}
 
           {props.showBands && props.rows[0].bands &&
-            <th>Total</th>
+            <th><strong>Total</strong></th>
           }
-          <th>EE</th>
-          <th>ER</th>
+          <th><strong><abbr title="Employee">EE</abbr></strong></th>
+          <th><strong><abbr title="Employer">ER</abbr></strong></th>
         </tr>
       </thead>
       
@@ -41,26 +41,32 @@ function ContributionsTable(props: CT) {
         {props.rows.map((r, i) => (
           <tr className={props.activeRowID === r.id ? "active" : ""} key={r.id} id={r.id}>
             {/* Period */}
-            <td>
+            <td className="input">
               {props.handleSelectChange ?
-                <select name="period" value={r.period} onChange={(e) => props.handleSelectChange?.(r, e)}>
-                  {props.periods.map((p, i) => (
-                    <option key={i} value={p}>{fpn(p)}</option>
-                  ))}
-                </select>
+                <>
+                  <label className="govuk-visually-hidden" htmlFor={`row${i}-period`}>Period</label>
+                  <select name="period" value={r.period} onChange={(e) => props.handleSelectChange?.(r, e)} className="borderless" id={`row${i}-period`}>
+                    {props.periods.map((p, i) => (
+                      <option key={i} value={p}>{fpn(p)}</option>
+                    ))}
+                  </select>
+                </>
               :
               <div>{fpn(r.period)}</div>
               }
             </td>
 
             {/* Category */}
-            <td>
+            <td className="input">
               {props.handleSelectChange ?
-                <select name="category" value={r.category} onChange={(e) => props.handleSelectChange?.(r, e)}>
-                  {props.taxYear.categories.map((c, i) => (
-                    <option key={i} value={c}>{fcn(c)}</option>
-                  ))}
-                </select>
+                <>
+                  <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category</label>
+                  <select name="category" value={r.category} onChange={(e) => props.handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
+                    {props.taxYear.categories.map((c, i) => (
+                      <option key={i} value={c}>{fcn(c)}</option>
+                    ))}
+                  </select>
+                </>
               : 
               <div>{r.category}</div>
               }
@@ -68,16 +74,20 @@ function ContributionsTable(props: CT) {
 
             {/* Gross Pay */}
             <td className={
-              `${props.rowsErrors?.[`${r.id}`]?.['gross']?.['name'] === 'Gross' ? "error-cell" : ""}`}>
+              `input ${props.rowsErrors?.[`${r.id}`]?.['gross']?.['name'] === 'Gross' ? "error-cell" : ""}`}>
               {props.handleChange ?
-                <input
-                  className="gross-pay"
-                  name={`${r.id}-gross`}
-                  type="text"
-                  id={`${r.id}-gross`}
-                  value={r.gross}
-                  onChange={(e) => props.handleChange?.(r, e)}
-                />
+                <>
+                  <label className="govuk-visually-hidden" htmlFor={`${r.id}-gross`}>Gross pay</label>
+                  <input
+                    className="gross-pay"
+                    name={`${r.id}-gross`}
+                    type="text"
+                    id={`${r.id}-gross`}
+                    value={r.gross}
+                    onChange={(e) => props.handleChange?.(r, e)}
+                    placeholder="Enter the gross pay amount"
+                  />
+                </>
               :
               <div>{r.gross}</div>
               }

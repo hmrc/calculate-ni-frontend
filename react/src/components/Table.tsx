@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import { taxYearString } from '../config';
 import uniqid from 'uniqid';
 import { taxYearsCategories } from '../config'
-import isEmpty from 'lodash/isEmpty'
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
-
-import ErrorSummary from './helpers/ErrorSummary'
 import ContributionsTable from './ContributionsTable'
 
 // types
@@ -67,14 +64,15 @@ function Table(props: TableProps) {
     <div>
       <div className="container">
         <div className="form-group half">
-          <label className="form-label">Tax year:</label>
-          <div className="select tax-year">
-            <select value={props.taxYear.id} onChange={(e) => handleTaxYearChange(e)}>
-                {taxYears.map((y, i) => (
-                  <option key={i} value={y.id}>{taxYearString(y)}</option>
-                ))}
-            </select>
-          </div>
+          <label className="govuk-label" htmlFor="taxYear">
+            Select a tax year
+          </label>
+          <select value={props.taxYear.id} onChange={(e) => handleTaxYearChange(e)} id="taxYear" name="taxYear" className="govuk-select">
+            {taxYears.map((y, i) => (
+              <option key={i} value={y.id}>{taxYearString(y)}</option>
+            ))}
+          </select>
+
         </div>
 
         <div className="form-group half">
@@ -86,13 +84,6 @@ function Table(props: TableProps) {
           </button>
         </div>
       </div>
-
-      {!isEmpty(props.errors) || !isEmpty(props.rowsErrors) &&
-        <ErrorSummary
-          errors={props.errors}
-          rowsErrors={props.rowsErrors}
-        />
-      }
 
       <ContributionsTable 
         rows={props.rows} 
@@ -107,6 +98,14 @@ function Table(props: TableProps) {
       
       <div className="container">
         <div className="container">
+          <div className="form-group subsection">
+            <button className="button nomar" onClick={() => props.runCalcs(props.rows, props.taxYear.from)}>
+              Calculate
+            </button>
+          </div>
+        </div>
+
+        <div className="container">
           <div className="form-group subsection">        
             <button 
               className="button govuk-button govuk-button--secondary" 
@@ -116,26 +115,18 @@ function Table(props: TableProps) {
           </div>
 
           <div className="form-group subsection">
-            <button className="button govuk-button govuk-button--secondary" onClick={() => {
+            <button className="button govuk-button govuk-button--secondary nomar" onClick={() => {
               props.setRows([{
                 id: uniqid(),
                 category: props.taxYear.categories[0],
                 period: props.periods[0],
-                gross: '0',
+                gross: '',
                 ee: '0',
                 er: '0'
               }])
               props.resetTotals()
             }}>
               Clear table
-            </button>
-          </div>
-        </div>
-
-        <div className="container">
-          <div className="form-group subsection">
-            <button className="button nomar" onClick={() => props.runCalcs(props.rows, props.taxYear.from)}>
-              Calculate
             </button>
           </div>
         </div>

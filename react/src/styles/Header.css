@@ -1,0 +1,91 @@
+@media (min-width: 760px) {
+  .hmrc-internal-header {
+      width: 100%;
+      min-height: 35px;
+      margin-bottom: 30px;
+  }
+}
+
+.hmrc-internal-header {
+  padding: 20px 15px;
+  border-bottom: 10px solid #008670;
+}
+
+
+
+@media (min-width: 760px){
+  .govuk-width-container {
+      margin-right: auto;
+      margin-left: auto;
+      max-width: 1024px;
+  }
+}
+
+@media (min-width: 760px) {
+  .hmrc-internal-header .hmrc-logo {
+    /* display: table-cell; */
+    float: left;
+    width: 33.33%;
+    margin-bottom: 0;
+  }
+}
+
+.hmrc-logo {
+    border-left: 2px solid #009390;
+}
+
+.hmrc-logo__link:link, .hmrc-logo__link:visited {
+  text-decoration: none;
+  font-size: 20px;
+  color: #000;
+  line-height: 32px;
+}
+
+.hmrc-logo__link {
+  display: table;
+}
+
+.hmrc-logo__link:before {
+  content: "";
+  display: table-cell;
+  background: url('../assets/hmrc-crown-logo_black.svg') no-repeat;
+  background-size: 100% 100%;
+  width: 52px;
+  height: 32px;
+}
+
+
+@media (min-width: 760px) {
+  .hmrc-internal-service-name {
+    display: table-cell;
+    padding-left: 80px;
+  }
+}
+/* .hmrc-internal-service-name {
+    margin-right: 70px;
+} */
+.app-header__link {
+    font-family: GDS Transport,arial,sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 700;
+    display: inline-block;
+    font-size: 30px;
+    line-height: 24px;
+}
+
+
+.hmrc-internal-service-name__link:link, .hmrc-internal-service-name__link:visited {
+  color: #0b0c0c;
+}
+@media (min-width: 760px) {
+  .hmrc-internal-service-name__link {
+    font-size: 24px;
+  }
+}
+.hmrc-internal-service-name__link {
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+}
+

@@ -1,0 +1,132 @@
+/* Headings */
+h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.details-heading {
+  font-size: 22px;
+  font-weight: normal;
+}
+
+/* Links */
+.govuk-back-link[href] {
+  text-decoration: underline;
+}
+
+.govuk-back-link:link, 
+.govuk-back-link:visited, 
+.govuk-back-link:hover, 
+.govuk-back-link:active, 
+.govuk-back-link:focus {
+  color: var(--dark-grey);
+}
+
+@media (min-width: 760px) {
+  .govuk-back-link {
+      font-size: 16px;
+      line-height: 20px;
+  }
+}
+
+.govuk-back-link {
+  font-size: 14px;
+  line-height: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-left: 14px;
+}
+
+.govuk-back-link:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3px;
+  width: 7px;
+  height: 7px;
+  margin: auto 0;
+  -webkit-transform: rotate(225deg);
+  -ms-transform: rotate(225deg);
+  transform: rotate(225deg);
+  border: solid;
+  border-width: 1px 1px 0 0;
+  border-color: #505a5f;
+}
+
+.govuk-back-link:after {
+  content: "";
+  position: absolute;
+  top: -14px;
+  right: 0;
+  bottom: -14px;
+  left: 0;
+}
+
+/* Icon */
+.icon.arrow-down, .icon.arrow-up, .icon.arrow-right {
+  padding-left: 20px;
+  position: relative;
+}
+.icon.arrow-down:before {
+  content: "";
+  width:0px;
+  height:0px;
+  border-left:7px solid transparent;
+  border-right:7px solid transparent;
+  border-top:7px solid var(--link);
+  position:absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0%;
+  z-index: 100;
+}
+/* .icon.arrow-up:before {
+  content: "";
+  width:0px;
+  height:0px;
+  border-left:7px solid transparent;
+  border-right:7px solid transparent;
+  border-top:7px solid var(--link);
+  position:absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0%;
+  z-index: 100;
+} */
+
+.icon.arrow-up:before {
+	content: "";
+  width:0px;
+  height:0px;
+  position:absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0%;
+  z-index: 100;
+	border-bottom: 7px solid var(--link);
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+}
+
+.icon.arrow-right:before {
+	content: "";
+  width:0px;
+  height:0px;
+  position:absolute;
+  top: calc(50% - 1px);
+  transform: translateY(-50%);
+  left: 8px;
+  z-index: 100;
+  
+  border-top: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-bottom: 7px solid transparent;
+	border-left: 7px solid var(--link);
+}

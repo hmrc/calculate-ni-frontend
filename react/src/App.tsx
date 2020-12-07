@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import uniqid from 'uniqid';
+import isEmpty from 'lodash/isEmpty'
 import validateInput from './validation/validation'
 import configuration from './configuration.json'
 import { ClassOne } from './calculation'
@@ -16,18 +17,22 @@ import { S, Row, ErrorSummaryProps, TaxYear } from './interfaces'
 // css
 import './styles/gov-polyfill.css';
 import './styles/App.css';
+import './styles/Header.css';
+import './styles/Typography.css';
 import './styles/Forms.css';
 import './styles/Tables.css'
 import './styles/Errors.css';
 import './styles/SavePrint.css';
 
 // img
-import logo from '../src/logo.png';
+import logo from '../src/assets/HMRC-logo-black-trans.png';
 
+import Header from './components/Header'
 import Details from './components/Details'
 import Table from './components/Table'
 import Totals from './components/Totals'
 import SavePrint from './components/SavePrint'
+import ErrorSummary from './components/helpers/ErrorSummary'
 
 function App() {    
   const initialState = {
@@ -43,6 +48,8 @@ function App() {
     ...action,
   })
 
+  const serviceName = "Calculate National Insurance contributions"
+
   const [periods] = useState<Array<string>>(p)
   
   const [taxYear, setTaxYear] = useState<TaxYear>(taxYearsCategories[0])
@@ -50,7 +57,7 @@ function App() {
     id: uniqid(),
     category: taxYear.categories[0],
     period: periods[0],
-    gross: '0',
+    gross: '',
     ee: '0',
     er: '0'
   }])
@@ -102,6 +109,7 @@ function App() {
       setRowsErrors(rowsErrors)
     } else {
       setErrors({})
+      setRowsErrors({})
     } 
     return isValid
   }
@@ -186,103 +194,115 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <div className="main">
+    <>
+      <Header serviceName={serviceName} />
+      <div className="App">
+        <div className="main">
 
-        <header>
-          <img src={logo} className="App-logo" alt="logo" />
-        </header>
+          <main id="main-content" role="main">
 
-        {showSummary ?
-          <SavePrint
-            setShowSummary={setShowSummary}
-            details={state}
-            taxYearString={taxYearString(taxYear)}
-            taxYear={taxYear}
-            rows={rows}
-            periods={periods}
-
-            grossTotal={grossTotal}
-            niPaidNet={niPaidNet}
-            setNiPaidNet={setNiPaidNet}
-            niPaidEmployee={niPaidEmployee}
-            setNiPaidEmployee={setNiPaidEmployee}
-            niPaidEmployer={niPaidEmployer}
-            netContributionsTotal={netContributionsTotal}
-            employeeContributionsTotal={employeeContributionsTotal}
-            employerContributionsTotal={employerContributionsTotal}
-            underpaymentNet={underpaymentNet}
-            overpaymentNet={overpaymentNet}
-            underpaymentEmployee={underpaymentEmployee}
-            overpaymentEmployee={overpaymentEmployee}
-            underpaymentEmployer={underpaymentEmployer}
-            overpaymentEmployer={overpaymentEmployer}
-          />
-        :
-          <form onSubmit={handleSubmit} noValidate>
-            
-            <fieldset className="details">
-              <legend className="float-left">Details</legend>
-              <button 
-                type="button" 
-                className="toggle"
-                onClick={() => setShowDetails(!showDetails)}>
-                  {showDetails ? 'Close details' : 'Open details'}
-              </button>
-
-              {showDetails ? 
-                <Details
-                  fullName={state.fullName}
-                  ni={state.ni}
-                  reference={state.reference}
-                  preparedBy={state.preparedBy}
-                  date={state.date}
-                  handleChange={handleChange}
-                /> : null
-              }
-            </fieldset>
-
-            <div className="form-group table-wrapper">
-              <Table 
-                runCalcs={runCalcs}
-                errors={errors}
-                rowsErrors={rowsErrors}
-                resetTotals={resetTotals}
-                rows={rows}
-                setRows={setRows}
-                periods={periods}
-                taxYear={taxYear}
-                setTaxYear={setTaxYear}
-                setShowSummary={setShowSummary}
-              />
-            </div>
-
-            <Totals 
-              grossTotal={grossTotal}
-              niPaidNet={niPaidNet}
-              setNiPaidNet={setNiPaidNet}
-              niPaidEmployee={niPaidEmployee}
-              setNiPaidEmployee={setNiPaidEmployee}
-              niPaidEmployer={niPaidEmployer}
+          {(!isEmpty(errors) || !isEmpty(rowsErrors)) &&
+            <ErrorSummary
               errors={errors}
-              netContributionsTotal={netContributionsTotal}
-              employeeContributionsTotal={employeeContributionsTotal}
-              employerContributionsTotal={employerContributionsTotal}
-              underpaymentNet={underpaymentNet}
-              overpaymentNet={overpaymentNet}
-              underpaymentEmployee={underpaymentEmployee}
-              overpaymentEmployee={overpaymentEmployee}
-              underpaymentEmployer={underpaymentEmployer}
-              overpaymentEmployer={overpaymentEmployer}
-              isSaveAndPrint={false}
+              rowsErrors={rowsErrors}
             />
+          }
 
-          </form>
+            {showSummary ?
+              <SavePrint
+                setShowSummary={setShowSummary}
+                details={state}
+                taxYearString={taxYearString(taxYear)}
+                taxYear={taxYear}
+                rows={rows}
+                periods={periods}
 
-        }
-      
+                grossTotal={grossTotal}
+                niPaidNet={niPaidNet}
+                setNiPaidNet={setNiPaidNet}
+                niPaidEmployee={niPaidEmployee}
+                setNiPaidEmployee={setNiPaidEmployee}
+                niPaidEmployer={niPaidEmployer}
+                netContributionsTotal={netContributionsTotal}
+                employeeContributionsTotal={employeeContributionsTotal}
+                employerContributionsTotal={employerContributionsTotal}
+                underpaymentNet={underpaymentNet}
+                overpaymentNet={overpaymentNet}
+                underpaymentEmployee={underpaymentEmployee}
+                overpaymentEmployee={overpaymentEmployee}
+                underpaymentEmployer={underpaymentEmployer}
+                overpaymentEmployer={overpaymentEmployer}
+              />
+            :
+              <>
+                <h1>Class 1 NI Assessment</h1>
+                <form onSubmit={handleSubmit} noValidate>
+                  
+                  <div className="clear">
+                    <h2 className="govuk-heading-m details-heading">Details</h2>
+                    <button 
+                      type="button" 
+                      className={`toggle icon ${showDetails ? 'arrow-up' : 'arrow-right'}`}
+                      onClick={() => setShowDetails(!showDetails)}>
+                        {showDetails ? 'Close details' : 'Open details'}
+                    </button>
+                  </div>
+
+                  {showDetails ? 
+                    <Details
+                      fullName={state.fullName}
+                      ni={state.ni}
+                      reference={state.reference}
+                      preparedBy={state.preparedBy}
+                      date={state.date}
+                      handleChange={handleChange}
+                    /> : null
+                  }
+
+                  <div className="form-group table-wrapper">
+                    <Table 
+                      runCalcs={runCalcs}
+                      errors={errors}
+                      rowsErrors={rowsErrors}
+                      resetTotals={resetTotals}
+                      rows={rows}
+                      setRows={setRows}
+                      periods={periods}
+                      taxYear={taxYear}
+                      setTaxYear={setTaxYear}
+                      setShowSummary={setShowSummary}
+                    />
+                  </div>
+
+                  <Totals 
+                    grossTotal={grossTotal}
+                    niPaidNet={niPaidNet}
+                    setNiPaidNet={setNiPaidNet}
+                    niPaidEmployee={niPaidEmployee}
+                    setNiPaidEmployee={setNiPaidEmployee}
+                    niPaidEmployer={niPaidEmployer}
+                    errors={errors}
+                    netContributionsTotal={netContributionsTotal}
+                    employeeContributionsTotal={employeeContributionsTotal}
+                    employerContributionsTotal={employerContributionsTotal}
+                    underpaymentNet={underpaymentNet}
+                    overpaymentNet={overpaymentNet}
+                    underpaymentEmployee={underpaymentEmployee}
+                    overpaymentEmployee={overpaymentEmployee}
+                    underpaymentEmployer={underpaymentEmployer}
+                    overpaymentEmployer={overpaymentEmployer}
+                    isSaveAndPrint={false}
+                  />
+
+                </form>
+              </>
+            }
+
+          </main>
+        
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -11,38 +11,43 @@ interface DetailsProps {
 
 function Details (props: DetailsProps) {
   return (
-    <React.Fragment>
-
+    <fieldset className="details" role="alert">
+      <legend className="float-left legend-small">Enter the details for this calculation</legend>
+      
       <div className="container">
-        <div className="form-group item">
-          <label htmlFor="fullName" className="form-label">Full name</label>
-          <input
-            type="text"
-            id="fullName"
-            name="fullName"
-            className="form-control full"
-            value={props.fullName}
-            onChange={props.handleChange}
-            />
+        <div className="container half">
+          <div className="form-group item">
+            <label htmlFor="fullName" className="form-label">Customer’s full name (optional)</label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              className="form-control full"
+              value={props.fullName}
+              onChange={props.handleChange}
+              />
+          </div>
         </div>
         
-        <div className="form-group item">
-          <label htmlFor="ni" className="form-label">NI Number</label>
-          <input
-            type="text"
-            id="ni"
-            name="ni"
-            className="form-control half"
-            value={props.ni}
-            onChange={props.handleChange}
-            />
+        <div className="container half">
+          <div className="form-group item">
+            <label htmlFor="ni" className="form-label">NI number (optional)</label>
+            <input
+              type="text"
+              id="ni"
+              name="ni"
+              className="form-control half"
+              value={props.ni}
+              onChange={props.handleChange}
+              />
+          </div>
         </div>
       </div>
 
       <div className="container">
         <div className="container half">
           <div className="form-group item">
-            <label htmlFor="ref" className="form-label">Ref</label>
+            <label htmlFor="ref" className="form-label">Reference (optional)</label>
             <input
               type="text"
               id="reference"
@@ -53,7 +58,7 @@ function Details (props: DetailsProps) {
               />
           </div>
           <div className="form-group item">
-            <label htmlFor="preparedBy" className="form-label">Prepared by</label>
+            <label htmlFor="preparedBy" className="form-label">Prepared by (optional)</label>
             <input
               type="text"
               id="preparedBy"
@@ -66,7 +71,7 @@ function Details (props: DetailsProps) {
         </div>
         <div className="container half">
           <div className="form-group item">
-            <label htmlFor="date" className="form-label">Date</label>
+            <label htmlFor="date" className="form-label">Date (optional)</label>
             <input
               type="text"
               id="date"
@@ -79,7 +84,7 @@ function Details (props: DetailsProps) {
         </div>
 
       </div>
-    </React.Fragment>
+    </fieldset>
   )
 }
 
