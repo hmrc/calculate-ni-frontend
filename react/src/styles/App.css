@@ -22,7 +22,14 @@
 .App {
   margin: 0 auto;
   max-width: 1024px;
+  padding: 20px 15px;
 }
+
+/* @media screen and (min-width: 760px){
+  .App {
+    padding: 0;
+  }
+} */
 
 .App header {
   margin-bottom: 30px;
@@ -51,6 +58,13 @@ button.toggle:focus {
 .section-heading {
   color: #0B0C0C;
   font-size: 21px;
+  margin-bottom: 15px;
+}
+
+@media screen and (min-width: 760px) {
+  .section-heading {
+    margin-bottom: 0;
+  }
 }
 
 strong {
@@ -71,12 +85,14 @@ strong {
   width: 100%;
 }
 
-.form-control.half {
-  width: 50%;
-}
+@media screen and (min-width: 760px) {
+  .form-control.half {
+    width: 50%;
+  }
 
-.form-control.third {
-  width: 33%;
+  .form-control.third {
+    width: 33%;
+  }
 }
 
 fieldset legend {
@@ -101,11 +117,13 @@ fieldset legend {
   height: 2.5rem;
   padding: 5px;
   border: 2px solid #0b0c0c;
+  width: 100%;
 }
 
 @media (min-width: 760px) {
   .govuk-select {
       font-size: 19px;
+      width: auto;
   }
 }
 
@@ -167,16 +185,32 @@ fieldset legend {
 .container {
   clear: both;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
 }
-.container.half {
-  flex-grow: 1;
-  width: 50%;
+
+@media screen and (min-width: 760px) {
+  .container {
+    clear: both;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 
-.container.half + .half {
-  margin-left: 4%;
+@media screen and (min-width: 760px) {
+  .container.half {
+    flex-grow: 1;
+    width: 50%;
+  }
+  
+  .container.half + .half {
+    margin-left: 4%;
+  }
+
+  .container .item + .item {
+    margin-left: 4%;
+  }
 }
 
 
@@ -184,18 +218,16 @@ fieldset legend {
   flex-grow: 1;
 }
 
-.container .item + .item {
-  margin-left: 4%;
-}
-
 /* Two Col */
 .two-col {
   overflow: hidden;
 }
 
-.two-col .half {
-  float: left;
-  width: 50%;
+@media screen and (min-width: 760px) {
+  .two-col .half {
+    float: left;
+    width: 50%;
+  }
 }
 
 /* Details */
@@ -218,4 +250,11 @@ fieldset legend {
 /* - details */
 .details-heading {
   display: inline-block;
+}
+
+/* Contribution Buttons */
+@media screen and (min-width: 760px) {
+  .repeat-button {
+    margin-right: 10px;
+  }
 }
