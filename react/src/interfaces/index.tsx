@@ -23,6 +23,7 @@ export interface Calculated {
 export interface Row {
   id: string
   category: string
+  number: string
   period: string
   gross: string
   ee: string

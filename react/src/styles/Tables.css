@@ -22,7 +22,7 @@ table.contribution-details {
   margin-bottom: 15px;
 }
 
-table.contribution-details .gross-pay, table.contribution-details .period-qty {
+table.contribution-details input[type="text"] {
   border: none;
 }
 
