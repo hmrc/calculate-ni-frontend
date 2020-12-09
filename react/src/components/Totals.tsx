@@ -49,7 +49,7 @@ function Totals (props: TotalsProps) {
                       className={`govuk-input ${props.errors?.niPaidNet ? "govuk-input--error" : ""}`} 
                       value={props.niPaidNet}
                       onChange={(e) => props.setNiPaidNet(e.target.value)}
-                      aria-describedby={`${props.errors?.niPaidNet ? 'niPaidNet-error' : ''}`}
+                      {...(props.errors?.niPaidNet && {"aria-describedby": "niPaidNet-error"})}
                     />
                   </div>
                 </td>
@@ -71,7 +71,7 @@ function Totals (props: TotalsProps) {
                       className={`govuk-input ${props.errors?.niPaidEmployee ? "govuk-input--error" : ""}`} 
                       value={props.niPaidEmployee}
                       onChange={(e) => props.setNiPaidEmployee(e.target.value)}
-                      aria-describedby={`${props.errors?.niPaidEmployee ? 'niPaidEmployee-error' : ''}`}
+                      {...(props.errors?.niPaidEmployee && {"aria-describedby": "niPaidEmployee-error"})}
                     />
                   </div>
                 </td>

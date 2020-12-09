@@ -22,6 +22,7 @@ function ContributionsTable(props: CT) {
         </tr>
         <tr>
           <th><strong>Select period</strong></th>
+          <th><strong>Row number</strong></th>
           <th><strong>Select NI category letter</strong></th>
           <th><strong>Enter gross pay</strong></th>
           {/* Bands - by tax year, so we can just take the first band to map the rows */}
@@ -54,6 +55,20 @@ function ContributionsTable(props: CT) {
               :
               <div>{fpn(r.period)}</div>
               }
+            </td>
+
+            {/* Row number */}
+            <td className="input">
+              <label className="govuk-visually-hidden" htmlFor={`${r.id}-number`}>Row number (optional)</label>
+              <input
+                className="number"
+                name={`${r.id}-number`}
+                type="text"
+                id={`${r.id}-number`}
+                value={r.number}
+                onChange={(e) => props.handleChange?.(r, e)}
+                placeholder="Enter the row number (optional)"
+              />
             </td>
 
             {/* Category */}

@@ -47,6 +47,7 @@ function Table(props: TableProps) {
       category: lastRow.category,
       period: lastRow.period,
       gross: lastRow.gross,
+      number: '',
       ee: '0',
       er: '0'
     }])
@@ -121,6 +122,7 @@ function Table(props: TableProps) {
                 category: props.taxYear.categories[0],
                 period: props.periods[0],
                 gross: '',
+                number: '',
                 ee: '0',
                 er: '0'
               }])

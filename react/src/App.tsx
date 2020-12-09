@@ -58,6 +58,7 @@ function App() {
     category: taxYear.categories[0],
     period: periods[0],
     gross: '',
+    number: '0',
     ee: '0',
     er: '0'
   }])
@@ -236,7 +237,7 @@ function App() {
                   />
                 }
 
-                <h1>Class 1 NI Assessment</h1>
+                <h1>Calculate Class 1 National Insurance (NI) contributions</h1>
                 <form onSubmit={handleSubmit} noValidate>
                   
                   <div className="clear">
