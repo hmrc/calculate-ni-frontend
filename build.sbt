@@ -101,8 +101,8 @@ lazy val microservice = Project(appName, file("."))
     ),
     PlayKeys.playDefaultPort := 8668,
     reactDirectory := (baseDirectory in Compile) { _ /"react" }.value,    
-    dist := (dist dependsOn moveReact).value,
-    (Test / test) := ((Test / test) dependsOn (calc / Test / test)).value
+    dist := (dist dependsOn moveReact).value // ,
+    // (Test / test) := ((Test / test) dependsOn (calc / Test / test)).value
   )
   .settings(publishingSettings: _*)
   .configs(IntegrationTest)
