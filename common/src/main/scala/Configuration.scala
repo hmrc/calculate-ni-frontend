@@ -94,6 +94,27 @@ case class Configuration(
   classFour: Map[Interval[LocalDate], ClassFour]   
 ) {
 
+  def proRataRatio(from: LocalDate, to: LocalDate): Option[BigDecimal] = {
+    import spire.math.interval._
+
+    def fromBound[A](in: Bound[A]): Option[A] = in match {
+      case Open(a) => Some(a)
+      case Closed(a) => Some(a)
+      case _ => None
+    }
+
+    def intervalSizeDays(in: Interval[LocalDate]): Option[BigDecimal] = for {
+      l <- fromBound(in.lowerBound)
+      h <- fromBound(in.upperBound)
+    } yield BigDecimal(h.toEpochDay - l.toEpochDay)
+
+    for {
+      taxYear <- classOne.keys.find(_.contains(from))
+      total <- intervalSizeDays(taxYear)
+      partial <- intervalSizeDays(Interval.closed(from, to))
+    } yield (partial / total)
+  }
+
   def calculateClassOneAAndB(
     on: LocalDate,
     amount: BigDecimal
