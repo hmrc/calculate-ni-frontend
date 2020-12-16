@@ -31,12 +31,28 @@ class ClassOne(json: String) extends js.Object {
     ret.asJson.toString
   }
 
+  def calculateProRata(
+    from: Date,
+    to: Date,    
+    amount: Double,
+    cat: String, // single character
+    contractedOutStandardRate: Boolean = false
+  ): String = {
+    val totalForYear = config.calculateClassOne(from, BigDecimal(amount.toString), cat.head, Period.Year, 1, contractedOutStandardRate)
+    val ratio = config.proRataRatio(from, to).get
+    val ret = totalForYear.mapValues{ case (b,ee,er) => (b * ratio,ee * ratio,er * ratio) }
+    ret.asJson.toString
+  }
+
   def isCosrApplicable(on: Date): Boolean = {
     val interval = config.classOne.keys.find(_.contains(on)).getOrElse(
       throw new NoSuchElementException(s"Cannot find an interval for $on")
     )
     config.classOne(interval).values.exists(_.contractedOutStandardRate.isDefined)
   }
+
+  def getTaxYears: Iterable[String] = 
+    config.classOne.keys.map(_.toString)
 
   def getApplicableCategories(on: Date): String = {
     val interval = config.classOne.keys.find(_.contains(on)).getOrElse(
