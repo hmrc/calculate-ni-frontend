@@ -46,6 +46,17 @@
   text-decoration: none;
 }
 
+.govuk-error-message {
+  font-weight: 700;
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.25;
+  display: block;
+  margin-bottom: 15px;
+  clear: both;
+  color: #d4351c;
+}
+
 .govuk-list {
   font-size: 19px;
   line-height: 1.31579;

@@ -1,5 +1,8 @@
 import React from 'react';
 
+// components
+import TextInput from './helpers/formhelpers/TextInput'
+
 interface DetailsProps {
   fullName: string
   ni: string
@@ -17,29 +20,25 @@ function Details (props: DetailsProps) {
       <div className="container">
         <div className="container half">
           <div className="form-group item">
-            <label htmlFor="fullName" className="form-label">Customer’s full name (optional)</label>
-            <input
-              type="text"
-              id="fullName"
+            <TextInput
+              labelText="Customer’s full name (optional)"
               name="fullName"
-              className="form-control full"
-              value={props.fullName}
-              onChange={props.handleChange}
-              />
+              inputClassName="form-control full"
+              inputValue={props.fullName}
+              onChangeCallback={props.handleChange}
+            />
           </div>
         </div>
         
         <div className="container half">
           <div className="form-group item">
-            <label htmlFor="ni" className="form-label">NI number (optional)</label>
-            <input
-              type="text"
-              id="ni"
+            <TextInput
+              labelText="NI number (optional)"
               name="ni"
-              className="form-control half"
-              value={props.ni}
-              onChange={props.handleChange}
-              />
+              inputClassName="form-control full"
+              inputValue={props.ni}
+              onChangeCallback={props.handleChange}
+            />
           </div>
         </div>
       </div>
@@ -47,38 +46,32 @@ function Details (props: DetailsProps) {
       <div className="container">
         <div className="container half">
           <div className="form-group item">
-            <label htmlFor="ref" className="form-label">Reference (optional)</label>
-            <input
-              type="text"
-              id="reference"
+            <TextInput
+              labelText="Reference (optional)"
               name="reference"
-              className="form-control full"
-              value={props.reference}
-              onChange={props.handleChange}
-              />
+              inputClassName="form-control full"
+              inputValue={props.reference}
+              onChangeCallback={props.handleChange}
+            />
           </div>
           <div className="form-group item">
-            <label htmlFor="preparedBy" className="form-label">Prepared by (optional)</label>
-            <input
-              type="text"
-              id="preparedBy"
+            <TextInput
+              labelText="Prepared by (optional)"
               name="preparedBy"
-              className="form-control full"
-              value={props.preparedBy}
-              onChange={props.handleChange}
-              />
+              inputClassName="form-control full"
+              inputValue={props.preparedBy}
+              onChangeCallback={props.handleChange}
+            />
           </div>
         </div>
         <div className="container half">
           <div className="form-group item">
-            <label htmlFor="date" className="form-label">Date (optional)</label>
-            <input
-              type="text"
-              id="date"
+            <TextInput
+              labelText="Date (optional)"
               name="date"
-              className="form-control third"
-              value={props.date}
-              onChange={props.handleChange}
+              inputClassName="form-control full"
+              inputValue={props.date}
+              onChangeCallback={props.handleChange}
             />
           </div>
         </div>

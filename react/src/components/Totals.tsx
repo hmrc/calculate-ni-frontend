@@ -17,7 +17,7 @@ function Totals (props: TotalsProps) {
         <table className={`totals-table spaced-table ${props.isSaveAndPrint ? 'save-print-totals' : 'totals'}`}>
           <thead>
             <tr>
-              <th>Gross pay</th>
+              <th>{props.grossPayTally ? "Gross pay" : ""}</th>
               <th>Net contributions</th>
               <th>Employee contributions</th>
               <th>Employer contributions</th>
@@ -25,7 +25,15 @@ function Totals (props: TotalsProps) {
           </thead>
           <tbody>
             <tr>
-              <td className={`${props.isSaveAndPrint ? '' : 'readonly'}`}><span>{numeral(props.grossTotal).format('$0,0.00')}</span></td>
+              <td className={`${props.isSaveAndPrint || !props.grossPayTally ? 'right' : 'readonly'}`}>
+                <span>
+                  {props.grossPayTally ? 
+                    numeral(props.grossTotal).format('$0,0.00')
+                  :
+                    "Total NI due"
+                  }
+                </span>
+              </td>
               <td className={`${props.isSaveAndPrint ? '' : 'readonly'}`}><span>{numeral(props.netContributionsTotal).format('$0,0.00')}</span></td>
               <td className={`${props.isSaveAndPrint ? '' : 'readonly'}`}><span>{numeral(props.employeeContributionsTotal).format('$0,0.00')}</span></td>
               <td className={`${props.isSaveAndPrint ? '' : 'readonly'}`}><span>{numeral(props.employerContributionsTotal).format('$0,0.00')}</span></td>

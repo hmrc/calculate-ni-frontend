@@ -151,7 +151,8 @@ table.contribution-details td:has(input:focus) {
 
 .spaced-table td.input-cell input {
   border: 2px solid var(--input-border);
-  width: calc(100% - 14px);
+  /* width: calc(100% - 14px); */
+  width: 100%;
   padding: 0 5px;
   height: 36px;
   line-height: 36px;

@@ -208,6 +208,15 @@ fieldset legend {
     margin-left: 4%;
   }
 
+  .container.third {
+    flex-grow: 1;
+    width: 33.333%;
+  }
+  
+  .container.third + .third {
+    margin-left: 4%;
+  }
+
   .container .item + .item {
     margin-left: 4%;
   }

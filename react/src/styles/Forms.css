@@ -1,13 +1,33 @@
-.govuk-error-message {
-  font-weight: 700;
-  font-size: 16px;
-  font-size: 1rem;
-  line-height: 1.25;
-  display: block;
-  margin-bottom: 15px;
-  clear: both;
-  color: #d4351c;
+@media (min-width: 760px) {
+  .govuk-input {
+      font-size: 19px;
+      font-size: 25px;
+      line-height: 1.31579;
+  }
 }
+.govuk-input {
+    /* font-family: "GDS Transport",arial,sans-serif; */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    font-size: 16px;
+    font-size: 1rem;
+    line-height: 1.25;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    height: 40px;
+    height: 2.5rem;
+    margin-top: 0;
+    padding: 5px;
+    border: 2px solid #0b0c0c;
+    border-radius: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+
 
 .govuk-input:focus {
   outline: 3px solid #fd0;
@@ -16,6 +36,70 @@
   box-shadow: inset 0 0 0 2px;
 }
 
+@media (min-width: 760) {
+  .govuk-fieldset__legend--l {
+      font-size: 36px;
+      font-size: 2.25rem;
+      line-height: 1.11111;
+  }
+}
+.govuk-fieldset__legend--l {
+    /* font-family: "GDS Transport",arial,sans-serif; */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 700;
+    font-size: 24px;
+    font-size: 1.5rem;
+    line-height: 1.04167;
+    margin-bottom: 15px;
+}
+@media (min-width: 760px) {
+  .govuk-fieldset__legend {
+      font-size: 19px;
+      font-size: 1.1875rem;
+      line-height: 1.31579;
+  }
+}
+.govuk-fieldset__legend {
+    /* font-family: "GDS Transport",arial,sans-serif; */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    font-size: 16px;
+    font-size: 1rem;
+    line-height: 1.25;
+    color: #0b0c0c;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: table;
+    max-width: 100%;
+    margin-bottom: 10px;
+    padding: 0;
+    white-space: normal;
+}
+
+/* Hint */
+.govuk-fieldset__legend+.govuk-hint {
+  margin-top: -5px;
+}
+@media (min-width: 760px) {
+  .govuk-hint {
+    font-size: 19px;
+    line-height: 25px;
+  }
+}
+.govuk-hint {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  display: block;
+  margin-bottom: 15px;
+  color: #505a5f;
+}
+
+/* Calc Specific */
 .govuk-input--error, .spaced-table td.input-cell .govuk-input--error  
 {
   border: 2px solid #d4351c;
@@ -54,7 +138,6 @@ select.borderless {
   width: 100%;
 }
 
-/* Calc Specific */
 table.contribution-details input, table.contribution-details select {
   height: 100%;
   padding: 0 10px;

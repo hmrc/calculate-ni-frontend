@@ -1,0 +1,39 @@
+.govuk-date-input {
+  /* font-size: 0; */
+}
+
+.govuk-date-input__item {
+  display: inline-block;
+  margin-right: 20px;
+  margin-bottom: 0;
+}
+
+.govuk-form-group .govuk-form-group:last-of-type {
+  margin-bottom: 0;
+}
+@media (min-width: 750px){
+  .govuk-form-group {
+    margin-bottom: 30px;
+  }
+}
+.govuk-form-group {
+  margin-bottom: 20px;
+}
+
+
+.govuk-date-input__label {
+  display: block;
+}
+
+.govuk-date-input__input {
+  margin-bottom: 0;
+}
+.govuk-input--width-2 {
+  /* max-width: 5.4ex; */
+  max-width: 50px;
+}
+
+.govuk-input--width-4 {
+  /* max-width: 9ex; */
+  max-width: 75px;
+}

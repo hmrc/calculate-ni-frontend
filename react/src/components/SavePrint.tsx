@@ -10,7 +10,7 @@ import SummaryListRow from './helpers/SummaryListRow'
 
 // types
 import { SavePrintProps } from '../interfaces'
-import ContributionsTable from './ContributionsTable'
+import ContributionsTable from './calculators/class1/Class1ContributionsTable'
 
 function SavePrint(props: SavePrintProps) {
 
@@ -88,6 +88,7 @@ function SavePrint(props: SavePrintProps) {
         
         <h2 className="heading-sap-sm">Summary</h2>
         <Totals 
+          grossPayTally={true}
           grossTotal={props.grossTotal}
           niPaidNet={props.niPaidNet}
           setNiPaidNet={props.setNiPaidNet}
