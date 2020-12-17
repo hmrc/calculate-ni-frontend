@@ -6,17 +6,16 @@ import { HeaderProps } from '../interfaces'
 function Header(props: HeaderProps) {
   return (
     <header role="banner" className="hmrc-internal-header">
-      <div className="govuk-width-container">
-        <div className="hmrc-logo">
-          <a href="#" className="hmrc-logo__link">
-            HM Revenue &amp; Customs
-          </a>
-        </div>
-
-        <div className="hmrc-internal-service-name app-header__link">
-          <a href="/" className="hmrc-internal-service-name__link">
+      <div className="hmrc-internal-header__logo">
+        <a href="https://www.gov.uk/government/organisations/hm-revenue-customs"
+           className="hmrc-internal-header__logo-link">
+          HM Revenue &amp; Customs
+        </a>
+      </div>
+      <div className="hmrc-internal-header__service-name">
+        <a href="#" className="hmrc-internal-header__link">
           {props.serviceName}
-        </a></div>
+        </a>
       </div>
     </header>
   )

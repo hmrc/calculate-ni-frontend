@@ -8,9 +8,10 @@ import {
 } from "react-router-dom";
 
 // css
+
+import './styles/application.scss';
 import './styles/gov-polyfill.css';
 import './styles/App.css';
-import './styles/Header.css';
 import './styles/Typography.css';
 import './styles/Forms.css';
 import './styles/Tables.css'
@@ -26,36 +27,33 @@ import Directors from './components/calculators/directors/Directors'
 function App() {    
   const serviceName = "Calculate National Insurance contributions"
   return (
-    <>
+    <div className="App">
       <Header serviceName={serviceName} />
       <PhaseBanner type="ALPHA" />
+      <div className="main">
+        <Router>
+          <nav style={{marginBottom: "30px"}}>
+            <ul>
+              <li><Link to="/">All calculators</Link></li>
+              <li><Link to="/class-1">Class 1</Link></li>
+              <li><Link to="/directors">Directors</Link></li>
+            </ul>
+          </nav>
 
-      <div className="App">
-        <div className="main">
-          <Router>
-            <nav style={{marginBottom: "30px"}}>
-              <ul>
-                <li><Link to="/">All calculators</Link></li>
-                <li><Link to="/class-1">Class 1</Link></li>
-                <li><Link to="/directors">Directors</Link></li>
-              </ul>
-            </nav>
-
-            <Switch>
-              <Route path="/class-1">
-                <Class1 />
-              </Route>
-              <Route path="/directors">
-                <Directors />
-              </Route>
-              <Route path="/">
-                <h1>Home</h1>
-              </Route>
-            </Switch>
-          </Router>
-        </div>
+          <Switch>
+            <Route path="/class-1">
+              <Class1 />
+            </Route>
+            <Route path="/directors">
+              <Directors />
+            </Route>
+            <Route path="/">
+              <h1>Home</h1>
+            </Route>
+          </Switch>
+        </Router>
       </div>
-    </>
+    </div>
   );
 }
 
