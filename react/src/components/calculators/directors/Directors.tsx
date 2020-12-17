@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { isValidElement, useState } from 'react'
 import uniqid from 'uniqid';
-
-import { taxYearsCategories, periods as p } from '../../../config'
+import isEmpty from 'lodash/isEmpty'
+import validateInput from '../../../validation/validation'
+import configuration from '../../../configuration.json'
+import { ClassOne } from '../../../calculation'
+import { taxYearsCategories, periods as p, calcOverUnderPayment, calcNi } from '../../../config'
 
 // types
 import { S, Row, ErrorSummaryProps, TaxYear } from '../../../interfaces'
@@ -10,6 +13,7 @@ import { S, Row, ErrorSummaryProps, TaxYear } from '../../../interfaces'
 import Details from '../../Details'
 import DirectorsTable from '../directors/DirectorsTable'
 import Totals from '../../Totals'
+import ErrorSummary from '../../helpers/ErrorSummary'
 
 function Directors() {
   const initialState = {
@@ -49,6 +53,8 @@ function Directors() {
     er: '0'
   }])
 
+  const [grossTotal, setGrossTotal] = useState<Number | null>(null)
+
   const [netContributionsTotal, setNetContributionsTotal] = useState<number>(0)
   const [employeeContributionsTotal, setEmployeeContributionsTotal] = useState<number>(0)
   const [employerContributionsTotal, setEmployerContributionsTotal] = useState<number>(0)
@@ -66,18 +72,80 @@ function Directors() {
   const [niPaidEmployee, setNiPaidEmployee] = useState<string>('0')
   const [niPaidEmployer, setNiPaidEmployer] = useState<number>(0)
 
-  // Directorship state
-  // const [directorshipFrom, setDirectorshipFrom] = useState<>()
-  // from
-  const [dirFromDay, setDirFromDay] = useState<string>('')
-  const [dirFromMonth, setDirFromMonth] = useState<string>('')
-  const [dirFromYear, setDirFromYear] = useState<string>('')
+  const isValid = () => {
+    const { errors, rowsErrors, isValid } = validateInput({niPaidNet, niPaidEmployee, rows})
+    if (!isValid) {
+      setErrors(errors)
+      setRowsErrors(rowsErrors)
+    } else {
+      setErrors({})
+      setRowsErrors({})
+    } 
+    return isValid
+  }
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
   }
 
   const runCalcs = (r: Row[], ty: Date) => {
+    if (isValid()) {
+      const c = new ClassOne(JSON.stringify(configuration));
+
+      setGrossTotal(rows.reduce((c, acc) => {
+        return c += parseInt(acc.gross)
+      }, 0))
+
+      const calculations = r
+        .map((r, i) => {
+          const pd = (r.period === 'Frt' ? 'Wk' : r.period)
+          const pdQty = (r.period === 'Frt' ? 2 : 1)
+          const res = JSON.parse(c.calculate(ty, parseFloat(r.gross), r.category, pd, pdQty, false))
+
+          // Employee Contributions
+          const ee = Object.keys(res).reduce((prev, key) => {
+            return prev + res[key][1]
+          }, 0).toString()
+
+          // Employer Contributions
+          const er = Object.keys(res).reduce((prev, key) => {
+            return prev + res[key][2]
+          }, 0).toString()
+
+          // Add contributions to each row
+          const newRows = [...rows]
+          newRows[i].ee = ee
+          newRows[i].er = er
+
+          // add the bands data to the row
+          newRows[i].bands = res
+          
+          setRows(newRows)
+          
+          return res
+        })
+
+        // Employee Contributions
+        const employee = calcNi(calculations, 1)
+        setEmployeeContributionsTotal(employee)
+        
+        // Employer ContributionsemployeeContributionsTotal
+        const employer = calcNi(calculations, 2)
+        setEmployerContributionsTotal(employer)
+
+        setNetContributionsTotal(employee + employer)
+
+        setUnderpaymentNet(calcOverUnderPayment((employee + employer) - parseFloat(niPaidNet), 'under'))
+        setOverpaymentNet(calcOverUnderPayment((employee + employer) - parseFloat(niPaidNet), 'over'))
+
+        setUnderpaymentEmployee(calcOverUnderPayment(employee - parseFloat(niPaidEmployee), 'under'))
+        setOverpaymentEmployee(calcOverUnderPayment(employee - parseFloat(niPaidEmployee), 'over'))
+
+        setUnderpaymentEmployer(calcOverUnderPayment(employer - niPaidEmployer, 'under'))
+        setOverpaymentEmployer(calcOverUnderPayment(employer - niPaidEmployer, 'over'))
+
+
+    }
   }
 
   const resetTotals = () => {
@@ -89,6 +157,13 @@ function Directors() {
         <p>Save and print</p>
         :
         <>
+          {(!isEmpty(errors) || !isEmpty(rowsErrors)) &&
+            <ErrorSummary
+              errors={errors}
+              rowsErrors={rowsErrors}
+            />
+          }
+
           <h1>Directors contributions</h1>
           <form onSubmit={handleSubmit} noValidate>
 
