@@ -11,7 +11,7 @@ import { taxYearsCategories, periods as p, calcOverUnderPayment, calcNi } from '
 import Details from '../../Details'
 import DirectorsTable from '../directors/DirectorsTable'
 import Totals from '../../Totals'
-import ErrorSummary from '../../helpers/ErrorSummary'
+import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 
 // types
 import { DirectorsS, Row, ErrorSummaryProps, TaxYear } from '../../../interfaces'

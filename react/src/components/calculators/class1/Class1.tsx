@@ -19,7 +19,7 @@ import Details from '../../Details'
 import Class1Table from './Class1Table'
 import Totals from '../../Totals'
 import SavePrint from '../../SavePrint'
-import ErrorSummary from '../../helpers/ErrorSummary'
+import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 
 function Class1() {
   const initialState = {

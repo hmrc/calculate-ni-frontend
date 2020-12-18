@@ -1,9 +1,9 @@
 import React from 'react'
 
 // types
-import { HeaderProps } from '../interfaces'
+import { HeaderProps } from '../../../interfaces'
 
-function Header(props: HeaderProps) {
+export default function Header(props: HeaderProps) {
   return (
     <header role="banner" className="hmrc-internal-header">
       <div className="hmrc-internal-header__logo">
@@ -13,12 +13,10 @@ function Header(props: HeaderProps) {
         </a>
       </div>
       <div className="hmrc-internal-header__service-name">
-        <a href="#" className="hmrc-internal-header__link">
+        <a href="/" className="hmrc-internal-header__link">
           {props.serviceName}
         </a>
       </div>
     </header>
   )
 }
-
-export default Header

@@ -19,28 +19,6 @@
   position: relative;
 }
 
-.App {
-  margin: 0 auto;
-  max-width: 1024px;
-  padding: 20px 15px;
-}
-
-/* @media screen and (min-width: 760px){
-  .App {
-    padding: 0;
-  }
-} */
-
-.App header {
-  margin-bottom: 30px;
-}
-
-.App header img {
-  width: 613px;
-}
-
-
-
 button.toggle {
   background: none;
   border: none;

@@ -1,9 +1,9 @@
 import React from 'react'
 
 // types
-import { SummaryListRowProps } from '../../interfaces'
+import { SummaryListRowProps } from '../../../interfaces'
 
-function SummaryListRow(props: SummaryListRowProps) {
+export default function SummaryListRow(props: SummaryListRowProps) {
   return (
     <div className={`govuk-summary-list__row${props.rowClasses ? ' ' + props.rowClasses : ''}`}>
       <dt className="govuk-summary-list__key">
@@ -15,5 +15,3 @@ function SummaryListRow(props: SummaryListRowProps) {
     </div>
   )
 }
-
-export default SummaryListRow

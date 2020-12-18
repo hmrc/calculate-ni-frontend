@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ErrorSummaryProps } from '../../interfaces'
+import { ErrorSummaryProps } from '../../../interfaces'
 
 function ErrorSummary(props: ErrorSummaryProps) {
   return (

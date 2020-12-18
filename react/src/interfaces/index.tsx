@@ -1,10 +1,17 @@
 // App
+
+export interface RouteName {
+  pathname: string
+  name: string
+}
+
 export interface HeaderProps {
   serviceName: string
 }
 
 export interface PhaseBannerProps {
   type: "ALPHA" | "BETA"
+  link: string
 }
 
 export interface DetailsProps {

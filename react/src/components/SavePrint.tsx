@@ -6,7 +6,7 @@ import Totals from './Totals'
 import CategoryTotals from './CategoryTotals'
 
 // helpers
-import SummaryListRow from './helpers/SummaryListRow'
+import SummaryListRow from './helpers/gov-design-system/SummaryListRow'
 
 // types
 import { SavePrintProps } from '../interfaces'

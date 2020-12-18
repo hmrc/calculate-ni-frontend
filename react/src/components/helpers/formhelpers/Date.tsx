@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { stripSpaces } from '../../../config'
 
-import '../../../styles/Date.css'
-
 // components
 import TextInput from './TextInput'
 
