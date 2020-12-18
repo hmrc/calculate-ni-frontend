@@ -1,14 +1,11 @@
 import React from 'react';
-
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 
 // css
-
 import './styles/application.scss';
 import './styles/gov-polyfill.css';
 import './styles/App.css';
@@ -18,28 +15,23 @@ import './styles/Tables.css'
 import './styles/Errors.css';
 import './styles/SavePrint.css';
 
-import Header from './components/Header'
-import PhaseBanner from './components/PhaseBanner'
-
+// components
+import Header from './components/helpers/hmrc-design-system/Header'
+import PhaseBanner from './components/helpers/gov-design-system/PhaseBanner'
+import Nav from './components/Nav'
 import Class1 from './components/calculators/class1/Class1'
 import Directors from './components/calculators/directors/Directors'
+import BreadCrumbs from "./components/helpers/gov-design-system/BreadCrumbs";
 
 function App() {    
   const serviceName = "Calculate National Insurance contributions"
   return (
-    <div className="App">
+    <div className="govuk-width-container">
       <Header serviceName={serviceName} />
-      <PhaseBanner type="ALPHA" />
+      <PhaseBanner type="ALPHA" link="#feedback" />
       <div className="main">
         <Router>
-          <nav style={{marginBottom: "30px"}}>
-            <ul>
-              <li><Link to="/">All calculators</Link></li>
-              <li><Link to="/class-1">Class 1</Link></li>
-              <li><Link to="/directors">Directors</Link></li>
-            </ul>
-          </nav>
-
+          <BreadCrumbs />
           <Switch>
             <Route path="/class-1">
               <Class1 />
@@ -48,7 +40,7 @@ function App() {
               <Directors />
             </Route>
             <Route path="/">
-              <h1>Home</h1>
+              <Nav />
             </Route>
           </Switch>
         </Router>

@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 /* Scala.js runtime support
  * Copyright 2013 LAMP/EPFL
