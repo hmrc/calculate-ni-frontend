@@ -6,6 +6,8 @@ import { TaxYear } from './interfaces'
 
 export const momentDateFormat = 'D MMMM YYYY'
 
+export const stripSpaces = (str: string) => str.toLowerCase().split(' ').join('-')
+
 export const fcn = (str: string) => {
   switch (str) {
     case 'A':

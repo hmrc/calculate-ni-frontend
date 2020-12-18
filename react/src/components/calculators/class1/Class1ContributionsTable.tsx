@@ -1,8 +1,11 @@
 import React from 'react'
-import { fpn, fcn } from '../config';
+import { fpn, fcn } from '../../../config';
 
 // types
-import { CT } from '../interfaces'
+import { CT } from '../../../interfaces'
+
+// components
+import TextInput from '../../helpers/formhelpers/TextInput'
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
@@ -59,15 +62,14 @@ function ContributionsTable(props: CT) {
 
             {/* Row number */}
             <td className="input">
-              <label className="govuk-visually-hidden" htmlFor={`${r.id}-number`}>Row number (optional)</label>
-              <input
-                className="number"
+              <TextInput
+                hiddenLabel={true}
                 name={`${r.id}-number`}
-                type="text"
-                id={`${r.id}-number`}
-                value={r.number}
-                onChange={(e) => props.handleChange?.(r, e)}
-                placeholder="Enter the row number (optional)"
+                labelText="Row number (optional)"
+                inputClassName="number"
+                inputValue={r.number}
+                placeholderText="Enter the row number (optional)"
+                onChangeCallback={(e) => props.handleChange?.(r, e)}
               />
             </td>
 
@@ -92,15 +94,14 @@ function ContributionsTable(props: CT) {
               `input ${props.rowsErrors?.[`${r.id}`]?.['gross']?.['name'] === 'Gross' ? "error-cell" : ""}`}>
               {props.handleChange ?
                 <>
-                  <label className="govuk-visually-hidden" htmlFor={`${r.id}-gross`}>Gross pay</label>
-                  <input
-                    className="gross-pay"
+                  <TextInput
+                    hiddenLabel={true}
                     name={`${r.id}-gross`}
-                    type="text"
-                    id={`${r.id}-gross`}
-                    value={r.gross}
-                    onChange={(e) => props.handleChange?.(r, e)}
-                    placeholder="Enter the gross pay amount"
+                    labelText="Gross pay"
+                    inputClassName="gross-pay"
+                    inputValue={r.gross}
+                    placeholderText="Enter the gross pay amount"
+                    onChangeCallback={(e) => props.handleChange?.(r, e)}
                   />
                 </>
               :

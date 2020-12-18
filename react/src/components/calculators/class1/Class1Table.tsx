@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { taxYearString } from '../config';
+import { taxYearString } from '../../../config';
 import uniqid from 'uniqid';
-import { taxYearsCategories } from '../config'
+import { taxYearsCategories } from '../../../config'
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
-import ContributionsTable from './ContributionsTable'
+import ContributionsTable from './Class1ContributionsTable'
 
 // types
-import { Row, TableProps, TaxYear } from '../interfaces';
+import { Row, Class1TableProps, TaxYear } from '../../../interfaces';
 
 numeral.locale('en-gb');
 
-function Table(props: TableProps) {
+function Class1Table(props: Class1TableProps) {
 
   const [taxYears] = useState<TaxYear[]>(taxYearsCategories)
   const [activeRowID, setActiveRowID] = useState<string | null>(null)
@@ -138,4 +138,4 @@ function Table(props: TableProps) {
   )
 }
 
-export default Table;
+export default Class1Table;

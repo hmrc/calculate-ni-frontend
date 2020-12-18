@@ -3,12 +3,39 @@ export interface HeaderProps {
   serviceName: string
 }
 
-export interface S {
+export interface PhaseBannerProps {
+  type: "ALPHA" | "BETA"
+}
+
+export interface DetailsProps {
   fullName: string
   ni: string
   reference: string
   preparedBy: string
   date: string
+  handleChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+export interface Class1S {
+  fullName: string
+  ni: string
+  reference: string
+  preparedBy: string
+  date: string
+}
+
+export interface DirectorsS {
+  fullName: string
+  ni: string
+  reference: string
+  preparedBy: string
+  date: string
+  directorshipFromDay: string
+  directorshipFromMonth: string
+  directorshipFromYear: string
+  directorshipToDay: string
+  directorshipToMonth: string
+  directorshipToYear: string
 }
 
 export interface Errors {
@@ -39,7 +66,7 @@ export interface TaxYear {
   categories: string[]
 }
 
-export interface TableProps {
+export interface Class1TableProps {
   rows: Row[]
   setRows: (r: Row[]) => void
   runCalcs: (r: Row[], ty: Date) => void
@@ -50,7 +77,28 @@ export interface TableProps {
   setTaxYear: (ty: TaxYear) => void
   taxYear: TaxYear
   setShowSummary: (v: Boolean) => void
-  // niData: Calculated[]
+}
+
+export interface DirectorsTableProps {
+  rows: Row[]
+  setRows: (r: Row[]) => void
+  runCalcs: (r: Row[], ty: Date) => void
+  errors: object
+  rowsErrors: ErrorSummaryProps['rowsErrors']
+  resetTotals: () => void
+  periods: string[]
+  setTaxYear: (ty: TaxYear) => void
+  taxYear: TaxYear
+  setShowSummary: (v: Boolean) => void
+  directorshipFromDay: string
+  directorshipFromMonth: string
+  directorshipFromYear: string
+  directorshipToDay: string
+  directorshipToMonth: string
+  directorshipToYear: string
+  earningsPeriod: string | null
+  handlePeriodChange: (value: string) => void
+  handleChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export interface CT {
@@ -68,11 +116,12 @@ export interface CT {
 
 // Totals
 export interface TotalsProps {
+  grossPayTally: boolean
   errors?: {
     niPaidNet?: string
     niPaidEmployee?: string
   }
-  grossTotal: Number | null
+  grossTotal?: Number | null
   niPaidNet: string
   niPaidEmployee: string
   niPaidEmployer: number
@@ -85,7 +134,6 @@ export interface TotalsProps {
   overpaymentEmployee: number
   underpaymentEmployer: number
   overpaymentEmployer: number
-  // handleNiChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
   setNiPaidNet: (v: string) => void
   setNiPaidEmployee: (v: string) => void
   isSaveAndPrint: boolean
@@ -111,7 +159,7 @@ export interface ErrorSummaryProps {
 // Save Print
 export interface SavePrintProps {
   setShowSummary: (v: Boolean) => void
-  details: S
+  details: Class1S
   taxYearString: string
   rows: Row[]
   periods: string[]
@@ -144,4 +192,18 @@ export interface  SummaryListRowProps {
   listKey: string
   listValue: string
   rowClasses?: String
+}
+
+export interface TextInputProps {
+  labelText: string
+  labelClass?: string
+  hiddenLabel?: boolean 
+  name: string
+  inputClassName: string
+  inputValue: string
+  placeholderText?: string
+  pattern?: string
+  inputMode?: "numeric"
+  onChangeCallback: React.ChangeEventHandler<HTMLInputElement>
+  onBlurCallback?: React.ChangeEventHandler<HTMLInputElement>
 }
