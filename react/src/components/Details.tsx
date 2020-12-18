@@ -1,16 +1,10 @@
 import React from 'react';
 
+// types
+import { DetailsProps } from '../interfaces'
+
 // components
 import TextInput from './helpers/formhelpers/TextInput'
-
-interface DetailsProps {
-  fullName: string
-  ni: string
-  reference: string
-  preparedBy: string
-  date: string
-  handleChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
-}
 
 function Details (props: DetailsProps) {
   return (

@@ -10992,6 +10992,19 @@ var $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1 = new $TypeData().i
   Ljava_io_Serializable: 1
 });
 $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1;
+function $s_Leoi_frontend_ClassOne__getTaxYears__Leoi_frontend_ClassOne__sc_Iterable($this) {
+  var this$1 = $as_Leoi_Configuration($this.config).classOne$1;
+  var this$4 = this$1.keySet__sci_Set();
+  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2) {
+    return (function(x$3$2) {
+      var x$3 = $as_Lspire_math_Interval(x$3$2);
+      return x$3.toString__T()
+    })
+  })($this));
+  var this$3 = $m_sc_Iterable$();
+  var bf = this$3.ReusableCBFInstance$2;
+  return $as_sc_Iterable($f_sc_TraversableLike__map__F1__scg_CanBuildFrom__O(this$4, f, bf))
+}
 function $s_Leoi_frontend_ClassOne__calculate__Leoi_frontend_ClassOne__sjs_js_Date__D__T__T__I__Z__T($this, on, amount, cat, period, qty, contractedOutStandardRate) {
   var jsx$4 = $as_Leoi_Configuration($this.config);
   var jsx$3 = $as_Ljava_time_LocalDate($this.convertDate(on));
@@ -11021,6 +11034,9 @@ function $s_Leoi_frontend_ClassOne__convertDate__Leoi_frontend_ClassOne__sjs_js_
   return $m_Ljava_time_LocalDate$().of__I__I__I__Ljava_time_LocalDate($uI($in.getFullYear()), $uI($in.getMonth()), $uI($in.getDate()))
 }
 function $s_Leoi_frontend_ClassOne__calculate$default$6__Leoi_frontend_ClassOne__Z($this) {
+  return false
+}
+function $s_Leoi_frontend_ClassOne__calculateProRata$default$5__Leoi_frontend_ClassOne__Z($this) {
   return false
 }
 function $s_Leoi_frontend_ClassOne__calculateClassOneAAndB__Leoi_frontend_ClassOne__sjs_js_Date__D__T($this, on, amount) {
@@ -11067,9 +11083,9 @@ function $s_Leoi_frontend_ClassOne__isCosrApplicable__Leoi_frontend_ClassOne__sj
 function $s_Leoi_frontend_ClassOne__getApplicableCategories__Leoi_frontend_ClassOne__sjs_js_Date__T($this, on) {
   var this$1 = $as_Leoi_Configuration($this.config).classOne$1;
   var this$4 = this$1.keySet__sci_Set().find__F1__s_Option(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2, on$1) {
-    return (function(x$3$2) {
-      var x$3 = $as_Lspire_math_Interval(x$3$2);
-      return x$3.contains__O__Lcats_kernel_Order__Z($as_Ljava_time_LocalDate(this$2.convertDate(on$1)), ($m_Leoi_package$(), new $c_Leoi_package$$anon$1().init___()))
+    return (function(x$4$2) {
+      var x$4 = $as_Lspire_math_Interval(x$4$2);
+      return x$4.contains__O__Lcats_kernel_Order__Z($as_Ljava_time_LocalDate(this$2.convertDate(on$1)), ($m_Leoi_package$(), new $c_Leoi_package$$anon$1().init___()))
     })
   })($this, on)));
   if (this$4.isEmpty__Z()) {
@@ -11135,6 +11151,46 @@ function $s_Leoi_frontend_ClassOne__getApplicableCategories__Leoi_frontend_Class
     var jsx$5 = b.result__O()
   };
   return $as_sc_TraversableOnce(jsx$5).mkString__T()
+}
+function $s_Leoi_frontend_ClassOne__calculateProRata__Leoi_frontend_ClassOne__sjs_js_Date__sjs_js_Date__D__T__Z__T($this, from, to, amount, cat, contractedOutStandardRate) {
+  var jsx$4 = $as_Leoi_Configuration($this.config);
+  var jsx$3 = $as_Ljava_time_LocalDate($this.convertDate(from));
+  var this$2 = $m_s_package$().BigDecimal__s_math_BigDecimal$();
+  var x = ("" + amount);
+  var jsx$2 = this$2.exact__T__s_math_BigDecimal(x);
+  var this$4 = new $c_sci_StringOps().init___T(cat);
+  var c = $f_sc_IndexedSeqOptimized__head__O(this$4);
+  if ((c === null)) {
+    var jsx$1 = 0
+  } else {
+    var this$6 = $as_jl_Character(c);
+    var jsx$1 = this$6.value$1
+  };
+  var totalForYear = jsx$4.calculateClassOne__Ljava_time_LocalDate__s_math_BigDecimal__C__Leoi_Period$Vala__I__Z__sci_Map(jsx$3, jsx$2, jsx$1, $m_Leoi_Period$().Year$2, 1, contractedOutStandardRate);
+  var ratio = $as_s_math_BigDecimal($as_Leoi_Configuration($this.config).proRataRatio__Ljava_time_LocalDate__Ljava_time_LocalDate__s_Option($as_Ljava_time_LocalDate($this.convertDate(from)), $as_Ljava_time_LocalDate($this.convertDate(to))).get__O());
+  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1, ratio$1) {
+    return (function(x0$1$2) {
+      var x0$1 = $as_T3(x0$1$2);
+      if ((x0$1 !== null)) {
+        var b = $as_s_math_BigDecimal(x0$1.$$und1$1);
+        var ee = $as_s_math_BigDecimal(x0$1.$$und2$1);
+        var er = $as_s_math_BigDecimal(x0$1.$$und3$1);
+        return new $c_T3().init___O__O__O(b.$$times__s_math_BigDecimal__s_math_BigDecimal(ratio$1), ee.$$times__s_math_BigDecimal__s_math_BigDecimal(ratio$1), er.$$times__s_math_BigDecimal__s_math_BigDecimal(ratio$1))
+      } else {
+        throw new $c_s_MatchError().init___O(x0$1)
+      }
+    })
+  })($this, ratio));
+  var ret = new $c_sci_MapLike$$anon$2().init___sci_MapLike__F1(totalForYear, f);
+  var jsx$6 = $m_Lio_circe_Encoder$();
+  var jsx$5 = $m_Lio_circe_KeyEncoder$().encodeKeyString$1;
+  var this$8 = $m_Lio_circe_Encoder$();
+  var encodeA0 = $m_Lio_circe_Encoder$().encodeBigDecimal$1;
+  var encodeA1 = $m_Lio_circe_Encoder$().encodeBigDecimal$1;
+  var encodeA2 = $m_Lio_circe_Encoder$().encodeBigDecimal$1;
+  var encoder = jsx$6.encodeMap__Lio_circe_KeyEncoder__Lio_circe_Encoder__Lio_circe_Encoder$AsObject(jsx$5, new $c_Lio_circe_TupleEncoders$$anon$3().init___Lio_circe_TupleEncoders__Lio_circe_Encoder__Lio_circe_Encoder__Lio_circe_Encoder(this$8, encodeA0, encodeA1, encodeA2));
+  var this$10 = $f_Lio_circe_Encoder$AsObject__apply__O__Lio_circe_Json(encoder, ret);
+  return $m_Lio_circe_Printer$().spaces2$1.print__Lio_circe_Json__T(this$10)
 }
 function $s_Leoi_frontend_ClassOne__calculateClassFour__Leoi_frontend_ClassOne__Ljava_time_LocalDate__D__T($this, on, amount) {
   var jsx$1 = $as_Leoi_Configuration($this.config);
@@ -11208,9 +11264,30 @@ function $a_Leoi_frontend_ClassOne() {
       var prep$6 = ((rest[1] === (void 0)) ? $s_Leoi_frontend_ClassOne__calculate$default$6__Leoi_frontend_ClassOne__Z(this) : $uZ(rest[1]));
       return $s_Leoi_frontend_ClassOne__calculate__Leoi_frontend_ClassOne__sjs_js_Date__D__T__T__I__Z__T(this, prep, prep$2, prep$3, prep$4, prep$5, prep$6)
     });
+    $c_Leoi_frontend_ClassOne.prototype.calculateProRata = (function(arg, arg$2, arg$3, arg$4) {
+      var jsx$1 = (arguments.length | 0);
+      var jsx$2 = 4;
+      var rest = [];
+      while ((jsx$2 < jsx$1)) {
+        rest.push(arguments[jsx$2]);
+        jsx$2 = ((jsx$2 + 1) | 0)
+      };
+      var prep = arg;
+      var prep$2 = arg$2;
+      var prep$3 = $uD(arg$3);
+      var prep$4 = $as_T(arg$4);
+      var prep$5 = ((rest[0] === (void 0)) ? $s_Leoi_frontend_ClassOne__calculateProRata$default$5__Leoi_frontend_ClassOne__Z(this) : $uZ(rest[0]));
+      return $s_Leoi_frontend_ClassOne__calculateProRata__Leoi_frontend_ClassOne__sjs_js_Date__sjs_js_Date__D__T__Z__T(this, prep, prep$2, prep$3, prep$4, prep$5)
+    });
     $c_Leoi_frontend_ClassOne.prototype.isCosrApplicable = (function(arg) {
       var prep = arg;
       return $s_Leoi_frontend_ClassOne__isCosrApplicable__Leoi_frontend_ClassOne__sjs_js_Date__Z(this, prep)
+    });
+    Object.defineProperty($c_Leoi_frontend_ClassOne.prototype, "getTaxYears", {
+      "get": (function() {
+        return $s_Leoi_frontend_ClassOne__getTaxYears__Leoi_frontend_ClassOne__sc_Iterable(this)
+      }),
+      "configurable": true
     });
     $c_Leoi_frontend_ClassOne.prototype.getApplicableCategories = (function(arg) {
       var prep = arg;
@@ -28685,24 +28762,41 @@ function $h_Leoi_Configuration() {
   /*<skip>*/
 }
 $h_Leoi_Configuration.prototype = $c_Leoi_Configuration.prototype;
+$c_Leoi_Configuration.prototype.proRataRatio__Ljava_time_LocalDate__Ljava_time_LocalDate__s_Option = (function(from, to) {
+  var this$1 = this.classOne$1;
+  var this$3 = this$1.keySet__sci_Set().find__F1__s_Option(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, from$1) {
+    return (function(x$1$2) {
+      var x$1 = $as_Lspire_math_Interval(x$1$2);
+      return x$1.contains__O__Lcats_kernel_Order__Z(from$1, ($m_Leoi_package$(), new $c_Leoi_package$$anon$1().init___()))
+    })
+  })(this, from)));
+  if (this$3.isEmpty__Z()) {
+    return $m_s_None$()
+  } else {
+    var arg1 = this$3.get__O();
+    var taxYear = $as_Lspire_math_Interval(arg1);
+    var this$4 = this.intervalSizeDays$1__p1__Lspire_math_Interval__s_Option(taxYear);
+    if (this$4.isEmpty__Z()) {
+      return $m_s_None$()
+    } else {
+      var arg1$1 = this$4.get__O();
+      var total = $as_s_math_BigDecimal(arg1$1);
+      var this$6 = this.intervalSizeDays$1__p1__Lspire_math_Interval__s_Option($m_Lspire_math_Interval$().closed__O__O__Lcats_kernel_Order__Lspire_math_Interval(from, to, ($m_Leoi_package$(), new $c_Leoi_package$$anon$1().init___())));
+      if (this$6.isEmpty__Z()) {
+        return $m_s_None$()
+      } else {
+        var arg1$2 = this$6.get__O();
+        var partial = $as_s_math_BigDecimal(arg1$2);
+        return new $c_s_Some().init___O(partial.$$div__s_math_BigDecimal__s_math_BigDecimal(total))
+      }
+    }
+  }
+});
 $c_Leoi_Configuration.prototype.productPrefix__T = (function() {
   return "Configuration"
 });
 $c_Leoi_Configuration.prototype.productArity__I = (function() {
   return 6
-});
-$c_Leoi_Configuration.prototype.calculateClassThree__Ljava_time_LocalDate__I__s_Option = (function(on, numberOfWeeks) {
-  $m_Leoi_package$();
-  var value = this.classThree$1;
-  var this$3 = new $c_Leoi_package$RichIntervalMap().init___sci_Map(value).at__O__Lcats_kernel_Order__s_Option(on, ($m_Leoi_package$(), new $c_Leoi_package$$anon$1().init___()));
-  if (this$3.isEmpty__Z()) {
-    return $m_s_None$()
-  } else {
-    var arg1 = this$3.get__O();
-    var x$2 = $as_s_math_BigDecimal(arg1);
-    var this$4 = $m_s_math_BigDecimal$();
-    return new $c_s_Some().init___O(x$2.$$times__s_math_BigDecimal__s_math_BigDecimal(this$4.apply__I__Ljava_math_MathContext__s_math_BigDecimal(numberOfWeeks, this$4.defaultMathContext$1)))
-  }
 });
 $c_Leoi_Configuration.prototype.calculateClassFour__Ljava_time_LocalDate__s_math_BigDecimal__s_Option = (function(on, amount) {
   $m_Leoi_package$();
@@ -28719,6 +28813,19 @@ $c_Leoi_Configuration.prototype.calculateClassFour__Ljava_time_LocalDate__s_math
     $m_Lspire_implicits$();
     var upperBand = new $c_Lspire_math_Above().init___O__I(a, 1);
     return new $c_s_Some().init___O(new $c_T2().init___O__O($m_Leoi_package$RichBD$().inBand$extension__s_math_BigDecimal__Lspire_math_Interval__s_math_BigDecimal(($m_Leoi_package$(), amount), lowerBand).$$times__s_math_BigDecimal__s_math_BigDecimal(f.mainRate$1), $m_Leoi_package$RichBD$().inBand$extension__s_math_BigDecimal__Lspire_math_Interval__s_math_BigDecimal(($m_Leoi_package$(), amount), upperBand).$$times__s_math_BigDecimal__s_math_BigDecimal(f.upperRate$1)))
+  }
+});
+$c_Leoi_Configuration.prototype.calculateClassThree__Ljava_time_LocalDate__I__s_Option = (function(on, numberOfWeeks) {
+  $m_Leoi_package$();
+  var value = this.classThree$1;
+  var this$3 = new $c_Leoi_package$RichIntervalMap().init___sci_Map(value).at__O__Lcats_kernel_Order__s_Option(on, ($m_Leoi_package$(), new $c_Leoi_package$$anon$1().init___()));
+  if (this$3.isEmpty__Z()) {
+    return $m_s_None$()
+  } else {
+    var arg1 = this$3.get__O();
+    var x$3 = $as_s_math_BigDecimal(arg1);
+    var this$4 = $m_s_math_BigDecimal$();
+    return new $c_s_Some().init___O(x$3.$$times__s_math_BigDecimal__s_math_BigDecimal(this$4.apply__I__Ljava_math_MathContext__s_math_BigDecimal(numberOfWeeks, this$4.defaultMathContext$1)))
   }
 });
 $c_Leoi_Configuration.prototype.equals__O__Z = (function(x$1) {
@@ -28767,6 +28874,31 @@ $c_Leoi_Configuration.prototype.equals__O__Z = (function(x$1) {
     return false
   }
 });
+$c_Leoi_Configuration.prototype.intervalSizeDays$1__p1__Lspire_math_Interval__s_Option = (function($in) {
+  var this$1 = this.fromBound$1__p1__Lspire_math_interval_Bound__s_Option($in.lowerBound__Lspire_math_interval_Bound());
+  if (this$1.isEmpty__Z()) {
+    return $m_s_None$()
+  } else {
+    var arg1 = this$1.get__O();
+    var l = $as_Ljava_time_LocalDate(arg1);
+    var this$2 = this.fromBound$1__p1__Lspire_math_interval_Bound__s_Option($in.upperBound__Lspire_math_interval_Bound());
+    if (this$2.isEmpty__Z()) {
+      return $m_s_None$()
+    } else {
+      var arg1$1 = this$2.get__O();
+      var h = $as_Ljava_time_LocalDate(arg1$1);
+      var jsx$1 = $m_s_package$().BigDecimal__s_math_BigDecimal$();
+      var t = h.epochDay__p1__J();
+      var lo = t.lo$2;
+      var hi = t.hi$2;
+      var b = l.epochDay__p1__J();
+      var bhi = b.hi$2;
+      var lo$1 = ((lo - b.lo$2) | 0);
+      var hi$1 = ((((-2147483648) ^ lo$1) > ((-2147483648) ^ lo)) ? (((-1) + ((hi - bhi) | 0)) | 0) : ((hi - bhi) | 0));
+      return new $c_s_Some().init___O(jsx$1.apply__J__s_math_BigDecimal(new $c_sjsr_RuntimeLong().init___I__I(lo$1, hi$1)))
+    }
+  }
+});
 $c_Leoi_Configuration.prototype.productElement__I__O = (function(x$1) {
   switch (x$1) {
     case 0: {
@@ -28810,6 +28942,19 @@ $c_Leoi_Configuration.prototype.init___sci_Map__sci_Map__sci_Map__sci_Map__sci_M
 $c_Leoi_Configuration.prototype.toString__T = (function() {
   return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
 });
+$c_Leoi_Configuration.prototype.fromBound$1__p1__Lspire_math_interval_Bound__s_Option = (function($in) {
+  if (($in instanceof $c_Lspire_math_interval_Open)) {
+    var x2 = $as_Lspire_math_interval_Open($in);
+    var a = x2.a$1;
+    return new $c_s_Some().init___O(a)
+  } else if (($in instanceof $c_Lspire_math_interval_Closed)) {
+    var x3 = $as_Lspire_math_interval_Closed($in);
+    var a$2 = x3.a$1;
+    return new $c_s_Some().init___O(a$2)
+  } else {
+    return $m_s_None$()
+  }
+});
 $c_Leoi_Configuration.prototype.calculateClassOneAAndB__Ljava_time_LocalDate__s_math_BigDecimal__s_Option = (function(on, amount) {
   $m_Leoi_package$();
   var value = this.classOneAB$1;
@@ -28818,16 +28963,13 @@ $c_Leoi_Configuration.prototype.calculateClassOneAAndB__Ljava_time_LocalDate__s_
     return $m_s_None$()
   } else {
     var arg1 = this$3.get__O();
-    var x$1 = $as_s_math_BigDecimal(arg1);
-    return new $c_s_Some().init___O(amount.$$times__s_math_BigDecimal__s_math_BigDecimal(x$1))
+    var x$2 = $as_s_math_BigDecimal(arg1);
+    return new $c_s_Some().init___O(amount.$$times__s_math_BigDecimal__s_math_BigDecimal(x$2))
   }
 });
 $c_Leoi_Configuration.prototype.hashCode__I = (function() {
   var this$2 = $m_s_util_hashing_MurmurHash3$();
   return this$2.productHash__s_Product__I__I(this, (-889275714))
-});
-$c_Leoi_Configuration.prototype.productIterator__sc_Iterator = (function() {
-  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
 });
 $c_Leoi_Configuration.prototype.calculateClassOne__Ljava_time_LocalDate__s_math_BigDecimal__C__Leoi_Period$Vala__I__Z__sci_Map = (function(on, amount, cat, period, qty, contractedOutStandardRate) {
   $m_Leoi_package$();
@@ -28837,6 +28979,9 @@ $c_Leoi_Configuration.prototype.calculateClassOne__Ljava_time_LocalDate__s_math_
   var pf = new $c_Leoi_Configuration$$anonfun$calculateClassOne$2().init___Leoi_Configuration__Z__Leoi_Period$Vala__I__s_math_BigDecimal__C(this, contractedOutStandardRate, period, qty, amount, cat);
   var bf = $m_sci_Map$().ReusableCBF$4;
   return $as_sci_Map($f_sc_TraversableLike__collect__s_PartialFunction__scg_CanBuildFrom__O(defs, pf, bf))
+});
+$c_Leoi_Configuration.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
 });
 function $as_Leoi_Configuration(obj) {
   return (((obj instanceof $c_Leoi_Configuration) || (obj === null)) ? obj : $throwClassCastException(obj, "eoi.Configuration"))
@@ -33308,8 +33453,8 @@ $c_Leoi_Configuration$$anonfun$calculateClassOne$2.prototype.applyOrElse__T2__F1
       var jsx$1 = true
     } else {
       var arg1 = this$1.get__O();
-      var x$3 = $uZ(arg1);
-      var jsx$1 = (x$3 === this.contractedOutStandardRate$1$2)
+      var x$4 = $uZ(arg1);
+      var jsx$1 = (x$4 === this.contractedOutStandardRate$1$2)
     };
     if ((jsx$1 && d.trigger$1.interval__Leoi_Period$Vala__I__Lspire_math_Interval(this.period$1$2, this.qty$1$2).contains__O__Lcats_kernel_Order__Z(this.amount$4$2, $m_Lspire_implicits$().BigDecimalAlgebra$1))) {
       var x1$3 = this.period$1$2;
@@ -33317,8 +33462,8 @@ $c_Leoi_Configuration$$anonfun$calculateClassOne$2.prototype.applyOrElse__T2__F1
       if (((x === null) ? (x1$3 === null) : x.equals__O__Z(x1$3))) {
         var interval = d.year$1
       } else {
-        var x$4 = $m_Leoi_Period$().Month$2;
-        if (((x$4 === null) ? (x1$3 === null) : x$4.equals__O__Z(x1$3))) {
+        var x$3 = $m_Leoi_Period$().Month$2;
+        if (((x$3 === null) ? (x1$3 === null) : x$3.equals__O__Z(x1$3))) {
           var this$2 = d.month$1;
           if (this$2.isEmpty__Z()) {
             var jsx$4 = d.year$1;
@@ -33332,10 +33477,10 @@ $c_Leoi_Configuration$$anonfun$calculateClassOne$2.prototype.applyOrElse__T2__F1
           var i = this.qty$1$2;
           var this$7 = jsx$2.$$times__O__Lcats_kernel_Order__Lalgebra_ring_Semiring__Lspire_math_Interval(this$4.apply__I__Ljava_math_MathContext__s_math_BigDecimal(i, this$4.defaultMathContext$1), $m_Lspire_implicits$().BigDecimalAlgebra$1, $m_Lspire_implicits$().BigDecimalAlgebra$1);
           var f = (function(this$4$1) {
-            return (function(x$4$2$2) {
-              var x$4$2 = $as_s_math_BigDecimal(x$4$2$2);
+            return (function(x$5$2$2) {
+              var x$5$2 = $as_s_math_BigDecimal(x$5$2$2);
               $m_Leoi_package$();
-              return x$4$2.setScale__I__s_Enumeration$Value__s_math_BigDecimal(0, $m_s_math_BigDecimal$RoundingMode$().CEILING$2)
+              return x$5$2.setScale__I__s_Enumeration$Value__s_math_BigDecimal(0, $m_s_math_BigDecimal$RoundingMode$().CEILING$2)
             })
           })(this);
           var evidence$1 = $m_Lspire_implicits$().BigDecimalAlgebra$1;
@@ -33391,10 +33536,10 @@ $c_Leoi_Configuration$$anonfun$calculateClassOne$2.prototype.applyOrElse__T2__F1
             var i$1 = this.qty$1$2;
             var this$15 = jsx$8.$$times__O__Lcats_kernel_Order__Lalgebra_ring_Semiring__Lspire_math_Interval(this$12.apply__I__Ljava_math_MathContext__s_math_BigDecimal(i$1, this$12.defaultMathContext$1), $m_Lspire_implicits$().BigDecimalAlgebra$1, $m_Lspire_implicits$().BigDecimalAlgebra$1);
             var f$1 = (function(this$6$1) {
-              return (function(x$5$2$2) {
-                var x$5$2 = $as_s_math_BigDecimal(x$5$2$2);
+              return (function(x$6$2$2) {
+                var x$6$2 = $as_s_math_BigDecimal(x$6$2$2);
                 $m_Leoi_package$();
-                return x$5$2.setScale__I__s_Enumeration$Value__s_math_BigDecimal(0, $m_s_math_BigDecimal$RoundingMode$().CEILING$2)
+                return x$6$2.setScale__I__s_Enumeration$Value__s_math_BigDecimal(0, $m_s_math_BigDecimal$RoundingMode$().CEILING$2)
               })
             })(this);
             var evidence$1$1 = $m_Lspire_implicits$().BigDecimalAlgebra$1;
@@ -33452,10 +33597,10 @@ $c_Leoi_Configuration$$anonfun$calculateClassOne$2.prototype.applyOrElse__T2__F1
             var i$2 = this.qty$1$2;
             var this$23 = jsx$14.$$times__O__Lcats_kernel_Order__Lalgebra_ring_Semiring__Lspire_math_Interval(this$20.apply__I__Ljava_math_MathContext__s_math_BigDecimal(i$2, this$20.defaultMathContext$1), $m_Lspire_implicits$().BigDecimalAlgebra$1, $m_Lspire_implicits$().BigDecimalAlgebra$1);
             var f$2 = (function(this$8$1) {
-              return (function(x$6$2$2) {
-                var x$6$2 = $as_s_math_BigDecimal(x$6$2$2);
+              return (function(x$7$2$2) {
+                var x$7$2 = $as_s_math_BigDecimal(x$7$2$2);
                 $m_Leoi_package$();
-                return x$6$2.setScale__I__s_Enumeration$Value__s_math_BigDecimal(0, $m_s_math_BigDecimal$RoundingMode$().CEILING$2)
+                return x$7$2.setScale__I__s_Enumeration$Value__s_math_BigDecimal(0, $m_s_math_BigDecimal$RoundingMode$().CEILING$2)
               })
             })(this);
             var evidence$1$2 = $m_Lspire_implicits$().BigDecimalAlgebra$1;
@@ -33542,8 +33687,8 @@ $c_Leoi_Configuration$$anonfun$calculateClassOne$2.prototype.isDefinedAt__T2__Z 
       var jsx$1 = true
     } else {
       var arg1 = this$1.get__O();
-      var x$3 = $uZ(arg1);
-      var jsx$1 = (x$3 === this.contractedOutStandardRate$1$2)
+      var x$4 = $uZ(arg1);
+      var jsx$1 = (x$4 === this.contractedOutStandardRate$1$2)
     };
     if ((jsx$1 && d.trigger$1.interval__Leoi_Period$Vala__I__Lspire_math_Interval(this.period$1$2, this.qty$1$2).contains__O__Lcats_kernel_Order__Z(this.amount$4$2, $m_Lspire_implicits$().BigDecimalAlgebra$1))) {
       return true

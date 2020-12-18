@@ -10,17 +10,13 @@ interface DateProps {
   description: string
   legend: string
   hint?: string
+  day: string
+  month: string
+  year: string
+  handleChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 function Date(props: DateProps) {
-  const [day, setDay] = useState<string>('')
-  const [month, setMonth] = useState<string>('')
-  const [year, setYear] = useState<string>('')
-
-  const handleBlur = (e: React.ChangeEventHandler<HTMLInputElement>) => {
-
-  }
-
   return (
     <div className="govuk-form-group">
       <fieldset 
@@ -39,17 +35,17 @@ function Date(props: DateProps) {
           </div>
         }
 
-        <div className="govuk-date-input" id={stripSpaces(props.description)}>
+        <div className="govuk-date-input" id={props.description}>
 
           <div className="govuk-date-input__item">
             <div className="govuk-form-group">          
               <TextInput 
                 labelText="Day"
                 labelClass="govuk-label govuk-date-input__label"
-                name={`${stripSpaces(props.description)}-day`}
+                name={`${props.description}Day`}
                 inputClassName="govuk-input govuk-date-input__input govuk-input--width-2"
-                inputValue={day}
-                onChangeCallback={(e) => setDay(e.target.value)}
+                inputValue={props.day}
+                onChangeCallback={props.handleChange}
                 pattern="[0-9]*"
                 inputMode="numeric"
               />
@@ -61,10 +57,10 @@ function Date(props: DateProps) {
               <TextInput 
                 labelText="Month"
                 labelClass="govuk-label govuk-date-input__label"
-                name={`${stripSpaces(props.description)}-month`}
+                name={`${props.description}Month`}
                 inputClassName="govuk-input govuk-date-input__input govuk-input--width-2"
-                inputValue={month}
-                onChangeCallback={(e) => setMonth(e.target.value)}
+                inputValue={props.month}
+                onChangeCallback={props.handleChange}
                 pattern="[0-9]*"
                 inputMode="numeric"
               />
@@ -76,10 +72,10 @@ function Date(props: DateProps) {
               <TextInput 
                 labelText="Year"
                 labelClass="govuk-label govuk-date-input__label"
-                name={`${stripSpaces(props.description)}-year`}
+                name={`${props.description}Year`}
                 inputClassName="govuk-input govuk-date-input__input govuk-input--width-4"
-                inputValue={year}
-                onChangeCallback={(e) => setYear(e.target.value)}
+                inputValue={props.year}
+                onChangeCallback={props.handleChange}
                 pattern="[0-9]*"
                 inputMode="numeric"
               />

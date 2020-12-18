@@ -7,12 +7,35 @@ export interface PhaseBannerProps {
   type: "ALPHA" | "BETA"
 }
 
-export interface S {
+export interface DetailsProps {
   fullName: string
   ni: string
   reference: string
   preparedBy: string
   date: string
+  handleChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+export interface Class1S {
+  fullName: string
+  ni: string
+  reference: string
+  preparedBy: string
+  date: string
+}
+
+export interface DirectorsS {
+  fullName: string
+  ni: string
+  reference: string
+  preparedBy: string
+  date: string
+  directorshipFromDay: string
+  directorshipFromMonth: string
+  directorshipFromYear: string
+  directorshipToDay: string
+  directorshipToMonth: string
+  directorshipToYear: string
 }
 
 export interface Errors {
@@ -54,7 +77,6 @@ export interface Class1TableProps {
   setTaxYear: (ty: TaxYear) => void
   taxYear: TaxYear
   setShowSummary: (v: Boolean) => void
-  // niData: Calculated[]
 }
 
 export interface DirectorsTableProps {
@@ -68,7 +90,15 @@ export interface DirectorsTableProps {
   setTaxYear: (ty: TaxYear) => void
   taxYear: TaxYear
   setShowSummary: (v: Boolean) => void
-  // niData: Calculated[]
+  directorshipFromDay: string
+  directorshipFromMonth: string
+  directorshipFromYear: string
+  directorshipToDay: string
+  directorshipToMonth: string
+  directorshipToYear: string
+  earningsPeriod: string | null
+  handlePeriodChange: (value: string) => void
+  handleChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export interface CT {
@@ -129,7 +159,7 @@ export interface ErrorSummaryProps {
 // Save Print
 export interface SavePrintProps {
   setShowSummary: (v: Boolean) => void
-  details: S
+  details: Class1S
   taxYearString: string
   rows: Row[]
   periods: string[]

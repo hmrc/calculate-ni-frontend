@@ -6,14 +6,16 @@ import configuration from '../../../configuration.json'
 import { ClassOne } from '../../../calculation'
 import { taxYearsCategories, periods as p, calcOverUnderPayment, calcNi } from '../../../config'
 
-// types
-import { S, Row, ErrorSummaryProps, TaxYear } from '../../../interfaces'
 
 // components
 import Details from '../../Details'
 import DirectorsTable from '../directors/DirectorsTable'
 import Totals from '../../Totals'
 import ErrorSummary from '../../helpers/ErrorSummary'
+
+// types
+import { DirectorsS, Row, ErrorSummaryProps, TaxYear } from '../../../interfaces'
+type PeriodValues = "ANNUAL" | "PRO RATA" | null;
 
 function Directors() {
   const initialState = {
@@ -22,12 +24,19 @@ function Directors() {
     reference: '',
     preparedBy: '',
     date: '',
+    directorshipFromDay: '',
+    directorshipFromMonth: '',
+    directorshipFromYear:'',
+    directorshipToDay: '',
+    directorshipToMonth: '',
+    directorshipToYear:''
   }
-  const stateReducer = (state: S, action: { [x: string]: string }) => ({
+  const stateReducer = (state: DirectorsS, action: { [x: string]: string }) => ({
     ...state,
     ...action,
   })
   const [state, dispatch] = React.useReducer(stateReducer, initialState)
+  const [earningsPeriod, setEarningsPeriod] = useState<PeriodValues>(null)
 
   const [errors, setErrors] = useState<object>({})
   const [rowsErrors, setRowsErrors] = useState<ErrorSummaryProps['rowsErrors']>({})
@@ -98,9 +107,18 @@ function Directors() {
 
       const calculations = r
         .map((r, i) => {
-          const pd = (r.period === 'Frt' ? 'Wk' : r.period)
-          const pdQty = (r.period === 'Frt' ? 2 : 1)
-          const res = JSON.parse(c.calculate(ty, parseFloat(r.gross), r.category, pd, pdQty, false))
+          let res: any;
+
+          if (earningsPeriod === "ANNUAL") {
+            res = JSON.parse(c.calculate(ty, parseFloat(r.gross), r.category, 'Ann', 1, false))
+          } else {
+            const from = new Date(`${state.directorshipFromYear}, ${state.directorshipFromMonth}, ${state.directorshipFromDay}`)
+            const to = new Date(`${state.directorshipToYear}, ${state.directorshipToMonth}, ${state.directorshipToDay}`)
+            res = JSON.parse(c.calculateProRata(from, to, parseFloat(r.gross), r.category, false))
+          }
+          console.log('---')
+          console.log(res)
+          console.log('---')
 
           // Employee Contributions
           const ee = Object.keys(res).reduce((prev, key) => {
@@ -146,6 +164,11 @@ function Directors() {
 
 
     }
+  }
+
+  const handlePeriodChange = (value: string) => {
+    const p = value.toUpperCase().split('-').join(" ") as PeriodValues
+    setEarningsPeriod(p)
   }
 
   const resetTotals = () => {
@@ -200,6 +223,15 @@ function Directors() {
                 taxYear={taxYear}
                 setTaxYear={setTaxYear}
                 setShowSummary={setShowSummary}
+                directorshipFromDay={state.directorshipFromDay}
+                directorshipFromMonth={state.directorshipFromMonth}
+                directorshipFromYear={state.directorshipFromYear}
+                directorshipToDay={state.directorshipToDay}
+                directorshipToMonth={state.directorshipToMonth}
+                directorshipToYear={state.directorshipToYear}
+                handleChange={handleChange}
+                earningsPeriod={earningsPeriod}
+                handlePeriodChange={handlePeriodChange}
               />
             </div>
 

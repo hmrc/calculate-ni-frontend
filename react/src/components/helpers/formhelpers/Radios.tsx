@@ -8,16 +8,13 @@ interface RadiosProps {
   legend: string
   description: string
   items: string[]
+  handleChange: (value: string) => void;
 }
 
 
 
 function Radios(props: RadiosProps) {
   const [checkedItem, setCheckedItem] = useState<string>('')
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckedItem(e.target.value)
-  }
 
   return (
     <div className="govuk-form-group">
@@ -44,7 +41,10 @@ function Radios(props: RadiosProps) {
                   type="radio" 
                   value={`${stripSpaces(item)}`}
                   checked={checkedItem === `${stripSpaces(item)}`}
-                  onChange={handleChange}
+                  onChange={e => {
+                    setCheckedItem(e.target.value)
+                    props.handleChange(e.target.value)
+                  }}
                 />
                 <label className="govuk-label govuk-radios__label" htmlFor={`${desc}-${i}`}>
                   {item}

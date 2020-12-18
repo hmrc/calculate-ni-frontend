@@ -12,7 +12,7 @@ import {
   taxYearsCategories } from '../../../config'
 
 // types
-import { S, Row, ErrorSummaryProps, TaxYear } from '../../../interfaces'
+import { Class1S, Row, ErrorSummaryProps, TaxYear } from '../../../interfaces'
 
 // components
 import Details from '../../Details'
@@ -30,7 +30,7 @@ function Class1() {
     date: '',
   }
 
-  const stateReducer = (state: S, action: { [x: string]: string }) => ({
+  const stateReducer = (state: Class1S, action: { [x: string]: string }) => ({
     ...state,
     ...action,
   })

@@ -43,15 +43,6 @@ function DirectorsTable(props: DirectorsTableProps) {
     props.setTaxYear(taxYears[taxYears.findIndex(ty => ty.id === e.target.value)])
   )
 
-  const handleDateInputBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let day, month, year;
-
-    console.log(e.target)
-    console.log(e.target.name)
-    console.log(e.target.value)
-    // construct date & check if valid before setting directors state
-  }
-
   // const handleClick = () => {
   //   const lastRow = props.rows[props.rows.length -1]
   //   props.setRows([...props.rows, {
@@ -103,23 +94,34 @@ function DirectorsTable(props: DirectorsTableProps) {
         legend="Earnings period"
         description="earnings-period"
         items={["Annual", "Pro rata"]}
+        handleChange={props.handlePeriodChange}
       />
 
       {/* Directorship */}
-      <div className="container">
-        <div className="container third">
-          <Date
-            description="directorship from"
-            legend="Directorship from"
-          />
+      {props.earningsPeriod === 'PRO RATA' &&
+        <div className="container">
+          <div className="container third">
+            <Date
+              description="directorshipFrom"
+              legend="Directorship from"
+              day={props.directorshipFromDay}
+              month={props.directorshipFromMonth}
+              year={props.directorshipFromYear}
+              handleChange={props.handleChange}
+            />
+          </div>
+          <div className="container third">
+            <Date
+              description="directorshipTo"
+              legend="Directorship to"
+              day={props.directorshipToDay}
+              month={props.directorshipToMonth}
+              year={props.directorshipToYear}
+              handleChange={props.handleChange}
+            />
+          </div>
         </div>
-        <div className="container third">
-          <Date
-            description="directorship to"
-            legend="Directorship to"
-          />
-        </div>
-      </div>
+      }
 
       
       {/* // Pass row headings as array: ['Period', 'Qty', 'etc'] */}
