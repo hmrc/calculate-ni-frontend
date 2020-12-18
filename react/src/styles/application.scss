@@ -1,0 +1,13 @@
+$govuk-assets-path: "/calculate-ni-frontend/assets/lib/govuk-frontend/govuk/assets/";
+@import "node_modules/govuk-frontend/govuk/all";
+$hmrc-assets-path: "/calculate-ni-frontend/assets/lib/hmrc-frontend/hmrc/";
+@import "node_modules/hmrc-frontend/hmrc/all";
+
+#root .hmrc-internal-header__logo-link::before {
+  content: "";
+  display: table-cell;
+  background: url('../assets/hmrc-crown-logo_black.svg') no-repeat;
+  background-size: 100% 100%;
+  width: 52px;
+  height: 32px;
+}
