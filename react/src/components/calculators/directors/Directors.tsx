@@ -4,7 +4,12 @@ import isEmpty from 'lodash/isEmpty'
 import validateInput from '../../../validation/validation'
 import configuration from '../../../configuration.json'
 import { ClassOne } from '../../../calculation'
-import { taxYearsCategories, periods as p, calcOverUnderPayment, calcNi } from '../../../config'
+import { 
+  taxYearsCategories, 
+  periods as p, 
+  taxYearString,
+  calcOverUnderPayment, 
+  calcNi } from '../../../config'
 
 
 // components
@@ -12,6 +17,7 @@ import Details from '../../Details'
 import DirectorsTable from '../directors/DirectorsTable'
 import Totals from '../../Totals'
 import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
+import SavePrint from '../../SavePrint'
 
 // types
 import { DirectorsS, Row, ErrorSummaryProps, TaxYear } from '../../../interfaces'
@@ -116,9 +122,6 @@ function Directors() {
             const to = new Date(`${state.directorshipToYear}, ${state.directorshipToMonth}, ${state.directorshipToDay}`)
             res = JSON.parse(c.calculateProRata(from, to, parseFloat(r.gross), r.category, false))
           }
-          console.log('---')
-          console.log(res)
-          console.log('---')
 
           // Employee Contributions
           const ee = Object.keys(res).reduce((prev, key) => {
@@ -177,7 +180,30 @@ function Directors() {
   return (
     <main id="main-content" role="main">
       {showSummary ?
-        <p>Save and print</p>
+        <SavePrint
+          setShowSummary={setShowSummary}
+          details={state}
+          taxYearString={taxYearString(taxYear)}
+          taxYear={taxYear}
+          rows={rows}
+          periods={periods}
+
+          grossTotal={grossTotal}
+          niPaidNet={niPaidNet}
+          setNiPaidNet={setNiPaidNet}
+          niPaidEmployee={niPaidEmployee}
+          setNiPaidEmployee={setNiPaidEmployee}
+          niPaidEmployer={niPaidEmployer}
+          netContributionsTotal={netContributionsTotal}
+          employeeContributionsTotal={employeeContributionsTotal}
+          employerContributionsTotal={employerContributionsTotal}
+          underpaymentNet={underpaymentNet}
+          overpaymentNet={overpaymentNet}
+          underpaymentEmployee={underpaymentEmployee}
+          overpaymentEmployee={overpaymentEmployee}
+          underpaymentEmployer={underpaymentEmployer}
+          overpaymentEmployer={overpaymentEmployer}
+        />
         :
         <>
           {(!isEmpty(errors) || !isEmpty(rowsErrors)) &&
