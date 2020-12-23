@@ -29,23 +29,41 @@ export const fcn = (str: string) => {
   }
 }
 
-export const periods = [
-  'Wk',
-  'Frt',
-  'Mnth',
-  '4Wk'
+export enum PeriodValue {
+  WEEKLY = 'Wk',
+  FORTNIGHTLY = 'Frt',
+  MONTHLY = 'Mnth',
+  FOURWEEKLY = '4wk',
+  ANNUAL = 'Ann',
+  PRORATA = 'Prr'
+}
+
+export enum PeriodLabel {
+  WEEKLY = 'Weekly',
+  FORTNIGHTLY = 'Fortnightly',
+  MONTHLY = 'Monthly',
+  FOURWEEKLY = 'Four weekly',
+  ANNUAL = 'Annual',
+  PRORATA = 'Pro Rata'
+}
+
+export const periods: Array<PeriodValue> = [
+  PeriodValue.WEEKLY,
+  PeriodValue.FORTNIGHTLY,
+  PeriodValue.MONTHLY,
+  PeriodValue.FOURWEEKLY
 ]
 
-export const fpn = (str: string) => {
+export const periodValueToLabel = (str: PeriodValue) => {
   switch (str) {
-    case 'Wk':
-      return 'Weekly'
-    case 'Frt':
-      return 'Fortnightly'
-    case 'Mnth':
-      return 'Monthly'
-    case '4Wk':
-      return 'Four weekly'
+    case PeriodValue.WEEKLY:
+      return PeriodLabel.WEEKLY
+    case PeriodValue.FORTNIGHTLY:
+      return PeriodLabel.FORTNIGHTLY
+    case PeriodValue.MONTHLY:
+      return PeriodLabel.MONTHLY
+    case PeriodValue.FOURWEEKLY:
+      return PeriodLabel.FOURWEEKLY
   }
 }
 

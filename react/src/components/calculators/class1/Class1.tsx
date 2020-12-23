@@ -1,25 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState} from 'react'
 import uniqid from 'uniqid';
-import isEmpty from 'lodash/isEmpty'
-import validateInput from '../../../validation/validation'
+import {RowsErrors, validateClassOnePayload} from '../../../validation/validation'
 import configuration from '../../../configuration.json'
 import { ClassOne } from '../../../calculation'
-import { 
-  calcOverUnderPayment, 
-  calcNi, 
-  taxYearString, 
-  periods as p, 
-  taxYearsCategories } from '../../../config'
+import {
+  taxYearString,
+  periods,
+  taxYearsCategories, PeriodValue
+} from '../../../config'
 
 // types
-import { Class1S, Row, ErrorSummaryProps, TaxYear } from '../../../interfaces'
+import {Class1S, Row, TaxYear, Calculated} from '../../../interfaces'
 
 // components
 import Details from '../../Details'
 import Class1Table from './Class1Table'
 import Totals from '../../Totals'
-import SavePrint from '../../SavePrint'
+import Class1Print from './Class1Print'
 import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
+
+// utils
+import { updateRowInResults } from "../../../services/utils";
+
+const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 
 function Class1() {
   const initialState = {
@@ -30,53 +33,30 @@ function Class1() {
     date: '',
   }
 
-  const stateReducer = (state: Class1S, action: { [x: string]: string }) => ({
-    ...state,
-    ...action,
-  })
-
-  const [periods] = useState<Array<string>>(p)
-  
-  const [taxYear, setTaxYear] = useState<TaxYear>(taxYearsCategories[0])
-  const [rows, setRows] = useState<Array<Row>>([{
+  const defaultRows = [{
     id: uniqid(),
-    category: taxYear.categories[0],
+    category: taxYearsCategories[0].categories[0],
     period: periods[0],
     gross: '',
     number: '0',
     ee: '0',
     er: '0'
-  }])
-    
-  const [netContributionsTotal, setNetContributionsTotal] = useState<number>(0)
-  const [employeeContributionsTotal, setEmployeeContributionsTotal] = useState<number>(0)
-  const [employerContributionsTotal, setEmployerContributionsTotal] = useState<number>(0)
+  }]
 
-  const [underpaymentNet, setUnderpaymentNet] = useState<number>(0)
-  const [overpaymentNet, setOverpaymentNet] = useState<number>(0)
-  
-  const [underpaymentEmployee, setUnderpaymentEmployee] = useState<number>(0)
-  const [overpaymentEmployee, setOverpaymentEmployee] = useState<number>(0)
-  
-  const [underpaymentEmployer, setUnderpaymentEmployer] = useState<number>(0)
-  const [overpaymentEmployer, setOverpaymentEmployer] = useState<number>(0)
-
-  const [errors, setErrors] = useState<object>({})
-  const [rowsErrors, setRowsErrors] = useState<ErrorSummaryProps['rowsErrors']>({})
+  const stateReducer = (state: Class1S, action: { [x: string]: string }) => ({
+    ...state,
+    ...action,
+  })
+  const [taxYear, setTaxYear] = useState<TaxYear>(taxYearsCategories[0])
+  const [rows, setRows] = useState<Array<Row>>(defaultRows)
+  const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
+  const [rowsErrors, setRowsErrors] = useState<RowsErrors>({})
   const [showDetails, setShowDetails] = useState(false)
   const [state, dispatch] = React.useReducer(stateReducer, initialState)
   const [grossTotal, setGrossTotal] = useState<Number | null>(null)
+  const [reset, setReset] = useState<boolean>(false)
 
-  const [niPaidNet, setNiPaidNet] = useState<string>('0')
-  const [niPaidEmployee, setNiPaidEmployee] = useState<string>('0')
-  const [niPaidEmployer, setNiPaidEmployer] = useState<number>(0)
-
-  const [showSummary, setShowSummary] = useState<Boolean>(false)
-
-  // update NI Paid Employer after Ni Paid Net & Employee have updated
-  useEffect(() => {
-    setNiPaidEmployer(parseFloat(niPaidNet) - parseFloat(niPaidEmployee))
-  }, [niPaidNet, niPaidEmployee])
+  const [showSummary, setShowSummary] = useState<boolean>(false)
 
   const handleChange = ({
     currentTarget: { name, value },
@@ -86,138 +66,83 @@ function Class1() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
-  }
+    setRowsErrors({})
+    const payload = {
+      rows: rows
+    }
 
-  const isValid = () => {
-    const { errors, rowsErrors, isValid } = validateInput({niPaidNet, niPaidEmployee, rows})
-    if (!isValid) {
-      setErrors(errors)
-      setRowsErrors(rowsErrors)
-    } else {
-      setErrors({})
-      setRowsErrors({})
-    } 
-    return isValid
-  }
-
-  const resetTotals = () => {
-    setNiPaidNet('0')
-    setNiPaidEmployee('0')
-
-    setNetContributionsTotal(0)
-    setEmployeeContributionsTotal(0)
-    setEmployerContributionsTotal(0)
-
-    setGrossTotal(0)
-
-    setUnderpaymentNet(0)
-    setUnderpaymentEmployee(0)
-    setUnderpaymentEmployer(0)
-
-    setOverpaymentNet(0)
-    setOverpaymentEmployee(0)
-    setOverpaymentEmployer(0)
-
-  }
-
-  const runCalcs = (r: Row[], ty: Date) => {
-
-    if (isValid()) {
-      const c = new ClassOne(JSON.stringify(configuration));
-
-      setGrossTotal(rows.reduce((c, acc) => {
-        return c += parseInt(acc.gross)
-      }, 0))
-
-      const calculations = r
-        .map((r, i) => {
-          const pd = (r.period === 'Frt' ? 'Wk' : r.period)
-          const pdQty = (r.period === 'Frt' ? 2 : 1)
-          const res = JSON.parse(c.calculate(ty, parseFloat(r.gross), r.category, pd, pdQty, false))
-
-          // Employee Contributions
-          const ee = Object.keys(res).reduce((prev, key) => {
-            return prev + res[key][1]
-          }, 0).toString()
-
-          // Employer Contributions
-          const er = Object.keys(res).reduce((prev, key) => {
-            return prev + res[key][2]
-          }, 0).toString()
-
-          // Add contributions to each row
-          const newRows = [...rows]
-          newRows[i].ee = ee
-          newRows[i].er = er
-
-          // add the bands data to the row
-          newRows[i].bands = res
-          
-          setRows(newRows)
-          
-          return res
-        })
-
-      // Employee Contributions
-      const employee = calcNi(calculations, 1)
-      setEmployeeContributionsTotal(employee)
-      
-      // Employer ContributionsemployeeContributionsTotal
-      const employer = calcNi(calculations, 2)
-      setEmployerContributionsTotal(employer)
-
-      setNetContributionsTotal(employee + employer)
-
-      setUnderpaymentNet(calcOverUnderPayment((employee + employer) - parseFloat(niPaidNet), 'under'))
-      setOverpaymentNet(calcOverUnderPayment((employee + employer) - parseFloat(niPaidNet), 'over'))
-
-      setUnderpaymentEmployee(calcOverUnderPayment(employee - parseFloat(niPaidEmployee), 'under'))
-      setOverpaymentEmployee(calcOverUnderPayment(employee - parseFloat(niPaidEmployee), 'over'))
-
-      setUnderpaymentEmployer(calcOverUnderPayment(employer - niPaidEmployer, 'under'))
-      setOverpaymentEmployer(calcOverUnderPayment(employer - niPaidEmployer, 'over'))
+    if (validateClassOnePayload(payload, setRowsErrors)) {
+      setCalculatedRows(
+        calculateRows(rows as Row[], taxYear.from) as Calculated[]
+      )
     }
   }
 
-  return (
-    <main id="main-content" role="main">
+  const resetTotals = () => {
+    setRowsErrors({})
+    setRows(defaultRows)
+    setCalculatedRows([])
+    setReset(true)
+    setGrossTotal(0)
+  }
 
+  const calculateRows = (rows: Row[], taxYear: Date) => {
+    const classOneCalculator = new ClassOne(JSON.stringify(configuration));
+
+    setGrossTotal(rows.reduce((grossTotal, row) => {
+      return grossTotal + parseFloat(row.gross)
+    }, 0))
+
+    return rows
+      .map((row, i) => {
+        const rowPeriod = (row.period === PeriodValue.FORTNIGHTLY ? PeriodValue.WEEKLY : row.period)
+        const rowPeriodQty = (row.period === PeriodValue.FORTNIGHTLY ? 2 : 1)
+        const calculatedRow = JSON.parse(
+          classOneCalculator
+            .calculate(
+              taxYear,
+              parseFloat(row.gross),
+              row.category,
+              rowPeriod,
+              rowPeriodQty,
+              false
+            )
+        )
+
+        setRows(prevState =>
+          updateRowInResults(prevState, calculatedRow, i)
+        )
+
+        return calculatedRow
+      }) as Calculated[]
+  }
+
+  return (
+    <main>
       {showSummary ?
-        <SavePrint
+        <Class1Print
+          title={pageTitle}
           setShowSummary={setShowSummary}
           details={state}
           taxYearString={taxYearString(taxYear)}
           taxYear={taxYear}
           rows={rows}
-          periods={periods}
-
           grossTotal={grossTotal}
-          niPaidNet={niPaidNet}
-          setNiPaidNet={setNiPaidNet}
-          niPaidEmployee={niPaidEmployee}
-          setNiPaidEmployee={setNiPaidEmployee}
-          niPaidEmployer={niPaidEmployer}
-          netContributionsTotal={netContributionsTotal}
-          employeeContributionsTotal={employeeContributionsTotal}
-          employerContributionsTotal={employerContributionsTotal}
-          underpaymentNet={underpaymentNet}
-          overpaymentNet={overpaymentNet}
-          underpaymentEmployee={underpaymentEmployee}
-          overpaymentEmployee={overpaymentEmployee}
-          underpaymentEmployer={underpaymentEmployer}
-          overpaymentEmployer={overpaymentEmployer}
+          calculatedRows={calculatedRows}
+          reset={reset}
+          setReset={setReset}
         />
       :
         <>
 
-          {(!isEmpty(errors) || !isEmpty(rowsErrors)) &&
+          {Object.keys(rowsErrors).length > 0 &&
             <ErrorSummary
-              errors={errors}
+              errors={{}}
               rowsErrors={rowsErrors}
             />
           }
 
-          <h1>Calculate Class 1 National Insurance (NI) contributions</h1>
+          <h1>{pageTitle}</h1>
           <form onSubmit={handleSubmit} noValidate>
             
             <div className="clear">
@@ -242,45 +167,36 @@ function Class1() {
             }
 
             <div className="form-group table-wrapper">
-              <Class1Table 
-                runCalcs={runCalcs}
-                errors={errors}
+              <Class1Table
+                errors={{}}
                 rowsErrors={rowsErrors}
                 resetTotals={resetTotals}
                 rows={rows}
                 setRows={setRows}
-                periods={periods}
                 taxYear={taxYear}
                 setTaxYear={setTaxYear}
                 setShowSummary={setShowSummary}
               />
             </div>
 
-            <Totals 
-              grossPayTally={true}
-              grossTotal={grossTotal}
-              niPaidNet={niPaidNet}
-              setNiPaidNet={setNiPaidNet}
-              niPaidEmployee={niPaidEmployee}
-              setNiPaidEmployee={setNiPaidEmployee}
-              niPaidEmployer={niPaidEmployer}
-              errors={errors}
-              netContributionsTotal={netContributionsTotal}
-              employeeContributionsTotal={employeeContributionsTotal}
-              employerContributionsTotal={employerContributionsTotal}
-              underpaymentNet={underpaymentNet}
-              overpaymentNet={overpaymentNet}
-              underpaymentEmployee={underpaymentEmployee}
-              overpaymentEmployee={overpaymentEmployee}
-              underpaymentEmployer={underpaymentEmployer}
-              overpaymentEmployer={overpaymentEmployer}
-              isSaveAndPrint={false}
-            />
-
           </form>
         </>
       }
-
+      <Totals
+        grossPayTally={showSummary}
+        errors={null}
+        calculatedRows={calculatedRows}
+        isSaveAndPrint={showSummary}
+        reset={reset}
+        setReset={setReset}
+      />
+      {showSummary && (
+        <div className="govuk-!-padding-bottom-9">
+          <button className="button" onClick={() => window.print()}>
+            Save and print
+          </button>
+        </div>
+      )}
     </main>
   )
 }

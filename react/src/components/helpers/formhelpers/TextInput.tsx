@@ -19,7 +19,7 @@ function TextInput(props: TextInputProps) {
         type="text"
         id={props.name}
         value={props.inputValue}
-        onChange={(e) => props.onChangeCallback(e)}
+        onChange={props.onChangeCallback}
         placeholder={props.placeholderText}
         pattern={props.pattern}
         inputMode={props.inputMode}

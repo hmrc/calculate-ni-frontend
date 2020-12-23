@@ -26,26 +26,26 @@ import BreadCrumbs from "./components/helpers/gov-design-system/BreadCrumbs";
 function App() {    
   const serviceName = "Calculate National Insurance contributions"
   return (
-    <div className="govuk-width-container">
-      <Header serviceName={serviceName} />
-      <PhaseBanner type="ALPHA" link="#feedback" />
-      <div className="main">
-        <Router>
-          <BreadCrumbs />
-          <Switch>
-            <Route path="/class-1">
-              <Class1 />
-            </Route>
-            <Route path="/directors">
-              <Directors />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
-        </Router>
+      <div className="govuk-width-container">
+        <Header serviceName={serviceName} />
+        <PhaseBanner type="ALPHA" link="#feedback" />
+        <div className="main">
+          <Router basename="calculate-ni">
+            <BreadCrumbs />
+            <Switch>
+              <Route path="/class-1">
+                <Class1 />
+              </Route>
+              <Route path="/directors">
+                <Directors />
+              </Route>
+              <Route path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </Router>
+        </div>
       </div>
-    </div>
   );
 }
 

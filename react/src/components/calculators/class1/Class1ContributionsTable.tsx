@@ -1,8 +1,8 @@
 import React from 'react'
-import { fpn, fcn } from '../../../config';
+import {periodValueToLabel, fcn, PeriodValue, periods} from '../../../config';
 
 // types
-import { CT } from '../../../interfaces'
+import { ClassOneEarningsProps } from '../../../interfaces'
 
 // components
 import TextInput from '../../helpers/formhelpers/TextInput'
@@ -12,7 +12,7 @@ import 'numeral/locales/en-gb';
 
 numeral.locale('en-gb');
 
-function ContributionsTable(props: CT) {
+function ClassOneEarningsTable(props: ClassOneEarningsProps) {
   return (
     <table className="contribution-details">
       <thead>
@@ -50,13 +50,13 @@ function ContributionsTable(props: CT) {
                 <>
                   <label className="govuk-visually-hidden" htmlFor={`row${i}-period`}>Period</label>
                   <select name="period" value={r.period} onChange={(e) => props.handleSelectChange?.(r, e)} className="borderless" id={`row${i}-period`}>
-                    {props.periods.map((p, i) => (
-                      <option key={i} value={p}>{fpn(p)}</option>
+                    {periods.map((p: PeriodValue, i) => (
+                      <option key={i} value={p}>{periodValueToLabel(p)}</option>
                     ))}
                   </select>
                 </>
               :
-              <div>{fpn(r.period)}</div>
+              <div>{periodValueToLabel(r.period)}</div>
               }
             </td>
 
@@ -91,7 +91,7 @@ function ContributionsTable(props: CT) {
 
             {/* Gross Pay */}
             <td className={
-              `input ${props.rowsErrors?.[`${r.id}`]?.['gross']?.['name'] === 'Gross' ? "error-cell" : ""}`}>
+              `input ${props.rowsErrors?.[`${r.id}`]?.['gross'] ? "error-cell" : ""}`}>
               {props.handleChange ?
                 <>
                   <TextInput
@@ -143,4 +143,4 @@ function ContributionsTable(props: CT) {
   )
 }
 
-export default ContributionsTable
+export default ClassOneEarningsTable

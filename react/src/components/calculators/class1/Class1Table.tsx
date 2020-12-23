@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { taxYearString } from '../../../config';
 import uniqid from 'uniqid';
-import { taxYearsCategories } from '../../../config'
+import { taxYearsCategories, taxYearString } from '../../../config'
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
-import ContributionsTable from './Class1ContributionsTable'
+import ClassOneEarningsTable from './Class1ContributionsTable'
 
 // types
 import { Row, Class1TableProps, TaxYear } from '../../../interfaces';
@@ -40,7 +39,8 @@ function Class1Table(props: Class1TableProps) {
     props.setTaxYear(taxYears[taxYears.findIndex(ty => ty.id === e.target.value)])
   )
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     const lastRow = props.rows[props.rows.length -1]
     props.setRows([...props.rows, {
       id: uniqid(),
@@ -53,14 +53,6 @@ function Class1Table(props: Class1TableProps) {
     }])
   }
 
-  // const handleDelete = (r: Row) => {
-  //   setRows(
-  //     rows.filter(cur =>
-  //       cur.id !== r.id
-  //     )
-  //   )
-  // }
-
   return (
     <div>
       <div className="container">
@@ -68,7 +60,7 @@ function Class1Table(props: Class1TableProps) {
           <label className="govuk-label" htmlFor="taxYear">
             Select a tax year
           </label>
-          <select value={props.taxYear.id} onChange={(e) => handleTaxYearChange(e)} id="taxYear" name="taxYear" className="govuk-select">
+          <select value={props.taxYear.id} onChange={handleTaxYearChange} id="taxYear" name="taxYear" className="govuk-select">
             {taxYears.map((y, i) => (
               <option key={i} value={y.id}>{taxYearString(y)}</option>
             ))}
@@ -86,11 +78,10 @@ function Class1Table(props: Class1TableProps) {
         </div>
       </div>
 
-      <ContributionsTable 
+      <ClassOneEarningsTable
         rows={props.rows} 
         rowsErrors={props.rowsErrors}
         activeRowID={activeRowID}
-        periods={props.periods}
         taxYear={props.taxYear}
         handleChange={handleChange}
         handleSelectChange={handleSelectChange}
@@ -100,7 +91,7 @@ function Class1Table(props: Class1TableProps) {
       <div className="container">
         <div className="container">
           <div className="form-group">
-            <button className="govuk-button nomar" onClick={() => props.runCalcs(props.rows, props.taxYear.from)}>
+            <button className="govuk-button nomar" type="submit">
               Calculate
             </button>
           </div>
@@ -110,22 +101,14 @@ function Class1Table(props: Class1TableProps) {
           <div className="form-group repeat-button">        
             <button 
               className="button govuk-button govuk-button--secondary nomar" 
-              onClick={() => handleClick()}>
+              onClick={handleClick}>
               Repeat row
             </button>
           </div>
 
           <div className="form-group">
-            <button className="button govuk-button govuk-button--secondary nomar" onClick={() => {
-              props.setRows([{
-                id: uniqid(),
-                category: props.taxYear.categories[0],
-                period: props.periods[0],
-                gross: '',
-                number: '',
-                ee: '0',
-                er: '0'
-              }])
+            <button className="button govuk-button govuk-button--secondary nomar" onClick={(e) => {
+              e.preventDefault()
               props.resetTotals()
             }}>
               Clear table
