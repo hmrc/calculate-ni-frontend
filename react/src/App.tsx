@@ -18,7 +18,7 @@ import './styles/SavePrint.css';
 // components
 import Header from './components/helpers/hmrc-design-system/Header'
 import PhaseBanner from './components/helpers/gov-design-system/PhaseBanner'
-import Nav from './components/Nav'
+import Home from './components/Home'
 import Class1 from './components/calculators/class1/Class1'
 import Directors from './components/calculators/directors/Directors'
 import BreadCrumbs from "./components/helpers/gov-design-system/BreadCrumbs";
@@ -40,7 +40,7 @@ function App() {
               <Directors />
             </Route>
             <Route path="/">
-              <Nav />
+              <Home />
             </Route>
           </Switch>
         </Router>
