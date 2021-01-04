@@ -1,290 +1,219 @@
-import React, { isValidElement, useState } from 'react'
-import uniqid from 'uniqid';
-import isEmpty from 'lodash/isEmpty'
-import validateInput from '../../../validation/validation'
+import React, {useState} from 'react'
+import {RowsErrors, GenericErrors, validateDirectorsPayload} from '../../../validation/validation'
 import configuration from '../../../configuration.json'
-import { ClassOne } from '../../../calculation'
-import { 
-  taxYearsCategories, 
-  periods as p, 
-  taxYearString,
-  calcOverUnderPayment, 
-  calcNi } from '../../../config'
-
+import {ClassOne} from '../../../calculation'
+import {PeriodLabel, PeriodValue, taxYearsCategories, taxYearString} from '../../../config'
 
 // components
 import Details from '../../Details'
 import DirectorsTable from '../directors/DirectorsTable'
 import Totals from '../../Totals'
 import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
-import SavePrint from '../../SavePrint'
+import {updateRowInResults} from "../../../services/utils";
+import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
-import { DirectorsS, Row, ErrorSummaryProps, TaxYear } from '../../../interfaces'
-type PeriodValues = "ANNUAL" | "PRO RATA" | null;
+import {
+  Calculated,
+  DirectorsRow,
+  DirectorsS,
+  GovDateRange,
+  TaxYear
+} from '../../../interfaces'
+
+const pageTitle = 'Directors’ contributions'
 
 function Directors() {
+  console.log('render directors')
   const initialState = {
     fullName: '',
     ni: '',
     reference: '',
     preparedBy: '',
-    date: '',
-    directorshipFromDay: '',
-    directorshipFromMonth: '',
-    directorshipFromYear:'',
-    directorshipToDay: '',
-    directorshipToMonth: '',
-    directorshipToYear:''
+    date: ''
   }
   const stateReducer = (state: DirectorsS, action: { [x: string]: string }) => ({
     ...state,
     ...action,
   })
   const [state, dispatch] = React.useReducer(stateReducer, initialState)
-  const [earningsPeriod, setEarningsPeriod] = useState<PeriodValues>(null)
+  const [earningsPeriod, setEarningsPeriod] = useState<PeriodLabel | null>(null)
+  const [errors, setErrors] = useState<GenericErrors>({})
+  const [rowsErrors, setRowsErrors] = useState<RowsErrors>({})
+  const [reset, setReset] = useState<boolean>(false)
+  const defaultRows: Array<DirectorsRow> = [{
+    id: 'directorsInput',
+    category: taxYearsCategories[0].categories[0],
+    gross: '',
+    ee: '0',
+    er: '0'
+  }]
 
-  const [errors, setErrors] = useState<object>({})
-  const [rowsErrors, setRowsErrors] = useState<ErrorSummaryProps['rowsErrors']>({})
-  
+  const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
+  const [showSummary, setShowSummary] = useState<boolean>(false)
+  const [showDetails, setShowDetails] = useState(false)
+  const [taxYear, setTaxYear] = useState<TaxYear>(taxYearsCategories[0])
+  const [rows, setRows] = useState<Array<DirectorsRow>>(defaultRows)
+  const [grossTotal, setGrossTotal] = useState<Number | null>(null)
+  const [dateRange, setDateRange] = useState<GovDateRange>({from: null, to: null})
+
   const handleChange = ({
     currentTarget: { name, value },
   }: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({ [name]: value })
   }
 
-  const [showSummary, setShowSummary] = useState<Boolean>(false)
-  const [showDetails, setShowDetails] = useState(false)
-
-  const [periods] = useState<Array<string>>(p)
-  const [taxYear, setTaxYear] = useState<TaxYear>(taxYearsCategories[0])
-  const [rows, setRows] = useState<Array<Row>>([{
-    id: uniqid(),
-    category: taxYear.categories[0],
-    period: periods[0],
-    gross: '',
-    number: '0',
-    ee: '0',
-    er: '0'
-  }])
-
-  const [grossTotal, setGrossTotal] = useState<Number | null>(null)
-
-  const [netContributionsTotal, setNetContributionsTotal] = useState<number>(0)
-  const [employeeContributionsTotal, setEmployeeContributionsTotal] = useState<number>(0)
-  const [employerContributionsTotal, setEmployerContributionsTotal] = useState<number>(0)
-
-  const [underpaymentNet, setUnderpaymentNet] = useState<number>(0)
-  const [overpaymentNet, setOverpaymentNet] = useState<number>(0)
-  
-  const [underpaymentEmployee, setUnderpaymentEmployee] = useState<number>(0)
-  const [overpaymentEmployee, setOverpaymentEmployee] = useState<number>(0)
-  
-  const [underpaymentEmployer, setUnderpaymentEmployer] = useState<number>(0)
-  const [overpaymentEmployer, setOverpaymentEmployer] = useState<number>(0)
-
-  const [niPaidNet, setNiPaidNet] = useState<string>('0')
-  const [niPaidEmployee, setNiPaidEmployee] = useState<string>('0')
-  const [niPaidEmployer, setNiPaidEmployer] = useState<number>(0)
-
-  const isValid = () => {
-    const { errors, rowsErrors, isValid } = validateInput({niPaidNet, niPaidEmployee, rows})
-    if (!isValid) {
-      setErrors(errors)
-      setRowsErrors(rowsErrors)
-    } else {
-      setErrors({})
-      setRowsErrors({})
-    } 
-    return isValid
-  }
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
-  }
+    setErrors({})
+    setRowsErrors({})
+    const payload = {
+      rows: rows,
+      niPaidEmployee: '', // not sure this should be in this payload
+      niPaidNet: '', // not sure this should be in this payload
+      dateRange: dateRange,
+      earningsPeriod: earningsPeriod
+    }
 
-  const runCalcs = (r: Row[], ty: Date) => {
-    if (isValid()) {
-      const c = new ClassOne(JSON.stringify(configuration));
-
-      setGrossTotal(rows.reduce((c, acc) => {
-        return c += parseInt(acc.gross)
-      }, 0))
-
-      const calculations = r
-        .map((r, i) => {
-          let res: any;
-
-          if (earningsPeriod === "ANNUAL") {
-            res = JSON.parse(c.calculate(ty, parseFloat(r.gross), r.category, 'Ann', 1, false))
-          } else {
-            const from = new Date(`${state.directorshipFromYear}, ${state.directorshipFromMonth}, ${state.directorshipFromDay}`)
-            const to = new Date(`${state.directorshipToYear}, ${state.directorshipToMonth}, ${state.directorshipToDay}`)
-            res = JSON.parse(c.calculateProRata(from, to, parseFloat(r.gross), r.category, false))
-          }
-
-          // Employee Contributions
-          const ee = Object.keys(res).reduce((prev, key) => {
-            return prev + res[key][1]
-          }, 0).toString()
-
-          // Employer Contributions
-          const er = Object.keys(res).reduce((prev, key) => {
-            return prev + res[key][2]
-          }, 0).toString()
-
-          // Add contributions to each row
-          const newRows = [...rows]
-          newRows[i].ee = ee
-          newRows[i].er = er
-
-          // add the bands data to the row
-          newRows[i].bands = res
-          
-          setRows(newRows)
-          
-          return res
-        })
-
-        // Employee Contributions
-        const employee = calcNi(calculations, 1)
-        setEmployeeContributionsTotal(employee)
-        
-        // Employer ContributionsemployeeContributionsTotal
-        const employer = calcNi(calculations, 2)
-        setEmployerContributionsTotal(employer)
-
-        setNetContributionsTotal(employee + employer)
-
-        setUnderpaymentNet(calcOverUnderPayment((employee + employer) - parseFloat(niPaidNet), 'under'))
-        setOverpaymentNet(calcOverUnderPayment((employee + employer) - parseFloat(niPaidNet), 'over'))
-
-        setUnderpaymentEmployee(calcOverUnderPayment(employee - parseFloat(niPaidEmployee), 'under'))
-        setOverpaymentEmployee(calcOverUnderPayment(employee - parseFloat(niPaidEmployee), 'over'))
-
-        setUnderpaymentEmployer(calcOverUnderPayment(employer - niPaidEmployer, 'under'))
-        setOverpaymentEmployer(calcOverUnderPayment(employer - niPaidEmployer, 'over'))
-
-
+    if(validateDirectorsPayload(payload, setErrors, setRowsErrors)) {
+      setCalculatedRows(
+        calculateRows(rows as DirectorsRow[], taxYear.from) as Calculated[]
+      )
     }
   }
 
-  const handlePeriodChange = (value: string) => {
-    const p = value.toUpperCase().split('-').join(" ") as PeriodValues
-    setEarningsPeriod(p)
+  const calculateRows = (rows: Array<DirectorsRow>, taxYear: Date) => {
+    const classOneCalculator = new ClassOne(JSON.stringify(configuration));
+
+    setGrossTotal(rows.reduce((grossTotal, nextRow) => {
+      return grossTotal + parseInt(nextRow.gross)
+    }, 0))
+
+    return rows.map((row: DirectorsRow, index: number) => {
+        let calculatedRow: Calculated;
+        if (earningsPeriod === PeriodLabel.ANNUAL) {
+          calculatedRow = JSON.parse(classOneCalculator
+            .calculate(
+              taxYear,
+              parseFloat(row.gross),
+              row.category,
+              PeriodValue.ANNUAL,
+              1,
+              false
+            ))
+        } else {
+          calculatedRow = JSON.parse(classOneCalculator
+            .calculateProRata(
+              dateRange.from,
+              dateRange.to,
+              parseFloat(row.gross),
+              row.category,
+              false
+            ))
+        }
+
+        setRows(prevState => updateRowInResults(prevState, calculatedRow, index))
+
+        return calculatedRow
+      }) as Calculated[]
+    }
+
+  const handlePeriodChange = (value: any) => {
+    resetTotals()
+    setEarningsPeriod(value as PeriodLabel)
   }
 
   const resetTotals = () => {
+    setErrors({})
+    setRowsErrors({})
+    setRows(defaultRows)
+    setCalculatedRows([])
+    setReset(true)
+    setGrossTotal(0)
   }
 
   return (
-    <main id="main-content" role="main">
+    <main>
       {showSummary ?
-        <SavePrint
+        <DirectorsPrintView
+          title={pageTitle}
           setShowSummary={setShowSummary}
           details={state}
           taxYearString={taxYearString(taxYear)}
           taxYear={taxYear}
+          earningsPeriod={earningsPeriod}
           rows={rows}
-          periods={periods}
-
           grossTotal={grossTotal}
-          niPaidNet={niPaidNet}
-          setNiPaidNet={setNiPaidNet}
-          niPaidEmployee={niPaidEmployee}
-          setNiPaidEmployee={setNiPaidEmployee}
-          niPaidEmployer={niPaidEmployer}
-          netContributionsTotal={netContributionsTotal}
-          employeeContributionsTotal={employeeContributionsTotal}
-          employerContributionsTotal={employerContributionsTotal}
-          underpaymentNet={underpaymentNet}
-          overpaymentNet={overpaymentNet}
-          underpaymentEmployee={underpaymentEmployee}
-          overpaymentEmployee={overpaymentEmployee}
-          underpaymentEmployer={underpaymentEmployer}
-          overpaymentEmployer={overpaymentEmployer}
+          calculatedRows={calculatedRows}
+          reset={reset}
+          setReset={setReset}
         />
         :
         <>
-          {(!isEmpty(errors) || !isEmpty(rowsErrors)) &&
+          {(Object.keys(errors).length > 0 || Object.keys(rowsErrors).length > 0) &&
             <ErrorSummary
               errors={errors}
               rowsErrors={rowsErrors}
             />
           }
 
-          <h1>Directors contributions</h1>
+          <h1>{pageTitle}</h1>
+          <div className="clear">
+            <h2 className="govuk-heading-m details-heading">Details</h2>
+            <button
+              type="button"
+              className={`toggle icon ${showDetails ? 'arrow-up' : 'arrow-right'}`}
+              onClick={() => setShowDetails(!showDetails)}>
+                {showDetails ? 'Close details' : 'Open details'}
+            </button>
+          </div>
+
+          {showDetails &&
+            <Details
+              fullName={state.fullName}
+              ni={state.ni}
+              reference={state.reference}
+              preparedBy={state.preparedBy}
+              date={state.date}
+              handleChange={handleChange}
+            />
+          }
           <form onSubmit={handleSubmit} noValidate>
-
-            <div className="clear">
-              <h2 className="govuk-heading-m details-heading">Details</h2>
-              <button 
-                type="button" 
-                className={`toggle icon ${showDetails ? 'arrow-up' : 'arrow-right'}`}
-                onClick={() => setShowDetails(!showDetails)}>
-                  {showDetails ? 'Close details' : 'Open details'}
-              </button>
-            </div>
-
-            {showDetails ? 
-              <Details
-                fullName={state.fullName}
-                ni={state.ni}
-                reference={state.reference}
-                preparedBy={state.preparedBy}
-                date={state.date}
-                handleChange={handleChange}
-              /> : null
-            }
-
             <div className="form-group table-wrapper">
-              <DirectorsTable 
-                runCalcs={runCalcs}
+              <DirectorsTable
                 errors={errors}
                 rowsErrors={rowsErrors}
                 resetTotals={resetTotals}
                 rows={rows}
                 setRows={setRows}
-                periods={periods}
                 taxYear={taxYear}
                 setTaxYear={setTaxYear}
                 setShowSummary={setShowSummary}
-                directorshipFromDay={state.directorshipFromDay}
-                directorshipFromMonth={state.directorshipFromMonth}
-                directorshipFromYear={state.directorshipFromYear}
-                directorshipToDay={state.directorshipToDay}
-                directorshipToMonth={state.directorshipToMonth}
-                directorshipToYear={state.directorshipToYear}
+                dateRange={dateRange}
+                setDateRange={setDateRange}
                 handleChange={handleChange}
                 earningsPeriod={earningsPeriod}
                 handlePeriodChange={handlePeriodChange}
               />
             </div>
-
-            <Totals 
-              grossPayTally={false}
-              niPaidNet={niPaidNet}
-              setNiPaidNet={setNiPaidNet}
-              niPaidEmployee={niPaidEmployee}
-              setNiPaidEmployee={setNiPaidEmployee}
-              niPaidEmployer={niPaidEmployer}
-              errors={errors}
-              netContributionsTotal={netContributionsTotal}
-              employeeContributionsTotal={employeeContributionsTotal}
-              employerContributionsTotal={employerContributionsTotal}
-              underpaymentNet={underpaymentNet}
-              overpaymentNet={overpaymentNet}
-              underpaymentEmployee={underpaymentEmployee}
-              overpaymentEmployee={overpaymentEmployee}
-              underpaymentEmployer={underpaymentEmployer}
-              overpaymentEmployer={overpaymentEmployer}
-              isSaveAndPrint={false}
-            />
-
           </form>
         </>
       }
-
+      <Totals
+        grossPayTally={showSummary}
+        errors={errors}
+        calculatedRows={calculatedRows}
+        isSaveAndPrint={showSummary}
+        reset={reset}
+        setReset={setReset}
+      />
+      {showSummary && (
+        <div className="govuk-!-padding-bottom-9">
+          <button className="button" onClick={() => window.print()}>
+            Save and print
+          </button>
+        </div>
+      )}
     </main>
   )
 }

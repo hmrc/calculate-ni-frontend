@@ -33,7 +33,7 @@ function CategoryTotals(props: CategoryTotalsProps) {
         </thead>
         <tbody>
           {props.categoriesList.map(c => (
-            <tr>
+            <tr key={c}>
               <td>{c}</td>
               <td>
                 {/* Gross total for Category */}

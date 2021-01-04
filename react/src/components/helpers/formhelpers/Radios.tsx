@@ -1,52 +1,49 @@
-import React, { useState } from 'react'
-import { stripSpaces } from '../../../config'
-
-import '../../../styles/Radios.css'
+import React from 'react'
+import {GenericErrors} from "../../../validation/validation";
 
 interface RadiosProps {
   isPageHeading?: boolean
   legend: string
-  description: string
-  items: string[]
-  handleChange: (value: string) => void;
+  name: string
+  items: Array<string>
+  handleChange: Function;
+  selected: string | null;
+  errors: GenericErrors
 }
 
-
-
 function Radios(props: RadiosProps) {
-  const [checkedItem, setCheckedItem] = useState<string>('')
-
+  const { name, legend, isPageHeading, items, selected, handleChange, errors } = props
   return (
-    <div className="govuk-form-group">
-      <fieldset className="govuk-fieldset">
+    <div className={`govuk-form-group${errors[name] ? ` govuk-form-group--error` : ``}`}>
+      <fieldset className="govuk-fieldset" id={name}>
         <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
-          {props.isPageHeading ?
+          {isPageHeading ?
             <h1 className="govuk-fieldset__heading">
-              {props.legend}
+              {legend}
             </h1>
           :
-            props.legend
+            legend
           }
         </legend>
+
+        {errors[name] ? <span className="govuk-error-message">{errors[name]?.message}</span> : null}
         
         <div className="govuk-radios">
-          {props.items.map((item, i) => {
-            const desc = stripSpaces(props.description)
+          {items.map((item) => {
             return (
-              <div className="govuk-radios__item" key={`${stripSpaces(props.description)}-${i}`}>
+              <div className="govuk-radios__item" key={`${name}-${item}`}>
                 <input 
                   className="govuk-radios__input" 
-                  id={`${desc}-${i}`} 
-                  name={desc} 
+                  id={`${name}-${item}`}
+                  name={name}
                   type="radio" 
-                  value={`${stripSpaces(item)}`}
-                  checked={checkedItem === `${stripSpaces(item)}`}
+                  value={item}
+                  checked={selected === item}
                   onChange={e => {
-                    setCheckedItem(e.target.value)
-                    props.handleChange(e.target.value)
+                    handleChange(e.target.value)
                   }}
                 />
-                <label className="govuk-label govuk-radios__label" htmlFor={`${desc}-${i}`}>
+                <label className="govuk-label govuk-radios__label" htmlFor={`${name}-${item}`}>
                   {item}
                 </label>
               </div>

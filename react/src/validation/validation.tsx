@@ -1,82 +1,127 @@
 import Validator from 'validator';
-import isEmpty from 'lodash/isEmpty'
 
 // types
-import { Row } from '../interfaces'
+import {DirectorsRow, GovDateRange, Row} from '../interfaces'
+import {PeriodLabel} from "../config";
 
-interface Data {
+interface ClassOnePayload {
+  rows: Array<Row>
+}
+
+interface DirectorsPayload {
   niPaidNet: string
   niPaidEmployee: string
-  rows: Row[]
+  dateRange: GovDateRange;
+  earningsPeriod: PeriodLabel | null;
+  rows: Array<DirectorsRow>
 }
 
-interface Errors {
-  niPaidNet?: string
-  niPaidEmployee?: string
-  rows?: {
-    [id: string]: {
-      gross?: string
-    }
-  }
+export interface ErrorMessage {
+  name: string
+  link: string
+  message: string
 }
 
-interface RowsErrors {
+export interface ClassOneErrors {
+  niPaidNet?: ErrorMessage
+  niPaidEmployee?: ErrorMessage
+}
+
+export interface DirectorsErrors {
+  niPaidNet?: ErrorMessage
+  niPaidEmployee?: ErrorMessage
+  earningsPeriod?: ErrorMessage
+  dateRange?: ErrorMessage
+  directorshipFromDay?: ErrorMessage
+  directorshipToDay?: ErrorMessage
+}
+
+export interface GenericErrors {
+  [key: string]: ErrorMessage | undefined
+}
+
+export interface RowsErrors {
   [id: string]: {
-    [rowName: string]: {
-      link?: string
-      name?: string
-      message?: string
-    }
+    [rowName: string]: ErrorMessage
   }
 }
 
-const validateInput = (data: Data) => {
-  let errors: Errors = {}
-  let rowsErrors: RowsErrors = {}
+export const validateClassOnePayload = (payload: ClassOnePayload, setRowsErrors: (rowsErrors: RowsErrors) => void) => {
+  const rowErrors: RowsErrors = validateRows(payload.rows)
+  if(Object.keys(rowErrors).length > 0) {
+    setRowsErrors(rowErrors)
+  }
+  return Object.keys(rowErrors).length === 0
+}
 
-  data.rows.forEach(r => {
-    
+export const validateDirectorsPayload = (
+  payload: DirectorsPayload,
+  setErrors: (errors: GenericErrors) => void,
+  setRowsErrors: (rowsErrors: RowsErrors) => void
+) => {
+  let errors: GenericErrors = {}
+  const rowErrors: RowsErrors = validateRows(payload.rows)
+  if (Object.keys(rowErrors).length > 0) {
+    setRowsErrors(rowErrors)
+  }
+
+  if(!payload.earningsPeriod) {
+    errors.earningsPeriod = {
+      name: 'Earnings period',
+      link: 'earningsPeriod',
+      message: 'Select either Annual or Pro Rata'
+    }
+  } else if (payload.earningsPeriod === PeriodLabel.PRORATA) {
+    errors = {...validateDateRange(payload.dateRange)}
+  }
+
+  if(Object.keys(errors).length > 0) {
+    setErrors(errors)
+  }
+
+  return Object.keys(rowErrors).length === 0 && Object.keys(errors).length === 0
+}
+
+const validateRows = (rows: Array<Row | DirectorsRow>) => {
+  const rowsErrors: RowsErrors = {}
+  rows.forEach(r => {
     // Row Gross
     if (Validator.isEmpty(r.gross)) {
-      if (!rowsErrors[r.id]) rowsErrors[r.id] = {};
-      rowsErrors[r.id].gross = {};
-      rowsErrors[r.id].gross.link = `${r.id}-gross`
-      rowsErrors[r.id].gross.name = `Gross`
-      rowsErrors[r.id].gross.message = 'cannot be empty'
-    }
-    
-    if (!Validator.isEmpty(r.gross) && !Validator.isNumeric(r.gross)) {
-      if (!rowsErrors[r.id]) rowsErrors[r.id] = {};
-      rowsErrors[r.id].gross = {};
-      rowsErrors[r.id].gross.link = `${r.id}-gross`
-      rowsErrors[r.id].gross.name = `Gross`
-      rowsErrors[r.id].gross.message = 'must be a number'
+      rowsErrors[r.id] = rowsErrors[r.id] || {};
+      rowsErrors[r.id].gross = {
+        name: `Gross pay amount`,
+        link: `${r.id}-gross`,
+        message: 'must be entered'
+      };
+    } else if (!Validator.isNumeric(r.gross)) {
+      rowsErrors[r.id] = rowsErrors[r.id] || {};
+      rowsErrors[r.id].gross = {
+        name: `Gross pay amount`,
+        link: `${r.id}-gross`,
+        message: 'must be an amount of money'
+      };
     }
   })
 
-  // NI Net
-  if (Validator.isEmpty(data.niPaidNet)) {
-    errors.niPaidNet = 'Enter the National insurance (NI) paid for the net contributions'
-  }
-  
-  if (!Validator.isEmpty(data.niPaidNet) && !Validator.isNumeric(data.niPaidNet)) {
-    errors.niPaidNet = 'NI Paid must be a number'
-  }
-  
-  // NI Employee
-  if (Validator.isEmpty(data.niPaidEmployee)) {
-    errors.niPaidEmployee = 'Enter the National insurance (NI) paid for the employee contributions'
-  }
-  
-  if (!Validator.isEmpty(data.niPaidEmployee) && !Validator.isNumeric(data.niPaidEmployee)) {
-    errors.niPaidEmployee = 'NI Paid must be a number'
-  }
-
-  return {
-    errors,
-    rowsErrors,
-    isValid: isEmpty(errors) && isEmpty(rowsErrors)
-  }
+  return rowsErrors as RowsErrors
 }
 
-export default validateInput
+const validateDateRange = (dateRange: GovDateRange) => {
+  const dateRangeErrors: DirectorsErrors = {}
+  if (!dateRange.from) {
+    dateRangeErrors.directorshipFromDay = {
+      link: 'directorshipFromDay',
+      name: 'Start date of directorship',
+      message: 'Start date of directorship must be entered as a real date'
+    }
+  }
+  if (!dateRange.to) {
+    dateRangeErrors.directorshipToDay = {
+      link: 'directorshipToDay',
+      name: 'End date of directorship',
+      message: 'End date of directorship must be entered as a real date'
+    }
+  }
+
+  return dateRangeErrors
+}

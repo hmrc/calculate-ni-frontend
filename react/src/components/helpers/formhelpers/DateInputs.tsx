@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React  from 'react'
 import { stripSpaces } from '../../../config'
 
 // components
 import TextInput from './TextInput'
+import {ErrorMessage} from "../../../validation/validation";
 
 interface DateProps {
   description: string
@@ -11,10 +12,14 @@ interface DateProps {
   day: string
   month: string
   year: string
-  handleChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
+  setDay: Function
+  setMonth: Function
+  setYear: Function
+  error: ErrorMessage
 }
 
-function Date(props: DateProps) {
+export default function DateInputs(props: DateProps) {
+  const { error } = props
   return (
     <div className="govuk-form-group">
       <fieldset 
@@ -33,17 +38,19 @@ function Date(props: DateProps) {
           </div>
         }
 
+        {error && <span className="govuk-error-message">{error.message}</span>}
+
         <div className="govuk-date-input" id={props.description}>
 
           <div className="govuk-date-input__item">
-            <div className="govuk-form-group">          
+            <div className={`govuk-form-group${error && ` govuk-form-group--error`}`}>
               <TextInput 
                 labelText="Day"
                 labelClass="govuk-label govuk-date-input__label"
                 name={`${props.description}Day`}
                 inputClassName="govuk-input govuk-date-input__input govuk-input--width-2"
                 inputValue={props.day}
-                onChangeCallback={props.handleChange}
+                onChangeCallback={(e) => props.setDay(e.target.value)}
                 pattern="[0-9]*"
                 inputMode="numeric"
               />
@@ -58,7 +65,7 @@ function Date(props: DateProps) {
                 name={`${props.description}Month`}
                 inputClassName="govuk-input govuk-date-input__input govuk-input--width-2"
                 inputValue={props.month}
-                onChangeCallback={props.handleChange}
+                onChangeCallback={(e) => props.setMonth(e.target.value)}
                 pattern="[0-9]*"
                 inputMode="numeric"
               />
@@ -73,18 +80,14 @@ function Date(props: DateProps) {
                 name={`${props.description}Year`}
                 inputClassName="govuk-input govuk-date-input__input govuk-input--width-4"
                 inputValue={props.year}
-                onChangeCallback={props.handleChange}
+                onChangeCallback={(e) => props.setYear(e.target.value)}
                 pattern="[0-9]*"
                 inputMode="numeric"
               />
             </div>
           </div>
-
         </div>
-
       </fieldset>
     </div>
   )
 }
-
-export default Date
