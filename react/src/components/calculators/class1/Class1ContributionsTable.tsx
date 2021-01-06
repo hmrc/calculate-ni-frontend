@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {periodValueToLabel, fcn, PeriodValue, periods} from '../../../config';
+import {ClassOneContext} from "./ClassOneContext";
 
 // types
-import { ClassOneEarningsProps } from '../../../interfaces'
+import {ClassOneEarningsProps, Row} from '../../../interfaces'
 
 // components
 import TextInput from '../../helpers/formhelpers/TextInput'
@@ -13,15 +14,21 @@ import 'numeral/locales/en-gb';
 numeral.locale('en-gb');
 
 function ClassOneEarningsTable(props: ClassOneEarningsProps) {
+  const { showBands, activeRowID, handleSelectChange, handleChange } = props
+  const {
+    rows,
+    rowsErrors,
+    taxYear
+  } = useContext(ClassOneContext)
   return (
     <table className="contribution-details">
       <thead>
         <tr className="clear">
           <th className="lg" colSpan={3}><span>Contribution payment details</span></th>
-          {props.showBands && props.rows[0].bands &&
-            <th className="border" colSpan={Object.keys(props.rows[0].bands).length}><span>Earnings</span></th>
+          {showBands && rows[0].bands &&
+            <th className="border" colSpan={Object.keys(rows[0].bands).length}><span>Earnings</span></th>
           }
-          <th className="border" colSpan={props.showBands && props.rows[0].bands ? 3 : 2}><span>Net contributions</span></th>
+          <th className="border" colSpan={showBands && rows[0].bands ? 3 : 2}><span>Net contributions</span></th>
         </tr>
         <tr>
           <th><strong>Select period</strong></th>
@@ -29,11 +36,11 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
           <th><strong>Select NI category letter</strong></th>
           <th><strong>Enter gross pay</strong></th>
           {/* Bands - by tax year, so we can just take the first band to map the rows */}
-          {props.showBands && props.rows[0].bands && Object.keys(props.rows[0].bands).map(k =>
+          {showBands && rows[0].bands && Object.keys(rows[0].bands).map(k =>
             <th key={k}>{k}</th>
           )}
 
-          {props.showBands && props.rows[0].bands &&
+          {showBands && rows[0].bands &&
             <th><strong>Total</strong></th>
           }
           <th><strong><abbr title="Employee">EE</abbr></strong></th>
@@ -42,8 +49,8 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
       </thead>
       
       <tbody>
-        {props.rows.map((r, i) => (
-          <tr className={props.activeRowID === r.id ? "active" : ""} key={r.id} id={r.id}>
+        {rows.map((r: Row, i: number) => (
+          <tr className={activeRowID === r.id ? "active" : ""} key={r.id} id={r.id}>
             {/* Period */}
             <td className="input">
               {props.handleSelectChange ?
@@ -69,7 +76,7 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
                 inputClassName="number"
                 inputValue={r.number}
                 placeholderText="Enter the row number (optional)"
-                onChangeCallback={(e) => props.handleChange?.(r, e)}
+                onChangeCallback={(e) => handleChange?.(r, e)}
               />
             </td>
 
@@ -78,8 +85,8 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
               {props.handleSelectChange ?
                 <>
                   <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category</label>
-                  <select name="category" value={r.category} onChange={(e) => props.handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
-                    {props.taxYear.categories.map((c, i) => (
+                  <select name="category" value={r.category} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
+                    {taxYear.categories.map((c: string, i: number) => (
                       <option key={i} value={c}>{fcn(c)}</option>
                     ))}
                   </select>
@@ -91,7 +98,7 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
 
             {/* Gross Pay */}
             <td className={
-              `input ${props.rowsErrors?.[`${r.id}`]?.['gross'] ? "error-cell" : ""}`}>
+              `input ${rowsErrors?.[`${r.id}`]?.['gross'] ? "error-cell" : ""}`}>
               {props.handleChange ?
                 <>
                   <TextInput
@@ -101,7 +108,7 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
                     inputClassName="gross-pay"
                     inputValue={r.gross}
                     placeholderText="Enter the gross pay amount"
-                    onChangeCallback={(e) => props.handleChange?.(r, e)}
+                    onChangeCallback={(e) => handleChange?.(r, e)}
                   />
                 </>
               :
@@ -110,12 +117,12 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
             </td>
 
             {/* Bands */}
-            {props.showBands && r.bands && Object.keys(r.bands).map(k =>
+            {showBands && r.bands && Object.keys(r.bands).map(k =>
               <td key={`${k}-val`}>{numeral(r.bands?.[k][0]).format('$0,0.00')}</td>
             )}
 
             {/* Total */}
-            {props.showBands && r.bands && 
+            {showBands && r.bands &&
               // Total (if calculate has run)
               <td>
                 {numeral(
@@ -124,23 +131,13 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
               </td>
             }
 
-            {/* EE */}
             <td>{numeral(r.ee).format('$0,0.00')}</td>
-            {/* ER */}
             <td>{numeral(r.er).format('$0,0.00')}</td>
           </tr>
         ))}
-        {/* <td>
-          <button 
-            type="button"
-            onClick={() => handleDelete(r)}
-            className="button govuk-button govuk-button--warning">
-              Delete
-          </button>
-        </td> */}
       </tbody>
     </table>
   )
 }
 
-export default ClassOneEarningsTable
+export default ClassOneEarningsTable;

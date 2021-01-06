@@ -1,8 +1,8 @@
-import React, {useState} from 'react'
-import {RowsErrors, GenericErrors, validateDirectorsPayload} from '../../../validation/validation'
+import React, {useContext, useState} from 'react'
+import {validateDirectorsPayload} from '../../../validation/validation'
 import configuration from '../../../configuration.json'
 import {ClassOne} from '../../../calculation'
-import {PeriodLabel, PeriodValue, taxYearsCategories, taxYearString} from '../../../config'
+import {PeriodLabel, PeriodValue} from '../../../config'
 
 // components
 import Details from '../../Details'
@@ -13,54 +13,39 @@ import {updateRowInResults} from "../../../services/utils";
 import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
-import {
-  Calculated,
-  DirectorsRow,
-  DirectorsS,
-  GovDateRange,
-  TaxYear
-} from '../../../interfaces'
+import {Calculated, Calculators, DirectorsRow, GovDateRange,} from '../../../interfaces'
+import {defaultRows, DirectorsContext} from "./DirectorsContext";
 
 const pageTitle = 'Directors’ contributions'
 
 function Directors() {
-  console.log('render directors')
-  const initialState = {
-    fullName: '',
-    ni: '',
-    reference: '',
-    preparedBy: '',
-    date: ''
-  }
-  const stateReducer = (state: DirectorsS, action: { [x: string]: string }) => ({
-    ...state,
-    ...action,
-  })
-  const [state, dispatch] = React.useReducer(stateReducer, initialState)
-  const [earningsPeriod, setEarningsPeriod] = useState<PeriodLabel | null>(null)
-  const [errors, setErrors] = useState<GenericErrors>({})
-  const [rowsErrors, setRowsErrors] = useState<RowsErrors>({})
   const [reset, setReset] = useState<boolean>(false)
-  const defaultRows: Array<DirectorsRow> = [{
-    id: 'directorsInput',
-    category: taxYearsCategories[0].categories[0],
-    gross: '',
-    ee: '0',
-    er: '0'
-  }]
-
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
   const [showSummary, setShowSummary] = useState<boolean>(false)
-  const [showDetails, setShowDetails] = useState(false)
-  const [taxYear, setTaxYear] = useState<TaxYear>(taxYearsCategories[0])
-  const [rows, setRows] = useState<Array<DirectorsRow>>(defaultRows)
-  const [grossTotal, setGrossTotal] = useState<Number | null>(null)
   const [dateRange, setDateRange] = useState<GovDateRange>({from: null, to: null})
+  const {
+    taxYear,
+    rows,
+    setRows,
+    errors,
+    setErrors,
+    rowsErrors,
+    setRowsErrors,
+    details,
+    setDetails,
+    niPaidNet,
+    niPaidEmployee,
+    setNiPaidEmployee,
+    setNiPaidNet,
+    earningsPeriod,
+    setEarningsPeriod
+  } = useContext(DirectorsContext)
+
 
   const handleChange = ({
     currentTarget: { name, value },
   }: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({ [name]: value })
+    setDetails({ [name]: value })
   }
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -69,8 +54,8 @@ function Directors() {
     setRowsErrors({})
     const payload = {
       rows: rows,
-      niPaidEmployee: '', // not sure this should be in this payload
-      niPaidNet: '', // not sure this should be in this payload
+      niPaidEmployee: niPaidEmployee,
+      niPaidNet: niPaidNet,
       dateRange: dateRange,
       earningsPeriod: earningsPeriod
     }
@@ -84,10 +69,6 @@ function Directors() {
 
   const calculateRows = (rows: Array<DirectorsRow>, taxYear: Date) => {
     const classOneCalculator = new ClassOne(JSON.stringify(configuration));
-
-    setGrossTotal(rows.reduce((grossTotal, nextRow) => {
-      return grossTotal + parseInt(nextRow.gross)
-    }, 0))
 
     return rows.map((row: DirectorsRow, index: number) => {
         let calculatedRow: Calculated;
@@ -112,7 +93,7 @@ function Directors() {
             ))
         }
 
-        setRows(prevState => updateRowInResults(prevState, calculatedRow, index))
+        setRows(updateRowInResults(rows, calculatedRow, index))
 
         return calculatedRow
       }) as Calculated[]
@@ -128,8 +109,8 @@ function Directors() {
     setRowsErrors({})
     setRows(defaultRows)
     setCalculatedRows([])
-    setReset(true)
-    setGrossTotal(0)
+    setNiPaidEmployee('')
+    setNiPaidNet('')
   }
 
   return (
@@ -138,15 +119,7 @@ function Directors() {
         <DirectorsPrintView
           title={pageTitle}
           setShowSummary={setShowSummary}
-          details={state}
-          taxYearString={taxYearString(taxYear)}
-          taxYear={taxYear}
-          earningsPeriod={earningsPeriod}
-          rows={rows}
-          grossTotal={grossTotal}
           calculatedRows={calculatedRows}
-          reset={reset}
-          setReset={setReset}
         />
         :
         <>
@@ -158,41 +131,20 @@ function Directors() {
           }
 
           <h1>{pageTitle}</h1>
-          <div className="clear">
-            <h2 className="govuk-heading-m details-heading">Details</h2>
-            <button
-              type="button"
-              className={`toggle icon ${showDetails ? 'arrow-up' : 'arrow-right'}`}
-              onClick={() => setShowDetails(!showDetails)}>
-                {showDetails ? 'Close details' : 'Open details'}
-            </button>
-          </div>
 
-          {showDetails &&
-            <Details
-              fullName={state.fullName}
-              ni={state.ni}
-              reference={state.reference}
-              preparedBy={state.preparedBy}
-              date={state.date}
-              handleChange={handleChange}
-            />
-          }
+          <Details
+            details={details}
+            handleChange={handleChange}
+          />
+
           <form onSubmit={handleSubmit} noValidate>
             <div className="form-group table-wrapper">
               <DirectorsTable
-                errors={errors}
-                rowsErrors={rowsErrors}
                 resetTotals={resetTotals}
-                rows={rows}
-                setRows={setRows}
-                taxYear={taxYear}
-                setTaxYear={setTaxYear}
                 setShowSummary={setShowSummary}
                 dateRange={dateRange}
                 setDateRange={setDateRange}
                 handleChange={handleChange}
-                earningsPeriod={earningsPeriod}
                 handlePeriodChange={handlePeriodChange}
               />
             </div>
@@ -201,11 +153,11 @@ function Directors() {
       }
       <Totals
         grossPayTally={showSummary}
-        errors={errors}
         calculatedRows={calculatedRows}
         isSaveAndPrint={showSummary}
         reset={reset}
         setReset={setReset}
+        type={Calculators.DIRECTORS}
       />
       {showSummary && (
         <div className="govuk-!-padding-bottom-9">

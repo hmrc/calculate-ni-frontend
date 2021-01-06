@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import uniqid from 'uniqid';
 import { taxYearsCategories, taxYearString } from '../../../config'
 
@@ -9,13 +9,20 @@ import ClassOneEarningsTable from './Class1ContributionsTable'
 
 // types
 import { Row, Class1TableProps, TaxYear } from '../../../interfaces';
+import {ClassOneContext} from "./ClassOneContext";
 
 numeral.locale('en-gb');
 
 function Class1Table(props: Class1TableProps) {
-
+  const { setShowSummary, resetTotals } = props
   const [taxYears] = useState<TaxYear[]>(taxYearsCategories)
   const [activeRowID, setActiveRowID] = useState<string | null>(null)
+  const {
+    taxYear,
+    setTaxYear,
+    rows,
+    setRows,
+  } = useContext(ClassOneContext)
 
   const handleSetActiveRow = (r: Row) => {
     if (activeRowID !== r.id) setActiveRowID(r.id)
@@ -23,26 +30,29 @@ function Class1Table(props: Class1TableProps) {
 
   const handleChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
     handleSetActiveRow(r)
-    props.setRows(props.rows.map(
-      cur => cur.id === r.id ? {...cur, [`${e.currentTarget.name.split('-')[1]}`]: e.currentTarget.value} : cur
+    setRows(rows.map((cur: Row) =>
+      cur.id === r.id ?
+        {...cur, [`${e.currentTarget.name.split('-')[1]}`]: e.currentTarget.value}
+        :
+        cur
     ))
   }
   
   const handleSelectChange = (r: Row, e: React.ChangeEvent<HTMLSelectElement>) => {
     handleSetActiveRow(r)
-    props.setRows(props.rows.map(cur =>
+    setRows(rows.map((cur: Row) =>
       cur.id === r.id ? {...cur, [e.currentTarget.name]: e.currentTarget.value} : cur
     ))
   }
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => (
-    props.setTaxYear(taxYears[taxYears.findIndex(ty => ty.id === e.target.value)])
+    setTaxYear(taxYears[taxYears.findIndex(ty => ty.id === e.target.value)])
   )
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const lastRow = props.rows[props.rows.length -1]
-    props.setRows([...props.rows, {
+    const lastRow = rows[rows.length -1]
+    setRows([...rows, {
       id: uniqid(),
       category: lastRow.category,
       period: lastRow.period,
@@ -60,7 +70,7 @@ function Class1Table(props: Class1TableProps) {
           <label className="govuk-label" htmlFor="taxYear">
             Select a tax year
           </label>
-          <select value={props.taxYear.id} onChange={handleTaxYearChange} id="taxYear" name="taxYear" className="govuk-select">
+          <select value={taxYear.id} onChange={handleTaxYearChange} id="taxYear" name="taxYear" className="govuk-select">
             {taxYears.map((y, i) => (
               <option key={i} value={y.id}>{taxYearString(y)}</option>
             ))}
@@ -72,17 +82,14 @@ function Class1Table(props: Class1TableProps) {
           <button 
             type="button" 
             className="button govuk-button govuk-button--secondary nomar"
-            onClick={() => props.setShowSummary(true)}>
+            onClick={() => setShowSummary(true)}>
             Save and print
           </button>
         </div>
       </div>
 
       <ClassOneEarningsTable
-        rows={props.rows} 
-        rowsErrors={props.rowsErrors}
         activeRowID={activeRowID}
-        taxYear={props.taxYear}
         handleChange={handleChange}
         handleSelectChange={handleSelectChange}
         showBands={false}
@@ -109,7 +116,7 @@ function Class1Table(props: Class1TableProps) {
           <div className="form-group">
             <button className="button govuk-button govuk-button--secondary nomar" onClick={(e) => {
               e.preventDefault()
-              props.resetTotals()
+              resetTotals()
             }}>
               Clear table
             </button>
@@ -117,7 +124,7 @@ function Class1Table(props: Class1TableProps) {
         </div>
       </div>
 
-      </div>
+    </div>
   )
 }
 

@@ -22,6 +22,8 @@ import Home from './components/Home'
 import Class1 from './components/calculators/class1/Class1'
 import Directors from './components/calculators/directors/Directors'
 import BreadCrumbs from "./components/helpers/gov-design-system/BreadCrumbs";
+import {ClassOneContext, useClassOneForm} from "./components/calculators/class1/ClassOneContext";
+import {DirectorsContext, useDirectorsForm} from "./components/calculators/directors/DirectorsContext";
 
 function App() {    
   const serviceName = "Calculate National Insurance contributions"
@@ -34,10 +36,14 @@ function App() {
             <BreadCrumbs />
             <Switch>
               <Route path="/class-1">
-                <Class1 />
+                <ClassOneContext.Provider value={useClassOneForm()}>
+                  <Class1 />
+                </ClassOneContext.Provider>
               </Route>
               <Route path="/directors">
-                <Directors />
+                <DirectorsContext.Provider value={useDirectorsForm()}>
+                  <Directors />
+                </DirectorsContext.Provider>
               </Route>
               <Route path="/">
                 <Home />

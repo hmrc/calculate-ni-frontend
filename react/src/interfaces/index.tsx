@@ -2,6 +2,7 @@
 
 import {PeriodLabel, PeriodValue} from "../config";
 import {RowsErrors, GenericErrors} from "../validation/validation";
+import {Dispatch} from "react";
 
 export interface RouteName {
   pathname: string
@@ -17,13 +18,17 @@ export interface PhaseBannerProps {
   link: string
 }
 
+export interface DetailsForm {
+  details: DetailsProps
+  handleChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
+}
+
 export interface DetailsProps {
   fullName: string
   ni: string
   reference: string
   preparedBy: string
   date: string
-  handleChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export interface Class1S {
@@ -80,50 +85,37 @@ export interface TaxYear {
 }
 
 export interface Class1TableProps {
-  rows: Row[]
-  setRows: (r: Row[]) => void
-  errors: object
-  rowsErrors: ErrorSummaryProps['rowsErrors']
   resetTotals: () => void
-  setTaxYear: (ty: TaxYear) => void
-  taxYear: TaxYear
-  setShowSummary: (v: boolean) => void
+  setShowSummary: Dispatch<boolean>
 }
 
 export interface DirectorsTableProps {
-  rows: DirectorsRow[]
-  setRows: (r: DirectorsRow[]) => void
-  errors: GenericErrors
-  rowsErrors: RowsErrors
   resetTotals: () => void
-  setTaxYear: (ty: TaxYear) => void
-  taxYear: TaxYear
   setShowSummary: (v: boolean) => void
   dateRange: GovDateRange
   setDateRange: Function
-  earningsPeriod: PeriodLabel | null
   handlePeriodChange: (value: PeriodLabel) => void
   handleChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export interface EarningsProps {
-  rowsErrors?: RowsErrors;
-  taxYear: TaxYear;
   showBands: boolean;
 }
 
 export interface ClassOneEarningsProps extends EarningsProps {
-  rows: Array<Row>;
   activeRowID?: string | null;
   handleChange?: (r: Row, e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSelectChange?: (r: Row, e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export interface DirectorsEarningsProps extends EarningsProps {
-  rows: Array<DirectorsRow>;
   handleChange?: (r: DirectorsRow, e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSelectChange?: (r: DirectorsRow, e: React.ChangeEvent<HTMLSelectElement>) => void;
-  earningsPeriod: PeriodLabel | null
+}
+
+export enum Calculators {
+  CLASS_ONE = "Class 1",
+  DIRECTORS = "Directors"
 }
 
 // Totals
@@ -135,6 +127,7 @@ export interface TotalsProps {
   grossTotal?: Number | null
   calculatedRows: Array<Calculated>;
   isSaveAndPrint: boolean
+  type: Calculators.CLASS_ONE | Calculators.DIRECTORS
 }
 
 export enum OverOrUnder {
@@ -152,22 +145,7 @@ export interface ErrorSummaryProps {
 export interface SavePrintBaseProps {
   title: string,
   setShowSummary: (v: boolean) => void
-  details: Class1S
-  taxYearString: string
-  taxYear: TaxYear
-  grossTotal: Number | null
   calculatedRows: Calculated[]
-  reset: boolean;
-  setReset: Function;
-}
-
-export interface ClassOnePrint extends SavePrintBaseProps {
-  rows: Array<Row>
-}
-
-export interface DirectorsPrint extends SavePrintBaseProps {
-  rows: Array<DirectorsRow>
-  earningsPeriod: PeriodLabel | null
 }
 
 export interface CategoryTotalsProps {

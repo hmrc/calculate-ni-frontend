@@ -2,6 +2,10 @@ import {Calculated, DirectorsRow, OverOrUnder, Row} from "../interfaces";
 
 export const emptyStringToZero = (input: string) => input === '' ? 0 : parseFloat(input)
 
+export const isEmpty = (obj: object) => Object.keys(obj).length === 0
+
+export const hasKeys = (obj: object) => Object.keys(obj).length > 0
+
 export function sumOfContributionsInRow(calculatedRow: Calculated, type: number): number {
   return Object.keys(calculatedRow).reduce((prev, key) => {
     return prev + calculatedRow[key][type]

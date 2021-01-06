@@ -7,7 +7,7 @@ function ErrorSummary(props: ErrorSummaryProps) {
   const summaryRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     summaryRef.current?.focus()
-  })
+  }, [errors, rowsErrors])
   return (
     <div ref={summaryRef} className="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabIndex={-1} data-module="govuk-error-summary">
       <h2 className="govuk-error-summary__title" id="error-summary-title">

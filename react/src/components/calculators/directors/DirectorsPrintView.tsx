@@ -1,18 +1,24 @@
-import React from 'react'
-import { onlyUnique } from '../../../config'
-
+import React, {useContext} from 'react'
+import {onlyUnique, taxYearString} from '../../../config'
+import {DirectorsContext} from "./DirectorsContext";
 // components
 import CategoryTotals from '../../CategoryTotals'
+import DirectorsEarningsTable from './DirectorsContributionsTable'
 
 // helpers
 import SummaryListRow from '../../helpers/gov-design-system/SummaryListRow'
 
 // types
-import {DirectorsPrint} from '../../../interfaces'
-import DirectorsEarningsTable from './DirectorsContributionsTable'
+import {SavePrintBaseProps} from '../../../interfaces'
 
-function DirectorsPrintView(props: DirectorsPrint) {
-  const { title, details, rows, earningsPeriod, taxYear, taxYearString, setShowSummary } = props;
+function DirectorsPrintView(props: SavePrintBaseProps) {
+  const { title, setShowSummary } = props;
+  const {
+    rows,
+    details,
+    taxYear
+  } = useContext(DirectorsContext)
+
   const getUniqueCategories = () => {
     return rows
       .map(r => r.category)
@@ -64,17 +70,14 @@ function DirectorsPrintView(props: DirectorsPrint) {
 
             <SummaryListRow
               listKey="Tax year:"
-              listValue={taxYearString}
+              listValue={taxYearString(taxYear)}
               rowClasses="half"
             />
           </dl>
         </div>
 
         <DirectorsEarningsTable
-          rows={rows}
-          taxYear={taxYear}
           showBands={true}
-          earningsPeriod={earningsPeriod}
         />
 
         <div className="ni-due">
