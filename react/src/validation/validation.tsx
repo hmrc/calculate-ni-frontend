@@ -3,9 +3,13 @@ import Validator from 'validator';
 // types
 import {DirectorsRow, GovDateRange, Row} from '../interfaces'
 import {PeriodLabel} from "../config";
+import {Dispatch} from "react";
+import {hasKeys, isEmpty} from "../services/utils";
 
 interface ClassOnePayload {
   rows: Array<Row>
+  niPaidNet: string
+  niPaidEmployee: string
 }
 
 interface DirectorsPayload {
@@ -46,18 +50,43 @@ export interface RowsErrors {
   }
 }
 
-export const validateClassOnePayload = (payload: ClassOnePayload, setRowsErrors: (rowsErrors: RowsErrors) => void) => {
+export const validateClassOnePayload = (
+  payload: ClassOnePayload,
+  setRowsErrors: Dispatch<RowsErrors>,
+  setErrors: Dispatch<GenericErrors>
+) => {
+  console.log('validating class one', payload)
+  const errors: GenericErrors = {}
+  if(payload.niPaidNet === '') {
+    errors.niPaidNet = {
+      link: 'niPaidNet',
+      name: 'Net NI paid',
+      message: 'NI paid net contributions must be entered'
+    }
+  }
+  if(payload.niPaidEmployee === '') {
+    errors.niPaidEmployee = {
+      link: 'niPaidEmployee',
+      name: 'Net NI paid by employee',
+      message: 'NI paid employee contributions must be entered'
+    }
+  }
+  if (hasKeys(errors)) {
+    console.log('errors hasKeys', hasKeys(errors))
+    setErrors(errors)
+  }
   const rowErrors: RowsErrors = validateRows(payload.rows)
-  if(Object.keys(rowErrors).length > 0) {
+  if (hasKeys(rowErrors)) {
     setRowsErrors(rowErrors)
   }
-  return Object.keys(rowErrors).length === 0
+
+  return isEmpty(rowErrors) && isEmpty(errors)
 }
 
 export const validateDirectorsPayload = (
   payload: DirectorsPayload,
-  setErrors: (errors: GenericErrors) => void,
-  setRowsErrors: (rowsErrors: RowsErrors) => void
+  setErrors: Dispatch<GenericErrors>,
+  setRowsErrors: Dispatch<RowsErrors>
 ) => {
   let errors: GenericErrors = {}
   const rowErrors: RowsErrors = validateRows(payload.rows)
@@ -79,7 +108,7 @@ export const validateDirectorsPayload = (
     setErrors(errors)
   }
 
-  return Object.keys(rowErrors).length === 0 && Object.keys(errors).length === 0
+  return isEmpty(rowErrors) && isEmpty(errors)
 }
 
 const validateRows = (rows: Array<Row | DirectorsRow>) => {

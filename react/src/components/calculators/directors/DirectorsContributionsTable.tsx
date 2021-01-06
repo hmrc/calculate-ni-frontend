@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {fcn} from '../../../config';
+import {DirectorsContext} from "./DirectorsContext";
 
 // types
-import {DirectorsEarningsProps} from '../../../interfaces'
+import {DirectorsEarningsProps, DirectorsRow} from '../../../interfaces'
 
 // components
 import TextInput from '../../helpers/formhelpers/TextInput'
@@ -13,25 +14,32 @@ import 'numeral/locales/en-gb';
 numeral.locale('en-gb');
 
 function DirectorsEarningsTable(props: DirectorsEarningsProps) {
+  const { showBands, handleSelectChange, handleChange } = props
+  const {
+    rows,
+    rowsErrors,
+    taxYear
+  } = useContext(DirectorsContext)
+
   return (
     <table className="contribution-details">
       <thead>
         <tr className="clear">
           <th className="lg" colSpan={2}><span>Contribution payment details</span></th>
-          {props.showBands && props.rows[0].bands &&
-            <th className="border" colSpan={Object.keys(props.rows[0].bands).length}><span>Earnings</span></th>
+          {showBands && rows[0].bands &&
+            <th className="border" colSpan={Object.keys(rows[0].bands).length}><span>Earnings</span></th>
           }
-          <th className="border" colSpan={props.showBands && props.rows[0].bands ? 2 : 1}><span>Net contributions</span></th>
+          <th className="border" colSpan={showBands && rows[0].bands ? 2 : 1}><span>Net contributions</span></th>
         </tr>
         <tr>
           <th><strong>Select NI category letter</strong></th>
           <th><strong>Enter gross pay</strong></th>
           {/* Bands - by tax year, so we can just take the first band to map the rows */}
-          {props.showBands && props.rows[0].bands && Object.keys(props.rows[0].bands).map(k =>
+          {showBands && rows[0].bands && Object.keys(rows[0].bands).map(k =>
             <th key={k}>{k}</th>
           )}
 
-          {props.showBands && props.rows[0].bands &&
+          {showBands && rows[0].bands &&
             <th><strong>Total</strong></th>
           }
           <th><strong><abbr title="Employee">EE</abbr></strong></th>
@@ -40,14 +48,14 @@ function DirectorsEarningsTable(props: DirectorsEarningsProps) {
       </thead>
       
       <tbody>
-        {props.rows.map((r, i) => (
+        {rows.map((r: DirectorsRow, i: number) => (
           <tr key={r.id} id={r.id}>
             <td className="input">
-              {props.handleSelectChange ?
+              {handleSelectChange ?
                 <>
                   <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category</label>
-                  <select name="category" value={r.category} onChange={(e) => props.handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
-                    {props.taxYear.categories.map((c, i) => (
+                  <select name="category" value={r.category} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
+                    {taxYear.categories.map((c: string, i: number) => (
                       <option key={i} value={c}>{fcn(c)}</option>
                     ))}
                   </select>
@@ -59,8 +67,8 @@ function DirectorsEarningsTable(props: DirectorsEarningsProps) {
 
             {/* Gross Pay */}
             <td className={
-              `input ${props.rowsErrors?.[`${r.id}`]?.['gross'] ? "error-cell" : ""}`}>
-              {props.handleChange ?
+              `input ${rowsErrors?.[`${r.id}`]?.gross ? "error-cell" : ""}`}>
+              {handleChange ?
                 <>
                   <TextInput
                     hiddenLabel={true}
@@ -69,7 +77,7 @@ function DirectorsEarningsTable(props: DirectorsEarningsProps) {
                     inputClassName="gross-pay"
                     inputValue={r.gross}
                     placeholderText="Enter the gross pay amount"
-                    onChangeCallback={(e) => props.handleChange?.(r, e)}
+                    onChangeCallback={(e) => handleChange?.(r, e)}
                   />
                 </>
               :
@@ -78,12 +86,12 @@ function DirectorsEarningsTable(props: DirectorsEarningsProps) {
             </td>
 
             {/* Bands */}
-            {props.showBands && r.bands && Object.keys(r.bands).map(k =>
+            {showBands && r.bands && Object.keys(r.bands).map(k =>
               <td key={`${k}-val`}>{numeral(r.bands?.[k][0]).format('$0,0.00')}</td>
             )}
 
             {/* Total */}
-            {props.showBands && r.bands && 
+            {showBands && r.bands &&
               // Total (if calculate has run)
               <td>
                 {numeral(

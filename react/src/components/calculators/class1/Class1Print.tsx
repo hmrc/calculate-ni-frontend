@@ -1,19 +1,24 @@
-import React from 'react'
-import { onlyUnique } from '../../../config'
+import React, {useContext} from 'react'
+import {onlyUnique, taxYearString} from '../../../config'
+import {ClassOneContext} from "./ClassOneContext";
 
 // components
 import CategoryTotals from '../../CategoryTotals'
+import ClassOneEarningsTable from './Class1ContributionsTable'
 
 // helpers
 import SummaryListRow from '../../helpers/gov-design-system/SummaryListRow'
 
 // types
-import {ClassOnePrint} from '../../../interfaces'
-import ClassOneEarningsTable from './Class1ContributionsTable'
+import {SavePrintBaseProps} from '../../../interfaces'
 
-function Class1Print(props: ClassOnePrint) {
-
-  const { title, details, rows } = props;
+function Class1Print(props: SavePrintBaseProps) {
+  const { title, setShowSummary } = props;
+  const {
+    rows,
+    details,
+    taxYear
+  } = useContext(ClassOneContext)
 
   const getUniqueCategories = () => {
     return rows
@@ -28,7 +33,7 @@ function Class1Print(props: ClassOnePrint) {
       <div className="print-content">
         <a href="#hideSummary" className="govuk-back-link" onClick={(e) => {
           e.preventDefault()
-          props.setShowSummary(false)
+          setShowSummary(false)
         }}>Back</a>
         <h2 className="govuk-heading-l">{title}</h2>
         
@@ -66,15 +71,13 @@ function Class1Print(props: ClassOnePrint) {
 
             <SummaryListRow 
               listKey="Tax year:" 
-              listValue={props.taxYearString}
+              listValue={taxYearString(taxYear)}
               rowClasses="half" 
             />
           </dl>
         </div>
 
         <ClassOneEarningsTable
-          rows={rows}
-          taxYear={props.taxYear}
           showBands={true}
         />
         
