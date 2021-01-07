@@ -12,7 +12,7 @@ import {DateRange} from "./DateRange";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 
 // types
-import {DirectorsTableProps, DirectorsRow} from '../../../interfaces';
+import {DirectorsTableProps, DirectorsRow, TaxYear} from '../../../interfaces';
 
 numeral.locale('en-gb');
 
@@ -55,12 +55,19 @@ function DirectorsForm(props: DirectorsTableProps) {
           <label className="govuk-label" htmlFor="taxYear">
             Select a tax year
           </label>
-          <select value={taxYear.id} onChange={(e) => handleTaxYearChange(e)} id="taxYear" name="taxYear" className="govuk-select">
-            {taxYearsCategories.map((y, i) => (
-              <option key={i} value={y.id}>{taxYearString(y)}</option>
+          <select
+            value={taxYear.id}
+            onChange={handleTaxYearChange}
+            id="taxYear"
+            name="taxYear"
+            className="govuk-select"
+          >
+            {taxYearsCategories.map((y: TaxYear) => (
+              <option key={y.id} value={y.id}>
+                {taxYearString(y)}
+              </option>
             ))}
           </select>
-
         </div>
 
         <div className="form-group half">

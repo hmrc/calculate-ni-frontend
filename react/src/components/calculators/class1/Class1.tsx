@@ -8,9 +8,9 @@ import {PeriodValue} from '../../../config'
 import {Calculated, Calculators, Row} from '../../../interfaces'
 
 // components
-import Details from '../../Details'
+import Details from '../shared/Details'
 import Class1Form from './Class1Form'
-import Totals from '../../Totals'
+import Totals from '../shared/Totals'
 import Class1Print from './Class1Print'
 import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 

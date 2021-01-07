@@ -1,21 +1,26 @@
 import React from 'react'
 
 // components
-import { CategoryTotalsProps } from '../interfaces'
+import {DirectorsRow, Row} from '../../../interfaces'
+
+// services
+import {uniqueCategories} from "../../../services/utils";
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
 numeral.locale('en-gb');
 
-function CategoryTotals(props: CategoryTotalsProps) {
+function CategoryTotals(props: { rows: Array<Row | DirectorsRow> }) {
+  const { rows } = props
+  const categoriesList = uniqueCategories(rows)
   return (
     <div className="category-totals">
       <table>
         <thead>
           <tr className="clear">
-            {props.rows[0].bands &&
-              <th className="border" colSpan={Object.keys(props.rows[0].bands).length + 2}>&nbsp;</th>
+            {rows[0].bands &&
+              <th className="border" colSpan={Object.keys(rows[0].bands).length + 2}>&nbsp;</th>
             }
             <th className="border" colSpan={3}><span>Net contributions</span></th>
           </tr>
@@ -23,7 +28,7 @@ function CategoryTotals(props: CategoryTotalsProps) {
             <th>Category</th>
             <th>Gross Pay</th>
             {/* Bands (by tax year), so we can just take the first band to map the rows */}
-            {props.rows[0].bands && Object.keys(props.rows[0].bands).map(k =>
+            {rows[0].bands && Object.keys(rows[0].bands).map(k =>
               <th key={k}>{k}</th>
             )}
             <th>Total</th>
@@ -32,13 +37,13 @@ function CategoryTotals(props: CategoryTotalsProps) {
           </tr>
         </thead>
         <tbody>
-          {props.categoriesList.map(c => (
+          {categoriesList.map(c => (
             <tr key={c}>
               <td>{c}</td>
               <td>
                 {/* Gross total for Category */}
                 {numeral(
-                  props.rows.reduce((prev, cur) => {
+                  rows.reduce((prev, cur) => {
                     if (cur.category === c) {
                       return prev + parseFloat(cur.gross)
                     } else {
@@ -47,14 +52,14 @@ function CategoryTotals(props: CategoryTotalsProps) {
                   }, 0).toString()
                 ).format('$0,0.00')}
               </td>
-              {props.rows[0].bands && Object.keys(props.rows[0].bands).map(k =>
-              <td key={`${k}-val`}>{numeral(props.rows[0].bands?.[k][0]).format('$0,0.00')}</td>
+              {rows[0].bands && Object.keys(rows[0].bands).map(k =>
+              <td key={`${k}-val`}>{numeral(rows[0].bands?.[k][0]).format('$0,0.00')}</td>
               )}
 
               {/* Total contributions for category */}
               <td>
                 {numeral(
-                  props.rows.reduce((prev, cur) => {
+                  rows.reduce((prev, cur) => {
                     if (cur.category === c) {
                       return prev + (parseFloat(cur.ee) + parseFloat(cur.er))
                     } else {
@@ -67,7 +72,7 @@ function CategoryTotals(props: CategoryTotalsProps) {
               {/* EE contributions for category */}
               <td>
                 {numeral(
-                  props.rows.reduce((prev, cur) => {
+                  rows.reduce((prev, cur) => {
                     if (cur.category === c) {
                       return prev + parseFloat(cur.ee)
                     } else {
@@ -80,7 +85,7 @@ function CategoryTotals(props: CategoryTotalsProps) {
               {/* ER contributions for category */}
               <td>
                 {numeral(
-                  props.rows.reduce((prev, cur) => {
+                  rows.reduce((prev, cur) => {
                     if (cur.category === c) {
                       return prev + parseFloat(cur.er)
                     } else {
@@ -95,16 +100,16 @@ function CategoryTotals(props: CategoryTotalsProps) {
 
             <th><strong>Totals</strong></th>
             <td>
-              {numeral(props.rows.reduce((prev, cur) => { return prev + parseFloat(cur.gross) }, 0).toString()).format('$0,0.00')}
+              {numeral(rows.reduce((prev, cur) => { return prev + parseFloat(cur.gross) }, 0).toString()).format('$0,0.00')}
             </td>
             {/* Bands (by tax year), so we can just take the first band to map the rows */}
-            {props.rows[0].bands && Object.keys(props.rows[0].bands).map(k =>
+            {rows[0].bands && Object.keys(rows[0].bands).map(k =>
               <td key={`${k}-band-total`}>&ndash;</td>
             )}
 
             <td>
               {numeral(
-                props.rows.reduce((prev, cur) => {
+                rows.reduce((prev, cur) => {
                   return prev + (parseFloat(cur.ee) + parseFloat(cur.er))
                   
                 }, 0).toString()
@@ -114,7 +119,7 @@ function CategoryTotals(props: CategoryTotalsProps) {
             {/* EE total conts */}
             <td>
               {numeral(
-                props.rows.reduce((prev, cur) => {
+                rows.reduce((prev, cur) => {
                   return prev + parseFloat(cur.ee)
                   
                 }, 0).toString()
@@ -124,7 +129,7 @@ function CategoryTotals(props: CategoryTotalsProps) {
             {/* ER total conts */}
             <td>
               {numeral(
-                props.rows.reduce((prev, cur) => {
+                rows.reduce((prev, cur) => {
                   return prev + parseFloat(cur.er)
                   
                 }, 0).toString()

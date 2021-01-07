@@ -3,13 +3,13 @@ import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
 // types
-import {Calculators, TotalsProps} from '../interfaces'
+import {Calculators, TotalsProps} from '../../../interfaces'
 
 // services
-import {calculateNiDue} from "../services/utils";
-import {useClassOneTotals} from "../services/classOneTotals";
-import {ClassOneContext} from "./calculators/class1/ClassOneContext";
-import {DirectorsContext} from "./calculators/directors/DirectorsContext";
+import {calculateNiDue} from "../../../services/utils";
+import {useClassOneTotals} from "../../../services/classOneTotals";
+import {ClassOneContext} from "../class1/ClassOneContext";
+import {DirectorsContext} from "../directors/DirectorsContext";
 
 numeral.locale('en-gb');
 

@@ -1,5 +1,5 @@
-import {DetailsProps} from "../interfaces";
-import SummaryListRow from "./helpers/gov-design-system/SummaryListRow";
+import {DetailsProps} from "../../../interfaces";
+import SummaryListRow from "../../helpers/gov-design-system/SummaryListRow";
 import React from "react";
 
 export default function DetailsPrint(props: { details: DetailsProps }) {

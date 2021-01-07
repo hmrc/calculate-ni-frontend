@@ -1,14 +1,13 @@
 import React, {useContext} from 'react'
-import {onlyUnique} from '../../../config'
 import {ClassOneContext} from "./ClassOneContext";
 
 // components
-import CategoryTotals from '../../CategoryTotals'
+import CategoryTotals from '../shared/CategoryTotals'
 import ClassOneEarningsTable from './Class1ContributionsTable'
+import DetailsPrint from "../shared/DetailsPrint";
 
 // types
 import {SavePrintBaseProps} from '../../../interfaces'
-import DetailsPrint from "../../DetailsPrint";
 
 function Class1Print(props: SavePrintBaseProps) {
   const { title, setShowSummary } = props;
@@ -17,35 +16,36 @@ function Class1Print(props: SavePrintBaseProps) {
     details
   } = useContext(ClassOneContext)
 
-  const getUniqueCategories = () => {
-    return rows
-      .map(r => r.category)
-      .filter(onlyUnique)
+  const handleBackLink = (e: { preventDefault: () => void; }) => {
+    e.preventDefault()
+    setShowSummary(false)
   }
 
   return (
     <div className="save-print-wrapper">
       <div className="print-content">
-        <a href="#hideSummary" className="govuk-back-link" onClick={(e) => {
-          e.preventDefault()
-          setShowSummary(false)
-        }}>Back</a>
-        <h2 className="govuk-heading-l">{title}</h2>
+
+        <a
+          href="#hideSummary"
+          className="govuk-back-link"
+          onClick={handleBackLink}>
+          Back
+        </a>
+
+        <h2 className="govuk-heading-l">
+          {title}
+        </h2>
         
         <DetailsPrint details={details} />
 
-        <ClassOneEarningsTable
-          showBands={true}
-        />
+        <ClassOneEarningsTable showBands={true} />
         
         <div className="ni-due">
           <p><strong>NI due</strong> [TBC]</p>
         </div>
 
-        <CategoryTotals
-          rows={rows}
-          categoriesList={getUniqueCategories()}
-        />
+        <CategoryTotals rows={rows} />
+
       </div>
     </div>
   )

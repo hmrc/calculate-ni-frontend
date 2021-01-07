@@ -5,16 +5,18 @@ import {ClassOne} from '../../../calculation'
 import {PeriodLabel, PeriodValue} from '../../../config'
 
 // components
-import Details from '../../Details'
+import Details from '../shared/Details'
 import DirectorsForm from './DirectorsForm'
-import Totals from '../../Totals'
+import Totals from '../shared/Totals'
 import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
-import {updateRowInResults} from "../../../services/utils";
 import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
 import {Calculated, Calculators, DirectorsRow, GovDateRange,} from '../../../interfaces'
 import {defaultRows, DirectorsContext} from "./DirectorsContext";
+
+// services
+import {updateRowInResults} from "../../../services/utils";
 
 const pageTitle = 'Directors’ contributions'
 
@@ -39,7 +41,6 @@ function Directors() {
     earningsPeriod,
     setEarningsPeriod
   } = useContext(DirectorsContext)
-
 
   const handleChange = ({
     currentTarget: { name, value },

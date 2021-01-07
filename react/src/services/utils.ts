@@ -38,3 +38,9 @@ export const overUnderPaymentDisplay = (value: number, type: OverOrUnder) => {
     return (value < 0) ? Math.abs(value) : 0
   }
 }
+
+const onlyUnique = (value: any, index: number, self: any[]) => self.indexOf(value) === index;
+
+export const uniqueCategories = (rows: Array<Row | DirectorsRow>) => rows
+    .map(r => r.category)
+    .filter(onlyUnique)
