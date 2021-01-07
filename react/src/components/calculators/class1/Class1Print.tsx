@@ -8,6 +8,7 @@ import DetailsPrint from "../shared/DetailsPrint";
 
 // types
 import {SavePrintBaseProps} from '../../../interfaces'
+import BackLink from "../../helpers/gov-design-system/BackLink";
 
 function Class1Print(props: SavePrintBaseProps) {
   const { title, setShowSummary } = props;
@@ -16,21 +17,11 @@ function Class1Print(props: SavePrintBaseProps) {
     details
   } = useContext(ClassOneContext)
 
-  const handleBackLink = (e: { preventDefault: () => void; }) => {
-    e.preventDefault()
-    setShowSummary(false)
-  }
-
   return (
     <div className="save-print-wrapper">
       <div className="print-content">
 
-        <a
-          href="#hideSummary"
-          className="govuk-back-link"
-          onClick={handleBackLink}>
-          Back
-        </a>
+        <BackLink callBack={() => setShowSummary(false)} />
 
         <h2 className="govuk-heading-l">
           {title}

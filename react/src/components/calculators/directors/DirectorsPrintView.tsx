@@ -8,6 +8,7 @@ import DetailsPrint from "../shared/DetailsPrint";
 
 // types
 import {SavePrintBaseProps} from '../../../interfaces'
+import BackLink from "../../helpers/gov-design-system/BackLink";
 
 function DirectorsPrintView(props: SavePrintBaseProps) {
   const { title, setShowSummary } = props;
@@ -16,35 +17,33 @@ function DirectorsPrintView(props: SavePrintBaseProps) {
     details
   } = useContext(DirectorsContext)
 
-  const handleBackLink = (e: { preventDefault: () => void; }) => {
-    e.preventDefault()
-    setShowSummary(false)
-  }
-
   return (
     <div className="save-print-wrapper">
       <div className="print-content">
 
-        <a
-          href="#hideSummary"
-          className="govuk-back-link"
-          onClick={handleBackLink}>
-          Back
-        </a>
+        <BackLink
+          callBack={() => setShowSummary(false)}
+        />
 
         <h2 className="govuk-heading-l">
           {title}
         </h2>
 
-        <DetailsPrint details={details} />
+        <DetailsPrint
+          details={details}
+        />
 
-        <DirectorsEarningsTable showBands={true} />
+        <DirectorsEarningsTable
+          showBands={true}
+        />
 
         <div className="ni-due">
           <p><strong>NI due</strong> [TBC]</p>
         </div>
 
-        <CategoryTotals rows={rows} />
+        <CategoryTotals
+          rows={rows}
+        />
 
       </div>
     </div>
