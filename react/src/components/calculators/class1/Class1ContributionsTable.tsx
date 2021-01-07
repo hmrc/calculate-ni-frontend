@@ -56,7 +56,7 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
               {props.handleSelectChange ?
                 <>
                   <label className="govuk-visually-hidden" htmlFor={`row${i}-period`}>Period</label>
-                  <select name="period" value={r.period} onChange={(e) => props.handleSelectChange?.(r, e)} className="borderless" id={`row${i}-period`}>
+                  <select name="period" value={r.period} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-period`}>
                     {periods.map((p: PeriodValue, i) => (
                       <option key={i} value={p}>{periodValueToLabel(p)}</option>
                     ))}
@@ -82,7 +82,7 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
 
             {/* Category */}
             <td className="input">
-              {props.handleSelectChange ?
+              {handleSelectChange ?
                 <>
                   <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category</label>
                   <select name="category" value={r.category} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
@@ -99,7 +99,7 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
             {/* Gross Pay */}
             <td className={
               `input ${rowsErrors?.[`${r.id}`]?.['gross'] ? "error-cell" : ""}`}>
-              {props.handleChange ?
+              {handleChange ?
                 <>
                   <TextInput
                     hiddenLabel={true}

@@ -16,9 +16,7 @@ export const useClassOneTotals = () => {
   const [overpaymentEmployer, setOverpaymentEmployer] = useState<number>(0)
   const {
     niPaidNet,
-    setNiPaidNet,
-    niPaidEmployee,
-    setNiPaidEmployee,
+    niPaidEmployee
   } = useContext(ClassOneContext)
 
   useEffect(() => {
@@ -42,14 +40,7 @@ export const useClassOneTotals = () => {
     setOverpaymentEmployer(overUnderPaymentDisplay(employerContributionsTotal - niPaidEmployer, OverOrUnder.OVER))
   }, [employeeContributionsTotal, employerContributionsTotal, niPaidEmployee, niPaidEmployer])
 
-  const resetNiPaid = () => {
-      setNiPaidNet('')
-      setNiPaidEmployee('')
-      setNiPaidEmployer(0)
-  }
-
   return {
-    resetNiPaid,
     niPaidEmployer,
     setNiPaidEmployer,
     netContributionsTotal,

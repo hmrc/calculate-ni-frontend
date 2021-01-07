@@ -14,9 +14,8 @@ import {DirectorsContext} from "./calculators/directors/DirectorsContext";
 numeral.locale('en-gb');
 
 function Totals (props: TotalsProps) {
-  const { reset, setReset, isSaveAndPrint, calculatedRows, type } = props;
+  const { isSaveAndPrint, calculatedRows, type } = props;
   const {
-    resetNiPaid,
     niPaidEmployer,
     netContributionsTotal,
     employeeContributionsTotal,
@@ -40,6 +39,7 @@ function Totals (props: TotalsProps) {
     setNiPaidNet,
     niPaidEmployee,
     setNiPaidEmployee,
+    grossTotal
   } = useContext(context)
 
   useEffect(() => {
@@ -49,13 +49,6 @@ function Totals (props: TotalsProps) {
     const employerNiDue = calculateNiDue(calculatedRows, 2)
     setEmployerContributionsTotal(employerNiDue)
   })
-
-  useEffect(() => {
-    if(reset) {
-      resetNiPaid()
-      setReset(false)
-    }
-  }, [reset, resetNiPaid, setReset])
 
   const readOnlyClass: string = isSaveAndPrint ? '' : 'readonly'
 
@@ -80,7 +73,7 @@ function Totals (props: TotalsProps) {
               <td className={`${isSaveAndPrint || !props.grossPayTally ? 'right' : 'readonly'}`}>
                 <span>
                   {props.grossPayTally ?
-                    numeral(props.grossTotal).format('$0,0.00')
+                    numeral(grossTotal).format('$0,0.00')
                     :
                     "Total NI due"
                   }

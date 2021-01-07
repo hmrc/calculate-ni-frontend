@@ -92,10 +92,6 @@ function CategoryTotals(props: CategoryTotalsProps) {
             </tr>
           ))}
           <tr>
-            {/* 
-              Overall Totals
-
-            */}
 
             <th><strong>Totals</strong></th>
             <td>
@@ -103,11 +99,9 @@ function CategoryTotals(props: CategoryTotalsProps) {
             </td>
             {/* Bands (by tax year), so we can just take the first band to map the rows */}
             {props.rows[0].bands && Object.keys(props.rows[0].bands).map(k =>
-              // <td key={`${k}-band-total`}>{k} ???</td>
               <td key={`${k}-band-total`}>&ndash;</td>
             )}
 
-            {/* All total conts */}
             <td>
               {numeral(
                 props.rows.reduce((prev, cur) => {

@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {PeriodLabel, taxYearString} from '../../../config';
 import { taxYearsCategories } from '../../../config'
-
+import {DirectorsContext} from "./DirectorsContext";
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
@@ -9,14 +9,14 @@ import 'numeral/locales/en-gb';
 import DirectorsEarningsTable from './DirectorsContributionsTable'
 import Radios from '../../helpers/formhelpers/Radios'
 import {DateRange} from "./DateRange";
+import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 
 // types
 import {DirectorsTableProps, DirectorsRow} from '../../../interfaces';
-import {DirectorsContext} from "./DirectorsContext";
 
 numeral.locale('en-gb');
 
-function DirectorsTable(props: DirectorsTableProps) {
+function DirectorsForm(props: DirectorsTableProps) {
   const { setShowSummary, resetTotals } = props
   const {
     taxYear,
@@ -33,15 +33,20 @@ function DirectorsTable(props: DirectorsTableProps) {
     ))
   }
 
+  const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    resetTotals()
+  }
+
   const handleSelectChange = (r: DirectorsRow, e: React.ChangeEvent<HTMLSelectElement>) => {
     setRows(rows.map((cur: DirectorsRow) =>
       cur.id === r.id ? {...cur, [e.currentTarget.name]: e.currentTarget.value} : cur
     ))
   }
 
-  const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => (
+  const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTaxYear(taxYearsCategories[taxYearsCategories.findIndex(ty => ty.id === e.target.value)])
-  )
+  }
 
   return (
     <>
@@ -59,16 +64,13 @@ function DirectorsTable(props: DirectorsTableProps) {
         </div>
 
         <div className="form-group half">
-          <button
-            type="button"
-            className="button govuk-button govuk-button--secondary nomar"
-            onClick={() => setShowSummary(true)}>
-            Save and print
-          </button>
+          <SecondaryButton
+            label="Save and print"
+            onClick={() => setShowSummary(true)}
+          />
         </div>
       </div>
 
-      {/* Earnings period */}
       <Radios
         legend="Earnings period"
         name="earningsPeriod"
@@ -78,7 +80,6 @@ function DirectorsTable(props: DirectorsTableProps) {
         errors={errors}
       />
 
-      {/* Directorship */}
       {earningsPeriod === PeriodLabel.PRORATA &&
         <DateRange setDateRange={props.setDateRange} errors={errors} />
       }
@@ -100,12 +101,10 @@ function DirectorsTable(props: DirectorsTableProps) {
 
         <div className="container">
           <div className="form-group">
-            <button className="button govuk-button govuk-button--secondary nomar" onClick={(e) => {
-              e.preventDefault();
-              resetTotals()
-            }}>
-              Clear table
-            </button>
+            <SecondaryButton
+              label="Clear table"
+              onClick={handleClear}
+            />
           </div>
         </div>
       </div>
@@ -113,4 +112,4 @@ function DirectorsTable(props: DirectorsTableProps) {
   )
 }
 
-export default DirectorsTable
+export default DirectorsForm

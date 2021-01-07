@@ -6,7 +6,7 @@ import {PeriodLabel, PeriodValue} from '../../../config'
 
 // components
 import Details from '../../Details'
-import DirectorsTable from '../directors/DirectorsTable'
+import DirectorsForm from './DirectorsForm'
 import Totals from '../../Totals'
 import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 import {updateRowInResults} from "../../../services/utils";
@@ -19,7 +19,6 @@ import {defaultRows, DirectorsContext} from "./DirectorsContext";
 const pageTitle = 'Directors’ contributions'
 
 function Directors() {
-  const [reset, setReset] = useState<boolean>(false)
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const [dateRange, setDateRange] = useState<GovDateRange>({from: null, to: null})
@@ -139,7 +138,7 @@ function Directors() {
 
           <form onSubmit={handleSubmit} noValidate>
             <div className="form-group table-wrapper">
-              <DirectorsTable
+              <DirectorsForm
                 resetTotals={resetTotals}
                 setShowSummary={setShowSummary}
                 dateRange={dateRange}
@@ -155,8 +154,6 @@ function Directors() {
         grossPayTally={showSummary}
         calculatedRows={calculatedRows}
         isSaveAndPrint={showSummary}
-        reset={reset}
-        setReset={setReset}
         type={Calculators.DIRECTORS}
       />
       {showSummary && (
