@@ -10,6 +10,26 @@ const routes = [
   {
     pathname: '/directors',
     name: 'Directors’ contributions'
+  },
+  {
+    pathname: '/unofficial-deferment',
+    name: 'Class 1 NI contributions an employer owes due to unofficial deferment'
+  },
+  {
+    pathname: '/class-2-or-3',
+    name: 'Class 2 or 3 NI contributions needed for a qualifying year'
+  },
+  {
+    pathname: '/class-3',
+    name: 'Class 3 NI service spouse credits'
+  },
+  {
+    pathname: '/interest-class-1',
+    name: 'Interest on late or unpaid Class 1 NI contributions'
+  },
+  {
+    pathname: '/interest-refunds',
+    name: 'Interest on late-paid refunds from 1993 to 1994'
   }
 ]
 

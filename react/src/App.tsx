@@ -21,6 +21,11 @@ import PhaseBanner from './components/helpers/gov-design-system/PhaseBanner'
 import Home from './components/Home'
 import Class1 from './components/calculators/class1/Class1'
 import Directors from './components/calculators/directors/Directors'
+import UnofficialDeferment from './components/calculators/unofficial-deferment/UnofficialDeferment'
+import Class2Or3 from './components/calculators/class-2-or-3/Class2Or3'
+import Class3 from './components/calculators/class-3/Class3'
+import InterestClass1 from './components/calculators/interest-class-1/InterestClass1'
+import InterestRefunds from './components/calculators/interest-refunds/InterestRefunds'
 import BreadCrumbs from "./components/helpers/gov-design-system/BreadCrumbs";
 import {ClassOneContext, useClassOneForm} from "./components/calculators/class1/ClassOneContext";
 import {DirectorsContext, useDirectorsForm} from "./components/calculators/directors/DirectorsContext";
@@ -44,6 +49,21 @@ function App() {
                 <DirectorsContext.Provider value={useDirectorsForm()}>
                   <Directors />
                 </DirectorsContext.Provider>
+              </Route>
+              <Route path="/unofficial-deferment">
+                <UnofficialDeferment />
+              </Route>
+              <Route path="/class-2-or-3">
+                <Class2Or3 />
+              </Route>
+              <Route path="/class-3">
+                <Class3 />
+              </Route>
+              <Route path="/interest-class-1">
+                <InterestClass1 />
+              </Route>
+              <Route path="/interest-refunds">
+                <InterestRefunds />
               </Route>
               <Route path="/">
                 <Home />
