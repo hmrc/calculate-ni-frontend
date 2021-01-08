@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {periodValueToLabel, fcn, PeriodValue, periods} from '../../../config';
+import {periodValueToLabel, appConfig, PeriodValue, periods} from '../../../config';
 import {ClassOneContext} from "./ClassOneContext";
 
 // types
@@ -87,7 +87,7 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
                   <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category</label>
                   <select name="category" value={r.category} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
                     {taxYear.categories.map((c: string, i: number) => (
-                      <option key={i} value={c}>{fcn(c)}</option>
+                      <option key={i} value={c}>{`${c} - ${appConfig.categoryNames[c]}`}</option>
                     ))}
                   </select>
                 </>

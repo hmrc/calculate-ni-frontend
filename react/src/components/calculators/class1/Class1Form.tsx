@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import uniqid from 'uniqid';
-import { taxYearsCategories, taxYearString } from '../../../config'
+import { appConfig, taxYearString } from '../../../config'
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
@@ -16,7 +16,7 @@ numeral.locale('en-gb');
 
 function Class1Form(props: Class1TableProps) {
   const { setShowSummary, resetTotals } = props
-  const [taxYears] = useState<TaxYear[]>(taxYearsCategories)
+  const [taxYears] = useState<TaxYear[]>(appConfig.taxYears)
   const [activeRowID, setActiveRowID] = useState<string | null>(null)
   const {
     taxYear,
@@ -47,7 +47,7 @@ function Class1Form(props: Class1TableProps) {
   }
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTaxYear(taxYears[taxYears.findIndex(ty => ty.id === e.target.value)])
+    setTaxYear(taxYears.find(ty => ty.id === e.target.value) || taxYears[0])
   }
 
   const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
