@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {PeriodLabel, taxYearString} from '../../../config';
-import { taxYearsCategories } from '../../../config'
+import { appConfig } from '../../../config'
 import {DirectorsContext} from "./DirectorsContext";
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
@@ -45,7 +45,7 @@ function DirectorsForm(props: DirectorsTableProps) {
   }
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTaxYear(taxYearsCategories[taxYearsCategories.findIndex(ty => ty.id === e.target.value)])
+    setTaxYear(appConfig.taxYears[appConfig.taxYears.findIndex(ty => ty.id === e.target.value)])
   }
 
   return (
@@ -62,7 +62,7 @@ function DirectorsForm(props: DirectorsTableProps) {
             name="taxYear"
             className="govuk-select"
           >
-            {taxYearsCategories.map((y: TaxYear) => (
+            {appConfig.taxYears.map((y: TaxYear) => (
               <option key={y.id} value={y.id}>
                 {taxYearString(y)}
               </option>

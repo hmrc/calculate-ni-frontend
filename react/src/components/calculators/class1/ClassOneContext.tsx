@@ -1,6 +1,6 @@
 import React, {Dispatch, useEffect, useState} from "react";
 import {Calculated, Class1S, DetailsProps, Row, TaxYear, TotalsInCategories} from "../../../interfaces";
-import {periods, taxYearsCategories} from "../../../config";
+import {periods, appConfig} from "../../../config";
 import uniqid from "uniqid";
 import {GenericErrors, RowsErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
@@ -15,7 +15,7 @@ const initialState = {
 
 export const defaultRows = [{
   id: uniqid(),
-  category: taxYearsCategories[0].categories[0],
+  category: appConfig.taxYears[0].categories[0],
   period: periods[0],
   gross: '',
   number: '0',
@@ -53,7 +53,7 @@ interface ClassOneContext {
 
 export const ClassOneContext = React.createContext<ClassOneContext>(
   {
-    taxYear: taxYearsCategories[0],
+    taxYear: appConfig.taxYears[0],
     setTaxYear: () => {},
     rows: defaultRows,
     setRows: () => {},
@@ -77,7 +77,7 @@ export const ClassOneContext = React.createContext<ClassOneContext>(
 )
 
 export function useClassOneForm() {
-  const [taxYear, setTaxYear] = useState<TaxYear>(taxYearsCategories[0])
+  const [taxYear, setTaxYear] = useState<TaxYear>(appConfig.taxYears[0])
   const [rows, setRows] = useState<Array<Row>>(defaultRows)
   const [details, setDetails] = React.useReducer(stateReducer, initialState)
   const [grossTotal, setGrossTotal] = useState<Number | null>(null)
