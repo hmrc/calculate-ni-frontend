@@ -1,8 +1,9 @@
 import React, {Dispatch, useEffect, useState} from "react";
-import {Class1S, DetailsProps, Row, TaxYear} from "../../../interfaces";
+import {Class1S, DetailsProps, Row, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {periods, taxYearsCategories} from "../../../config";
 import uniqid from "uniqid";
 import {GenericErrors, RowsErrors} from "../../../validation/validation";
+import {getTotalsInCategories} from "../../../services/utils";
 
 const initialState = {
   fullName: '',
@@ -44,6 +45,8 @@ interface ClassOneContext {
   setNiPaidEmployee: Dispatch<string>
   errors: GenericErrors
   setErrors: Dispatch<GenericErrors>
+  categoryTotals: TotalsInCategories
+  setCategoryTotals: Dispatch<TotalsInCategories>
 }
 
 export const ClassOneContext = React.createContext<ClassOneContext>(
@@ -63,7 +66,9 @@ export const ClassOneContext = React.createContext<ClassOneContext>(
     niPaidEmployee: '',
     setNiPaidEmployee: () => {},
     errors: {},
-    setErrors: () => {}
+    setErrors: () => {},
+    categoryTotals: {},
+    setCategoryTotals: () => {}
   }
 )
 
@@ -76,8 +81,10 @@ export function useClassOneForm() {
   const [errors, setErrors] = useState<GenericErrors>({})
   const [niPaidNet, setNiPaidNet] = useState<string>('')
   const [niPaidEmployee, setNiPaidEmployee] = useState<string>('')
+  const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({})
 
   useEffect(() => {
+    setCategoryTotals(getTotalsInCategories(rows as Row[]))
     setGrossTotal(rows.reduce((grossTotal, row) => {
       return grossTotal + parseFloat(row.gross)
     }, 0))
@@ -99,6 +106,8 @@ export function useClassOneForm() {
     niPaidNet,
     setNiPaidNet,
     niPaidEmployee,
-    setNiPaidEmployee
+    setNiPaidEmployee,
+    categoryTotals,
+    setCategoryTotals
   }
 }

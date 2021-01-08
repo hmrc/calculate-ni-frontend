@@ -14,7 +14,11 @@ function DirectorsPrintView(props: SavePrintBaseProps) {
   const { title, setShowSummary } = props;
   const {
     rows,
-    details
+    details,
+    categoryTotals,
+    grossTotal,
+    niPaidEmployee,
+    niPaidNet
   } = useContext(DirectorsContext)
 
   return (
@@ -43,6 +47,10 @@ function DirectorsPrintView(props: SavePrintBaseProps) {
 
         <CategoryTotals
           rows={rows}
+          categoryTotals={categoryTotals}
+          grossTotal={grossTotal}
+          niPaidEmployee={niPaidEmployee}
+          niPaidNet={niPaidNet}
         />
 
       </div>

@@ -14,7 +14,11 @@ function Class1Print(props: SavePrintBaseProps) {
   const { title, setShowSummary } = props;
   const {
     rows,
-    details
+    details,
+    categoryTotals,
+    grossTotal,
+    niPaidEmployee,
+    niPaidNet
   } = useContext(ClassOneContext)
 
   return (
@@ -35,7 +39,13 @@ function Class1Print(props: SavePrintBaseProps) {
           <p><strong>NI due</strong> [TBC]</p>
         </div>
 
-        <CategoryTotals rows={rows} />
+        <CategoryTotals
+          rows={rows}
+          categoryTotals={categoryTotals}
+          grossTotal={grossTotal}
+          niPaidNet={niPaidNet}
+          niPaidEmployee={niPaidEmployee}
+        />
 
       </div>
     </div>

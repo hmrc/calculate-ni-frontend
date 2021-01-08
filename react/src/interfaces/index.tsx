@@ -168,3 +168,23 @@ export interface GovDateRange {
   from: Date | null;
   to: Date | null;
 }
+
+export type NiCategory =
+  'X' | 'A' | 'J' | 'M' | 'B' | 'C' | 'H' | 'Z'
+
+export interface TotalsInCategories {
+  [key: string]: TotalsInCategory
+}
+
+export interface TotalsInCategory {
+  gross: number
+  ee: number
+  er: number
+  contributionsTotal: number
+}
+
+export enum TotalType {
+  EE = 'ee',
+  ER = 'er',
+  GROSS = 'gross'
+}
