@@ -1,5 +1,5 @@
 import React, {Dispatch, useEffect, useState} from "react";
-import {Class1S, DetailsProps, DirectorsRow, TaxYear, TotalsInCategories} from "../../../interfaces";
+import {Calculated, Class1S, DetailsProps, DirectorsRow, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {PeriodLabel, taxYearsCategories} from "../../../config";
 import {GenericErrors, RowsErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
@@ -45,6 +45,8 @@ interface DirectorsContext {
   setErrors: Dispatch<GenericErrors>
   categoryTotals: TotalsInCategories
   setCategoryTotals: Dispatch<TotalsInCategories>
+  calculatedRows: Array<Calculated>
+  setCalculatedRows: Dispatch<Array<Calculated>>
 }
 
 export const DirectorsContext = React.createContext<DirectorsContext>(
@@ -68,7 +70,9 @@ export const DirectorsContext = React.createContext<DirectorsContext>(
     errors: {},
     setErrors: () => {},
     categoryTotals: {},
-    setCategoryTotals: () => {}
+    setCategoryTotals: () => {},
+    calculatedRows: [],
+    setCalculatedRows: () => {}
   }
 )
 
@@ -83,6 +87,7 @@ export function useDirectorsForm() {
   const [niPaidEmployee, setNiPaidEmployee] = useState<string>('')
   const [earningsPeriod, setEarningsPeriod] = useState<PeriodLabel | null>(null)
   const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({})
+  const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
 
   useEffect(() => {
     setCategoryTotals(getTotalsInCategories(rows as DirectorsRow[]))
@@ -111,6 +116,8 @@ export function useDirectorsForm() {
     niPaidEmployee,
     setNiPaidEmployee,
     categoryTotals,
-    setCategoryTotals
+    setCategoryTotals,
+    calculatedRows,
+    setCalculatedRows
   }
 }

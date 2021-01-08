@@ -1,9 +1,8 @@
-import {useContext, useEffect, useState} from 'react';
-import {emptyStringToZero, overUnderPaymentDisplay} from "./utils";
+import {Context, useContext, useEffect, useState} from 'react';
+import {calculateNiDue, emptyStringToZero, overUnderPaymentDisplay} from "./utils";
 import {OverOrUnder} from "../interfaces";
-import {ClassOneContext} from "../components/calculators/class1/ClassOneContext";
 
-export const useClassOneTotals = () => {
+export const useClassOneTotals = (context: Context<any>) => {
   const [niPaidEmployer, setNiPaidEmployer] = useState<number>(0)
   const [netContributionsTotal, setNetContributionsTotal] = useState<number>(0)
   const [employeeContributionsTotal, setEmployeeContributionsTotal] = useState<number>(0)
@@ -16,8 +15,17 @@ export const useClassOneTotals = () => {
   const [overpaymentEmployer, setOverpaymentEmployer] = useState<number>(0)
   const {
     niPaidNet,
-    niPaidEmployee
-  } = useContext(ClassOneContext)
+    niPaidEmployee,
+    calculatedRows
+  } = useContext(context)
+
+  useEffect(() => {
+    const employeeNiDue = calculateNiDue(calculatedRows, 1)
+    setEmployeeContributionsTotal(employeeNiDue)
+
+    const employerNiDue = calculateNiDue(calculatedRows, 2)
+    setEmployerContributionsTotal(employerNiDue)
+  }, [calculatedRows])
 
   useEffect(() => {
     setNiPaidEmployer(emptyStringToZero(niPaidNet) - emptyStringToZero(niPaidEmployee))

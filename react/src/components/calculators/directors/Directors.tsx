@@ -21,7 +21,6 @@ import {updateRowInResults} from "../../../services/utils";
 const pageTitle = 'Directors’ contributions'
 
 function Directors() {
-  const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const [dateRange, setDateRange] = useState<GovDateRange>({from: null, to: null})
   const {
@@ -39,7 +38,9 @@ function Directors() {
     setNiPaidEmployee,
     setNiPaidNet,
     earningsPeriod,
-    setEarningsPeriod
+    setEarningsPeriod,
+    calculatedRows,
+    setCalculatedRows
   } = useContext(DirectorsContext)
 
   const handleChange = ({

@@ -7,7 +7,7 @@ import DirectorsEarningsTable from './DirectorsContributionsTable'
 import DetailsPrint from "../shared/DetailsPrint";
 
 // types
-import {SavePrintBaseProps} from '../../../interfaces'
+import {Calculators, SavePrintBaseProps} from '../../../interfaces'
 import BackLink from "../../helpers/gov-design-system/BackLink";
 
 function DirectorsPrintView(props: SavePrintBaseProps) {
@@ -16,9 +16,7 @@ function DirectorsPrintView(props: SavePrintBaseProps) {
     rows,
     details,
     categoryTotals,
-    grossTotal,
-    niPaidEmployee,
-    niPaidNet
+    grossTotal
   } = useContext(DirectorsContext)
 
   return (
@@ -49,8 +47,7 @@ function DirectorsPrintView(props: SavePrintBaseProps) {
           rows={rows}
           categoryTotals={categoryTotals}
           grossTotal={grossTotal}
-          niPaidEmployee={niPaidEmployee}
-          niPaidNet={niPaidNet}
+          type={Calculators.DIRECTORS}
         />
 
       </div>

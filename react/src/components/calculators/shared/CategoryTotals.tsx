@@ -1,13 +1,16 @@
-import React from 'react'
+import React, {Context} from 'react'
 
 // components
-import {DirectorsRow, Row, TotalsInCategories} from '../../../interfaces'
+import {Calculators, DirectorsRow, Row, TotalsInCategories} from '../../../interfaces'
 
 // services
 import {uniqueCategories} from "../../../services/utils";
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
+import {useClassOneTotals} from "../../../services/classOneTotals";
+import {ClassOneContext} from "../class1/ClassOneContext";
+import {DirectorsContext} from "../directors/DirectorsContext";
 
 numeral.locale('en-gb');
 
@@ -15,10 +18,16 @@ function CategoryTotals(props: {
   rows: Array<Row | DirectorsRow>,
   categoryTotals: TotalsInCategories
   grossTotal: Number | null
-  niPaidNet: string
-  niPaidEmployee: string
+  type: Calculators
 }) {
-  const { rows, categoryTotals, grossTotal, niPaidNet, niPaidEmployee } = props
+  const { rows, categoryTotals, grossTotal, type } = props
+  const context: Context<any> =
+    type === Calculators.CLASS_ONE ? ClassOneContext : DirectorsContext
+  const {
+    netContributionsTotal,
+    employeeContributionsTotal,
+    employerContributionsTotal,
+  } = useClassOneTotals(context)
   const categoriesList = uniqueCategories(rows)
   const formatCurrencyAmount = (currencyAmount: string | number | Number | undefined | null) =>
     currencyAmount && numeral(currencyAmount.toString()).format('$0,0.00')
@@ -89,21 +98,23 @@ function CategoryTotals(props: {
             </td>
             {/* Bands (by tax year), so we can just take the first band to map the rows */}
             {rows[0].bands && Object.keys(rows[0].bands).map(k =>
-              <td key={`${k}-band-total`}>&ndash;</td>
+              <td key={`${k}-band-total`}>
+                &ndash;
+              </td>
             )}
 
             <td>
-              {formatCurrencyAmount(niPaidNet)}
+              {formatCurrencyAmount(netContributionsTotal)}
             </td>
 
             {/* EE total contributions */}
             <td>
-              {formatCurrencyAmount(niPaidEmployee)}
+              {formatCurrencyAmount(employeeContributionsTotal)}
             </td>
             
             {/* ER total contributions */}
             <td>
-              {formatCurrencyAmount(parseFloat(niPaidNet) - parseFloat(niPaidEmployee))}
+              {formatCurrencyAmount(employerContributionsTotal)}
             </td>
           </tr>
         </tbody>

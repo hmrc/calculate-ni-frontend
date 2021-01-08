@@ -21,7 +21,6 @@ import {ClassOneContext, defaultRows} from "./ClassOneContext";
 const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 
 function Class1() {
-  const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const {
     taxYear,
@@ -36,7 +35,9 @@ function Class1() {
     niPaidNet,
     niPaidEmployee,
     setNiPaidEmployee,
-    setNiPaidNet
+    setNiPaidNet,
+    calculatedRows,
+    setCalculatedRows
   } = useContext(ClassOneContext)
 
   const handleDetailsChange = ({
