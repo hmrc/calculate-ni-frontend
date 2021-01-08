@@ -10,10 +10,11 @@ import ClassOneEarningsTable from './Class1ContributionsTable'
 // types
 import { Row, Class1TableProps, TaxYear } from '../../../interfaces';
 import {ClassOneContext} from "./ClassOneContext";
+import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 
 numeral.locale('en-gb');
 
-function Class1Table(props: Class1TableProps) {
+function Class1Form(props: Class1TableProps) {
   const { setShowSummary, resetTotals } = props
   const [taxYears] = useState<TaxYear[]>(taxYearsCategories)
   const [activeRowID, setActiveRowID] = useState<string | null>(null)
@@ -45,9 +46,14 @@ function Class1Table(props: Class1TableProps) {
     ))
   }
 
-  const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => (
+  const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTaxYear(taxYears[taxYears.findIndex(ty => ty.id === e.target.value)])
-  )
+  }
+
+  const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    resetTotals()
+  }
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -64,13 +70,19 @@ function Class1Table(props: Class1TableProps) {
   }
 
   return (
-    <div>
+    <div className="form-group table-wrapper">
       <div className="container">
         <div className="form-group half">
           <label className="govuk-label" htmlFor="taxYear">
             Select a tax year
           </label>
-          <select value={taxYear.id} onChange={handleTaxYearChange} id="taxYear" name="taxYear" className="govuk-select">
+          <select
+            value={taxYear.id}
+            onChange={handleTaxYearChange}
+            id="taxYear"
+            name="taxYear"
+            className="govuk-select"
+          >
             {taxYears.map((y, i) => (
               <option key={i} value={y.id}>{taxYearString(y)}</option>
             ))}
@@ -79,12 +91,10 @@ function Class1Table(props: Class1TableProps) {
         </div>
 
         <div className="form-group half">
-          <button 
-            type="button" 
-            className="button govuk-button govuk-button--secondary nomar"
-            onClick={() => setShowSummary(true)}>
-            Save and print
-          </button>
+          <SecondaryButton
+            label="Save and print"
+            onClick={() => setShowSummary(true)}
+          />
         </div>
       </div>
 
@@ -105,21 +115,19 @@ function Class1Table(props: Class1TableProps) {
         </div>
 
         <div className="container">
-          <div className="form-group repeat-button">        
-            <button 
-              className="button govuk-button govuk-button--secondary nomar" 
-              onClick={handleClick}>
-              Repeat row
-            </button>
+
+          <div className="form-group repeat-button">
+            <SecondaryButton
+              label="Repeat row"
+              onClick={handleClick}
+            />
           </div>
 
           <div className="form-group">
-            <button className="button govuk-button govuk-button--secondary nomar" onClick={(e) => {
-              e.preventDefault()
-              resetTotals()
-            }}>
-              Clear table
-            </button>
+            <SecondaryButton
+              label="Clear table"
+              onClick={handleClear}
+            />
           </div>
         </div>
       </div>
@@ -128,4 +136,4 @@ function Class1Table(props: Class1TableProps) {
   )
 }
 
-export default Class1Table;
+export default Class1Form;

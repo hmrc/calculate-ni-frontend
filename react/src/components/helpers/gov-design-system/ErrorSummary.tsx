@@ -20,7 +20,7 @@ function ErrorSummary(props: ErrorSummaryProps) {
               <a href={`#${errors[key]?.link}`}>
                 {errors[key]?.message}
               </a>
-            </li> 
+            </li>
           ))}
           {Object.keys(rowsErrors).length > 0 && Object.keys(rowsErrors).map((rowKey) => (
             rowsErrors[rowKey] && Object.keys(rowsErrors[rowKey]).map((fieldName) => (

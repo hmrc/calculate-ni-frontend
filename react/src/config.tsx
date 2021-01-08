@@ -1,7 +1,6 @@
 import moment from 'moment';
 
 // types
-import { Calculated } from './interfaces'
 import { TaxYear } from './interfaces'
 
 export const momentDateFormat = 'D MMMM YYYY'
@@ -450,22 +449,3 @@ export const taxYearsCategories = [
   2018 (A,B,C,J,M,H,Z)
 
 */
-
-
-export const calcOverUnderPayment = (value: number, type: string) => {
-  if (type === 'under') {
-    return (value > 0) ? value : 0
-  } else {
-    return (value < 0) ? Math.abs(value) : 0
-  }
-}
-
-export const calcNi = (c: Calculated[], arrPosition: number) => (
-  c.reduce((prev, cur) => {
-    return prev + Object.keys(cur).reduce((prev, key) => {
-      return prev + cur[key][arrPosition]
-    }, 0)
-  }, 0)
-)
-
-export const onlyUnique = (value: any, index: number, self: any[]) => self.indexOf(value) === index;

@@ -1,4 +1,11 @@
-import {Calculated, DirectorsRow, OverOrUnder, Row} from "../interfaces";
+import {
+  Calculated,
+  DirectorsRow,
+  OverOrUnder,
+  Row,
+  TotalsInCategories,
+  TotalType
+} from "../interfaces";
 
 export const emptyStringToZero = (input: string) => input === '' ? 0 : parseFloat(input)
 
@@ -38,3 +45,30 @@ export const overUnderPaymentDisplay = (value: number, type: OverOrUnder) => {
     return (value < 0) ? Math.abs(value) : 0
   }
 }
+
+const onlyUnique = (value: any, index: number, self: any[]) => self.indexOf(value) === index;
+
+const getTotalsInCategory = (type: TotalType, rows: Array<Row | DirectorsRow>, category: string) => {
+  return rows
+    .filter(row => row.category === category)
+    .reduce((total: number, row: Row | DirectorsRow) => {
+      return total + parseFloat(row[type])
+    }, 0)
+}
+
+export const uniqueCategories = (rows: Array<Row | DirectorsRow>) => rows
+    .map(r => r.category)
+    .filter(onlyUnique)
+
+export const getTotalsInCategories = (rows: Array<Row | DirectorsRow>) => uniqueCategories(rows)
+  .reduce((list, next: string) => {
+    const eeTotal = getTotalsInCategory(TotalType.EE, rows, next)
+    const erTotal = getTotalsInCategory(TotalType.ER, rows, next)
+    list[next] = {
+      gross: getTotalsInCategory(TotalType.GROSS, rows, next),
+      ee: eeTotal,
+      er: eeTotal,
+      contributionsTotal: eeTotal + erTotal
+    }
+    return list
+  }, {} as TotalsInCategories)

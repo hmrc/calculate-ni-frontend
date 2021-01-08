@@ -8,9 +8,9 @@ import {PeriodValue} from '../../../config'
 import {Calculated, Calculators, Row} from '../../../interfaces'
 
 // components
-import Details from '../../Details'
-import Class1Table from './Class1Table'
-import Totals from '../../Totals'
+import Details from '../shared/Details'
+import Class1Form from './Class1Form'
+import Totals from '../shared/Totals'
 import Class1Print from './Class1Print'
 import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 
@@ -22,7 +22,6 @@ const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 
 function Class1() {
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
-  const [reset, setReset] = useState<boolean>(false)
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const {
     taxYear,
@@ -124,12 +123,10 @@ function Class1() {
               handleChange={handleDetailsChange}
             />
 
-            <div className="form-group table-wrapper">
-              <Class1Table
-                resetTotals={resetTotals}
-                setShowSummary={setShowSummary}
-              />
-            </div>
+            <Class1Form
+              resetTotals={resetTotals}
+              setShowSummary={setShowSummary}
+            />
 
           </form>
         </>
@@ -138,8 +135,6 @@ function Class1() {
         grossPayTally={showSummary}
         calculatedRows={calculatedRows}
         isSaveAndPrint={showSummary}
-        reset={reset}
-        setReset={setReset}
         type={Calculators.CLASS_ONE}
       />
       {showSummary && (

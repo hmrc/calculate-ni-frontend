@@ -39,14 +39,6 @@ export interface Class1S {
   date: string
 }
 
-export interface DirectorsS {
-  fullName: string
-  ni: string
-  reference: string
-  preparedBy: string
-  date: string
-}
-
 export interface Errors {
   niPaidNet: string
   niPaidEmployee: string
@@ -120,8 +112,6 @@ export enum Calculators {
 
 // Totals
 export interface TotalsProps {
-  reset: boolean;
-  setReset: Function;
   grossPayTally: boolean
   errors?: GenericErrors | null
   grossTotal?: Number | null
@@ -177,4 +167,24 @@ export interface TextInputProps {
 export interface GovDateRange {
   from: Date | null;
   to: Date | null;
+}
+
+export type NiCategory =
+  'X' | 'A' | 'J' | 'M' | 'B' | 'C' | 'H' | 'Z'
+
+export interface TotalsInCategories {
+  [key: string]: TotalsInCategory
+}
+
+export interface TotalsInCategory {
+  gross: number
+  ee: number
+  er: number
+  contributionsTotal: number
+}
+
+export enum TotalType {
+  EE = 'ee',
+  ER = 'er',
+  GROSS = 'gross'
 }

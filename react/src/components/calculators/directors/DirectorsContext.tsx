@@ -1,7 +1,8 @@
 import React, {Dispatch, useEffect, useState} from "react";
-import {Class1S, DetailsProps, DirectorsRow, TaxYear} from "../../../interfaces";
+import {Class1S, DetailsProps, DirectorsRow, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {PeriodLabel, taxYearsCategories} from "../../../config";
 import {GenericErrors, RowsErrors} from "../../../validation/validation";
+import {getTotalsInCategories} from "../../../services/utils";
 const initialState = {
   fullName: '',
   ni: '',
@@ -42,6 +43,8 @@ interface DirectorsContext {
   setNiPaidEmployee: Dispatch<string>
   errors: GenericErrors
   setErrors: Dispatch<GenericErrors>
+  categoryTotals: TotalsInCategories
+  setCategoryTotals: Dispatch<TotalsInCategories>
 }
 
 export const DirectorsContext = React.createContext<DirectorsContext>(
@@ -63,7 +66,9 @@ export const DirectorsContext = React.createContext<DirectorsContext>(
     earningsPeriod: null,
     setEarningsPeriod: () => {},
     errors: {},
-    setErrors: () => {}
+    setErrors: () => {},
+    categoryTotals: {},
+    setCategoryTotals: () => {}
   }
 )
 
@@ -77,8 +82,10 @@ export function useDirectorsForm() {
   const [niPaidNet, setNiPaidNet] = useState<string>('')
   const [niPaidEmployee, setNiPaidEmployee] = useState<string>('')
   const [earningsPeriod, setEarningsPeriod] = useState<PeriodLabel | null>(null)
+  const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({})
 
   useEffect(() => {
+    setCategoryTotals(getTotalsInCategories(rows as DirectorsRow[]))
     setGrossTotal(rows.reduce((grossTotal, row) => {
       return grossTotal + parseFloat(row.gross)
     }, 0))
@@ -102,6 +109,8 @@ export function useDirectorsForm() {
     niPaidNet,
     setNiPaidNet,
     niPaidEmployee,
-    setNiPaidEmployee
+    setNiPaidEmployee,
+    categoryTotals,
+    setCategoryTotals
   }
 }

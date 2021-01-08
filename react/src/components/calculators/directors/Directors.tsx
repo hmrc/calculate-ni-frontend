@@ -5,21 +5,22 @@ import {ClassOne} from '../../../calculation'
 import {PeriodLabel, PeriodValue} from '../../../config'
 
 // components
-import Details from '../../Details'
-import DirectorsTable from '../directors/DirectorsTable'
-import Totals from '../../Totals'
+import Details from '../shared/Details'
+import DirectorsForm from './DirectorsForm'
+import Totals from '../shared/Totals'
 import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
-import {updateRowInResults} from "../../../services/utils";
 import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
 import {Calculated, Calculators, DirectorsRow, GovDateRange,} from '../../../interfaces'
 import {defaultRows, DirectorsContext} from "./DirectorsContext";
 
+// services
+import {updateRowInResults} from "../../../services/utils";
+
 const pageTitle = 'Directors’ contributions'
 
 function Directors() {
-  const [reset, setReset] = useState<boolean>(false)
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const [dateRange, setDateRange] = useState<GovDateRange>({from: null, to: null})
@@ -40,7 +41,6 @@ function Directors() {
     earningsPeriod,
     setEarningsPeriod
   } = useContext(DirectorsContext)
-
 
   const handleChange = ({
     currentTarget: { name, value },
@@ -139,7 +139,7 @@ function Directors() {
 
           <form onSubmit={handleSubmit} noValidate>
             <div className="form-group table-wrapper">
-              <DirectorsTable
+              <DirectorsForm
                 resetTotals={resetTotals}
                 setShowSummary={setShowSummary}
                 dateRange={dateRange}
@@ -155,8 +155,6 @@ function Directors() {
         grossPayTally={showSummary}
         calculatedRows={calculatedRows}
         isSaveAndPrint={showSummary}
-        reset={reset}
-        setReset={setReset}
         type={Calculators.DIRECTORS}
       />
       {showSummary && (

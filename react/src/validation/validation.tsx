@@ -57,14 +57,14 @@ export const validateClassOnePayload = (
 ) => {
   console.log('validating class one', payload)
   const errors: GenericErrors = {}
-  if(payload.niPaidNet === '') {
+  if(payload.niPaidNet === '' && payload.niPaidEmployee !== '') {
     errors.niPaidNet = {
       link: 'niPaidNet',
       name: 'Net NI paid',
       message: 'NI paid net contributions must be entered'
     }
   }
-  if(payload.niPaidEmployee === '') {
+  if(payload.niPaidEmployee === '' && payload.niPaidNet !== '') {
     errors.niPaidEmployee = {
       link: 'niPaidEmployee',
       name: 'Net NI paid by employee',

@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 
 // types
-import {DetailsForm} from '../interfaces'
+import {DetailsForm} from '../../../interfaces'
 
 // components
-import TextInput from './helpers/formhelpers/TextInput'
+import TextInput from '../../helpers/formhelpers/TextInput'
 
 function Details (props: DetailsForm) {
   const { details, handleChange } = props
