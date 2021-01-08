@@ -67,7 +67,7 @@ export const getTotalsInCategories = (rows: Array<Row | DirectorsRow>) => unique
     list[next] = {
       gross: getTotalsInCategory(TotalType.GROSS, rows, next),
       ee: eeTotal,
-      er: eeTotal,
+      er: erTotal,
       contributionsTotal: eeTotal + erTotal
     }
     return list

@@ -7,7 +7,7 @@ import ClassOneEarningsTable from './Class1ContributionsTable'
 import DetailsPrint from "../shared/DetailsPrint";
 
 // types
-import {SavePrintBaseProps} from '../../../interfaces'
+import {Calculators, SavePrintBaseProps} from '../../../interfaces'
 import BackLink from "../../helpers/gov-design-system/BackLink";
 
 function Class1Print(props: SavePrintBaseProps) {
@@ -16,9 +16,7 @@ function Class1Print(props: SavePrintBaseProps) {
     rows,
     details,
     categoryTotals,
-    grossTotal,
-    niPaidEmployee,
-    niPaidNet
+    grossTotal
   } = useContext(ClassOneContext)
 
   return (
@@ -43,8 +41,7 @@ function Class1Print(props: SavePrintBaseProps) {
           rows={rows}
           categoryTotals={categoryTotals}
           grossTotal={grossTotal}
-          niPaidNet={niPaidNet}
-          niPaidEmployee={niPaidEmployee}
+          type={Calculators.CLASS_ONE}
         />
 
       </div>

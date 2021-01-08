@@ -1,4 +1,4 @@
-import React, {Context, useContext, useEffect} from 'react';
+import React, {Context, useContext} from 'react';
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
@@ -6,7 +6,6 @@ import 'numeral/locales/en-gb';
 import {Calculators, TotalsProps} from '../../../interfaces'
 
 // services
-import {calculateNiDue} from "../../../services/utils";
 import {useClassOneTotals} from "../../../services/classOneTotals";
 import {ClassOneContext} from "../class1/ClassOneContext";
 import {DirectorsContext} from "../directors/DirectorsContext";
@@ -14,24 +13,21 @@ import {DirectorsContext} from "../directors/DirectorsContext";
 numeral.locale('en-gb');
 
 function Totals (props: TotalsProps) {
-  const { isSaveAndPrint, calculatedRows, type } = props;
+  const { isSaveAndPrint, type } = props;
+  const context: Context<any> =
+    type === Calculators.CLASS_ONE ? ClassOneContext : DirectorsContext
   const {
     niPaidEmployer,
     netContributionsTotal,
     employeeContributionsTotal,
-    setEmployeeContributionsTotal,
     employerContributionsTotal,
-    setEmployerContributionsTotal,
     underpaymentNet,
     overpaymentNet,
     underpaymentEmployee,
     overpaymentEmployee,
     underpaymentEmployer,
     overpaymentEmployer
-  } = useClassOneTotals()
-
-  const context: Context<any> =
-    type === Calculators.CLASS_ONE ? ClassOneContext : DirectorsContext
+  } = useClassOneTotals(context)
 
   const {
     errors,
@@ -39,16 +35,8 @@ function Totals (props: TotalsProps) {
     setNiPaidNet,
     niPaidEmployee,
     setNiPaidEmployee,
-    grossTotal
+    grossTotal,
   } = useContext(context)
-
-  useEffect(() => {
-    const employeeNiDue = calculateNiDue(calculatedRows, 1)
-    setEmployeeContributionsTotal(employeeNiDue)
-
-    const employerNiDue = calculateNiDue(calculatedRows, 2)
-    setEmployerContributionsTotal(employerNiDue)
-  })
 
   const readOnlyClass: string = isSaveAndPrint ? '' : 'readonly'
 
