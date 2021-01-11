@@ -5,7 +5,8 @@ h1 {
   margin-bottom: 30px;
 }
 
-.details-heading {
+.details-heading,
+#earningsPeriod .govuk-fieldset__legend--l {
   font-size: 22px;
   font-weight: normal;
 }

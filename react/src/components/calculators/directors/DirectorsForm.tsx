@@ -8,6 +8,7 @@ import 'numeral/locales/en-gb';
 // components
 import DirectorsEarningsTable from './DirectorsContributionsTable'
 import Radios from '../../helpers/formhelpers/Radios'
+import SelectTaxYear from '../../helpers/formhelpers/SelectTaxYear'
 import {DateRange} from "./DateRange";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 
@@ -50,26 +51,7 @@ function DirectorsForm(props: DirectorsTableProps) {
 
   return (
     <>
-      <div className="container">
-        <div className="form-group half">
-          <label className="govuk-label" htmlFor="taxYear">
-            Select a tax year
-          </label>
-          <select
-            value={taxYear.id}
-            onChange={handleTaxYearChange}
-            id="taxYear"
-            name="taxYear"
-            className="govuk-select"
-          >
-            {appConfig.taxYears.map((y: TaxYear) => (
-              <option key={y.id} value={y.id}>
-                {taxYearString(y)}
-              </option>
-            ))}
-          </select>
-        </div>
-
+      <div className="container float--right">
         <div className="form-group half">
           <SecondaryButton
             label="Save and print"
@@ -78,18 +60,23 @@ function DirectorsForm(props: DirectorsTableProps) {
         </div>
       </div>
 
+      {/* TODO:  conditionalRevealChildren must allow an array of 
+      ReactComponents or Nulls for instances where some radio options have no revealed content*/}
       <Radios
         legend="Earnings period"
         name="earningsPeriod"
         items={[PeriodLabel.ANNUAL, PeriodLabel.PRORATA]}
+        conditionalRevealChildren={[
+          <SelectTaxYear 
+            taxYear={taxYear}
+            handleTaxYearChange={handleTaxYearChange}
+          />, 
+          <DateRange setDateRange={props.setDateRange} errors={errors} />
+        ]}
         handleChange={props.handlePeriodChange}
         selected={earningsPeriod}
         errors={errors}
       />
-
-      {earningsPeriod === PeriodLabel.PRORATA &&
-        <DateRange setDateRange={props.setDateRange} errors={errors} />
-      }
 
       <DirectorsEarningsTable
         handleChange={handleGrossChange}
