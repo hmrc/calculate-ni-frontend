@@ -48,6 +48,15 @@ function Class1() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
+    submitForm(false)
+  }
+
+  const handleShowSummary = (event: React.FormEvent) => {
+    event.preventDefault()
+    submitForm(true)
+  }
+
+  const submitForm = (showSummaryIfValid: boolean) => {
     setErrors({})
     setRowsErrors({})
     const payload = {
@@ -60,6 +69,9 @@ function Class1() {
       setCalculatedRows(
         calculateRows(rows as Row[], taxYear.from) as Calculated[]
       )
+      if (showSummaryIfValid) {
+        setShowSummary(true)
+      }
     }
   }
 
@@ -126,7 +138,7 @@ function Class1() {
 
             <Class1Form
               resetTotals={resetTotals}
-              setShowSummary={setShowSummary}
+              handleShowSummary={handleShowSummary}
             />
 
           </form>
