@@ -14,8 +14,11 @@ interface BaseConfiguration {
 export interface AppConfig {
   categoryNames: NiCategoryNames
   taxYears: TaxYear[]
+  minTaxYear: Date
+  maxTaxYear: Date
 }
 // tax year keys are in this format [2013-04-05,2014-04-05)
+const taxYearStringFormat: RegExp = /^\[[0-9]{4}-[0-9]{2}-[0-9]{2},[0-9]{4}-[0-9]{2}-[0-9]{2}\)$/
 const extractFromDateString = (ty: string) => ty.substr(1, 10)
 const extractToDateString = (ty: string) => ty.substr(12, 10)
 const extractCategoriesFromNiClass = (ty: object) => {
@@ -50,6 +53,7 @@ const getAppConfig = () => {
       // we know all children of NiClass are tax years
       for (const taxYearKey in NiClass) {
         if (NiClass.hasOwnProperty(taxYearKey) &&
+          taxYearStringFormat.test(taxYearKey) &&
           !unSortedTaxYears.find(u => u.id === taxYearKey)) {
           try {
             const categoriesWithin = extractCategoriesFromNiClass(NiClass[taxYearKey as keyof object])
@@ -69,6 +73,8 @@ const getAppConfig = () => {
     }
   }
   appConfig.taxYears = unSortedTaxYears.sort(sortByTaxYear)
+  appConfig.maxTaxYear = appConfig.taxYears[0].from
+  appConfig.minTaxYear = appConfig.taxYears[appConfig.taxYears.length -1].from
   return appConfig
 }
 
