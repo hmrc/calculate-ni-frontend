@@ -88,6 +88,7 @@ export interface DirectorsTableProps {
   setDateRange: Dispatch<SetStateAction<GovDateRange>>
   handlePeriodChange: (value: PeriodLabel) => void
   handleChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
+  handleShowSummary: (event: React.FormEvent) => void
 }
 
 export interface EarningsProps {

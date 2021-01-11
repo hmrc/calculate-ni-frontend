@@ -51,6 +51,15 @@ function Directors() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
+    submitForm(false)
+  }
+
+  const handleShowSummary = (event: React.FormEvent) => {
+    event.preventDefault()
+    submitForm(true)
+  }
+
+  const submitForm = (showSummaryIfValid: boolean) => {
     setErrors({})
     setRowsErrors({})
     const payload = {
@@ -65,6 +74,9 @@ function Directors() {
       setCalculatedRows(
         calculateRows(rows as DirectorsRow[], taxYear.from) as Calculated[]
       )
+      if (showSummaryIfValid) {
+        setShowSummary(true)
+      }
     }
   }
 
@@ -147,6 +159,7 @@ function Directors() {
                 setDateRange={setDateRange}
                 handleChange={handleChange}
                 handlePeriodChange={handlePeriodChange}
+                handleShowSummary={handleShowSummary}
               />
             </div>
           </form>

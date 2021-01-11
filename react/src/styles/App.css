@@ -233,6 +233,10 @@ fieldset legend {
   margin: 0 !important;
 }
 
+.clear-both {
+  clear: both;
+}
+
 /* Section Specific */
 /* - details */
 .details-heading {
