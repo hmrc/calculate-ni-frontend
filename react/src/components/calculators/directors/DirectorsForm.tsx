@@ -9,7 +9,7 @@ import 'numeral/locales/en-gb';
 import DirectorsEarningsTable from './DirectorsContributionsTable'
 import Radios from '../../helpers/formhelpers/Radios'
 import SelectTaxYear from '../../helpers/formhelpers/SelectTaxYear'
-import {DateRange} from "./DateRange";
+import {DateRange} from "../shared/DateRange";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 
 // types
@@ -18,7 +18,7 @@ import {DirectorsTableProps, DirectorsRow, TaxYear} from '../../../interfaces';
 numeral.locale('en-gb');
 
 function DirectorsForm(props: DirectorsTableProps) {
-  const { setShowSummary, resetTotals } = props
+  const { setShowSummary, resetTotals, setDateRange } = props
   const {
     taxYear,
     setTaxYear,
@@ -60,18 +60,26 @@ function DirectorsForm(props: DirectorsTableProps) {
         </div>
       </div>
 
-      {/* TODO:  conditionalRevealChildren must allow an array of 
+      {/* TODO:  conditionalRevealChildren must allow an array of
       ReactComponents or Nulls for instances where some radio options have no revealed content*/}
       <Radios
         legend="Earnings period"
         name="earningsPeriod"
         items={[PeriodLabel.ANNUAL, PeriodLabel.PRORATA]}
         conditionalRevealChildren={[
-          <SelectTaxYear 
+          <SelectTaxYear
             taxYear={taxYear}
             handleTaxYearChange={handleTaxYearChange}
-          />, 
-          <DateRange setDateRange={props.setDateRange} errors={errors} />
+          />,
+          <DateRange
+            id="directorship"
+            setDateRange={setDateRange}
+            errors={errors}
+            legends={{
+              from: "Directorship from",
+              to: "Directorship to"
+            }}
+          />
         ]}
         handleChange={props.handlePeriodChange}
         selected={earningsPeriod}

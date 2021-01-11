@@ -31,17 +31,8 @@ export interface ClassOneErrors {
   niPaidEmployee?: ErrorMessage
 }
 
-export interface DirectorsErrors {
-  niPaidNet?: ErrorMessage
-  niPaidEmployee?: ErrorMessage
-  earningsPeriod?: ErrorMessage
-  dateRange?: ErrorMessage
-  directorshipFromDay?: ErrorMessage
-  directorshipToDay?: ErrorMessage
-}
-
 export interface GenericErrors {
-  [key: string]: ErrorMessage | undefined
+  [key: string]: ErrorMessage
 }
 
 export interface RowsErrors {
@@ -136,7 +127,7 @@ const validateRows = (rows: Array<Row | DirectorsRow>) => {
 }
 
 const validateDateRange = (dateRange: GovDateRange) => {
-  const dateRangeErrors: DirectorsErrors = {}
+  const dateRangeErrors: GenericErrors = {}
   if (!dateRange.from) {
     dateRangeErrors.directorshipFromDay = {
       link: 'directorshipFromDay',
