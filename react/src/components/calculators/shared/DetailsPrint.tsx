@@ -23,7 +23,7 @@ export default function DetailsPrint(props: { details: DetailsProps }) {
         <SummaryListRow
           listKey="Customer’s full name:"
           listValue={details.fullName ? details.fullName : notEntered}
-          rowClasses="half"
+          rowClasses="half clear-both"
         />
 
         <SummaryListRow
@@ -35,6 +35,7 @@ export default function DetailsPrint(props: { details: DetailsProps }) {
         <SummaryListRow
           listKey="Reference:"
           listValue={details.reference ? details.reference : notEntered}
+          rowClasses="half clear-both"
         />
       </dl>
     </div>

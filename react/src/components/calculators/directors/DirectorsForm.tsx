@@ -18,7 +18,7 @@ import {DirectorsTableProps, DirectorsRow, TaxYear} from '../../../interfaces';
 numeral.locale('en-gb');
 
 function DirectorsForm(props: DirectorsTableProps) {
-  const { setShowSummary, resetTotals, setDateRange } = props
+  const { handleShowSummary, resetTotals, setDateRange } = props
   const {
     taxYear,
     setTaxYear,
@@ -55,7 +55,7 @@ function DirectorsForm(props: DirectorsTableProps) {
         <div className="form-group half">
           <SecondaryButton
             label="Save and print"
-            onClick={() => setShowSummary(true)}
+            onClick={handleShowSummary}
           />
         </div>
       </div>
