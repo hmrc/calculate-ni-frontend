@@ -2,7 +2,7 @@
 
 import {PeriodLabel, PeriodValue} from "../config";
 import {RowsErrors, GenericErrors} from "../validation/validation";
-import {Dispatch} from "react";
+import {Dispatch, SetStateAction} from "react";
 
 export interface RouteName {
   pathname: string
@@ -83,9 +83,9 @@ export interface Class1TableProps {
 
 export interface DirectorsTableProps {
   resetTotals: () => void
-  setShowSummary: (v: boolean) => void
+  setShowSummary: Dispatch<boolean>
   dateRange: GovDateRange
-  setDateRange: Function
+  setDateRange: Dispatch<SetStateAction<GovDateRange>>
   handlePeriodChange: (value: PeriodLabel) => void
   handleChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
 }

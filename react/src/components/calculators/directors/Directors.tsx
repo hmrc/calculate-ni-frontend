@@ -22,7 +22,7 @@ const pageTitle = 'Directors’ contributions'
 
 function Directors() {
   const [showSummary, setShowSummary] = useState<boolean>(false)
-  const [dateRange, setDateRange] = useState<GovDateRange>({from: null, to: null})
+  const [dateRange, setDateRange] = useState<GovDateRange>((() => ({from: null, to: null})))
   const {
     taxYear,
     rows,
