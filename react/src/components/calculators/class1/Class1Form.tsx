@@ -15,7 +15,7 @@ import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 numeral.locale('en-gb');
 
 function Class1Form(props: Class1TableProps) {
-  const { setShowSummary, resetTotals } = props
+  const { handleShowSummary, resetTotals } = props
   const [taxYears] = useState<TaxYear[]>(appConfig.taxYears)
   const [activeRowID, setActiveRowID] = useState<string | null>(null)
   const {
@@ -93,7 +93,7 @@ function Class1Form(props: Class1TableProps) {
         <div className="form-group half">
           <SecondaryButton
             label="Save and print"
-            onClick={() => setShowSummary(true)}
+            onClick={handleShowSummary}
           />
         </div>
       </div>

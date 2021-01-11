@@ -78,7 +78,7 @@ export interface TaxYear {
 
 export interface Class1TableProps {
   resetTotals: () => void
-  setShowSummary: Dispatch<boolean>
+  handleShowSummary: (event: React.FormEvent) => void
 }
 
 export interface DirectorsTableProps {
