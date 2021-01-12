@@ -73,7 +73,7 @@ const getAppConfig = () => {
     }
   }
   appConfig.taxYears = unSortedTaxYears.sort(sortByTaxYear)
-  appConfig.maxTaxYear = appConfig.taxYears[0].from
+  appConfig.maxTaxYear = appConfig.taxYears[0].to
   appConfig.minTaxYear = appConfig.taxYears[appConfig.taxYears.length -1].from
   return appConfig
 }
