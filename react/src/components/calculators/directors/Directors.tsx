@@ -1,8 +1,9 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {validateDirectorsPayload} from '../../../validation/validation'
 import configuration from '../../../configuration.json'
 import {ClassOne} from '../../../calculation'
 import {PeriodLabel, PeriodValue} from '../../../config'
+import { appConfig } from '../../../config'
 
 // components
 import Details from '../shared/Details'
@@ -12,11 +13,11 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
-import {Calculated, Calculators, DirectorsRow, GovDateRange,} from '../../../interfaces'
+import {Calculated, Calculators, DirectorsRow, GovDateRange, TaxYear} from '../../../interfaces'
 import {defaultRows, DirectorsContext} from "./DirectorsContext";
 
 // services
-import {updateRowInResults} from "../../../services/utils";
+import {updateRowInResults, extractTaxYearFromDate} from "../../../services/utils";
 
 const pageTitle = 'Directors’ contributions'
 
@@ -25,6 +26,7 @@ function Directors() {
   const [dateRange, setDateRange] = useState<GovDateRange>((() => ({from: null, to: null})))
   const {
     taxYear,
+    setTaxYear,
     rows,
     setRows,
     errors,
@@ -42,6 +44,15 @@ function Directors() {
     calculatedRows,
     setCalculatedRows
   } = useContext(DirectorsContext)
+
+ useEffect(() => {
+    if(dateRange && dateRange.from) {
+      const matchingTaxYear: TaxYear | null = extractTaxYearFromDate(dateRange.from, appConfig.taxYears)
+      if(matchingTaxYear) {
+        setTaxYear(matchingTaxYear)
+      }
+    }
+  }, [dateRange, setTaxYear])
 
   const handleChange = ({
     currentTarget: { name, value },

@@ -1,10 +1,12 @@
+import moment from 'moment'
 import {
   Calculated,
   DirectorsRow,
   OverOrUnder,
   Row,
   TotalsInCategories,
-  TotalType
+  TotalType,
+  TaxYear
 } from "../interfaces";
 
 export const emptyStringToZero = (input: string) => input === '' ? 0 : parseFloat(input)
@@ -72,3 +74,15 @@ export const getTotalsInCategories = (rows: Array<Row | DirectorsRow>) => unique
     }
     return list
   }, {} as TotalsInCategories)
+
+export const extractTaxYearFromDate = (date: Date, taxYears: TaxYear[]) => {
+  const dateMoment = moment(date)
+  const match = taxYears
+    .find((ty: TaxYear) =>
+      moment(ty.from).isSameOrBefore(dateMoment) && moment(ty.to).isSameOrAfter(dateMoment))
+  return match || null
+}
+
+export function validDateParts(day: string, month: string, year: string) {
+  return day && month && year && moment(`${year}-${month}-${day}`).isValid()
+}

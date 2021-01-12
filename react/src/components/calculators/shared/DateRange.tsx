@@ -2,6 +2,7 @@ import DateInputs from "../../helpers/formhelpers/DateInputs";
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {GovDateRange} from "../../../interfaces";
 import {GenericErrors} from "../../../validation/validation";
+import {validDateParts} from '../../../services/utils'
 
 interface DateRangeProps {
   setDateRange: Dispatch<SetStateAction<GovDateRange>>
@@ -20,23 +21,19 @@ export const DateRange = (props: DateRangeProps) => {
   const [toYear, setToYear] = useState('')
 
   useEffect(() => {
-    if((parseInt(fromDay) > 0 && parseInt(fromDay) < 32) &&
-      (parseInt(fromMonth) > 0 && parseInt(fromMonth) < 13) &&
-      (parseInt(fromYear) > 1974 && parseInt(fromYear) < 2020)) {
-      const fromDate = new Date(`${fromDay}, ${fromMonth}, ${fromYear}`)
-      setDateRange((prevState: GovDateRange) => ({from: fromDate, to: prevState.to}))
-    }
-
+    const fromDate = validDateParts(fromDay, fromMonth, fromYear) ?
+      new Date(`${fromDay}, ${fromMonth}, ${fromYear}`) : null
+    setDateRange((prevState: GovDateRange) => ({from: fromDate, to: prevState.to}))
   }, [fromDay, fromMonth, fromYear, setDateRange])
 
   useEffect(() => {
-    if((parseInt(toDay) > 0 && parseInt(toDay) < 32) &&
-      (parseInt(toMonth) > 0 && parseInt(toMonth) < 13) &&
-      (parseInt(toYear) > 1974 && parseInt(toYear) < 2020)) {
-      const toDate = new Date(`${toDay}, ${toMonth}, ${toYear}`)
-      setDateRange((prevState: GovDateRange) => ({from: prevState.from, to: toDate}))
-    }
+    const toDate = validDateParts(toDay, toMonth, toYear) ?
+      new Date(`${toDay}, ${toMonth}, ${toYear}`) : null
+    setDateRange((prevState: GovDateRange) => ({from: prevState.from, to: toDate}))
   }, [toDay, toMonth, toYear, setDateRange])
+
+
+
 
   return (
     <div className="container">
