@@ -133,6 +133,9 @@ const beforeMinimumTaxYear = (date: Date) =>
 const afterMaximumTaxYear = (date: Date) =>
   moment(date).isAfter(moment(appConfig.maxTaxYear))
 
+const fromBeforeTo = (from: Date, to: Date) =>
+  moment(to).isBefore(moment(from))
+
 const validateDirectorshipDates = (dateRange: GovDateRange) => {
   const dateRangeErrors: GenericErrors = {}
   
@@ -173,6 +176,12 @@ const validateDirectorshipDates = (dateRange: GovDateRange) => {
       link: 'directorshipToDay',
       name: 'End date of directorship',
       message: `End date of directorship must be before ${moment(appConfig.maxTaxYear).format(govDateFormat)}`
+    }
+  } else if (!dateRangeErrors.directorshipFromDay && dateRange.from && moment(dateRange.to).isBefore(dateRange.from)) {
+    dateRangeErrors.directorshipToDay = {
+      link: 'directorshipToDay',
+      name: 'End date of directorship',
+      message: `End date of directorship must be on or after the start date of the directorship`
     }
   } else if (!dateRangeErrors.directorshipFromDay && dateRange.from &&
     extractTaxYearFromDate(dateRange.from, appConfig.taxYears) !==
