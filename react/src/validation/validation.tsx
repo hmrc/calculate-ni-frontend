@@ -2,9 +2,10 @@ import Validator from 'validator';
 
 // types
 import {DirectorsRow, GovDateRange, Row} from '../interfaces'
-import {PeriodLabel} from "../config";
+import {appConfig, PeriodLabel} from "../config";
 import {Dispatch} from "react";
-import {hasKeys, isEmpty} from "../services/utils";
+import {extractTaxYearFromDate, govDateFormat, hasKeys, isEmpty} from "../services/utils";
+import moment from "moment";
 
 interface ClassOnePayload {
   rows: Array<Row>
@@ -92,7 +93,7 @@ export const validateDirectorsPayload = (
       message: 'Select either Annual or Pro Rata'
     }
   } else if (payload.earningsPeriod === PeriodLabel.PRORATA) {
-    errors = {...validateDateRange(payload.dateRange)}
+    errors = {...validateDirectorshipDates(payload.dateRange)}
   }
 
   if(Object.keys(errors).length > 0) {
@@ -126,20 +127,70 @@ const validateRows = (rows: Array<Row | DirectorsRow>) => {
   return rowsErrors as RowsErrors
 }
 
-const validateDateRange = (dateRange: GovDateRange) => {
+const beforeMinimumTaxYear = (date: Date) =>
+  moment(date).isBefore(moment(appConfig.minTaxYear))
+
+const afterMaximumTaxYear = (date: Date) =>
+  moment(date).isAfter(moment(appConfig.maxTaxYear))
+
+const fromBeforeTo = (from: Date, to: Date) =>
+  moment(to).isBefore(moment(from))
+
+const validateDirectorshipDates = (dateRange: GovDateRange) => {
   const dateRangeErrors: GenericErrors = {}
+  
   if (!dateRange.from) {
     dateRangeErrors.directorshipFromDay = {
       link: 'directorshipFromDay',
       name: 'Start date of directorship',
       message: 'Start date of directorship must be entered as a real date'
     }
+  } else if(beforeMinimumTaxYear(dateRange.from)) {
+    dateRangeErrors.directorshipFromDay = {
+      link: 'directorshipFromDay',
+      name: 'Start date of directorship',
+      message: `Start date of directorship must be after ${moment(appConfig.minTaxYear).format(govDateFormat)}`
+    }
+  } else if (afterMaximumTaxYear(dateRange.from)) {
+    dateRangeErrors.directorshipFromDay = {
+      link: 'directorshipFromDay',
+      name: 'Start date of directorship',
+      message: `Start date of directorship must be before ${moment(appConfig.maxTaxYear).format(govDateFormat)}`
+    }
   }
+
   if (!dateRange.to) {
     dateRangeErrors.directorshipToDay = {
       link: 'directorshipToDay',
       name: 'End date of directorship',
       message: 'End date of directorship must be entered as a real date'
+    }
+  } else if (beforeMinimumTaxYear(dateRange.to)) {
+    dateRangeErrors.directorshipToDay = {
+      link: 'directorshipToDay',
+      name: 'End date of directorship',
+      message: `End date of directorship must be after ${moment(appConfig.minTaxYear).format(govDateFormat)}`
+    }
+  } else if (afterMaximumTaxYear(dateRange.to)) {
+    dateRangeErrors.directorshipToDay = {
+      link: 'directorshipToDay',
+      name: 'End date of directorship',
+      message: `End date of directorship must be before ${moment(appConfig.maxTaxYear).format(govDateFormat)}`
+    }
+  } else if (!dateRangeErrors.directorshipFromDay && dateRange.from && moment(dateRange.to).isBefore(dateRange.from)) {
+    dateRangeErrors.directorshipToDay = {
+      link: 'directorshipToDay',
+      name: 'End date of directorship',
+      message: `End date of directorship must be on or after the start date of the directorship`
+    }
+  } else if (!dateRangeErrors.directorshipFromDay && dateRange.from &&
+    extractTaxYearFromDate(dateRange.from, appConfig.taxYears) !==
+    extractTaxYearFromDate(dateRange.to, appConfig.taxYears)) {
+    const taxYearForMatch = extractTaxYearFromDate(dateRange.from, appConfig.taxYears)
+    dateRangeErrors.directorshipToDay = {
+      link: 'directorshipToDay',
+      name: 'End date of directorship',
+      message: `End date of directorship must be before ${moment(taxYearForMatch?.to).format(govDateFormat)} to be in the same tax year as the start date`
     }
   }
 
