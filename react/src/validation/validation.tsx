@@ -133,9 +133,6 @@ const beforeMinimumTaxYear = (date: Date) =>
 const afterMaximumTaxYear = (date: Date) =>
   moment(date).isAfter(moment(appConfig.maxTaxYear))
 
-const fromBeforeTo = (from: Date, to: Date) =>
-  moment(to).isBefore(moment(from))
-
 const validateDirectorshipDates = (dateRange: GovDateRange) => {
   const dateRangeErrors: GenericErrors = {}
   
@@ -149,13 +146,13 @@ const validateDirectorshipDates = (dateRange: GovDateRange) => {
     dateRangeErrors.directorshipFromDay = {
       link: 'directorshipFromDay',
       name: 'Start date of directorship',
-      message: `Start date of directorship must be after ${moment(appConfig.minTaxYear).format(govDateFormat)}`
+      message: `Start date of directorship must be on or after ${moment(appConfig.minTaxYear).format(govDateFormat)}`
     }
   } else if (afterMaximumTaxYear(dateRange.from)) {
     dateRangeErrors.directorshipFromDay = {
       link: 'directorshipFromDay',
       name: 'Start date of directorship',
-      message: `Start date of directorship must be before ${moment(appConfig.maxTaxYear).format(govDateFormat)}`
+      message: `Start date of directorship must be on or before ${moment(appConfig.maxTaxYear).format(govDateFormat)}`
     }
   }
 
@@ -169,13 +166,13 @@ const validateDirectorshipDates = (dateRange: GovDateRange) => {
     dateRangeErrors.directorshipToDay = {
       link: 'directorshipToDay',
       name: 'End date of directorship',
-      message: `End date of directorship must be after ${moment(appConfig.minTaxYear).format(govDateFormat)}`
+      message: `End date of directorship must be on or after ${moment(appConfig.minTaxYear).format(govDateFormat)}`
     }
   } else if (afterMaximumTaxYear(dateRange.to)) {
     dateRangeErrors.directorshipToDay = {
       link: 'directorshipToDay',
       name: 'End date of directorship',
-      message: `End date of directorship must be before ${moment(appConfig.maxTaxYear).format(govDateFormat)}`
+      message: `End date of directorship must be on or before ${moment(appConfig.maxTaxYear).format(govDateFormat)}`
     }
   } else if (!dateRangeErrors.directorshipFromDay && dateRange.from && moment(dateRange.to).isBefore(dateRange.from)) {
     dateRangeErrors.directorshipToDay = {
@@ -190,7 +187,7 @@ const validateDirectorshipDates = (dateRange: GovDateRange) => {
     dateRangeErrors.directorshipToDay = {
       link: 'directorshipToDay',
       name: 'End date of directorship',
-      message: `End date of directorship must be before ${moment(taxYearForMatch?.to).format(govDateFormat)} to be in the same tax year as the start date`
+      message: `End date of directorship must be on or before ${moment(taxYearForMatch?.to).format(govDateFormat)} to be in the same tax year as the start date`
     }
   }
 

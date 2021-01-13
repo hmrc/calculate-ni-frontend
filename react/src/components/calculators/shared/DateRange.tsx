@@ -22,13 +22,13 @@ export const DateRange = (props: DateRangeProps) => {
 
   useEffect(() => {
     const fromDate = validDateParts(fromDay, fromMonth, fromYear) ?
-      new Date(`${fromDay}, ${fromMonth}, ${fromYear}`) : null
+      new Date(`${fromYear}-${fromMonth}-${fromDay}`) : null
     setDateRange((prevState: GovDateRange) => ({from: fromDate, to: prevState.to}))
   }, [fromDay, fromMonth, fromYear, setDateRange])
 
   useEffect(() => {
     const toDate = validDateParts(toDay, toMonth, toYear) ?
-      new Date(`${toDay}, ${toMonth}, ${toYear}`) : null
+      new Date(`${toYear}-${toMonth}-${toDay}`) : null
     setDateRange((prevState: GovDateRange) => ({from: prevState.from, to: toDate}))
   }, [toDay, toMonth, toYear, setDateRange])
 
