@@ -1,16 +1,18 @@
-import React, {useContext} from 'react'
-import { appConfig, taxYearString } from '../../../config'
+import React from 'react'
+import {NiClassName, taxYearString} from '../../../config'
 
 // types
 import {TaxYear} from '../../../interfaces'
 
 interface SelectTaxYearProps {
-  taxYear: TaxYear,
+  taxYears: TaxYear[]
+  taxYear: TaxYear
+  niClass: NiClassName
   handleTaxYearChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 function SelectTaxYear(props: SelectTaxYearProps) {
-  const {taxYear, handleTaxYearChange} = props
+  const {taxYears, taxYear, handleTaxYearChange} = props
   return (
     <div className="govuk-form-group">
       <label className="govuk-label" htmlFor="taxYear">
@@ -23,7 +25,7 @@ function SelectTaxYear(props: SelectTaxYearProps) {
         name="taxYear"
         className="govuk-select"
       >
-        {appConfig.taxYears.map((y: TaxYear) => (
+        {taxYears.map((y: TaxYear) => (
           <option key={y.id} value={y.id}>
             {taxYearString(y)}
           </option>

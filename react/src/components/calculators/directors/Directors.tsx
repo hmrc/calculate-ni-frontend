@@ -1,9 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {validateDirectorsPayload} from '../../../validation/validation'
-import configuration from '../../../configuration.json'
-import {ClassOne} from '../../../calculation'
 import {PeriodLabel, PeriodValue} from '../../../config'
-import { appConfig } from '../../../config'
 
 // components
 import Details from '../shared/Details'
@@ -25,6 +22,8 @@ function Directors() {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const [dateRange, setDateRange] = useState<GovDateRange>((() => ({from: null, to: null})))
   const {
+    ClassOneCalculator,
+    taxYears,
     taxYear,
     setTaxYear,
     rows,
@@ -47,12 +46,12 @@ function Directors() {
 
  useEffect(() => {
     if(dateRange && dateRange.from) {
-      const matchingTaxYear: TaxYear | null = extractTaxYearFromDate(dateRange.from, appConfig.taxYears)
+      const matchingTaxYear: TaxYear | null = extractTaxYearFromDate(dateRange.from, taxYears)
       if(matchingTaxYear) {
         setTaxYear(matchingTaxYear)
       }
     }
-  }, [dateRange, setTaxYear])
+  }, [dateRange, setTaxYear, taxYears])
 
   const handleChange = ({
     currentTarget: { name, value },
@@ -81,7 +80,7 @@ function Directors() {
       earningsPeriod: earningsPeriod
     }
 
-    if(validateDirectorsPayload(payload, setErrors, setRowsErrors)) {
+    if(validateDirectorsPayload(payload, setErrors, setRowsErrors, taxYears)) {
       setCalculatedRows(
         calculateRows(rows as DirectorsRow[], taxYear.from) as Calculated[]
       )
@@ -91,13 +90,11 @@ function Directors() {
     }
   }
 
-  const calculateRows = (rows: Array<DirectorsRow>, taxYear: Date) => {
-    const classOneCalculator = new ClassOne(JSON.stringify(configuration));
-
-    return rows.map((row: DirectorsRow, index: number) => {
+  const calculateRows = (rows: Array<DirectorsRow>, taxYear: Date) => rows
+    .map((row: DirectorsRow, index: number) => {
         let calculatedRow: Calculated;
         if (earningsPeriod === PeriodLabel.ANNUAL) {
-          calculatedRow = JSON.parse(classOneCalculator
+          calculatedRow = JSON.parse(ClassOneCalculator
             .calculate(
               taxYear,
               parseFloat(row.gross),
@@ -107,7 +104,7 @@ function Directors() {
               false
             ))
         } else {
-          calculatedRow = JSON.parse(classOneCalculator
+          calculatedRow = JSON.parse(ClassOneCalculator
             .calculateProRata(
               dateRange.from,
               dateRange.to,
@@ -121,7 +118,6 @@ function Directors() {
 
         return calculatedRow
       }) as Calculated[]
-    }
 
   const handlePeriodChange = (value: any) => {
     resetTotals()

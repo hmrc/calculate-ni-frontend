@@ -1,7 +1,5 @@
 import React, {useContext, useState} from 'react'
 import {validateClassOnePayload} from '../../../validation/validation'
-import configuration from '../../../configuration.json'
-import {ClassOne} from '../../../calculation'
 import {PeriodValue} from '../../../config'
 
 // types
@@ -23,6 +21,8 @@ const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 function Class1() {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const {
+    ClassOneCalculator,
+    taxYears,
     taxYear,
     rows,
     setRows,
@@ -65,7 +65,7 @@ function Class1() {
       niPaidEmployee: niPaidEmployee
     }
 
-    if (validateClassOnePayload(payload, setRowsErrors, setErrors)) {
+    if (validateClassOnePayload(payload, setRowsErrors, setErrors, taxYears)) {
       setCalculatedRows(
         calculateRows(rows as Row[], taxYear.from) as Calculated[]
       )
@@ -84,15 +84,12 @@ function Class1() {
     setNiPaidNet('')
   }
 
-  const calculateRows = (rows: Row[], taxYear: Date) => {
-    const classOneCalculator = new ClassOne(JSON.stringify(configuration));
-
-    return rows
+  const calculateRows = (rows: Row[], taxYear: Date) => rows
       .map((row, i) => {
         const rowPeriod = (row.period === PeriodValue.FORTNIGHTLY ? PeriodValue.WEEKLY : row.period)
         const rowPeriodQty = (row.period === PeriodValue.FORTNIGHTLY ? 2 : 1)
         const calculatedRow = JSON.parse(
-          classOneCalculator
+          ClassOneCalculator
             .calculate(
               taxYear,
               parseFloat(row.gross),
@@ -107,7 +104,6 @@ function Class1() {
 
         return calculatedRow
       }) as Calculated[]
-  }
 
   return (
     <main>

@@ -1,8 +1,23 @@
 import React, {Dispatch, useEffect, useState} from "react";
 import {Calculated, Class1S, DetailsProps, DirectorsRow, TaxYear, TotalsInCategories} from "../../../interfaces";
-import {PeriodLabel, appConfig} from "../../../config";
+import {PeriodLabel, extractFromDateString, extractToDateString, sortByTaxYear} from "../../../config";
 import {GenericErrors, RowsErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
+import {ClassOne} from '../../../calculation'
+import configuration from "../../../configuration.json";
+
+const ClassOneCalculator = new ClassOne(JSON.stringify(configuration))
+// TODO: use the calculation.js method when it supports NI class names
+// const taxYears = ClassOneCalculator.getTaxYears
+const taxYears: TaxYear[] = Object.keys(configuration.classOne)
+  .map((ty: string) => ({
+    id: ty,
+    from: new Date(extractFromDateString(ty)),
+    to: new Date(extractToDateString(ty)),
+    categories: []
+  })).sort(sortByTaxYear)
+
+
 const initialState = {
   fullName: '',
   ni: '',
@@ -13,7 +28,7 @@ const initialState = {
 
 export const defaultRows: Array<DirectorsRow> = [{
   id: 'directorsInput',
-  category: appConfig.taxYears[0].categories[0],
+  category: ClassOneCalculator.getApplicableCategories(taxYears[0].from)[0],
   gross: '',
   ee: '0',
   er: '0'
@@ -24,7 +39,15 @@ const stateReducer = (state: Class1S, action: { [x: string]: string }) => ({
   ...action,
 })
 
+interface Calculator {
+  calculate: Function
+  calculateProRata: Function
+  getApplicableCategories: Function
+}
+
 interface DirectorsContext {
+  ClassOneCalculator: Calculator
+  taxYears: TaxYear[]
   taxYear: TaxYear
   setTaxYear: Dispatch<TaxYear>
   rows: Array<DirectorsRow>
@@ -47,11 +70,15 @@ interface DirectorsContext {
   setCategoryTotals: Dispatch<TotalsInCategories>
   calculatedRows: Array<Calculated>
   setCalculatedRows: Dispatch<Array<Calculated>>
+  categories: Array<string>
+  setCategories: Dispatch<Array<string>>
 }
 
 export const DirectorsContext = React.createContext<DirectorsContext>(
   {
-    taxYear: appConfig.taxYears[0],
+    ClassOneCalculator: ClassOneCalculator,
+    taxYears: taxYears,
+    taxYear: taxYears[0],
     setTaxYear: () => {},
     rows: defaultRows,
     setRows: () => {},
@@ -72,12 +99,15 @@ export const DirectorsContext = React.createContext<DirectorsContext>(
     categoryTotals: {},
     setCategoryTotals: () => {},
     calculatedRows: [],
-    setCalculatedRows: () => {}
+    setCalculatedRows: () => {},
+    categories: [],
+    setCategories: () => {}
   }
 )
 
 export function useDirectorsForm() {
-  const [taxYear, setTaxYear] = useState<TaxYear>(appConfig.taxYears[0])
+  const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
+  const [categories, setCategories] = useState<Array<string>>([])
   const [rows, setRows] = useState<Array<DirectorsRow>>(defaultRows)
   const [details, setDetails] = React.useReducer(stateReducer, initialState)
   const [grossTotal, setGrossTotal] = useState<Number | null>(null)
@@ -96,7 +126,14 @@ export function useDirectorsForm() {
     }, 0))
   }, [rows])
 
+  useEffect(() => {
+    const categories = ClassOneCalculator.getApplicableCategories(taxYear.from)
+    setCategories(categories.split(''))
+  }, [taxYear.from])
+
   return {
+    ClassOneCalculator,
+    taxYears,
     taxYear,
     setTaxYear,
     rows,
@@ -118,6 +155,8 @@ export function useDirectorsForm() {
     categoryTotals,
     setCategoryTotals,
     calculatedRows,
-    setCalculatedRows
+    setCalculatedRows,
+    categories,
+    setCategories
   }
 }

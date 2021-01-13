@@ -18,7 +18,7 @@ function DirectorsEarningsTable(props: DirectorsEarningsProps) {
   const {
     rows,
     rowsErrors,
-    taxYear
+    categories
   } = useContext(DirectorsContext)
 
   return (
@@ -55,8 +55,8 @@ function DirectorsEarningsTable(props: DirectorsEarningsProps) {
                 <>
                   <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category</label>
                   <select name="category" value={r.category} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
-                    {taxYear.categories.map((c: string, i: number) => (
-                      <option key={i} value={c}>{`${c} - ${appConfig.categoryNames[c]}`}</option>
+                    {categories.map((c: string, i: number) => (
+                      <option key={i} value={c}>{`${c}${appConfig.categoryNames[c] && `- ${appConfig.categoryNames[c]}`}`}</option>
                     ))}
                   </select>
                 </>
