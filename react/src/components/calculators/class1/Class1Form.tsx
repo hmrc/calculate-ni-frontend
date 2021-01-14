@@ -1,6 +1,5 @@
 import React, {useContext, useState} from 'react';
 import uniqid from 'uniqid';
-import {NiClassName} from '../../../config'
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
@@ -77,7 +76,6 @@ function Class1Form(props: Class1TableProps) {
           <SelectTaxYear
             taxYears={taxYears}
             taxYear={taxYear}
-            niClass={NiClassName.CLASS_ONE}
             handleTaxYearChange={handleTaxYearChange}
           />
         </div>

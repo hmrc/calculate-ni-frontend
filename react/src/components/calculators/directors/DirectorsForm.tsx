@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {NiClassName, PeriodLabel} from '../../../config';
+import {PeriodLabel} from '../../../config';
 import {DirectorsContext} from "./DirectorsContext";
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
@@ -73,7 +73,6 @@ function DirectorsForm(props: DirectorsTableProps) {
           <SelectTaxYear
             taxYears={taxYears}
             taxYear={taxYear}
-            niClass={NiClassName.CLASS_ONE}
             handleTaxYearChange={handleTaxYearChange}
           />,
           <DateRange

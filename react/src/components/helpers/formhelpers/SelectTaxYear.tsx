@@ -1,5 +1,5 @@
 import React from 'react'
-import {NiClassName, taxYearString} from '../../../config'
+import {taxYearString} from '../../../config'
 
 // types
 import {TaxYear} from '../../../interfaces'
@@ -7,7 +7,6 @@ import {TaxYear} from '../../../interfaces'
 interface SelectTaxYearProps {
   taxYears: TaxYear[]
   taxYear: TaxYear
-  niClass: NiClassName
   handleTaxYearChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
