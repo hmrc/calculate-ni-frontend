@@ -14,8 +14,7 @@ const taxYears: TaxYear[] = Object.keys(configuration.classOne)
   .map((ty: string) => ({
     id: ty,
     from: new Date(extractFromDateString(ty)),
-    to: new Date(extractToDateString(ty)),
-    categories: []
+    to: new Date(extractToDateString(ty))
   })).sort(sortByTaxYear)
 
 const initialState = {
