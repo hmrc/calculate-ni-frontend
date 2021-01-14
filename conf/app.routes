@@ -3,6 +3,8 @@
 ->         /govuk-frontend          govuk.Routes
 ->         /hmrc-frontend           hmrcfrontend.Routes
 
-GET        /            controllers.Assets.at(path = "/public/build", file = "index.html")
-GET        /*file            controllers.Assets.versioned(path = "/public/build", file: Asset)
+GET        /tables/classOne         uk.gov.hmrc.calculatenifrontend.controllers.TablesController.classOne(date: Option[java.time.LocalDate], category: Option[Char])
+
+GET        /                        controllers.Assets.at(path = "/public/build", file = "index.html")
+GET        /*file                   controllers.Assets.versioned(path = "/public/build", file: Asset)
 
