@@ -3,7 +3,7 @@ package frontend
 
 import scala.scalajs.js.annotation._
 import scala.scalajs.js.Date
-import scala.scalajs.js
+import scala.scalajs.js, js.JSConverters._
 import java.time.LocalDate
 import io.circe.generic.auto._, io.circe.syntax._
 
@@ -52,7 +52,6 @@ class ClassOne(json: String) extends js.Object {
   }
 
   def getTaxYears: js.Array[String] = {
-    import js.JSConverters._
     val i = config.classOne.keys.map(_.toString)
     i.toJSArray
   }
