@@ -1,0 +1,84 @@
+tax year, period, period number, category, gross pay, employee ni, employers ni, message
+# These are all extracted from the documents at https://www.gov.uk/government/publications/payroll-technical-specifications-national-insurance
+
+# https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/906594/NI_Guidance__Software_Developers_2020_to_2021_Mar20.pdf
+2020,W,1,A,120.53,0,0,			Example 1 - A 28 year old employee earns £120.53 a week and pays standard NICs
+2020,W,1,A,1000,94.24,114.67,		Example 2 - A 44 year old employee earns £1,000 a week and pays standard NICs
+2020,W,2,B,508,8.31,23.46,		Example 3 - An employee was paid £508 for a 2 week period and pays reduced rate NICs
+2020,W,1,M,1004,94.32,5.80,		Example 4 - A 19 year old employee earns £1,004 a week and pays standard NICs
+2020,W,18,A,37643,2088.98,4774.94,	Example 5 - A 51 year old director from 1 December 2020 earns £37,643 in the rest of the tax year pays standard NICs. There are 18 tax weeks left in the tax year 2020-21.
+2020,Y,1,M,52000,4900,276,              Example 6 - An 18 year old director for the whole tax year earns £52,000. Pays standard NICs. Has paid no NICs to date.
+2020,W,1,H,250,8.04,0,                  Example 7 - A 17 year old Apprentice earns £250 a week and pays standard rate NICs
+
+# https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/773423/NI_Guidance__Software_Developers_2019_to_2020__Jan19.pdf
+2019,W,1,A,118.53,0,0,			Example 1 - A 28 year old employee earns £118.53 a week and pays standard NICs
+2019,W,1,A,1000,96.28,115.09,		Example 2 - A 44 year old employee earns £1,000 a week and pays standard NICs
+2019,W,2,B,508,10.30,24.29,		Example 3 - An employee was paid £508 for a 2 week period and pays reduced rate NICs
+2019,W,1,M,1004,96.36,5.80,		Example 4 - A 19 year old employee earns £1,004 a week and pays standard NICs
+2019,W,18,A,37643,2125.10,4782.39,	Example 5 - A 51 year old director from 1 December 2019 earns £37,643 in the rest of the tax year pays standard NICs. There are 18 tax weeks left in the tax year 2019-20.
+2019,Y,1,M,52000,5004.16,276,           Example 6 - An 18 year old director for the whole tax year earns £52,000. Pays standard NICs. Has paid no NICs to date.
+2019,W,1,H,250,10.08,0,                 Example 7 - A 17 year old Apprentice earns £250 a week and pays standard rate NICs
+
+# https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/674439/NI_Guidance__Software_Developers_2018_to_2019__Jan18.pdf
+2018,W,1,A,116.53,0,0,			Example 1 - A 28 year old employee earns £116.53 a week and pays standard NICs
+2018,W,1,A,1000,89.76,115.64,		Example 2 - A 44 year old employee earns £1,000 a week and pays standard NICs
+2018,W,2,B,508,10.76,25.39,		Example 3 - An employee was paid £508 for a 2 week period and pays reduced rate NICs
+2018,W,1,M,934,88.44,5.80,		Example 4 - A 19 year old employee earns £934 a week and pays standard NICs
+2018,W,18,A,37643,2007.44,4792.32,	Example 5 - A 51 year old director from 1 December 2018 earns £37,643 in the rest of the tax year pays standard NICs. There are 18 tax weeks left in the tax year 2018-19.
+2018,Y,1,M,52000,4664.12,779.70,        Example 6 - An 18 year old director for the whole tax year earns £52,000. Pays standard NICs. Has paid no NICs to date.
+2018,W,1,H,250,10.56,0,                 Example 7 - A 17 year old Apprentice earns £250 a week and pays standard rate NICs
+
+# https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/580368/ni-guidance-2017-2018.pdf
+2017,W,1,A,113.53,0,0,			Example 1 - A 28 year old employee earns £113.53 a week and pays standard NICs
+2017,W,1,A,869,85.14,98.25,		Example 2 - A 44 year old employee earns £869 a week and pays standard NICs
+2017,W,2,B,508,11.35,26.77,		Example 3 - An employee was paid £508 for a 2 week period and pays reduced rate NICs
+2017,W,1,M,934,86.44,9.38,		Example 4 - A 19 year old employee earns £934 a week and pays standard NICs
+2017,W,18,A,37643,1971.44,4804.75,	Example 5 - A 51 year old director from 1 December 2017 earns £37,643 in the rest of the tax year pays standard NICs. There are 18 tax weeks left in the tax year 2017-18.
+2017,W,48,A,16968,1131.84,1301.62,       Example 6a - A director first appointed on 6 May 2017 pays standard NICs. He reaches State Pension age on 13 January 2018. [He earns £16,968 from 6 May 2017 to 12 January 2018] and £5,000 from 13 January 2018 to the end of the tax year. There are 48 tax weeks left in the tax year 2017 to 2018 from 6 May 2017 to 5 April 2018.
+2017,W,48,C,5000,0,690,                  Example 6b - A director first appointed on 6 May 2017 pays standard NICs. He reaches State Pension age on 13 January 2018. He earns £16,968 from 6 May 2017 to 12 January 2018 [and £5,000 from 13 January 2018 to the end of the tax year]. There are 48 tax weeks left in the tax year 2017 to 2018 from 6 May 2017 to 5 April 2018.
+2017,Y,1,M,52000,4560.32,966,           Example 7 - An 18 year old director for the whole tax year earns £52,000. Pays standard NICs. Has paid no NICs to date.
+2017,W,1,H,250,11.16,0,                 Example 8 - A 17 year old Apprentice earns £250 a week and pays standard rate NICs
+
+# https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/489983/ni-guidance-2016-2017.pdf
+2016,W,1,A,112.53,0,0,			Example 1 - A 28 year old employee earns £112.53 a week and pays standard NICs
+2016,W,1,A,869,81.48,98.40,		Example 2 - A 44 year old employee earns £869 a week and pays standard NICs
+2016,W,2,B,508,11.59,27.05,		Example 3 - An employee was paid £508 for a 2 week period and pays reduced rate NICs
+2016,W,1,M,834,80.78,0.97,		Example 4 - A 19 year old employee earns £834 a week and pays standard NICs
+2016,W,18,A,37643,1906.56,4807.23,	Example 5 - A 51 year old director from 1 December 2016 earns £37,643 in the rest of the tax year pays standard NICs. There are 18 tax weeks left in the tax year 2016-18.
+2016,Y,1,A,16968,1143.36,1308.24,       Example 6a - A director first appointed on 6 May 2016 pays standard NICs. He reaches State Pension age on 13 January 2017. [He earns £16,968 from 6 May 2016 to 12 January 2017] and £5,000 from 13 January 2017 to the end of the tax year. There are 48 tax weeks left in the tax year 2016 to 2017 from 6 May 2016 to 5 April 2017.
+2016,Y,1,C,5000,0,690,                  Example 6b - A director first appointed on 6 May 2016 pays standard NICs. He reaches State Pension age on 13 January 2017. He earns £16,968 from 6 May 2016 to 12 January 2017 [and £5,000 from 13 January 2017 to the end of the tax year]. There are 48 tax weeks left in the tax year 2016 to 2017 from 6 May 2016 to 5 April 2017.
+2016,Y,1,M,52000,4372.80,1242,          Example 7 - An 18 year old director for the whole tax year earns £52,000. Pays standard NICs. Has paid no NICs to date.
+2016,W,1,H,250,11.40,0,                 Example 8 - A 17 year old Apprentice earns £250 a week and pays standard rate NICs
+
+# https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/399143/NI_guidance_for_software_developers_2015_to_2016.pdf
+2015,W,1,A,112.53,0,0,			Example 1 - A 28 year old employee earns £112.53 a week and pays standard NICs
+2015,W,1,A,869,80.28,98.39,		Example 2 - A 44 year old employee earns £869 a week and pays standard NICs
+2015,W,1,D,869,71.07,76.03,		Example 3 - A 44 year old employee earns £869 a week and pays standard contracted-out NICs (COSR)
+2015,W,1,D,541,40.32,38.55,		Example 4 - A 37 year old employee earns £541.00 a week and pays standard contracted-out NICs (COSR)
+2015,W,2,B,508,11.59,27.05,             Example 5 - An employee was paid £508 for a 2 week period and pays reduced rate not contracted-out NICs
+2015,W,1,M,834,79.58,2.62,		Example 6 - A 19 year old employee earns £834 a week and pays standard NICs
+2015,W,1,I,834,70.37,-19.75,		Example 7 - A 19 year old employee earns £834 a week and pays standard contracted out NICs (COSR)
+2015,W,1,I,641,50.92,-17.98,		Example 8 - A 17 year old employee earns £641 a week and pays standard contracted out NICs (COSR)
+2015,Y,1,D,42755,3647.38,3617.39,       Example 9 - A 34 year old director for the whole of the year earns £42,755 and pays contracted-out NICs (COSR). Has paid no NICs to date.
+2015,Y,1,A,37643,1885.26,4807.24,       Example 10 - A 51 year old director from 1 December 2015 earns £37,643 in the rest of the tax year. Pays standard rate not contracted-out NIC
+2015,Y,1,D,27050,1981.64,1891.76,       Example 11a - A 31 year old director for the whole tax year joins the company’s contracted-out salary related occupational pension scheme on 28 April 2015. He earned £6,000 before the change and £27,050 after. The contracted-out contributions take priority. [Contracted-out (COSR) NICs – Category D]
+2015,Y,1,A,6000,720,828,                Example 11b - A 31 year old director for the whole tax year joins the company’s contracted-out salary related occupational pension scheme on 28 April 2015. He earned £6,000 before the change and £27,050 after. The contracted-out contributions take priority. [Not contracted-out NICs – Category A]
+2015,Y,1,A,16968,1143.36,1308.24,       Example 12a - A director first appointed on 6 May 2015 pays standard rate notcontracted-out NICs. He reaches age 65 on 13 January 2016. [He earns £16,968 from 6 May 2015 to 12 January 2016] and £5,000 from 13 January 2016 to the end of the tax year. There are 48 tax weeks left in the tax year 2015 to 2016 from 6 May 2015 to 5 April 2016.
+2015,Y,1,C,5000,0,690,                  Example 12b - A director first appointed on 6 May 2015 pays standard rate notcontracted-out NICs. He reaches age 65 on 13 January 2016. He earns £16,968 from 6 May 2015 to 12 January 2016 and [£5,000 from 13 January 2016 to the end of the tax year]. There are 48 tax weeks left in the tax year 2015 to 2016 from 6 May 2015 to 5 April 2016.
+2015,Y,1,M,52000,4311.30,1326.87,       Example 13 - An 18 year old director for the whole tax year earns £52,000 and pays standard rate not contracted-out NICs. Has paid no NICs to date.
+2015,Y,1,I,27050,1981.94,-721.68,       Example 14a - A director for the whole tax year, reaches age 21 on 30 December 2015. [He earned £27,050 before his 21st birthday] and £6,000 after. Pays contracted-out NICs (COSR).
+2015,Y,1,D,6000,636,624,                Example 14b - A director for the whole tax year, reaches age 21 on 30 December 2015. He earned £27,050 before his 21st birthday and [£6,000 after]. Pays contracted-out NICs (COSR).
+
+# https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/366431/ni-guidance-2014-15.pdf
+2014,W,1,A,111.53,0,0,			Example 1 - An employee earns £111.53 a week and pays standard not contracted-out NICs
+2014,W,1,A,869,79.52,98.81,		Example 2 - An employee earns £869 a week and pays standard not contracted-out NICs
+2014,W,1,D,869,70.29,76.40,		Example 3 - An employee earns £869 a week and pays standard contracted-out NICs (COSR)
+2014,W,1,D,541,40.54,38.92,		Example 4 - An employee earns £541.00 a week and pays standard contracted-out NICs (COSR)
+2014,W,2,B,508,11.82,27.88,             Example 5 - An employee was paid £508 for a 2 week period and pays reduced rate not contracted-out NICs
+2014,Y,1,D,42755,3607.12,3637.15,       Example 6 - A director for the whole of the year earns £42,755 and pays contracted-out NICs (COSR). Has paid no NICs to date.
+2014,Y,1,A,37643,1871.58,4814.69,       Example 7 - A director from 1 December 2014 earns £37,643 in the rest of the tax year. Pays standard rate not contracted-out NIC
+2014,Y,1,D,27050,1993.38,1911.52,       Example 8a - A director for the whole tax year joins the company’s contracted-out salary related occupational pension scheme on 28 April 2014. He earned £6,000 before the change and £27,050 after. The contracted-out contributions take priority. [Contracted-out (COSR) NICs – Category D]
+2014,Y,1,A,6000,720,828,                Example 8b - A director for the whole tax year joins the company’s contracted-out salary related occupational pension scheme on 28 April 2014. He earned £6,000 before the change and £27,050 after. The contracted-out contributions take priority. [Not contracted-out NICs – Category A]
+2014,Y,1,A,16968,1154.88,1328.11,       Example 9a - A director first appointed on 6 May 2014 pays standard rate notcontracted-out NICs. He reaches age 65 on 13 January 2015. [He earns £16,968 from 6 May 2014 to 12 January 2015] and £5,000 from 13 January 2015 to the end of the tax year. There are 48 tax weeks left in the tax year 2014 to 2015 from 6 May 2014 to 5 April 2015.
+2014,Y,1,C,5000,0,690,                  Example 9b - A director first appointed on 6 May 2014 pays standard rate notcontracted-out NICs. He reaches age 65 on 13 January 2015. He earns £16,968 from 6 May 2014 to 12 January 2015 and [£5,000 from 13 January 2015 to the end of the tax year]. There are 48 tax weeks left in the tax year 2014 to 2015 from 6 May 2014 to 5 April 2015.
+
