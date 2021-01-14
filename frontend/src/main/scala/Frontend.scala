@@ -3,7 +3,7 @@ package frontend
 
 import scala.scalajs.js.annotation._
 import scala.scalajs.js.Date
-import scala.scalajs.js
+import scala.scalajs.js, js.JSConverters._
 import java.time.LocalDate
 import io.circe.generic.auto._, io.circe.syntax._
 
@@ -51,8 +51,10 @@ class ClassOne(json: String) extends js.Object {
     config.classOne(interval).values.exists(_.contractedOutStandardRate.isDefined)
   }
 
-  def getTaxYears: Iterable[String] = 
-    config.classOne.keys.map(_.toString)
+  def getTaxYears: js.Array[String] = {
+    val i = config.classOne.keys.map(_.toString)
+    i.toJSArray
+  }
 
   def getApplicableCategories(on: Date): String = {
     val interval = config.classOne.keys.find(_.contains(on)).getOrElse(
