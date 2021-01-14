@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
-import {PeriodLabel, taxYearString} from '../../../config';
-import { appConfig } from '../../../config'
+import {PeriodLabel} from '../../../config';
 import {DirectorsContext} from "./DirectorsContext";
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
@@ -13,13 +12,14 @@ import {DateRange} from "../shared/DateRange";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 
 // types
-import {DirectorsTableProps, DirectorsRow, TaxYear} from '../../../interfaces';
+import {DirectorsRow, DirectorsTableProps} from '../../../interfaces';
 
 numeral.locale('en-gb');
 
 function DirectorsForm(props: DirectorsTableProps) {
   const { handleShowSummary, resetTotals, setDateRange } = props
   const {
+    taxYears,
     taxYear,
     setTaxYear,
     rows,
@@ -46,7 +46,10 @@ function DirectorsForm(props: DirectorsTableProps) {
   }
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTaxYear(appConfig.taxYears[appConfig.taxYears.findIndex(ty => ty.id === e.target.value)])
+    const selectedTaxYear = taxYears.find(ty => ty.id === e.target.value)
+    if (selectedTaxYear) {
+      setTaxYear(selectedTaxYear)
+    }
   }
 
   return (
@@ -68,6 +71,7 @@ function DirectorsForm(props: DirectorsTableProps) {
         items={[PeriodLabel.ANNUAL, PeriodLabel.PRORATA]}
         conditionalRevealChildren={[
           <SelectTaxYear
+            taxYears={taxYears}
             taxYear={taxYear}
             handleTaxYearChange={handleTaxYearChange}
           />,

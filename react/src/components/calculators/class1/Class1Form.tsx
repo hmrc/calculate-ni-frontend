@@ -1,6 +1,5 @@
 import React, {useContext, useState} from 'react';
 import uniqid from 'uniqid';
-import { appConfig, taxYearString } from '../../../config'
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
@@ -8,22 +7,23 @@ import 'numeral/locales/en-gb';
 import ClassOneEarningsTable from './Class1ContributionsTable'
 
 // types
-import { Row, Class1TableProps, TaxYear } from '../../../interfaces';
+import { Row, Class1TableProps } from '../../../interfaces';
 import {ClassOneContext} from "./ClassOneContext";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
+import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
 
 numeral.locale('en-gb');
 
 function Class1Form(props: Class1TableProps) {
   const { handleShowSummary, resetTotals } = props
-  const [taxYears] = useState<TaxYear[]>(appConfig.taxYears)
-  const [activeRowID, setActiveRowID] = useState<string | null>(null)
   const {
+    taxYears,
     taxYear,
     setTaxYear,
     rows,
     setRows,
   } = useContext(ClassOneContext)
+  const [activeRowID, setActiveRowID] = useState<string | null>(null)
 
   const handleSetActiveRow = (r: Row) => {
     if (activeRowID !== r.id) setActiveRowID(r.id)
@@ -73,21 +73,11 @@ function Class1Form(props: Class1TableProps) {
     <div className="form-group table-wrapper">
       <div className="container">
         <div className="form-group half">
-          <label className="govuk-label" htmlFor="taxYear">
-            Select a tax year
-          </label>
-          <select
-            value={taxYear.id}
-            onChange={handleTaxYearChange}
-            id="taxYear"
-            name="taxYear"
-            className="govuk-select"
-          >
-            {taxYears.map((y, i) => (
-              <option key={i} value={y.id}>{taxYearString(y)}</option>
-            ))}
-          </select>
-
+          <SelectTaxYear
+            taxYears={taxYears}
+            taxYear={taxYear}
+            handleTaxYearChange={handleTaxYearChange}
+          />
         </div>
 
         <div className="form-group half">

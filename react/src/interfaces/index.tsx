@@ -73,7 +73,6 @@ export interface TaxYear {
   id: string
   from: Date
   to: Date
-  categories: string[]
 }
 
 export interface Class1TableProps {

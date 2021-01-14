@@ -3,6 +3,14 @@ import moment from 'moment';
 import { TaxYear } from './interfaces'
 import configuration from './configuration.json'
 
+export enum NiClassName {
+  CLASS_ONE = "classOne",
+  CLASS_ONE_AB = "classOneAB",
+  CLASS_TWO = "classTwo",
+  CLASS_THREE = "classThree",
+  CLASS_FOUR = "classFour"
+}
+
 export interface NiCategoryNames {
   [key: string]: string
 }
@@ -13,74 +21,23 @@ interface BaseConfiguration {
 
 export interface AppConfig {
   categoryNames: NiCategoryNames
-  taxYears: TaxYear[]
-  minTaxYear: Date
-  maxTaxYear: Date
 }
 // tax year keys are in this format [2013-04-05,2014-04-05)
-const taxYearStringFormat: RegExp = /^\[[0-9]{4}-[0-9]{2}-[0-9]{2},[0-9]{4}-[0-9]{2}-[0-9]{2}\)$/
-const extractFromDateString = (ty: string) => ty.substr(1, 10)
-const extractToDateString = (ty: string) => ty.substr(12, 10)
-const extractCategoriesFromNiClass = (ty: object) => {
-  const categories: Array<string> = []
-  for(const anyKey in ty) {
-    if(ty.hasOwnProperty(anyKey)) {
-      const maybeHasCategories: BaseConfiguration = ty[anyKey as keyof object]
-      for(const o in maybeHasCategories) {
-        if(maybeHasCategories.hasOwnProperty(o) && (o === 'employee' || o === 'employer')) {
-          categories.push(...Object
-            .keys(maybeHasCategories[o])
-            .filter(cat => !categories.includes(cat) && configuration.categoryNames.hasOwnProperty(cat))
-          )
-        }
-      }
-    }
-  }
-  return categories.sort()
-}
+export const taxYearStringFormat: RegExp = /^\[[0-9]{4}-[0-9]{2}-[0-9]{2},[0-9]{4}-[0-9]{2}-[0-9]{2}\)$/
+export const extractFromDateString = (ty: string) => ty.substr(1, 10)
+export const extractToDateString = (ty: string) => ty.substr(12, 10)
 
-const sortByTaxYear = (a: TaxYear, b: TaxYear) => (a.id < b.id ? 1 : (a.id > b.id ? -1 : 0))
+export const sortByTaxYear = (a: TaxYear, b: TaxYear) => (a.id < b.id ? 1 : (a.id > b.id ? -1 : 0))
 
 const getAppConfig = () => {
   const baseConfig: BaseConfiguration = configuration
   const appConfig: AppConfig = {} as AppConfig
-  const unSortedTaxYears: TaxYear[] = []
+  // straight map of base category names
   appConfig.categoryNames = baseConfig.categoryNames as NiCategoryNames
-  for (const key in baseConfig) {
-    // we know all keys other than categoryNames are Ni Class names
-    if (key !== 'categoryNames' && baseConfig.hasOwnProperty(key)) {
-      const NiClass = baseConfig[key]
-      // we know all children of NiClass are tax years
-      for (const taxYearKey in NiClass) {
-        if (NiClass.hasOwnProperty(taxYearKey) &&
-          taxYearStringFormat.test(taxYearKey) &&
-          !unSortedTaxYears.find(u => u.id === taxYearKey)) {
-          try {
-            const categoriesWithin = extractCategoriesFromNiClass(NiClass[taxYearKey as keyof object])
-            if (categoriesWithin.length > 0) {
-              unSortedTaxYears.push({
-                id: taxYearKey,
-                from: new Date(extractFromDateString(taxYearKey)),
-                to: new Date(extractToDateString(taxYearKey)),
-                categories: categoriesWithin
-              })
-            }
-          } catch(e) {
-            throw e
-          }
-        }
-      }
-    }
-  }
-  appConfig.taxYears = unSortedTaxYears.sort(sortByTaxYear)
-  appConfig.maxTaxYear = appConfig.taxYears[0].to
-  appConfig.minTaxYear = appConfig.taxYears[appConfig.taxYears.length -1].from
   return appConfig
 }
 
 export const appConfig = getAppConfig()
-
-console.log('appConfig', appConfig)
 
 export const momentDateFormat = 'D MMMM YYYY'
 

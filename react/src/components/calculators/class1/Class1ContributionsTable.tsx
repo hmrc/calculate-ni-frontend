@@ -18,7 +18,7 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
   const {
     rows,
     rowsErrors,
-    taxYear
+    categories
   } = useContext(ClassOneContext)
   return (
     <table className="contribution-details">
@@ -86,8 +86,8 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
                 <>
                   <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category</label>
                   <select name="category" value={r.category} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
-                    {taxYear.categories.map((c: string, i: number) => (
-                      <option key={i} value={c}>{`${c} - ${appConfig.categoryNames[c]}`}</option>
+                    {categories.map((c: string, i: number) => (
+                      <option key={i} value={c}>{`${c}${appConfig.categoryNames[c] ? ` - ${appConfig.categoryNames[c]}` : ``}`}</option>
                     ))}
                   </select>
                 </>
