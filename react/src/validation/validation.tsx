@@ -21,6 +21,10 @@ interface DirectorsPayload {
   rows: Array<DirectorsRow>
 }
 
+interface Class2Or3Payload {
+  paymentEnquiryDate: Date | null
+}
+
 export interface ErrorMessage {
   name: string
   link: string
@@ -103,6 +107,26 @@ export const validateDirectorsPayload = (
   }
 
   return isEmpty(rowErrors) && isEmpty(errors)
+}
+
+export const validateClass2Or3Payload = (
+  payload: Class2Or3Payload,
+  setErrors: Dispatch<GenericErrors>
+) => {
+  let errors: GenericErrors = {}
+  if(!payload.paymentEnquiryDate) {
+    errors.paymentEnquiryDate = {
+      name: 'Payment/enquiry date',
+      link: 'payment-enquiry-date',
+      message: 'Payment/enquiry date must be entered as a real date'
+    }
+  }
+
+  if(Object.keys(errors).length > 0) {
+    setErrors(errors)
+  }
+
+  return isEmpty(errors)
 }
 
 const validateRows = (rows: Array<Row | DirectorsRow>) => {

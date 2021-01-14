@@ -2,28 +2,47 @@ import React from 'react'
 import { TextInputProps } from '../../../interfaces'
 
 function TextInput(props: TextInputProps) {
+  const {
+    hiddenLabel, 
+    labelClass,
+    hint,
+    name,
+    labelText,
+    inputClassName,
+    inputValue,
+    onChangeCallback,
+    placeholderText,
+    pattern,
+    inputMode,
+    onBlurCallback
+  } = props
   return (
     <>
       <label 
         className={
           `form-label 
-          ${props.hiddenLabel && 'govuk-visually-hidden'} 
-          ${props.labelClass && props.labelClass}`
+          ${hiddenLabel && 'govuk-visually-hidden'} 
+          ${labelClass && labelClass}`
         }
-        htmlFor={props.name}>
-          {props.labelText}
+        htmlFor={name}>
+          {labelText}
       </label>
+      {hint && 
+        <div id={`${name}-hint`} className="govuk-hint">
+        {hint}
+      </div>
+      }
       <input
-        className={props.inputClassName}
-        name={props.name}
+        className={inputClassName}
+        name={name}
         type="text"
-        id={props.name}
-        value={props.inputValue}
-        onChange={props.onChangeCallback}
-        placeholder={props.placeholderText}
-        pattern={props.pattern}
-        inputMode={props.inputMode}
-        onBlur={props.onBlurCallback}
+        id={name}
+        value={inputValue}
+        onChange={onChangeCallback}
+        placeholder={placeholderText}
+        pattern={pattern}
+        inputMode={inputMode}
+        onBlur={onBlurCallback}
       />
     </>
   )

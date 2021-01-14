@@ -29,6 +29,7 @@ import InterestRefunds from './components/calculators/interest-refunds/InterestR
 import BreadCrumbs from "./components/helpers/gov-design-system/BreadCrumbs";
 import {ClassOneContext, useClassOneForm} from "./components/calculators/class1/ClassOneContext";
 import {DirectorsContext, useDirectorsForm} from "./components/calculators/directors/DirectorsContext";
+import { Class2Or3Context, useClass2Or3Form } from './components/calculators/class-2-or-3/Class2Or3Context';
 
 function App() {    
   const serviceName = "Calculate National Insurance contributions"
@@ -54,7 +55,9 @@ function App() {
                 <UnofficialDeferment />
               </Route>
               <Route path="/class-2-or-3">
-                <Class2Or3 />
+                <Class2Or3Context.Provider value={useClass2Or3Form()}>
+                  <Class2Or3 />
+                </Class2Or3Context.Provider>
               </Route>
               <Route path="/class-3">
                 <Class3 />

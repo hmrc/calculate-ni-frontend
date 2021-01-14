@@ -68,6 +68,12 @@ export interface DirectorsRow {
   bands?: Calculated
 }
 
+// Class 2 Or 3
+export interface Class2Or3FormProps {
+  earningsFactor: string
+  handleEarningsaFactorChange: ({ currentTarget: { value }, }: React.ChangeEvent<HTMLInputElement>) => void
+}
+
 // Table
 export interface TaxYear {
   id: string
@@ -153,6 +159,7 @@ export interface  SummaryListRowProps {
 export interface TextInputProps {
   labelText: string
   labelClass?: string
+  hint?: string
   hiddenLabel?: boolean 
   name: string
   inputClassName: string
