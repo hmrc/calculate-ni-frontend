@@ -23,6 +23,9 @@ interface DirectorsPayload {
 
 interface Class2Or3Payload {
   paymentEnquiryDate: Date | null
+  earningsFactor: string
+  taxYear: TaxYear,
+  activeClass: string
 }
 
 export interface ErrorMessage {
@@ -114,6 +117,13 @@ export const validateClass2Or3Payload = (
   setErrors: Dispatch<GenericErrors>
 ) => {
   let errors: GenericErrors = {}
+  if(!payload.activeClass) {
+    errors.nationalInsuranceClass = {
+      name: 'nationalInsuranceClass',
+      link: 'nationalInsuranceClass',
+      message: 'Select either Class 2 or Class 3'
+    }
+  }
   if(!payload.paymentEnquiryDate) {
     errors.paymentEnquiryDate = {
       name: 'Payment/enquiry date',

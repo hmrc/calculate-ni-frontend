@@ -84,7 +84,7 @@ export const extractTaxYearFromDate = (date: Date, taxYears: TaxYear[]) => {
 }
 
 export function validDateParts(day: string, month: string, year: string) {
-  return day && month && year && moment(`${year}-${month}-${day}`).isValid()
+  return day && month && year && moment(`${year}-${month}-${day}`, 'YYYY-M-D').isValid()
 }
 
 export const govDateFormat = 'D MMMM YYYY'

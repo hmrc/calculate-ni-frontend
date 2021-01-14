@@ -8,19 +8,26 @@ import Class2Or3Form from './Class2Or3Form'
 
 // types
 import {Class2Or3Context} from './Class2Or3Context'
+import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
+import {hasKeys} from "../../../services/utils";
 
 const pageTitle = 'Class 2 or 3 NI contributions needed for a qualifying year'
 
 function Class2Or3() {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const {
+    ClassOneCalculator,
+    activeClass,
+    taxYear,
     details,
     setDetails,
     paymentEnquiryDate,
     earningsFactor,
     setEarningsFactor,
     errors,
-    setErrors
+    setErrors,
+    result,
+    setResult
   } = useContext(Class2Or3Context)
 
   const handleChange = ({
@@ -48,11 +55,20 @@ function Class2Or3() {
   const submitForm = (showSummaryIfValid: boolean) => {
     setErrors({})
     const payload = {
-      paymentEnquiryDate
+      paymentEnquiryDate,
+      earningsFactor,
+      taxYear,
+      activeClass
     }
 
     if(validateClass2Or3Payload(payload, setErrors)) {
-      
+      const resultFromCalculator = ClassOneCalculator.calculateClassTwo(
+        payload.taxYear.from,
+        payload.paymentEnquiryDate,
+        parseFloat(payload.earningsFactor)
+      )
+      console.log('result', resultFromCalculator)
+      setResult(JSON.parse(resultFromCalculator))
     }
   }
 
@@ -62,6 +78,12 @@ function Class2Or3() {
         <p>summary</p>
         :
         <>
+          {hasKeys(errors) &&
+            <ErrorSummary
+              errors={errors}
+              rowsErrors={{}}
+            />
+          }
           <h1>{pageTitle}</h1>
 
           <Details
@@ -82,6 +104,8 @@ function Class2Or3() {
             label="Save and print"
             onClick={handleShowSummary}
           />
+
+          {result && <p>result.contributionsDue</p>}
         </>
       }
     

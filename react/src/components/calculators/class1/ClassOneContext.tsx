@@ -8,7 +8,7 @@ import {ClassOne} from '../../../calculation'
 import configuration from "../../../configuration.json";
 
 const ClassOneCalculator = new ClassOne(JSON.stringify(configuration))
-const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears)
+const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
 
 const initialState = {
   fullName: '',

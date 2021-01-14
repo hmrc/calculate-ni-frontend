@@ -72,6 +72,22 @@ class ClassOne(json: String) extends js.Object {
     throw new NoSuchElementException(s"Class One A and B undefined for $on")
   ).toString
 
+  def calculateClassTwo(
+                         taxYear: Date,
+                         paymentDate: Date,
+                         earningsFactor: Double
+                       ): String = {
+    import io.circe._
+    val payload = JsonObject(
+      "contributionsDue"    -> Json.fromInt(39),
+      "rate"                -> Json.fromBigDecimal(BigDecimal("3.05")),
+      "totalAmountDue"      -> Json.fromBigDecimal(BigDecimal("118.45")),
+      "dateHigherRateApply" -> LocalDate.of(2019, 4, 5).asJson,
+      "finalPaymentDate"    -> LocalDate.of(2019, 4, 5).asJson,
+    )
+    payload.asJson.toString
+  }
+
   def calculateClassThree(
     on: Date,
     numberOfWeeks: Int

@@ -1,5 +1,4 @@
 import React, {useContext, useState, useEffect} from 'react'
-import { appConfig } from '../../../config'
 import {validDateParts} from '../../../services/utils'
 
 // components
@@ -18,8 +17,12 @@ function Class2Or3Form(props: Class2Or3FormProps) {
   const [day, setDay] = useState('')
   const [month, setMonth] = useState('')
   const [year, setYear] = useState('')
-  const [activeClass, setActiveClass] = useState('')
+
   const {
+    activeClass,
+    setActiveClass,
+    class2TaxYears,
+    class3TaxYears,
     taxYear,
     setTaxYear, 
     setPaymentEnquiryDate,
@@ -27,7 +30,8 @@ function Class2Or3Form(props: Class2Or3FormProps) {
   } = useContext(Class2Or3Context)
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTaxYear(appConfig.taxYears[appConfig.taxYears.findIndex(ty => ty.id === e.target.value)])
+    const taxYears = activeClass === 'Class 2' ? class2TaxYears : class3TaxYears
+    setTaxYear(taxYears.find(ty => ty.id === e.target.value) || taxYears[0])
   }
 
   useEffect(() => {
@@ -45,13 +49,15 @@ function Class2Or3Form(props: Class2Or3FormProps) {
       <Radios
         legend="Select the National insurance class"
         name="nationalInsuranceClass"
-        items={['Class 1', 'Class 2']}
+        items={['Class 2', 'Class 3']}
         conditionalRevealChildren={[
           <SelectTaxYear
+            taxYears={class2TaxYears}
             taxYear={taxYear}
             handleTaxYearChange={handleTaxYearChange}
           />,
           <SelectTaxYear
+            taxYears={class3TaxYears}
             taxYear={taxYear}
             handleTaxYearChange={handleTaxYearChange}
           />

@@ -1,9 +1,15 @@
 import React, {Dispatch, SetStateAction, useState} from 'react'
-import {appConfig} from "../../../config";
+import {buildTaxYears} from "../../../config";
 
 // types
 import {Class1S, DetailsProps, TaxYear} from '../../../interfaces'
 import {GenericErrors} from "../../../validation/validation";
+import {ClassOne} from "../../../calculation";
+import configuration from "../../../configuration.json";
+
+const ClassOneCalculator = new ClassOne(JSON.stringify(configuration))
+const class2TaxYears: TaxYear[] = buildTaxYears(Object.keys(configuration.classTwo), 'key')
+const class3TaxYears: TaxYear[] = buildTaxYears(Object.keys(configuration.classThree), 'key')
 
 const initialState = {
   fullName: '',
@@ -13,9 +19,30 @@ const initialState = {
   date: '',
 }
 
+interface Calculator {
+  calculate: Function
+  calculateProRata: Function
+  calculateClassTwo: Function
+  getApplicableCategories: Function
+  getTaxYears: Array<string>
+}
+
+export interface Class2Or3Result {
+  contributionsDue: number
+  rate: number
+  totalAmountDue: number
+  dateHigherRateApply: Date
+  finalPaymentDate: Date
+}
+
 interface Class2Or3Context {
+  ClassOneCalculator: Calculator
+  class2TaxYears: TaxYear[]
+  class3TaxYears: TaxYear[]
   details: DetailsProps
   setDetails: Function
+  activeClass: string
+  setActiveClass: Dispatch<string>
   taxYear: TaxYear,
   setTaxYear: Dispatch<TaxYear>,
   paymentEnquiryDate: Date | null,
@@ -24,6 +51,8 @@ interface Class2Or3Context {
   setEarningsFactor: Dispatch<string>
   errors: GenericErrors
   setErrors: Dispatch<GenericErrors>
+  result: Class2Or3Result | null
+  setResult: Dispatch<Class2Or3Result>
 }
 
 const stateReducer = (state: Class1S, action: { [x: string]: string }) => ({
@@ -34,29 +63,43 @@ const stateReducer = (state: Class1S, action: { [x: string]: string }) => ({
 
 export const Class2Or3Context = React.createContext<Class2Or3Context>(
   {
+    ClassOneCalculator: ClassOneCalculator,
+    class2TaxYears: class2TaxYears,
+    class3TaxYears: class3TaxYears,
     details: initialState,
     setDetails: () => {},
-    taxYear: appConfig.taxYears[0],
+    activeClass: '',
+    setActiveClass: () => {},
+    taxYear: class2TaxYears[0],
     setTaxYear: () => {},
     paymentEnquiryDate: null,
     setPaymentEnquiryDate: () => {},
     earningsFactor: '',
     setEarningsFactor: () => {},
     errors: {},
-    setErrors: () => {}
+    setErrors: () => {},
+    result: null,
+    setResult: () => {}
   }
 )
 
 export function useClass2Or3Form() {
+  const [activeClass, setActiveClass] = useState<string>('')
   const [details, setDetails] = React.useReducer(stateReducer, initialState) 
-  const [taxYear, setTaxYear] = useState<TaxYear>(appConfig.taxYears[0])
+  const [taxYear, setTaxYear] = useState<TaxYear>(class2TaxYears[0])
   const [earningsFactor, setEarningsFactor] = useState<string>('')
   const [paymentEnquiryDate, setPaymentEnquiryDate] = useState<Date | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})
+  const [result, setResult] = useState<Class2Or3Result | null>(null)
 
   return {
+    ClassOneCalculator,
+    class2TaxYears,
+    class3TaxYears,
     details,
     setDetails,
+    activeClass,
+    setActiveClass,
     taxYear,
     setTaxYear,
     paymentEnquiryDate,
@@ -64,6 +107,8 @@ export function useClass2Or3Form() {
     earningsFactor,
     setEarningsFactor,
     errors,
-    setErrors
+    setErrors,
+    result,
+    setResult
   }
 }
