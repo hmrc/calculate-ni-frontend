@@ -1,6 +1,6 @@
 import React, {Dispatch, useEffect, useState} from "react";
 import {Calculated, Class1S, DetailsProps, Row, TaxYear, TotalsInCategories} from "../../../interfaces";
-import {periods, extractFromDateString, extractToDateString, sortByTaxYear} from "../../../config";
+import {periods, buildTaxYears} from "../../../config";
 import uniqid from "uniqid";
 import {GenericErrors, RowsErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
@@ -8,14 +8,7 @@ import {ClassOne} from '../../../calculation'
 import configuration from "../../../configuration.json";
 
 const ClassOneCalculator = new ClassOne(JSON.stringify(configuration))
-// TODO: use the calculation.js method when it supports NI class names
-// const taxYears = ClassOneCalculator.getTaxYears
-const taxYears: TaxYear[] = Object.keys(configuration.classOne)
-  .map((ty: string) => ({
-    id: ty,
-    from: new Date(extractFromDateString(ty)),
-    to: new Date(extractToDateString(ty))
-  })).sort(sortByTaxYear)
+const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears)
 
 const initialState = {
   fullName: '',
@@ -44,6 +37,7 @@ interface Calculator {
   calculate: Function
   calculateProRata: Function
   getApplicableCategories: Function
+  getTaxYears: Array<string>
 }
 
 interface ClassOneContext {

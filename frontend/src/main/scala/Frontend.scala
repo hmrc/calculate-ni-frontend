@@ -51,8 +51,11 @@ class ClassOne(json: String) extends js.Object {
     config.classOne(interval).values.exists(_.contractedOutStandardRate.isDefined)
   }
 
-  def getTaxYears: Iterable[String] = 
-    config.classOne.keys.map(_.toString)
+  def getTaxYears: js.Array[String] = {
+    import js.JSConverters._
+    val i = config.classOne.keys.map(_.toString)
+    i.toJSArray
+  }
 
   def getApplicableCategories(on: Date): String = {
     val interval = config.classOne.keys.find(_.contains(on)).getOrElse(

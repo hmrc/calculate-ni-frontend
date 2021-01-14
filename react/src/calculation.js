@@ -1,4 +1,3 @@
-/* eslint-disable */
 'use strict';
 /* Scala.js runtime support
  * Copyright 2013 LAMP/EPFL
@@ -10993,19 +10992,6 @@ var $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1 = new $TypeData().i
   Ljava_io_Serializable: 1
 });
 $c_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1.prototype.$classData = $d_Leoi_EoiJsonEncoding$anon$importedDecoder$macro$144$1;
-function $s_Leoi_frontend_ClassOne__getTaxYears__Leoi_frontend_ClassOne__sc_Iterable($this) {
-  var this$1 = $as_Leoi_Configuration($this.config).classOne$1;
-  var this$4 = this$1.keySet__sci_Set();
-  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2) {
-    return (function(x$3$2) {
-      var x$3 = $as_Lspire_math_Interval(x$3$2);
-      return x$3.toString__T()
-    })
-  })($this));
-  var this$3 = $m_sc_Iterable$();
-  var bf = this$3.ReusableCBFInstance$2;
-  return $as_sc_Iterable($f_sc_TraversableLike__map__F1__scg_CanBuildFrom__O(this$4, f, bf))
-}
 function $s_Leoi_frontend_ClassOne__calculate__Leoi_frontend_ClassOne__sjs_js_Date__D__T__T__I__Z__T($this, on, amount, cat, period, qty, contractedOutStandardRate) {
   var jsx$4 = $as_Leoi_Configuration($this.config);
   var jsx$3 = $as_Ljava_time_LocalDate($this.convertDate(on));
@@ -11036,6 +11022,20 @@ function $s_Leoi_frontend_ClassOne__convertDate__Leoi_frontend_ClassOne__sjs_js_
 }
 function $s_Leoi_frontend_ClassOne__calculate$default$6__Leoi_frontend_ClassOne__Z($this) {
   return false
+}
+function $s_Leoi_frontend_ClassOne__getTaxYears__Leoi_frontend_ClassOne__sjs_js_Array($this) {
+  var this$1 = $as_Leoi_Configuration($this.config).classOne$1;
+  var this$4 = this$1.keySet__sci_Set();
+  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2) {
+    return (function(x$3$2) {
+      var x$3 = $as_Lspire_math_Interval(x$3$2);
+      return x$3.toString__T()
+    })
+  })($this));
+  var this$3 = $m_sc_Iterable$();
+  var bf = this$3.ReusableCBFInstance$2;
+  var i = $as_sc_Iterable($f_sc_TraversableLike__map__F1__scg_CanBuildFrom__O(this$4, f, bf));
+  return $m_sjs_js_JSConverters$JSRichGenTraversableOnce$().toJSArray$extension__sc_GenTraversableOnce__sjs_js_Array(i)
 }
 function $s_Leoi_frontend_ClassOne__calculateProRata$default$5__Leoi_frontend_ClassOne__Z($this) {
   return false
@@ -11286,7 +11286,7 @@ function $a_Leoi_frontend_ClassOne() {
     });
     Object.defineProperty($c_Leoi_frontend_ClassOne.prototype, "getTaxYears", {
       "get": (function() {
-        return $s_Leoi_frontend_ClassOne__getTaxYears__Leoi_frontend_ClassOne__sc_Iterable(this)
+        return $s_Leoi_frontend_ClassOne__getTaxYears__Leoi_frontend_ClassOne__sjs_js_Array(this)
       }),
       "configurable": true
     });

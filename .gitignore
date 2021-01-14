@@ -41,4 +41,3 @@ project/metals.sbt
 react/build
 /node_modules
 /react/node_modules
-/react/src/calculation.js
