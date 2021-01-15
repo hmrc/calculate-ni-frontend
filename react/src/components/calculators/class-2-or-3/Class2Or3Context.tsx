@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useState} from 'react'
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react'
 import {buildTaxYears} from "../../../config";
 
 // types
@@ -91,6 +91,11 @@ export function useClass2Or3Form() {
   const [paymentEnquiryDate, setPaymentEnquiryDate] = useState<Date | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [result, setResult] = useState<Class2Or3Result | null>(null)
+
+  useEffect(() => {
+    const taxYears = activeClass === 'Class 2' ? class2TaxYears : class3TaxYears
+    setTaxYear(taxYears[0])
+  }, [activeClass])
 
   return {
     ClassOneCalculator,

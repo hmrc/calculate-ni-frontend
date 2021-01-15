@@ -105,7 +105,7 @@ function Class2Or3() {
             onClick={handleShowSummary}
           />
 
-          {result && <p>result.contributionsDue</p>}
+          {result && <p>{result.contributionsDue}</p>}
         </>
       }
     

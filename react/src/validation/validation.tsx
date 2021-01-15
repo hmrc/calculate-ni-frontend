@@ -49,6 +49,12 @@ export interface RowsErrors {
   }
 }
 
+const beforeMinimumTaxYear = (date: Date, minDate: Date) =>
+  moment(date).isBefore(moment(minDate))
+
+const afterMaximumTaxYear = (date: Date, maxDate: Date) =>
+  moment(date).isAfter(moment(maxDate))
+
 export const validateClassOnePayload = (
   payload: ClassOnePayload,
   setRowsErrors: Dispatch<RowsErrors>,
@@ -116,6 +122,8 @@ export const validateClass2Or3Payload = (
   payload: Class2Or3Payload,
   setErrors: Dispatch<GenericErrors>
 ) => {
+  const minDate = payload.taxYear.from
+  const maxDate = payload.taxYear.to
   let errors: GenericErrors = {}
   if(!payload.activeClass) {
     errors.nationalInsuranceClass = {
@@ -129,6 +137,18 @@ export const validateClass2Or3Payload = (
       name: 'Payment/enquiry date',
       link: 'payment-enquiry-date',
       message: 'Payment/enquiry date must be entered as a real date'
+    }
+  } else if(beforeMinimumTaxYear(payload.paymentEnquiryDate, minDate)) {
+    errors.paymentEnquiryDate = {
+      name: 'Payment/enquiry date',
+      link: 'payment-enquiry-date',
+      message: `Payment/enquiry date must be on or after ${moment(minDate).format(govDateFormat)}`
+    }
+  } else if (afterMaximumTaxYear(payload.paymentEnquiryDate, maxDate)) {
+    errors.paymentEnquiryDate = {
+      name: 'Payment/enquiry date',
+      link: 'payment-enquiry-date',
+      message: `Payment/enquiry date must be on or before ${moment(maxDate).format(govDateFormat)}`
     }
   }
 
@@ -162,12 +182,6 @@ const validateRows = (rows: Array<Row | DirectorsRow>) => {
 
   return rowsErrors as RowsErrors
 }
-
-const beforeMinimumTaxYear = (date: Date, minDate: Date) =>
-  moment(date).isBefore(moment(minDate))
-
-const afterMaximumTaxYear = (date: Date, maxDate: Date) =>
-  moment(date).isAfter(moment(maxDate))
 
 const validateDirectorshipDates = (dateRange: GovDateRange, taxYears: TaxYear[]) => {
   const dateRangeErrors: GenericErrors = {}
