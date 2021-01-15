@@ -108,7 +108,42 @@ export default function Class2Or3() {
             onClick={handleShowSummary}
           />
 
-          {result && <p>{result.contributionsDue}</p>}
+          <div className="results divider--top">
+            <div className="container">
+              <div className="container column third">
+                <span className="inline block">Contributions due:</span>
+                <div className="value inline width-3">
+                  {result?.contributionsDue}
+                </div>
+              </div>
+              <div className="container column third">
+                <span className="inline block">Class (x) rate:</span>
+                <div className="value inline width-8">
+                  {result?.rate}
+                </div>
+              </div>
+              <div className="container column third">
+                <span className="inline block">Total amount due:</span>
+                <span className="value inline width-8">
+                  {result?.totalAmountDue}
+                </span>
+              </div>
+            </div>
+
+            <div className="container column">
+              <span className="label block">Date higher rate provisions apply:</span>
+              <div className="value inline width-8">
+                {result?.dateHigherRateApply}
+              </div>
+            </div>
+
+            <div className="container column">
+              <span className="label block">Final payment date for pension purposes:</span>
+              <div className="value inline width-8">
+                {result?.finalPaymentDate}
+              </div>
+            </div>
+          </div>
         </>
       }
     
