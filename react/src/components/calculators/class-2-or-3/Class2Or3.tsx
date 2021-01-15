@@ -23,7 +23,6 @@ export default function Class2Or3() {
     setDetails,
     paymentEnquiryDate,
     earningsFactor,
-    setEarningsFactor,
     errors,
     setErrors,
     result,

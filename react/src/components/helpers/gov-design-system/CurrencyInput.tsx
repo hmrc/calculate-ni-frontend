@@ -1,4 +1,5 @@
 import React from "react"
+import InlineError from "./InlineError";
 
 export default function CurrencyInput(props: any) {
   const { label, id, error, value, onChange, hint } = props
@@ -8,7 +9,12 @@ export default function CurrencyInput(props: any) {
         {label}
       </label>
       {hint && <span className="govuk-hint">{hint}</span>}
-      {error && <span className='govuk-error-message' id={`${id}-error`}>{error?.message}</span>}
+      {error &&
+        <InlineError
+          id={id}
+          errorMessage={error?.message}
+        />
+      }
       <div className="govuk-input__wrapper">
         <div className="govuk-input__prefix" aria-hidden="true">£</div>
         <input

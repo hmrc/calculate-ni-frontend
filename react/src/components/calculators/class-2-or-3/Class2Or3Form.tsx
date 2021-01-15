@@ -2,7 +2,6 @@ import React, {useContext, useState, useEffect} from 'react'
 import {validDateParts} from '../../../services/utils'
 
 // components
-import TextInput from '../../helpers/formhelpers/TextInput'
 import SelectTaxYear from '../../helpers/formhelpers/SelectTaxYear'
 import DateInputs from '../../helpers/formhelpers/DateInputs'
 import Radios from '../../helpers/formhelpers/Radios'
