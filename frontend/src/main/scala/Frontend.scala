@@ -6,6 +6,7 @@ import scala.scalajs.js.Date
 import scala.scalajs.js, js.JSConverters._
 import java.time.LocalDate
 import io.circe.generic.auto._, io.circe.syntax._
+import io.circe._
 
 @ScalaJSDefined
 @JSExportTopLevel("ClassOne")
@@ -77,7 +78,6 @@ class ClassOne(json: String) extends js.Object {
                          paymentDate: Date,
                          earningsFactor: Double
                        ): String = {
-    import io.circe._
     val payload = JsonObject(
       "contributionsDue"    -> Json.fromInt(39),
       "rate"                -> Json.fromBigDecimal(BigDecimal("3.05")),
@@ -89,12 +89,28 @@ class ClassOne(json: String) extends js.Object {
   }
 
   def calculateClassThree(
+                         taxYear: Date,
+                         paymentDate: Date,
+                         earningsFactor: Double
+                       ): String = {
+    val payload = JsonObject(
+      "contributionsDue"    -> Json.fromInt(39),
+      "rate"                -> Json.fromBigDecimal(BigDecimal("3.05")),
+      "totalAmountDue"      -> Json.fromBigDecimal(BigDecimal("118.45")),
+      "dateHigherRateApply" -> LocalDate.of(2019, 4, 5).asJson,
+      "finalPaymentDate"    -> LocalDate.of(2019, 4, 5).asJson,
+    )
+    payload.asJson.toString
+  }
+
+  /*
+  def calculateClassThree(
     on: Date,
     numberOfWeeks: Int
   ): String = config.calculateClassThree(on, numberOfWeeks).getOrElse(
     throw new NoSuchElementException(s"Class Three undefined for $on")
   ).toString
-
+  */
   def calculateClassFour(
     on: LocalDate,
     amount: Double
