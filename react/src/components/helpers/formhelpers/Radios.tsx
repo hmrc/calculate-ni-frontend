@@ -1,7 +1,10 @@
 import React from 'react'
-import {GenericErrors} from "../../../validation/validation";
+import {ErrorMessage} from "../../../validation/validation";
+import {buildDescribedByKeys} from "../../../services/utils";
+import InlineError from "../gov-design-system/InlineError";
 
 interface RadiosProps {
+  hint?: string
   isPageHeading?: boolean
   legend: string
   name: string
@@ -9,14 +12,21 @@ interface RadiosProps {
   conditionalRevealChildren?: (React.ReactElement | null)[]
   handleChange: Function;
   selected: string | null;
-  errors: GenericErrors
+  error: ErrorMessage
 }
 
 function Radios(props: RadiosProps) {
-  const { name, legend, isPageHeading, items, selected, handleChange, errors, conditionalRevealChildren } = props
+  const { hint, name, legend, isPageHeading, items, selected, handleChange, error, conditionalRevealChildren } = props
+  const describedBy = buildDescribedByKeys(name, {
+    hint,
+    error
+  })
   return (
-    <div className={`govuk-form-group${errors[name] ? ` govuk-form-group--error` : ``}`}>
-      <fieldset className="govuk-fieldset" id={name}>
+    <div className={`govuk-form-group${error ? ` govuk-form-group--error` : ``}`}>
+      <fieldset
+        className="govuk-fieldset" id={name}
+        aria-describedby={describedBy}
+      >
         <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
           {isPageHeading ?
             <h1 className="govuk-fieldset__heading">
@@ -26,8 +36,8 @@ function Radios(props: RadiosProps) {
             legend
           }
         </legend>
-
-        {errors[name] ? <span className="govuk-error-message">{errors[name]?.message}</span> : null}
+        {hint && <span id={`${name}-hint`} className="govuk-hint">{hint}</span>}
+        {error && <InlineError id={name} errorMessage={error.message} />}
         
         <div className="govuk-radios">
           {items.map((item, index) => {

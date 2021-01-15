@@ -8,6 +8,7 @@ import {
   TotalType,
   TaxYear
 } from "../interfaces";
+import {ErrorMessage} from "../validation/validation";
 
 export const emptyStringToZero = (input: string) => input === '' ? 0 : parseFloat(input)
 
@@ -88,3 +89,27 @@ export function validDateParts(day: string, month: string, year: string) {
 }
 
 export const govDateFormat = 'D MMMM YYYY'
+
+interface DescribedByKeys {
+  hint?: string,
+  error?: ErrorMessage,
+  extraContent?: Array<string>
+}
+export const buildDescribedByKeys = (
+  id: string,
+  describedByKeys: DescribedByKeys
+) => {
+  const keys = []
+  if (describedByKeys.hint) {
+    keys.push(`${id}-hint`)
+  }
+  if(describedByKeys.error) {
+    keys.push(`${id}-error`)
+  }
+
+  describedByKeys.extraContent && describedByKeys.extraContent.forEach(key => {
+    keys.push(`${id}-${key}`)
+  })
+
+  return keys.join(' ')
+}

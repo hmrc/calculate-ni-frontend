@@ -64,7 +64,7 @@ function Class2Or3Form() {
         ]}
         handleChange={handleClassChange}
         selected={activeClass}
-        errors={errors}
+        error={errors.nationalInsuranceClass}
       />
 
       <DateInputs 

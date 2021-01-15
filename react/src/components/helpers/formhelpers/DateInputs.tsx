@@ -5,6 +5,7 @@ import { stripSpaces } from '../../../config'
 import TextInput from './TextInput'
 import {ErrorMessage} from "../../../validation/validation";
 import InlineError from "../gov-design-system/InlineError";
+import {buildDescribedByKeys} from "../../../services/utils";
 
 interface DateProps {
   description: string
@@ -21,19 +22,18 @@ interface DateProps {
 
 export default function DateInputs(props: DateProps) {
   const { error, hint, description } = props
-  const describedByKeys = []
-  if (hint) {
-    describedByKeys.push(`${description}-hint`)
-  }
-  if(error) {
-    describedByKeys.push(`${description}-error`)
-  }
+  const describedby = buildDescribedByKeys(description,{
+      hint,
+      error
+    }
+  )
+
   return (
     <div className={`govuk-form-group${error ? ` govuk-form-group--error`: ``}`}>
       <fieldset 
         className="govuk-fieldset"
         role="group"
-        aria-describedby={describedByKeys.join(' ')}
+        aria-describedby={describedby}
       >
         
         <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
