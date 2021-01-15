@@ -13,7 +13,7 @@ import {hasKeys} from "../../../services/utils";
 
 const pageTitle = 'Class 2 or 3 NI contributions needed for a qualifying year'
 
-function Class2Or3() {
+export default function Class2Or3() {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const {
     ClassOneCalculator,
@@ -62,13 +62,25 @@ function Class2Or3() {
     }
 
     if(validateClass2Or3Payload(payload, setErrors)) {
-      const resultFromCalculator = ClassOneCalculator.calculateClassTwo(
-        payload.taxYear.from,
-        payload.paymentEnquiryDate,
-        parseFloat(payload.earningsFactor)
-      )
-      console.log('result', resultFromCalculator)
+      const resultFromCalculator = payload.activeClass === 'Class 2' ?
+        ClassOneCalculator.calculateClassTwo(
+          payload.taxYear.from,
+          payload.paymentEnquiryDate,
+          parseFloat(payload.earningsFactor)
+        )
+        :
+        ClassOneCalculator.calculateClassThree(
+          payload.taxYear.from,
+          payload.paymentEnquiryDate,
+          parseFloat(payload.earningsFactor)
+        )
+
       setResult(JSON.parse(resultFromCalculator))
+
+      if(showSummaryIfValid) {
+        setShowSummary(true)
+      }
+
     }
   }
 
@@ -112,5 +124,3 @@ function Class2Or3() {
     </main>
   )
 }
-
-export default Class2Or3

@@ -23,6 +23,7 @@ interface Calculator {
   calculate: Function
   calculateProRata: Function
   calculateClassTwo: Function
+  calculateClassThree: Function
   getApplicableCategories: Function
   getTaxYears: Array<string>
 }
