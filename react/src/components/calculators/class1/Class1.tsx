@@ -106,7 +106,7 @@ function Class1() {
       }) as Calculated[]
 
   return (
-    <main>
+    <div className="custom-calculator">
       {showSummary ?
         <Class1Print
           title={pageTitle}
@@ -153,7 +153,7 @@ function Class1() {
           </button>
         </div>
       )}
-    </main>
+    </div>
   )
 }
 

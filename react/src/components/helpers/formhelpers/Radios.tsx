@@ -27,15 +27,19 @@ function Radios(props: RadiosProps) {
         className="govuk-fieldset" id={name}
         aria-describedby={describedBy}
       >
-        <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
-          {isPageHeading ?
+
+        {isPageHeading ?
+          <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
             <h1 className="govuk-fieldset__heading">
               {legend}
             </h1>
-          :
-            legend
-          }
-        </legend>
+          </legend>
+        :
+          <legend className="govuk-fieldset__legend govuk-fieldset__legend--s">
+            {legend}
+          </legend>
+        }
+
         {hint && <span id={`${name}-hint`} className="govuk-hint">{hint}</span>}
         {error && <InlineError id={name} errorMessage={error.message} />}
         

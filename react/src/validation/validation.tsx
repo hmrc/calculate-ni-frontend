@@ -134,20 +134,20 @@ export const validateClass2Or3Payload = (
   }
   if(!payload.paymentEnquiryDate) {
     errors.paymentEnquiryDate = {
-      name: 'Payment/enquiry date',
-      link: 'payment-enquiry-date',
+      name: 'paymentEnquiryDate',
+      link: 'paymentEnquiryDateDay',
       message: 'Payment/enquiry date must be entered as a real date'
     }
   } else if(beforeMinimumTaxYear(payload.paymentEnquiryDate, minDate)) {
     errors.paymentEnquiryDate = {
-      name: 'Payment/enquiry date',
-      link: 'payment-enquiry-date',
+      name: 'paymentEnquiryDate',
+      link: 'paymentEnquiryDateDay',
       message: `Payment/enquiry date must be on or after ${moment(minDate).format(govDateFormat)}`
     }
   } else if (afterMaximumTaxYear(payload.paymentEnquiryDate, maxDate)) {
     errors.paymentEnquiryDate = {
-      name: 'Payment/enquiry date',
-      link: 'payment-enquiry-date',
+      name: 'paymentEnquiryDate',
+      link: 'paymentEnquiryDateDay',
       message: `Payment/enquiry date must be on or before ${moment(maxDate).format(govDateFormat)}`
     }
   }

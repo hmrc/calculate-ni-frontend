@@ -36,7 +36,7 @@ export default function DateInputs(props: DateProps) {
         aria-describedby={describedby}
       >
         
-        <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
+        <legend className="govuk-fieldset__legend govuk-fieldset__legend--s">
           {props.legend}
         </legend>
 

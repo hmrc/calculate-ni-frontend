@@ -68,7 +68,7 @@ function Class2Or3Form() {
       />
 
       <DateInputs 
-        description="payment-enquiry-date"
+        description="paymentEnquiryDate"
         legend="Payment/enquiry date"
         day={day}
         month={month}
