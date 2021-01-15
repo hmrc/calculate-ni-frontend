@@ -2,7 +2,6 @@ import React, {useContext, useState, useEffect} from 'react'
 import {validDateParts} from '../../../services/utils'
 
 // components
-import TextInput from '../../helpers/formhelpers/TextInput'
 import SelectTaxYear from '../../helpers/formhelpers/SelectTaxYear'
 import DateInputs from '../../helpers/formhelpers/DateInputs'
 import Radios from '../../helpers/formhelpers/Radios'
@@ -65,11 +64,11 @@ function Class2Or3Form() {
         ]}
         handleChange={handleClassChange}
         selected={activeClass}
-        errors={errors}
+        error={errors.nationalInsuranceClass}
       />
 
       <DateInputs 
-        description="payment-enquiry-date"
+        description="paymentEnquiryDate"
         legend="Payment/enquiry date"
         day={day}
         month={month}

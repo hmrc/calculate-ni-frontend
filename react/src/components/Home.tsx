@@ -4,14 +4,14 @@ import {Link} from "react-router-dom";
 export default function Home() {
   return (
     <>
-      <h1 className="govuk-heading-xl">
+      <h1 className="govuk-heading-l">
         Calculate National Insurance (NI) contributions
       </h1>
       <p className="govuk-body">
         This service was previously known as ‘Calculation Support’.
       </p>
       <nav>
-        <h2 className="govuk-heading-l">
+        <h2 className="govuk-heading-m">
           Class 1 NI calculators
         </h2>
         <ul className="govuk-list govuk-list--bullet">
@@ -19,14 +19,14 @@ export default function Home() {
           <li><Link to="/directors">Directors’ contributions</Link></li>
           <li><Link to="/unofficial-deferment">Class 1 NI contributions an employer owes due to unofficial deferment</Link></li>
         </ul>
-        <h2 className="govuk-heading-l">
+        <h2 className="govuk-heading-m">
           Class 2 and 3 NI calculators
         </h2>
         <ul className="govuk-list govuk-list--bullet">
           <li><Link to="/class-2-or-3">Class 2 or 3 NI contributions needed for a qualifying year</Link></li>
           <li><Link to="/class-3">Class 3 NI service spouse credits</Link></li>
         </ul>
-        <h2 className="govuk-heading-l">
+        <h2 className="govuk-heading-m">
           Interest calculators
         </h2>
         <ul className="govuk-list govuk-list--bullet">

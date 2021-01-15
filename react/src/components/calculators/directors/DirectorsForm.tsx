@@ -87,7 +87,7 @@ function DirectorsForm(props: DirectorsTableProps) {
         ]}
         handleChange={props.handlePeriodChange}
         selected={earningsPeriod}
-        errors={errors}
+        error={errors.earningsPeriod}
       />
 
       <DirectorsEarningsTable

@@ -1,14 +1,25 @@
 import React from "react"
+import InlineError from "./InlineError";
+import {buildDescribedByKeys} from "../../../services/utils";
 
 export default function CurrencyInput(props: any) {
   const { label, id, error, value, onChange, hint } = props
+  const describedby = buildDescribedByKeys(id,{
+    hint,
+    error
+  })
   return (
     <div className={`govuk-form-group${error ? ` govuk-form-group--error`: ``}`}>
       <label className="govuk-label govuk-label--l" htmlFor={id}>
         {label}
       </label>
-      {hint && <span className="govuk-hint">{hint}</span>}
-      {error && <span className='govuk-error-message' id={`${id}-error`}>{error?.message}</span>}
+      {hint && <span id={`${id}-hint`} className="govuk-hint">{hint}</span>}
+      {error &&
+        <InlineError
+          id={id}
+          errorMessage={error?.message}
+        />
+      }
       <div className="govuk-input__wrapper">
         <div className="govuk-input__prefix" aria-hidden="true">£</div>
         <input
@@ -19,7 +30,7 @@ export default function CurrencyInput(props: any) {
           spellCheck="false"
           value={value}
           onChange={onChange}
-          aria-describedby={error ? `${id}-error` : ``}
+          aria-describedby={describedby}
         />
       </div>
     </div>
