@@ -71,7 +71,7 @@ export interface DirectorsRow {
 // Class 2 Or 3
 export interface Class2Or3FormProps {
   earningsFactor: string
-  handleEarningsaFactorChange: ({ currentTarget: { value }, }: React.ChangeEvent<HTMLInputElement>) => void
+  handleEarningsFactorChange: ({ currentTarget: { value }, }: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 // Table

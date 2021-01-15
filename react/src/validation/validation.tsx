@@ -152,6 +152,26 @@ export const validateClass2Or3Payload = (
     }
   }
 
+  if(!payload.earningsFactor) {
+    errors.earningsFactor = {
+      name: 'earningsFactor',
+      link: 'earningsFactor',
+      message: 'Total earnings factor must be entered'
+    }
+  } else if(isNaN(+payload.earningsFactor)) {
+    errors.earningsFactor = {
+      name: 'earningsFactor',
+      link: 'earningsFactor',
+      message: 'Total earnings factor must be an amount of money'
+    }
+  } else if(parseFloat(payload.earningsFactor) < 0) {
+    errors.earningsFactor = {
+      name: 'earningsFactor',
+      link: 'earningsFactor',
+      message: 'Total earnings factor must be an amount of money greater than zero'
+    }
+  }
+
   if(Object.keys(errors).length > 0) {
     setErrors(errors)
   }

@@ -8,17 +8,18 @@ import DateInputs from '../../helpers/formhelpers/DateInputs'
 import Radios from '../../helpers/formhelpers/Radios'
 
 // types
-import {Class2Or3FormProps} from '../../../interfaces'
 import {Class2Or3Context} from './Class2Or3Context'
+import CurrencyInput from "../../helpers/gov-design-system/CurrencyInput";
 
 
-function Class2Or3Form(props: Class2Or3FormProps) {
-  const {earningsFactor, handleEarningsaFactorChange} = props
+function Class2Or3Form() {
   const [day, setDay] = useState('')
   const [month, setMonth] = useState('')
   const [year, setYear] = useState('')
 
   const {
+    earningsFactor,
+    setEarningsFactor,
     activeClass,
     setActiveClass,
     class2TaxYears,
@@ -79,13 +80,13 @@ function Class2Or3Form(props: Class2Or3FormProps) {
         error={errors.paymentEnquiryDate}
       />
 
-      <TextInput
-        labelText="Total earnings factor"
-        name="earnings-factor"
+      <CurrencyInput
+        id="earningsFactor"
+        label="Total earnings factor"
+        value={earningsFactor}
+        error={errors.earningsFactor}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEarningsFactor(e.target.value)}
         hint="This must include an element of Class 1"
-        inputClassName="form-control full"
-        inputValue={earningsFactor}
-        onChangeCallback={handleEarningsaFactorChange}
       />
 
       <div className="container">

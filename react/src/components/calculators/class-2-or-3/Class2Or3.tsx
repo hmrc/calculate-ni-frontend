@@ -35,12 +35,6 @@ export default function Class2Or3() {
   }: React.ChangeEvent<HTMLInputElement>) => {
     setDetails({ [name]: value })
   }
-
-  const handleEarningsaFactorChange = ({
-    currentTarget: { value },
-  }: React.ChangeEvent<HTMLInputElement>) => {
-    setEarningsFactor(value)
-  }
   
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
@@ -105,10 +99,7 @@ export default function Class2Or3() {
 
           <form onSubmit={handleSubmit} noValidate>
             <div className="form-group table-wrapper">
-              <Class2Or3Form
-                earningsFactor={earningsFactor}
-                handleEarningsaFactorChange={handleEarningsaFactorChange}
-              />
+              <Class2Or3Form />
             </div>
           </form>
 
