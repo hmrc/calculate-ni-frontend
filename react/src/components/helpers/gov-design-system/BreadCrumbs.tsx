@@ -12,7 +12,7 @@ export default function BreadCrumbs() {
     <div className="govuk-breadcrumbs">
       <ol className="govuk-breadcrumbs__list">
         <li className="govuk-breadcrumbs__list-item">
-          <a href={"/calculate-ni"}>Home</a>
+          <Link className="govuk-breadcrumbs__link" to="/">Home</Link>
         </li>
         {currentRoute && currentRoute.pathname !== '/' &&
           <li className="govuk-breadcrumbs__list-item">

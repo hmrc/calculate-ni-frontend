@@ -7,13 +7,14 @@ import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import Class2Or3Form from './Class2Or3Form'
 
 // types
-import {Class2Or3Context} from './Class2Or3Context'
+import {Class2Or3Context, useClass2Or3Form} from './Class2Or3Context'
 import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 import {hasKeys} from "../../../services/utils";
+import {Route} from "react-router-dom";
 
 const pageTitle = 'Class 2 or 3 NI contributions needed for a qualifying year'
 
-export default function Class2Or3() {
+const Class2Or3Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const {
     ClassOneCalculator,
@@ -114,3 +115,11 @@ export default function Class2Or3() {
     </main>
   )
 }
+
+const Class2Or3 = () => (
+  <Class2Or3Context.Provider value={useClass2Or3Form()}>
+    <Class2Or3Page />
+  </Class2Or3Context.Provider>
+)
+
+export default Class2Or3
