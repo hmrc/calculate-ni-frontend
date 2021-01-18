@@ -77,8 +77,16 @@ lazy val microservice = Project(appName, file("."))
     libraryDependencies              ++= Seq(
       "uk.gov.hmrc"             %% "bootstrap-frontend-play-27" % "3.0.0",
       "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "0.21.0-play-27",
-      "uk.gov.hmrc"             %% "play-frontend-govuk"        % "0.53.0-play-27"
+      "uk.gov.hmrc"             %% "play-frontend-govuk"        % "0.53.0-play-27",
+      "com.github.pureconfig"   %% "pureconfig"                 % "0.13.0",
+      "org.typelevel"           %% "cats-core"                  % "2.1.1",
+      "org.typelevel"           %% "spire"                      % "0.16.2"
     ),
+    libraryDependencies ++= Seq(
+      "io.circe" %%% "circe-core",
+      "io.circe" %%% "circe-generic",
+      "io.circe" %%% "circe-parser"
+    ).map(_ % circeVersion),
     libraryDependencies              ++= Seq(
       "uk.gov.hmrc"             %% "bootstrap-test-play-27"   % "3.0.0",
       "org.scalatest"           %% "scalatest"                % "3.1.2",
@@ -94,13 +102,17 @@ lazy val microservice = Project(appName, file("."))
       "uk.gov.hmrc.govukfrontend.views.html.helpers._",
       "uk.gov.hmrc.hmrcfrontend.views.html.components._"
     ),
+    play.sbt.routes.RoutesKeys.routesImport += "uk.gov.hmrc.calculatenifrontend.controllers.Binders._",
     scalacOptions += "-P:silencer:pathFilters=routes",
+    scalacOptions += "-Ypartial-unification",
     libraryDependencies ++= Seq(
       compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
       "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
     ),
     PlayKeys.playDefaultPort := 8668,
-    reactDirectory := (baseDirectory in Compile) { _ /"react" }.value,    
+    reactDirectory := (baseDirectory in Compile) { _ /"react" }.value,
+    unmanagedSourceDirectories in Compile ++= ((unmanagedSourceDirectories in Compile) in common.jvm).value,
+    unmanagedResources in Compile += file("national-insurance.conf"),
     dist := (dist dependsOn moveReact).value // ,
     // (Test / test) := ((Test / test) dependsOn (calc / Test / test)).value
   )

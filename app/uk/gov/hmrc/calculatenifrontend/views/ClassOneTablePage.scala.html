@@ -1,0 +1,74 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.calculatenifrontend.config.AppConfig
+@import eoi._
+@import java.time.LocalDate
+
+@this(layout: Layout)
+
+@(selectedInterval: LocalDate, intervals: List[(LocalDate, String)], selectedCategory: Char, categories: List[Char], bands: List[(String, RateDefinition)])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+
+@layout(pageTitle = Some("calculate-ni-frontend")) {
+<h1 class="govuk-heading-xl">calculate-ni-frontend</h1>
+
+<form method="GET">
+  <select name="date">
+    @intervals.map { case (k,v) => 
+      <option value="@{k.toString}" @if(k == selectedInterval){selected}>@v</option>    
+    }
+  </select>
+
+  <select name="category">
+
+    @categories.map { k => 
+      <option value="@{k.toString}" @if(k == selectedCategory){selected}>@k</option>    
+    }
+  </select>
+
+  <input type="submit" />
+
+  @bands.map { case (name, band) => 
+  <h2>@name</h2>
+  <table>
+    <tr>
+      <th>Weekly</th>
+      <td>@{band.effectiveWeek.lowerValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>      
+      <th>To</th>
+      <td>@{band.effectiveWeek.upperValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>            
+    </tr>
+    <tr>
+      <th>Monthly</th>
+      <td>@{band.effectiveMonth.lowerValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>      
+      <th>To</th>
+      <td>@{band.effectiveMonth.upperValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>            
+    </tr>
+    <tr>
+      <th>Annually</th>
+      <td>@{band.year.lowerValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>      
+      <th>To</th>
+      <td>@{band.year.upperValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>            
+     </tr>
+    <tr>
+      <th>Employee Rate</th>
+      <td>@{band.employee.getOrElse(selectedCategory, BigDecimal(0)) * 100}%</td>      
+      <th>Employer Rate</th>
+      <td>@{band.employer.getOrElse(selectedCategory, BigDecimal(0)) * 100}%</td>      
+    </tr>
+  </table>
+  }
+</form>
+}

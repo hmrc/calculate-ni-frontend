@@ -1,3 +1,19 @@
+/*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package eoi
 
 import java.time.LocalDate
@@ -13,7 +29,12 @@ case class RateDefinition(
   employer: Map[Char, BigDecimal] = Map.empty,
   contractedOutStandardRate: Option[Boolean] = None,
   trigger: Bands = Bands.all
-)
+) {
+  def effectiveYear = year
+  def effectiveMonth = month.getOrElse(year / 12)
+  def effectiveWeek = month.getOrElse(year / 52)
+  def effectiveFourWeek = month.getOrElse(year / 13)    
+}
 
 case class ClassTwo(
   weeklyRate: BigDecimal,
@@ -161,9 +182,9 @@ case class Configuration(
     defs.collect { case (k,d) if d.contractedOutStandardRate.fold(true)(_ == contractedOutStandardRate) && d.trigger.interval(period, qty).contains(amount) => 
       val interval = period match {
         case Period.Year => d.year
-        case Period.Month => (d.month.getOrElse((d.year / 12)) * qty).mapBounds(_.roundUpWhole)
-        case Period.Week => (d.week.getOrElse((d.year / 52)) * qty).mapBounds(_.roundUpWhole)
-        case Period.FourWeek => (d.fourWeek.getOrElse((d.year / 13)) * qty).mapBounds(_.roundUpWhole)
+        case Period.Month => (d.effectiveMonth * qty).mapBounds(_.roundUpWhole)
+        case Period.Week => (d.effectiveWeek * qty).mapBounds(_.roundUpWhole)
+        case Period.FourWeek => (d.effectiveFourWeek * qty).mapBounds(_.roundUpWhole)
       }
       val amountInBand = amount.inBand(interval)
       val employeeRate = d.employee.getOrElse(cat, BigDecimal(0))
