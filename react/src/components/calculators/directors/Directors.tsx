@@ -15,7 +15,6 @@ import {defaultRows, DirectorsContext, useDirectorsForm} from "./DirectorsContex
 
 // services
 import {updateRowInResults, extractTaxYearFromDate} from "../../../services/utils";
-import {Route} from "react-router-dom";
 
 const pageTitle = 'Directors’ contributions'
 

@@ -10,6 +10,7 @@ import Radios from '../../helpers/formhelpers/Radios'
 import {Class2Or3Context} from './Class2Or3Context'
 import CurrencyInput from "../../helpers/gov-design-system/CurrencyInput";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
+import {NiClassName} from "../../../config";
 
 
 function Class2Or3Form() {
@@ -35,7 +36,7 @@ function Class2Or3Form() {
   } = useContext(Class2Or3Context)
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const taxYears = activeClass === 'Class 2' ? class2TaxYears : class3TaxYears
+    const taxYears = activeClass === NiClassName.CLASS_TWO ? class2TaxYears : class3TaxYears
     setTaxYear(taxYears.find(ty => ty.id === e.target.value) || taxYears[0])
   }
 
@@ -45,7 +46,7 @@ function Class2Or3Form() {
       setPaymentEnquiryDate(paymentEnquiryDate)
   }, [day, month, year, setPaymentEnquiryDate])
 
-  const handleClassChange = (value: string) => {
+  const handleClassChange = (value: NiClassName) => {
     setActiveClass(value)
   }
 
@@ -70,18 +71,25 @@ function Class2Or3Form() {
       <Radios
         legend="Select the National insurance class"
         name="nationalInsuranceClass"
-        items={['Class 2', 'Class 3']}
-        conditionalRevealChildren={[
-          <SelectTaxYear
-            taxYears={class2TaxYears}
-            taxYear={taxYear}
-            handleTaxYearChange={handleTaxYearChange}
-          />,
-          <SelectTaxYear
-            taxYears={class3TaxYears}
-            taxYear={taxYear}
-            handleTaxYearChange={handleTaxYearChange}
-          />
+        items={[
+          {
+            label: 'Class 2',
+            value: NiClassName.CLASS_TWO,
+            conditionalContent: <SelectTaxYear
+              taxYears={class2TaxYears}
+              taxYear={taxYear}
+              handleTaxYearChange={handleTaxYearChange}
+            />
+          },
+          {
+            label: 'Class 3',
+            value: NiClassName.CLASS_THREE,
+            conditionalContent: <SelectTaxYear
+              taxYears={class3TaxYears}
+              taxYear={taxYear}
+              handleTaxYearChange={handleTaxYearChange}
+            />
+          }
         ]}
         handleChange={handleClassChange}
         selected={activeClass}

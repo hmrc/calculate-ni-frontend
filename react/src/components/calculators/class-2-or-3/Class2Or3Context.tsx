@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react'
-import {buildTaxYears} from "../../../config";
+import {buildTaxYears, NiClassName} from "../../../config";
 
 // types
 import {Class1S, DetailsProps, TaxYear} from '../../../interfaces'
@@ -109,7 +109,7 @@ export function useClass2Or3Form() {
   const [year, setYear] = useState('')
 
   useEffect(() => {
-    const taxYears = activeClass === 'Class 2' ? class2TaxYears : class3TaxYears
+    const taxYears = activeClass === NiClassName.CLASS_TWO ? class2TaxYears : class3TaxYears
     setTaxYear(taxYears[0])
   }, [activeClass])
 
