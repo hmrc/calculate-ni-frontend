@@ -11,14 +11,15 @@ import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
 import {Calculated, Calculators, DirectorsRow, GovDateRange, TaxYear} from '../../../interfaces'
-import {defaultRows, DirectorsContext} from "./DirectorsContext";
+import {defaultRows, DirectorsContext, useDirectorsForm} from "./DirectorsContext";
 
 // services
 import {updateRowInResults, extractTaxYearFromDate} from "../../../services/utils";
+import {Route} from "react-router-dom";
 
 const pageTitle = 'Directors’ contributions'
 
-function Directors() {
+const DirectorsPage = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const [dateRange, setDateRange] = useState<GovDateRange>((() => ({from: null, to: null})))
   const {
@@ -188,5 +189,11 @@ function Directors() {
     </main>
   )
 }
+
+const Directors = () => (
+  <DirectorsContext.Provider value={useDirectorsForm()}>
+    <DirectorsPage />
+  </DirectorsContext.Provider>
+)
 
 export default Directors

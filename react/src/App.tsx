@@ -29,9 +29,6 @@ import Class3 from './components/calculators/class-3/Class3'
 import InterestClass1 from './components/calculators/interest-class-1/InterestClass1'
 import InterestRefunds from './components/calculators/interest-refunds/InterestRefunds'
 import BreadCrumbs from "./components/helpers/gov-design-system/BreadCrumbs";
-import {ClassOneContext, useClassOneForm} from "./components/calculators/class1/ClassOneContext";
-import {DirectorsContext, useDirectorsForm} from "./components/calculators/directors/DirectorsContext";
-import { Class2Or3Context, useClass2Or3Form } from './components/calculators/class-2-or-3/Class2Or3Context';
 
 function App() {    
   const serviceName = "Calculate National Insurance contributions"
@@ -44,22 +41,16 @@ function App() {
             <BreadCrumbs />
             <Switch>
               <Route path="/class-1">
-                <ClassOneContext.Provider value={useClassOneForm()}>
-                  <Class1 />
-                </ClassOneContext.Provider>
+                <Class1 />
               </Route>
               <Route path="/directors">
-                <DirectorsContext.Provider value={useDirectorsForm()}>
-                  <Directors />
-                </DirectorsContext.Provider>
+                <Directors />
               </Route>
               <Route path="/unofficial-deferment">
                 <UnofficialDeferment />
               </Route>
               <Route path="/class-2-or-3">
-                <Class2Or3Context.Provider value={useClass2Or3Form()}>
-                  <Class2Or3 />
-                </Class2Or3Context.Provider>
+                <Class2Or3 />
               </Route>
               <Route path="/class-3">
                 <Class3 />

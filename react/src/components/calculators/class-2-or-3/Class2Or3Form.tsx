@@ -38,7 +38,7 @@ function Class2Or3Form() {
 
   useEffect(() => {
     const paymentEnquiryDate = validDateParts(day, month, year) ?
-      new Date(`${day}, ${month}, ${year}`) : null
+      new Date(`${year}-${month}-${day}`) : null
       setPaymentEnquiryDate(paymentEnquiryDate)
   }, [day, month, year, setPaymentEnquiryDate])
 
