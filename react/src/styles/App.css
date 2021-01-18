@@ -167,6 +167,10 @@ fieldset legend {
   justify-content: space-between;
 }
 
+.container.container-block {
+  display: block;
+}
+
 @media screen and (min-width: 760px) {
   .container {
     clear: both;

@@ -1,4 +1,6 @@
 import moment from 'moment'
+import numeral from 'numeral'
+import 'numeral/locales/en-gb';
 import {
   Calculated,
   DirectorsRow,
@@ -88,6 +90,13 @@ export function validDateParts(day: string, month: string, year: string) {
   return day && month && year && moment(`${year}-${month}-${day}`, 'YYYY-M-D').isValid()
 }
 
+export const govDateString = (date: Date) => moment(date).format(govDateFormat)
+export const dateStringSlashSeparated = (date: Date) => moment(date).format('DD/MM/YYYY')
+
+export const goveDateRangeString = (dateRangeObject: TaxYear) => {
+  return `${moment(dateRangeObject.from).format(govDateFormat)} - ${moment(dateRangeObject.to).format(govDateFormat)}`
+}
+
 export const govDateFormat = 'D MMMM YYYY'
 
 interface DescribedByKeys {
@@ -113,3 +122,5 @@ export const buildDescribedByKeys = (
 
   return keys.join(' ')
 }
+
+export const sterlingStringValue = (value: string) => numeral(value).format('$0,0.00')

@@ -47,6 +47,12 @@ interface Class2Or3Context {
   taxYear: TaxYear,
   setTaxYear: Dispatch<TaxYear>,
   paymentEnquiryDate: Date | null,
+  day: string,
+  setDay: Dispatch<string>
+  month: string,
+  setMonth: Dispatch<string>
+  year: string,
+  setYear: Dispatch<string>
   setPaymentEnquiryDate: Dispatch<SetStateAction<Date | null>>
   earningsFactor: string
   setEarningsFactor: Dispatch<string>
@@ -73,6 +79,12 @@ export const Class2Or3Context = React.createContext<Class2Or3Context>(
     setActiveClass: () => {},
     taxYear: class2TaxYears[0],
     setTaxYear: () => {},
+    day: '',
+    setDay: () => {},
+    month: '',
+    setMonth: () => {},
+    year: '',
+    setYear: () => {},
     paymentEnquiryDate: null,
     setPaymentEnquiryDate: () => {},
     earningsFactor: '',
@@ -92,6 +104,9 @@ export function useClass2Or3Form() {
   const [paymentEnquiryDate, setPaymentEnquiryDate] = useState<Date | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [result, setResult] = useState<Class2Or3Result | null>(null)
+  const [day, setDay] = useState('')
+  const [month, setMonth] = useState('')
+  const [year, setYear] = useState('')
 
   useEffect(() => {
     const taxYears = activeClass === 'Class 2' ? class2TaxYears : class3TaxYears
@@ -108,6 +123,12 @@ export function useClass2Or3Form() {
     setActiveClass,
     taxYear,
     setTaxYear,
+    day,
+    setDay,
+    month,
+    setMonth,
+    year,
+    setYear,
     paymentEnquiryDate,
     setPaymentEnquiryDate,
     earningsFactor,

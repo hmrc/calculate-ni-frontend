@@ -13,10 +13,6 @@ import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 
 
 function Class2Or3Form() {
-  const [day, setDay] = useState('')
-  const [month, setMonth] = useState('')
-  const [year, setYear] = useState('')
-
   const {
     earningsFactor,
     setEarningsFactor,
@@ -25,9 +21,16 @@ function Class2Or3Form() {
     class2TaxYears,
     class3TaxYears,
     taxYear,
-    setTaxYear, 
+    setTaxYear,
+    day,
+    setDay,
+    month,
+    setMonth,
+    year,
+    setYear,
     setPaymentEnquiryDate,
     errors,
+    setErrors,
     setResult
   } = useContext(Class2Or3Context)
 
@@ -44,7 +47,6 @@ function Class2Or3Form() {
 
   const handleClassChange = (value: string) => {
     setActiveClass(value)
-    setPaymentEnquiryDate(null)
   }
 
   const handleClearForm = () => {
@@ -58,6 +60,9 @@ function Class2Or3Form() {
 
     // clear results
     setResult(null)
+
+    // reset errors
+    setErrors({})
   }
 
   return (
@@ -104,14 +109,11 @@ function Class2Or3Form() {
         hint="This must include an element of Class 1"
       />
 
-      <div className="container">
+      <div className="container container-block">
         <div className="form-group">
-          <button className="govuk-button nomar" type="submit">
+          <button className="govuk-button govuk-!-margin-right-1" type="submit">
             Calculate
           </button>
-        </div>
-
-        <div className="form-group">
           <SecondaryButton
             label="Clear"
             onClick={handleClearForm}

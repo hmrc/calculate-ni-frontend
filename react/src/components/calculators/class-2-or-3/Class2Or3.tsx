@@ -104,14 +104,14 @@ const Class2Or3Page = () => {
           />
 
           <form onSubmit={handleSubmit} noValidate>
-            <div className="form-group table-wrapper">
+            <div className="form-group table-wrapper nomar">
               <Class2Or3Form />
             </div>
           </form>
 
           <Class2Or3Results />
 
-          <div className="container">
+          <div className="container section--top">
             <div className="form-group">
               <SecondaryButton
                 label="Save and print"

@@ -7,6 +7,9 @@
 }
 
 .section--bottom {
-  margin-bottom: 15px;
   padding-bottom: 15px;
+}
+
+.section--top {
+  padding-top: 15px;
 }
