@@ -10,10 +10,9 @@ import {Class12Or3SavePrintProps} from "../../../interfaces";
 import {Class2Or3Context} from "./Class2Or3Context";
 
 function Class2Or3Print(props: Class12Or3SavePrintProps) {
-  const {setShowSummary, title, result} = props
+  const {setShowSummary, title} = props
   const {
-    details,
-      activeClass
+    details
   } = useContext(Class2Or3Context)
   return (
       <>

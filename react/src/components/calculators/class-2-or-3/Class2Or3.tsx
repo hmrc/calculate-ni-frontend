@@ -12,7 +12,6 @@ import Class2Or3Print from './Class2Or3Print'
 import {Class2Or3Context, useClass2Or3Form} from './Class2Or3Context'
 import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 import {hasKeys} from "../../../services/utils";
-import {Route} from "react-router-dom";
 
 const pageTitle = 'Class 2 or 3 NI contributions needed for a qualifying year'
 
