@@ -617,7 +617,7 @@ input:focus, textarea:focus, select:focus, .button:focus {
 }
 
 
-/* Secondary button */
+/*!* Secondary button *!*/
 .govuk-button--secondary, .govuk-button--secondary:link, .govuk-button--secondary:visited, .govuk-button--secondary:active, .govuk-button--secondary:hover {
   color: #0b0c0c;
 }
@@ -644,6 +644,11 @@ input:focus, textarea:focus, select:focus, .button:focus {
   outline: 3px solid transparent;
   -webkit-box-shadow: inset 0 0 0 1px #fd0;
   box-shadow: inset 0 0 0 1px #fd0;
+}
+@media (min-width: 641px) {
+  .govuk-button, .govuk-button--secondary {
+    width: auto;
+  }
 }
 
 /* Warning button */
