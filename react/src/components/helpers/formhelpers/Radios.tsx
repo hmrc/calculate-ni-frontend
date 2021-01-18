@@ -1,65 +1,82 @@
 import React from 'react'
-import {GenericErrors} from "../../../validation/validation";
+import {ErrorMessage} from "../../../validation/validation";
+import {buildDescribedByKeys} from "../../../services/utils";
+import InlineError from "../gov-design-system/InlineError";
+
+interface RadioItem {
+  label: string
+  value: string
+  conditionalContent: React.ReactElement | null
+}
 
 interface RadiosProps {
+  hint?: string
   isPageHeading?: boolean
   legend: string
   name: string
-  items: Array<string>
-  conditionalRevealChildren?: (React.ReactElement | null)[]
+  items: Array<RadioItem>
   handleChange: Function;
   selected: string | null;
-  errors: GenericErrors
+  error: ErrorMessage
 }
 
 function Radios(props: RadiosProps) {
-  const { name, legend, isPageHeading, items, selected, handleChange, errors, conditionalRevealChildren } = props
+  const { hint, name, legend, isPageHeading, items, selected, handleChange, error } = props
+  const describedBy = buildDescribedByKeys(name, {
+    hint,
+    error
+  })
   return (
-    <div className={`govuk-form-group${errors[name] ? ` govuk-form-group--error` : ``}`}>
-      <fieldset className="govuk-fieldset" id={name}>
-        <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
-          {isPageHeading ?
+    <div className={`govuk-form-group${error ? ` govuk-form-group--error` : ``}`}>
+      <fieldset
+        className="govuk-fieldset" id={name}
+        aria-describedby={describedBy}
+      >
+
+        {isPageHeading ?
+          <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
             <h1 className="govuk-fieldset__heading">
               {legend}
             </h1>
-          :
-            legend
-          }
-        </legend>
+          </legend>
+        :
+          <legend className="govuk-fieldset__legend govuk-fieldset__legend--s">
+            {legend}
+          </legend>
+        }
 
-        {errors[name] ? <span className="govuk-error-message">{errors[name]?.message}</span> : null}
+        {hint && <span id={`${name}-hint`} className="govuk-hint">{hint}</span>}
+        {error && <InlineError id={name} errorMessage={error.message} />}
         
         <div className="govuk-radios">
-          {items.map((item, index) => {
-            return (
-              <React.Fragment key={`${name}-${item}`}>
-                <div className="govuk-radios__item">
-                  <input 
-                    className="govuk-radios__input" 
-                    id={`${name}-${item}`}
-                    name={name}
-                    type="radio" 
-                    value={item}
-                    checked={selected === item}
-                    onChange={e => {
-                      handleChange(e.target.value)
-                    }}
-                  />
-                  <label className="govuk-label govuk-radios__label" htmlFor={`${name}-${item}`}>
-                    {item}
-                  </label>
+          {items.map((item: RadioItem) => (
+            <React.Fragment key={`${name}-${item.value}`}>
+              <div className="govuk-radios__item">
+                <input
+                  className="govuk-radios__input"
+                  id={`${name}-${item.value}`}
+                  name={name}
+                  type="radio"
+                  value={item.value}
+                  checked={selected === item.value}
+                  onChange={e => {
+                    handleChange(e.target.value)
+                  }}
+                />
+                <label className="govuk-label govuk-radios__label" htmlFor={`${name}-${item.value}`}>
+                  {item.label}
+                </label>
+              </div>
+
+              {item.conditionalContent && selected === item.value && (
+                <div className="govuk-radios__conditional" id={`conditional-${name}-${item.value}`}>
+                  {item.conditionalContent}
                 </div>
+              )}
 
-                {/* Conditionally Revealing Content */}
-                {conditionalRevealChildren && conditionalRevealChildren.length > 0 && selected === item &&
-                  <div className="govuk-radios__conditional" id="conditional-contact">
-                    {conditionalRevealChildren[index]}
-                  </div>
-                }
-
-              </React.Fragment>
-            )
-          })}
+            </React.Fragment>
+          )
+          )}
         </div>
 
       </fieldset>

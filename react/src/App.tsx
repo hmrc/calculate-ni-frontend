@@ -9,11 +9,13 @@ import {
 import './styles/application.scss';
 import './styles/gov-polyfill.css';
 import './styles/App.css';
+import './styles/Layout.css';
 import './styles/Typography.css';
 import './styles/Forms.css';
 import './styles/Tables.css'
 import './styles/Errors.css';
 import './styles/SavePrint.css';
+import './styles/Results.css';
 
 // components
 import Header from './components/helpers/hmrc-design-system/Header'
@@ -27,8 +29,6 @@ import Class3 from './components/calculators/class-3/Class3'
 import InterestClass1 from './components/calculators/interest-class-1/InterestClass1'
 import InterestRefunds from './components/calculators/interest-refunds/InterestRefunds'
 import BreadCrumbs from "./components/helpers/gov-design-system/BreadCrumbs";
-import {ClassOneContext, useClassOneForm} from "./components/calculators/class1/ClassOneContext";
-import {DirectorsContext, useDirectorsForm} from "./components/calculators/directors/DirectorsContext";
 
 function App() {    
   const serviceName = "Calculate National Insurance contributions"
@@ -41,14 +41,10 @@ function App() {
             <BreadCrumbs />
             <Switch>
               <Route path="/class-1">
-                <ClassOneContext.Provider value={useClassOneForm()}>
-                  <Class1 />
-                </ClassOneContext.Provider>
+                <Class1 />
               </Route>
               <Route path="/directors">
-                <DirectorsContext.Provider value={useDirectorsForm()}>
-                  <Directors />
-                </DirectorsContext.Provider>
+                <Directors />
               </Route>
               <Route path="/unofficial-deferment">
                 <UnofficialDeferment />

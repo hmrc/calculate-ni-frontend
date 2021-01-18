@@ -21,6 +21,13 @@ interface DirectorsPayload {
   rows: Array<DirectorsRow>
 }
 
+interface Class2Or3Payload {
+  paymentEnquiryDate: Date | null
+  earningsFactor: string
+  taxYear: TaxYear,
+  activeClass: string
+}
+
 export interface ErrorMessage {
   name: string
   link: string
@@ -41,6 +48,12 @@ export interface RowsErrors {
     [rowName: string]: ErrorMessage
   }
 }
+
+const beforeMinimumTaxYear = (date: Date, minDate: Date) =>
+  moment(date).isBefore(moment(minDate))
+
+const afterMaximumTaxYear = (date: Date, maxDate: Date) =>
+  moment(date).isAfter(moment(maxDate))
 
 export const validateClassOnePayload = (
   payload: ClassOnePayload,
@@ -105,6 +118,67 @@ export const validateDirectorsPayload = (
   return isEmpty(rowErrors) && isEmpty(errors)
 }
 
+export const validateClass2Or3Payload = (
+  payload: Class2Or3Payload,
+  setErrors: Dispatch<GenericErrors>
+) => {
+  const minDate = payload.taxYear.from
+  const maxDate = payload.taxYear.to
+  let errors: GenericErrors = {}
+  if(!payload.activeClass) {
+    errors.nationalInsuranceClass = {
+      name: 'nationalInsuranceClass',
+      link: 'nationalInsuranceClass',
+      message: 'Select either Class 2 or Class 3'
+    }
+  }
+  if(!payload.paymentEnquiryDate) {
+    errors.paymentEnquiryDate = {
+      name: 'paymentEnquiryDate',
+      link: 'paymentEnquiryDateDay',
+      message: 'Payment/enquiry date must be entered as a real date'
+    }
+  } else if(beforeMinimumTaxYear(payload.paymentEnquiryDate, minDate)) {
+    errors.paymentEnquiryDate = {
+      name: 'paymentEnquiryDate',
+      link: 'paymentEnquiryDateDay',
+      message: `Payment/enquiry date must be on or after ${moment(minDate).format(govDateFormat)}`
+    }
+  } else if (afterMaximumTaxYear(payload.paymentEnquiryDate, maxDate)) {
+    errors.paymentEnquiryDate = {
+      name: 'paymentEnquiryDate',
+      link: 'paymentEnquiryDateDay',
+      message: `Payment/enquiry date must be on or before ${moment(maxDate).format(govDateFormat)}`
+    }
+  }
+
+  if(!payload.earningsFactor) {
+    errors.earningsFactor = {
+      name: 'earningsFactor',
+      link: 'earningsFactor',
+      message: 'Total earnings factor must be entered'
+    }
+  } else if(isNaN(+payload.earningsFactor)) {
+    errors.earningsFactor = {
+      name: 'earningsFactor',
+      link: 'earningsFactor',
+      message: 'Total earnings factor must be an amount of money'
+    }
+  } else if(parseFloat(payload.earningsFactor) < 0) {
+    errors.earningsFactor = {
+      name: 'earningsFactor',
+      link: 'earningsFactor',
+      message: 'Total earnings factor must be an amount of money greater than zero'
+    }
+  }
+
+  if(Object.keys(errors).length > 0) {
+    setErrors(errors)
+  }
+
+  return isEmpty(errors)
+}
+
 const validateRows = (rows: Array<Row | DirectorsRow>) => {
   const rowsErrors: RowsErrors = {}
   rows.forEach(r => {
@@ -128,12 +202,6 @@ const validateRows = (rows: Array<Row | DirectorsRow>) => {
 
   return rowsErrors as RowsErrors
 }
-
-const beforeMinimumTaxYear = (date: Date, minDate: Date) =>
-  moment(date).isBefore(moment(minDate))
-
-const afterMaximumTaxYear = (date: Date, maxDate: Date) =>
-  moment(date).isAfter(moment(maxDate))
 
 const validateDirectorshipDates = (dateRange: GovDateRange, taxYears: TaxYear[]) => {
   const dateRangeErrors: GenericErrors = {}

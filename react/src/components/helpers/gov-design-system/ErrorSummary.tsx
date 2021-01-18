@@ -1,13 +1,18 @@
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 
 import { ErrorSummaryProps } from '../../../interfaces'
+import {hasKeys} from "../../../services/utils";
 
 function ErrorSummary(props: ErrorSummaryProps) {
   const { errors, rowsErrors } = props
+  const [isNew, setIsNew] = useState<boolean>(true)
   const summaryRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
-    summaryRef.current?.focus()
-  }, [errors, rowsErrors])
+    if(isNew && hasKeys(errors)) {
+      summaryRef.current?.focus()
+    }
+    return () => setIsNew(false)
+  }, [isNew, errors])
   return (
     <div ref={summaryRef} className="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabIndex={-1} data-module="govuk-error-summary">
       <h2 className="govuk-error-summary__title" id="error-summary-title">

@@ -3,6 +3,7 @@
 import {PeriodLabel, PeriodValue} from "../config";
 import {RowsErrors, GenericErrors} from "../validation/validation";
 import {Dispatch, SetStateAction} from "react";
+import {Class2Or3Result} from "../components/calculators/class-2-or-3/Class2Or3Context";
 
 export interface RouteName {
   pathname: string
@@ -66,6 +67,12 @@ export interface DirectorsRow {
   ee: string
   er: string
   bands?: Calculated
+}
+
+// Class 2 Or 3
+export interface Class2Or3FormProps {
+  earningsFactor: string
+  handleEarningsFactorChange: ({ currentTarget: { value }, }: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 // Table
@@ -135,7 +142,14 @@ export interface ErrorSummaryProps {
 export interface SavePrintBaseProps {
   title: string,
   setShowSummary: (v: boolean) => void
+}
+
+export interface Class1DirectorsSavePrintProps extends SavePrintBaseProps {
   calculatedRows: Calculated[]
+}
+
+export interface Class12Or3SavePrintProps extends SavePrintBaseProps {
+  result: Class2Or3Result | null
 }
 
 export interface CategoryTotalsProps {
@@ -153,6 +167,7 @@ export interface  SummaryListRowProps {
 export interface TextInputProps {
   labelText: string
   labelClass?: string
+  hint?: string
   hiddenLabel?: boolean 
   name: string
   inputClassName: string

@@ -16,7 +16,7 @@ import {DirectorsRow, DirectorsTableProps} from '../../../interfaces';
 
 numeral.locale('en-gb');
 
-function DirectorsForm(props: DirectorsTableProps) {
+export default function DirectorsForm(props: DirectorsTableProps) {
   const { handleShowSummary, resetTotals, setDateRange } = props
   const {
     taxYears,
@@ -63,31 +63,36 @@ function DirectorsForm(props: DirectorsTableProps) {
         </div>
       </div>
 
-      {/* TODO:  conditionalRevealChildren must allow an array of
-      ReactComponents or Nulls for instances where some radio options have no revealed content*/}
       <Radios
         legend="Earnings period"
         name="earningsPeriod"
-        items={[PeriodLabel.ANNUAL, PeriodLabel.PRORATA]}
-        conditionalRevealChildren={[
-          <SelectTaxYear
-            taxYears={taxYears}
-            taxYear={taxYear}
-            handleTaxYearChange={handleTaxYearChange}
-          />,
-          <DateRange
-            id="directorship"
-            setDateRange={setDateRange}
-            errors={errors}
-            legends={{
-              from: "Directorship from",
-              to: "Directorship to"
-            }}
-          />
+        items={[
+          {
+            label: PeriodLabel.ANNUAL,
+            value: PeriodLabel.ANNUAL,
+            conditionalContent: <SelectTaxYear
+              taxYears={taxYears}
+              taxYear={taxYear}
+              handleTaxYearChange={handleTaxYearChange}
+            />
+          },
+          {
+            label: PeriodLabel.PRORATA,
+            value: PeriodLabel.PRORATA,
+            conditionalContent: <DateRange
+              id="directorship"
+              setDateRange={setDateRange}
+              errors={errors}
+              legends={{
+                from: "Directorship from",
+                to: "Directorship to"
+              }}
+            />
+          }
         ]}
         handleChange={props.handlePeriodChange}
         selected={earningsPeriod}
-        errors={errors}
+        error={errors.earningsPeriod}
       />
 
       <DirectorsEarningsTable
@@ -117,5 +122,3 @@ function DirectorsForm(props: DirectorsTableProps) {
     </>
   )
 }
-
-export default DirectorsForm

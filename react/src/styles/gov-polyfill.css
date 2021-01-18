@@ -1,4 +1,4 @@
-.form-group {
+.custom-calculator .form-group {
   margin-bottom: 30px;
 }
 
@@ -14,7 +14,7 @@
   color: #6f777b;
 }
 
-input.form-control, input[type="text"], input[type="password"], textarea.form-control, textarea {
+input.form-control, .custom-calculator input[type="text"], .custom-calculator input[type="password"], .custom-calculator textarea.form-control, textarea {
   -webkit-appearance: none;
   border-radius: 0;
 }
@@ -441,7 +441,7 @@ table thead th {
 
 
 /* Typography */
-.govuk-heading-xl, .app-prose-scope h1 {
+.custom-calculator .govuk-heading-xl, .app-prose-scope h1 {
   color: #0b0c0c;
   font-family: "GDS Transport",arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -454,7 +454,7 @@ table thead th {
   margin-top: 0;
   margin-bottom: 30px;
 }
-.govuk-heading-l, .app-prose-scope h2 {
+.custom-calculator .govuk-heading-l, .app-prose-scope h2 {
   color: #0b0c0c;
   font-family: "GDS Transport",arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -468,7 +468,7 @@ table thead th {
   margin-bottom: 20px;
 }
 
-.govuk-heading-m, .app-contact-panel__heading, .app-prose-scope h3 {
+.custom-calculator .govuk-heading-m, .app-contact-panel__heading, .app-prose-scope h3 {
   color: #0b0c0c;
   font-family: "GDS Transport",arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -481,7 +481,7 @@ table thead th {
   margin-top: 0;
   margin-bottom: 15px;
 }
-.govuk-heading-s, .app-prose-scope h4 {
+.custom-calculator .govuk-heading-s, .app-prose-scope h4 {
   color: #0b0c0c;
   font-family: "GDS Transport",arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -496,74 +496,13 @@ table thead th {
 }
 
 /* Focus styles */
-.govuk-link:focus, a:focus, .app-step-nav-header__title:focus, .app-step-nav-related__link:focus {
+.custom-calculator .govuk-link:focus, a:focus, .app-step-nav-header__title:focus, .app-step-nav-related__link:focus {
   outline: 3px solid transparent;
   color: #0b0c0c;
   background-color: #ffdd00;
   box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
   text-decoration: none;
 }
-
-/* Skip link */
-.govuk-skip-link:link, .govuk-skip-link:visited, .govuk-skip-link:hover, .govuk-skip-link:active, .govuk-skip-link:focus {
-  color: #0b0c0c;
-}
-
-.govuk-skip-link {
-  padding-right: max(15px, calc(15px + env(safe-area-inset-right)));
-  padding-left: max(15px, calc(15px + env(safe-area-inset-left)));
-}
-
-@media (min-width: 760px) {
-  .govuk-skip-link {
-      font-size: 16px;
-      font-size: 1rem;
-      line-height: 1.25;
-  }
-}
-
-.govuk-skip-link {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  margin: 0 !important;
-  overflow: hidden !important;
-  clip: rect(0 0 0 0) !important;
-  -webkit-clip-path: inset(50%) !important;
-  clip-path: inset(50%) !important;
-  white-space: nowrap !important;
-  font-family: "GDS Transport",arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-size: 14px;
-  font-size: .875rem;
-  line-height: 1.14286;
-  display: block;
-  padding: 10px 15px;
-}
-
-.govuk-skip-link:focus {
-  outline: 3px solid #fd0;
-  outline-offset: 0;
-  background-color: #fd0;
-}
-
-.govuk-skip-link:active, .govuk-skip-link:focus {
-  position: static !important;
-  width: auto !important;
-  height: auto !important;
-  margin: inherit !important;
-  overflow: visible !important;
-  clip: auto !important;
-  -webkit-clip-path: none !important;
-  clip-path: none !important;
-  white-space: inherit !important;
-}
-
-
-
-
-
 
 .button, 
 .button:visited, 
@@ -651,10 +590,6 @@ input:focus, textarea:focus, select:focus, .button:focus {
   outline: 3px solid #ffbf47;
 }
 
-
-
-
-
 .govuk-button {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -682,16 +617,7 @@ input:focus, textarea:focus, select:focus, .button:focus {
 }
 
 
-
-
-
-
-
-
-
-
-
-/* Secondary button */
+/*!* Secondary button *!*/
 .govuk-button--secondary, .govuk-button--secondary:link, .govuk-button--secondary:visited, .govuk-button--secondary:active, .govuk-button--secondary:hover {
   color: #0b0c0c;
 }
@@ -718,6 +644,11 @@ input:focus, textarea:focus, select:focus, .button:focus {
   outline: 3px solid transparent;
   -webkit-box-shadow: inset 0 0 0 1px #fd0;
   box-shadow: inset 0 0 0 1px #fd0;
+}
+@media (min-width: 641px) {
+  .govuk-button, .govuk-button--secondary {
+    width: auto;
+  }
 }
 
 /* Warning button */

@@ -14,11 +14,11 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 
 // utils
 import {hasKeys, updateRowInResults} from "../../../services/utils";
-import {ClassOneContext, defaultRows} from "./ClassOneContext";
+import {ClassOneContext, defaultRows, useClassOneForm} from "./ClassOneContext";
 
 const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 
-function Class1() {
+const Class1Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const {
     ClassOneCalculator,
@@ -106,7 +106,7 @@ function Class1() {
       }) as Calculated[]
 
   return (
-    <main>
+    <div>
       {showSummary ?
         <Class1Print
           title={pageTitle}
@@ -153,7 +153,15 @@ function Class1() {
           </button>
         </div>
       )}
-    </main>
+    </div>
+  )
+}
+
+const Class1 = function () {
+  return (
+    <ClassOneContext.Provider value={useClassOneForm()}>
+      <Class1Page />
+    </ClassOneContext.Provider>
   )
 }
 

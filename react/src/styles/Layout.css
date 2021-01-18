@@ -1,0 +1,15 @@
+.divider--top {
+  border-top: 1px solid var(--border-divider);
+}
+
+.divider--bottom {
+  border-bottom: 1px solid var(--border-divider);
+}
+
+.section--bottom {
+  padding-bottom: 15px;
+}
+
+.section--top {
+  padding-top: 15px;
+}

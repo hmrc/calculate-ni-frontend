@@ -1,4 +1,6 @@
 import moment from 'moment'
+import numeral from 'numeral'
+import 'numeral/locales/en-gb';
 import {
   Calculated,
   DirectorsRow,
@@ -8,6 +10,7 @@ import {
   TotalType,
   TaxYear
 } from "../interfaces";
+import {ErrorMessage} from "../validation/validation";
 
 export const emptyStringToZero = (input: string) => input === '' ? 0 : parseFloat(input)
 
@@ -84,7 +87,40 @@ export const extractTaxYearFromDate = (date: Date, taxYears: TaxYear[]) => {
 }
 
 export function validDateParts(day: string, month: string, year: string) {
-  return day && month && year && moment(`${year}-${month}-${day}`).isValid()
+  return day && month && year && moment(`${year}-${month}-${day}`, 'YYYY-M-D').isValid()
+}
+
+export const govDateString = (date: Date) => moment(date).format(govDateFormat)
+export const dateStringSlashSeparated = (date: Date) => moment(date).format('DD/MM/YYYY')
+
+export const goveDateRangeString = (dateRangeObject: TaxYear) => {
+  return `${moment(dateRangeObject.from).format(govDateFormat)} - ${moment(dateRangeObject.to).format(govDateFormat)}`
 }
 
 export const govDateFormat = 'D MMMM YYYY'
+
+interface DescribedByKeys {
+  hint?: string,
+  error?: ErrorMessage,
+  extraContent?: Array<string>
+}
+export const buildDescribedByKeys = (
+  id: string,
+  describedByKeys: DescribedByKeys
+) => {
+  const keys = []
+  if (describedByKeys.hint) {
+    keys.push(`${id}-hint`)
+  }
+  if(describedByKeys.error) {
+    keys.push(`${id}-error`)
+  }
+
+  describedByKeys.extraContent && describedByKeys.extraContent.forEach(key => {
+    keys.push(`${id}-${key}`)
+  })
+
+  return keys.join(' ')
+}
+
+export const sterlingStringValue = (value: string) => numeral(value).format('$0,0.00')

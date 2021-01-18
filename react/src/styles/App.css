@@ -167,12 +167,20 @@ fieldset legend {
   justify-content: space-between;
 }
 
+.container.container-block {
+  display: block;
+}
+
 @media screen and (min-width: 760px) {
   .container {
     clear: both;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+  }
+
+  .container.column {
+    flex-direction: column;
   }
 }
 
@@ -235,6 +243,10 @@ fieldset legend {
 
 .clear-both {
   clear: both;
+}
+
+.block {
+  display: block;
 }
 
 /* Section Specific */
