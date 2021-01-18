@@ -9,6 +9,7 @@ import Radios from '../../helpers/formhelpers/Radios'
 // types
 import {Class2Or3Context} from './Class2Or3Context'
 import CurrencyInput from "../../helpers/gov-design-system/CurrencyInput";
+import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 
 
 function Class2Or3Form() {
@@ -26,7 +27,8 @@ function Class2Or3Form() {
     taxYear,
     setTaxYear, 
     setPaymentEnquiryDate,
-    errors
+    errors,
+    setResult
   } = useContext(Class2Or3Context)
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -42,6 +44,20 @@ function Class2Or3Form() {
 
   const handleClassChange = (value: string) => {
     setActiveClass(value)
+    setPaymentEnquiryDate(null)
+  }
+
+  const handleClearForm = () => {
+    // clear form
+    setActiveClass('')
+    setPaymentEnquiryDate(null)
+    setDay('')
+    setMonth('')
+    setYear('')
+    setEarningsFactor('')
+
+    // clear results
+    setResult(null)
   }
 
   return (
@@ -93,6 +109,13 @@ function Class2Or3Form() {
           <button className="govuk-button nomar" type="submit">
             Calculate
           </button>
+        </div>
+
+        <div className="form-group">
+          <SecondaryButton
+            label="Clear"
+            onClick={handleClearForm}
+          />
         </div>
       </div>
     </>

@@ -5,6 +5,8 @@ import {validateClass2Or3Payload} from '../../../validation/validation'
 import Details from '../shared/Details'
 import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import Class2Or3Form from './Class2Or3Form'
+import Class2Or3Results from './Class2Or3Results'
+import Class2Or3Print from './Class2Or3Print'
 
 // types
 import {Class2Or3Context} from './Class2Or3Context'
@@ -42,7 +44,7 @@ export default function Class2Or3() {
   
   const handleShowSummary = (event: React.FormEvent) => {
     event.preventDefault()
-    setShowSummary(true)
+    submitForm(true)
   }
 
   const submitForm = (showSummaryIfValid: boolean) => {
@@ -80,7 +82,11 @@ export default function Class2Or3() {
   return (
     <main>
       {showSummary ?
-        <p>summary</p>
+        <Class2Or3Print
+          title={pageTitle}
+          setShowSummary={setShowSummary}
+          result={result}
+        />
         :
         <>
           {hasKeys(errors) &&
@@ -102,45 +108,14 @@ export default function Class2Or3() {
             </div>
           </form>
 
-          <SecondaryButton
-            label="Save and print"
-            onClick={handleShowSummary}
-          />
+          <Class2Or3Results />
 
-          <div className="results divider--top">
-            <div className="container">
-              <div className="container column third">
-                <span className="inline block">Contributions due:</span>
-                <div className="value inline width-3">
-                  {result?.contributionsDue}
-                </div>
-              </div>
-              <div className="container column third">
-                <span className="inline block">Class (x) rate:</span>
-                <div className="value inline width-8">
-                  {result?.rate}
-                </div>
-              </div>
-              <div className="container column third">
-                <span className="inline block">Total amount due:</span>
-                <span className="value inline width-8">
-                  {result?.totalAmountDue}
-                </span>
-              </div>
-            </div>
-
-            <div className="container column">
-              <span className="label block">Date higher rate provisions apply:</span>
-              <div className="value inline width-8">
-                {result?.dateHigherRateApply}
-              </div>
-            </div>
-
-            <div className="container column">
-              <span className="label block">Final payment date for pension purposes:</span>
-              <div className="value inline width-8">
-                {result?.finalPaymentDate}
-              </div>
+          <div className="container">
+            <div className="form-group">
+              <SecondaryButton
+                label="Save and print"
+                onClick={handleShowSummary}
+              />
             </div>
           </div>
         </>

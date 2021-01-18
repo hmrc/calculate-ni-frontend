@@ -53,7 +53,7 @@ interface Class2Or3Context {
   errors: GenericErrors
   setErrors: Dispatch<GenericErrors>
   result: Class2Or3Result | null
-  setResult: Dispatch<Class2Or3Result>
+  setResult: Dispatch<Class2Or3Result | null>
 }
 
 const stateReducer = (state: Class1S, action: { [x: string]: string }) => ({

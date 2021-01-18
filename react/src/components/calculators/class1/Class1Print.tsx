@@ -7,10 +7,10 @@ import ClassOneEarningsTable from './Class1ContributionsTable'
 import DetailsPrint from "../shared/DetailsPrint";
 
 // types
-import {Calculators, SavePrintBaseProps} from '../../../interfaces'
+import {Calculators, Class1DirectorsSavePrintProps} from '../../../interfaces'
 import BackLink from "../../helpers/gov-design-system/BackLink";
 
-function Class1Print(props: SavePrintBaseProps) {
+function Class1Print(props: Class1DirectorsSavePrintProps) {
   const { title, setShowSummary } = props;
   const {
     rows,

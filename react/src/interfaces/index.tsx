@@ -3,6 +3,7 @@
 import {PeriodLabel, PeriodValue} from "../config";
 import {RowsErrors, GenericErrors} from "../validation/validation";
 import {Dispatch, SetStateAction} from "react";
+import {Class2Or3Result} from "../components/calculators/class-2-or-3/Class2Or3Context";
 
 export interface RouteName {
   pathname: string
@@ -141,7 +142,14 @@ export interface ErrorSummaryProps {
 export interface SavePrintBaseProps {
   title: string,
   setShowSummary: (v: boolean) => void
+}
+
+export interface Class1DirectorsSavePrintProps extends SavePrintBaseProps {
   calculatedRows: Calculated[]
+}
+
+export interface Class12Or3SavePrintProps extends SavePrintBaseProps {
+  result: Class2Or3Result | null
 }
 
 export interface CategoryTotalsProps {
