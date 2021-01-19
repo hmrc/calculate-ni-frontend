@@ -3,6 +3,7 @@ import {sterlingStringValue, dateStringSlashSeparated} from '../../../services/u
 
 // types
 import {Class2Or3Context} from "./Class2Or3Context";
+import {NiClassNameLabels} from "../../../interfaces";
 
 function Class2Or3Results() {
   const {result, activeClass} = useContext(Class2Or3Context)
@@ -16,7 +17,7 @@ function Class2Or3Results() {
           </div>
         </div>
         <div className="container column third">
-          <span className="label block">{activeClass ? activeClass : 'Class'} rate:</span>
+          <span className="label block">{activeClass ? NiClassNameLabels[activeClass] : 'Class'} rate:</span>
           <div className="value nomar inline width-8">
             {result?.rate ? sterlingStringValue(result.rate.toString()) : result?.rate}
           </div>

@@ -5,6 +5,17 @@ import {RowsErrors, GenericErrors} from "../validation/validation";
 import {Dispatch, SetStateAction} from "react";
 import {Class2Or3Result} from "../components/calculators/class-2-or-3/Class2Or3Context";
 
+interface GenericObject {
+  [key: string]: string
+}
+
+export const NiClassNameLabels: GenericObject = {
+  classOne: "Class 1",
+  classTwo: "Class 2",
+  classThree: "Class 3",
+  classFour: "Class 4"
+}
+
 export interface RouteName {
   pathname: string
   name: string
