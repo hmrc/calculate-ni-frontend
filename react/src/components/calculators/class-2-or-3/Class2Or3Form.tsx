@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React, {useContext, useEffect} from 'react'
 import {validDateParts} from '../../../services/utils'
 
 // components
@@ -11,6 +11,7 @@ import {Class2Or3Context} from './Class2Or3Context'
 import CurrencyInput from "../../helpers/gov-design-system/CurrencyInput";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import {NiClassName} from "../../../config";
+import {NiClassNameLabels} from "../../../interfaces";
 
 
 function Class2Or3Form() {
@@ -73,7 +74,7 @@ function Class2Or3Form() {
         name="nationalInsuranceClass"
         items={[
           {
-            label: 'Class 2',
+            label: NiClassNameLabels[NiClassName.CLASS_TWO],
             value: NiClassName.CLASS_TWO,
             conditionalContent: <SelectTaxYear
               taxYears={class2TaxYears}
@@ -82,7 +83,7 @@ function Class2Or3Form() {
             />
           },
           {
-            label: 'Class 3',
+            label: NiClassNameLabels[NiClassName.CLASS_THREE],
             value: NiClassName.CLASS_THREE,
             conditionalContent: <SelectTaxYear
               taxYears={class3TaxYears}
