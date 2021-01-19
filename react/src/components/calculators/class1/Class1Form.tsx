@@ -26,7 +26,7 @@ function Class1Form(props: Class1TableProps) {
   const [activeRowID, setActiveRowID] = useState<string | null>(null)
 
   const handleSetActiveRow = (r: Row) => {
-    if (activeRowID !== r.id) setActiveRowID(r.id)
+    setActiveRowID(r.id)
   }
 
   const handleChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +40,6 @@ function Class1Form(props: Class1TableProps) {
   }
   
   const handleSelectChange = (r: Row, e: React.ChangeEvent<HTMLSelectElement>) => {
-    handleSetActiveRow(r)
     setRows(rows.map((cur: Row) =>
       cur.id === r.id ? {...cur, [e.currentTarget.name]: e.currentTarget.value} : cur
     ))
@@ -90,6 +89,7 @@ function Class1Form(props: Class1TableProps) {
 
       <ClassOneEarningsTable
         activeRowID={activeRowID}
+        setActiveRowId={setActiveRowID}
         handleChange={handleChange}
         handleSelectChange={handleSelectChange}
         showBands={false}

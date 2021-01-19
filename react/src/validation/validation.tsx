@@ -1,7 +1,7 @@
 import Validator from 'validator';
 
 // types
-import {DirectorsRow, GovDateRange, Row, TaxYear} from '../interfaces'
+import {Class3Row, DirectorsRow, GovDateRange, Row, TaxYear} from '../interfaces'
 import {PeriodLabel} from "../config";
 import {Dispatch} from "react";
 import {extractTaxYearFromDate, govDateFormat, hasKeys, isEmpty} from "../services/utils";
@@ -26,6 +26,11 @@ interface Class2Or3Payload {
   earningsFactor: string
   taxYear: TaxYear,
   activeClass: string
+}
+
+interface Class3Payload {
+  rows: Array<Class3Row>
+  enteredNiDate: Date | null
 }
 
 export interface ErrorMessage {
@@ -81,7 +86,7 @@ export const validateClassOnePayload = (
     console.log('errors hasKeys', hasKeys(errors))
     setErrors(errors)
   }
-  const rowErrors: RowsErrors = validateRows(payload.rows)
+  const rowErrors: RowsErrors = validateClass1Rows(payload.rows)
   if (hasKeys(rowErrors)) {
     setRowsErrors(rowErrors)
   }
@@ -96,7 +101,7 @@ export const validateDirectorsPayload = (
   taxYears: TaxYear[]
 ) => {
   let errors: GenericErrors = {}
-  const rowErrors: RowsErrors = validateRows(payload.rows)
+  const rowErrors: RowsErrors = validateClass1Rows(payload.rows)
   if (Object.keys(rowErrors).length > 0) {
     setRowsErrors(rowErrors)
   }
@@ -179,7 +184,46 @@ export const validateClass2Or3Payload = (
   return isEmpty(errors)
 }
 
-const validateRows = (rows: Array<Row | DirectorsRow>) => {
+export const validateClass3Payload = (
+  payload: Class3Payload,
+  setErrors: Dispatch<GenericErrors>
+) => {
+  const errors: GenericErrors = {}
+  if(!payload.enteredNiDate) {
+    errors.enteredNiDate = {
+      name: 'enteredNiDate',
+      link: 'enteredNiDate',
+      message: 'Date entered NI must be entered as a real date'
+    }
+  }
+  validateClass3Rows(payload.rows, setErrors, errors)
+  if (hasKeys(errors)) {
+    setErrors(errors)
+    return false
+  }
+  return true
+}
+
+const validateClass3Rows = (rows: Array<Class3Row>, setErrors: Dispatch<GenericErrors>, errors: GenericErrors) => {
+  rows.forEach((row: Class3Row, index: number) => {
+    if(!row.earningsFactor) {
+      errors[`${row.id}-earningsFactor`] = {
+        name: `${row.id}-earningsFactor`,
+        link: `${row.id}-earningsFactor`,
+        message: `Earnings factor for row #${index + 1} must be entered`
+      }
+    } else if (isNaN(+row.earningsFactor)) {
+      errors[`${row.id}-earningsFactor`] = {
+        name: `${row.id}-earningsFactor`,
+        link: `${row.id}-earningsFactor`,
+        message: `Earnings factor for row #${index + 1} must be an amount of money`
+      }
+    }
+
+  })
+}
+
+const validateClass1Rows = (rows: Array<Row | DirectorsRow>) => {
   const rowsErrors: RowsErrors = {}
   rows.forEach(r => {
     // Row Gross
