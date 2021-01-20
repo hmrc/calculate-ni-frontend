@@ -75,14 +75,15 @@ class TablesController @Inject()(
   ): Action[AnyContent] = Action { implicit request =>
     val intervals: List[(LocalDate, String)] = intervalDropdown(ni.classTwo)
     val dateP = date.getOrElse(intervals.head._1)
-    implicit def strToHtml(in: String): Html = Html(in)
 
     ni.classTwo.at(dateP) match {
       case Some(data) =>
         val selectedInterval = ni.classTwo.keySet.find(_.contains(dateP)).get
+        val lowerBound = selectedInterval.lowerValue.get
+        
         val noOfWeeks = selectedInterval.numberOfWeeks.get
         val response = List (
-          "Term Date" -> LocalDate.of(selectedInterval.lowerValue.get.getYear, 4, 9), // unknown... but always the 9th of april
+          "Term Date" -> LocalDate.of(lowerBound.getYear, 4, 9), // unknown... but always the 9th of april
           "Weekly Rate" -> data.weeklyRate.formatSterling,
           "Rate Total" -> (data.weeklyRate * noOfWeeks).formatSterling
         ) ++ (data.vdwRate match {
@@ -99,9 +100,11 @@ class TablesController @Inject()(
           )
         }) ++ List (
           "Date Late For Short Term Benefits (STB)" -> "???",
-          "Final Date For Payment" -> "???",
-          "Small Profits Threshold/Small Earnings Exemption (SPT/SEE)" -> "???", // below which paying is optional
-          "Date High Rate Provision (HRP) Applies" -> "???",
+          "Final Date For Payment" -> lowerBound.plusYears(if (lowerBound.getYear < 1983) 3 else 7),
+          "Small Profits Threshold/Small Earnings Exemption (SPT/SEE)" ->
+            data.smallEarningsException.fold("???")(_.formatSterling), // below which paying is optional
+          "Date High Rate Provision (HRP) Applies" ->
+            (if (lowerBound.getYear < 1983) "" else lowerBound.plusYears(2).plusDays(1).toString),
           "No of Wks" -> noOfWeeks.toString,
           "Earnings Factor (includes enhance)" -> "???",
         )
@@ -121,14 +124,15 @@ class TablesController @Inject()(
 
         val selectedInterval = ni.classThree.keySet.find(_.contains(dateP)).get
         val noOfWeeks = selectedInterval.numberOfWeeks.get
-        
+        val lowerBound = selectedInterval.lowerValue.get        
         val response = List (
           "Weekly Rate" -> data.formatSterling,
           "Rate Total" -> (data * noOfWeeks).formatSterling,
-          "Date High Rate Provision (HRP) Applies" -> "???",
-          "Final Date For Payment" -> "???",
+          "Date High Rate Provision (HRP) Applies" ->
+            (if (lowerBound.getYear < 1983) "" else lowerBound.plusYears(2).plusDays(1).toString),
+          "Final Date For Payment" -> lowerBound.plusYears(if (lowerBound.getYear < 1982) 3 else 7),
           "Earnings Factor Qualifying Year" -> "???",
-          "Lower Earning Limit" -> "???" // for C1?
+          "Lower Earning Limit" -> "???" // for C1
         )
 
         Ok(genericPage(dateP, intervals, "Class 3", response.map{case (k,v) => (k,Html(v.toString))}))

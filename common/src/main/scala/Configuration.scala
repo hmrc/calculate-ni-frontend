@@ -32,8 +32,8 @@ case class RateDefinition(
 ) {
   def effectiveYear = year
   def effectiveMonth = month.getOrElse(year / 12)
-  def effectiveWeek = month.getOrElse(year / 52)
-  def effectiveFourWeek = month.getOrElse(year / 13)    
+  def effectiveWeek = week.getOrElse(year / 52)
+  def effectiveFourWeek = fourWeek.getOrElse(year / 13)    
 }
 
 case class ClassTwo(
