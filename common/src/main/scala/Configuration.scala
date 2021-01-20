@@ -32,13 +32,15 @@ case class RateDefinition(
 ) {
   def effectiveYear = year
   def effectiveMonth = month.getOrElse(year / 12)
-  def effectiveWeek = month.getOrElse(year / 52)
-  def effectiveFourWeek = month.getOrElse(year / 13)    
+  def effectiveWeek = week.getOrElse(year / 52)
+  def effectiveFourWeek = fourWeek.getOrElse(year / 13)    
 }
 
 case class ClassTwo(
   weeklyRate: BigDecimal,
-  smallEarningsException: BigDecimal
+  vdwRate: Option[BigDecimal],
+  shareFishingRate: Option[BigDecimal],
+  smallEarningsException: Option[BigDecimal]
 )
 
 case class ClassFour(
@@ -165,7 +167,7 @@ case class Configuration(
   ): Option[BigDecimal] = {
     val year: Option[ClassTwo] = classTwo.at(on)
     year.map { x =>
-      if (amount < x.smallEarningsException) 0
+      if (amount < x.smallEarningsException.getOrElse(Zero)) 0
       else x.weeklyRate * 52
     }
   }

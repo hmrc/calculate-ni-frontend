@@ -49,6 +49,8 @@
 
     <logger name="application" level="DEBUG"/>
 
+    <logger name="com.codahale.metrics.graphite.GraphiteReporter" level="ERROR"/>    
+
     <logger name="connector" level="TRACE">
         <appender-ref ref="STDOUT"/>
     </logger>
