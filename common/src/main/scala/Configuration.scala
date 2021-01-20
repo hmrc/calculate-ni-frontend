@@ -38,7 +38,9 @@ case class RateDefinition(
 
 case class ClassTwo(
   weeklyRate: BigDecimal,
-  smallEarningsException: BigDecimal
+  vdwRate: Option[BigDecimal],
+  shareFishingRate: Option[BigDecimal],
+  smallEarningsException: Option[BigDecimal]
 )
 
 case class ClassFour(
@@ -165,7 +167,7 @@ case class Configuration(
   ): Option[BigDecimal] = {
     val year: Option[ClassTwo] = classTwo.at(on)
     year.map { x =>
-      if (amount < x.smallEarningsException) 0
+      if (amount < x.smallEarningsException.getOrElse(Zero)) 0
       else x.weeklyRate * 52
     }
   }

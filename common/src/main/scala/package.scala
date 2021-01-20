@@ -18,6 +18,7 @@ import spire.math.Interval
 import spire.math.interval._
 import spire.implicits._
 import java.time.LocalDate
+import java.text.{NumberFormat => NF}
 
 package object eoi {
 
@@ -58,6 +59,9 @@ package object eoi {
         case Unbound() => 0
       }
     }
+
+    def formatPercentage: String = NF.getPercentInstance().format(in)
+    def formatSterling: String = "£" + NF.getInstance().format(in)
 
   }
 
@@ -115,5 +119,30 @@ package object eoi {
     }
     
   }
+
+  implicit class RichDateInterval(inner: Interval[LocalDate]) {
+
+    import cats.implicits._
+
+    def numberOfWeeks: Option[Int] = {
+
+      val startDate = inner.lowerBound match {
+        case Open(a) => a.plusDays(1).some
+        case Closed(a) => a.some
+        case _ => None
+      }
+
+      val endDate = inner.upperBound match {
+        case Open(a) => a.minusDays(1).some
+        case Closed(a) => a.some
+        case _ => None
+      }
+
+      // TODO: Apparently a week is sunday to saturday, rounding uncertain.
+      (startDate, endDate) mapN ( (s,e) => ((e.toEpochDay() - s.toEpochDay()) / 7).toInt )
+    }
+  }
+
+  type ClassThree = BigDecimal
 
 }
