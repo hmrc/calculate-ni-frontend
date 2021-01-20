@@ -19,6 +19,7 @@ import spire.math.interval._
 import spire.implicits._
 import java.time.LocalDate
 import java.text.{NumberFormat => NF}
+import java.util.Locale.UK
 
 package object eoi {
 
@@ -60,8 +61,8 @@ package object eoi {
       }
     }
 
-    def formatPercentage: String = NF.getPercentInstance().format(in)
-    def formatSterling: String = "£" + NF.getInstance().format(in)
+    def formatPercentage: String = NF.getPercentInstance(UK).format(in)
+    def formatSterling: String = NF.getCurrencyInstance(UK).format(in)
 
   }
 
