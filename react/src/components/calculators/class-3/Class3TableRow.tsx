@@ -73,7 +73,7 @@ const Class3TableRow = (props: {
       <td className={"mode"}>
         <SecondaryButton
           onClick={handleEdit}
-          label={showDates ? `List` : `Manual`}
+          label={showDates ? `Select tax year` : `Edit date`}
         />
       </td>
       <td className="input date-toggles">

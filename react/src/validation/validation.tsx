@@ -192,7 +192,7 @@ export const validateClass3Payload = (
   if(!payload.enteredNiDate) {
     errors.enteredNiDate = {
       name: 'enteredNiDate',
-      link: 'enteredNiDate',
+      link: 'enteredNiDateDay',
       message: 'Date entered NI must be entered as a real date'
     }
   }

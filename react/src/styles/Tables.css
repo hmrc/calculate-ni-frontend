@@ -83,7 +83,7 @@ table.contribution-details th.date-toggles {
   width: 308px;
 }
 table.contribution-details th.earnings-factor {
-  width: 130px;
+  width: 110px;
 }
 table.contribution-details th.date-from {
   width: 160px;
@@ -98,7 +98,8 @@ table.contribution-details td.date-toggles {
 }
 
 table.contribution-details td.mode > button {
-  min-width: 77px;
+  min-width: 118px;
+  font-size: 14px;
 }
 
 table.contribution-details .govuk-date-input__item {

@@ -18,7 +18,7 @@ const Class3Table = () => {
         <tr>
           <th>#</th>
           <th className="date-mode">
-            Mode
+
           </th>
           <th className="date-toggles">
             <table className="borderless">
@@ -31,7 +31,7 @@ const Class3Table = () => {
             </table>
           </th>
           <th className="earnings-factor">Earnings factor</th>
-          <th>Max potential weeks</th>
+          <th>Max weeks</th>
           <th>Actual weeks</th>
           <th>Deficient</th>
         </tr>

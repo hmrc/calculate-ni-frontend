@@ -24,7 +24,7 @@ export default function Home() {
         </h2>
         <ul className="govuk-list govuk-list--bullet">
           <li><Link to="/class-2-or-3">Class 2 or 3 NI contributions needed for a qualifying year</Link></li>
-          <li><Link to="/class-3">Class 3 NI service spouse credits</Link></li>
+          <li><Link to="/class-3">Weekly contribution conversion</Link></li>
         </ul>
         <h2 className="govuk-heading-m">
           Interest calculators

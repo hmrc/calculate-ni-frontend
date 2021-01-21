@@ -21,7 +21,7 @@ const routes = [
   },
   {
     pathname: '/class-3',
-    name: 'Class 3 NI service spouse credits'
+    name: 'Weekly contribution conversion'
   },
   {
     pathname: '/interest-class-1',

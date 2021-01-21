@@ -8,7 +8,7 @@ import Class3Form from "./Class3Form";
 import {validateClass3Payload} from "../../../validation/validation";
 import {Class3Row} from "../../../interfaces";
 
-const pageTitle = 'Class 3 NI service spouse credits'
+const pageTitle = 'Weekly contribution conversion'
 
 const Class3Page = () => {
     const [showSummary, setShowSummary] = useState<boolean>(false)
