@@ -22,7 +22,7 @@ const Class3TableRow = (props: {
     setActiveRowId
   } = useContext(Class3Context)
   const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
-  const [dateRange, setDateRange] = useState<GovDateRange>({from: taxYear.from, to: taxYear.to})
+  const [dateRange, setDateRange] = useState<GovDateRange>({from: taxYear.from, to: taxYear.to, hasContentFrom: false, hasContentTo: false})
   const [showDates, setShowDates] = useState<boolean>(false)
   const handleEdit = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -43,10 +43,14 @@ const Class3TableRow = (props: {
   useEffect(() => {
     const startDate = enteredNiDate && !afterMaximumTaxYear(enteredNiDate, taxYears[0].to) ?
       latestDate(taxYear.from, enteredNiDate) : taxYear.from
-    setDateRange({
-      from: startDate,
-      to: taxYear.to,
-      numberOfWeeks: getNumberOfWeeks(startDate, taxYear.to)
+    setDateRange((prevState: GovDateRange) => {
+      return {
+        from: startDate,
+        to: taxYear.to,
+        numberOfWeeks: getNumberOfWeeks(startDate, taxYear.to),
+        hasContentFrom: prevState.hasContentFrom,
+        hasContentTo: prevState.hasContentTo
+      }
     })
   }, [taxYear, enteredNiDate, taxYears])
 

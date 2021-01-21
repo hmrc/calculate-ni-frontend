@@ -22,7 +22,7 @@ const initialDetails = {
 export const class3DefaultRows = [{
   id: uniqid(),
   earningsFactor: '',
-  dateRange: {from: null, to: null}
+  dateRange: {from: null, to: null, hasContentFrom: false, hasContentTo: false}
 }]
 
 interface Calculator {

@@ -24,7 +24,7 @@ const routes = [
     name: 'Weekly contribution conversion'
   },
   {
-    pathname: '/interest-class-1',
+    pathname: '/late-interest',
     name: 'Interest on late or unpaid Class 1 NI contributions'
   },
   {

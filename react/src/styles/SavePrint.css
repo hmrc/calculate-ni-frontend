@@ -16,8 +16,8 @@
   text-align: left;
 }
 
-
-.save-print-wrapper .govuk-heading-l {
+/*.save-print-wrapper .section-heading*/
+.save-print-wrapper .govuk-heading-l{
   color: #6F777B;
   font-weight: 400;
   font-size: 21px;
@@ -112,4 +112,17 @@
 .save-print-wrapper .govuk-summary-list__value {
   display: block;
   padding: 0;
+}
+
+.save-print-wrapper .print-totals-inline .container {
+  display: block;
+}
+
+.save-print-wrapper .print-totals-inline .container .label {
+  display: inline;
+  margin-right: 10px;
+}
+
+.save-print-wrapper .print-totals-inline .container .value {
+  display: inline;
 }
