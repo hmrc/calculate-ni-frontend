@@ -5,16 +5,20 @@ import {taxYearString} from '../../../config'
 import {TaxYear} from '../../../interfaces'
 
 interface SelectTaxYearProps {
+  hiddenLabel?: boolean | null
   taxYears: TaxYear[]
   taxYear: TaxYear
   handleTaxYearChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 function SelectTaxYear(props: SelectTaxYearProps) {
-  const {taxYears, taxYear, handleTaxYearChange} = props
+  const {taxYears, taxYear, handleTaxYearChange, hiddenLabel} = props
   return (
     <div className="govuk-form-group">
-      <label className="govuk-label" htmlFor="taxYear">
+      <label
+        className={`govuk-label${hiddenLabel ? ` govuk-visually-hidden`: ``}`}
+        htmlFor="taxYear"
+      >
         Select a tax year
       </label>
       <select

@@ -14,7 +14,7 @@ import 'numeral/locales/en-gb';
 numeral.locale('en-gb');
 
 function ClassOneEarningsTable(props: ClassOneEarningsProps) {
-  const { showBands, activeRowID, handleSelectChange, handleChange } = props
+  const { showBands, activeRowID, handleSelectChange, handleChange, setActiveRowId } = props
   const {
     rows,
     rowsErrors,
@@ -50,7 +50,12 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
       
       <tbody>
         {rows.map((r: Row, i: number) => (
-          <tr className={activeRowID === r.id ? "active" : ""} key={r.id} id={r.id}>
+          <tr
+            className={activeRowID === r.id ? "active" : ""}
+            key={r.id}
+            id={r.id}
+            onClick={() => setActiveRowId && setActiveRowId(r.id)}
+          >
             {/* Period */}
             <td className="input">
               {props.handleSelectChange ?

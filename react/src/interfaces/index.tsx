@@ -60,6 +60,15 @@ export interface Calculated {
   [key: string]: number[]
 }
 
+export interface Class3Row {
+  id: string,
+  earningsFactor: string,
+  dateRange: GovDateRange,
+  maxWeeks?: number
+  actualWeeks?: number
+  deficiency?: number
+}
+
 export interface Row {
   id: string
   category: string
@@ -116,6 +125,7 @@ export interface ClassOneEarningsProps extends EarningsProps {
   activeRowID?: string | null;
   handleChange?: (r: Row, e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSelectChange?: (r: Row, e: React.ChangeEvent<HTMLSelectElement>) => void;
+  setActiveRowId?: Dispatch<string>
 }
 
 export interface DirectorsEarningsProps extends EarningsProps {
@@ -193,6 +203,7 @@ export interface TextInputProps {
 export interface GovDateRange {
   from: Date | null;
   to: Date | null;
+  numberOfWeeks?: number
 }
 
 export type NiCategory =

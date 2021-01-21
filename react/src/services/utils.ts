@@ -97,6 +97,11 @@ export const goveDateRangeString = (dateRangeObject: TaxYear) => {
   return `${moment(dateRangeObject.from).format(govDateFormat)} - ${moment(dateRangeObject.to).format(govDateFormat)}`
 }
 
+export const latestDate = (a: Date, b: Date) => moment(a).isBefore(moment(b)) ? b : a
+
+export const getNumberOfWeeks = (a: Date, b: Date) =>
+  moment(b).diff(moment(a), 'weeks' )
+
 export const govDateFormat = 'D MMMM YYYY'
 
 interface DescribedByKeys {

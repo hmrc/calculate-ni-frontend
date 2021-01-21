@@ -3,6 +3,59 @@ table thead th, table td, table tbody th {
   font-weight: 400;
 }
 
+/* Calc Specific */
+.spaced-table td.input-cell .govuk-input--error
+{
+  border: 2px solid #d4351c;
+}
+
+.spaced-table td.input-cell .govuk-input--error:focus {
+  border-color: #B1B4B6;
+}
+table.contribution-details select,
+select.borderless {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  outline: none;
+}
+
+.borderless {
+  margin-right: 6px;
+  width: 100%;
+  border-color: #B1B4B6;
+}
+.borderless:focus {
+  outline: 3px solid #fd0;
+  outline-offset: -3px;
+  -webkit-box-shadow: inset 0 0 0 5px;
+  box-shadow: inset 0 0 0 5px;
+  width: 100%;
+}
+
+table.contribution-details input {
+  height: 100%;
+  padding: 0 10px;
+  width: calc(100% - 25px);
+  border: 1px solid var(--table-head-border);
+  color: #333333;
+}
+
+table.contribution-details td.input {
+  padding: 5px;
+}
+
+.legend-small {
+  font-size: 18px;
+}
+
 tr.active td {
   background: var(--active-highlight-bg);
 }
@@ -18,12 +71,73 @@ tr.active td {
   font-size: 16px;
 }
 
+.table-wrapper table.contribution-details th table th {
+  border-bottom: none;
+}
+
 table.contribution-details {
   margin-bottom: 15px;
 }
 
-table.contribution-details input[type="text"] {
-  border: none;
+table.contribution-details th.date-toggles {
+  width: 308px;
+}
+table.contribution-details th.earnings-factor {
+  width: 110px;
+}
+table.contribution-details th.date-from {
+  width: 160px;
+}
+table.contribution-details th.date-mode {
+  width: 75px;
+}
+
+table.contribution-details td.date-toggles {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+table.contribution-details td.mode > button {
+  min-width: 118px;
+  font-size: 14px;
+}
+
+table.contribution-details .govuk-date-input__item {
+  margin-right: 5px;
+}
+
+table.contribution-details .govuk-date-input__item .govuk-form-group {
+  padding-right: 1em;
+}
+
+table.contribution-details .govuk-date-input__item .govuk-input--width-2 {
+  max-width: 4.6ex;
+  background: white;
+}
+
+table.contribution-details .govuk-fieldset__legend--s {
+  display: none;
+}
+
+table.contribution-details .govuk-date-input__item .govuk-input--width-4 {
+  max-width: 7ex;
+  background: white;
+}
+
+table.contribution-details .govuk-date-input__item input[type="text"] {
+  border: 1px solid #0B0C0C;
+  font-size: 16px;
+  width: 100%;
+  height: 36px;
+}
+
+table.contribution-details .govuk-date-input__item label {
+  display: none;
+}
+
+table.contribution-details .govuk-form-group {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 table.contribution-details input::placeholder {
@@ -31,8 +145,6 @@ table.contribution-details input::placeholder {
 }
 
 table.contribution-details input:focus {
-  /* outline: none; */
-
   outline: 3px solid #fd0;
   outline-offset: -3px;
   box-shadow: inset 0 0 0 5px;
@@ -54,12 +166,6 @@ table.contribution-details td:has(input:focus) {
 
 .table-wrapper thead th, .table-wrapper tbody td, .table-wrapper tbody td.input {
   height: 40px;
-}
-
-@media screen and (min-width: 760px) {
-  .table-wrapper thead th, .table-wrapper tbody td.input {
-    padding: 0;
-  }
 }
 
 @media screen and (min-width: 760px) {
@@ -114,11 +220,6 @@ table.contribution-details td:has(input:focus) {
 .table-wrapper tbody tr.active td {
   border: 1px solid var(--active-highlight-border);
 }
-
-.table-wrapper tbody tr.active td input {
-  background: var(--active-highlight-bg);
-}
-
 
 @media screen and (min-width: 760px) {
   .spaced-table-wrapper {
