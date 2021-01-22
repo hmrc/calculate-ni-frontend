@@ -4,15 +4,13 @@ import { ErrorSummaryProps } from '../../../interfaces'
 import {hasKeys} from "../../../services/utils";
 
 function ErrorSummary(props: ErrorSummaryProps) {
-  const { errors, rowsErrors } = props
-  const [isNew, setIsNew] = useState<boolean>(true)
+  const { errors } = props
   const summaryRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
-    if(isNew && hasKeys(errors)) {
+    if(hasKeys(errors)) {
       summaryRef.current?.focus()
     }
-    return () => setIsNew(false)
-  }, [isNew, errors])
+  }, [errors])
   return (
     <div ref={summaryRef} className="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabIndex={-1} data-module="govuk-error-summary">
       <h2 className="govuk-error-summary__title" id="error-summary-title">
@@ -20,21 +18,12 @@ function ErrorSummary(props: ErrorSummaryProps) {
       </h2>
       <div className="govuk-error-summary__body">
         <ul className="govuk-list govuk-error-summary__list">
-          {Object.keys(errors).length > 0 && Object.keys(errors).map((key) => (
+          {hasKeys(errors) && Object.keys(errors).map((key) => (
             <li key={key}>
               <a href={`#${errors[key]?.link}`}>
                 {errors[key]?.message}
               </a>
             </li>
-          ))}
-          {Object.keys(rowsErrors).length > 0 && Object.keys(rowsErrors).map((rowKey) => (
-            rowsErrors[rowKey] && Object.keys(rowsErrors[rowKey]).map((fieldName) => (
-              <li key={`${rowKey}-${fieldName}`}>
-                <a href={`#${rowsErrors[rowKey][fieldName].link}`}>
-                  {`${rowsErrors[rowKey][fieldName].name} ${rowsErrors[rowKey][fieldName].message}`}
-                </a>
-              </li>
-            ))
           ))}
         </ul>
       </div>

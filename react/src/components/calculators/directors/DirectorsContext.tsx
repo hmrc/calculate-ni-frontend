@@ -1,7 +1,7 @@
 import React, {Dispatch, useEffect, useState} from "react";
 import {Calculated, Class1S, DetailsProps, DirectorsRow, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {PeriodLabel, buildTaxYears} from "../../../config";
-import {GenericErrors, RowsErrors} from "../../../validation/validation";
+import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
 import {ClassOne} from '../../../calculation'
 import configuration from "../../../configuration.json";
@@ -45,8 +45,6 @@ interface DirectorsContext {
   setRows: Dispatch<Array<DirectorsRow>>
   details: DetailsProps
   setDetails: Function,
-  rowsErrors: RowsErrors,
-  setRowsErrors: Dispatch<RowsErrors>
   grossTotal: Number | null,
   setGrossTotal: Dispatch<Number | null>
   earningsPeriod: PeriodLabel | null
@@ -75,8 +73,6 @@ export const DirectorsContext = React.createContext<DirectorsContext>(
     setRows: () => {},
     details: initialState,
     setDetails: () => {},
-    rowsErrors: {},
-    setRowsErrors: () => {},
     grossTotal: null,
     setGrossTotal: () => {},
     niPaidNet: '',
@@ -103,7 +99,6 @@ export function useDirectorsForm() {
   const [details, setDetails] = React.useReducer(stateReducer, initialState)
   const [grossTotal, setGrossTotal] = useState<Number | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})
-  const [rowsErrors, setRowsErrors] = useState<RowsErrors>({})
   const [niPaidNet, setNiPaidNet] = useState<string>('')
   const [niPaidEmployee, setNiPaidEmployee] = useState<string>('')
   const [earningsPeriod, setEarningsPeriod] = useState<PeriodLabel | null>(null)
@@ -135,8 +130,6 @@ export function useDirectorsForm() {
     setGrossTotal,
     errors,
     setErrors,
-    rowsErrors,
-    setRowsErrors,
     earningsPeriod,
     setEarningsPeriod,
     niPaidNet,

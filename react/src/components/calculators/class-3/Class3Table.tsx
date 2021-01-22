@@ -16,9 +16,11 @@ const Class3Table = () => {
           <th className="border" colSpan={3}><span>Weeks</span></th>
         </tr>
         <tr>
-          <th>#</th>
+          <th>
+            #<span className="govuk-visually-hidden"> Row number</span>
+          </th>
           <th className="date-mode">
-
+            <span className="govuk-visually-hidden">Change how dates are entered</span>
           </th>
           <th className="date-toggles">
             <table className="borderless">

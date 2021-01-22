@@ -1,7 +1,7 @@
 // App
 
 import {PeriodLabel, PeriodValue} from "../config";
-import {RowsErrors, GenericErrors} from "../validation/validation";
+import {GenericErrors} from "../validation/validation";
 import {Dispatch, SetStateAction} from "react";
 import {Class2Or3Result} from "../components/calculators/class-2-or-3/Class2Or3Context";
 
@@ -156,7 +156,6 @@ export enum OverOrUnder {
 // Errors
 export interface ErrorSummaryProps {
   errors: GenericErrors
-  rowsErrors: RowsErrors
 }
 
 // Save Print

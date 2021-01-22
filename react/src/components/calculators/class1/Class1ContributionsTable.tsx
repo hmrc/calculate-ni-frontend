@@ -17,7 +17,7 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
   const { showBands, activeRowID, handleSelectChange, handleChange, setActiveRowId } = props
   const {
     rows,
-    rowsErrors,
+    errors,
     categories
   } = useContext(ClassOneContext)
   return (
@@ -31,8 +31,11 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
           <th className="border" colSpan={showBands && rows[0].bands ? 3 : 2}><span>Net contributions</span></th>
         </tr>
         <tr>
+          <th>
+            #<span className="govuk-visually-hidden"> Row number</span>
+          </th>
           <th><strong>Select period</strong></th>
-          <th><strong>Row number</strong></th>
+          <th className="notes"><strong>Notes</strong></th>
           <th><strong>Select NI category letter</strong></th>
           <th><strong>Enter gross pay</strong></th>
           {/* Bands - by tax year, so we can just take the first band to map the rows */}
@@ -56,7 +59,9 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
             id={r.id}
             onClick={() => setActiveRowId && setActiveRowId(r.id)}
           >
-            {/* Period */}
+            <td className="row-number">
+              {i + 1}
+            </td>
             <td className="input">
               {props.handleSelectChange ?
                 <>
@@ -72,15 +77,14 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
               }
             </td>
 
-            {/* Row number */}
             <td className="input">
               <TextInput
                 hiddenLabel={true}
                 name={`${r.id}-number`}
-                labelText="Row number (optional)"
+                labelText="Notes (optional)"
                 inputClassName="number"
                 inputValue={r.number}
-                placeholderText="Enter the row number (optional)"
+                placeholderText=""
                 onChangeCallback={(e) => handleChange?.(r, e)}
               />
             </td>
@@ -103,7 +107,7 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
 
             {/* Gross Pay */}
             <td className={
-              `input ${rowsErrors?.[`${r.id}`]?.['gross'] ? "error-cell" : ""}`}>
+              `input ${errors?.[`${r.id}-gross`] ? "error-cell" : ""}`}>
               {handleChange ?
                 <>
                   <TextInput

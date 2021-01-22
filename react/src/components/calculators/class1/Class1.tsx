@@ -28,8 +28,6 @@ const Class1Page = () => {
     setRows,
     errors,
     setErrors,
-    rowsErrors,
-    setRowsErrors,
     details,
     setDetails,
     niPaidNet,
@@ -58,14 +56,13 @@ const Class1Page = () => {
 
   const submitForm = (showSummaryIfValid: boolean) => {
     setErrors({})
-    setRowsErrors({})
     const payload = {
       rows: rows,
       niPaidNet: niPaidNet,
       niPaidEmployee: niPaidEmployee
     }
 
-    if (validateClassOnePayload(payload, setRowsErrors, setErrors, taxYears)) {
+    if (validateClassOnePayload(payload, setErrors)) {
       setCalculatedRows(
         calculateRows(rows as Row[], taxYear.from) as Calculated[]
       )
@@ -77,7 +74,6 @@ const Class1Page = () => {
 
   const resetTotals = () => {
     setErrors({})
-    setRowsErrors({})
     setRows(defaultRows)
     setCalculatedRows([])
     setNiPaidEmployee('')
@@ -116,10 +112,9 @@ const Class1Page = () => {
       :
         <>
 
-          {(hasKeys(rowsErrors) || hasKeys(errors)) &&
+          {hasKeys(errors) &&
             <ErrorSummary
               errors={errors}
-              rowsErrors={rowsErrors}
             />
           }
 

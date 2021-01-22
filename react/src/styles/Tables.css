@@ -82,7 +82,8 @@ table.contribution-details {
 table.contribution-details th.date-toggles {
   width: 308px;
 }
-table.contribution-details th.earnings-factor {
+table.contribution-details th.earnings-factor,
+table.contribution-details th.notes {
   width: 110px;
 }
 table.contribution-details th.date-from {
