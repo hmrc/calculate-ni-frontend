@@ -13,6 +13,7 @@ const pageTitle = 'Weekly contribution conversion'
 const Class3Page = () => {
     const [showSummary, setShowSummary] = useState<boolean>(false)
     const {
+        taxYears,
         rows,
         setRows,
         details,
@@ -38,7 +39,7 @@ const Class3Page = () => {
             enteredNiDate,
             rows
         }
-        if(validateClass3Payload(payload, setErrors)) {
+        if(validateClass3Payload(payload, setErrors, taxYears)) {
             rows.map(stubCalc)
             setShowSummary(showSummaryIfValid)
         }

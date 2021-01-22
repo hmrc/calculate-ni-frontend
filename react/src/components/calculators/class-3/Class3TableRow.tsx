@@ -5,6 +5,7 @@ import {Class3Context} from "./Class3Context";
 import FullOrPartialTaxYear from "../../helpers/formhelpers/FullOrPartialTaxYear";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import {getNumberOfWeeks, latestDate} from "../../../services/utils";
+import {afterMaximumTaxYear} from "../../../validation/validation";
 
 const Class3TableRow = (props: {
   index: number,
@@ -40,7 +41,7 @@ const Class3TableRow = (props: {
   }
 
   useEffect(() => {
-    const startDate = enteredNiDate ?
+    const startDate = enteredNiDate && !afterMaximumTaxYear(enteredNiDate, taxYears[0].to) ?
       latestDate(taxYear.from, enteredNiDate) : taxYear.from
     setDateRange({
       from: startDate,
@@ -76,7 +77,8 @@ const Class3TableRow = (props: {
           label={showDates ? `Select tax year` : `Edit dates`}
         />
       </td>
-      <td className="input date-toggles">
+      <td className={
+          `input date-toggles ${errors?.[`${row.id}FromDay`] ? "error-cell" : ""}`}>
         <FullOrPartialTaxYear
           id={row.id}
           hiddenLabel={true}

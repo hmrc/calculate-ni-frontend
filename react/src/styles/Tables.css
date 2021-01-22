@@ -120,8 +120,14 @@ table.contribution-details .govuk-date-input__item .govuk-input--width-2 {
   background: white;
 }
 
-table.contribution-details .govuk-fieldset__legend--s {
+table.contribution-details .govuk-fieldset__legend--s,
+table.contribution-details .govuk-error-message {
   display: none;
+}
+
+table.contribution-details .govuk-form-group--error {
+  padding-left: 0;
+  border: none;
 }
 
 table.contribution-details .govuk-date-input__item .govuk-input--width-4 {

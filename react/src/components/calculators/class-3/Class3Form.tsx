@@ -63,10 +63,11 @@ export default function Class3Form(props: any) {
 
   return (
     <div className="form-group table-wrapper">
-      <div className="container">
+      <div className="container half">
           <DateInputs
             description="enteredNiDate"
-            legend="Date entered NI"
+            legend="Date customer first entered NI (optional)"
+            hint="This is the usually the date they received their National Insurance number"
             day={day}
             month={month}
             year={year}

@@ -34,7 +34,8 @@ const Class1Page = () => {
     setNiPaidEmployee,
     setNiPaidNet,
     calculatedRows,
-    setCalculatedRows
+    setCalculatedRows,
+    setActiveRowId
   } = useContext(ClassOneContext)
 
   const handleDetailsChange = ({
@@ -45,11 +46,13 @@ const Class1Page = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
+    setActiveRowId(null)
     submitForm(false)
   }
 
   const handleShowSummary = (event: React.FormEvent) => {
     event.preventDefault()
+    setActiveRowId(null)
     submitForm(true)
   }
 
@@ -72,6 +75,7 @@ const Class1Page = () => {
   }
 
   const resetTotals = () => {
+    setActiveRowId(null)
     setErrors({})
     setRows(defaultRows)
     setCalculatedRows([])
