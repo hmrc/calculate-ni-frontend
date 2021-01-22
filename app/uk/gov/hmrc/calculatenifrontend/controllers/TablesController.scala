@@ -31,10 +31,7 @@ class TablesController @Inject()(
   appConfig: AppConfig,
   mcc: MessagesControllerComponents,
   classOnePage: ClassOneTablePage,
-  genericPage: GenericTableView, 
-  classTwoPage: ClassTwoTablePage,
-  classThreePage: ClassThreeTablePage,
-  classFourPage: ClassFourTablePage
+  genericPage: GenericTableView
 ) extends FrontendController(mcc) {
 
   implicit val config: AppConfig = appConfig
