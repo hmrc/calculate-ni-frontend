@@ -228,8 +228,8 @@ const validateClass3Rows = (
         message: `End date for row #${index + 1} must be on or after ${moment(minDate).format(govDateFormat)}`
       }
     } else if(dateRange.to && afterMaximumTaxYear(dateRange.to, maxDate)) {
-      errors[fromId] = {
-        ...coreMsg(fromId),
+      errors[toId] = {
+        ...coreMsg(toId),
         message: `End date for row #${index + 1} must be on or before ${moment(maxDate).format(govDateFormat)}`
       }
     }
