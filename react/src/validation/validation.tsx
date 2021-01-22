@@ -45,10 +45,10 @@ export interface GenericErrors {
   [key: string]: ErrorMessage
 }
 
-const beforeMinimumTaxYear = (date: Date, minDate: Date) =>
+export const beforeMinimumTaxYear = (date: Date, minDate: Date) =>
   moment(date).isBefore(moment(minDate))
 
-const afterMaximumTaxYear = (date: Date, maxDate: Date) =>
+export const afterMaximumTaxYear = (date: Date, maxDate: Date) =>
   moment(date).isAfter(moment(maxDate))
 
 export const validateClassOnePayload = (
@@ -171,17 +171,20 @@ export const validateClass2Or3Payload = (
 
 export const validateClass3Payload = (
   payload: Class3Payload,
-  setErrors: Dispatch<GenericErrors>
+  setErrors: Dispatch<GenericErrors>,
+  taxYears: TaxYear[]
 ) => {
   const errors: GenericErrors = {}
-  if(!payload.enteredNiDate) {
-    errors.enteredNiDate = {
-      name: 'enteredNiDate',
-      link: 'enteredNiDateDay',
-      message: 'Date entered NI must be entered as a real date'
+  if(payload.enteredNiDate) {
+    if(afterMaximumTaxYear(payload.enteredNiDate, taxYears[0].to)) {
+      errors.enteredNiDate = {
+        name: 'enteredNiDate',
+        link: 'enteredNiDateFromDay',
+        message: `The date the customer first entered NI must be before ${moment(taxYears[0].to).format(govDateFormat)}`
+      }
     }
   }
-  validateClass3Rows(payload.rows, setErrors, errors)
+  validateClass3Rows(payload.rows, setErrors, errors, taxYears)
   if (hasKeys(errors)) {
     setErrors(errors)
     return false
@@ -189,8 +192,48 @@ export const validateClass3Payload = (
   return true
 }
 
-const validateClass3Rows = (rows: Array<Class3Row>, setErrors: Dispatch<GenericErrors>, errors: GenericErrors) => {
+const validateClass3Rows = (
+  rows: Array<Class3Row>,
+  setErrors: Dispatch<GenericErrors>,
+  errors: GenericErrors,
+  taxYears: TaxYear[]
+) => {
+  const maxDate = taxYears[0].to
+  const minDate = taxYears[taxYears.length - 1].from
   rows.forEach((row: Class3Row, index: number) => {
+    const fromId = `${row.id}FromDay`
+    const coreMsg = (id: string) => ({name: id, link: id})
+    const toId = `${row.id}ToDay`
+    const dateRange = row.dateRange
+    if(!dateRange.from || !dateRange.to) {
+      errors[fromId] = {
+        ...coreMsg(fromId),
+        message: `Both start and end dates must be entered for row #${index + 1}`
+      }
+    } else if(beforeMinimumTaxYear(dateRange.from, minDate)) {
+      errors[fromId] = {
+        ...coreMsg(fromId),
+        message: `Start date for row #${index + 1} must be on or after ${moment(minDate).format(govDateFormat)}`
+      }
+    } else if(afterMaximumTaxYear(dateRange.from, maxDate)) {
+      errors[fromId] = {
+        ...coreMsg(fromId),
+        message: `Start date for row #${index + 1} must be on or before ${moment(maxDate).format(govDateFormat)}`
+      }
+    }
+
+    if(dateRange.to && beforeMinimumTaxYear(dateRange.to, minDate)) {
+      errors[toId] = {
+        ...coreMsg(toId),
+        message: `End date for row #${index + 1} must be on or after ${moment(minDate).format(govDateFormat)}`
+      }
+    } else if(dateRange.to && afterMaximumTaxYear(dateRange.to, maxDate)) {
+      errors[fromId] = {
+        ...coreMsg(fromId),
+        message: `End date for row #${index + 1} must be on or before ${moment(maxDate).format(govDateFormat)}`
+      }
+    }
+
     if(!row.earningsFactor) {
       errors[`${row.id}-earningsFactor`] = {
         name: `${row.id}-earningsFactor`,
