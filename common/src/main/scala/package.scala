@@ -121,11 +121,22 @@ package object eoi {
     
   }
 
+  implicit class RichLD(in: LocalDate) {
+    def previous(day: java.time.DayOfWeek): LocalDate =
+      in.minusDays((in.getDayOfWeek.ordinal - day.ordinal + 7) % 7)
+
+    def next(day: java.time.DayOfWeek): LocalDate =
+      in.plusDays((day.ordinal - in.getDayOfWeek.ordinal + 7) % 7)
+  }
+
+
   implicit class RichDateInterval(inner: Interval[LocalDate]) {
 
     import cats.implicits._
 
-    def numberOfWeeks: Option[Int] = {
+    def numberOfWeeks(
+      rounding: BigDecimal.RoundingMode.Value = BigDecimal.RoundingMode.UP
+    ): Option[Int] = {
 
       val startDate = inner.lowerBound match {
         case Open(a) => a.plusDays(1).some
@@ -134,13 +145,15 @@ package object eoi {
       }
 
       val endDate = inner.upperBound match {
-        case Open(a) => a.minusDays(1).some
-        case Closed(a) => a.some
+        case Open(a) => a.some
+        case Closed(a) => a.plusDays(1).some
         case _ => None
       }
 
-      // TODO: Apparently a week is sunday to saturday, rounding uncertain.
-      (startDate, endDate) mapN ( (s,e) => ((e.toEpochDay() - s.toEpochDay()) / 7).toInt )
+      (startDate, endDate) mapN ( (s,e) =>
+        (BigDecimal(e.toEpochDay() - s.toEpochDay()) / 7)
+          .setScale(0, rounding).toInt
+      )
     }
   }
 
