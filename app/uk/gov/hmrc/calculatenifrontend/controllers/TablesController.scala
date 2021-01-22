@@ -78,7 +78,7 @@ class TablesController @Inject()(
         val selectedInterval = ni.classTwo.keySet.find(_.contains(dateP)).get
         val lowerBound = selectedInterval.lowerValue.get
         
-        val noOfWeeks = selectedInterval.numberOfWeeks.get
+        val noOfWeeks = selectedInterval.numberOfWeeks().get
         val response = List (
           "Term Date" -> LocalDate.of(lowerBound.getYear, 4, 9), // unknown... but always the 9th of april
           "Weekly Rate" -> data.weeklyRate.formatSterling,
@@ -120,7 +120,7 @@ class TablesController @Inject()(
       case Some(data) =>
 
         val selectedInterval = ni.classThree.keySet.find(_.contains(dateP)).get
-        val noOfWeeks = selectedInterval.numberOfWeeks.get
+        val noOfWeeks = selectedInterval.numberOfWeeks().get
         val lowerBound = selectedInterval.lowerValue.get        
         val response = List (
           "Weekly Rate" -> data.formatSterling,
