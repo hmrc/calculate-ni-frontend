@@ -209,18 +209,25 @@ const validateClass3Rows = (rows: Array<Class3Row>, setErrors: Dispatch<GenericE
 }
 
 const validateClass1Rows = (rows: Array<Row | DirectorsRow>, errors: GenericErrors) => {
+  const manyRows = rows.length > 1
   rows.forEach((r: Row | DirectorsRow, index: number) => {
     if (!r.gross) {
       errors[`${r.id}-gross`] = {
         name: `Gross pay amount`,
         link: `${r.id}-gross`,
-        message: `Gross pay amount for row #${index + 1} must be entered`
+        message: manyRows ?
+          `Gross pay amount for row #${index + 1} must be entered`
+          :
+          `Gross pay amount must be entered`
       }
     } else if (isNaN(+r.gross)) {
       errors[`${r.id}-gross`] = {
         name: `Gross pay amount`,
         link: `${r.id}-gross`,
-        message: `Gross pay amount for row #${index + 1} must be an amount of money`
+        message: manyRows ?
+          `Gross pay amount for row #${index + 1} must be an amount of money`
+          :
+          `Gross pay amount must be an amount of money`
       };
     }
   })
