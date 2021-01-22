@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import uniqid from 'uniqid';
 
 import numeral from 'numeral'
@@ -22,11 +22,11 @@ function Class1Form(props: Class1TableProps) {
     setTaxYear,
     rows,
     setRows,
+    setActiveRowId
   } = useContext(ClassOneContext)
-  const [activeRowID, setActiveRowID] = useState<string | null>(null)
 
   const handleSetActiveRow = (r: Row) => {
-    setActiveRowID(r.id)
+    setActiveRowId(r.id)
   }
 
   const handleChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,8 +57,9 @@ function Class1Form(props: Class1TableProps) {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const lastRow = rows[rows.length -1]
+    const id = uniqid()
     setRows([...rows, {
-      id: uniqid(),
+      id: id,
       category: lastRow.category,
       period: lastRow.period,
       gross: lastRow.gross,
@@ -66,6 +67,7 @@ function Class1Form(props: Class1TableProps) {
       ee: '0',
       er: '0'
     }])
+    setActiveRowId(id)
   }
 
   return (
@@ -88,8 +90,6 @@ function Class1Form(props: Class1TableProps) {
       </div>
 
       <ClassOneEarningsTable
-        activeRowID={activeRowID}
-        setActiveRowId={setActiveRowID}
         handleChange={handleChange}
         handleSelectChange={handleSelectChange}
         showBands={false}

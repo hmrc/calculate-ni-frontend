@@ -63,6 +63,8 @@ interface ClassOneContext {
   setCalculatedRows: Dispatch<Array<Calculated>>
   categories: Array<string>
   setCategories: Dispatch<Array<string>>
+  activeRowId: string | null
+  setActiveRowId: Dispatch<string | null>
 }
 
 export const ClassOneContext = React.createContext<ClassOneContext>(
@@ -88,7 +90,9 @@ export const ClassOneContext = React.createContext<ClassOneContext>(
     calculatedRows: [],
     setCalculatedRows: () => {},
     categories: [],
-    setCategories: () => {}
+    setCategories: () => {},
+    activeRowId: null,
+    setActiveRowId: () => {}
   }
 )
 
@@ -103,6 +107,7 @@ export function useClassOneForm() {
   const [niPaidEmployee, setNiPaidEmployee] = useState<string>('')
   const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({})
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
+  const [activeRowId, setActiveRowId] = useState<string | null>(null)
 
   useEffect(() => {
     setCategoryTotals(getTotalsInCategories(rows as Row[]))
@@ -138,6 +143,8 @@ export function useClassOneForm() {
     calculatedRows,
     setCalculatedRows,
     categories,
-    setCategories
+    setCategories,
+    activeRowId,
+    setActiveRowId
   }
 }

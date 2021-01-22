@@ -22,7 +22,6 @@ const Class1Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const {
     ClassOneCalculator,
-    taxYears,
     taxYear,
     rows,
     setRows,

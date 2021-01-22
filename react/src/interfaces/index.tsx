@@ -122,10 +122,8 @@ export interface EarningsProps {
 }
 
 export interface ClassOneEarningsProps extends EarningsProps {
-  activeRowID?: string | null;
   handleChange?: (r: Row, e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSelectChange?: (r: Row, e: React.ChangeEvent<HTMLSelectElement>) => void;
-  setActiveRowId?: Dispatch<string>
 }
 
 export interface DirectorsEarningsProps extends EarningsProps {

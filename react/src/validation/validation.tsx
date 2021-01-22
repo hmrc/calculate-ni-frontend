@@ -1,6 +1,3 @@
-import Validator from 'validator';
-
-// types
 import {Class3Row, DirectorsRow, GovDateRange, Row, TaxYear} from '../interfaces'
 import {PeriodLabel} from "../config";
 import {Dispatch} from "react";

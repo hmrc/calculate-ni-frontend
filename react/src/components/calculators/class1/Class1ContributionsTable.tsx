@@ -14,11 +14,13 @@ import 'numeral/locales/en-gb';
 numeral.locale('en-gb');
 
 function ClassOneEarningsTable(props: ClassOneEarningsProps) {
-  const { showBands, activeRowID, handleSelectChange, handleChange, setActiveRowId } = props
+  const { showBands, handleSelectChange, handleChange } = props
   const {
     rows,
     errors,
-    categories
+    categories,
+    activeRowId,
+    setActiveRowId
   } = useContext(ClassOneContext)
   return (
     <table className="contribution-details">
@@ -54,10 +56,10 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
       <tbody>
         {rows.map((r: Row, i: number) => (
           <tr
-            className={activeRowID === r.id ? "active" : ""}
+            className={activeRowId === r.id ? "active" : ""}
             key={r.id}
             id={r.id}
-            onClick={() => setActiveRowId && setActiveRowId(r.id)}
+            onClick={() => setActiveRowId(r.id)}
           >
             <td className="row-number">
               {i + 1}
@@ -149,4 +151,4 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
   )
 }
 
-export default ClassOneEarningsTable;
+export default ClassOneEarningsTable
