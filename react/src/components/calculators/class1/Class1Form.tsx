@@ -22,15 +22,13 @@ function Class1Form(props: Class1TableProps) {
     setTaxYear,
     rows,
     setRows,
-    setActiveRowId
+    setActiveRowId,
+    activeRowId,
+    setErrors
   } = useContext(ClassOneContext)
 
-  const handleSetActiveRow = (r: Row) => {
-    setActiveRowId(r.id)
-  }
-
   const handleChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
-    handleSetActiveRow(r)
+    setActiveRowId(r.id)
     setRows(rows.map((cur: Row) =>
       cur.id === r.id ?
         {...cur, [`${e.currentTarget.name.split('-')[1]}`]: e.currentTarget.value}
@@ -70,6 +68,16 @@ function Class1Form(props: Class1TableProps) {
     setActiveRowId(id)
   }
 
+  const handleDeleteRow = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if(activeRowId) {
+      setRows(rows.filter((row: Row) => row.id !== activeRowId))
+      // errors are now stale
+      setErrors({})
+      setActiveRowId(null)
+    }
+  }
+
   return (
     <div className="form-group table-wrapper">
       <div className="container">
@@ -105,6 +113,13 @@ function Class1Form(props: Class1TableProps) {
         </div>
 
         <div className="container">
+          <div className="form-group repeat-button">
+            <SecondaryButton
+              label="Delete active row"
+              onClick={handleDeleteRow}
+              disabled={!activeRowId || rows.length === 1}
+            />
+          </div>
 
           <div className="form-group repeat-button">
             <SecondaryButton

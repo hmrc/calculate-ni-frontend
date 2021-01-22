@@ -67,6 +67,10 @@ tr.active td {
   padding: 30px 0 15px;
 }
 
+.table-wrapper button[disabled] {
+  pointer-events: none;
+}
+
 .table-wrapper table td, .table-wrapper table th {
   font-size: 16px;
 }

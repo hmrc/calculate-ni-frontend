@@ -37,7 +37,7 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
             #<span className="govuk-visually-hidden"> Row number</span>
           </th>
           <th><strong>Select period</strong></th>
-          <th className="notes"><strong>Notes</strong></th>
+          <th className="notes"><strong>Period No.</strong></th>
           <th><strong>Select NI category letter</strong></th>
           <th><strong>Enter gross pay</strong></th>
           {/* Bands - by tax year, so we can just take the first band to map the rows */}
@@ -68,7 +68,12 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
               {props.handleSelectChange ?
                 <>
                   <label className="govuk-visually-hidden" htmlFor={`row${i}-period`}>Period</label>
-                  <select name="period" value={r.period} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-period`}>
+                  <select
+                    name="period"
+                    value={r.period}
+                    onChange={(e) => handleSelectChange?.(r, e)}
+                    className="borderless" id={`row${i}-period`}
+                  >
                     {periods.map((p: PeriodValue, i) => (
                       <option key={i} value={p}>{periodValueToLabel(p)}</option>
                     ))}
