@@ -2,7 +2,7 @@ import React, {Dispatch, useEffect, useState} from "react";
 import {Calculated, Class1S, DetailsProps, Row, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {periods, buildTaxYears} from "../../../config";
 import uniqid from "uniqid";
-import {GenericErrors, RowsErrors} from "../../../validation/validation";
+import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
 import {ClassOne} from '../../../calculation'
 import configuration from "../../../configuration.json";
@@ -23,7 +23,7 @@ export const defaultRows = [{
   category: ClassOneCalculator.getApplicableCategories(taxYears[0].from)[0],
   period: periods[0],
   gross: '',
-  number: '0',
+  number: '',
   ee: '0',
   er: '0'
 }]
@@ -49,8 +49,6 @@ interface ClassOneContext {
   setRows: Dispatch<Array<Row>>
   details: DetailsProps
   setDetails: Function,
-  rowsErrors: RowsErrors,
-  setRowsErrors: Dispatch<RowsErrors>
   grossTotal: Number | null
   setGrossTotal: Dispatch<Number | null>
   niPaidNet: string
@@ -65,6 +63,8 @@ interface ClassOneContext {
   setCalculatedRows: Dispatch<Array<Calculated>>
   categories: Array<string>
   setCategories: Dispatch<Array<string>>
+  activeRowId: string | null
+  setActiveRowId: Dispatch<string | null>
 }
 
 export const ClassOneContext = React.createContext<ClassOneContext>(
@@ -77,8 +77,6 @@ export const ClassOneContext = React.createContext<ClassOneContext>(
     setRows: () => {},
     details: initialState,
     setDetails: () => {},
-    rowsErrors: {},
-    setRowsErrors: () => {},
     grossTotal: null,
     setGrossTotal: () => {},
     niPaidNet: '',
@@ -92,7 +90,9 @@ export const ClassOneContext = React.createContext<ClassOneContext>(
     calculatedRows: [],
     setCalculatedRows: () => {},
     categories: [],
-    setCategories: () => {}
+    setCategories: () => {},
+    activeRowId: null,
+    setActiveRowId: () => {}
   }
 )
 
@@ -102,12 +102,12 @@ export function useClassOneForm() {
   const [rows, setRows] = useState<Array<Row>>(defaultRows)
   const [details, setDetails] = React.useReducer(stateReducer, initialState)
   const [grossTotal, setGrossTotal] = useState<Number | null>(null)
-  const [rowsErrors, setRowsErrors] = useState<RowsErrors>({})
   const [errors, setErrors] = useState<GenericErrors>({})
   const [niPaidNet, setNiPaidNet] = useState<string>('')
   const [niPaidEmployee, setNiPaidEmployee] = useState<string>('')
   const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({})
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
+  const [activeRowId, setActiveRowId] = useState<string | null>(null)
 
   useEffect(() => {
     setCategoryTotals(getTotalsInCategories(rows as Row[]))
@@ -132,8 +132,6 @@ export function useClassOneForm() {
     setDetails,
     grossTotal,
     setGrossTotal,
-    rowsErrors,
-    setRowsErrors,
     errors,
     setErrors,
     niPaidNet,
@@ -145,6 +143,8 @@ export function useClassOneForm() {
     calculatedRows,
     setCalculatedRows,
     categories,
-    setCategories
+    setCategories,
+    activeRowId,
+    setActiveRowId
   }
 }

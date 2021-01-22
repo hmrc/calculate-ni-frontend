@@ -17,8 +17,8 @@ function DirectorsEarningsTable(props: DirectorsEarningsProps) {
   const { showBands, handleSelectChange, handleChange } = props
   const {
     rows,
-    rowsErrors,
-    categories
+    categories,
+    errors
   } = useContext(DirectorsContext)
 
   return (
@@ -67,7 +67,7 @@ function DirectorsEarningsTable(props: DirectorsEarningsProps) {
 
             {/* Gross Pay */}
             <td className={
-              `input ${rowsErrors?.[`${r.id}`]?.gross ? "error-cell" : ""}`}>
+              `input ${errors?.[`${r.id}-gross`] ? "error-cell" : ""}`}>
               {handleChange ?
                 <>
                   <TextInput

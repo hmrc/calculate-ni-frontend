@@ -12,7 +12,7 @@ import uniqid from "uniqid";
 
 numeral.locale('en-gb');
 
-function Class3Form(props: any) {
+export default function Class3Form(props: any) {
   const { resetTotals } = props
   const {
     rows,
@@ -97,5 +97,3 @@ function Class3Form(props: any) {
     </div>
   )
 }
-
-export default Class3Form;

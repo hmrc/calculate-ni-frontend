@@ -14,7 +14,7 @@ import {Calculated, Calculators, DirectorsRow, GovDateRange, TaxYear} from '../.
 import {defaultRows, DirectorsContext, useDirectorsForm} from "./DirectorsContext";
 
 // services
-import {updateRowInResults, extractTaxYearFromDate} from "../../../services/utils";
+import {updateRowInResults, extractTaxYearFromDate, hasKeys} from "../../../services/utils";
 
 const pageTitle = 'Directors’ contributions'
 
@@ -30,8 +30,6 @@ const DirectorsPage = () => {
     setRows,
     errors,
     setErrors,
-    rowsErrors,
-    setRowsErrors,
     details,
     setDetails,
     niPaidNet,
@@ -71,7 +69,6 @@ const DirectorsPage = () => {
 
   const submitForm = (showSummaryIfValid: boolean) => {
     setErrors({})
-    setRowsErrors({})
     const payload = {
       rows: rows,
       niPaidEmployee: niPaidEmployee,
@@ -80,7 +77,7 @@ const DirectorsPage = () => {
       earningsPeriod: earningsPeriod
     }
 
-    if(validateDirectorsPayload(payload, setErrors, setRowsErrors, taxYears)) {
+    if(validateDirectorsPayload(payload, setErrors, taxYears)) {
       setCalculatedRows(
         calculateRows(rows as DirectorsRow[], taxYear.from) as Calculated[]
       )
@@ -126,7 +123,6 @@ const DirectorsPage = () => {
 
   const resetTotals = () => {
     setErrors({})
-    setRowsErrors({})
     setRows(defaultRows)
     setCalculatedRows([])
     setNiPaidEmployee('')
@@ -143,10 +139,9 @@ const DirectorsPage = () => {
         />
         :
         <>
-          {(Object.keys(errors).length > 0 || Object.keys(rowsErrors).length > 0) &&
+          {hasKeys(errors) &&
             <ErrorSummary
               errors={errors}
-              rowsErrors={rowsErrors}
             />
           }
 

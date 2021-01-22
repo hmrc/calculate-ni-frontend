@@ -92,7 +92,6 @@ const Class2Or3Page = () => {
           {hasKeys(errors) &&
             <ErrorSummary
               errors={errors}
-              rowsErrors={{}}
             />
           }
           <h1>{pageTitle}</h1>
