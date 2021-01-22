@@ -121,15 +121,6 @@ package object eoi {
     
   }
 
-  implicit class RichLD(in: LocalDate) {
-    def previous(day: java.time.DayOfWeek): LocalDate =
-      in.minusDays((in.getDayOfWeek.ordinal - day.ordinal + 7) % 7)
-
-    def next(day: java.time.DayOfWeek): LocalDate =
-      in.plusDays((day.ordinal - in.getDayOfWeek.ordinal + 7) % 7)
-  }
-
-
   implicit class RichDateInterval(inner: Interval[LocalDate]) {
 
     import cats.implicits._
