@@ -11,7 +11,6 @@ import { Row, Class1TableProps } from '../../../interfaces';
 import {ClassOneContext} from "./ClassOneContext";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
-import {deleteRow} from "../../../services/utils";
 
 numeral.locale('en-gb');
 
@@ -24,15 +23,12 @@ function Class1Form(props: Class1TableProps) {
     rows,
     setRows,
     setActiveRowId,
-    activeRowId
+    activeRowId,
+    setErrors
   } = useContext(ClassOneContext)
 
-  const handleSetActiveRow = (r: Row) => {
-    setActiveRowId(r.id)
-  }
-
   const handleChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
-    handleSetActiveRow(r)
+    setActiveRowId(r.id)
     setRows(rows.map((cur: Row) =>
       cur.id === r.id ?
         {...cur, [`${e.currentTarget.name.split('-')[1]}`]: e.currentTarget.value}
@@ -76,6 +72,9 @@ function Class1Form(props: Class1TableProps) {
     e.preventDefault()
     if(activeRowId) {
       setRows(rows.filter((row: Row) => row.id !== activeRowId))
+      // errors are now stale
+      setErrors({})
+      setActiveRowId(null)
     }
   }
 

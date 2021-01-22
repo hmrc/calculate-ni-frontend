@@ -2,7 +2,7 @@
 
 import {PeriodLabel, PeriodValue} from "../config";
 import {GenericErrors} from "../validation/validation";
-import {Dispatch, SetStateAction} from "react";
+import React, {Dispatch, SetStateAction} from "react";
 import {Class2Or3Result} from "../components/calculators/class-2-or-3/Class2Or3Context";
 
 interface GenericObject {

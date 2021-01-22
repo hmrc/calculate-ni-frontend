@@ -9,6 +9,7 @@ import DateInputs from "../../helpers/formhelpers/DateInputs";
 import {validDateParts} from "../../../services/utils";
 import Class3Table from "./Class3Table";
 import uniqid from "uniqid";
+import {Class3Row} from "../../../interfaces";
 
 numeral.locale('en-gb');
 
@@ -25,6 +26,7 @@ export default function Class3Form(props: any) {
     setMonth,
     setYear,
     errors,
+    activeRowId,
     setActiveRowId,
     setErrors
   } = useContext(Class3Context)
@@ -41,6 +43,16 @@ export default function Class3Form(props: any) {
     const newId = uniqid()
     setRows([...rows, {...class3DefaultRows[0], id: newId}])
     setActiveRowId(newId)
+  }
+
+  const handleDeleteRow = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if(activeRowId) {
+      setRows(rows.filter((row: Class3Row) => row.id !== activeRowId))
+      // errors are now stale
+      setErrors({})
+      setActiveRowId(null)
+    }
   }
 
   useEffect(() => {
@@ -77,6 +89,14 @@ export default function Class3Form(props: any) {
         </div>
 
         <div className="container">
+
+          <div className="form-group repeat-button">
+            <SecondaryButton
+              label="Delete active row"
+              onClick={handleDeleteRow}
+              disabled={!activeRowId || rows.length === 1}
+            />
+          </div>
 
           <div className="form-group repeat-button">
             <SecondaryButton

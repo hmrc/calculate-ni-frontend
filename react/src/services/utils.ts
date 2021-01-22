@@ -129,5 +129,3 @@ export const buildDescribedByKeys = (
 }
 
 export const sterlingStringValue = (value: string) => numeral(value).format('$0,0.00')
-
-export const deleteRow = (rowId: string, rows: Array<{id: string}>) => rows.filter(row => row.id !== rowId)
