@@ -1,5 +1,5 @@
 import React, {Dispatch, useEffect, useState} from "react";
-import {Calculated, Class1S, DetailsProps, DirectorsRow, TaxYear, TotalsInCategories} from "../../../interfaces";
+import {Calculated, DetailsProps, DirectorsRow, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {PeriodLabel, buildTaxYears} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
@@ -9,7 +9,7 @@ import configuration from "../../../configuration.json";
 const ClassOneCalculator = new ClassOne(JSON.stringify(configuration))
 const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
 
-const initialState = {
+const initialDetails = {
   fullName: '',
   ni: '',
   reference: '',
@@ -25,7 +25,7 @@ export const defaultRows: Array<DirectorsRow> = [{
   er: '0'
 }]
 
-const stateReducer = (state: Class1S, action: { [x: string]: string }) => ({
+const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) => ({
   ...state,
   ...action,
 })
@@ -71,7 +71,7 @@ export const DirectorsContext = React.createContext<DirectorsContext>(
     setTaxYear: () => {},
     rows: defaultRows,
     setRows: () => {},
-    details: initialState,
+    details: initialDetails,
     setDetails: () => {},
     grossTotal: null,
     setGrossTotal: () => {},
@@ -96,7 +96,7 @@ export function useDirectorsForm() {
   const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
   const [categories, setCategories] = useState<Array<string>>([])
   const [rows, setRows] = useState<Array<DirectorsRow>>(defaultRows)
-  const [details, setDetails] = React.useReducer(stateReducer, initialState)
+  const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [grossTotal, setGrossTotal] = useState<Number | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [niPaidNet, setNiPaidNet] = useState<string>('')

@@ -7,14 +7,14 @@ import 'numeral/locales/en-gb';
 import ClassOneEarningsTable from './Class1ContributionsTable'
 
 // types
-import { Class1TableProps } from '../../../interfaces';
+import { Class1FormProps } from '../../../interfaces';
 import {ClassOneContext} from "./ClassOneContext";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
 
 numeral.locale('en-gb');
 
-function Class1Form(props: Class1TableProps) {
+function Class1Form(props: Class1FormProps) {
   const { handleShowSummary, resetTotals } = props
   const {
     taxYears,

@@ -1,5 +1,5 @@
 import React, {Dispatch, useEffect, useState} from "react";
-import {Calculated, Class1S, DetailsProps, Row, TaxYear, TotalsInCategories} from "../../../interfaces";
+import {Calculated, DetailsProps, Row, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {periods, buildTaxYears} from "../../../config";
 import uniqid from "uniqid";
 import {GenericErrors} from "../../../validation/validation";
@@ -10,7 +10,7 @@ import configuration from "../../../configuration.json";
 const ClassOneCalculator = new ClassOne(JSON.stringify(configuration))
 const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
 
-const initialState = {
+const initialDetails = {
   fullName: '',
   ni: '',
   reference: '',
@@ -28,7 +28,7 @@ export const defaultRows = [{
   er: '0'
 }]
 
-const stateReducer = (state: Class1S, action: { [x: string]: string }) => ({
+const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) => ({
   ...state,
   ...action,
 })
@@ -76,7 +76,7 @@ export const ClassOneContext = React.createContext<ClassOneContext>(
     setTaxYear: () => {},
     rows: defaultRows,
     setRows: () => {},
-    details: initialState,
+    details: initialDetails,
     setDetails: () => {},
     grossTotal: null,
     setGrossTotal: () => {},
@@ -102,7 +102,7 @@ export function useClassOneForm() {
   const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
   const [categories, setCategories] = useState<Array<string>>([])
   const [rows, setRows] = useState<Array<Row>>(defaultRows)
-  const [details, setDetails] = React.useReducer(stateReducer, initialState)
+  const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [grossTotal, setGrossTotal] = useState<Number | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [niPaidNet, setNiPaidNet] = useState<string>('')

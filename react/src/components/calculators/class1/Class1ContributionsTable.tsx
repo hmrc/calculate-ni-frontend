@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import {ClassOneContext} from "./ClassOneContext";
 
 // types
-import {ClassOneEarningsProps, Row} from '../../../interfaces'
+import {TableProps, Row} from '../../../interfaces'
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
@@ -10,7 +10,7 @@ import Class1TableRow from "./Class1TableRow";
 
 numeral.locale('en-gb');
 
-function ClassOneEarningsTable(props: ClassOneEarningsProps) {
+function ClassOneEarningsTable(props: TableProps) {
   const { showBands, printView } = props
   const {
     rows

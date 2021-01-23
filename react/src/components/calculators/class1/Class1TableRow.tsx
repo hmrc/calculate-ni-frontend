@@ -40,7 +40,7 @@ export default function Class1TableRow(props: TableRowProps) {
     ))
   }
 
-  useEffect(() => setPeriodNumbers(), [row.period])
+  useEffect(() => setPeriodNumbers(), [row.period, setPeriodNumbers])
 
   return (
     <tr

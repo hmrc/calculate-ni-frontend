@@ -2,7 +2,7 @@ import React, {Dispatch, SetStateAction, useEffect, useState} from 'react'
 import {buildTaxYears, NiClassName} from "../../../config";
 
 // types
-import {Class1S, DetailsProps, TaxYear} from '../../../interfaces'
+import {DetailsProps, TaxYear} from '../../../interfaces'
 import {GenericErrors} from "../../../validation/validation";
 import {ClassOne} from "../../../calculation";
 import configuration from "../../../configuration.json";
@@ -11,7 +11,7 @@ const ClassOneCalculator = new ClassOne(JSON.stringify(configuration))
 const class2TaxYears: TaxYear[] = buildTaxYears(Object.keys(configuration.classTwo), 'key')
 const class3TaxYears: TaxYear[] = buildTaxYears(Object.keys(configuration.classThree), 'key')
 
-const initialState = {
+const initialDetails = {
   fullName: '',
   ni: '',
   reference: '',
@@ -62,7 +62,7 @@ interface Class2Or3Context {
   setResult: Dispatch<Class2Or3Result | null>
 }
 
-const stateReducer = (state: Class1S, action: { [x: string]: string }) => ({
+const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) => ({
   ...state,
   ...action,
 })
@@ -73,7 +73,7 @@ export const Class2Or3Context = React.createContext<Class2Or3Context>(
     ClassOneCalculator: ClassOneCalculator,
     class2TaxYears: class2TaxYears,
     class3TaxYears: class3TaxYears,
-    details: initialState,
+    details: initialDetails,
     setDetails: () => {},
     activeClass: '',
     setActiveClass: () => {},
@@ -98,7 +98,7 @@ export const Class2Or3Context = React.createContext<Class2Or3Context>(
 
 export function useClass2Or3Form() {
   const [activeClass, setActiveClass] = useState<string>('')
-  const [details, setDetails] = React.useReducer(stateReducer, initialState) 
+  const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [taxYear, setTaxYear] = useState<TaxYear>(class2TaxYears[0])
   const [earningsFactor, setEarningsFactor] = useState<string>('')
   const [paymentEnquiryDate, setPaymentEnquiryDate] = useState<Date | null>(null)
