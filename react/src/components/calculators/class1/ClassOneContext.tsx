@@ -65,6 +65,7 @@ interface ClassOneContext {
   setCategories: Dispatch<Array<string>>
   activeRowId: string | null
   setActiveRowId: Dispatch<string | null>
+  setPeriodNumbers: Function
 }
 
 export const ClassOneContext = React.createContext<ClassOneContext>(
@@ -92,7 +93,8 @@ export const ClassOneContext = React.createContext<ClassOneContext>(
     categories: [],
     setCategories: () => {},
     activeRowId: null,
-    setActiveRowId: () => {}
+    setActiveRowId: () => {},
+    setPeriodNumbers: () => {}
   }
 )
 
@@ -121,6 +123,23 @@ export function useClassOneForm() {
     setCategories(categories.split(''))
   }, [taxYear.from])
 
+  const setPeriodNumbers = (deletedRow: string | undefined) => {
+    for (let period in periods) {
+      let periodAccumulator = 0
+      const newRows = deletedRow ?
+        [...rows.filter((row: Row) => row.id !== deletedRow)]
+        :
+        [...rows]
+      newRows.forEach(row => {
+        if(periods[period] === row.period) {
+            periodAccumulator += 1
+            row.number = periodAccumulator
+          }
+        })
+      setRows(newRows)
+    }
+  }
+
   return {
     ClassOneCalculator,
     taxYears,
@@ -145,6 +164,7 @@ export function useClassOneForm() {
     categories,
     setCategories,
     activeRowId,
-    setActiveRowId
+    setActiveRowId,
+    setPeriodNumbers
   }
 }

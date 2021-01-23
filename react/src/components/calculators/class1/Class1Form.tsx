@@ -11,6 +11,7 @@ import { Row, Class1TableProps } from '../../../interfaces';
 import {ClassOneContext} from "./ClassOneContext";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
+import {periods} from "../../../config";
 
 numeral.locale('en-gb');
 
@@ -24,7 +25,8 @@ function Class1Form(props: Class1TableProps) {
     setRows,
     setActiveRowId,
     activeRowId,
-    setErrors
+    setErrors,
+    setPeriodNumbers
   } = useContext(ClassOneContext)
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -56,12 +58,14 @@ function Class1Form(props: Class1TableProps) {
   const handleDeleteRow = (e: React.MouseEvent) => {
     e.preventDefault()
     if(activeRowId) {
-      setRows(rows.filter((row: Row) => row.id !== activeRowId))
+      setPeriodNumbers(activeRowId)
       // errors are now stale
       setErrors({})
       setActiveRowId(null)
     }
   }
+
+
 
   return (
     <div className="form-group table-wrapper">

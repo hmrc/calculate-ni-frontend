@@ -19,7 +19,8 @@ export default function Class1TableRow(props: TableRowProps) {
     rows,
     setRows,
     errors,
-    categories
+    categories,
+    setPeriodNumbers
   } = useContext(ClassOneContext)
 
   const handleChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,23 +39,7 @@ export default function Class1TableRow(props: TableRowProps) {
     ))
   }
 
-  const setPeriodNumbers = () => {
-    for (let period in periods) {
-      let periodAccumulator = 0
-      const newRows = [...rows]
-      newRows.forEach(row => {
-        console.log('checking period ' + row.period + ' against ' + periods[period])
-        if(periods[period] === row.period) {
-          periodAccumulator += 1
-          row.number = periodAccumulator
-          console.log('new row number = ' + row.number)
-        }
-      })
-      setRows(newRows)
-    }
-  }
-
-  useEffect(setPeriodNumbers, [row.period])
+  useEffect(() => setPeriodNumbers(), [row.period])
 
   return (
     <tr
