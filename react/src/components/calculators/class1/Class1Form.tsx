@@ -27,22 +27,6 @@ function Class1Form(props: Class1TableProps) {
     setErrors
   } = useContext(ClassOneContext)
 
-  const handleChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
-    setActiveRowId(r.id)
-    setRows(rows.map((cur: Row) =>
-      cur.id === r.id ?
-        {...cur, [`${e.currentTarget.name.split('-')[1]}`]: e.currentTarget.value}
-        :
-        cur
-    ))
-  }
-  
-  const handleSelectChange = (r: Row, e: React.ChangeEvent<HTMLSelectElement>) => {
-    setRows(rows.map((cur: Row) =>
-      cur.id === r.id ? {...cur, [e.currentTarget.name]: e.currentTarget.value} : cur
-    ))
-  }
-
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTaxYear(taxYears.find(ty => ty.id === e.target.value) || taxYears[0])
   }
@@ -55,13 +39,14 @@ function Class1Form(props: Class1TableProps) {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const lastRow = rows[rows.length -1]
+    const periodNumber = rows.filter(row => row.period === lastRow.period).length + 1
     const id = uniqid()
     setRows([...rows, {
       id: id,
       category: lastRow.category,
       period: lastRow.period,
       gross: lastRow.gross,
-      number: '',
+      number: periodNumber,
       ee: '0',
       er: '0'
     }])
@@ -98,8 +83,6 @@ function Class1Form(props: Class1TableProps) {
       </div>
 
       <ClassOneEarningsTable
-        handleChange={handleChange}
-        handleSelectChange={handleSelectChange}
         showBands={false}
       />
       

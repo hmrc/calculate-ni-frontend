@@ -48,7 +48,7 @@ const Class3TableRow = (props: {
       to: taxYear.to,
       numberOfWeeks: getNumberOfWeeks(startDate, taxYear.to)
     })
-  }, [taxYear, enteredNiDate])
+  }, [taxYear, enteredNiDate, taxYears])
 
   useEffect(() => {
     if(dateRange) {

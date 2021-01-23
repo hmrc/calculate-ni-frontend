@@ -72,7 +72,7 @@ export interface Class3Row {
 export interface Row {
   id: string
   category: string
-  number: string
+  number: number
   period: PeriodValue
   gross: string
   ee: string

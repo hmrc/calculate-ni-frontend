@@ -200,10 +200,11 @@ const validateClass3Rows = (
 ) => {
   const maxDate = taxYears[0].to
   const minDate = taxYears[taxYears.length - 1].from
+  const coreMsg = (id: string) => ({name: id, link: id})
   rows.forEach((row: Class3Row, index: number) => {
     const fromId = `${row.id}FromDay`
-    const coreMsg = (id: string) => ({name: id, link: id})
     const toId = `${row.id}ToDay`
+    const earningsFactorId = `${row.id}-earningsFactor`
     const dateRange = row.dateRange
     if(!dateRange.from || !dateRange.to) {
       errors[fromId] = {
@@ -235,15 +236,13 @@ const validateClass3Rows = (
     }
 
     if(!row.earningsFactor) {
-      errors[`${row.id}-earningsFactor`] = {
-        name: `${row.id}-earningsFactor`,
-        link: `${row.id}-earningsFactor`,
+      errors[earningsFactorId] = {
+        ...coreMsg(earningsFactorId),
         message: `Earnings factor for row #${index + 1} must be entered`
       }
     } else if (isNaN(+row.earningsFactor)) {
-      errors[`${row.id}-earningsFactor`] = {
-        name: `${row.id}-earningsFactor`,
-        link: `${row.id}-earningsFactor`,
+      errors[earningsFactorId] = {
+        ...coreMsg(earningsFactorId),
         message: `Earnings factor for row #${index + 1} must be an amount of money`
       }
     }

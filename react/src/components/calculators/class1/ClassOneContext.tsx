@@ -23,7 +23,7 @@ export const defaultRows = [{
   category: ClassOneCalculator.getApplicableCategories(taxYears[0].from)[0],
   period: periods[0],
   gross: '',
-  number: '',
+  number: 1,
   ee: '0',
   er: '0'
 }]
