@@ -31,7 +31,10 @@ function Class1Print(props: Class1DirectorsSavePrintProps) {
         
         <DetailsPrint details={details} />
 
-        <ClassOneEarningsTable showBands={true} />
+        <ClassOneEarningsTable
+          showBands={true}
+          printView={true}
+        />
         
         <div className="ni-due">
           <p><strong>NI due</strong> [TBC]</p>

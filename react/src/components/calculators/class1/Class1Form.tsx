@@ -7,11 +7,10 @@ import 'numeral/locales/en-gb';
 import ClassOneEarningsTable from './Class1ContributionsTable'
 
 // types
-import { Row, Class1TableProps } from '../../../interfaces';
+import { Class1TableProps } from '../../../interfaces';
 import {ClassOneContext} from "./ClassOneContext";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
-import {periods} from "../../../config";
 
 numeral.locale('en-gb');
 
@@ -88,6 +87,7 @@ function Class1Form(props: Class1TableProps) {
 
       <ClassOneEarningsTable
         showBands={false}
+        printView={false}
       />
       
       <div className="container">

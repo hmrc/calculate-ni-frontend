@@ -11,7 +11,7 @@ import Class1TableRow from "./Class1TableRow";
 numeral.locale('en-gb');
 
 function ClassOneEarningsTable(props: ClassOneEarningsProps) {
-  const { showBands } = props
+  const { showBands, printView } = props
   const {
     rows
   } = useContext(ClassOneContext)
@@ -29,10 +29,10 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
           <th>
             #<span className="govuk-visually-hidden"> Row number</span>
           </th>
-          <th><strong>Select period</strong></th>
+          <th><strong>{printView ? 'Period': 'Select period'}</strong></th>
           <th className="notes"><strong>Period No.</strong></th>
-          <th><strong>Select NI category letter</strong></th>
-          <th><strong>Enter gross pay</strong></th>
+          <th><strong>{printView ? '' : 'Select '}NI category letter</strong></th>
+          <th><strong>{printView ? 'Gross pay' : 'Enter gross pay'}</strong></th>
           {/* Bands - by tax year, so we can just take the first band to map the rows */}
           {showBands && rows[0].bands && Object.keys(rows[0].bands).map(k =>
             <th key={k}>{k}</th>
@@ -53,6 +53,7 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
             row={r}
             index={i}
             showBands={showBands}
+            printView={printView}
           />
         ))}
       </tbody>

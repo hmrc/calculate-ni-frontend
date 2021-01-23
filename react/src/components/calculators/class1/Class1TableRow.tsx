@@ -9,10 +9,11 @@ interface TableRowProps {
   row: Row
   index: number
   showBands: boolean
+  printView: boolean
 }
 
 export default function Class1TableRow(props: TableRowProps) {
-  const { row, index, showBands } = props
+  const { row, index, showBands, printView } = props
   const {
     activeRowId,
     setActiveRowId,
@@ -51,7 +52,9 @@ export default function Class1TableRow(props: TableRowProps) {
         {index + 1}
       </td>
       <td className="input">
-        {handleSelectChange ?
+        {printView ?
+          <div>{periodValueToLabel(row.period)}</div>
+          :
           <>
             <label className="govuk-visually-hidden" htmlFor={`row${index}-period`}>Period</label>
             <select
@@ -65,8 +68,7 @@ export default function Class1TableRow(props: TableRowProps) {
               ))}
             </select>
           </>
-          :
-          <div>{periodValueToLabel(row.period)}</div>
+
         }
       </td>
 
@@ -76,7 +78,9 @@ export default function Class1TableRow(props: TableRowProps) {
 
       {/* Category */}
       <td className="input">
-        {handleSelectChange ?
+        {printView ?
+          <div>{row.category}</div>
+          :
           <>
             <label className="govuk-visually-hidden" htmlFor={`row${index}-category`}>Category</label>
             <select name="category" value={row.category} onChange={(e) => handleSelectChange?.(row, e)} className="borderless" id={`row${index}-category`}>
@@ -85,15 +89,15 @@ export default function Class1TableRow(props: TableRowProps) {
               ))}
             </select>
           </>
-          :
-          <div>{row.category}</div>
         }
       </td>
 
       {/* Gross Pay */}
       <td className={
         `input ${errors?.[`${row.id}-gross`] ? "error-cell" : ""}`}>
-        {handleChange ?
+        {printView ?
+          <div>{row.gross}</div>
+          :
           <>
             <TextInput
               hiddenLabel={true}
@@ -105,8 +109,6 @@ export default function Class1TableRow(props: TableRowProps) {
               onChangeCallback={(e) => handleChange?.(row, e)}
             />
           </>
-          :
-          <div>{row.gross}</div>
         }
       </td>
 

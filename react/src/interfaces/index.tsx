@@ -122,6 +122,7 @@ export interface EarningsProps {
 }
 
 export interface ClassOneEarningsProps extends EarningsProps {
+  printView: boolean
   handleChange?: (r: Row, e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSelectChange?: (r: Row, e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
