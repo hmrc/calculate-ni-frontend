@@ -12,37 +12,23 @@ import {DateRange} from "../shared/DateRange";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 
 // types
-import {DirectorsRow, DirectorsTableProps} from '../../../interfaces';
+import {DirectorsFormProps} from '../../../interfaces';
 
 numeral.locale('en-gb');
 
-export default function DirectorsForm(props: DirectorsTableProps) {
+export default function DirectorsForm(props: DirectorsFormProps) {
   const { handleShowSummary, resetTotals, setDateRange } = props
   const {
     taxYears,
     taxYear,
     setTaxYear,
-    rows,
-    setRows,
     earningsPeriod,
     errors
   } = useContext(DirectorsContext)
 
-  const handleGrossChange = (r: DirectorsRow, e: React.ChangeEvent<HTMLInputElement>) => {
-    setRows(rows.map((cur: DirectorsRow) =>
-      cur.id === r.id ? {...cur, gross: e.currentTarget.value} : cur
-    ))
-  }
-
   const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
     e.preventDefault()
     resetTotals()
-  }
-
-  const handleSelectChange = (r: DirectorsRow, e: React.ChangeEvent<HTMLSelectElement>) => {
-    setRows(rows.map((cur: DirectorsRow) =>
-      cur.id === r.id ? {...cur, [e.currentTarget.name]: e.currentTarget.value} : cur
-    ))
   }
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -96,9 +82,8 @@ export default function DirectorsForm(props: DirectorsTableProps) {
       />
 
       <DirectorsEarningsTable
-        handleChange={handleGrossChange}
-        handleSelectChange={handleSelectChange}
         showBands={false}
+        printView={false}
       />
 
       <div className="container">

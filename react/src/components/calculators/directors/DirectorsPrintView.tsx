@@ -37,6 +37,7 @@ function DirectorsPrintView(props: Class1DirectorsSavePrintProps) {
 
         <DirectorsEarningsTable
           showBands={true}
+          printView={true}
         />
 
         <div className="ni-due">

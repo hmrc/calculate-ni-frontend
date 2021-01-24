@@ -43,19 +43,6 @@ export interface DetailsProps {
   date: string
 }
 
-export interface Class1S {
-  fullName: string
-  ni: string
-  reference: string
-  preparedBy: string
-  date: string
-}
-
-export interface Errors {
-  niPaidNet: string
-  niPaidEmployee: string
-}
-
 export interface Calculated {
   [key: string]: number[]
 }
@@ -72,7 +59,7 @@ export interface Class3Row {
 export interface Row {
   id: string
   category: string
-  number: string
+  number: number
   period: PeriodValue
   gross: string
   ee: string
@@ -89,12 +76,6 @@ export interface DirectorsRow {
   bands?: Calculated
 }
 
-// Class 2 Or 3
-export interface Class2Or3FormProps {
-  earningsFactor: string
-  handleEarningsFactorChange: ({ currentTarget: { value }, }: React.ChangeEvent<HTMLInputElement>) => void
-}
-
 // Table
 export interface TaxYear {
   id: string
@@ -102,12 +83,12 @@ export interface TaxYear {
   to: Date
 }
 
-export interface Class1TableProps {
+export interface Class1FormProps {
   resetTotals: () => void
   handleShowSummary: (event: React.FormEvent) => void
 }
 
-export interface DirectorsTableProps {
+export interface DirectorsFormProps {
   resetTotals: () => void
   setShowSummary: Dispatch<boolean>
   dateRange: GovDateRange
@@ -117,18 +98,9 @@ export interface DirectorsTableProps {
   handleShowSummary: (event: React.FormEvent) => void
 }
 
-export interface EarningsProps {
+export interface TableProps {
   showBands: boolean;
-}
-
-export interface ClassOneEarningsProps extends EarningsProps {
-  handleChange?: (r: Row, e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSelectChange?: (r: Row, e: React.ChangeEvent<HTMLSelectElement>) => void;
-}
-
-export interface DirectorsEarningsProps extends EarningsProps {
-  handleChange?: (r: DirectorsRow, e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSelectChange?: (r: DirectorsRow, e: React.ChangeEvent<HTMLSelectElement>) => void;
+  printView: boolean
 }
 
 export enum Calculators {

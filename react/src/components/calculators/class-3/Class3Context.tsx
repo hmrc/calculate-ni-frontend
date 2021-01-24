@@ -2,7 +2,7 @@ import React, {Dispatch, SetStateAction, useState} from 'react'
 import {buildTaxYears} from "../../../config";
 
 // types
-import {Class1S, Class3Row, DetailsProps, TaxYear} from '../../../interfaces'
+import {Class3Row, DetailsProps, TaxYear} from '../../../interfaces'
 import {GenericErrors} from "../../../validation/validation";
 import {ClassOne} from "../../../calculation";
 import configuration from "../../../configuration.json";
@@ -11,7 +11,7 @@ import uniqid from "uniqid";
 const ClassOneCalculator = new ClassOne(JSON.stringify(configuration))
 const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
 
-const initialState = {
+const initialDetails = {
   fullName: '',
   ni: '',
   reference: '',
@@ -63,7 +63,7 @@ interface Class3Context {
   setActiveRowId: Dispatch<string | null>
 }
 
-const stateReducer = (state: Class1S, action: { [x: string]: string }) => ({
+const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) => ({
   ...state,
   ...action,
 })
@@ -73,7 +73,7 @@ export const Class3Context = React.createContext<Class3Context>(
   {
     ClassOneCalculator: ClassOneCalculator,
     taxYears: taxYears,
-    details: initialState,
+    details: initialDetails,
     setDetails: () => {},
     rows: class3DefaultRows,
     setRows: () => {},
@@ -95,7 +95,7 @@ export const Class3Context = React.createContext<Class3Context>(
 )
 
 export function useClass3Form() {
-  const [details, setDetails] = React.useReducer(stateReducer, initialState)
+  const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [rows, setRows] = useState<Array<Class3Row>>(class3DefaultRows)
   const [enteredNiDate, setEnteredNiDate] = useState<Date | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})

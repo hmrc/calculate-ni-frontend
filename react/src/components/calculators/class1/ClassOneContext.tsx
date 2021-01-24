@@ -1,5 +1,5 @@
 import React, {Dispatch, useEffect, useState} from "react";
-import {Calculated, Class1S, DetailsProps, Row, TaxYear, TotalsInCategories} from "../../../interfaces";
+import {Calculated, DetailsProps, Row, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {periods, buildTaxYears} from "../../../config";
 import uniqid from "uniqid";
 import {GenericErrors} from "../../../validation/validation";
@@ -10,7 +10,7 @@ import configuration from "../../../configuration.json";
 const ClassOneCalculator = new ClassOne(JSON.stringify(configuration))
 const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
 
-const initialState = {
+const initialDetails = {
   fullName: '',
   ni: '',
   reference: '',
@@ -23,12 +23,12 @@ export const defaultRows = [{
   category: ClassOneCalculator.getApplicableCategories(taxYears[0].from)[0],
   period: periods[0],
   gross: '',
-  number: '',
+  number: 1,
   ee: '0',
   er: '0'
 }]
 
-const stateReducer = (state: Class1S, action: { [x: string]: string }) => ({
+const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) => ({
   ...state,
   ...action,
 })
@@ -65,6 +65,7 @@ interface ClassOneContext {
   setCategories: Dispatch<Array<string>>
   activeRowId: string | null
   setActiveRowId: Dispatch<string | null>
+  setPeriodNumbers: Function
 }
 
 export const ClassOneContext = React.createContext<ClassOneContext>(
@@ -75,7 +76,7 @@ export const ClassOneContext = React.createContext<ClassOneContext>(
     setTaxYear: () => {},
     rows: defaultRows,
     setRows: () => {},
-    details: initialState,
+    details: initialDetails,
     setDetails: () => {},
     grossTotal: null,
     setGrossTotal: () => {},
@@ -92,7 +93,8 @@ export const ClassOneContext = React.createContext<ClassOneContext>(
     categories: [],
     setCategories: () => {},
     activeRowId: null,
-    setActiveRowId: () => {}
+    setActiveRowId: () => {},
+    setPeriodNumbers: () => {}
   }
 )
 
@@ -100,7 +102,7 @@ export function useClassOneForm() {
   const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
   const [categories, setCategories] = useState<Array<string>>([])
   const [rows, setRows] = useState<Array<Row>>(defaultRows)
-  const [details, setDetails] = React.useReducer(stateReducer, initialState)
+  const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [grossTotal, setGrossTotal] = useState<Number | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [niPaidNet, setNiPaidNet] = useState<string>('')
@@ -120,6 +122,23 @@ export function useClassOneForm() {
     const categories = ClassOneCalculator.getApplicableCategories(taxYear.from)
     setCategories(categories.split(''))
   }, [taxYear.from])
+
+  const setPeriodNumbers = (deletedRow: string | undefined) => {
+    for (let period in periods) {
+      let periodAccumulator = 0
+      const newRows = deletedRow ?
+        [...rows.filter((row: Row) => row.id !== deletedRow)]
+        :
+        [...rows]
+      newRows.forEach(row => {
+        if(periods[period] === row.period) {
+            periodAccumulator += 1
+            row.number = periodAccumulator
+          }
+        })
+      setRows(newRows)
+    }
+  }
 
   return {
     ClassOneCalculator,
@@ -145,6 +164,7 @@ export function useClassOneForm() {
     categories,
     setCategories,
     activeRowId,
-    setActiveRowId
+    setActiveRowId,
+    setPeriodNumbers
   }
 }
