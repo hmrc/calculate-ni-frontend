@@ -40,7 +40,10 @@ export default function Class1TableRow(props: TableRowProps) {
     ))
   }
 
-  useEffect(() => setPeriodNumbers(), [row.period, setPeriodNumbers])
+  // cannot include setPeriodNumbers as dep - so either need to duplicate here
+  // or ignore eslint
+  /* eslint-disable-next-line */
+  useEffect(() => setPeriodNumbers(), [row.period])
 
   return (
     <tr
