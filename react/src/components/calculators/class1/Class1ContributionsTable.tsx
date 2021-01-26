@@ -8,13 +8,27 @@ import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 import Class1TableRow from "./Class1TableRow";
 
+import SortToggle from "../../../assets/select-dropdown-arrows.svg"
+
 numeral.locale('en-gb');
 
 function ClassOneEarningsTable(props: TableProps) {
   const { showBands, printView } = props
   const {
-    rows
+    rows,
+    setRows,
+    setErrors
   } = useContext(ClassOneContext)
+
+  const handleSortPeriod = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setErrors({})
+    setRows(rows
+      .slice()
+      .sort((a: Row, b: Row) =>
+        (a.period < b.period ? 1 : (a.period > b.period) ? -1 : 0)))
+  }
+
   return (
     <table className="contribution-details">
       <thead>
@@ -29,7 +43,12 @@ function ClassOneEarningsTable(props: TableProps) {
           <th>
             #<span className="govuk-visually-hidden"> Row number</span>
           </th>
-          <th><strong>{printView ? 'Period': 'Select period'}</strong></th>
+          <th className="column-toggle" onClick={handleSortPeriod}>
+            <strong>
+              {printView ? 'Period': 'Select period'}
+              <img src={SortToggle} alt="Sort by period" />
+            </strong>
+          </th>
           <th className="notes"><strong>Period No.</strong></th>
           <th><strong>{printView ? '' : 'Select '}NI category letter</strong></th>
           <th><strong>{printView ? 'Gross pay' : 'Enter gross pay'}</strong></th>
@@ -49,7 +68,7 @@ function ClassOneEarningsTable(props: TableProps) {
       <tbody>
         {rows.map((r: Row, i: number) => (
           <Class1TableRow
-            key={r.id}
+            key={`row-${i}`}
             row={r}
             index={i}
             showBands={showBands}
