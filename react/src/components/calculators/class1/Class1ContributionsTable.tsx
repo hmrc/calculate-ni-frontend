@@ -46,7 +46,9 @@ function ClassOneEarningsTable(props: TableProps) {
           <th className="column-toggle" onClick={handleSortPeriod}>
             <strong>
               {printView ? 'Period': 'Select period'}
-              <img src={SortToggle} alt="Sort by period" />
+              <abbr title="Sort periods">
+                <img src={SortToggle} alt="Sort by period" />
+              </abbr>
             </strong>
           </th>
           <th className="notes"><strong>Period No.</strong></th>
