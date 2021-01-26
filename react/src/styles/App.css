@@ -132,7 +132,7 @@ fieldset legend {
 /* Select wrapping element */
 .select {
   width: 100%;
-  background: url('../select-dropdown-arrows.svg') no-repeat right 10px center;
+  background: url('../assets/select-dropdown-arrows.svg') no-repeat right 10px center;
   border: 2px solid var(--select-border);
   padding: 0 0.5em;
   cursor: pointer;

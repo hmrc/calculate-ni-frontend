@@ -139,7 +139,6 @@ export function useClassOneForm() {
       setRows(newRows)
     }
   }
-
   return {
     ClassOneCalculator,
     taxYears,
