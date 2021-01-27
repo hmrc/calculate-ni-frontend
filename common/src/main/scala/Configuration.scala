@@ -43,11 +43,20 @@ case class ClassTwo(
   smallEarningsException: Option[BigDecimal]
 )
 
+case class ClassThree(
+  efQual: String,
+  lel: String,
+  startWeek: Int,
+  finalDate: LocalDate,
+  weekRate: BigDecimal,
+  noOfWeeks: Int
+)
+
 case class ClassFour(
   lowerLimit: BigDecimal, 
   upperLimit: BigDecimal,
   mainRate: BigDecimal,
-  upperRate: BigDecimal
+  upperRate: BigDecimal = 0
 )
 
 
@@ -113,7 +122,7 @@ case class Configuration(
   classOne: Map[Interval[LocalDate], Map[String, RateDefinition]],
   classOneAB: Map[Interval[LocalDate], BigDecimal], 
   classTwo: Map[Interval[LocalDate], ClassTwo],
-  classThree: Map[Interval[LocalDate], BigDecimal],
+  classThree: Map[Interval[LocalDate], ClassThree],
   classFour: Map[Interval[LocalDate], ClassFour]   
 ) {
 
@@ -146,7 +155,7 @@ case class Configuration(
   def calculateClassThree(
     on: LocalDate,
     numberOfWeeks: Int
-  ): Option[BigDecimal] = classThree.at(on).map(_ * numberOfWeeks)
+  ): Option[BigDecimal] = ??? // classThree.at(on).map(_ * numberOfWeeks)
 
   def calculateClassFour(
     on: LocalDate,
@@ -163,11 +172,12 @@ case class Configuration(
 
   def calculateClassTwo(
     on: LocalDate,
-    amount: BigDecimal
+    paymentDate: LocalDate,
+    earningsFactor: BigDecimal
   ): Option[BigDecimal] = {
     val year: Option[ClassTwo] = classTwo.at(on)
     year.map { x =>
-      if (amount < x.smallEarningsException.getOrElse(Zero)) 0
+      if (earningsFactor < x.smallEarningsException.getOrElse(Zero)) 0
       else x.weeklyRate * 52
     }
   }

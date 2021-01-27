@@ -148,6 +148,4 @@ package object eoi {
     }
   }
 
-  type ClassThree = BigDecimal
-
 }
