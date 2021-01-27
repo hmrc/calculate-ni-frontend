@@ -4,11 +4,12 @@ import {buildTaxYears} from "../../../config";
 // types
 import {Class3Row, DetailsProps, TaxYear} from '../../../interfaces'
 import {GenericErrors} from "../../../validation/validation";
-import {ClassOne} from "../../../calculation";
 import configuration from "../../../configuration.json";
 import uniqid from "uniqid";
+import {NiFrontend} from '../../../calculation'
 
-const ClassOneCalculator = new ClassOne(JSON.stringify(configuration))
+const NiFrontendInterface = new NiFrontend(JSON.stringify(configuration))
+const ClassOneCalculator = NiFrontendInterface.classOne
 const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
 
 const initialDetails = {

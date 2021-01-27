@@ -4,12 +4,12 @@ import uniqid from 'uniqid';
 // types
 import {Class1DebtRow, DetailsProps, GovDateRange, TaxYear} from '../../../interfaces'
 import {buildTaxYears} from "../../../config";
-import {ClassOne} from "../../../calculation";
 import configuration from "../../../configuration.json";
 import {GenericErrors} from '../../../validation/validation'
+import {NiFrontend} from '../../../calculation'
 
-
-const ClassOneCalculator = new ClassOne(JSON.stringify(configuration))
+const NiFrontendInterface = new NiFrontend(JSON.stringify(configuration))
+const ClassOneCalculator = NiFrontendInterface.classOne
 const interestRates = ClassOneCalculator.interestOnLateClassOne.getRates()
 const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
 

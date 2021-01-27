@@ -8,99 +8,121 @@ import java.time.LocalDate
 import io.circe.generic.auto._, io.circe.syntax._
 import io.circe._
 
-@ScalaJSDefined
-@JSExportTopLevel("ClassOne")
-class ClassOne(json: String) extends js.Object {
-
-  implicit def convertDate(in: Date): LocalDate =
-    LocalDate.of(in.getFullYear.toInt, in.getMonth.toInt, in.getDate.toInt)
+@JSExportTopLevel("NiFrontend")
+class NiFrontend(json: String) extends js.Object {
 
   val config: Configuration = EoiJsonEncoding.fromJson(json) match {
     case Right(z) => z
     case Left(err) => throw new IllegalArgumentException(s"$err")
   }
 
-  def calculate(
-    on: Date,
-    amount: Double,
-    cat: String, // single character
-    period: String, // one of Wk, Mnth, 4Wk or Ann
-    qty: Int = 1, 
-    contractedOutStandardRate: Boolean = false
-  ): String = {
-    val ret = config.calculateClassOne(on, BigDecimal(amount.toString), cat.head, Period(period), qty, contractedOutStandardRate)
-    ret.asJson.toString
+  lazy val classOne = new ClassOneFrontend(config)
+
+  /*   ____ _                 _____
+   *  / ___| | __ _ ___ ___  |_   _|_      _____  
+   * | |   | |/ _` / __/ __|   | | \ \ /\ / / _ \ 
+   * | |___| | (_| \__ \__ \   | |  \ V  V / (_) |
+   *  \____|_|\__,_|___/___/   |_|   \_/\_/ \___/ 
+   */ 
+  object classTwo extends js.Object {
+    def calculateJson(
+      taxYear: Date,
+      paymentDate: Date,
+      earningsFactor: Double
+    ): String = {
+      val payload = JsonObject(
+        "contributionsDue"    -> Json.fromInt(39),
+        "rate"                -> Json.fromBigDecimal(BigDecimal("3.05")),
+        "totalAmountDue"      -> Json.fromBigDecimal(BigDecimal("118.45")),
+        "dateHigherRateApply" -> LocalDate.of(2019, 4, 5).asJson,
+        "finalPaymentDate"    -> LocalDate.of(2019, 4, 5).asJson,
+      )
+      payload.asJson.toString
+    }
+
+    def calculate(
+      taxYear: Date,
+      paymentDate: Date,
+      earningsFactor: Double
+    ) = new js.Object {
+      val contributionsDue: Int = 39
+      val rate: Double = 3.05
+      val totalAmountDue: Double = 118.45
+      val dateHigherRateApply: js.Date = LocalDate.of(2019, 4, 5)
+      val finalPaymentDate: js.Date = LocalDate.of(2019, 4, 5)
+    }
   }
 
-  def calculateProRata(
-    from: Date,
-    to: Date,    
-    amount: Double,
-    cat: String, // single character
-    contractedOutStandardRate: Boolean = false
-  ): String = {
-    val totalForYear = config.calculateClassOne(from, BigDecimal(amount.toString), cat.head, Period.Year, 1, contractedOutStandardRate)
-    val ratio = config.proRataRatio(from, to).get
-    val ret = totalForYear.mapValues{ case (b,ee,er) => (b * ratio,ee * ratio,er * ratio) }
-    ret.asJson.toString
+  /*   ____ _                 _____ _
+   *  / ___| | __ _ ___ ___  |_   _| |__  _ __ ___  ___ 
+   * | |   | |/ _` / __/ __|   | | | '_ \| '__/ _ \/ _ \
+   * | |___| | (_| \__ \__ \   | | | | | | | |  __/  __/
+   *  \____|_|\__,_|___/___/   |_| |_| |_|_|  \___|\___|
+   */   
+  object classThree extends js.Object {
+    def calculateJson(
+      taxYear: Date,
+      paymentDate: Date,
+      earningsFactor: Double
+    ): String = {
+      val payload = JsonObject(
+        "contributionsDue"    -> Json.fromInt(39),
+        "rate"                -> Json.fromBigDecimal(BigDecimal("3.05")),
+        "totalAmountDue"      -> Json.fromBigDecimal(BigDecimal("118.45")),
+        "dateHigherRateApply" -> LocalDate.of(2019, 4, 5).asJson,
+        "finalPaymentDate"    -> LocalDate.of(2019, 4, 5).asJson,
+      )
+      payload.asJson.toString
+    }
+    def calculate(
+                   taxYear: Date,
+                   paymentDate: Date,
+                   earningsFactor: Double
+                 ) = new js.Object {
+      val contributionsDue: Int = 39
+      val rate: Double = 3.05
+      val totalAmountDue: Double = 118.45
+      val dateHigherRateApply: js.Date = LocalDate.of(2019, 4, 5)
+      val finalPaymentDate: js.Date = LocalDate.of(2019, 4, 5)
+    }
   }
 
-  def isCosrApplicable(on: Date): Boolean = {
-    val interval = config.classOne.keys.find(_.contains(on)).getOrElse(
-      throw new NoSuchElementException(s"Cannot find an interval for $on")
-    )
-    config.classOne(interval).values.exists(_.contractedOutStandardRate.isDefined)
-  }
+  /* __        __        _    _
+   * \ \      / /__  ___| | _| |_   _ 
+   *  \ \ /\ / / _ \/ _ \ |/ / | | | |
+   *   \ V  V /  __/  __/   <| | |_| |
+   *    \_/\_/ \___|\___|_|\_\_|\__, |
+   *                            |___/ 
+   *   ____            _        _ _           _   _                 
+   *  / ___|___  _ __ | |_ _ __(_) |__  _   _| |_(_) ___  _ __  ___ 
+   * | |   / _ \| '_ \| __| '__| | '_ \| | | | __| |/ _ \| '_ \/ __|
+   * | |__| (_) | | | | |_| |  | | |_) | |_| | |_| | (_) | | | \__ \
+   *  \____\___/|_| |_|\__|_|  |_|_.__/ \__,_|\__|_|\___/|_| |_|___/
+   */                                                                
+  object weeklyContributions {
 
-  def getTaxYears: js.Array[String] = {
-    val i = config.classOne.keys.map(_.toString)
-    i.toJSArray
-  }
+    def calculateJson(
+      from: LocalDate,
+      to: LocalDate,
+      earningsFactor: BigDecimal
+    ): String = {
+      val payload = JsonObject(
+        "maxPotentialWeeks"   -> Json.fromInt(52),
+        "actualWeeks"         -> Json.fromInt(12), 
+        "deficient"           -> Json.fromInt(1)
+      )
+      payload.asJson.toString
+    }
 
-  def getApplicableCategories(on: Date): String = {
-    val interval = config.classOne.keys.find(_.contains(on)).getOrElse(
-      throw new NoSuchElementException(s"Cannot find an interval for $on")
-    )
-    config.classOne(interval).values.flatMap( x =>
-      x.employee.keys ++ x.employer.keys
-    ).toList.sorted.distinct.map{ch => s"$ch"}.mkString
-  }
-
-  def calculateClassOneAAndB(
-    on: Date,
-    amount: Double
-  ): String = config.calculateClassOneAAndB(on, amount).getOrElse(
-    throw new NoSuchElementException(s"Class One A and B undefined for $on")
-  ).toString
-
-  def calculateClassTwo(
-                         taxYear: Date,
-                         paymentDate: Date,
-                         earningsFactor: Double
-                       ): String = {
-    val payload = JsonObject(
-      "contributionsDue"    -> Json.fromInt(39),
-      "rate"                -> Json.fromBigDecimal(BigDecimal("3.05")),
-      "totalAmountDue"      -> Json.fromBigDecimal(BigDecimal("118.45")),
-      "dateHigherRateApply" -> LocalDate.of(2019, 4, 5).asJson,
-      "finalPaymentDate"    -> LocalDate.of(2019, 4, 5).asJson,
-    )
-    payload.asJson.toString
-  }
-
-  def calculateClassThree(
-                         taxYear: Date,
-                         paymentDate: Date,
-                         earningsFactor: Double
-                       ): String = {
-    val payload = JsonObject(
-      "contributionsDue"    -> Json.fromInt(39),
-      "rate"                -> Json.fromBigDecimal(BigDecimal("3.05")),
-      "totalAmountDue"      -> Json.fromBigDecimal(BigDecimal("118.45")),
-      "dateHigherRateApply" -> LocalDate.of(2019, 4, 5).asJson,
-      "finalPaymentDate"    -> LocalDate.of(2019, 4, 5).asJson,
-    )
-    payload.asJson.toString
+    def apply(
+      from: LocalDate,
+      to: LocalDate,
+      earningsFactor: BigDecimal
+    ) = new js.Object {
+      val maxPotentialWeeks: Int = 52
+      val actualWeeks: Int = 12
+      val deficient: Int = 1
+    }
   }
 
   /*

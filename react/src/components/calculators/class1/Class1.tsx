@@ -89,7 +89,7 @@ const Class1Page = () => {
         const rowPeriodQty = (row.period === PeriodValue.FORTNIGHTLY ? 2 : 1)
         const calculatedRow = JSON.parse(
           ClassOneCalculator
-            .calculate(
+            .calculateJson(
               taxYear,
               parseFloat(row.gross),
               row.category,
