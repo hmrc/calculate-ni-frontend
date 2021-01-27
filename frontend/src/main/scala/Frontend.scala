@@ -8,31 +8,6 @@ import java.time.LocalDate
 import io.circe.generic.auto._, io.circe.syntax._
 import io.circe._
 
-/** A dummy object for backward compatibility */
-@JSExportTopLevel("ClassOne")
-@deprecated("Use NiFrontend")
-final class ClassOne(json: String) extends NiFrontend(json) {
-
-  @deprecated("Use classOne.calculateJson")
-  lazy val calculate = classOne.calculateJson _
-
-  @deprecated("Use classOne.calculateProRataJson")
-  lazy val calculateProRata = classOne.calculateProRataJson _
-
-  @deprecated("Use classOne.getTaxYears")
-  lazy val getTaxYears = classOne.getTaxYears _
-
-  @deprecated("Use classOne.getApplicableCategories")
-  lazy val getApplicableCategories = classOne.getApplicableCategories _
-
-  @deprecated("Use classTwo.calculateJson")
-  lazy val calculateClassTwo = classTwo.calculateJson _
-
-  @deprecated("Use classThree.calculateJson")
-  lazy val calculateClassThree = classThree.calculateJson _
-
-}
-
 @JSExportTopLevel("NiFrontend")
 class NiFrontend(json: String) extends js.Object {
 
