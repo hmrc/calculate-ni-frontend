@@ -98,6 +98,14 @@ export interface DirectorsFormProps {
   handleShowSummary: (event: React.FormEvent) => void
 }
 
+export interface Class1DebtRow {
+  id: string
+  taxYears: TaxYear[]
+  taxYear: TaxYear
+  debt: string
+  interestDue: string | null
+}
+
 export interface TableProps {
   showBands: boolean;
   printView: boolean
@@ -142,6 +150,10 @@ export interface Class12Or3SavePrintProps extends SavePrintBaseProps {
   result: Class2Or3Result | null
 }
 
+export interface LateInterestPrintProps extends SavePrintBaseProps {
+
+}
+
 export interface CategoryTotalsProps {
   rows: Array<Row | DirectorsRow>
   categoriesList: string[]
@@ -173,6 +185,8 @@ export interface GovDateRange {
   from: Date | null;
   to: Date | null;
   numberOfWeeks?: number
+  hasContentFrom: boolean
+  hasContentTo: boolean
 }
 
 export type NiCategory =

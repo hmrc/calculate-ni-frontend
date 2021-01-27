@@ -2,7 +2,7 @@ import DateInputs from "../../helpers/formhelpers/DateInputs";
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {GovDateRange} from "../../../interfaces";
 import {GenericErrors} from "../../../validation/validation";
-import {getNumberOfWeeks, validDateParts} from '../../../services/utils'
+import {getNumberOfWeeks, isEmptyString, validDateParts} from '../../../services/utils'
 
 interface DateRangeProps {
   setDateRange: Dispatch<SetStateAction<GovDateRange>>
@@ -46,13 +46,16 @@ export const DateRange = (props: DateRangeProps) => {
   useEffect(() => {
     const fromDate = validDateParts(fromDay, fromMonth, fromYear) ?
       new Date(`${fromYear}-${fromMonth}-${fromDay}`) : null
+
     setDateRange((prevState: GovDateRange) => {
       const maxWeeks = prevState.to && fromDate ?
         getNumberOfWeeks(fromDate as Date, prevState.to as Date) : undefined
       return {
         from: fromDate,
         to: prevState.to,
-        numberOfWeeks: maxWeeks
+        numberOfWeeks: maxWeeks,
+        hasContentFrom: !isEmptyString(fromDay) || !isEmptyString(fromMonth) || !isEmptyString(fromYear),
+        hasContentTo: prevState.hasContentTo
       }
     })
   }, [fromDay, fromMonth, fromYear, setDateRange])
@@ -66,7 +69,9 @@ export const DateRange = (props: DateRangeProps) => {
       return {
         from: prevState.from,
         to: toDate,
-        numberOfWeeks: maxWeeks
+        numberOfWeeks: maxWeeks,
+        hasContentFrom: prevState.hasContentFrom,
+        hasContentTo: !isEmptyString(toDay) || !isEmptyString(toMonth) || !isEmptyString(toYear),
       }
     })
   }, [toDay, toMonth, toYear, setDateRange])
