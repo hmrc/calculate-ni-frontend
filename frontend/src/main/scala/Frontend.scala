@@ -84,7 +84,7 @@ class NiFrontend(json: String) extends js.Object {
    * | |___| | (_| \__ \__ \   | | | | | | | |  __/  __/
    *  \____|_|\__,_|___/___/   |_| |_| |_|_|  \___|\___|
    */   
-  object classThree {
+  object classThree extends js.Object {
     def calculateJson(
       taxYear: Date,
       paymentDate: Date,
