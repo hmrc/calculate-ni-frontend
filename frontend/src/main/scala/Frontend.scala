@@ -99,6 +99,17 @@ class NiFrontend(json: String) extends js.Object {
       )
       payload.asJson.toString
     }
+    def calculate(
+                   taxYear: Date,
+                   paymentDate: Date,
+                   earningsFactor: Double
+                 ) = new js.Object {
+      val contributionsDue: Int = 39
+      val rate: Double = 3.05
+      val totalAmountDue: Double = 118.45
+      val dateHigherRateApply: js.Date = LocalDate.of(2019, 4, 5)
+      val finalPaymentDate: js.Date = LocalDate.of(2019, 4, 5)
+    }
   }
 
   /* __        __        _    _

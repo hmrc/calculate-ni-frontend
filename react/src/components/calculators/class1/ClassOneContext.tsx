@@ -4,10 +4,12 @@ import {periods, buildTaxYears} from "../../../config";
 import uniqid from "uniqid";
 import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
-import {ClassOne} from '../../../calculation'
+import {NiFrontend} from '../../../calculation'
 import configuration from "../../../configuration.json";
 
-const ClassOneCalculator = new ClassOne(JSON.stringify(configuration))
+const NiFrontendInterface = new NiFrontend(JSON.stringify(configuration))
+const ClassOneCalculator = NiFrontendInterface.classOne
+console.log('ClassOneCalculator', ClassOneCalculator)
 const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
 
 const initialDetails = {
@@ -35,7 +37,9 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
 
 interface Calculator {
   calculate: Function
+  calculateJson: Function
   calculateProRata: Function
+  calculateProRataJson: Function
   getApplicableCategories: Function
   getTaxYears: Array<string>
 }

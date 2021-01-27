@@ -92,7 +92,7 @@ const DirectorsPage = () => {
         let calculatedRow: Calculated;
         if (earningsPeriod === PeriodLabel.ANNUAL) {
           calculatedRow = JSON.parse(ClassOneCalculator
-            .calculate(
+            .calculateJson(
               taxYear,
               parseFloat(row.gross),
               row.category,
@@ -102,7 +102,7 @@ const DirectorsPage = () => {
             ))
         } else {
           calculatedRow = JSON.parse(ClassOneCalculator
-            .calculateProRata(
+            .calculateProRataJson(
               dateRange.from,
               dateRange.to,
               parseFloat(row.gross),

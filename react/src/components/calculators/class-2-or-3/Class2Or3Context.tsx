@@ -4,10 +4,12 @@ import {buildTaxYears, NiClassName} from "../../../config";
 // types
 import {DetailsProps, TaxYear} from '../../../interfaces'
 import {GenericErrors} from "../../../validation/validation";
-import {ClassOne} from "../../../calculation";
 import configuration from "../../../configuration.json";
+import {NiFrontend} from '../../../calculation'
 
-const ClassOneCalculator = new ClassOne(JSON.stringify(configuration))
+const NiFrontendInterface = new NiFrontend(JSON.stringify(configuration))
+const ClassTwoCalculator = NiFrontendInterface.classTwo
+const ClassThreeCalculator = NiFrontendInterface.classThree
 const class2TaxYears: TaxYear[] = buildTaxYears(Object.keys(configuration.classTwo), 'key')
 const class3TaxYears: TaxYear[] = buildTaxYears(Object.keys(configuration.classThree), 'key')
 
@@ -37,7 +39,8 @@ export interface Class2Or3Result {
 }
 
 interface Class2Or3Context {
-  ClassOneCalculator: Calculator
+  ClassTwoCalculator: Calculator
+  ClassThreeCalculator: Calculator
   class2TaxYears: TaxYear[]
   class3TaxYears: TaxYear[]
   details: DetailsProps
@@ -70,7 +73,8 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
 
 export const Class2Or3Context = React.createContext<Class2Or3Context>(
   {
-    ClassOneCalculator: ClassOneCalculator,
+    ClassTwoCalculator: ClassTwoCalculator,
+    ClassThreeCalculator: ClassThreeCalculator,
     class2TaxYears: class2TaxYears,
     class3TaxYears: class3TaxYears,
     details: initialDetails,
@@ -114,7 +118,8 @@ export function useClass2Or3Form() {
   }, [activeClass])
 
   return {
-    ClassOneCalculator,
+    ClassTwoCalculator,
+    ClassThreeCalculator,
     class2TaxYears,
     class3TaxYears,
     details,

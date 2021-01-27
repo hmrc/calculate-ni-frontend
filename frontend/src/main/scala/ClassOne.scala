@@ -11,7 +11,7 @@ import io.circe._
 @JSExportTopLevel("ClassOneFrontend")
 class ClassOneFrontend(
   config: Configuration
-) {
+) extends js.Object {
     def calculateJson(
       on: js.Date,
       amount: Double,
@@ -79,5 +79,34 @@ class ClassOneFrontend(
       amount: Double
     ): String = config.calculateClassOneAAndB(on, amount).getOrElse(
       throw new NoSuchElementException(s"Class One A and B undefined for $on")
-    ).toString  
+    ).toString
+
+    val interestOnLateClassOne = new js.Object {
+
+    private def sampleResponse(rowsIn: List[js.Object]) = new js.Object {
+      val totalDebt: Double = 1
+      val totalInterest: Double = 2
+      val grandTotal: Double = 3
+
+      val rows: js.Array[js.Object] = rowsIn.zipWithIndex.map { case (row,i) =>
+        new js.Object {
+          val periodStart = 1
+          val debt = 2
+          val interestDue = (i+1) * 100
+        } : js.Object
+      }.toJSArray
+    }
+
+    def calculate(
+                   rows: js.Array[js.Object],
+                   remissionPeriod: js.Object
+                 ): js.Object = sampleResponse(rows.toList)
+
+    def getRates(): js.Array[js.Object] = {2010 to 2020}.map { yearGen =>
+      new js.Object {
+        val year = yearGen
+        val rate = 0.055
+      }: js.Object
+    }.toJSArray
+  }
 }
