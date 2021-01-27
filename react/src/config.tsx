@@ -87,4 +87,10 @@ export const periodValueToLabel = (str: PeriodValue) => {
   }
 }
 
-export const taxYearString = (ty: TaxYear) => `${moment(ty.from).format(momentDateFormat)} - ${moment(ty.to).format(momentDateFormat)}`
+export const taxYearString = (ty: TaxYear, onlyStartYear?: boolean) => {
+  if (!onlyStartYear) {
+    return `${moment(ty.from).format(momentDateFormat)} - ${moment(ty.to).format(momentDateFormat)}`
+  } else {
+    return `${moment(ty.from).format('YYYY')}`
+  }
+}

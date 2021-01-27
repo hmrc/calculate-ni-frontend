@@ -20,7 +20,7 @@ const pageTitle = 'Directors’ contributions'
 
 const DirectorsPage = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
-  const [dateRange, setDateRange] = useState<GovDateRange>((() => ({from: null, to: null})))
+  const [dateRange, setDateRange] = useState<GovDateRange>((() => ({from: null, to: null, hasContentFrom: false, hasContentTo: false})))
   const {
     ClassOneCalculator,
     taxYears,

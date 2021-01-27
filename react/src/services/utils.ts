@@ -18,6 +18,10 @@ export const isEmpty = (obj: object) => Object.keys(obj).length === 0
 
 export const hasKeys = (obj: object) => Object.keys(obj).length > 0
 
+export const isEmptyString = (str: string) => str.length === 0 || !str.trim()
+
+export const hasNonEmptyStrings = (stringsList: string[]) => stringsList.some(str => !isEmptyString(str))
+
 export function sumOfContributionsInRow(calculatedRow: Calculated, type: number): number {
   return Object.keys(calculatedRow).reduce((prev, key) => {
     return prev + calculatedRow[key][type]

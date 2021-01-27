@@ -1,4 +1,4 @@
-import {Class3Row, DirectorsRow, GovDateRange, Row, TaxYear} from '../interfaces'
+import {Class1DebtRow, Class3Row, DirectorsRow, GovDateRange, Row, TaxYear} from '../interfaces'
 import {PeriodLabel} from "../config";
 import {Dispatch} from "react";
 import {extractTaxYearFromDate, govDateFormat, hasKeys, isEmpty} from "../services/utils";
@@ -39,6 +39,11 @@ export interface ErrorMessage {
 export interface ClassOneErrors {
   niPaidNet?: ErrorMessage
   niPaidEmployee?: ErrorMessage
+}
+
+interface LateInterestPayload {
+  rows: Array<Class1DebtRow>
+  dateRange: GovDateRange
 }
 
 export interface GenericErrors {
@@ -190,6 +195,58 @@ export const validateClass3Payload = (
     return false
   }
   return true
+}
+
+export const validateLateInterestPayload  = (
+  payload: LateInterestPayload,
+  setErrors: Dispatch<GenericErrors>
+) => {
+  const errors: GenericErrors = {}
+
+  if((payload.dateRange.hasContentFrom || payload.dateRange.hasContentTo) && !payload.dateRange.from) {
+    errors.remissionPeriodFromDay = {
+      name: 'remissionPeriod',
+      link: 'remissionPeriodFromDay',
+      message: 'Remission periods from date must be entered as a real date'
+    }
+  }
+
+  if((payload.dateRange.hasContentFrom || payload.dateRange.hasContentTo) && !payload.dateRange.to) {
+    errors.remissionPeriodToDay = {
+      name: 'remissionPeriod',
+      link: 'remissionPeriodToDay',
+      message: 'Remission periods to date must be entered as a real date'
+    }
+  }
+
+  validateLateInterestRows(payload.rows, setErrors, errors)
+  if (hasKeys(errors)) {
+    setErrors(errors)
+    return false
+  }
+  return true
+}
+
+const validateLateInterestRows = (
+  rows: Array<Class1DebtRow>,
+  setErrors: Dispatch<GenericErrors>,
+  errors: GenericErrors
+) => {
+  rows.forEach((row: Class1DebtRow, index: number) => {
+    if (!row.debt) {
+      errors[`${row.id}-class1-debt`] = {
+        name: `${row.id}-class1-debt`,
+        link: `${row.id}-class1-debt`,
+        message: `Class 1 debt for row #${index + 1} must be entered`
+      }
+    } else if (isNaN(+row.debt)) {
+      errors[`${row.id}-class1-debt`] = {
+        name: `${row.id}-class1-debt`,
+        link: `${row.id}-class1-debt`,
+        message: `Class 1 debt for row #${index + 1} must be an amount of money`
+      }
+    }
+  })
 }
 
 const validateClass3Rows = (

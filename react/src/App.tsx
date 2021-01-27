@@ -26,7 +26,7 @@ import Directors from './components/calculators/directors/Directors'
 import UnofficialDeferment from './components/calculators/unofficial-deferment/UnofficialDeferment'
 import Class2Or3 from './components/calculators/class-2-or-3/Class2Or3'
 import Class3 from './components/calculators/class-3/Class3'
-import InterestClass1 from './components/calculators/interest-class-1/InterestClass1'
+import LateInterest from './components/calculators/late-interest/LateInterest'
 import InterestRefunds from './components/calculators/interest-refunds/InterestRefunds'
 import BreadCrumbs from "./components/helpers/gov-design-system/BreadCrumbs";
 
@@ -55,8 +55,8 @@ function App() {
               <Route path="/class-3">
                 <Class3 />
               </Route>
-              <Route path="/interest-class-1">
-                <InterestClass1 />
+              <Route path="/late-interest">
+                <LateInterest />
               </Route>
               <Route path="/interest-refunds">
                 <InterestRefunds />

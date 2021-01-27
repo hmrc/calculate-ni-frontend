@@ -157,62 +157,6 @@ fieldset legend {
   white-space: nowrap !important;
 }
 
-
-
-/* Container */
-.container {
-  clear: both;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.container.container-block {
-  display: block;
-}
-
-@media screen and (min-width: 760px) {
-  .container {
-    clear: both;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .container.column {
-    flex-direction: column;
-  }
-}
-
-@media screen and (min-width: 760px) {
-  .container.half {
-    flex-grow: 1;
-    width: 50%;
-  }
-  
-  .container.half + .half {
-    margin-left: 4%;
-  }
-
-  .container.third {
-    flex-grow: 1;
-    width: 33.333%;
-  }
-  
-  .container.third + .third {
-    margin-left: 4%;
-  }
-
-  .container .item + .item {
-    margin-left: 4%;
-  }
-}
-
-
-.container .item {
-  flex-grow: 1;
-}
-
 /* Two Col */
 .two-col {
   overflow: hidden;
