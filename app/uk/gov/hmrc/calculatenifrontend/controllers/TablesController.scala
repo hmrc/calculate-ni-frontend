@@ -120,11 +120,10 @@ class TablesController @Inject()(
       case Some(data) =>
 
         val selectedInterval = ni.classThree.keySet.find(_.contains(dateP)).get
-        val noOfWeeks = selectedInterval.numberOfWeeks().get
         val lowerBound = selectedInterval.lowerValue.get        
         val response = List (
-          "Weekly Rate" -> data.formatSterling,
-          "Rate Total" -> (data * noOfWeeks).formatSterling,
+          "Weekly Rate" -> data.weekRate.formatSterling,
+          "Rate Total" -> (data.weekRate * data.noOfWeeks).formatSterling,
           "Date High Rate Provision (HRP) Applies" ->
             (if (lowerBound.getYear < 1983) "" else lowerBound.plusYears(2).plusDays(1).toString),
           "Final Date For Payment" -> lowerBound.plusYears(if (lowerBound.getYear < 1982) 3 else 7),
