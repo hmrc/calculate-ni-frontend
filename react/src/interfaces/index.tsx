@@ -106,6 +106,14 @@ export interface Class1DebtRow {
   interestDue: string | null
 }
 
+export interface LateRefundsTableRowProps {
+  id: string
+  taxYears: TaxYear[]
+  taxYear: TaxYear
+  refund: string,
+  payable: string
+}
+
 export interface TableProps {
   showBands: boolean;
   printView: boolean
@@ -150,9 +158,8 @@ export interface Class12Or3SavePrintProps extends SavePrintBaseProps {
   result: Class2Or3Result | null
 }
 
-export interface LateInterestPrintProps extends SavePrintBaseProps {
-
-}
+export interface LateInterestPrintProps extends SavePrintBaseProps {}
+export interface LateRefundPrintProps extends SavePrintBaseProps {}
 
 export interface CategoryTotalsProps {
   rows: Array<Row | DirectorsRow>
@@ -179,6 +186,7 @@ export interface TextInputProps {
   inputMode?: "numeric"
   onChangeCallback: React.ChangeEventHandler<HTMLInputElement>
   onBlurCallback?: React.ChangeEventHandler<HTMLInputElement>
+  error?: any // todo
 }
 
 export interface GovDateRange {
@@ -207,4 +215,9 @@ export enum TotalType {
   EE = 'ee',
   ER = 'er',
   GROSS = 'gross'
+}
+
+export interface Rate {
+  year: number
+  rate: number
 }
