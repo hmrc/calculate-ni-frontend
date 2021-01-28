@@ -25,6 +25,12 @@ class NiFrontend(json: String) extends js.Object {
    *  \____|_|\__,_|___/___/   |_|   \_/\_/ \___/ 
    */ 
   object classTwo extends js.Object {
+
+    def getTaxYears: js.Array[String] = {
+      val i = config.classTwo.keys.map(_.toString)
+      i.toJSArray
+    }
+
     def calculateJson(
       taxYear: Date,
       paymentDate: Date,
@@ -60,6 +66,12 @@ class NiFrontend(json: String) extends js.Object {
    *  \____|_|\__,_|___/___/   |_| |_| |_|_|  \___|\___|
    */   
   object classThree extends js.Object {
+
+    def getTaxYears: js.Array[String] = {
+      val i = config.classThree.keys.map(_.toString)
+      i.toJSArray
+    }
+
     def calculateJson(
       taxYear: Date,
       paymentDate: Date,
@@ -125,20 +137,12 @@ class NiFrontend(json: String) extends js.Object {
     }
   }
 
-  /*
-  def calculateClassThree(
-    on: Date,
-    numberOfWeeks: Int
-  ): String = config.calculateClassThree(on, numberOfWeeks).getOrElse(
-    throw new NoSuchElementException(s"Class Three undefined for $on")
-  ).toString
-  */
   def calculateClassFour(
     on: LocalDate,
     amount: Double
   ): String = {
     val (l,h) = config.calculateClassFour(on, amount).getOrElse(
-      throw new NoSuchElementException(s"Class Three undefined for $on")
+      throw new NoSuchElementException(s"Class Four undefined for $on")
     )
     l.toString + "," + h.toString
   }
