@@ -5,6 +5,7 @@ import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
 import {NiFrontend} from '../../../calculation'
 import configuration from "../../../configuration.json";
+import uniqid from 'uniqid'
 
 const NiFrontendInterface = new NiFrontend(JSON.stringify(configuration))
 const ClassOneCalculator = NiFrontendInterface.classOne
@@ -19,7 +20,7 @@ const initialDetails = {
 }
 
 export const defaultRows: Array<DirectorsRow> = [{
-  id: 'directorsInput',
+  id: uniqid(),
   category: ClassOneCalculator.getApplicableCategories(taxYears[0].from)[0],
   gross: '',
   ee: '0',
@@ -44,7 +45,7 @@ interface DirectorsContext {
   taxYears: TaxYear[]
   taxYear: TaxYear
   setTaxYear: Dispatch<TaxYear>
-  rows: Array<DirectorsRow>
+  rows: DirectorsRow[]
   setRows: Dispatch<Array<DirectorsRow>>
   details: DetailsProps
   setDetails: Function,
@@ -64,6 +65,8 @@ interface DirectorsContext {
   setCalculatedRows: Dispatch<Array<Calculated>>
   categories: Array<string>
   setCategories: Dispatch<Array<string>>
+  activeRowId: string | null
+  setActiveRowId: Dispatch<string | null>
 }
 
 export const DirectorsContext = React.createContext<DirectorsContext>(
@@ -91,7 +94,9 @@ export const DirectorsContext = React.createContext<DirectorsContext>(
     calculatedRows: [],
     setCalculatedRows: () => {},
     categories: [],
-    setCategories: () => {}
+    setCategories: () => {},
+    activeRowId: null,
+    setActiveRowId: () => {},
   }
 )
 
@@ -107,6 +112,7 @@ export function useDirectorsForm() {
   const [earningsPeriod, setEarningsPeriod] = useState<PeriodLabel | null>(null)
   const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({})
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
+  const [activeRowId, setActiveRowId] = useState<string | null>(null)
 
   useEffect(() => {
     setCategoryTotals(getTotalsInCategories(rows as DirectorsRow[]))
@@ -144,6 +150,8 @@ export function useDirectorsForm() {
     calculatedRows,
     setCalculatedRows,
     categories,
-    setCategories
+    setCategories,
+    activeRowId,
+    setActiveRowId
   }
 }
