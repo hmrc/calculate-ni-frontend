@@ -12,23 +12,56 @@ import {DateRange} from "../shared/DateRange";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 
 // types
-import {DirectorsFormProps} from '../../../interfaces';
+import {DirectorsFormProps, DirectorsRow} from '../../../interfaces';
+import uniqid from 'uniqid'
 
 numeral.locale('en-gb');
 
 export default function DirectorsForm(props: DirectorsFormProps) {
   const { handleShowSummary, resetTotals, setDateRange } = props
   const {
+    ClassOneCalculator,
     taxYears,
     taxYear,
     setTaxYear,
     earningsPeriod,
-    errors
+    errors,
+    setErrors,
+    rows,
+    setRows,
+    activeRowId,
+    setActiveRowId
   } = useContext(DirectorsContext)
 
   const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
     e.preventDefault()
     resetTotals()
+  }
+
+  const handleAddRow = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    setRows([...rows, {
+      id: uniqid(),
+      category: ClassOneCalculator.getApplicableCategories(taxYears[0].from)[0],
+      gross: '',
+      ee: '0',
+      er: '0'
+    }])
+  }
+
+  const handleDeleteRow = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if(activeRowId) {
+      // errors are now stale
+      setErrors({})
+      setActiveRowId(null)
+
+      const newRows = rows.filter((row: DirectorsRow) => {
+        return row.id !== activeRowId
+      })
+
+      setRows(newRows)
+    }
   }
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -96,6 +129,19 @@ export default function DirectorsForm(props: DirectorsFormProps) {
         </div>
 
         <div className="container">
+          <div className="form-group repeat-button">
+            <SecondaryButton
+              label="Delete active row"
+              onClick={handleDeleteRow}
+              disabled={!activeRowId || rows.length === 1}
+            />
+          </div>
+          <div className="form-group repeat-button">
+            <SecondaryButton
+              label="Add row"
+              onClick={handleAddRow}
+            />
+          </div>
           <div className="form-group">
             <SecondaryButton
               label="Clear table"

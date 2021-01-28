@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import {appConfig} from '../../../config';
 import {DirectorsContext} from "./DirectorsContext";
 
@@ -19,7 +19,9 @@ function DirectorsEarningsTable(props: TableProps) {
     rows,
     setRows,
     categories,
-    errors
+    errors,
+    activeRowId,
+    setActiveRowId
   } = useContext(DirectorsContext)
 
   const handleGrossChange = (r: DirectorsRow, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +64,12 @@ function DirectorsEarningsTable(props: TableProps) {
       
       <tbody>
         {rows.map((r: DirectorsRow, i: number) => (
-          <tr key={r.id} id={r.id}>
+          <tr
+            key={r.id}
+            id={r.id}
+            className={activeRowId === r.id ? "active" : ""}
+            onClick={() => setActiveRowId(r.id)}
+          >
             <td className="input">
               {printView ?
                 <div>{r.category}</div>
