@@ -5,6 +5,7 @@ import Details from "../shared/Details";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import {validateUnofficialDefermentPayload} from "../../../validation/validation";
 import {UnofficialDefermentContext, useUnofficialDefermentForm} from "./UnofficialDefermentContext";
+import UnofficialDefermentForm from "./UnofficialDefermentForm";
 
 const pageTitle = 'Class 1 NI contributions an employer owes due to unofficial deferment'
 
@@ -21,8 +22,7 @@ function UnofficialDefermentPage() {
         details,
         setDetails,
         setCalculatedRows,
-        setActiveRowId,
-        earningsFields
+        setActiveRowId
     } = useContext(UnofficialDefermentContext)
 
     const handleDetailsChange = ({
@@ -84,7 +84,7 @@ function UnofficialDefermentPage() {
                 />
 
                 <form onSubmit={handleSubmit} noValidate>
-
+                    <UnofficialDefermentForm />
                 </form>
 
                 <div className="container section--top">
