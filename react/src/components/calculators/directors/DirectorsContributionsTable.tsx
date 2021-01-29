@@ -80,7 +80,9 @@ function DirectorsEarningsTable(props: TableProps) {
                   <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category</label>
                   <select name="category" value={r.category} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
                     {categories.map((c: string, i: number) => (
-                      <option key={i} value={c}>{`${c}${config.categoryNames[c] && `- ${config.categoryNames[c]}`}`}</option>
+                      <option key={i} value={c}>
+                        {`${c}${config.categoryNames[c] ? ` - ${config.categoryNames[c]}` : ``}`}
+                      </option>
                     ))}
                   </select>
                 </>
