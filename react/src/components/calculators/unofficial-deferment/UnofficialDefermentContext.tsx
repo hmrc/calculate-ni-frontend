@@ -112,7 +112,7 @@ export function useUnofficialDefermentForm() {
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   useEffect(() => {
-    if(taxYear.from) {
+    if(taxYear) {
       const categoriesForTaxYear = ClassOneCalculator.getApplicableCategories(taxYear.from)
       if(categoriesForTaxYear) {
         setCategories(categoriesForTaxYear.split(''))
@@ -123,7 +123,7 @@ export function useUnofficialDefermentForm() {
       }
       setEarningsFields(getRequiredInputs(taxYear))
     }
-  }, [taxYear.from])
+  }, [taxYear])
 
   useEffect(() => {
     setRows([defaultRow])

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
@@ -7,6 +7,7 @@ import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import uniqid from "uniqid";
 import {UnofficialDefermentContext, UnofficialDefermentRow} from "./UnofficialDefermentContext";
 import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
+import UnofficialDefermentTable from "./UnofficialDefermentTable";
 
 numeral.locale('en-gb');
 
@@ -15,7 +16,6 @@ export default function UnofficialDefermentForm(props: any) {
   const {
     rows,
     setRows,
-    errors,
     activeRowId,
     setActiveRowId,
     setErrors,
@@ -53,6 +53,10 @@ export default function UnofficialDefermentForm(props: any) {
     }
   }
 
+  useEffect(() => {
+    setTaxYear(taxYears[0])
+  }, [])
+
   return (
     <div className="form-group table-wrapper">
       <div className="container half">
@@ -63,7 +67,7 @@ export default function UnofficialDefermentForm(props: any) {
         />
       </div>
 
-
+      <UnofficialDefermentTable printView={false} />
 
       <div className="container">
         <div className="container">
