@@ -1,16 +1,11 @@
-import React, {Dispatch, SetStateAction, useState} from 'react'
+import React, {Dispatch, SetStateAction, useContext, useState} from 'react'
 import {buildTaxYears} from "../../../config";
 
 // types
 import {Class3Row, DetailsProps, TaxYear} from '../../../interfaces'
 import {GenericErrors} from "../../../validation/validation";
-import configuration from "../../../configuration.json";
 import uniqid from "uniqid";
-import {NiFrontend} from '../../../calculation'
-
-const NiFrontendInterface = new NiFrontend(JSON.stringify(configuration))
-const ClassOneCalculator = NiFrontendInterface.classOne
-const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
+import {NiFrontendContext} from "../../../services/NiFrontendContext";
 
 const initialDetails = {
   fullName: '',
@@ -28,9 +23,9 @@ export const class3DefaultRows = [{
 
 interface Calculator {
   calculate: Function
+  calculateJson: Function
   calculateProRata: Function
-  calculateClassTwo: Function
-  calculateClassThree: Function
+  calculateProRataJson: Function
   getApplicableCategories: Function
   getTaxYears: Array<string>
 }
@@ -72,8 +67,15 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
 
 export const Class3Context = React.createContext<Class3Context>(
   {
-    ClassOneCalculator: ClassOneCalculator,
-    taxYears: taxYears,
+    ClassOneCalculator: {
+      calculate: () => {},
+      calculateJson: () => {},
+      calculateProRata: () => {},
+      calculateProRataJson: () => {},
+      getApplicableCategories: () => {},
+      getTaxYears: ['']
+    },
+    taxYears: [],
     details: initialDetails,
     setDetails: () => {},
     rows: class3DefaultRows,
@@ -105,6 +107,11 @@ export function useClass3Form() {
   const [month, setMonth] = useState('')
   const [year, setYear] = useState('')
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
+  const {
+    NiFrontendInterface
+  } = useContext(NiFrontendContext)
+  const ClassOneCalculator = NiFrontendInterface.classOne
+  const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
 
   return {
     ClassOneCalculator,

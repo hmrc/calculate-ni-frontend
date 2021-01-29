@@ -25,21 +25,6 @@ class NiFrontend(json: String) extends js.Object {
    *  \____|_|\__,_|___/___/   |_|   \_/\_/ \___/ 
    */ 
   object classTwo extends js.Object {
-    def calculateJson(
-      taxYear: Date,
-      paymentDate: Date,
-      earningsFactor: Double
-    ): String = {
-      val payload = JsonObject(
-        "contributionsDue"    -> Json.fromInt(39),
-        "rate"                -> Json.fromBigDecimal(BigDecimal("3.05")),
-        "totalAmountDue"      -> Json.fromBigDecimal(BigDecimal("118.45")),
-        "dateHigherRateApply" -> LocalDate.of(2019, 4, 5).asJson,
-        "finalPaymentDate"    -> LocalDate.of(2019, 4, 5).asJson,
-      )
-      payload.asJson.toString
-    }
-
     def calculate(
       taxYear: Date,
       paymentDate: Date,
@@ -60,20 +45,6 @@ class NiFrontend(json: String) extends js.Object {
    *  \____|_|\__,_|___/___/   |_| |_| |_|_|  \___|\___|
    */   
   object classThree extends js.Object {
-    def calculateJson(
-      taxYear: Date,
-      paymentDate: Date,
-      earningsFactor: Double
-    ): String = {
-      val payload = JsonObject(
-        "contributionsDue"    -> Json.fromInt(39),
-        "rate"                -> Json.fromBigDecimal(BigDecimal("3.05")),
-        "totalAmountDue"      -> Json.fromBigDecimal(BigDecimal("118.45")),
-        "dateHigherRateApply" -> LocalDate.of(2019, 4, 5).asJson,
-        "finalPaymentDate"    -> LocalDate.of(2019, 4, 5).asJson,
-      )
-      payload.asJson.toString
-    }
     def calculate(
                    taxYear: Date,
                    paymentDate: Date,

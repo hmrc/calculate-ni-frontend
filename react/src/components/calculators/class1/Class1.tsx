@@ -14,7 +14,7 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 
 // utils
 import {hasKeys, updateRowInResults} from "../../../services/utils";
-import {ClassOneContext, defaultRows, useClassOneForm} from "./ClassOneContext";
+import {ClassOneContext, useClassOneForm} from "./ClassOneContext";
 
 const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 
@@ -23,6 +23,7 @@ const Class1Page = () => {
   const {
     ClassOneCalculator,
     taxYear,
+    defaultRow,
     rows,
     setRows,
     errors,
@@ -77,7 +78,7 @@ const Class1Page = () => {
   const resetTotals = () => {
     setActiveRowId(null)
     setErrors({})
-    setRows(defaultRows)
+    setRows([defaultRow])
     setCalculatedRows([])
     setNiPaidEmployee('')
     setNiPaidNet('')
