@@ -3,7 +3,7 @@ import {Calculated, DetailsProps, Row, TaxYear, TotalsInCategories} from "../../
 import {buildTaxYears, periods, PeriodValue} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
-import {NiFrontendContext} from "../../../services/NiFrontendContext";
+import {initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
 
 const initRow = {
   id: 'default',
@@ -68,14 +68,7 @@ interface ClassOneContext {
 
 export const ClassOneContext = React.createContext<ClassOneContext>(
   {
-    ClassOneCalculator: {
-      calculate: () => {},
-      calculateJson: () => {},
-      calculateProRata: () => {},
-      calculateProRataJson: () => {},
-      getApplicableCategories: () => {},
-      getTaxYears: ['']
-    },
+    ClassOneCalculator:initClassOneCalculator,
     taxYears: [],
     taxYear: {
       id: '1',

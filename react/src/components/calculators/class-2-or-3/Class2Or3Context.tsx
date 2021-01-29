@@ -113,7 +113,6 @@ export function useClass2Or3Form() {
     config,
     NiFrontendInterface
   } = useContext(NiFrontendContext)
-  console.log(config)
   const ClassTwoCalculator = NiFrontendInterface.classTwo
   const ClassThreeCalculator = NiFrontendInterface.classThree
   const class2TaxYears: TaxYear[] = buildTaxYears(Object.keys(config.classTwo), 'key')

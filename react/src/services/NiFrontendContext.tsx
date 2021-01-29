@@ -1,34 +1,45 @@
 import {NiFrontend} from '../calculation'
 import React, {useEffect, useState} from "react";
 
-interface Calculator {
+
+interface InterestOnLateClassOne {
+  calculate: Function
+  getRates: Function
+}
+
+export interface ClassOneCalculator {
   calculate: Function
   calculateJson: Function
   calculateProRata: Function
   calculateProRataJson: Function
   getApplicableCategories: Function
+  interestOnLateClassOne: InterestOnLateClassOne
   getTaxYears: Array<string>
 }
 
-const initCalculator = {
+export const initClassOneCalculator = {
   calculate: () => {},
   calculateJson: () => {},
   calculateProRata: () => {},
   calculateProRataJson: () => {},
   getApplicableCategories: () => {},
+  interestOnLateClassOne: {
+    calculate: () => {},
+    getRates: () => {}
+  },
   getTaxYears: ['']
 }
 
 interface NiFrontendService {
-  classOne: Calculator
-  classTwo: Calculator
-  classThree: Calculator
+  classOne: ClassOneCalculator
+  classTwo: ClassOneCalculator
+  classThree: ClassOneCalculator
 }
 
 const initService: NiFrontendService = {
-  classOne: initCalculator,
-  classTwo: initCalculator,
-  classThree: initCalculator
+  classOne: initClassOneCalculator,
+  classTwo: initClassOneCalculator,
+  classThree: initClassOneCalculator
 }
 
 interface NiFrontendContext {

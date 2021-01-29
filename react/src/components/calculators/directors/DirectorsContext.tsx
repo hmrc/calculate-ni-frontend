@@ -3,7 +3,7 @@ import {Calculated, DetailsProps, DirectorsRow, TaxYear, TotalsInCategories} fro
 import {PeriodLabel, buildTaxYears} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
-import {NiFrontendContext} from "../../../services/NiFrontendContext";
+import {ClassOneCalculator, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
 import uniqid from 'uniqid'
 
 const initialDetails: DetailsProps = {
@@ -27,17 +27,8 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
   ...action,
 })
 
-interface Calculator {
-  calculate: Function
-  calculateJson: Function
-  calculateProRata: Function
-  calculateProRataJson: Function
-  getApplicableCategories: Function
-  getTaxYears: Array<string>
-}
-
 interface DirectorsContext {
-  ClassOneCalculator: Calculator
+  ClassOneCalculator: ClassOneCalculator
   taxYears: TaxYear[]
   taxYear: TaxYear
   setTaxYear: Dispatch<TaxYear>
@@ -68,14 +59,7 @@ interface DirectorsContext {
 
 export const DirectorsContext = React.createContext<DirectorsContext>(
   {
-    ClassOneCalculator: {
-      calculate: () => {},
-      calculateJson: () => {},
-      calculateProRata: () => {},
-      calculateProRataJson: () => {},
-      getApplicableCategories: () => {},
-      getTaxYears: ['']
-    },
+    ClassOneCalculator: initClassOneCalculator,
     taxYears: [],
     taxYear: {
       id: '1',

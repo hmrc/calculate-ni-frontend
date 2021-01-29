@@ -108,10 +108,11 @@ export function useClass3Form() {
   const [year, setYear] = useState('')
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   const {
+    config,
     NiFrontendInterface
   } = useContext(NiFrontendContext)
   const ClassOneCalculator = NiFrontendInterface.classOne
-  const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
+  const taxYears: TaxYear[] = buildTaxYears(Object.keys(config.classThree), 'key')
 
   return {
     ClassOneCalculator,
