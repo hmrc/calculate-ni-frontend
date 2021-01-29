@@ -5,7 +5,7 @@ import SelectTaxYear from '../../helpers/formhelpers/SelectTaxYear';
 import TextInput from '../../helpers/formhelpers/TextInput'
 
 // types
-import {Class1DebtRow, Row, TaxYear} from '../../../interfaces'
+import {Class1DebtRow, TaxYear} from '../../../interfaces'
 import {LateInterestContext} from './LateInterestContext'
 import {extractFromDateString, extractToDateString, taxYearString} from '../../../config'
 

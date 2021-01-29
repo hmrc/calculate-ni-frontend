@@ -1,17 +1,12 @@
-import React, {Dispatch, useEffect, useState} from "react";
+import React, {Dispatch, useContext, useEffect, useState} from "react";
 import {Calculated, DetailsProps, DirectorsRow, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {PeriodLabel, buildTaxYears} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
-import {NiFrontend} from '../../../calculation'
-import configuration from "../../../configuration.json";
+import {ClassOneCalculator, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
 import uniqid from 'uniqid'
 
-const NiFrontendInterface = new NiFrontend(JSON.stringify(configuration))
-const ClassOneCalculator = NiFrontendInterface.classOne
-const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
-
-const initialDetails = {
+const initialDetails: DetailsProps = {
   fullName: '',
   ni: '',
   reference: '',
@@ -19,32 +14,25 @@ const initialDetails = {
   date: '',
 }
 
-export const defaultRows: Array<DirectorsRow> = [{
+const initRow: DirectorsRow = {
   id: uniqid(),
-  category: ClassOneCalculator.getApplicableCategories(taxYears[0].from)[0],
+  category: '',
   gross: '',
   ee: '0',
   er: '0'
-}]
+}
 
 const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) => ({
   ...state,
   ...action,
 })
 
-interface Calculator {
-  calculate: Function
-  calculateJson: Function
-  calculateProRata: Function
-  calculateProRataJson: Function
-  getApplicableCategories: Function
-}
-
 interface DirectorsContext {
-  ClassOneCalculator: Calculator
+  ClassOneCalculator: ClassOneCalculator
   taxYears: TaxYear[]
   taxYear: TaxYear
   setTaxYear: Dispatch<TaxYear>
+  defaultRow: DirectorsRow
   rows: DirectorsRow[]
   setRows: Dispatch<Array<DirectorsRow>>
   details: DetailsProps
@@ -71,11 +59,16 @@ interface DirectorsContext {
 
 export const DirectorsContext = React.createContext<DirectorsContext>(
   {
-    ClassOneCalculator: ClassOneCalculator,
-    taxYears: taxYears,
-    taxYear: taxYears[0],
+    ClassOneCalculator: initClassOneCalculator,
+    taxYears: [],
+    taxYear: {
+      id: '1',
+      from: new Date(),
+      to: new Date()
+    },
     setTaxYear: () => {},
-    rows: defaultRows,
+    defaultRow: initRow,
+    rows: [initRow],
     setRows: () => {},
     details: initialDetails,
     setDetails: () => {},
@@ -101,9 +94,8 @@ export const DirectorsContext = React.createContext<DirectorsContext>(
 )
 
 export function useDirectorsForm() {
-  const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
   const [categories, setCategories] = useState<Array<string>>([])
-  const [rows, setRows] = useState<Array<DirectorsRow>>(defaultRows)
+  const [defaultRow, setDefaultRow] = useState<DirectorsRow>(initRow)
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [grossTotal, setGrossTotal] = useState<Number | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})
@@ -114,6 +106,23 @@ export function useDirectorsForm() {
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
 
+  const {
+    NiFrontendInterface
+  } = useContext(NiFrontendContext)
+  const ClassOneCalculator = NiFrontendInterface.classOne
+  const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
+  const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
+  useEffect(() => {
+    const categories = ClassOneCalculator.getApplicableCategories(taxYear.from)
+    if(categories) {
+      setCategories(categories.split(''))
+      setDefaultRow(prevState => ({
+        ...prevState,
+        category: categories[0]
+      }))
+    }
+  }, [taxYear.from])
+  const [rows, setRows] = useState<Array<DirectorsRow>>([defaultRow])
   useEffect(() => {
     setCategoryTotals(getTotalsInCategories(rows as DirectorsRow[]))
     setGrossTotal(rows.reduce((grossTotal, row) => {
@@ -121,16 +130,12 @@ export function useDirectorsForm() {
     }, 0))
   }, [rows])
 
-  useEffect(() => {
-    const categories = ClassOneCalculator.getApplicableCategories(taxYear.from)
-    setCategories(categories.split(''))
-  }, [taxYear.from])
-
   return {
     ClassOneCalculator,
     taxYears,
     taxYear,
     setTaxYear,
+    defaultRow,
     rows,
     setRows,
     details,

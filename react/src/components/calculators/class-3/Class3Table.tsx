@@ -5,8 +5,7 @@ import Class3TableRow from "./Class3TableRow";
 
 const Class3Table = () => {
   const {
-    rows,
-    taxYears
+    rows
   } = useContext(Class3Context)
   return (
     <table className="contribution-details">
@@ -44,7 +43,6 @@ const Class3Table = () => {
           index={index}
           row={r}
           key={`row-${r.id}`}
-          taxYears={taxYears}
         />
       ))}
       </tbody>

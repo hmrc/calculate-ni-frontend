@@ -11,7 +11,7 @@ import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
 import {Calculated, Calculators, DirectorsRow, GovDateRange, TaxYear} from '../../../interfaces'
-import {defaultRows, DirectorsContext, useDirectorsForm} from "./DirectorsContext";
+import {DirectorsContext, useDirectorsForm} from "./DirectorsContext";
 
 // services
 import {updateRowInResults, extractTaxYearFromDate, hasKeys} from "../../../services/utils";
@@ -26,6 +26,7 @@ const DirectorsPage = () => {
     taxYears,
     taxYear,
     setTaxYear,
+    defaultRow,
     rows,
     setRows,
     errors,
@@ -123,7 +124,7 @@ const DirectorsPage = () => {
 
   const resetTotals = () => {
     setErrors({})
-    setRows(defaultRows)
+    setRows([defaultRow])
     setCalculatedRows([])
     setNiPaidEmployee('')
     setNiPaidNet('')

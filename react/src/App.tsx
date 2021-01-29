@@ -29,10 +29,12 @@ import Class3 from './components/calculators/class-3/Class3'
 import LateInterest from './components/calculators/late-interest/LateInterest'
 import InterestRefunds from './components/calculators/interest-refunds/InterestRefunds'
 import BreadCrumbs from "./components/helpers/gov-design-system/BreadCrumbs";
+import {NiFrontendContext, useNiFrontend} from "./services/NiFrontendContext";
 
 function App() {    
   const serviceName = "Calculate National Insurance contributions"
   return (
+    <NiFrontendContext.Provider value={useNiFrontend()}>
       <div className="govuk-width-container">
         <Header serviceName={serviceName} />
         <PhaseBanner type="ALPHA" link="#feedback" />
@@ -68,6 +70,7 @@ function App() {
           </Router>
         </div>
       </div>
+    </NiFrontendContext.Provider>
   );
 }
 

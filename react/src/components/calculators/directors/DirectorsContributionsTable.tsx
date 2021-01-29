@@ -1,5 +1,4 @@
-import React, {useContext, useState} from 'react'
-import {appConfig} from '../../../config';
+import React, {useContext} from 'react'
 import {DirectorsContext} from "./DirectorsContext";
 
 // types
@@ -10,6 +9,7 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
+import {NiFrontendContext} from "../../../services/NiFrontendContext";
 
 numeral.locale('en-gb');
 
@@ -23,6 +23,8 @@ function DirectorsEarningsTable(props: TableProps) {
     activeRowId,
     setActiveRowId
   } = useContext(DirectorsContext)
+
+  const { config } = useContext(NiFrontendContext)
 
   const handleGrossChange = (r: DirectorsRow, e: React.ChangeEvent<HTMLInputElement>) => {
     setRows(rows.map((cur: DirectorsRow) =>
@@ -78,7 +80,9 @@ function DirectorsEarningsTable(props: TableProps) {
                   <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category</label>
                   <select name="category" value={r.category} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
                     {categories.map((c: string, i: number) => (
-                      <option key={i} value={c}>{`${c}${appConfig.categoryNames[c] && `- ${appConfig.categoryNames[c]}`}`}</option>
+                      <option key={i} value={c}>
+                        {`${c}${config.categoryNames[c] ? ` - ${config.categoryNames[c]}` : ``}`}
+                      </option>
                     ))}
                   </select>
                 </>
