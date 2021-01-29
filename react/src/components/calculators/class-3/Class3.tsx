@@ -68,7 +68,7 @@ const Class3Page = () => {
     }
 
     return (
-      <main>
+      <div>
           {showSummary ?
             <p>Print view</p>
             :
@@ -101,8 +101,7 @@ const Class3Page = () => {
                 </div>
             </>
           }
-
-      </main>
+      </div>
     )
 }
 
