@@ -61,7 +61,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
         <tr>
           <th>Name of employer</th>
           <th><strong>Gross pay</strong></th>
-          <th><strong>{printView ? '' : 'Select '}NI category letter</strong></th>
+          <th><strong>NI category</strong></th>
           <th><strong>LEL</strong></th>
           <th><strong>LEL - PT</strong></th>
           <th><strong>PT - UAP</strong></th>
@@ -74,6 +74,9 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
           {earningsFields.includes('f') &&
           <th><strong>Employee NICS</strong></th>
           }
+          <th><strong>Over UEL</strong></th>
+          <th><strong>NICS due non-CO</strong></th>
+          <th><strong>If not U/D</strong></th>
         </tr>
       </thead>
 
@@ -117,18 +120,105 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
               </>
             }
           </td>
-          <td>{numeral(r.earnings1a).format('$0,0.00')}</td>
-          <td>{numeral(r.earnings1a).format('$0,0.00')}</td>
-          <td>{numeral(r.earnings1c).format('$0,0.00')}</td>
+          <td className="input">
+            {printView ?
+              <div>{numeral(r.earnings1a).format('$0,0.00')}</div>
+              :
+              <TextInput
+                hiddenLabel={true}
+                name={`${r.id}-earnings1a`}
+                labelText="LEL"
+                inputClassName="gross-pay"
+                inputValue={r.earnings1a}
+                placeholderText=""
+                onChangeCallback={(e) => handleChange?.(r, e)}
+              />
+            }
+          </td>
+          <td className="input">
+            {printView ?
+              <div>{numeral(r.earnings1b).format('$0,0.00')}</div>
+              :
+              <TextInput
+                hiddenLabel={true}
+                name={`${r.id}-earnings1b`}
+                labelText="LEL"
+                inputClassName="gross-pay"
+                inputValue={r.earnings1b}
+                placeholderText=""
+                onChangeCallback={(e) => handleChange?.(r, e)}
+              />
+            }
+          </td>
+          <td className="input">
+            {printView ?
+              <div>{numeral(r.earnings1c).format('$0,0.00')}</div>
+              :
+              <TextInput
+                hiddenLabel={true}
+                name={`${r.id}-earnings1c`}
+                labelText="LEL"
+                inputClassName="gross-pay"
+                inputValue={r.earnings1c}
+                placeholderText=""
+                onChangeCallback={(e) => handleChange?.(r, e)}
+              />
+            }
+          </td>
           {earningsFields.includes('d') &&
-            <td>{numeral(r.earnings1d).format('$0,0.00')}</td>
+          <td className="input">
+            {printView ?
+              <div>{numeral(r.earnings1d).format('$0,0.00')}</div>
+              :
+              <TextInput
+                hiddenLabel={true}
+                name={`${r.id}-earnings1d`}
+                labelText="LEL"
+                inputClassName="gross-pay"
+                inputValue={r.earnings1d ? r.earnings1d : '0'}
+                placeholderText=""
+                onChangeCallback={(e) => handleChange?.(r, e)}
+              />
+            }
+          </td>
           }
           {earningsFields.includes('e') &&
-            <td>{numeral(r.earnings1e).format('$0,0.00')}</td>
+          <td className="input">
+            {printView ?
+              <div>{numeral(r.earnings1e).format('$0,0.00')}</div>
+              :
+              <TextInput
+                hiddenLabel={true}
+                name={`${r.id}-earnings1e`}
+                labelText="LEL"
+                inputClassName="gross-pay"
+                inputValue={r.earnings1e ? r.earnings1e : '0'}
+                placeholderText=""
+                onChangeCallback={(e) => handleChange?.(r, e)}
+              />
+            }
+          </td>
           }
           {earningsFields.includes('f') &&
-            <td>{numeral(r.earnings1f).format('$0,0.00')}</td>
+          <td className="input">
+            {printView ?
+              <div>{numeral(r.earnings1f).format('$0,0.00')}</div>
+              :
+              <TextInput
+                hiddenLabel={true}
+                name={`${r.id}-earnings1f`}
+                labelText="LEL"
+                inputClassName=""
+                inputValue={r.earnings1f ? r.earnings1f : '0'}
+                placeholderText=""
+                onChangeCallback={(e) => handleChange?.(r, e)}
+              />
+            }
+          </td>
           }
+          <td>{numeral(r.overUEL).format('$0,0.00')}</td>
+          <td>{numeral(r.NICsDueNonCO).format('$0,0.00')}</td>
+          <td>{numeral(r.IfNotUD).format('$0,0.00')}</td>
         </tr>
       ))}
       </tbody>
