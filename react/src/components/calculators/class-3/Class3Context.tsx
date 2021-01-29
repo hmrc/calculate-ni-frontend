@@ -21,15 +21,6 @@ export const class3DefaultRows = [{
   dateRange: {from: null, to: null, hasContentFrom: false, hasContentTo: false}
 }]
 
-interface Calculator {
-  calculate: Function
-  calculateJson: Function
-  calculateProRata: Function
-  calculateProRataJson: Function
-  getApplicableCategories: Function
-  getTaxYears: Array<string>
-}
-
 export interface Class3Result {
   maxWeeks: number
   actualWeeks: number
@@ -37,7 +28,6 @@ export interface Class3Result {
 }
 
 interface Class3Context {
-  ClassOneCalculator: Calculator
   taxYears: TaxYear[]
   details: DetailsProps
   setDetails: Function
@@ -67,14 +57,6 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
 
 export const Class3Context = React.createContext<Class3Context>(
   {
-    ClassOneCalculator: {
-      calculate: () => {},
-      calculateJson: () => {},
-      calculateProRata: () => {},
-      calculateProRataJson: () => {},
-      getApplicableCategories: () => {},
-      getTaxYears: ['']
-    },
     taxYears: [],
     details: initialDetails,
     setDetails: () => {},
@@ -108,14 +90,11 @@ export function useClass3Form() {
   const [year, setYear] = useState('')
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   const {
-    config,
-    NiFrontendInterface
+    config
   } = useContext(NiFrontendContext)
-  const ClassOneCalculator = NiFrontendInterface.classOne
   const taxYears: TaxYear[] = buildTaxYears(Object.keys(config.classThree), 'key')
 
   return {
-    ClassOneCalculator,
     taxYears,
     details,
     setDetails,

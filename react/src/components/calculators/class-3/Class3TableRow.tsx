@@ -5,15 +5,14 @@ import {Class3Context} from "./Class3Context";
 import FullOrPartialTaxYear from "../../helpers/formhelpers/FullOrPartialTaxYear";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import {getNumberOfWeeks, latestDate} from "../../../services/utils";
-import {afterMaximumTaxYear} from "../../../validation/validation";
 
 const Class3TableRow = (props: {
   index: number,
-  row: Class3Row,
-  taxYears: TaxYear[]
+  row: Class3Row
 }) => {
-  const { index, row, taxYears } = props
+  const { index, row } = props
   const {
+    taxYears,
     setRows,
     rows,
     errors,
@@ -41,7 +40,7 @@ const Class3TableRow = (props: {
   }
 
   useEffect(() => {
-    const startDate = enteredNiDate && !afterMaximumTaxYear(enteredNiDate, taxYears[0].to) ?
+    const startDate = enteredNiDate ?
       latestDate(taxYear.from, enteredNiDate) : taxYear.from
     setDateRange((prevState: GovDateRange) => {
       return {
@@ -52,7 +51,7 @@ const Class3TableRow = (props: {
         hasContentTo: prevState.hasContentTo
       }
     })
-  }, [taxYear, enteredNiDate, taxYears])
+  }, [taxYear, enteredNiDate])
 
   useEffect(() => {
     if(dateRange) {
