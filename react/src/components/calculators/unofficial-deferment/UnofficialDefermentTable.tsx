@@ -113,7 +113,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
                 <select name="category" value={r.category} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
                   {categories.map((c: string, i: number) => (
                     <option key={i} value={c}>
-                      {`${c}${config.categoryNames[c] ? ` - ${config.categoryNames[c]}` : ``}`}
+                      {c}
                     </option>
                   ))}
                 </select>
