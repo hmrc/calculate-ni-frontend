@@ -1,5 +1,5 @@
 import React, {Dispatch, useContext, useEffect, useState} from "react";
-import {Calculated, DetailsProps, TaxYear} from "../../../interfaces";
+import {Calculated, DetailsProps, GenericObject, TaxYear} from "../../../interfaces";
 import {buildTaxYears} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
 import {ClassOneCalculator, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
@@ -93,7 +93,24 @@ export const UnofficialDefermentContext = React.createContext<UnofficialDefermen
 )
 
 const getRequiredInputs = (taxYear: TaxYear) => {
-  return ['a', 'b', 'c']
+  const yearString = taxYear.from.getFullYear().toString()
+  const fakeMap: { [key: string]: string[] } = {
+    '2003': ['a', 'b', 'c', 'd', 'f'],
+    '2004': ['a', 'b', 'c', 'f'],
+    '2005': ['a', 'b', 'c', 'e'],
+    '2006': ['a', 'b', 'c', 'd', 'e'],
+    '2007': ['a', 'b', 'c', 'f'],
+    '2008': ['a', 'b', 'c', 'f'],
+    '2009': ['a', 'b', 'c', 'd', 'f'],
+    '2010': ['a', 'b', 'c', 'f'],
+    '2011': ['a', 'b', 'c', 'd'],
+    '2012': ['a', 'b', 'c', 'f'],
+    '2013': ['a', 'b', 'c', 'f'],
+    '2014': ['a', 'b', 'c', 'f'],
+    '2015': ['a', 'b', 'c', 'd', 'f'],
+    '2016': ['a', 'b', 'c', 'f'],
+  }
+  return fakeMap[yearString] || ['a', 'b', 'c']
 }
 
 export function useUnofficialDefermentForm() {
@@ -116,18 +133,18 @@ export function useUnofficialDefermentForm() {
       const categoriesForTaxYear = ClassOneCalculator.getApplicableCategories(taxYear.from)
       if(categoriesForTaxYear) {
         setCategories(categoriesForTaxYear.split(''))
+        setEarningsFields(getRequiredInputs(taxYear))
         setDefaultRow(prevState => ({
           ...prevState,
           category: categoriesForTaxYear[0]
         }))
       }
-      setEarningsFields(getRequiredInputs(taxYear))
     }
   }, [taxYear])
 
   useEffect(() => {
     setRows([defaultRow])
-  }, [defaultRow])
+  }, [defaultRow, earningsFields])
 
   return {
     ClassOneCalculator,

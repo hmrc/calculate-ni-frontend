@@ -54,7 +54,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
           {earningsFields.includes('e') &&
           <th><span>1e</span></th>
           }
-          {earningsFields.includes('d') &&
+          {earningsFields.includes('f') &&
           <th><span>1f</span></th>
           }
         </tr>
@@ -75,7 +75,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
           <th><strong>Employee NICS</strong></th>
           }
           <th><strong>Over UEL</strong></th>
-          <th><strong>NICS due non-CO</strong></th>
+          <th><strong>NICS non-CO</strong></th>
           <th><strong>If not U/D</strong></th>
         </tr>
       </thead>

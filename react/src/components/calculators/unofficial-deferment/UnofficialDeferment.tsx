@@ -84,7 +84,7 @@ function UnofficialDefermentPage() {
                 />
 
                 <form onSubmit={handleSubmit} noValidate>
-                    <UnofficialDefermentForm />
+                    <UnofficialDefermentForm resetTotals={resetTotals} />
                 </form>
 
                 <div className="container section--top">
