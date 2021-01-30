@@ -45,9 +45,9 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
       <thead>
         <tr className="clear">
           <th className="lg" colSpan={3}><span>Employment details</span></th>
-          <th className="border"><span>1a</span></th>
-          <th><span>1b</span></th>
-          <th><span>1c</span></th>
+          <th className="border"><span>{`1a < £112`}</span></th>
+          <th><span>{`1b < £155`}</span></th>
+          <th><span>{`1c < £827`}</span></th>
           {earningsFields.includes('d') &&
           <th><span>1d</span></th>
           }
