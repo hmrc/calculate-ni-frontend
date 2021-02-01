@@ -6,6 +6,7 @@ import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import {validateUnofficialDefermentPayload} from "../../../validation/validation";
 import {UnofficialDefermentContext, useUnofficialDefermentForm} from "./UnofficialDefermentContext";
 import UnofficialDefermentForm from "./UnofficialDefermentForm";
+import UnofficialDefermentTotals from "./UnofficialDefermentTotals";
 
 const pageTitle = 'Class 1 NI contributions an employer owes due to unofficial deferment'
 
@@ -86,6 +87,8 @@ function UnofficialDefermentPage() {
                 <form onSubmit={handleSubmit} noValidate>
                     <UnofficialDefermentForm resetTotals={resetTotals} />
                 </form>
+
+                <UnofficialDefermentTotals />
 
                 <div className="container section--top">
                     <div className="form-group">

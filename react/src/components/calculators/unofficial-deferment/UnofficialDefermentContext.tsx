@@ -62,6 +62,8 @@ interface UnofficialDefermentContext {
   setActiveRowId: Dispatch<string | null>,
   earningsFields: Array<string>
   setEarningsFields: Dispatch<Array<string>>
+  results: GenericObject
+  setResults: Dispatch<GenericObject>
 }
 
 export const UnofficialDefermentContext = React.createContext<UnofficialDefermentContext>(
@@ -88,7 +90,9 @@ export const UnofficialDefermentContext = React.createContext<UnofficialDefermen
     activeRowId: null,
     setActiveRowId: () => {},
     earningsFields: [],
-    setEarningsFields: () => {}
+    setEarningsFields: () => {},
+    results: {},
+    setResults: () => {}
   }
 )
 
@@ -146,6 +150,8 @@ export function useUnofficialDefermentForm() {
     setRows([defaultRow])
   }, [defaultRow, earningsFields])
 
+  const [results, setResults] = useState({})
+
   return {
     ClassOneCalculator,
     taxYears,
@@ -165,6 +171,8 @@ export function useUnofficialDefermentForm() {
     activeRowId,
     setActiveRowId,
     earningsFields,
-    setEarningsFields
+    setEarningsFields,
+    results,
+    setResults
   }
 }
