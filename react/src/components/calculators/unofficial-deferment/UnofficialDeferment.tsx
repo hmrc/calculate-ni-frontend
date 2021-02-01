@@ -23,7 +23,8 @@ function UnofficialDefermentPage() {
         details,
         setDetails,
         setCalculatedRows,
-        setActiveRowId
+        setActiveRowId,
+        setResults
     } = useContext(UnofficialDefermentContext)
 
     const handleDetailsChange = ({
@@ -46,7 +47,12 @@ function UnofficialDefermentPage() {
         }
 
         if (validateUnofficialDefermentPayload(payload, setErrors)) {
-
+            setResults({
+                annualMax: '15880',
+                liability: '2340',
+                difference: '8442',
+                ifNotUD: '0'
+            })
             if (showSummaryIfValid) {
                 setShowSummary(true)
             }
@@ -64,6 +70,7 @@ function UnofficialDefermentPage() {
         setErrors({})
         setRows([defaultRow])
         setCalculatedRows([])
+        setResults({})
     }
 
     return (
