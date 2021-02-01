@@ -59,7 +59,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
           }
         </tr>
         <tr>
-          <th>Name of employer</th>
+          <th><strong>Name of employer</strong></th>
           <th><strong>Gross pay</strong></th>
           <th><strong>NI category</strong></th>
           <th><strong>LEL</strong></th>
