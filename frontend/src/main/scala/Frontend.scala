@@ -84,7 +84,7 @@ class NiFrontend(json: String) extends js.Object {
    */                                                                
   object weeklyContributions extends js.Object {
 
-    def apply(
+    def calculate(
       from: LocalDate,
       to: LocalDate,
       earningsFactor: BigDecimal
