@@ -110,7 +110,7 @@ export function useDirectorsForm() {
     NiFrontendInterface
   } = useContext(NiFrontendContext)
   const ClassOneCalculator = NiFrontendInterface.classOne
-  const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
+  const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears)
   const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
   useEffect(() => {
     const categories = ClassOneCalculator.getApplicableCategories(taxYear.from)

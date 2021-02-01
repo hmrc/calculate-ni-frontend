@@ -115,8 +115,8 @@ export function useClass2Or3Form() {
   } = useContext(NiFrontendContext)
   const ClassTwoCalculator = NiFrontendInterface.classTwo
   const ClassThreeCalculator = NiFrontendInterface.classThree
-  const class2TaxYears: TaxYear[] = buildTaxYears(Object.keys(config.classTwo), 'key')
-  const class3TaxYears: TaxYear[] = buildTaxYears(Object.keys(config.classThree), 'key')
+  const class2TaxYears: TaxYear[] = buildTaxYears(ClassTwoCalculator.getTaxYears)
+  const class3TaxYears: TaxYear[] = buildTaxYears(ClassThreeCalculator.getTaxYears)
   const [taxYear, setTaxYear] = useState<TaxYear>(class2TaxYears[0])
 
   useEffect(() => {
