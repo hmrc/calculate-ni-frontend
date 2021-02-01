@@ -7,6 +7,7 @@ import {validateUnofficialDefermentPayload} from "../../../validation/validation
 import {UnofficialDefermentContext, useUnofficialDefermentForm} from "./UnofficialDefermentContext";
 import UnofficialDefermentForm from "./UnofficialDefermentForm";
 import UnofficialDefermentTotals from "./UnofficialDefermentTotals";
+import UnofficialDefermentPrint from "./UnofficialDefermentPrint";
 
 const pageTitle = 'Class 1 NI contributions an employer owes due to unofficial deferment'
 
@@ -76,7 +77,10 @@ function UnofficialDefermentPage() {
     return (
       <div>
           {showSummary ?
-            <p>Print view</p>
+            <UnofficialDefermentPrint
+              title={pageTitle}
+              setShowSummary={setShowSummary}
+            />
             :
             <>
                 {hasKeys(errors) &&

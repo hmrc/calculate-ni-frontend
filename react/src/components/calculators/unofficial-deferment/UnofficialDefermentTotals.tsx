@@ -1,5 +1,6 @@
 import React, {useContext} from "react"
 import {UnofficialDefermentContext} from "./UnofficialDefermentContext";
+import {hasKeys, sterlingStringValue} from "../../../services/utils";
 
 
 export default function UnofficialDefermentTotals() {
@@ -13,28 +14,28 @@ export default function UnofficialDefermentTotals() {
       <div className="container section--top column">
         <span className="label block">Annual max</span>
         <div className="value inline width-8">
-          {results?.annualMax}
+          {hasKeys(results) && sterlingStringValue(results?.annualMax)}
         </div>
       </div>
 
       <div className="container section--top column">
         <span className="label block">Liability</span>
         <div className="value inline width-8">
-          {results?.liability}
+          {hasKeys(results) && sterlingStringValue(results?.liability)}
         </div>
       </div>
 
       <div className="container section--top column">
         <span className="label block">Difference</span>
         <div className="value inline width-8">
-          {results?.difference}
+          {hasKeys(results) && sterlingStringValue(results?.difference)}
         </div>
       </div>
 
       <div className="container section--top column">
         <span className="label block">If not U/D</span>
         <div className="value inline width-8">
-          {results?.ifNotUD}
+          {hasKeys(results) && sterlingStringValue(results?.ifNotUD)}
         </div>
       </div>
 
