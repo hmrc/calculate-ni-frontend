@@ -85,8 +85,8 @@ class NiFrontend(json: String) extends js.Object {
   object weeklyContributions extends js.Object {
 
     def calculate(
-      from: LocalDate,
-      to: LocalDate,
+      from: Date,
+      to: Date,
       earningsFactor: BigDecimal
     ) = new js.Object {
       val maxPotentialWeeks: Int = 52
@@ -96,7 +96,7 @@ class NiFrontend(json: String) extends js.Object {
   }
 
   def calculateClassFour(
-    on: LocalDate,
+    on: Date,
     amount: Double
   ): String = {
     val (l,h) = config.calculateClassFour(on, amount).getOrElse(
