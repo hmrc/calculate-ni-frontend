@@ -142,6 +142,7 @@ export function useUnofficialDefermentForm() {
           ...prevState,
           category: categoriesForTaxYear[0]
         }))
+        setResults({})
       }
     }
   }, [taxYear])
