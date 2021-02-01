@@ -31,21 +31,6 @@ class NiFrontend(json: String) extends js.Object {
       i.toJSArray
     }
 
-    def calculateJson(
-      taxYear: Date,
-      paymentDate: Date,
-      earningsFactor: Double
-    ): String = {
-      val payload = JsonObject(
-        "contributionsDue"    -> Json.fromInt(39),
-        "rate"                -> Json.fromBigDecimal(BigDecimal("3.05")),
-        "totalAmountDue"      -> Json.fromBigDecimal(BigDecimal("118.45")),
-        "dateHigherRateApply" -> LocalDate.of(2019, 4, 5).asJson,
-        "finalPaymentDate"    -> LocalDate.of(2019, 4, 5).asJson,
-      )
-      payload.asJson.toString
-    }
-
     def calculate(
       taxYear: Date,
       paymentDate: Date,
@@ -72,20 +57,6 @@ class NiFrontend(json: String) extends js.Object {
       i.toJSArray
     }
 
-    def calculateJson(
-      taxYear: Date,
-      paymentDate: Date,
-      earningsFactor: Double
-    ): String = {
-      val payload = JsonObject(
-        "contributionsDue"    -> Json.fromInt(39),
-        "rate"                -> Json.fromBigDecimal(BigDecimal("3.05")),
-        "totalAmountDue"      -> Json.fromBigDecimal(BigDecimal("118.45")),
-        "dateHigherRateApply" -> LocalDate.of(2019, 4, 5).asJson,
-        "finalPaymentDate"    -> LocalDate.of(2019, 4, 5).asJson,
-      )
-      payload.asJson.toString
-    }
     def calculate(
                    taxYear: Date,
                    paymentDate: Date,
@@ -111,20 +82,7 @@ class NiFrontend(json: String) extends js.Object {
    * | |__| (_) | | | | |_| |  | | |_) | |_| | |_| | (_) | | | \__ \
    *  \____\___/|_| |_|\__|_|  |_|_.__/ \__,_|\__|_|\___/|_| |_|___/
    */                                                                
-  object weeklyContributions {
-
-    def calculateJson(
-      from: LocalDate,
-      to: LocalDate,
-      earningsFactor: BigDecimal
-    ): String = {
-      val payload = JsonObject(
-        "maxPotentialWeeks"   -> Json.fromInt(52),
-        "actualWeeks"         -> Json.fromInt(12), 
-        "deficient"           -> Json.fromInt(1)
-      )
-      payload.asJson.toString
-    }
+  object weeklyContributions extends js.Object {
 
     def apply(
       from: LocalDate,

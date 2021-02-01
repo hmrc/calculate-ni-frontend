@@ -5,7 +5,7 @@ import LateInterestDebtTable from './LateInterestDebtTable'
 import LateInterestRemissionPeriods from './LateInterestRemissionPeriods'
 import LateInterestRatesTable from './LateInterestRatesTable'
 import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
-import {defaultRows, LateInterestContext} from './LateInterestContext'
+import {LateInterestContext} from './LateInterestContext'
 
 interface LateInterestFormProps {
   handleShowSummary: (event: React.FormEvent) => void
@@ -15,7 +15,8 @@ function LateInterestForm(props: LateInterestFormProps) {
   const { handleShowSummary } = props
   const {
     setRows,
-    setErrors
+    setErrors,
+    defaultRows
   } = useContext(LateInterestContext)
 
   const handleClearForm = () => {

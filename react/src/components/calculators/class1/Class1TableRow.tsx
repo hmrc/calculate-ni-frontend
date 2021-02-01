@@ -1,9 +1,10 @@
 import React, {useContext, useEffect} from "react"
-import {appConfig, periods, PeriodValue, periodValueToLabel} from "../../../config";
+import {periods, PeriodValue, periodValueToLabel} from "../../../config";
 import TextInput from "../../helpers/formhelpers/TextInput";
 import numeral from "numeral";
 import {ClassOneContext} from "./ClassOneContext";
 import {Row} from "../../../interfaces";
+import {NiFrontendContext} from "../../../services/NiFrontendContext";
 
 interface TableRowProps {
   row: Row
@@ -23,6 +24,8 @@ export default function Class1TableRow(props: TableRowProps) {
     categories,
     setPeriodNumbers
   } = useContext(ClassOneContext)
+
+  const { config } = useContext(NiFrontendContext)
 
   const handleChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
     setActiveRowId(r.id)
@@ -89,7 +92,9 @@ export default function Class1TableRow(props: TableRowProps) {
             <label className="govuk-visually-hidden" htmlFor={`row${index}-category`}>Category</label>
             <select name="category" value={row.category} onChange={(e) => handleSelectChange?.(row, e)} className="borderless" id={`row${index}-category`}>
               {categories.map((c: string, i: number) => (
-                <option key={i} value={c}>{`${c}${appConfig.categoryNames[c] ? ` - ${appConfig.categoryNames[c]}` : ``}`}</option>
+                <option key={i} value={c}>
+                  {`${c}${config.categoryNames[c] ? ` - ${config.categoryNames[c]}` : ``}`}
+                </option>
               ))}
             </select>
           </>

@@ -6,7 +6,7 @@ import LateInterestForm from "../late-interest/LateInterestForm"
 import LateInterestResults from "../late-interest/LateInterestResults"
 
 // types
-import {LateInterestContext, Rate, useLateInterestForm} from './LateInterestContext'
+import {LateInterestContext, useLateInterestForm} from './LateInterestContext'
 import {validateLateInterestPayload} from '../../../validation/validation'
 import {hasKeys} from '../../../services/utils'
 import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'

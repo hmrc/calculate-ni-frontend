@@ -1,5 +1,4 @@
 import React, {useContext} from 'react'
-import {appConfig} from '../../../config';
 import {DirectorsContext} from "./DirectorsContext";
 
 // types
@@ -10,6 +9,7 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
+import {NiFrontendContext} from "../../../services/NiFrontendContext";
 
 numeral.locale('en-gb');
 
@@ -19,8 +19,12 @@ function DirectorsEarningsTable(props: TableProps) {
     rows,
     setRows,
     categories,
-    errors
+    errors,
+    activeRowId,
+    setActiveRowId
   } = useContext(DirectorsContext)
+
+  const { config } = useContext(NiFrontendContext)
 
   const handleGrossChange = (r: DirectorsRow, e: React.ChangeEvent<HTMLInputElement>) => {
     setRows(rows.map((cur: DirectorsRow) =>
@@ -62,7 +66,12 @@ function DirectorsEarningsTable(props: TableProps) {
       
       <tbody>
         {rows.map((r: DirectorsRow, i: number) => (
-          <tr key={r.id} id={r.id}>
+          <tr
+            key={r.id}
+            id={r.id}
+            className={activeRowId === r.id ? "active" : ""}
+            onClick={() => setActiveRowId(r.id)}
+          >
             <td className="input">
               {printView ?
                 <div>{r.category}</div>
@@ -71,7 +80,9 @@ function DirectorsEarningsTable(props: TableProps) {
                   <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category</label>
                   <select name="category" value={r.category} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
                     {categories.map((c: string, i: number) => (
-                      <option key={i} value={c}>{`${c}${appConfig.categoryNames[c] && `- ${appConfig.categoryNames[c]}`}`}</option>
+                      <option key={i} value={c}>
+                        {`${c}${config.categoryNames[c] ? ` - ${config.categoryNames[c]}` : ``}`}
+                      </option>
                     ))}
                   </select>
                 </>
