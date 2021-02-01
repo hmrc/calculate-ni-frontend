@@ -25,6 +25,12 @@ class NiFrontend(json: String) extends js.Object {
    *  \____|_|\__,_|___/___/   |_|   \_/\_/ \___/ 
    */ 
   object classTwo extends js.Object {
+
+    def getTaxYears: js.Array[String] = {
+      val i = config.classTwo.keys.map(_.toString)
+      i.toJSArray
+    }
+
     def calculate(
       taxYear: Date,
       paymentDate: Date,
@@ -45,6 +51,12 @@ class NiFrontend(json: String) extends js.Object {
    *  \____|_|\__,_|___/___/   |_| |_| |_|_|  \___|\___|
    */   
   object classThree extends js.Object {
+
+    def getTaxYears: js.Array[String] = {
+      val i = config.classThree.keys.map(_.toString)
+      i.toJSArray
+    }
+
     def calculate(
                    taxYear: Date,
                    paymentDate: Date,
@@ -70,20 +82,7 @@ class NiFrontend(json: String) extends js.Object {
    * | |__| (_) | | | | |_| |  | | |_) | |_| | |_| | (_) | | | \__ \
    *  \____\___/|_| |_|\__|_|  |_|_.__/ \__,_|\__|_|\___/|_| |_|___/
    */                                                                
-  object weeklyContributions {
-
-    def calculateJson(
-      from: LocalDate,
-      to: LocalDate,
-      earningsFactor: BigDecimal
-    ): String = {
-      val payload = JsonObject(
-        "maxPotentialWeeks"   -> Json.fromInt(52),
-        "actualWeeks"         -> Json.fromInt(12), 
-        "deficient"           -> Json.fromInt(1)
-      )
-      payload.asJson.toString
-    }
+  object weeklyContributions extends js.Object {
 
     def apply(
       from: LocalDate,
@@ -96,20 +95,12 @@ class NiFrontend(json: String) extends js.Object {
     }
   }
 
-  /*
-  def calculateClassThree(
-    on: Date,
-    numberOfWeeks: Int
-  ): String = config.calculateClassThree(on, numberOfWeeks).getOrElse(
-    throw new NoSuchElementException(s"Class Three undefined for $on")
-  ).toString
-  */
   def calculateClassFour(
     on: LocalDate,
     amount: Double
   ): String = {
     val (l,h) = config.calculateClassFour(on, amount).getOrElse(
-      throw new NoSuchElementException(s"Class Three undefined for $on")
+      throw new NoSuchElementException(s"Class Four undefined for $on")
     )
     l.toString + "," + h.toString
   }
