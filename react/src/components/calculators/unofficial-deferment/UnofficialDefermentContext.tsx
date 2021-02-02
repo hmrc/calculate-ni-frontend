@@ -67,8 +67,9 @@ interface UnofficialDefermentContext {
 }
 
 interface EarningsBand {
-  limit?: number,
-  label: string
+  limit?: number
+  field: string
+  label?: string
 }
 
 interface Bands {
@@ -76,105 +77,105 @@ interface Bands {
 }
 
 const defaultBands = {
-  a: {limit: 112, label: 'LEL'},
-  b: {limit: 155, label: 'LEL - PT'},
-  c: {limit: 827, label: 'PT - UEL'},
-  f: {label: 'Employee NICS'}
+  a: {limit: 112, label: 'Lower earning limit', field: 'LEL'},
+  b: {limit: 155, label: 'Primary threshold', field:  'LEL - PT'},
+  c: {limit: 827, label: 'Upper earning limit', field: 'PT - UEL'},
+  f: {field: 'Employee NICS'}
 }
 
 const getRequiredInputs = (taxYear: TaxYear) => {
   const yearString = taxYear.from.getFullYear().toString()
   const fakeMap: { [key: string]: Bands } = {
     '2003': {
-      a: {limit: 77, label: 'LEL'},
-      b: {limit: 89, label: 'LEL - ET'},
-      c: {limit: 595, label: 'ET - UEL'},
-      e: {label: 'Employee NICS'}
+      a: {limit: 77, label: 'Lower earning limit', field: 'LEL'},
+      b: {limit: 89, label: 'Earning threshold', field: 'LEL - ET'},
+      c: {limit: 595, label: 'Upper earning limit', field: 'ET - UEL'},
+      e: {field: 'Employee NICS'}
     },
     '2004': {
-      a: {limit: 79, label: 'LEL'},
-      b: {limit: 91, label: 'LEL - ET'},
-      c: {limit: 610, label: 'ET - UEL'},
-      e: {label: 'Employee NICS'}
+      a: {limit: 79, label: 'Lower earning limit', field: 'LEL'},
+      b: {limit: 91, label: 'Earning threshold', field: 'LEL - ET'},
+      c: {limit: 610, label: 'Upper earning limit', field: 'ET - UEL'},
+      e: {field: 'Employee NICS'}
     },
     '2005': {
-      a: {limit: 82, label: 'LEL'},
-      b: {limit: 94, label: 'LEL - ET'},
-      c: {limit: 630, label: 'ET - UEL'},
-      e: {label: 'Employee NICS'}
+      a: {limit: 82, label: 'Lower earning limit', field: 'LEL'},
+      b: {limit: 94, label: 'Earning threshold', field: 'LEL - ET'},
+      c: {limit: 630, label: 'Upper earning limit', field: 'ET - UEL'},
+      e: {field: 'Employee NICS'}
     },
     '2006': {
-      a: {limit: 84, label: 'LEL'},
-      b: {limit: 97, label: 'LEL - ET'},
-      c: {limit: 645, label: 'ET - UEL'},
-      e: {label: 'Employee NICS'}
+      a: {limit: 84, label: 'Lower earning limit', field: 'LEL'},
+      b: {limit: 97, label: 'Earning threshold', field: 'LEL - ET'},
+      c: {limit: 645, label: 'Upper earning limit', field: 'ET - UEL'},
+      e: {field: 'Employee NICS'}
     },
     '2007': {
-      a: {limit: 87, label: 'LEL'},
-      b: {limit: 100, label: 'LEL - ET'},
-      c: {limit: 670, label: 'ET - UEL'},
-      e: {label: 'Employee NICS'}
+      a: {limit: 87, label: 'Lower earning limit', field: 'LEL'},
+      b: {limit: 100, label: 'Earning threshold', field: 'LEL - ET'},
+      c: {limit: 670, label: 'Upper earning limit', field: 'ET - UEL'},
+      e: {field: 'Employee NICS'}
     },
     '2008': {
-      a: {limit: 90, label: 'LEL'},
-      b: {limit: 105, label: 'LEL - ET'},
-      c: {limit: 770, label: 'ET - UEL'},
-      e: {label: 'Employee NICS'}
+      a: {limit: 90, label: 'Lower earning limit', field: 'LEL'},
+      b: {limit: 105, label: 'Earning threshold', field: 'LEL - ET'},
+      c: {limit: 770, label: 'Upper earning limit', field: 'ET - UEL'},
+      e: {field: 'Employee NICS'}
     },
     '2009': {
-      a: {limit: 95, label: 'LEL'},
-      b: {limit: 110, label: 'LEL - PT'},
-      c: {limit: 770, label: 'PT - UAP'},
-      d: {limit: 844, label: 'UAP - UEL'},
-      f: {label: 'Employee NICS'}
+      a: {limit: 95, label: 'Lower earning limit', field: 'LEL'},
+      b: {limit: 110, label: 'Primary threshold', field: 'LEL - PT'},
+      c: {limit: 770, label: 'Upper accrual point', field: 'PT - UAP'},
+      d: {limit: 844, label: 'Upper earning limit', field: 'UAP - UEL'},
+      f: {field: 'Employee NICS'}
     },
     '2010': {
-      a: {limit: 97, label: 'LEL'},
-      b: {limit: 110, label: 'LEL - PT'},
-      c: {limit: 770, label: 'PT - UAP'},
-      d: {limit: 844, label: 'UAP - UEL'},
-      f: {label: 'Employee NICS'}
+      a: {limit: 97, label: 'Lower earning limit', field: 'LEL'},
+      b: {limit: 110, label: 'Primary threshold', field: 'LEL - PT'},
+      c: {limit: 770, label: 'Upper accrual point', field: 'PT - UAP'},
+      d: {limit: 844, label: 'Upper earning limit', field: 'UAP - UEL'},
+      f: {field: 'Employee NICS'}
     },
     '2011': {
-      a: {limit: 102, label: 'LEL'},
-      b: {limit: 139, label: 'LEL - PT'},
-      c: {limit: 770, label: 'PT - UAP'},
-      d: {limit: 817, label: 'UAP - UEL'},
-      f: {label: 'Employee NICS'}
+      a: {limit: 102, label: 'Lower earning limit', field: 'LEL'},
+      b: {limit: 139, label: 'Primary threshold', field: 'LEL - PT'},
+      c: {limit: 770, label: 'Upper accrual point', field: 'PT - UAP'},
+      d: {limit: 817, label: 'Upper earning limit', field: 'UAP - UEL'},
+      f: {field: 'Employee NICS'}
     },
     '2012': {
-      a: {limit: 107, label: 'LEL'},
-      b: {limit: 146, label: 'LEL - PT'},
-      c: {limit: 770, label: 'PT - UAP'},
-      d: {limit: 817, label: 'UAP - UEL'},
-      f: {label: 'Employee NICS'}
+      a: {limit: 107, label: 'Lower earning limit', field: 'LEL'},
+      b: {limit: 146, label: 'Primary threshold', field: 'LEL - PT'},
+      c: {limit: 770, label: 'Upper accrual point', field: 'PT - UAP'},
+      d: {limit: 817, label: 'Upper earning limit', field: 'UAP - UEL'},
+      f: {field: 'Employee NICS'}
     },
     '2013': {
-      a: {limit: 109, label: 'LEL'},
-      b: {limit: 149, label: 'LEL - PT'},
-      c: {limit: 770, label: 'PT - UAP'},
-      d: {limit: 797, label: 'UAP - UEL'},
-      f: {label: 'Employee NICS'}
+      a: {limit: 109, label: 'Lower earning limit', field: 'LEL'},
+      b: {limit: 149, label: 'Primary threshold', field: 'LEL - PT'},
+      c: {limit: 770, label: 'Upper accrual point', field: 'PT - UAP'},
+      d: {limit: 797, label: 'Upper earning limit', field: 'UAP - UEL'},
+      f: {field: 'Employee NICS'}
     },
     '2014': {
-      a: {limit: 111, label: 'LEL'},
-      b: {limit: 153, label: 'LEL - PT'},
-      c: {limit: 770, label: 'PT - UAP'},
-      d: {limit: 805, label: 'UAP - UEL'},
-      f: {label: 'Employee NICS'}
+      a: {limit: 111, label: 'Lower earning limit', field: 'LEL'},
+      b: {limit: 153, label: 'Primary threshold', field: 'LEL - PT'},
+      c: {limit: 770, label: 'Upper accrual point', field: 'PT - UAP'},
+      d: {limit: 805, label: 'Upper earning limit', field: 'UAP - UEL'},
+      f: {field: 'Employee NICS'}
     },
     '2015': {
-      a: {limit: 112, label: 'LEL'},
-      b: {limit: 155, label: 'LEL - PT'},
-      c: {limit: 770, label: 'PT - UAP'},
-      d: {limit: 815, label: 'UAP - UEL'},
-      f: {label: 'Employee NICS'}
+      a: {limit: 112, label: 'Lower earning limit', field: 'LEL'},
+      b: {limit: 155, label: 'Primary threshold', field: 'LEL - PT'},
+      c: {limit: 770, label: 'Upper accrual point', field: 'PT - UAP'},
+      d: {limit: 815, label: 'Upper earning limit', field: 'UAP - UEL'},
+      f: {field: 'Employee NICS'}
     },
     '2016': {
-      a: {limit: 112, label: 'LEL'},
-      b: {limit: 155, label: 'LEL - PT'},
-      c: {limit: 827, label: 'PT - UEL'},
-      f: {label: 'Employee NICS'}
+      a: {limit: 112, label: 'Lower earning limit', field: 'LEL'},
+      b: {limit: 155, label: 'Primary threshold', field: 'LEL - PT'},
+      c: {limit: 827, label: 'Upper earning limit', field: 'PT - UEL'},
+      f: {field: 'Employee NICS'}
     }
   }
   return fakeMap[yearString] || defaultBands
@@ -182,7 +183,7 @@ const getRequiredInputs = (taxYear: TaxYear) => {
 
 export const UnofficialDefermentContext = React.createContext<UnofficialDefermentContext>(
   {
-    ClassOneCalculator:initClassOneCalculator,
+    ClassOneCalculator: initClassOneCalculator,
     taxYears: [],
     taxYear: {
       id: '1',
