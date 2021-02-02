@@ -17,6 +17,24 @@ export interface ClassOneCalculator {
   getTaxYears: Array<string>
 }
 
+export interface Class2Or3Calculator {
+  calculate: Function
+  getTaxYears: Array<string>
+}
+
+export interface WeeklyContributionsCalculator {
+  calculate: Function
+}
+
+const initClass2Or3Calculator = {
+  calculate: () => {},
+  getTaxYears: ['']
+}
+
+export const initWeeklyContributionsCalculator = {
+  calculate: () => {}
+}
+
 export const initClassOneCalculator = {
   calculate: () => {},
   calculateJson: () => {},
@@ -32,14 +50,16 @@ export const initClassOneCalculator = {
 
 interface NiFrontendService {
   classOne: ClassOneCalculator
-  classTwo: ClassOneCalculator
-  classThree: ClassOneCalculator
+  classTwo: Class2Or3Calculator
+  classThree: Class2Or3Calculator,
+  weeklyContributions: WeeklyContributionsCalculator
 }
 
 const initService: NiFrontendService = {
   classOne: initClassOneCalculator,
-  classTwo: initClassOneCalculator,
-  classThree: initClassOneCalculator
+  classTwo: initClass2Or3Calculator,
+  classThree: initClass2Or3Calculator,
+  weeklyContributions: initWeeklyContributionsCalculator
 }
 
 interface NiFrontendContext {

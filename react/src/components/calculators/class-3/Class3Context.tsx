@@ -5,7 +5,11 @@ import {buildTaxYears} from "../../../config";
 import {Class3Row, DetailsProps, TaxYear} from '../../../interfaces'
 import {GenericErrors} from "../../../validation/validation";
 import uniqid from "uniqid";
-import {NiFrontendContext} from "../../../services/NiFrontendContext";
+import {
+  initWeeklyContributionsCalculator,
+  NiFrontendContext,
+  WeeklyContributionsCalculator
+} from "../../../services/NiFrontendContext";
 
 const initialDetails = {
   fullName: '',
@@ -46,7 +50,8 @@ interface Class3Context {
   result: Class3Result | null
   setResult: Dispatch<Class3Result | null>
   activeRowId: string | null
-  setActiveRowId: Dispatch<string | null>
+  setActiveRowId: Dispatch<string | null>,
+  WeeklyContributionsCalculator: WeeklyContributionsCalculator
 }
 
 const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) => ({
@@ -75,7 +80,8 @@ export const Class3Context = React.createContext<Class3Context>(
     result: null,
     setResult: () => {},
     activeRowId: null,
-    setActiveRowId: () => {}
+    setActiveRowId: () => {},
+    WeeklyContributionsCalculator: initWeeklyContributionsCalculator
   }
 )
 
@@ -90,11 +96,14 @@ export function useClass3Form() {
   const [year, setYear] = useState('')
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   const {
-    config
+    NiFrontendInterface
   } = useContext(NiFrontendContext)
-  const taxYears: TaxYear[] = buildTaxYears(Object.keys(config.classThree), 'key')
+  const ClassThreeCalculator = NiFrontendInterface.classThree
+  const WeeklyContributionsCalculator = NiFrontendInterface.weeklyContributions
+  const taxYears: TaxYear[] = buildTaxYears(ClassThreeCalculator.getTaxYears)
 
   return {
+    WeeklyContributionsCalculator,
     taxYears,
     details,
     setDetails,

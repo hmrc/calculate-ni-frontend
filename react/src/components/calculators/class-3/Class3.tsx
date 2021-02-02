@@ -21,7 +21,8 @@ const Class3Page = () => {
         enteredNiDate,
         errors,
         setErrors,
-        setActiveRowId
+        setActiveRowId,
+        WeeklyContributionsCalculator
     } = useContext(Class3Context)
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()
@@ -40,21 +41,20 @@ const Class3Page = () => {
             rows
         }
         if(validateClass3Payload(payload, setErrors, taxYears)) {
-            rows.map(stubCalc)
+            rows.map(row => {
+                const result = WeeklyContributionsCalculator
+                  .calculate(
+                    row.dateRange.from,
+                    row.dateRange.to,
+                    parseFloat(row.earningsFactor)
+                  )
+                row.maxWeeks = result.maxPotentialWeeks
+                row.actualWeeks = result.actualWeeks
+                row.deficiency = result.deficient
+                return row
+            })
             setShowSummary(showSummaryIfValid)
         }
-    }
-
-    // TODO: this is a stub until Frontend.scala provides method
-    const stubCalc = (row: Class3Row) => {
-        const NOMINAL_AMOUNT_PER_WEEK = 71
-        const maxWeeks = row.dateRange.numberOfWeeks || 52
-        const actualWeeks = (Math.ceil(parseInt(row.earningsFactor) / NOMINAL_AMOUNT_PER_WEEK))
-        const deficiency = maxWeeks - actualWeeks
-        row.maxWeeks = maxWeeks
-        row.actualWeeks = actualWeeks > 52 ? 52 : actualWeeks
-        row.deficiency = deficiency > 0 ? deficiency : 0
-        return row
     }
 
     const handleChange = ({
@@ -68,7 +68,7 @@ const Class3Page = () => {
     }
 
     return (
-      <main>
+      <div>
           {showSummary ?
             <p>Print view</p>
             :
@@ -101,8 +101,7 @@ const Class3Page = () => {
                 </div>
             </>
           }
-
-      </main>
+      </div>
     )
 }
 

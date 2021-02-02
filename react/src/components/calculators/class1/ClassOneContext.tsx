@@ -106,7 +106,7 @@ export function useClassOneForm() {
     NiFrontendInterface
   } = useContext(NiFrontendContext)
   const ClassOneCalculator = NiFrontendInterface.classOne
-  const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
+  const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears)
   const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
   const [defaultRow, setDefaultRow] = useState<Row>(initRow)
   const [rows, setRows] = useState<Array<Row>>([defaultRow])
