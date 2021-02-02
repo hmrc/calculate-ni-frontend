@@ -87,7 +87,7 @@ class NiFrontend(json: String) extends js.Object {
     def calculate(
       from: Date,
       to: Date,
-      earningsFactor: BigDecimal
+      earningsFactor: Double
     ) = new js.Object {
       val maxPotentialWeeks: Int = 52
       val actualWeeks: Int = 12
