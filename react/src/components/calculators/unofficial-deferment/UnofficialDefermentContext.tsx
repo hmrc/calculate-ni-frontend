@@ -66,42 +66,6 @@ interface UnofficialDefermentContext {
   setResults: Dispatch<GenericObject>
 }
 
-export const UnofficialDefermentContext = React.createContext<UnofficialDefermentContext>(
-  {
-    ClassOneCalculator:initClassOneCalculator,
-    taxYears: [],
-    taxYear: {
-      id: '1',
-      from: new Date(),
-      to: new Date()
-    },
-    setTaxYear: () => {},
-    defaultRow: initRow,
-    rows: [initRow],
-    setRows: () => {},
-    details: initialDetails,
-    setDetails: () => {},
-    errors: {},
-    setErrors: () => {},
-    calculatedRows: [],
-    setCalculatedRows: () => {},
-    categories: [],
-    setCategories: () => {},
-    activeRowId: null,
-    setActiveRowId: () => {},
-    earningsFields: {
-      a: {limit: 112, label: 'LEL'},
-      b: {limit: 177, label: 'LEL - PT'},
-      c: {limit: 255, label: 'PT - UAP'},
-      d: {limit: 1443, label: 'UAP - UEL'},
-      f: {limit: 2559, label: 'Employee NICS'}
-    },
-    setEarningsFields: () => {},
-    results: {},
-    setResults: () => {}
-  }
-)
-
 interface EarningsBand {
   limit?: number,
   label: string
@@ -109,6 +73,13 @@ interface EarningsBand {
 
 interface Bands {
   [key: string]: EarningsBand
+}
+
+const defaultBands = {
+  a: {limit: 112, label: 'LEL'},
+  b: {limit: 155, label: 'LEL - PT'},
+  c: {limit: 827, label: 'PT - UEL'},
+  f: {label: 'Employee NICS'}
 }
 
 const getRequiredInputs = (taxYear: TaxYear) => {
@@ -119,7 +90,7 @@ const getRequiredInputs = (taxYear: TaxYear) => {
       b: {limit: 89, label: 'LEL - ET'},
       c: {limit: 595, label: 'ET - UEL'},
       e: {label: 'Employee NICS'}
-     },
+    },
     '2004': {
       a: {limit: 79, label: 'LEL'},
       b: {limit: 91, label: 'LEL - ET'},
@@ -206,13 +177,38 @@ const getRequiredInputs = (taxYear: TaxYear) => {
       f: {label: 'Employee NICS'}
     }
   }
-  return fakeMap[yearString] || {
-    a: {limit: 112, label: 'LEL'},
-    b: {limit: 155, label: 'LEL - PT'},
-    c: {limit: 827, label: 'PT - UEL'},
-    f: {label: 'Employee NICS'}
-  }
+  return fakeMap[yearString] || defaultBands
 }
+
+export const UnofficialDefermentContext = React.createContext<UnofficialDefermentContext>(
+  {
+    ClassOneCalculator:initClassOneCalculator,
+    taxYears: [],
+    taxYear: {
+      id: '1',
+      from: new Date(),
+      to: new Date()
+    },
+    setTaxYear: () => {},
+    defaultRow: initRow,
+    rows: [initRow],
+    setRows: () => {},
+    details: initialDetails,
+    setDetails: () => {},
+    errors: {},
+    setErrors: () => {},
+    calculatedRows: [],
+    setCalculatedRows: () => {},
+    categories: [],
+    setCategories: () => {},
+    activeRowId: null,
+    setActiveRowId: () => {},
+    earningsFields: defaultBands,
+    setEarningsFields: () => {},
+    results: {},
+    setResults: () => {}
+  }
+)
 
 export function useUnofficialDefermentForm() {
   const {
@@ -224,12 +220,7 @@ export function useUnofficialDefermentForm() {
   const [defaultRow, setDefaultRow] = useState<UnofficialDefermentRow>(initRow)
   const [rows, setRows] = useState<Array<UnofficialDefermentRow>>([defaultRow])
   const [categories, setCategories] = useState<Array<string>>([])
-  const [earningsFields, setEarningsFields] = useState<Bands>({
-    a: {limit: 112, label: 'LEL'},
-    b: {limit: 155, label: 'LEL - PT'},
-    c: {limit: 827, label: 'PT - UEL'},
-    f: {label: 'Employee NICS'}
-  },)
+  const [earningsFields, setEarningsFields] = useState<Bands>(defaultBands)
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
