@@ -30,11 +30,43 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
 
 interface Calculator {
   calculate: Function
-  calculateJson: Function
   calculateProRata: Function
   calculateProRataJson: Function
   getApplicableCategories: Function
   getTaxYears: Array<string>
+}
+
+interface CalculatedTotals {
+  gross: number
+  net: number
+  employee: number
+  employer: number
+}
+
+interface Band {
+  name: string
+  amountInBand: number
+}
+
+interface CalculatedRow {
+  bands: Array<Band>
+  employee: number
+  employer: number
+  totalContributions: number
+}
+
+interface TotalRow {
+  employee: number
+  employer: number
+  net: number
+}
+
+interface Class1Result {
+  resultRows: CalculatedRow[]
+  totals: CalculatedTotals
+  overpayment: TotalRow
+  underpayment: TotalRow
+  employerContributions: number
 }
 
 interface ClassOneContext {
@@ -64,11 +96,13 @@ interface ClassOneContext {
   activeRowId: string | null
   setActiveRowId: Dispatch<string | null>
   setPeriodNumbers: Function
+  result: Class1Result | null
+  setResult: Dispatch<Class1Result | null>
 }
 
 export const ClassOneContext = React.createContext<ClassOneContext>(
   {
-    ClassOneCalculator:initClassOneCalculator,
+    ClassOneCalculator: initClassOneCalculator,
     taxYears: [],
     taxYear: {
       id: '1',
@@ -97,7 +131,9 @@ export const ClassOneContext = React.createContext<ClassOneContext>(
     setCategories: () => {},
     activeRowId: null,
     setActiveRowId: () => {},
-    setPeriodNumbers: () => {}
+    setPeriodNumbers: () => {},
+    result: null,
+    setResult: () => {}
   }
 )
 
@@ -118,6 +154,7 @@ export function useClassOneForm() {
   const [niPaidEmployee, setNiPaidEmployee] = useState<string>('')
   const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({})
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
+  const [result, setResult] = useState<Class1Result | null>(null)
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   useEffect(() => {
     if(taxYear.from) {
@@ -185,6 +222,8 @@ export function useClassOneForm() {
     setCategories,
     activeRowId,
     setActiveRowId,
-    setPeriodNumbers
+    setPeriodNumbers,
+    result,
+    setResult
   }
 }

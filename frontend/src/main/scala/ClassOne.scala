@@ -28,11 +28,15 @@ class ClassOneFrontend(
         row.category.head,
         row.period match {
           case "W" => Period.Week
+          case "2W" => Period.Week
           case "M" => Period.Month
           case "4W" => Period.FourWeek
           case _ => throw new IllegalStateException("Unknown Period")
         },
-        1,
+        row.period match {
+          case "2W" => 2
+          case _ => 1
+        },
         row.contractedOutStandardRate
       )
     }

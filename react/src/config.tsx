@@ -27,10 +27,10 @@ export const momentDateFormat = 'D MMMM YYYY'
 export const stripSpaces = (str: string) => str.toLowerCase().split(' ').join('-')
 
 export enum PeriodValue {
-  WEEKLY = 'Wk',
-  FORTNIGHTLY = 'Frt',
-  MONTHLY = 'Mnth',
-  FOURWEEKLY = '4wk',
+  WEEKLY = 'W',
+  FORTNIGHTLY = '2W',
+  MONTHLY = 'M',
+  FOURWEEKLY = '4W',
   ANNUAL = 'Ann',
   PRORATA = 'Prr'
 }

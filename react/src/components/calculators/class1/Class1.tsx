@@ -35,7 +35,7 @@ const Class1Page = () => {
     setNiPaidEmployee,
     setNiPaidNet,
     calculatedRows,
-    setCalculatedRows,
+    setResult,
     setActiveRowId
   } = useContext(ClassOneContext)
 
@@ -66,9 +66,17 @@ const Class1Page = () => {
     }
 
     if (validateClassOnePayload(payload, setErrors)) {
-      setCalculatedRows(
-        calculateRows(rows as Row[], taxYear.from) as Calculated[]
-      )
+      setResult(ClassOneCalculator.calculate(
+        taxYear.from,
+        rows.map(row => ({
+          period: row.period,
+          category: row.category,
+          grossPay: row.gross,
+          contractedOutStandardRate: false
+        })),
+        parseFloat(payload.niPaidNet),
+        parseFloat(payload.niPaidEmployee)
+      ))
       if (showSummaryIfValid) {
         setShowSummary(true)
       }
@@ -79,31 +87,10 @@ const Class1Page = () => {
     setActiveRowId(null)
     setErrors({})
     setRows([defaultRow])
-    setCalculatedRows([])
+    setResult(null)
     setNiPaidEmployee('')
     setNiPaidNet('')
   }
-
-  const calculateRows = (rows: Row[], taxYear: Date) => rows
-      .map((row, i) => {
-        const rowPeriod = (row.period === PeriodValue.FORTNIGHTLY ? PeriodValue.WEEKLY : row.period)
-        const rowPeriodQty = (row.period === PeriodValue.FORTNIGHTLY ? 2 : 1)
-        const calculatedRow = JSON.parse(
-          ClassOneCalculator
-            .calculateJson(
-              taxYear,
-              parseFloat(row.gross),
-              row.category,
-              rowPeriod,
-              rowPeriodQty,
-              false
-            )
-        )
-
-        setRows(updateRowInResults(rows, calculatedRow, i))
-
-        return calculatedRow
-      }) as Calculated[]
 
   return (
     <div>
