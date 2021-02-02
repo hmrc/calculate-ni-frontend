@@ -82,7 +82,7 @@ export function useLateInterestForm() {
     NiFrontendInterface
   } = useContext(NiFrontendContext)
   const ClassOneCalculator = NiFrontendInterface.classOne
-  const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
+  const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears)
   const interestRates = ClassOneCalculator.interestOnLateClassOne.getRates()
   const [rates] = useState<Rate[] | null>(interestRates)
   const defaultRows = [{
