@@ -1,7 +1,6 @@
 import moment from 'moment';
 // types
 import { TaxYear } from './interfaces'
-import configuration from './configuration.json'
 
 export enum NiClassName {
   CLASS_ONE = "classOne",
@@ -11,17 +10,6 @@ export enum NiClassName {
   CLASS_FOUR = "classFour"
 }
 
-export interface NiCategoryNames {
-  [key: string]: string
-}
-
-interface BaseConfiguration {
-  [key: string]: object
-}
-
-export interface AppConfig {
-  categoryNames: NiCategoryNames
-}
 // tax year keys are in this format [2013-04-05, 2014-04-05)
 export const taxYearStringFormat: RegExp = /^\[[0-9]{4}-[0-9]{2}-[0-9]{2}, [0-9]{4}-[0-9]{2}-[0-9]{2}\)$/
 export const extractFromDateString = (ty: string) => ty.substr(1, 10)
@@ -34,16 +22,6 @@ export const buildTaxYears = (config: Array<string>, type: string | undefined) =
     from: new Date(extractFromDateString(ty)),
     to: new Date(type === 'key' ?  extractToDateStringFromKey(ty) : extractToDateString(ty))
   })).sort(sortByTaxYear)
-
-const getAppConfig = () => {
-  const baseConfig: BaseConfiguration = configuration
-  const appConfig: AppConfig = {} as AppConfig
-  // straight map of base category names
-  appConfig.categoryNames = baseConfig.categoryNames as NiCategoryNames
-  return appConfig
-}
-
-export const appConfig = getAppConfig()
 
 export const momentDateFormat = 'D MMMM YYYY'
 
@@ -87,4 +65,10 @@ export const periodValueToLabel = (str: PeriodValue) => {
   }
 }
 
-export const taxYearString = (ty: TaxYear) => `${moment(ty.from).format(momentDateFormat)} - ${moment(ty.to).format(momentDateFormat)}`
+export const taxYearString = (ty: TaxYear, onlyStartYear?: boolean) => {
+  if (!onlyStartYear) {
+    return `${moment(ty.from).format(momentDateFormat)} - ${moment(ty.to).format(momentDateFormat)}`
+  } else {
+    return `${moment(ty.from).format('YYYY')}`
+  }
+}

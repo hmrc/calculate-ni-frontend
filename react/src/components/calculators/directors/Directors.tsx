@@ -11,27 +11,26 @@ import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
 import {Calculated, Calculators, DirectorsRow, GovDateRange, TaxYear} from '../../../interfaces'
-import {defaultRows, DirectorsContext, useDirectorsForm} from "./DirectorsContext";
+import {DirectorsContext, useDirectorsForm} from "./DirectorsContext";
 
 // services
-import {updateRowInResults, extractTaxYearFromDate} from "../../../services/utils";
+import {updateRowInResults, extractTaxYearFromDate, hasKeys} from "../../../services/utils";
 
 const pageTitle = 'Directors’ contributions'
 
 const DirectorsPage = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
-  const [dateRange, setDateRange] = useState<GovDateRange>((() => ({from: null, to: null})))
+  const [dateRange, setDateRange] = useState<GovDateRange>((() => ({from: null, to: null, hasContentFrom: false, hasContentTo: false})))
   const {
     ClassOneCalculator,
     taxYears,
     taxYear,
     setTaxYear,
+    defaultRow,
     rows,
     setRows,
     errors,
     setErrors,
-    rowsErrors,
-    setRowsErrors,
     details,
     setDetails,
     niPaidNet,
@@ -71,7 +70,6 @@ const DirectorsPage = () => {
 
   const submitForm = (showSummaryIfValid: boolean) => {
     setErrors({})
-    setRowsErrors({})
     const payload = {
       rows: rows,
       niPaidEmployee: niPaidEmployee,
@@ -80,7 +78,7 @@ const DirectorsPage = () => {
       earningsPeriod: earningsPeriod
     }
 
-    if(validateDirectorsPayload(payload, setErrors, setRowsErrors, taxYears)) {
+    if(validateDirectorsPayload(payload, setErrors, taxYears)) {
       setCalculatedRows(
         calculateRows(rows as DirectorsRow[], taxYear.from) as Calculated[]
       )
@@ -95,7 +93,7 @@ const DirectorsPage = () => {
         let calculatedRow: Calculated;
         if (earningsPeriod === PeriodLabel.ANNUAL) {
           calculatedRow = JSON.parse(ClassOneCalculator
-            .calculate(
+            .calculateJson(
               taxYear,
               parseFloat(row.gross),
               row.category,
@@ -105,7 +103,7 @@ const DirectorsPage = () => {
             ))
         } else {
           calculatedRow = JSON.parse(ClassOneCalculator
-            .calculateProRata(
+            .calculateProRataJson(
               dateRange.from,
               dateRange.to,
               parseFloat(row.gross),
@@ -126,8 +124,7 @@ const DirectorsPage = () => {
 
   const resetTotals = () => {
     setErrors({})
-    setRowsErrors({})
-    setRows(defaultRows)
+    setRows([defaultRow])
     setCalculatedRows([])
     setNiPaidEmployee('')
     setNiPaidNet('')
@@ -143,10 +140,9 @@ const DirectorsPage = () => {
         />
         :
         <>
-          {(Object.keys(errors).length > 0 || Object.keys(rowsErrors).length > 0) &&
+          {hasKeys(errors) &&
             <ErrorSummary
               errors={errors}
-              rowsErrors={rowsErrors}
             />
           }
 

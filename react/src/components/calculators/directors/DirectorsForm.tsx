@@ -12,37 +12,56 @@ import {DateRange} from "../shared/DateRange";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 
 // types
-import {DirectorsRow, DirectorsTableProps} from '../../../interfaces';
+import {DirectorsFormProps, DirectorsRow} from '../../../interfaces';
+import uniqid from 'uniqid'
 
 numeral.locale('en-gb');
 
-export default function DirectorsForm(props: DirectorsTableProps) {
+export default function DirectorsForm(props: DirectorsFormProps) {
   const { handleShowSummary, resetTotals, setDateRange } = props
   const {
+    ClassOneCalculator,
     taxYears,
     taxYear,
     setTaxYear,
+    earningsPeriod,
+    errors,
+    setErrors,
     rows,
     setRows,
-    earningsPeriod,
-    errors
+    activeRowId,
+    setActiveRowId
   } = useContext(DirectorsContext)
-
-  const handleGrossChange = (r: DirectorsRow, e: React.ChangeEvent<HTMLInputElement>) => {
-    setRows(rows.map((cur: DirectorsRow) =>
-      cur.id === r.id ? {...cur, gross: e.currentTarget.value} : cur
-    ))
-  }
 
   const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
     e.preventDefault()
     resetTotals()
   }
 
-  const handleSelectChange = (r: DirectorsRow, e: React.ChangeEvent<HTMLSelectElement>) => {
-    setRows(rows.map((cur: DirectorsRow) =>
-      cur.id === r.id ? {...cur, [e.currentTarget.name]: e.currentTarget.value} : cur
-    ))
+  const handleAddRow = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    setRows([...rows, {
+      id: uniqid(),
+      category: ClassOneCalculator.getApplicableCategories(taxYears[0].from)[0],
+      gross: '',
+      ee: '0',
+      er: '0'
+    }])
+  }
+
+  const handleDeleteRow = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if(activeRowId) {
+      // errors are now stale
+      setErrors({})
+      setActiveRowId(null)
+
+      const newRows = rows.filter((row: DirectorsRow) => {
+        return row.id !== activeRowId
+      })
+
+      setRows(newRows)
+    }
   }
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -96,9 +115,8 @@ export default function DirectorsForm(props: DirectorsTableProps) {
       />
 
       <DirectorsEarningsTable
-        handleChange={handleGrossChange}
-        handleSelectChange={handleSelectChange}
         showBands={false}
+        printView={false}
       />
 
       <div className="container">
@@ -111,6 +129,19 @@ export default function DirectorsForm(props: DirectorsTableProps) {
         </div>
 
         <div className="container">
+          <div className="form-group repeat-button">
+            <SecondaryButton
+              label="Delete active row"
+              onClick={handleDeleteRow}
+              disabled={!activeRowId || rows.length === 1}
+            />
+          </div>
+          <div className="form-group repeat-button">
+            <SecondaryButton
+              label="Add row"
+              onClick={handleAddRow}
+            />
+          </div>
           <div className="form-group">
             <SecondaryButton
               label="Clear table"

@@ -1,17 +1,12 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react'
+import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from 'react'
 import {buildTaxYears, NiClassName} from "../../../config";
 
 // types
-import {Class1S, DetailsProps, TaxYear} from '../../../interfaces'
+import {DetailsProps, TaxYear} from '../../../interfaces'
 import {GenericErrors} from "../../../validation/validation";
-import {ClassOne} from "../../../calculation";
-import configuration from "../../../configuration.json";
+import {NiFrontendContext} from "../../../services/NiFrontendContext";
 
-const ClassOneCalculator = new ClassOne(JSON.stringify(configuration))
-const class2TaxYears: TaxYear[] = buildTaxYears(Object.keys(configuration.classTwo), 'key')
-const class3TaxYears: TaxYear[] = buildTaxYears(Object.keys(configuration.classThree), 'key')
-
-const initialState = {
+const initialDetails = {
   fullName: '',
   ni: '',
   reference: '',
@@ -21,10 +16,6 @@ const initialState = {
 
 interface Calculator {
   calculate: Function
-  calculateProRata: Function
-  calculateClassTwo: Function
-  calculateClassThree: Function
-  getApplicableCategories: Function
   getTaxYears: Array<string>
 }
 
@@ -37,7 +28,8 @@ export interface Class2Or3Result {
 }
 
 interface Class2Or3Context {
-  ClassOneCalculator: Calculator
+  ClassTwoCalculator: Calculator
+  ClassThreeCalculator: Calculator
   class2TaxYears: TaxYear[]
   class3TaxYears: TaxYear[]
   details: DetailsProps
@@ -62,7 +54,7 @@ interface Class2Or3Context {
   setResult: Dispatch<Class2Or3Result | null>
 }
 
-const stateReducer = (state: Class1S, action: { [x: string]: string }) => ({
+const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) => ({
   ...state,
   ...action,
 })
@@ -70,14 +62,25 @@ const stateReducer = (state: Class1S, action: { [x: string]: string }) => ({
 
 export const Class2Or3Context = React.createContext<Class2Or3Context>(
   {
-    ClassOneCalculator: ClassOneCalculator,
-    class2TaxYears: class2TaxYears,
-    class3TaxYears: class3TaxYears,
-    details: initialState,
+    ClassTwoCalculator: {
+      calculate: () => {},
+      getTaxYears: ['']
+    },
+    ClassThreeCalculator: {
+      calculate: () => {},
+      getTaxYears: ['']
+    },
+    class2TaxYears: [],
+    class3TaxYears: [],
+    details: initialDetails,
     setDetails: () => {},
     activeClass: '',
     setActiveClass: () => {},
-    taxYear: class2TaxYears[0],
+    taxYear: {
+      id: '1',
+        from: new Date(),
+        to: new Date()
+    },
     setTaxYear: () => {},
     day: '',
     setDay: () => {},
@@ -98,8 +101,7 @@ export const Class2Or3Context = React.createContext<Class2Or3Context>(
 
 export function useClass2Or3Form() {
   const [activeClass, setActiveClass] = useState<string>('')
-  const [details, setDetails] = React.useReducer(stateReducer, initialState) 
-  const [taxYear, setTaxYear] = useState<TaxYear>(class2TaxYears[0])
+  const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [earningsFactor, setEarningsFactor] = useState<string>('')
   const [paymentEnquiryDate, setPaymentEnquiryDate] = useState<Date | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})
@@ -107,6 +109,15 @@ export function useClass2Or3Form() {
   const [day, setDay] = useState('')
   const [month, setMonth] = useState('')
   const [year, setYear] = useState('')
+  const {
+    config,
+    NiFrontendInterface
+  } = useContext(NiFrontendContext)
+  const ClassTwoCalculator = NiFrontendInterface.classTwo
+  const ClassThreeCalculator = NiFrontendInterface.classThree
+  const class2TaxYears: TaxYear[] = buildTaxYears(Object.keys(config.classTwo), 'key')
+  const class3TaxYears: TaxYear[] = buildTaxYears(Object.keys(config.classThree), 'key')
+  const [taxYear, setTaxYear] = useState<TaxYear>(class2TaxYears[0])
 
   useEffect(() => {
     const taxYears = activeClass === NiClassName.CLASS_TWO ? class2TaxYears : class3TaxYears
@@ -114,7 +125,8 @@ export function useClass2Or3Form() {
   }, [activeClass])
 
   return {
-    ClassOneCalculator,
+    ClassTwoCalculator,
+    ClassThreeCalculator,
     class2TaxYears,
     class3TaxYears,
     details,

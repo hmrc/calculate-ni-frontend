@@ -19,6 +19,7 @@ package eoi
 import java.time.LocalDate
 import spire.implicits._
 import spire.math.Interval
+import cats.data.Writer, Writer._
 
 case class RateDefinition(
   year: Interval[BigDecimal],
@@ -36,18 +37,33 @@ case class RateDefinition(
   def effectiveFourWeek = fourWeek.getOrElse(year / 13)    
 }
 
+case class ClassTwoRates(
+  default: BigDecimal,
+  fishermen: Option[BigDecimal],
+  voluntary: Option[BigDecimal]
+)
+
 case class ClassTwo(
-  weeklyRate: BigDecimal,
-  vdwRate: Option[BigDecimal],
-  shareFishingRate: Option[BigDecimal],
-  smallEarningsException: Option[BigDecimal]
+  weeklyRate: ClassTwoRates,
+  smallEarningsException: Option[BigDecimal],
+  qualifyingRate: BigDecimal,
+  noOfWeeks: Int = 52
+) 
+
+case class ClassThree(
+  efQual: String,
+  lel: String,
+  startWeek: Int,
+  finalDate: LocalDate,
+  weekRate: BigDecimal,
+  noOfWeeks: Int
 )
 
 case class ClassFour(
   lowerLimit: BigDecimal, 
   upperLimit: BigDecimal,
   mainRate: BigDecimal,
-  upperRate: BigDecimal
+  upperRate: BigDecimal = 0
 )
 
 
@@ -113,9 +129,14 @@ case class Configuration(
   classOne: Map[Interval[LocalDate], Map[String, RateDefinition]],
   classOneAB: Map[Interval[LocalDate], BigDecimal], 
   classTwo: Map[Interval[LocalDate], ClassTwo],
-  classThree: Map[Interval[LocalDate], BigDecimal],
+  classThree: Map[Interval[LocalDate], ClassThree],
   classFour: Map[Interval[LocalDate], ClassFour]   
 ) {
+
+
+
+  private def compute[A](in: A)(msg: String): cats.data.Writer[List[String], A] =
+    tell(List(msg + " = " + in.toString)) flatMap {_ => value[List[String], A](in)}
 
   def proRataRatio(from: LocalDate, to: LocalDate): Option[BigDecimal] = {
     import spire.math.interval._
@@ -146,7 +167,7 @@ case class Configuration(
   def calculateClassThree(
     on: LocalDate,
     numberOfWeeks: Int
-  ): Option[BigDecimal] = classThree.at(on).map(_ * numberOfWeeks)
+  ): Option[BigDecimal] = ??? // classThree.at(on).map(_ * numberOfWeeks)
 
   def calculateClassFour(
     on: LocalDate,
@@ -163,13 +184,42 @@ case class Configuration(
 
   def calculateClassTwo(
     on: LocalDate,
-    amount: BigDecimal
-  ): Option[BigDecimal] = {
-    val year: Option[ClassTwo] = classTwo.at(on)
-    year.map { x =>
-      if (amount < x.smallEarningsException.getOrElse(Zero)) 0
-      else x.weeklyRate * 52
+    paymentDate: LocalDate,
+    earningsFactor: BigDecimal
+  ): Writer[List[String], ClassTwoAndThreeResult] = {
+    import cats.implicits._
+
+    val year: ClassTwo = classTwo.at(on).getOrElse {
+      throw new NoSuchElementException(s"Class Two is not defined for $on")
     }
+
+    import year._
+
+    for {
+      contributionsFloat <- compute(((qualifyingRate - earningsFactor) / earningsFactor) * noOfWeeks)(
+        s"contributionsFloat: ((qualifyingRate ($qualifyingRate) - earnings factor ($earningsFactor)) / earningsFactor) * weeks in year ($noOfWeeks)"
+      )
+      contributionsDue <- compute(contributionsFloat.setScale(0, BigDecimal.RoundingMode.CEILING).toInt)(
+        s"contributionsDue: $contributionsFloat rounded up to nearest integer")
+      higherRateDate <- compute(on.plusYears(2))(s"higherRateDate: start date ($on) + 2 years")
+      finalDate <- compute(on.plusYears(4))(s"finalDate: start date ($on) + 4 years")      
+      higherRateApplies <- compute(paymentDate.isBefore(higherRateDate))(s"higherRateApplies: higherRateDate ($higherRateDate) > paymentDate ($paymentDate)")
+      rate <- if (higherRateApplies){
+        compute(weeklyRate.default)(s"default weekly rate")
+      } else {
+        compute(classTwo.at(paymentDate).getOrElse {
+          throw new NoSuchElementException(s"Class Two is not defined for $paymentDate")
+        }.weeklyRate.default)(s"weekly rate for $paymentDate")
+      }
+      totalDue <- compute(rate * contributionsDue)(s"rate ($rate) * contributionsDue ($contributionsDue)")
+    } yield ClassTwoAndThreeResult(
+      contributionsDue,
+      rate,
+      totalDue,
+      higherRateDate,
+      finalDate
+    )
+
   }
 
   def calculateClassOne(
@@ -199,3 +249,12 @@ case class Configuration(
     }
   }
 }
+
+
+case class ClassTwoAndThreeResult(
+  numberOfContributions: Int,
+  rate: BigDecimal,
+  totalDue: BigDecimal,
+  higherProvisionsApplyOn: LocalDate,
+  finalDate: LocalDate
+)

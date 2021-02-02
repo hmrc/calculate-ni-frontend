@@ -11,3 +11,13 @@ $hmrc-assets-path: "/assets/lib/hmrc-frontend/hmrc/";
   width: 52px;
   height: 32px;
 }
+
+#root .column-toggle {
+  cursor: pointer;
+  white-space: nowrap;
+  img {
+    display: inline-block;
+    margin-left: 1.2ex;
+    margin-bottom: -2px;
+  }
+}

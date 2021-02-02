@@ -1,3 +1,4 @@
+
 {
   "categoryNames" : {
     "X" : "Exempt",
@@ -37,7 +38,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "M" : 0.138,
@@ -47,7 +48,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -102,7 +103,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -136,7 +137,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "H" : 0.138
@@ -145,7 +146,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -183,16 +184,16 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -230,16 +231,16 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -290,7 +291,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -330,7 +331,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.104,
@@ -345,7 +346,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -383,16 +384,16 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -430,7 +431,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "D" : -0.034,
@@ -441,7 +442,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -499,7 +500,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -545,13 +546,13 @@
           "D" : 0.106
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -593,13 +594,13 @@
           "L" : -0.014
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -653,7 +654,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -693,7 +694,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : -0.035,
@@ -707,7 +708,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -745,7 +746,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.093,
@@ -763,7 +764,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -812,13 +813,13 @@
           "S" : 0.01
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -878,7 +879,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -1004,7 +1005,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -1130,7 +1131,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -1256,7 +1257,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -1317,7 +1318,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -1359,7 +1360,7 @@
           "F" : -0.016
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
@@ -1419,7 +1420,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "D" : -0.016,
@@ -1487,7 +1488,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : -0.03,
@@ -1500,7 +1501,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -1534,7 +1535,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.119,
@@ -1550,7 +1551,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -1670,7 +1671,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.1,
@@ -2351,7 +2352,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "M" : 0.138,
@@ -2361,7 +2362,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -2413,7 +2414,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -2447,16 +2448,16 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -2494,16 +2495,16 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -2541,16 +2542,16 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -2584,7 +2585,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "A" : 0.138,
@@ -2596,7 +2597,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -2711,7 +2712,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.102,
@@ -3448,7 +3449,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -3563,7 +3564,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.104,
@@ -4214,7 +4215,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : -0.03,
@@ -4232,7 +4233,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -4266,7 +4267,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.122,
@@ -4290,7 +4291,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -4363,7 +4364,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -4415,13 +4416,13 @@
           "D" : 0.084
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -4539,7 +4540,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -4654,7 +4655,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.104,
@@ -5380,7 +5381,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.1045,
@@ -6027,7 +6028,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "M" : 0.138,
@@ -6037,7 +6038,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -6096,7 +6097,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -6130,7 +6131,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "H" : 0.138
@@ -6139,7 +6140,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -6177,7 +6178,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.104,
@@ -6187,7 +6188,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -6225,7 +6226,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.104,
@@ -6235,7 +6236,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -6290,7 +6291,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -6330,7 +6331,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.091,
@@ -6348,7 +6349,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -6412,7 +6413,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -6461,13 +6462,13 @@
           "S" : 0.01
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -6522,7 +6523,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -6582,7 +6583,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -6697,7 +6698,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.104,
@@ -7423,7 +7424,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.102,
@@ -8070,7 +8071,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.104,
@@ -8085,7 +8086,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -8123,16 +8124,16 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -8170,7 +8171,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "D" : -0.034,
@@ -8181,7 +8182,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -8239,7 +8240,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -8285,13 +8286,13 @@
           "D" : 0.106
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -8333,13 +8334,13 @@
           "L" : -0.014
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -8393,7 +8394,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -8433,7 +8434,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : -0.03,
@@ -8446,7 +8447,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -8484,7 +8485,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : -0.03,
@@ -8497,7 +8498,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -8543,13 +8544,13 @@
           "D" : 0.084
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -8591,7 +8592,7 @@
           "F" : -0.016
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
@@ -8672,7 +8673,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -8706,7 +8707,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.122,
@@ -8722,7 +8723,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -8760,7 +8761,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "D" : -0.016,
@@ -8851,7 +8852,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -8893,7 +8894,7 @@
           "F" : -0.016
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
@@ -8953,7 +8954,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "D" : -0.016,
@@ -9021,7 +9022,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : -0.035,
@@ -9034,7 +9035,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -9068,7 +9069,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.118,
@@ -9084,7 +9085,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -9199,7 +9200,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.102,
@@ -9858,7 +9859,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -9964,7 +9965,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.091,
@@ -9982,7 +9983,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -10046,7 +10047,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -10095,13 +10096,13 @@
           "S" : 0.01
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -10156,7 +10157,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -10216,7 +10217,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -10282,7 +10283,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -10326,7 +10327,7 @@
           "S" : -0.016
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
@@ -10386,7 +10387,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "D" : -0.016,
@@ -10456,7 +10457,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : -0.035,
@@ -10470,7 +10471,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -10530,7 +10531,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -10570,7 +10571,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : -0.035,
@@ -10584,7 +10585,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -10644,7 +10645,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -10693,13 +10694,13 @@
           "S" : 0.01
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -10737,7 +10738,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.093,
@@ -10755,7 +10756,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -10861,7 +10862,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.1045,
@@ -11470,7 +11471,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -11514,7 +11515,7 @@
           "S" : -0.016
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
@@ -11574,7 +11575,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "D" : -0.016,
@@ -11644,7 +11645,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : -0.035,
@@ -11658,7 +11659,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -11718,7 +11719,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -11844,7 +11845,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -11959,7 +11960,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.1045,
@@ -12621,13 +12622,13 @@
           "S" : 0.01
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -12665,7 +12666,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : -0.037,
@@ -12679,7 +12680,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -12739,7 +12740,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -12777,7 +12778,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.091,
@@ -12795,7 +12796,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -12913,7 +12914,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -13019,10 +13020,10 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
@@ -13598,7 +13599,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.101,
@@ -13616,7 +13617,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -13654,7 +13655,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : -0.037,
@@ -13668,7 +13669,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -13732,7 +13733,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -13781,13 +13782,13 @@
           "S" : 0.02
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -13831,13 +13832,13 @@
           "S" : -0.016
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -13897,7 +13898,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -13953,7 +13954,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -14149,7 +14150,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -14264,7 +14265,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.1045,
@@ -14990,7 +14991,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.1045,
@@ -15727,7 +15728,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -15767,7 +15768,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.104,
@@ -15782,7 +15783,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -15820,16 +15821,16 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -15867,7 +15868,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "D" : -0.034,
@@ -15878,7 +15879,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -15936,7 +15937,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -15982,13 +15983,13 @@
           "D" : 0.106
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -16030,13 +16031,13 @@
           "L" : -0.014
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -16090,7 +16091,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -16216,7 +16217,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -16336,7 +16337,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.1,
@@ -17037,7 +17038,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -17147,7 +17148,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.091,
@@ -17165,7 +17166,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -17225,7 +17226,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -17274,13 +17275,13 @@
           "S" : 0.01
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -17318,7 +17319,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : -0.037,
@@ -17332,7 +17333,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -17438,7 +17439,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.1045,
@@ -18087,7 +18088,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.1045,
@@ -18686,7 +18687,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -18796,7 +18797,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : 0.104,
@@ -18811,7 +18812,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -18849,7 +18850,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "I" : -0.034,
@@ -18859,7 +18860,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -18897,7 +18898,7 @@
           }
         },
         "employee" : {
-          
+
         },
         "employer" : {
           "E" : -0.034,
@@ -18910,7 +18911,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -18972,7 +18973,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -19022,13 +19023,13 @@
           "Z" : 0.02
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -19072,13 +19073,13 @@
           "D" : -0.014
         },
         "employer" : {
-          
+
         },
         "contractedOutStandardRate" : null,
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -19140,7 +19141,7 @@
         "trigger" : {
           "year" : {
             "All" : {
-              
+
             }
           },
           "month" : null,
@@ -19156,52 +19157,681 @@
   "classTwo" : {
     "[2005-04-05,2006-04-05)" : {
       "weeklyRate" : 2.1,
+      "vdwRate" : null,
+      "shareFishingRate" : null,
       "smallEarningsException" : 4345
     },
     "[2001-04-05,2002-04-05)" : {
       "weeklyRate" : 2,
+      "vdwRate" : null,
+      "shareFishingRate" : null,
       "smallEarningsException" : 3955
     },
     "[1999-04-05,2000-04-05)" : {
       "weeklyRate" : 6.55,
+      "vdwRate" : null,
+      "shareFishingRate" : null,
       "smallEarningsException" : 3770
     },
     "[2000-04-05,2001-04-05)" : {
       "weeklyRate" : 2,
+      "vdwRate" : null,
+      "shareFishingRate" : null,
       "smallEarningsException" : 3825
     },
     "[2002-04-05,2003-04-05)" : {
       "weeklyRate" : 2,
+      "vdwRate" : null,
+      "shareFishingRate" : null,
       "smallEarningsException" : 4025
     },
     "[2003-04-05,2004-04-05)" : {
       "weeklyRate" : 2,
+      "vdwRate" : null,
+      "shareFishingRate" : null,
       "smallEarningsException" : 4095
     },
     "[2006-04-05,2007-04-05)" : {
       "weeklyRate" : 2.1,
+      "vdwRate" : null,
+      "shareFishingRate" : null,
       "smallEarningsException" : 4465
     },
     "[2004-04-05,2005-04-05)" : {
       "weeklyRate" : 2.05,
+      "vdwRate" : null,
+      "shareFishingRate" : null,
       "smallEarningsException" : 4215
     },
     "[2007-04-05,2008-04-05)" : {
       "weeklyRate" : 2.2,
+      "vdwRate" : null,
+      "shareFishingRate" : null,
       "smallEarningsException" : 4635
     },
     "[2008-04-05,2009-04-05)" : {
       "weeklyRate" : 2.3,
+      "vdwRate" : null,
+      "shareFishingRate" : null,
       "smallEarningsException" : 4825
     }
   },
   "classThree" : {
-    "[2019-04-05,2020-04-05)" : 15
+    "[2017-04-05,2018-04-05)" : {
+      "efQual" : "5876",
+      "lel" : "113",
+      "startWeek" : 1,
+      "finalDate" : "2024-04-05",
+      "weekRate" : 14.25,
+      "noOfWeeks" : 52
+    },
+    "[2013-04-05,2014-04-05)" : {
+      "efQual" : "5618",
+      "lel" : "109",
+      "startWeek" : 1,
+      "finalDate" : "2020-04-05",
+      "weekRate" : 13.55,
+      "noOfWeeks" : 52
+    },
+    "[2005-04-05,2006-04-05)" : {
+      "efQual" : "4214",
+      "lel" : "82",
+      "startWeek" : 1,
+      "finalDate" : "2012-04-05",
+      "weekRate" : 7.35,
+      "noOfWeeks" : 52
+    },
+    "[2001-04-05,2002-04-05)" : {
+      "efQual" : "3694",
+      "lel" : "72",
+      "startWeek" : 1,
+      "finalDate" : "2008-04-05",
+      "weekRate" : 6.75,
+      "noOfWeeks" : 52
+    },
+    "[1997-04-05,1998-04-05)" : {
+      "efQual" : "3174",
+      "lel" : "62",
+      "startWeek" : 1,
+      "finalDate" : "2004-04-05",
+      "weekRate" : 6.05,
+      "noOfWeeks" : 52
+    },
+    "[2018-04-05,2019-04-05)" : {
+      "efQual" : "6032",
+      "lel" : "116",
+      "startWeek" : 1,
+      "finalDate" : "2025-04-05",
+      "weekRate" : 14.65,
+      "noOfWeeks" : 52
+    },
+    "[1985-04-05,1986-04-05)" : {
+      "efQual" : "1828.25",
+      "lel" : "35.5",
+      "startWeek" : 27,
+      "finalDate" : "1992-04-05",
+      "weekRate" : 3.4,
+      "noOfWeeks" : 26
+    },
+    "[1994-04-05,1995-04-05)" : {
+      "efQual" : "2914",
+      "lel" : "57",
+      "startWeek" : 1,
+      "finalDate" : "2001-04-05",
+      "weekRate" : 5.55,
+      "noOfWeeks" : 52
+    },
+    "[1981-04-05,1982-04-05)" : {
+      "efQual" : "1390",
+      "lel" : "27",
+      "startWeek" : 1,
+      "finalDate" : "1984-04-05",
+      "weekRate" : 3.3,
+      "noOfWeeks" : 52
+    },
+    "[1993-04-05,1994-04-05)" : {
+      "efQual" : "2862",
+      "lel" : "56",
+      "startWeek" : 1,
+      "finalDate" : "2000-04-05",
+      "weekRate" : 5.45,
+      "noOfWeeks" : 52
+    },
+    "[1999-04-05,2000-04-05)" : {
+      "efQual" : "3382",
+      "lel" : "66",
+      "startWeek" : 1,
+      "finalDate" : "2006-04-05",
+      "weekRate" : 6.45,
+      "noOfWeeks" : 52
+    },
+    "[1977-04-05,1978-04-05)" : {
+      "efQual" : "736",
+      "lel" : "15",
+      "startWeek" : 1,
+      "finalDate" : "1980-04-05",
+      "weekRate" : 2.45,
+      "noOfWeeks" : 50
+    },
+    "[1991-04-05,1992-04-05)" : {
+      "efQual" : "2654",
+      "lel" : "52",
+      "startWeek" : 1,
+      "finalDate" : "1998-04-05",
+      "weekRate" : 5.05,
+      "noOfWeeks" : 52
+    },
+    "[1990-04-05,1991-04-05)" : {
+      "efQual" : "2342",
+      "lel" : "46",
+      "startWeek" : 1,
+      "finalDate" : "1997-04-05",
+      "weekRate" : 4.45,
+      "noOfWeeks" : 52
+    },
+    "[2016-04-05,2017-04-05)" : {
+      "efQual" : "5824",
+      "lel" : "112",
+      "startWeek" : 1,
+      "finalDate" : "2023-04-05",
+      "weekRate" : 14.1,
+      "noOfWeeks" : 52
+    },
+    "[2009-04-05,2010-04-05)" : {
+      "efQual" : "4890",
+      "lel" : "95",
+      "startWeek" : 1,
+      "finalDate" : "2016-04-05",
+      "weekRate" : 12.05,
+      "noOfWeeks" : 52
+    },
+    "[1992-04-05,1993-04-05)" : {
+      "efQual" : "2758",
+      "lel" : "54",
+      "startWeek" : 1,
+      "finalDate" : "1999-04-05",
+      "weekRate" : 5.25,
+      "noOfWeeks" : 52
+    },
+    "[1996-04-05,1997-04-05)" : {
+      "efQual" : "3122",
+      "lel" : "61",
+      "startWeek" : 1,
+      "finalDate" : "2003-04-05",
+      "weekRate" : 5.95,
+      "noOfWeeks" : 52
+    },
+    "[2014-04-05,2015-04-05)" : {
+      "efQual" : "5722",
+      "lel" : "111",
+      "startWeek" : 1,
+      "finalDate" : "2021-04-05",
+      "weekRate" : 13.9,
+      "noOfWeeks" : 53
+    },
+    "[2000-04-05,2001-04-05)" : {
+      "efQual" : "3434",
+      "lel" : "67",
+      "startWeek" : 1,
+      "finalDate" : "2007-04-05",
+      "weekRate" : 6.55,
+      "noOfWeeks" : 52
+    },
+    "[2002-04-05,2003-04-05)" : {
+      "efQual" : "3850",
+      "lel" : "75",
+      "startWeek" : 1,
+      "finalDate" : "2009-04-05",
+      "weekRate" : 6.85,
+      "noOfWeeks" : 52
+    },
+    "[1995-04-05,1996-04-05)" : {
+      "efQual" : "2966",
+      "lel" : "58",
+      "startWeek" : 1,
+      "finalDate" : "2002-04-05",
+      "weekRate" : 5.65,
+      "noOfWeeks" : 52
+    },
+    "[1982-04-05,1983-04-05)" : {
+      "efQual" : "1519.25",
+      "lel" : "29.5",
+      "startWeek" : 1,
+      "finalDate" : "1989-04-05",
+      "weekRate" : 3.65,
+      "noOfWeeks" : 52
+    },
+    "[1976-04-05,1977-04-05)" : {
+      "efQual" : "636",
+      "lel" : "13",
+      "startWeek" : 1,
+      "finalDate" : "1979-04-05",
+      "weekRate" : 2.1,
+      "noOfWeeks" : 50
+    },
+    "[2010-04-05,2011-04-05)" : {
+      "efQual" : "4994",
+      "lel" : "97",
+      "startWeek" : 1,
+      "finalDate" : "2017-04-05",
+      "weekRate" : 12.05,
+      "noOfWeeks" : 52
+    },
+    "[2003-04-05,2004-04-05)" : {
+      "efQual" : "3954",
+      "lel" : "77",
+      "startWeek" : 1,
+      "finalDate" : "2010-04-05",
+      "weekRate" : 6.95,
+      "noOfWeeks" : 52
+    },
+    "[2006-04-05,2007-04-05)" : {
+      "efQual" : "4318",
+      "lel" : "84",
+      "startWeek" : 1,
+      "finalDate" : "2013-04-05",
+      "weekRate" : 7.55,
+      "noOfWeeks" : 52
+    },
+    "[1986-04-05,1987-04-05)" : {
+      "efQual" : "1957",
+      "lel" : "38",
+      "startWeek" : 1,
+      "finalDate" : "1993-04-05",
+      "weekRate" : 3.65,
+      "noOfWeeks" : 52
+    },
+    "[2004-04-05,2005-04-05)" : {
+      "efQual" : "4058",
+      "lel" : "79",
+      "startWeek" : 1,
+      "finalDate" : "2011-04-05",
+      "weekRate" : 7.15,
+      "noOfWeeks" : 52
+    },
+    "[2007-04-05,2008-04-05)" : {
+      "efQual" : "4474",
+      "lel" : "87",
+      "startWeek" : 1,
+      "finalDate" : "2014-04-05",
+      "weekRate" : 7.8,
+      "noOfWeeks" : 52
+    },
+    "[1975-04-05,1976-04-05)" : {
+      "efQual" : "536",
+      "lel" : "11",
+      "startWeek" : 1,
+      "finalDate" : "1978-04-05",
+      "weekRate" : 1.9,
+      "noOfWeeks" : 50
+    },
+    "[2011-04-05,2012-04-05)" : {
+      "efQual" : "5254",
+      "lel" : "102",
+      "startWeek" : 1,
+      "finalDate" : "2018-04-05",
+      "weekRate" : 12.6,
+      "noOfWeeks" : 52
+    },
+    "[1980-04-05,1981-04-05)" : {
+      "efQual" : "1182",
+      "lel" : "23",
+      "startWeek" : 1,
+      "finalDate" : "1983-04-05",
+      "weekRate" : 2.4,
+      "noOfWeeks" : 52
+    },
+    "[1978-04-05,1979-04-05)" : {
+      "efQual" : "896",
+      "lel" : "17.5",
+      "startWeek" : 1,
+      "finalDate" : "1981-04-05",
+      "weekRate" : 1.8,
+      "noOfWeeks" : 52
+    },
+    "[1989-04-05,1990-04-05)" : {
+      "efQual" : "2186",
+      "lel" : "43",
+      "startWeek" : 1,
+      "finalDate" : "1996-04-05",
+      "weekRate" : 4.15,
+      "noOfWeeks" : 52
+    },
+    "[1988-04-05,1989-04-05)" : {
+      "efQual" : "2082",
+      "lel" : "41",
+      "startWeek" : 1,
+      "finalDate" : "1995-04-05",
+      "weekRate" : 3.95,
+      "noOfWeeks" : 52
+    },
+    "[1979-04-05,1980-04-05)" : {
+      "efQual" : "1000",
+      "lel" : "19.5",
+      "startWeek" : 1,
+      "finalDate" : "1982-04-05",
+      "weekRate" : 2,
+      "noOfWeeks" : 52
+    },
+    "[2012-04-05,2013-04-05)" : {
+      "efQual" : "5514",
+      "lel" : "107",
+      "startWeek" : 1,
+      "finalDate" : "2019-04-05",
+      "weekRate" : 13.25,
+      "noOfWeeks" : 52
+    },
+    "[1984-04-05,1985-04-05)" : {
+      "efQual" : "1751",
+      "lel" : "34",
+      "startWeek" : 1,
+      "finalDate" : "1991-04-05",
+      "weekRate" : 4.5,
+      "noOfWeeks" : 52
+    },
+    "[1998-04-05,1999-04-05)" : {
+      "efQual" : "3278",
+      "lel" : "64",
+      "startWeek" : 1,
+      "finalDate" : "2005-04-05",
+      "weekRate" : 6.25,
+      "noOfWeeks" : 52
+    },
+    "[1983-04-05,1984-04-05)" : {
+      "efQual" : "1673.75",
+      "lel" : "32.5",
+      "startWeek" : 1,
+      "finalDate" : "1990-04-05",
+      "weekRate" : 4.3,
+      "noOfWeeks" : 52
+    },
+    "[2008-04-05,2009-04-05)" : {
+      "efQual" : "4630",
+      "lel" : "90",
+      "startWeek" : 1,
+      "finalDate" : "2015-04-05",
+      "weekRate" : 8.1,
+      "noOfWeeks" : 52
+    },
+    "[1987-04-05,1988-04-05)" : {
+      "efQual" : "1978",
+      "lel" : "39",
+      "startWeek" : 1,
+      "finalDate" : "1994-04-05",
+      "weekRate" : 3.75,
+      "noOfWeeks" : 52
+    },
+    "[2015-04-05,2016-04-05)" : {
+      "efQual" : "5722",
+      "lel" : "112",
+      "startWeek" : 1,
+      "finalDate" : "2022-04-05",
+      "weekRate" : 14.1,
+      "noOfWeeks" : 52
+    }
   },
   "classFour" : {
-    "[2019-04-05,2020-04-05)" : {
-      "lowerLimit" : 8632,
-      "upperLimit" : 50000,
+    "[2017-04-05,2018-04-05)" : {
+      "lowerLimit" : 8164,
+      "upperLimit" : 45000,
+      "mainRate" : 0.09,
+      "upperRate" : 0.02
+    },
+    "[2013-04-05,2014-04-05)" : {
+      "lowerLimit" : 7755,
+      "upperLimit" : 41450,
+      "mainRate" : 0.09,
+      "upperRate" : 0.02
+    },
+    "[2005-04-05,2006-04-05)" : {
+      "lowerLimit" : 4895,
+      "upperLimit" : 32760,
+      "mainRate" : 0.08,
+      "upperRate" : 0.01
+    },
+    "[2001-04-05,2002-04-05)" : {
+      "lowerLimit" : 4535,
+      "upperLimit" : 29900,
+      "mainRate" : 0.07,
+      "upperRate" : 0
+    },
+    "[1997-04-05,1998-04-05)" : {
+      "lowerLimit" : 7010,
+      "upperLimit" : 24180,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[2018-04-05,2019-04-05)" : {
+      "lowerLimit" : 8424,
+      "upperLimit" : 46350,
+      "mainRate" : 0.09,
+      "upperRate" : 0.02
+    },
+    "[1985-04-05,1986-04-05)" : {
+      "lowerLimit" : 4150,
+      "upperLimit" : 13780,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[1994-04-05,1995-04-05)" : {
+      "lowerLimit" : 6490,
+      "upperLimit" : 22360,
+      "mainRate" : 0.07,
+      "upperRate" : 0
+    },
+    "[1981-04-05,1982-04-05)" : {
+      "lowerLimit" : 3150,
+      "upperLimit" : 10000,
+      "mainRate" : 0.05,
+      "upperRate" : 0
+    },
+    "[1993-04-05,1994-04-05)" : {
+      "lowerLimit" : 6340,
+      "upperLimit" : 21840,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[1999-04-05,2000-04-05)" : {
+      "lowerLimit" : 7530,
+      "upperLimit" : 26000,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[1977-04-05,1978-04-05)" : {
+      "lowerLimit" : 1750,
+      "upperLimit" : 5500,
+      "mainRate" : 0.08,
+      "upperRate" : 0
+    },
+    "[1991-04-05,1992-04-05)" : {
+      "lowerLimit" : 5900,
+      "upperLimit" : 20280,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[1990-04-05,1991-04-05)" : {
+      "lowerLimit" : 5450,
+      "upperLimit" : 18200,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[2016-04-05,2017-04-05)" : {
+      "lowerLimit" : 8060,
+      "upperLimit" : 43000,
+      "mainRate" : 0.09,
+      "upperRate" : 0.02
+    },
+    "[2009-04-05,2010-04-05)" : {
+      "lowerLimit" : 5715,
+      "upperLimit" : 43875,
+      "mainRate" : 0.08,
+      "upperRate" : 0.01
+    },
+    "[1992-04-05,1993-04-05)" : {
+      "lowerLimit" : 6120,
+      "upperLimit" : 21060,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[1996-04-05,1997-04-05)" : {
+      "lowerLimit" : 6860,
+      "upperLimit" : 23660,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[2014-04-05,2015-04-05)" : {
+      "lowerLimit" : 7956,
+      "upperLimit" : 41865,
+      "mainRate" : 0.09,
+      "upperRate" : 0.02
+    },
+    "[2000-04-05,2001-04-05)" : {
+      "lowerLimit" : 4385,
+      "upperLimit" : 27820,
+      "mainRate" : 0.07,
+      "upperRate" : 0
+    },
+    "[2002-04-05,2003-04-05)" : {
+      "lowerLimit" : 4615,
+      "upperLimit" : 30420,
+      "mainRate" : 0.07,
+      "upperRate" : 0
+    },
+    "[1995-04-05,1996-04-05)" : {
+      "lowerLimit" : 6640,
+      "upperLimit" : 22880,
+      "mainRate" : 0.07,
+      "upperRate" : 0
+    },
+    "[1982-04-05,1983-04-05)" : {
+      "lowerLimit" : 3450,
+      "upperLimit" : 11000,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[1976-04-05,1977-04-05)" : {
+      "lowerLimit" : 1600,
+      "upperLimit" : 4900,
+      "mainRate" : 0.08,
+      "upperRate" : 0
+    },
+    "[2010-04-05,2011-04-05)" : {
+      "lowerLimit" : 5715,
+      "upperLimit" : 43875,
+      "mainRate" : 0.08,
+      "upperRate" : 0.01
+    },
+    "[2003-04-05,2004-04-05)" : {
+      "lowerLimit" : 4615,
+      "upperLimit" : 30940,
+      "mainRate" : 0.08,
+      "upperRate" : 0.01
+    },
+    "[2006-04-05,2007-04-05)" : {
+      "lowerLimit" : 5035,
+      "upperLimit" : 33540,
+      "mainRate" : 0.08,
+      "upperRate" : 0.01
+    },
+    "[1986-04-05,1987-04-05)" : {
+      "lowerLimit" : 4450,
+      "upperLimit" : 14820,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[2004-04-05,2005-04-05)" : {
+      "lowerLimit" : 4745,
+      "upperLimit" : 31720,
+      "mainRate" : 0.08,
+      "upperRate" : 0.01
+    },
+    "[2007-04-05,2008-04-05)" : {
+      "lowerLimit" : 5225,
+      "upperLimit" : 34840,
+      "mainRate" : 0.08,
+      "upperRate" : 0.01
+    },
+    "[1975-04-05,1976-04-05)" : {
+      "lowerLimit" : 1600,
+      "upperLimit" : 3600,
+      "mainRate" : 0.08,
+      "upperRate" : 0
+    },
+    "[2011-04-05,2012-04-05)" : {
+      "lowerLimit" : 7225,
+      "upperLimit" : 42475,
+      "mainRate" : 0.09,
+      "upperRate" : 0.02
+    },
+    "[1980-04-05,1981-04-05)" : {
+      "lowerLimit" : 2660,
+      "upperLimit" : 8300,
+      "mainRate" : 0.05,
+      "upperRate" : 0
+    },
+    "[1978-04-05,1979-04-05)" : {
+      "lowerLimit" : 2000,
+      "upperLimit" : 6250,
+      "mainRate" : 0.05,
+      "upperRate" : 0
+    },
+    "[1989-04-05,1990-04-05)" : {
+      "lowerLimit" : 5050,
+      "upperLimit" : 16900,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[1988-04-05,1989-04-05)" : {
+      "lowerLimit" : 4750,
+      "upperLimit" : 15860,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[1979-04-05,1980-04-05)" : {
+      "lowerLimit" : 2250,
+      "upperLimit" : 7000,
+      "mainRate" : 0.05,
+      "upperRate" : 0
+    },
+    "[2012-04-05,2013-04-05)" : {
+      "lowerLimit" : 7605,
+      "upperLimit" : 42475,
+      "mainRate" : 0.09,
+      "upperRate" : 0.02
+    },
+    "[1984-04-05,1985-04-05)" : {
+      "lowerLimit" : 3950,
+      "upperLimit" : 13000,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[1998-04-05,1999-04-05)" : {
+      "lowerLimit" : 7310,
+      "upperLimit" : 25220,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[1983-04-05,1984-04-05)" : {
+      "lowerLimit" : 3800,
+      "upperLimit" : 12000,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[2008-04-05,2009-04-05)" : {
+      "lowerLimit" : 5435,
+      "upperLimit" : 40040,
+      "mainRate" : 0.08,
+      "upperRate" : 0.01
+    },
+    "[1987-04-05,1988-04-05)" : {
+      "lowerLimit" : 4590,
+      "upperLimit" : 15340,
+      "mainRate" : 0.06,
+      "upperRate" : 0
+    },
+    "[2015-04-05,2016-04-05)" : {
+      "lowerLimit" : 8060,
+      "upperLimit" : 42385,
       "mainRate" : 0.09,
       "upperRate" : 0.02
     }

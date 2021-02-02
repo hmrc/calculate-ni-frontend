@@ -14,7 +14,7 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 
 // utils
 import {hasKeys, updateRowInResults} from "../../../services/utils";
-import {ClassOneContext, defaultRows, useClassOneForm} from "./ClassOneContext";
+import {ClassOneContext, useClassOneForm} from "./ClassOneContext";
 
 const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 
@@ -22,14 +22,12 @@ const Class1Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const {
     ClassOneCalculator,
-    taxYears,
     taxYear,
+    defaultRow,
     rows,
     setRows,
     errors,
     setErrors,
-    rowsErrors,
-    setRowsErrors,
     details,
     setDetails,
     niPaidNet,
@@ -37,7 +35,8 @@ const Class1Page = () => {
     setNiPaidEmployee,
     setNiPaidNet,
     calculatedRows,
-    setCalculatedRows
+    setCalculatedRows,
+    setActiveRowId
   } = useContext(ClassOneContext)
 
   const handleDetailsChange = ({
@@ -48,24 +47,25 @@ const Class1Page = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
+    setActiveRowId(null)
     submitForm(false)
   }
 
   const handleShowSummary = (event: React.FormEvent) => {
     event.preventDefault()
+    setActiveRowId(null)
     submitForm(true)
   }
 
   const submitForm = (showSummaryIfValid: boolean) => {
     setErrors({})
-    setRowsErrors({})
     const payload = {
       rows: rows,
       niPaidNet: niPaidNet,
       niPaidEmployee: niPaidEmployee
     }
 
-    if (validateClassOnePayload(payload, setRowsErrors, setErrors, taxYears)) {
+    if (validateClassOnePayload(payload, setErrors)) {
       setCalculatedRows(
         calculateRows(rows as Row[], taxYear.from) as Calculated[]
       )
@@ -76,9 +76,9 @@ const Class1Page = () => {
   }
 
   const resetTotals = () => {
+    setActiveRowId(null)
     setErrors({})
-    setRowsErrors({})
-    setRows(defaultRows)
+    setRows([defaultRow])
     setCalculatedRows([])
     setNiPaidEmployee('')
     setNiPaidNet('')
@@ -90,7 +90,7 @@ const Class1Page = () => {
         const rowPeriodQty = (row.period === PeriodValue.FORTNIGHTLY ? 2 : 1)
         const calculatedRow = JSON.parse(
           ClassOneCalculator
-            .calculate(
+            .calculateJson(
               taxYear,
               parseFloat(row.gross),
               row.category,
@@ -116,10 +116,9 @@ const Class1Page = () => {
       :
         <>
 
-          {(hasKeys(rowsErrors) || hasKeys(errors)) &&
+          {hasKeys(errors) &&
             <ErrorSummary
               errors={errors}
-              rowsErrors={rowsErrors}
             />
           }
 

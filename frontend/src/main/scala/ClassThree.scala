@@ -11,19 +11,23 @@ import io.circe._
 class ClassThreeFrontend (
   config: Configuration
 ) extends js.Object {
-  def calculateJson(
+
+  def getTaxYears: js.Array[String] = {
+    val i = config.classThree.keys.map(_.toString)
+    i.toJSArray
+  }
+
+  def calculate(
     taxYear: Date,
     paymentDate: Date,
     earningsFactor: Double
-  ): String = {
-    val payload = JsonObject(
-      "contributionsDue"    -> Json.fromInt(39),
-      "rate"                -> Json.fromBigDecimal(BigDecimal("3.05")),
-      "totalAmountDue"      -> Json.fromBigDecimal(BigDecimal("118.45")),
-      "dateHigherRateApply" -> LocalDate.of(2019, 4, 5).asJson,
-      "finalPaymentDate"    -> LocalDate.of(2019, 4, 5).asJson,
-    )
-    payload.asJson.toString
+  ) = new js.Object {
+    val contributionsDue: Int = 39
+    val rate: Double = 3.05
+    val totalAmountDue: Double = 118.45
+    val dateHigherRateApply: js.Date = LocalDate.of(2019, 4, 5)
+    val finalPaymentDate: js.Date = LocalDate.of(2019, 4, 5)
   }
+
 }
 

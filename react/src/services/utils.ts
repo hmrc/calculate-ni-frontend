@@ -18,6 +18,10 @@ export const isEmpty = (obj: object) => Object.keys(obj).length === 0
 
 export const hasKeys = (obj: object) => Object.keys(obj).length > 0
 
+export const isEmptyString = (str: string) => str.length === 0 || !str.trim()
+
+export const hasNonEmptyStrings = (stringsList: string[]) => stringsList.some(str => !isEmptyString(str))
+
 export function sumOfContributionsInRow(calculatedRow: Calculated, type: number): number {
   return Object.keys(calculatedRow).reduce((prev, key) => {
     return prev + calculatedRow[key][type]
@@ -96,6 +100,11 @@ export const dateStringSlashSeparated = (date: Date) => moment(date).format('DD/
 export const goveDateRangeString = (dateRangeObject: TaxYear) => {
   return `${moment(dateRangeObject.from).format(govDateFormat)} - ${moment(dateRangeObject.to).format(govDateFormat)}`
 }
+
+export const latestDate = (a: Date, b: Date) => moment(a).isBefore(moment(b)) ? b : a
+
+export const getNumberOfWeeks = (a: Date, b: Date) =>
+  moment(b).diff(moment(a), 'weeks' )
 
 export const govDateFormat = 'D MMMM YYYY'
 

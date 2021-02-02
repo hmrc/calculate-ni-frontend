@@ -21,10 +21,10 @@ const routes = [
   },
   {
     pathname: '/class-3',
-    name: 'Class 3 NI service spouse credits'
+    name: 'Weekly contribution conversion'
   },
   {
-    pathname: '/interest-class-1',
+    pathname: '/late-interest',
     name: 'Interest on late or unpaid Class 1 NI contributions'
   },
   {

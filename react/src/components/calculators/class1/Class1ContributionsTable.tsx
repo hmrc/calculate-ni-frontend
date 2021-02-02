@@ -1,25 +1,34 @@
 import React, {useContext} from 'react'
-import {periodValueToLabel, appConfig, PeriodValue, periods} from '../../../config';
 import {ClassOneContext} from "./ClassOneContext";
 
 // types
-import {ClassOneEarningsProps, Row} from '../../../interfaces'
-
-// components
-import TextInput from '../../helpers/formhelpers/TextInput'
+import {TableProps, Row} from '../../../interfaces'
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
+import Class1TableRow from "./Class1TableRow";
+
+import SortToggle from "../../../assets/select-dropdown-arrows.svg"
 
 numeral.locale('en-gb');
 
-function ClassOneEarningsTable(props: ClassOneEarningsProps) {
-  const { showBands, activeRowID, handleSelectChange, handleChange } = props
+function ClassOneEarningsTable(props: TableProps) {
+  const { showBands, printView } = props
   const {
     rows,
-    rowsErrors,
-    categories
+    setRows,
+    setErrors
   } = useContext(ClassOneContext)
+
+  const handleSortPeriod = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setErrors({})
+    setRows(rows
+      .slice()
+      .sort((a: Row, b: Row) =>
+        (a.period < b.period ? 1 : (a.period > b.period) ? -1 : 0)))
+  }
+
   return (
     <table className="contribution-details">
       <thead>
@@ -31,10 +40,20 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
           <th className="border" colSpan={showBands && rows[0].bands ? 3 : 2}><span>Net contributions</span></th>
         </tr>
         <tr>
-          <th><strong>Select period</strong></th>
-          <th><strong>Row number</strong></th>
-          <th><strong>Select NI category letter</strong></th>
-          <th><strong>Enter gross pay</strong></th>
+          <th>
+            #<span className="govuk-visually-hidden"> Row number</span>
+          </th>
+          <th className="column-toggle" onClick={handleSortPeriod}>
+            <strong>
+              {printView ? 'Period': 'Select period'}
+              <abbr title="Sort periods">
+                <img src={SortToggle} alt="Sort by period" />
+              </abbr>
+            </strong>
+          </th>
+          <th className="notes"><strong>Period No.</strong></th>
+          <th><strong>{printView ? '' : 'Select '}NI category letter</strong></th>
+          <th><strong>{printView ? 'Gross pay' : 'Enter gross pay'}</strong></th>
           {/* Bands - by tax year, so we can just take the first band to map the rows */}
           {showBands && rows[0].bands && Object.keys(rows[0].bands).map(k =>
             <th key={k}>{k}</th>
@@ -50,94 +69,17 @@ function ClassOneEarningsTable(props: ClassOneEarningsProps) {
       
       <tbody>
         {rows.map((r: Row, i: number) => (
-          <tr className={activeRowID === r.id ? "active" : ""} key={r.id} id={r.id}>
-            {/* Period */}
-            <td className="input">
-              {props.handleSelectChange ?
-                <>
-                  <label className="govuk-visually-hidden" htmlFor={`row${i}-period`}>Period</label>
-                  <select name="period" value={r.period} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-period`}>
-                    {periods.map((p: PeriodValue, i) => (
-                      <option key={i} value={p}>{periodValueToLabel(p)}</option>
-                    ))}
-                  </select>
-                </>
-              :
-              <div>{periodValueToLabel(r.period)}</div>
-              }
-            </td>
-
-            {/* Row number */}
-            <td className="input">
-              <TextInput
-                hiddenLabel={true}
-                name={`${r.id}-number`}
-                labelText="Row number (optional)"
-                inputClassName="number"
-                inputValue={r.number}
-                placeholderText="Enter the row number (optional)"
-                onChangeCallback={(e) => handleChange?.(r, e)}
-              />
-            </td>
-
-            {/* Category */}
-            <td className="input">
-              {handleSelectChange ?
-                <>
-                  <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category</label>
-                  <select name="category" value={r.category} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
-                    {categories.map((c: string, i: number) => (
-                      <option key={i} value={c}>{`${c}${appConfig.categoryNames[c] ? ` - ${appConfig.categoryNames[c]}` : ``}`}</option>
-                    ))}
-                  </select>
-                </>
-              : 
-              <div>{r.category}</div>
-              }
-            </td>
-
-            {/* Gross Pay */}
-            <td className={
-              `input ${rowsErrors?.[`${r.id}`]?.['gross'] ? "error-cell" : ""}`}>
-              {handleChange ?
-                <>
-                  <TextInput
-                    hiddenLabel={true}
-                    name={`${r.id}-gross`}
-                    labelText="Gross pay"
-                    inputClassName="gross-pay"
-                    inputValue={r.gross}
-                    placeholderText="Enter the gross pay amount"
-                    onChangeCallback={(e) => handleChange?.(r, e)}
-                  />
-                </>
-              :
-              <div>{r.gross}</div>
-              }
-            </td>
-
-            {/* Bands */}
-            {showBands && r.bands && Object.keys(r.bands).map(k =>
-              <td key={`${k}-val`}>{numeral(r.bands?.[k][0]).format('$0,0.00')}</td>
-            )}
-
-            {/* Total */}
-            {showBands && r.bands &&
-              // Total (if calculate has run)
-              <td>
-                {numeral(
-                  (parseFloat(r.ee) + parseFloat(r.er)).toString()
-                ).format('$0,0.00')}
-              </td>
-            }
-
-            <td>{numeral(r.ee).format('$0,0.00')}</td>
-            <td>{numeral(r.er).format('$0,0.00')}</td>
-          </tr>
+          <Class1TableRow
+            key={`row-${i}`}
+            row={r}
+            index={i}
+            showBands={showBands}
+            printView={printView}
+          />
         ))}
       </tbody>
     </table>
   )
 }
 
-export default ClassOneEarningsTable;
+export default ClassOneEarningsTable

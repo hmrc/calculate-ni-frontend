@@ -6,7 +6,6 @@ val reactDirectory           = settingKey[File]("The directory where the react a
 val installReactDependencies = taskKey[Unit]("Install the dependencies for the react application")
 val buildReactApp            = taskKey[Unit]("Build the react application")
 val copyInJS                 = taskKey[File]("Build and copy in the JS file")
-val convertConfig            = taskKey[Any]("Convert the configuration file from HOCON to JSON")
 val moveReact                = taskKey[Int]("move the compiled react application into the play assets")
 val build                    = taskKey[Unit]("Copy JS and Config to react app")
 
@@ -36,27 +35,9 @@ copyInJS := {
   dest
 }
 
-convertConfig := Def.taskDyn({
-  // generate the JSON config file from the HOCON
-  val sourceFile = file(".").getCanonicalFile / "national-insurance.conf"
-  val destFile = reactDirectory.value / "src" / "configuration.json"
-
-  if (!destFile.exists || destFile.lastModified < sourceFile.lastModified) {
-    Def.task{
-      (`schema-converter` / Compile / run).toTask(" " + List(sourceFile, destFile).mkString(" ")).value
-    }
-  } else {
-    Def.task {
-      println("config is up-to-date")
-      ()
-    }
-  }
-}).value
-
 buildReactApp := {
   val deps: Unit = installReactDependencies.value
   val reactJsFile: Unit = copyInJS.value
-  val config: Unit = convertConfig.value
   val result = JavaScriptBuild.npmProcess(reactDirectory.value, "run", "build").run().exitValue()
   if (result != 0)
     throw new Exception("npm run build failed.")
@@ -146,36 +127,6 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
     publish := {},
     publishLocal := {}
   )
-
-/** Used to convert the HOCON configuration file into a plain JSON one
-  * for consumption by the JS interface 
-  */
-lazy val `schema-converter` = project
-  .settings(
-    scalaVersion := "2.12.12",
-    majorVersion := 0,        
-    scalacOptions -= "-Xfatal-warnings",
-    publish := {},
-    publishLocal := {}
-  )
-  .dependsOn(calc)
-
-/** Swing frontend, used for testing the calculation logic. */
-lazy val calc = project.
-  settings(
-    scalaVersion := "2.12.12",
-    majorVersion := 0,        
-    scalacOptions -= "-Xfatal-warnings",
-    libraryDependencies ++= Seq(
-      "com.github.pureconfig" %% "pureconfig" % "0.13.0",
-      "org.scala-lang.modules" %% "scala-swing" % "2.1.1",
-      "org.scalacheck" %% "scalacheck" % "1.14.1" % Test,
-      "org.scalatest" %% "scalatest" % "3.0.1" % Test,
-      "com.github.tototoshi" %% "scala-csv" % "1.3.6" % Test
-    ),
-    publish := {},
-    publishLocal := {}
-  ).dependsOn(common.jvm)
 
 /** ScalaJS calculation logic, used by the react frontend */
 lazy val `frontend` = project

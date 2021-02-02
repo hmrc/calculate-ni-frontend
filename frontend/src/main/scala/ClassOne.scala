@@ -7,51 +7,82 @@ import scala.scalajs.js, js.JSConverters._
 import java.time.LocalDate
 import io.circe.generic.auto._, io.circe.syntax._
 import io.circe._
+import cats.implicits._
 
+@JSExportTopLevel("ClassOneFrontend")
 class ClassOneFrontend(
   config: Configuration
 ) extends js.Object {
 
-  def calculateJson(
+  def calculate(
     on: js.Date,
-    amount: Double,
-    cat: String, // single character
-    period: String, // one of Wk, Mnth, 4Wk or Ann
-    qty: Int = 1,
-    contractedOutStandardRate: Boolean = false
-  ): String = {
-    val ret = config.calculateClassOne(
-      on,
-      BigDecimal(amount.toString),
-      cat.head,
-      Period(period),
-      qty,
-      contractedOutStandardRate
-    )
-    ret.asJson.toString
+    rows: js.Array[ClassOneRow],
+    totalContributions: Double = 0,
+    employeeContributions: Double = 0
+  ): js.Object = {
+
+    val results = rows.toList.map { row => 
+      config.calculateClassOne(
+        on,
+        row.grossPay,
+        row.category.head,
+        row.period match {
+          case "W" => Period.Week
+          case "M" => Period.Month
+          case "4W" => Period.FourWeek
+          case _ => throw new IllegalStateException("Unknown Period")
+        },
+        1,
+        row.contractedOutStandardRate
+      )
+    }
+
+    new js.Object {
+      val resultRows = results.map { res => 
+        new js.Object {
+          val bands = res.map { case (key, (b, _, _)) =>
+            new js.Object {
+              val name = key
+              val amountInBand = b
+            }
+          }.toJSArray
+
+          val (employeeBD, employerBD) = res.toList.map {
+              case (_, (_, ee, er)) => (ee, er)
+          }.combineAll
+
+          val employee = employeeBD.toDouble
+          val employer = employerBD.toDouble          
+          val totalContributions = (employeeBD + employerBD).toDouble
+        }
+      }.toJSArray
+
+      private val (totalEmployee, totalEmployer) =
+        resultRows.toList.map{ r => (r.employeeBD, r.employerBD) }.combineAll
+
+      val totals = new js.Object {
+        val gross: Double = rows.toList.map(_.grossPay).sum
+        val net: Double = (totalEmployee + totalEmployer).toDouble
+        val employee: Double = totalEmployee.toDouble
+        val employer: Double = totalEmployer.toDouble
+      }
+
+      val employerContributions = totalContributions - employeeContributions
+
+      val underpayment = new js.Object {
+        val employee = (totalEmployee - employeeContributions).max(Zero).toDouble
+        val employer = (totalEmployer - employerContributions).max(Zero).toDouble
+        val net = employee + employer
+      }
+
+      val overpayment = new js.Object {
+        val employee = ((totalEmployee - employeeContributions) * -1).max(Zero).toDouble
+        val employer = ((totalEmployer - employerContributions) * -1).max(Zero).toDouble
+        val net = employee + employer
+      }
+    }
   }
 
-  def calculateProRataJson(
-    from: Date,
-    to: Date,
-    amount: Double,
-    cat: String, // single character
-    contractedOutStandardRate: Boolean = false
-  ): String = {
-    val totalForYear = config.calculateClassOne(
-      from,
-      BigDecimal(amount.toString),
-      cat.head,
-      Period.Year,
-      1,
-      contractedOutStandardRate
-    )
-    val ratio = config.proRataRatio(from, to).get
-    val ret = totalForYear.mapValues {
-      case (b,ee,er) => (b * ratio,ee * ratio,er * ratio)
-    }
-    ret.asJson.toString
-  }
 
   def isCosrApplicable(on: Date): Boolean = {
     val interval = config.classOne.keys.find(_.contains(on)).getOrElse(
@@ -72,7 +103,7 @@ class ClassOneFrontend(
     config.classOne(interval).values.flatMap( x =>
       x.employee.keys ++ x.employer.keys
     ).toList.sorted.distinct.map{ch => s"$ch"}.mkString
-  }
+    }
 
   def calculateClassOneAAndB(
     on: Date,
@@ -80,4 +111,13 @@ class ClassOneFrontend(
   ): String = config.calculateClassOneAAndB(on, amount).getOrElse(
     throw new NoSuchElementException(s"Class One A and B undefined for $on")
   ).toString
+
 }
+
+@JSExportTopLevel("ClassOneRow")
+case class ClassOneRow(
+  period: String, // "M", "W" or "4W"
+  category: String,
+  grossPay: Double,
+  contractedOutStandardRate: Boolean = false
+) 

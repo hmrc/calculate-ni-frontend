@@ -10,6 +10,11 @@ class ClassTwoFrontend(
   config: Configuration
 ) extends js.Object {
 
+  def getTaxYears: js.Array[String] = {
+    val i = config.classTwo.keys.map(_.toString)
+    i.toJSArray
+  }
+
   def calculate(
     taxYear: Date,
     paymentDate: Date,

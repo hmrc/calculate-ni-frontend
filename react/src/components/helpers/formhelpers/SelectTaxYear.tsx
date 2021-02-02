@@ -8,13 +8,19 @@ interface SelectTaxYearProps {
   taxYears: TaxYear[]
   taxYear: TaxYear
   handleTaxYearChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  onlyStartYear?: boolean
+  hiddenLabel?: boolean
+  borderless?: boolean
 }
 
 function SelectTaxYear(props: SelectTaxYearProps) {
-  const {taxYears, taxYear, handleTaxYearChange} = props
+  const {taxYears, taxYear, handleTaxYearChange, onlyStartYear, hiddenLabel, borderless} = props
   return (
     <div className="govuk-form-group">
-      <label className="govuk-label" htmlFor="taxYear">
+      <label
+        className={`govuk-label${hiddenLabel ? ` govuk-visually-hidden`: ``}`}
+        htmlFor="taxYear"
+      >
         Select a tax year
       </label>
       <select
@@ -22,11 +28,14 @@ function SelectTaxYear(props: SelectTaxYearProps) {
         onChange={handleTaxYearChange}
         id="taxYear"
         name="taxYear"
-        className="govuk-select"
+        className={
+          `govuk-select
+          ${borderless && 'borderless'}`
+        }
       >
         {taxYears.map((y: TaxYear) => (
           <option key={y.id} value={y.id}>
-            {taxYearString(y)}
+            {taxYearString(y, onlyStartYear)}
           </option>
         ))}
       </select>

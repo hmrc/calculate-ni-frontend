@@ -18,7 +18,8 @@ const pageTitle = 'Class 2 or 3 NI contributions needed for a qualifying year'
 const Class2Or3Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const {
-    ClassOneCalculator,
+    ClassTwoCalculator,
+    ClassThreeCalculator,
     activeClass,
     taxYear,
     details,
@@ -58,19 +59,19 @@ const Class2Or3Page = () => {
 
     if(validateClass2Or3Payload(payload, setErrors)) {
       const resultFromCalculator = payload.activeClass === 'Class 2' ?
-        ClassOneCalculator.calculateClassTwo(
+        ClassTwoCalculator.calculate(
           payload.taxYear.from,
           payload.paymentEnquiryDate,
           parseFloat(payload.earningsFactor)
         )
         :
-        ClassOneCalculator.calculateClassThree(
+        ClassThreeCalculator.calculate(
           payload.taxYear.from,
           payload.paymentEnquiryDate,
           parseFloat(payload.earningsFactor)
         )
 
-      setResult(JSON.parse(resultFromCalculator))
+      setResult(resultFromCalculator)
 
       if(showSummaryIfValid) {
         setShowSummary(true)
@@ -92,7 +93,6 @@ const Class2Or3Page = () => {
           {hasKeys(errors) &&
             <ErrorSummary
               errors={errors}
-              rowsErrors={{}}
             />
           }
           <h1>{pageTitle}</h1>

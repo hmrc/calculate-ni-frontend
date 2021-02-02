@@ -31,10 +31,7 @@ class TablesController @Inject()(
   appConfig: AppConfig,
   mcc: MessagesControllerComponents,
   classOnePage: ClassOneTablePage,
-  genericPage: GenericTableView, 
-  classTwoPage: ClassTwoTablePage,
-  classThreePage: ClassThreeTablePage,
-  classFourPage: ClassFourTablePage
+  genericPage: GenericTableView
 ) extends FrontendController(mcc) {
 
   implicit val config: AppConfig = appConfig
@@ -81,18 +78,18 @@ class TablesController @Inject()(
         val selectedInterval = ni.classTwo.keySet.find(_.contains(dateP)).get
         val lowerBound = selectedInterval.lowerValue.get
         
-        val noOfWeeks = selectedInterval.numberOfWeeks.get
+        val noOfWeeks = selectedInterval.numberOfWeeks().get
         val response = List (
           "Term Date" -> LocalDate.of(lowerBound.getYear, 4, 9), // unknown... but always the 9th of april
-          "Weekly Rate" -> data.weeklyRate.formatSterling,
-          "Rate Total" -> (data.weeklyRate * noOfWeeks).formatSterling
-        ) ++ (data.vdwRate match {
+          "Weekly Rate" -> data.weeklyRate.default.formatSterling,
+          "Rate Total" -> (data.weeklyRate.default * noOfWeeks).formatSterling
+        ) ++ (data.weeklyRate.voluntary match {
           case None => Nil
           case Some(vdw) => List (
             "Voluntary Development Workers (VDW) Weekly Rate" -> vdw,
             "Voluntary Development Workers (VDW) Total" -> vdw * noOfWeeks
           )
-        }) ++ (data.shareFishingRate match {
+        }) ++ (data.weeklyRate.fishermen match {
           case None => Nil
           case Some(vdw) => List (
             "Share Fishing Weekly Rate" -> vdw,
@@ -123,11 +120,10 @@ class TablesController @Inject()(
       case Some(data) =>
 
         val selectedInterval = ni.classThree.keySet.find(_.contains(dateP)).get
-        val noOfWeeks = selectedInterval.numberOfWeeks.get
         val lowerBound = selectedInterval.lowerValue.get        
         val response = List (
-          "Weekly Rate" -> data.formatSterling,
-          "Rate Total" -> (data * noOfWeeks).formatSterling,
+          "Weekly Rate" -> data.weekRate.formatSterling,
+          "Rate Total" -> (data.weekRate * data.noOfWeeks).formatSterling,
           "Date High Rate Provision (HRP) Applies" ->
             (if (lowerBound.getYear < 1983) "" else lowerBound.plusYears(2).plusDays(1).toString),
           "Final Date For Payment" -> lowerBound.plusYears(if (lowerBound.getYear < 1982) 3 else 7),

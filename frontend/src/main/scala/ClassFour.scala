@@ -17,7 +17,7 @@ class ClassFourFrontend (
     amount: Double
   ): String = {
     val (l,h) = config.calculateClassFour(on, amount).getOrElse(
-      throw new NoSuchElementException(s"Class Three undefined for $on")
+      throw new NoSuchElementException(s"Class Four undefined for $on")
     )
     l.toString + "," + h.toString
   }

@@ -1,15 +1,12 @@
-import React, {Dispatch, useEffect, useState} from "react";
-import {Calculated, Class1S, DetailsProps, DirectorsRow, TaxYear, TotalsInCategories} from "../../../interfaces";
+import React, {Dispatch, useContext, useEffect, useState} from "react";
+import {Calculated, DetailsProps, DirectorsRow, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {PeriodLabel, buildTaxYears} from "../../../config";
-import {GenericErrors, RowsErrors} from "../../../validation/validation";
+import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
-import {ClassOne} from '../../../calculation'
-import configuration from "../../../configuration.json";
+import {ClassOneCalculator, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
+import uniqid from 'uniqid'
 
-const ClassOneCalculator = new ClassOne(JSON.stringify(configuration))
-const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
-
-const initialState = {
+const initialDetails: DetailsProps = {
   fullName: '',
   ni: '',
   reference: '',
@@ -17,36 +14,29 @@ const initialState = {
   date: '',
 }
 
-export const defaultRows: Array<DirectorsRow> = [{
-  id: 'directorsInput',
-  category: ClassOneCalculator.getApplicableCategories(taxYears[0].from)[0],
+const initRow: DirectorsRow = {
+  id: uniqid(),
+  category: '',
   gross: '',
   ee: '0',
   er: '0'
-}]
+}
 
-const stateReducer = (state: Class1S, action: { [x: string]: string }) => ({
+const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) => ({
   ...state,
   ...action,
 })
 
-interface Calculator {
-  calculate: Function
-  calculateProRata: Function
-  getApplicableCategories: Function
-}
-
 interface DirectorsContext {
-  ClassOneCalculator: Calculator
+  ClassOneCalculator: ClassOneCalculator
   taxYears: TaxYear[]
   taxYear: TaxYear
   setTaxYear: Dispatch<TaxYear>
-  rows: Array<DirectorsRow>
+  defaultRow: DirectorsRow
+  rows: DirectorsRow[]
   setRows: Dispatch<Array<DirectorsRow>>
   details: DetailsProps
   setDetails: Function,
-  rowsErrors: RowsErrors,
-  setRowsErrors: Dispatch<RowsErrors>
   grossTotal: Number | null,
   setGrossTotal: Dispatch<Number | null>
   earningsPeriod: PeriodLabel | null
@@ -63,20 +53,25 @@ interface DirectorsContext {
   setCalculatedRows: Dispatch<Array<Calculated>>
   categories: Array<string>
   setCategories: Dispatch<Array<string>>
+  activeRowId: string | null
+  setActiveRowId: Dispatch<string | null>
 }
 
 export const DirectorsContext = React.createContext<DirectorsContext>(
   {
-    ClassOneCalculator: ClassOneCalculator,
-    taxYears: taxYears,
-    taxYear: taxYears[0],
+    ClassOneCalculator: initClassOneCalculator,
+    taxYears: [],
+    taxYear: {
+      id: '1',
+      from: new Date(),
+      to: new Date()
+    },
     setTaxYear: () => {},
-    rows: defaultRows,
+    defaultRow: initRow,
+    rows: [initRow],
     setRows: () => {},
-    details: initialState,
+    details: initialDetails,
     setDetails: () => {},
-    rowsErrors: {},
-    setRowsErrors: () => {},
     grossTotal: null,
     setGrossTotal: () => {},
     niPaidNet: '',
@@ -92,24 +87,42 @@ export const DirectorsContext = React.createContext<DirectorsContext>(
     calculatedRows: [],
     setCalculatedRows: () => {},
     categories: [],
-    setCategories: () => {}
+    setCategories: () => {},
+    activeRowId: null,
+    setActiveRowId: () => {},
   }
 )
 
 export function useDirectorsForm() {
-  const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
   const [categories, setCategories] = useState<Array<string>>([])
-  const [rows, setRows] = useState<Array<DirectorsRow>>(defaultRows)
-  const [details, setDetails] = React.useReducer(stateReducer, initialState)
+  const [defaultRow, setDefaultRow] = useState<DirectorsRow>(initRow)
+  const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [grossTotal, setGrossTotal] = useState<Number | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})
-  const [rowsErrors, setRowsErrors] = useState<RowsErrors>({})
   const [niPaidNet, setNiPaidNet] = useState<string>('')
   const [niPaidEmployee, setNiPaidEmployee] = useState<string>('')
   const [earningsPeriod, setEarningsPeriod] = useState<PeriodLabel | null>(null)
   const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({})
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
+  const [activeRowId, setActiveRowId] = useState<string | null>(null)
 
+  const {
+    NiFrontendInterface
+  } = useContext(NiFrontendContext)
+  const ClassOneCalculator = NiFrontendInterface.classOne
+  const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
+  const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
+  useEffect(() => {
+    const categories = ClassOneCalculator.getApplicableCategories(taxYear.from)
+    if(categories) {
+      setCategories(categories.split(''))
+      setDefaultRow(prevState => ({
+        ...prevState,
+        category: categories[0]
+      }))
+    }
+  }, [taxYear.from])
+  const [rows, setRows] = useState<Array<DirectorsRow>>([defaultRow])
   useEffect(() => {
     setCategoryTotals(getTotalsInCategories(rows as DirectorsRow[]))
     setGrossTotal(rows.reduce((grossTotal, row) => {
@@ -117,16 +130,12 @@ export function useDirectorsForm() {
     }, 0))
   }, [rows])
 
-  useEffect(() => {
-    const categories = ClassOneCalculator.getApplicableCategories(taxYear.from)
-    setCategories(categories.split(''))
-  }, [taxYear.from])
-
   return {
     ClassOneCalculator,
     taxYears,
     taxYear,
     setTaxYear,
+    defaultRow,
     rows,
     setRows,
     details,
@@ -135,8 +144,6 @@ export function useDirectorsForm() {
     setGrossTotal,
     errors,
     setErrors,
-    rowsErrors,
-    setRowsErrors,
     earningsPeriod,
     setEarningsPeriod,
     niPaidNet,
@@ -148,6 +155,8 @@ export function useDirectorsForm() {
     calculatedRows,
     setCalculatedRows,
     categories,
-    setCategories
+    setCategories,
+    activeRowId,
+    setActiveRowId
   }
 }
