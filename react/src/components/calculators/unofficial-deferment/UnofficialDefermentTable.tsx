@@ -43,36 +43,21 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
   return (
     <table className="contribution-details">
       <thead>
-        <tr className="clear">
-          <th className="lg" colSpan={3}><span>Employment details</span></th>
-          <th className="border"><span>{`1a < £${earningsFields['a'].limit}`}</span></th>
-          <th><span>{`1b < £${earningsFields['b'].limit}`}</span></th>
-          <th><span>{`1c < £${earningsFields['c'].limit}`}</span></th>
-          {earningsFields['d'] &&
-          <th><span>{`1d < £${earningsFields['d'].limit}`}</span></th>
-          }
-          {earningsFields['e'] &&
-          <th><span>1e</span></th>
-          }
-          {earningsFields['f'] &&
-          <th><span>1f</span></th>
-          }
-        </tr>
         <tr>
           <th><strong>Name of employer</strong></th>
           <th><strong>Gross pay</strong></th>
           <th><strong>NI category</strong></th>
-          <th><strong>{earningsFields['a'].label}</strong></th>
-          <th><strong>{earningsFields['b'].label}</strong></th>
-          <th><strong>{earningsFields['c'].label}</strong></th>
+          <th><strong>{earningsFields['a'].field}</strong></th>
+          <th><strong>{earningsFields['b'].field}</strong></th>
+          <th><strong>{earningsFields['c'].field}</strong></th>
           {earningsFields['d'] &&
-            <th><strong>{earningsFields['d'].label}</strong></th>
+            <th><strong>{earningsFields['d'].field}</strong></th>
           }
           {earningsFields['e'] &&
-          <th><strong>{earningsFields['e'].label}</strong></th>
+          <th><strong>{earningsFields['e'].field}</strong></th>
           }
           {earningsFields['f'] &&
-          <th><strong>{earningsFields['f'].label}</strong></th>
+          <th><strong>{earningsFields['f'].field}</strong></th>
           }
           <th><strong>Over UEL</strong></th>
           <th><strong>NICS non-CO</strong></th>

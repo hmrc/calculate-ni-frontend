@@ -8,6 +8,7 @@ import uniqid from "uniqid";
 import {UnofficialDefermentContext, UnofficialDefermentRow} from "./UnofficialDefermentContext";
 import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
 import UnofficialDefermentTable from "./UnofficialDefermentTable";
+import UnofficialDefermentLimits from "./UnofficialDefermentLimits";
 
 numeral.locale('en-gb');
 
@@ -66,6 +67,8 @@ export default function UnofficialDefermentForm(props: any) {
           handleTaxYearChange={handleTaxYearChange}
         />
       </div>
+
+      <UnofficialDefermentLimits />
 
       <UnofficialDefermentTable printView={false} />
 

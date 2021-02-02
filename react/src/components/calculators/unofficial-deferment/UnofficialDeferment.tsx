@@ -48,17 +48,19 @@ function UnofficialDefermentPage() {
         }
 
         if (validateUnofficialDefermentPayload(payload, setErrors)) {
-            setResults({
-                annualMax: '15880',
-                liability: '2340',
-                difference: '8442',
-                ifNotUD: '0'
-            })
+            setResults(calculateRows())
             if (showSummaryIfValid) {
                 setShowSummary(true)
             }
         }
     }
+
+    const calculateRows = () => ({
+        annualMax: '15880',
+        liability: '2340',
+        difference: '8442',
+        ifNotUD: '0'
+    })
 
     const handleShowSummary = (event: React.FormEvent) => {
         event.preventDefault()
@@ -84,9 +86,9 @@ function UnofficialDefermentPage() {
             :
             <>
                 {hasKeys(errors) &&
-                <ErrorSummary
-                  errors={errors}
-                />
+                    <ErrorSummary
+                      errors={errors}
+                    />
                 }
                 <h1>{pageTitle}</h1>
 

@@ -21,3 +21,12 @@ $hmrc-assets-path: "/assets/lib/hmrc-frontend/hmrc/";
     margin-bottom: -2px;
   }
 }
+
+#root .field-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1em;
+  .field-col {
+    margin-right: 1em;
+  }
+}
