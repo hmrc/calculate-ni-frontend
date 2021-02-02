@@ -115,108 +115,101 @@ const getRequiredInputs = (taxYear: TaxYear) => {
   const yearString = taxYear.from.getFullYear().toString()
   const fakeMap: { [key: string]: Bands } = {
     '2003': {
-      a: {limit: 112, label: 'LEL'},
-      b: {limit: 177, label: 'LEL - PT'},
-      c: {limit: 255, label: 'PT - UAP'},
-      d: {limit: 1443, label: 'UAP - UEL'},
-      f: {label: 'Employee NICS'}
+      a: {limit: 77, label: 'LEL'},
+      b: {limit: 89, label: 'LEL - ET'},
+      c: {limit: 595, label: 'ET - UEL'},
+      e: {label: 'Employee NICS'}
      },
     '2004': {
-      a: {limit: 112, label: 'LEL'},
-      b: {limit: 177, label: 'LEL - PT'},
-      c: {limit: 255, label: 'PT - UAP'},
-      d: {limit: 1443, label: 'UAP - UEL'},
-      f: {label: 'Employee NICS'}
+      a: {limit: 79, label: 'LEL'},
+      b: {limit: 91, label: 'LEL - ET'},
+      c: {limit: 610, label: 'ET - UEL'},
+      e: {label: 'Employee NICS'}
     },
     '2005': {
-      a: {limit: 112, label: 'LEL'},
-      b: {limit: 177, label: 'LEL - PT'},
-      c: {limit: 255, label: 'PT - UAP'},
-      d: {limit: 1443, label: 'UAP - UEL'},
-      f: {label: 'Employee NICS'}
+      a: {limit: 82, label: 'LEL'},
+      b: {limit: 94, label: 'LEL - ET'},
+      c: {limit: 630, label: 'ET - UEL'},
+      e: {label: 'Employee NICS'}
     },
     '2006': {
-      a: {limit: 112, label: 'LEL'},
-      b: {limit: 177, label: 'LEL - PT'},
-      c: {limit: 255, label: 'PT - UAP'},
-      d: {limit: 1443, label: 'UAP - UEL'},
-      f: {label: 'Employee NICS'}
+      a: {limit: 84, label: 'LEL'},
+      b: {limit: 97, label: 'LEL - ET'},
+      c: {limit: 645, label: 'ET - UEL'},
+      e: {label: 'Employee NICS'}
     },
     '2007': {
-      a: {limit: 112, label: 'LEL'},
-      b: {limit: 177, label: 'LEL - PT'},
-      c: {limit: 255, label: 'PT - UAP'},
-      d: {limit: 1443, label: 'UAP - UEL'},
-      f: {label: 'Employee NICS'}
+      a: {limit: 87, label: 'LEL'},
+      b: {limit: 100, label: 'LEL - ET'},
+      c: {limit: 670, label: 'ET - UEL'},
+      e: {label: 'Employee NICS'}
     },
     '2008': {
-      a: {limit: 112, label: 'LEL'},
-      b: {limit: 177, label: 'LEL - PT'},
-      c: {limit: 255, label: 'PT - UAP'},
-      d: {limit: 1443, label: 'UAP - UEL'},
-      f: {label: 'Employee NICS'}
+      a: {limit: 90, label: 'LEL'},
+      b: {limit: 105, label: 'LEL - ET'},
+      c: {limit: 770, label: 'ET - UEL'},
+      e: {label: 'Employee NICS'}
     },
     '2009': {
-      a: {limit: 112, label: 'LEL'},
-      b: {limit: 177, label: 'LEL - PT'},
-      c: {limit: 255, label: 'PT - UAP'},
-      d: {limit: 1443, label: 'UAP - UEL'},
+      a: {limit: 95, label: 'LEL'},
+      b: {limit: 110, label: 'LEL - PT'},
+      c: {limit: 770, label: 'PT - UAP'},
+      d: {limit: 844, label: 'UAP - UEL'},
       f: {label: 'Employee NICS'}
     },
     '2010': {
-      a: {limit: 112, label: 'LEL'},
-      b: {limit: 177, label: 'LEL - PT'},
-      c: {limit: 255, label: 'PT - UAP'},
-      d: {limit: 1443, label: 'UAP - UEL'},
+      a: {limit: 97, label: 'LEL'},
+      b: {limit: 110, label: 'LEL - PT'},
+      c: {limit: 770, label: 'PT - UAP'},
+      d: {limit: 844, label: 'UAP - UEL'},
       f: {label: 'Employee NICS'}
     },
     '2011': {
-      a: {limit: 112, label: 'LEL'},
-      b: {limit: 177, label: 'LEL - PT'},
-      c: {limit: 255, label: 'PT - UAP'},
-      d: {limit: 1443, label: 'UAP - UEL'},
+      a: {limit: 102, label: 'LEL'},
+      b: {limit: 139, label: 'LEL - PT'},
+      c: {limit: 770, label: 'PT - UAP'},
+      d: {limit: 817, label: 'UAP - UEL'},
       f: {label: 'Employee NICS'}
     },
     '2012': {
-      a: {limit: 112, label: 'LEL'},
-      b: {limit: 177, label: 'LEL - PT'},
-      c: {limit: 255, label: 'PT - UAP'},
-      d: {limit: 1443, label: 'UAP - UEL'},
+      a: {limit: 107, label: 'LEL'},
+      b: {limit: 146, label: 'LEL - PT'},
+      c: {limit: 770, label: 'PT - UAP'},
+      d: {limit: 817, label: 'UAP - UEL'},
       f: {label: 'Employee NICS'}
     },
     '2013': {
-      a: {limit: 112, label: 'LEL'},
-      b: {limit: 177, label: 'LEL - PT'},
-      c: {limit: 255, label: 'PT - UAP'},
-      d: {limit: 1443, label: 'UAP - UEL'},
+      a: {limit: 109, label: 'LEL'},
+      b: {limit: 149, label: 'LEL - PT'},
+      c: {limit: 770, label: 'PT - UAP'},
+      d: {limit: 797, label: 'UAP - UEL'},
       f: {label: 'Employee NICS'}
     },
     '2014': {
-      a: {limit: 112, label: 'LEL'},
-      b: {limit: 177, label: 'LEL - PT'},
-      c: {limit: 255, label: 'PT - UAP'},
-      d: {limit: 1443, label: 'UAP - UEL'},
+      a: {limit: 111, label: 'LEL'},
+      b: {limit: 153, label: 'LEL - PT'},
+      c: {limit: 770, label: 'PT - UAP'},
+      d: {limit: 805, label: 'UAP - UEL'},
       f: {label: 'Employee NICS'}
     },
     '2015': {
       a: {limit: 112, label: 'LEL'},
-      b: {limit: 177, label: 'LEL - PT'},
-      c: {limit: 255, label: 'PT - UAP'},
-      d: {limit: 1443, label: 'UAP - UEL'},
+      b: {limit: 155, label: 'LEL - PT'},
+      c: {limit: 770, label: 'PT - UAP'},
+      d: {limit: 815, label: 'UAP - UEL'},
       f: {label: 'Employee NICS'}
     },
     '2016': {
       a: {limit: 112, label: 'LEL'},
-      b: {limit: 177, label: 'LEL - PT'},
-      c: {limit: 255, label: 'PT - UAP'},
-      d: {limit: 1443, label: 'UAP - UEL'},
+      b: {limit: 155, label: 'LEL - PT'},
+      c: {limit: 827, label: 'PT - UEL'},
       f: {label: 'Employee NICS'}
     }
   }
   return fakeMap[yearString] || {
     a: {limit: 112, label: 'LEL'},
-    b: {limit: 177, label: 'LEL - PT'},
-    c: {limit: 255, label: 'PT - UAP'},
+    b: {limit: 155, label: 'LEL - PT'},
+    c: {limit: 827, label: 'PT - UEL'},
     f: {label: 'Employee NICS'}
   }
 }
@@ -233,9 +226,8 @@ export function useUnofficialDefermentForm() {
   const [categories, setCategories] = useState<Array<string>>([])
   const [earningsFields, setEarningsFields] = useState<Bands>({
     a: {limit: 112, label: 'LEL'},
-    b: {limit: 177, label: 'LEL - PT'},
-    c: {limit: 255, label: 'PT - UAP'},
-    d: {limit: 1443, label: 'UAP - UEL'},
+    b: {limit: 155, label: 'LEL - PT'},
+    c: {limit: 827, label: 'PT - UEL'},
     f: {label: 'Employee NICS'}
   },)
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)

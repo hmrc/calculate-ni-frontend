@@ -49,7 +49,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
           <th><span>{`1b < £${earningsFields['b'].limit}`}</span></th>
           <th><span>{`1c < £${earningsFields['c'].limit}`}</span></th>
           {earningsFields['d'] &&
-          <th><span>1d</span></th>
+          <th><span>{`1d < £${earningsFields['d'].limit}`}</span></th>
           }
           {earningsFields['e'] &&
           <th><span>1e</span></th>
