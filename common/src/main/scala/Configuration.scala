@@ -135,8 +135,8 @@ case class Configuration(
 
 
 
-  private def compute[A](in: A)(msg: String): cats.data.Writer[List[String], A] =
-    tell(List(msg + " = " + in.toString)) flatMap {_ => value[List[String], A](in)}
+  private def compute[A](in: A)(msg: String): cats.data.Writer[Vector[String], A] =
+    tell(Vector(msg + " = " + in.toString)) flatMap {_ => value[Vector[String], A](in)}
 
   def proRataRatio(from: LocalDate, to: LocalDate): Option[BigDecimal] = {
     import spire.math.interval._
@@ -186,7 +186,7 @@ case class Configuration(
     on: LocalDate,
     paymentDate: LocalDate,
     earningsFactor: BigDecimal
-  ): Writer[List[String], ClassTwoAndThreeResult] = {
+  ): Writer[Vector[String], ClassTwoAndThreeResult] = {
     import cats.implicits._
 
     val year: ClassTwo = classTwo.at(on).getOrElse {
@@ -222,31 +222,43 @@ case class Configuration(
 
   }
 
-  def calculateClassOne(
+  def calculateClassOneRow(
     on: LocalDate,
     amount: BigDecimal,
     cat: Char,
     period: Period.Period,
     qty: Int = 1, 
     contractedOutStandardRate: Boolean = false
-  ): Map[String,(BigDecimal, BigDecimal, BigDecimal)] = {
+  ): Writer[Vector[String], Map[String,(BigDecimal, BigDecimal, BigDecimal)]] = {
     val defs = classOne.at(on).getOrElse(Map.empty)
     defs.collect { case (k,d) if d.contractedOutStandardRate.fold(true)(_ == contractedOutStandardRate) && d.trigger.interval(period, qty).contains(amount) => 
-      val interval = period match {
+      def getInterval = period match {
         case Period.Year => d.year
         case Period.Month => (d.effectiveMonth * qty).mapBounds(_.roundUpWhole)
         case Period.Week => (d.effectiveWeek * qty).mapBounds(_.roundUpWhole)
         case Period.FourWeek => (d.effectiveFourWeek * qty).mapBounds(_.roundUpWhole)
       }
-      val amountInBand = amount.inBand(interval)
-      val employeeRate = d.employee.getOrElse(cat, BigDecimal(0))
-      val employerRate = d.employer.getOrElse(cat, BigDecimal(0))
-      (k,(
-        amountInBand,
-        (amountInBand * employeeRate).roundHalfDown,
-        (amountInBand * employerRate).roundHalfDown
-      ))
-    }
+
+      for {
+        interval     <- compute(getInterval)(s"$k.interval:")
+        amountInBand <- compute(amount.inBand(interval))(s"$k.amountInBand: |[0, $amount] ∩ $interval|")
+        employeeRate <- compute(d.employee.getOrElse(cat, BigDecimal(0)))(s"$k.employeeRate:")
+        employeeCont <- compute(amountInBand * employeeRate)(
+          s"$k.employeeCont: amountInBand * employeeRate = $amountInBand * $employeeRate")
+        employeeConR <- compute(employeeCont.roundHalfDown)(
+          s"$k.employeeConR: $employeeCont rounded half-down")
+        employerRate <- compute(d.employer.getOrElse(cat, BigDecimal(0)))(s"$k.employerRate:")        
+        employerCont <- compute(amountInBand * employerRate)(
+          s"$k.employerCont: amountInBand * employerRate = $amountInBand * $employerRate")
+        employerConR <- compute(employerCont.roundHalfDown)(
+          s"$k.employerConR: $employerCont rounded half-down")
+      } yield (k, (amountInBand, employeeConR, employerConR))
+    }.toList.foldLeft(
+      Writer.value[Vector[String], Map[String,(BigDecimal, BigDecimal, BigDecimal)]](Map.empty[String, (BigDecimal, BigDecimal, BigDecimal)])
+    ){ case (acc, in) => for {
+      a <- acc
+      i <- in
+    } yield (a + i) }
   }
 }
 

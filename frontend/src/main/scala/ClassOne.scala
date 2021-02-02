@@ -14,15 +14,16 @@ class ClassOneFrontend(
   config: Configuration
 ) extends js.Object {
 
-  def calculate(
+
+  def explain(
     on: js.Date,
     rows: js.Array[ClassOneRow],
     totalContributions: Double = 0,
     employeeContributions: Double = 0
-  ): js.Object = {
+  ): js.Array[String] = {
 
-    val results = rows.toList.map { row => 
-      config.calculateClassOne(
+    rows.toList.flatMap { row => 
+      config.calculateClassOneRow(
         on,
         row.grossPay,
         row.category.head,
@@ -34,7 +35,30 @@ class ClassOneFrontend(
         },
         1,
         row.contractedOutStandardRate
-      )
+      ).written
+    }.toJSArray
+  }
+
+  def calculate(
+    on: js.Date,
+    rows: js.Array[ClassOneRow],
+    totalContributions: Double = 0,
+    employeeContributions: Double = 0
+  ): js.Object = {
+    val results = rows.toList.map { row => 
+      config.calculateClassOneRow(
+        on,
+        row.grossPay,
+        row.category.head,
+        row.period match {
+          case "W" => Period.Week
+          case "M" => Period.Month
+          case "4W" => Period.FourWeek
+          case _ => throw new IllegalStateException("Unknown Period")
+        },
+        1,
+        row.contractedOutStandardRate
+      ).value
     }
 
     new js.Object {
@@ -82,7 +106,6 @@ class ClassOneFrontend(
       }
     }
   }
-
 
   def isCosrApplicable(on: Date): Boolean = {
     val interval = config.classOne.keys.find(_.contains(on)).getOrElse(
