@@ -3,6 +3,7 @@ import {PeriodLabel} from "../config";
 import {Dispatch} from "react";
 import {extractTaxYearFromDate, govDateFormat, hasKeys, isEmpty} from "../services/utils";
 import moment from "moment";
+import {UnofficialDefermentRow} from "../components/calculators/unofficial-deferment/UnofficialDefermentContext";
 
 interface ClassOnePayload {
   rows: Array<Row>
@@ -16,6 +17,11 @@ interface DirectorsPayload {
   dateRange: GovDateRange;
   earningsPeriod: PeriodLabel | null;
   rows: Array<DirectorsRow>
+}
+
+interface UnofficialDefermentPayload {
+  rows: UnofficialDefermentRow[]
+  taxYear: TaxYear
 }
 
 interface Class2Or3Payload {
@@ -110,6 +116,13 @@ export const validateDirectorsPayload = (
     return false
   }
 
+  return true
+}
+
+export const validateUnofficialDefermentPayload = (
+  payload: UnofficialDefermentPayload,
+  setErrors: Dispatch<GenericErrors>
+) => {
   return true
 }
 
