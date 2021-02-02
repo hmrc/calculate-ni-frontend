@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import {ClassOneContext} from "./ClassOneContext";
 
 // types
@@ -19,6 +19,7 @@ function ClassOneEarningsTable(props: TableProps) {
     setRows,
     setErrors
   } = useContext(ClassOneContext)
+  const [periodSortDirection, setPeriodSortDirection] = useState<'ascending' | 'descending' | 'none' | undefined>('none')
 
   const handleSortPeriod = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -27,6 +28,7 @@ function ClassOneEarningsTable(props: TableProps) {
       .slice()
       .sort((a: Row, b: Row) =>
         (a.period < b.period ? 1 : (a.period > b.period) ? -1 : 0)))
+    setPeriodSortDirection('descending')
   }
 
   return (
@@ -43,7 +45,7 @@ function ClassOneEarningsTable(props: TableProps) {
           <th>
             #<span className="govuk-visually-hidden"> Row number</span>
           </th>
-          <th className="column-toggle" onClick={handleSortPeriod}>
+          <th className="column-toggle" aria-sort={periodSortDirection} onClick={handleSortPeriod}>
             <strong>
               {printView ? 'Period': 'Select period'}
               <abbr title="Sort periods">

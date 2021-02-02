@@ -60,8 +60,8 @@ interface UnofficialDefermentContext {
   setCategories: Dispatch<Array<string>>
   activeRowId: string | null
   setActiveRowId: Dispatch<string | null>,
-  earningsFields: Array<string>
-  setEarningsFields: Dispatch<Array<string>>
+  earningsFields: Bands
+  setEarningsFields: Dispatch<Bands>
   results: GenericObject
   setResults: Dispatch<GenericObject>
 }
@@ -89,32 +89,136 @@ export const UnofficialDefermentContext = React.createContext<UnofficialDefermen
     setCategories: () => {},
     activeRowId: null,
     setActiveRowId: () => {},
-    earningsFields: [],
+    earningsFields: {
+      a: {limit: 112, label: 'LEL'},
+      b: {limit: 177, label: 'LEL - PT'},
+      c: {limit: 255, label: 'PT - UAP'},
+      d: {limit: 1443, label: 'UAP - UEL'},
+      f: {limit: 2559, label: 'Employee NICS'}
+    },
     setEarningsFields: () => {},
     results: {},
     setResults: () => {}
   }
 )
 
+interface EarningsBand {
+  limit?: number,
+  label: string
+}
+
+interface Bands {
+  [key: string]: EarningsBand
+}
+
 const getRequiredInputs = (taxYear: TaxYear) => {
   const yearString = taxYear.from.getFullYear().toString()
-  const fakeMap: { [key: string]: string[] } = {
-    '2003': ['a', 'b', 'c', 'd', 'f'],
-    '2004': ['a', 'b', 'c', 'f'],
-    '2005': ['a', 'b', 'c', 'e'],
-    '2006': ['a', 'b', 'c', 'd', 'e'],
-    '2007': ['a', 'b', 'c', 'f'],
-    '2008': ['a', 'b', 'c', 'f'],
-    '2009': ['a', 'b', 'c', 'd', 'f'],
-    '2010': ['a', 'b', 'c', 'f'],
-    '2011': ['a', 'b', 'c', 'd'],
-    '2012': ['a', 'b', 'c', 'f'],
-    '2013': ['a', 'b', 'c', 'f'],
-    '2014': ['a', 'b', 'c', 'f'],
-    '2015': ['a', 'b', 'c', 'd', 'f'],
-    '2016': ['a', 'b', 'c', 'f'],
+  const fakeMap: { [key: string]: Bands } = {
+    '2003': {
+      a: {limit: 112, label: 'LEL'},
+      b: {limit: 177, label: 'LEL - PT'},
+      c: {limit: 255, label: 'PT - UAP'},
+      d: {limit: 1443, label: 'UAP - UEL'},
+      f: {label: 'Employee NICS'}
+     },
+    '2004': {
+      a: {limit: 112, label: 'LEL'},
+      b: {limit: 177, label: 'LEL - PT'},
+      c: {limit: 255, label: 'PT - UAP'},
+      d: {limit: 1443, label: 'UAP - UEL'},
+      f: {label: 'Employee NICS'}
+    },
+    '2005': {
+      a: {limit: 112, label: 'LEL'},
+      b: {limit: 177, label: 'LEL - PT'},
+      c: {limit: 255, label: 'PT - UAP'},
+      d: {limit: 1443, label: 'UAP - UEL'},
+      f: {label: 'Employee NICS'}
+    },
+    '2006': {
+      a: {limit: 112, label: 'LEL'},
+      b: {limit: 177, label: 'LEL - PT'},
+      c: {limit: 255, label: 'PT - UAP'},
+      d: {limit: 1443, label: 'UAP - UEL'},
+      f: {label: 'Employee NICS'}
+    },
+    '2007': {
+      a: {limit: 112, label: 'LEL'},
+      b: {limit: 177, label: 'LEL - PT'},
+      c: {limit: 255, label: 'PT - UAP'},
+      d: {limit: 1443, label: 'UAP - UEL'},
+      f: {label: 'Employee NICS'}
+    },
+    '2008': {
+      a: {limit: 112, label: 'LEL'},
+      b: {limit: 177, label: 'LEL - PT'},
+      c: {limit: 255, label: 'PT - UAP'},
+      d: {limit: 1443, label: 'UAP - UEL'},
+      f: {label: 'Employee NICS'}
+    },
+    '2009': {
+      a: {limit: 112, label: 'LEL'},
+      b: {limit: 177, label: 'LEL - PT'},
+      c: {limit: 255, label: 'PT - UAP'},
+      d: {limit: 1443, label: 'UAP - UEL'},
+      f: {label: 'Employee NICS'}
+    },
+    '2010': {
+      a: {limit: 112, label: 'LEL'},
+      b: {limit: 177, label: 'LEL - PT'},
+      c: {limit: 255, label: 'PT - UAP'},
+      d: {limit: 1443, label: 'UAP - UEL'},
+      f: {label: 'Employee NICS'}
+    },
+    '2011': {
+      a: {limit: 112, label: 'LEL'},
+      b: {limit: 177, label: 'LEL - PT'},
+      c: {limit: 255, label: 'PT - UAP'},
+      d: {limit: 1443, label: 'UAP - UEL'},
+      f: {label: 'Employee NICS'}
+    },
+    '2012': {
+      a: {limit: 112, label: 'LEL'},
+      b: {limit: 177, label: 'LEL - PT'},
+      c: {limit: 255, label: 'PT - UAP'},
+      d: {limit: 1443, label: 'UAP - UEL'},
+      f: {label: 'Employee NICS'}
+    },
+    '2013': {
+      a: {limit: 112, label: 'LEL'},
+      b: {limit: 177, label: 'LEL - PT'},
+      c: {limit: 255, label: 'PT - UAP'},
+      d: {limit: 1443, label: 'UAP - UEL'},
+      f: {label: 'Employee NICS'}
+    },
+    '2014': {
+      a: {limit: 112, label: 'LEL'},
+      b: {limit: 177, label: 'LEL - PT'},
+      c: {limit: 255, label: 'PT - UAP'},
+      d: {limit: 1443, label: 'UAP - UEL'},
+      f: {label: 'Employee NICS'}
+    },
+    '2015': {
+      a: {limit: 112, label: 'LEL'},
+      b: {limit: 177, label: 'LEL - PT'},
+      c: {limit: 255, label: 'PT - UAP'},
+      d: {limit: 1443, label: 'UAP - UEL'},
+      f: {label: 'Employee NICS'}
+    },
+    '2016': {
+      a: {limit: 112, label: 'LEL'},
+      b: {limit: 177, label: 'LEL - PT'},
+      c: {limit: 255, label: 'PT - UAP'},
+      d: {limit: 1443, label: 'UAP - UEL'},
+      f: {label: 'Employee NICS'}
+    }
   }
-  return fakeMap[yearString] || ['a', 'b', 'c']
+  return fakeMap[yearString] || {
+    a: {limit: 112, label: 'LEL'},
+    b: {limit: 177, label: 'LEL - PT'},
+    c: {limit: 255, label: 'PT - UAP'},
+    f: {label: 'Employee NICS'}
+  }
 }
 
 export function useUnofficialDefermentForm() {
@@ -122,12 +226,18 @@ export function useUnofficialDefermentForm() {
     NiFrontendInterface
   } = useContext(NiFrontendContext)
   const ClassOneCalculator = NiFrontendInterface.classOne
-  const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears, '')
+  const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears)
   const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
   const [defaultRow, setDefaultRow] = useState<UnofficialDefermentRow>(initRow)
   const [rows, setRows] = useState<Array<UnofficialDefermentRow>>([defaultRow])
   const [categories, setCategories] = useState<Array<string>>([])
-  const [earningsFields, setEarningsFields] = useState<Array<string>>(['a', 'b', 'c'])
+  const [earningsFields, setEarningsFields] = useState<Bands>({
+    a: {limit: 112, label: 'LEL'},
+    b: {limit: 177, label: 'LEL - PT'},
+    c: {limit: 255, label: 'PT - UAP'},
+    d: {limit: 1443, label: 'UAP - UEL'},
+    f: {label: 'Employee NICS'}
+  },)
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])

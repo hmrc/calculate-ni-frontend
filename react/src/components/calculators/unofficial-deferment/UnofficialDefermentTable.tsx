@@ -45,16 +45,16 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
       <thead>
         <tr className="clear">
           <th className="lg" colSpan={3}><span>Employment details</span></th>
-          <th className="border"><span>{`1a < £112`}</span></th>
-          <th><span>{`1b < £155`}</span></th>
-          <th><span>{`1c < £827`}</span></th>
-          {earningsFields.includes('d') &&
+          <th className="border"><span>{`1a < £${earningsFields['a'].limit}`}</span></th>
+          <th><span>{`1b < £${earningsFields['b'].limit}`}</span></th>
+          <th><span>{`1c < £${earningsFields['c'].limit}`}</span></th>
+          {earningsFields['d'] &&
           <th><span>1d</span></th>
           }
-          {earningsFields.includes('e') &&
+          {earningsFields['e'] &&
           <th><span>1e</span></th>
           }
-          {earningsFields.includes('f') &&
+          {earningsFields['f'] &&
           <th><span>1f</span></th>
           }
         </tr>
@@ -62,17 +62,17 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
           <th><strong>Name of employer</strong></th>
           <th><strong>Gross pay</strong></th>
           <th><strong>NI category</strong></th>
-          <th><strong>LEL</strong></th>
-          <th><strong>LEL - PT</strong></th>
-          <th><strong>PT - UAP</strong></th>
-          {earningsFields.includes('d') &&
-            <th><strong>UAP - UEL</strong></th>
+          <th><strong>{earningsFields['a'].label}</strong></th>
+          <th><strong>{earningsFields['b'].label}</strong></th>
+          <th><strong>{earningsFields['c'].label}</strong></th>
+          {earningsFields['d'] &&
+            <th><strong>{earningsFields['d'].label}</strong></th>
           }
-          {earningsFields.includes('e') &&
-          <th><strong>Employee NICS</strong></th>
+          {earningsFields['e'] &&
+          <th><strong>{earningsFields['e'].label}</strong></th>
           }
-          {earningsFields.includes('f') &&
-          <th><strong>Employee NICS</strong></th>
+          {earningsFields['f'] &&
+          <th><strong>{earningsFields['f'].label}</strong></th>
           }
           <th><strong>Over UEL</strong></th>
           <th><strong>NICS non-CO</strong></th>
@@ -165,7 +165,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
               />
             }
           </td>
-          {earningsFields.includes('d') &&
+          {earningsFields['d'] &&
           <td className="input">
             {printView ?
               <div>{numeral(r.earnings1d).format('$0,0.00')}</div>
@@ -182,7 +182,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
             }
           </td>
           }
-          {earningsFields.includes('e') &&
+          {earningsFields['e'] &&
           <td className="input">
             {printView ?
               <div>{numeral(r.earnings1e).format('$0,0.00')}</div>
@@ -199,7 +199,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
             }
           </td>
           }
-          {earningsFields.includes('f') &&
+          {earningsFields['f'] &&
           <td className="input">
             {printView ?
               <div>{numeral(r.earnings1f).format('$0,0.00')}</div>
