@@ -227,13 +227,13 @@ case class Configuration(
     amount: BigDecimal,
     cat: Char,
     period: Period.Period,
-    qty: Int = 1, 
+    qty: BigDecimal = 1, 
     contractedOutStandardRate: Boolean = false
   ): Map[String,(BigDecimal, BigDecimal, BigDecimal)] = {
     val defs = classOne.at(on).getOrElse(Map.empty)
     defs.collect { case (k,d) if d.contractedOutStandardRate.fold(true)(_ == contractedOutStandardRate) && d.trigger.interval(period, qty).contains(amount) => 
       val interval = period match {
-        case Period.Year => d.year
+        case Period.Year => (d.year * qty).mapBounds(_.roundUpWhole)
         case Period.Month => (d.effectiveMonth * qty).mapBounds(_.roundUpWhole)
         case Period.Week => (d.effectiveWeek * qty).mapBounds(_.roundUpWhole)
         case Period.FourWeek => (d.effectiveFourWeek * qty).mapBounds(_.roundUpWhole)
