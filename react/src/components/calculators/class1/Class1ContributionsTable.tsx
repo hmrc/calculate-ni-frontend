@@ -1,8 +1,8 @@
 import React, {useContext, useState} from 'react'
-import {ClassOneContext} from "./ClassOneContext";
+import {ClassOneContext, Row} from "./ClassOneContext";
 
 // types
-import {TableProps, Row} from '../../../interfaces'
+import {TableProps} from '../../../interfaces'
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';

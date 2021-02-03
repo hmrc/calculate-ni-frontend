@@ -13,7 +13,7 @@ import {DirectorsContext} from "../directors/DirectorsContext";
 numeral.locale('en-gb');
 
 function Totals (props: TotalsProps) {
-  const { isSaveAndPrint, type } = props;
+  const { isSaveAndPrint, type, result } = props;
   const context: Context<any> =
     type === Calculators.CLASS_ONE ? ClassOneContext : DirectorsContext
   const {

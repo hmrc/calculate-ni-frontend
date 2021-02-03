@@ -2,8 +2,7 @@ import React, {useContext, useEffect} from "react"
 import {periods, PeriodValue, periodValueToLabel} from "../../../config";
 import TextInput from "../../helpers/formhelpers/TextInput";
 import numeral from "numeral";
-import {ClassOneContext} from "./ClassOneContext";
-import {Row} from "../../../interfaces";
+import {ClassOneContext, Row} from "./ClassOneContext";
 import {NiFrontendContext} from "../../../services/NiFrontendContext";
 
 interface TableRowProps {
@@ -122,8 +121,8 @@ export default function Class1TableRow(props: TableRowProps) {
       </td>
 
       {/* Bands */}
-      {showBands && row.bands && Object.keys(row.bands).map(k =>
-        <td key={`${k}-val`}>{numeral(row.bands?.[k][0]).format('$0,0.00')}</td>
+      {showBands && row.bands && row.bands.map(k =>
+        <td key={`${k.name}-val`}>{numeral(k.amountInBand).format('$0,0.00')}</td>
       )}
 
       {/* Total */}
@@ -131,7 +130,7 @@ export default function Class1TableRow(props: TableRowProps) {
       // Total (if calculate has run)
       <td>
         {numeral(
-          (parseFloat(row.ee) + parseFloat(row.er)).toString()
+          (row.ee + row.er).toString()
         ).format('$0,0.00')}
       </td>
       }

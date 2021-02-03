@@ -48,8 +48,8 @@ function Class1Form(props: Class1FormProps) {
       period: lastRow.period,
       gross: lastRow.gross,
       number: periodNumber,
-      ee: '0',
-      er: '0'
+      ee: 0,
+      er: 0
     }])
     setActiveRowId(id)
   }

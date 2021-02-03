@@ -1,5 +1,5 @@
 import React, {Dispatch, useContext, useEffect, useState} from "react";
-import {Calculated, DetailsProps, Row, TaxYear, TotalsInCategories} from "../../../interfaces";
+import {DetailsProps, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {buildTaxYears, periods, PeriodValue} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
@@ -9,8 +9,8 @@ const initRow = {
   id: 'default',
   category: '',
   gross: '',
-  ee: '0',
-  er: '0',
+  ee: 0,
+  er: 0,
   number: 1,
   period: PeriodValue.WEEKLY
 }
@@ -28,6 +28,17 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
   ...action,
 })
 
+export interface Row {
+  id: string
+  category: string
+  number: number
+  period: PeriodValue
+  gross: string
+  ee: number
+  er: number
+  bands?: Array<Band>
+}
+
 interface Calculator {
   calculate: Function
   calculateProRata: Function
@@ -43,12 +54,13 @@ interface CalculatedTotals {
   employer: number
 }
 
-interface Band {
+export interface Band {
   name: string
   amountInBand: number
 }
 
 interface CalculatedRow {
+  id: string
   bands: Array<Band>
   employee: number
   employer: number
@@ -61,7 +73,7 @@ interface TotalRow {
   net: number
 }
 
-interface Class1Result {
+export interface Class1Result {
   resultRows: CalculatedRow[]
   totals: CalculatedTotals
   overpayment: TotalRow
@@ -79,8 +91,6 @@ interface ClassOneContext {
   setRows: Dispatch<Array<Row>>
   details: DetailsProps
   setDetails: Function,
-  grossTotal: Number | null
-  setGrossTotal: Dispatch<Number | null>
   niPaidNet: string
   setNiPaidNet: Dispatch<string>
   niPaidEmployee: string
@@ -89,8 +99,6 @@ interface ClassOneContext {
   setErrors: Dispatch<GenericErrors>
   categoryTotals: TotalsInCategories
   setCategoryTotals: Dispatch<TotalsInCategories>
-  calculatedRows: Array<Calculated>
-  setCalculatedRows: Dispatch<Array<Calculated>>
   categories: Array<string>
   setCategories: Dispatch<Array<string>>
   activeRowId: string | null
@@ -115,8 +123,6 @@ export const ClassOneContext = React.createContext<ClassOneContext>(
     setRows: () => {},
     details: initialDetails,
     setDetails: () => {},
-    grossTotal: null,
-    setGrossTotal: () => {},
     niPaidNet: '',
     setNiPaidNet: () => {},
     niPaidEmployee: '',
@@ -125,8 +131,6 @@ export const ClassOneContext = React.createContext<ClassOneContext>(
     setErrors: () => {},
     categoryTotals: {},
     setCategoryTotals: () => {},
-    calculatedRows: [],
-    setCalculatedRows: () => {},
     categories: [],
     setCategories: () => {},
     activeRowId: null,
@@ -148,12 +152,10 @@ export function useClassOneForm() {
   const [rows, setRows] = useState<Array<Row>>([defaultRow])
   const [categories, setCategories] = useState<Array<string>>([])
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
-  const [grossTotal, setGrossTotal] = useState<Number | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [niPaidNet, setNiPaidNet] = useState<string>('')
   const [niPaidEmployee, setNiPaidEmployee] = useState<string>('')
   const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({})
-  const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
   const [result, setResult] = useState<Class1Result | null>(null)
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   useEffect(() => {
@@ -170,14 +172,31 @@ export function useClassOneForm() {
   }, [taxYear.from])
 
   useEffect(() => {
+    if(result && result.resultRows) {
+      setRows((prevState: Row[]) => prevState.map(row => {
+        const matchingRow: CalculatedRow | undefined =
+          result.resultRows
+            .find(resultRow =>
+              resultRow.id === row.id
+            )
+        if(matchingRow) {
+          return {
+            ...row,
+            ...matchingRow
+          }
+        }
+        return row
+      }))
+    }
+
+  }, [result])
+
+  useEffect(() => {
     setRows([defaultRow])
   }, [defaultRow])
 
   useEffect(() => {
     setCategoryTotals(getTotalsInCategories(rows as Row[]))
-    setGrossTotal(rows.reduce((grossTotal, row) => {
-      return grossTotal + parseFloat(row.gross)
-    }, 0))
   }, [rows])
 
   const setPeriodNumbers = (deletedRow: string | undefined) => {
@@ -188,7 +207,8 @@ export function useClassOneForm() {
         :
         [...rows]
       newRows.forEach(row => {
-        if(periods[period] === row.period) {
+        if(periods.hasOwnProperty(period) &&
+          periods[period] === row.period) {
             periodAccumulator += 1
             row.number = periodAccumulator
           }
@@ -206,8 +226,6 @@ export function useClassOneForm() {
     setRows,
     details,
     setDetails,
-    grossTotal,
-    setGrossTotal,
     errors,
     setErrors,
     niPaidNet,
@@ -216,8 +234,6 @@ export function useClassOneForm() {
     setNiPaidEmployee,
     categoryTotals,
     setCategoryTotals,
-    calculatedRows,
-    setCalculatedRows,
     categories,
     setCategories,
     activeRowId,

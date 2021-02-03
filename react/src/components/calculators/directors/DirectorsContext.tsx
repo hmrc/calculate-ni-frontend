@@ -1,10 +1,20 @@
 import React, {Dispatch, useContext, useEffect, useState} from "react";
-import {Calculated, DetailsProps, DirectorsRow, TaxYear, TotalsInCategories} from "../../../interfaces";
+import {Calculated, DetailsProps, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {PeriodLabel, buildTaxYears} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
 import {ClassOneCalculator, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
 import uniqid from 'uniqid'
+import {Band, Class1Result} from "../class1/ClassOneContext";
+
+export interface DirectorsRow {
+  id: string
+  category: string
+  gross: string
+  ee: number
+  er: number
+  bands?: Band[]
+}
 
 const initialDetails: DetailsProps = {
   fullName: '',
@@ -18,8 +28,8 @@ const initRow: DirectorsRow = {
   id: uniqid(),
   category: '',
   gross: '',
-  ee: '0',
-  er: '0'
+  ee: 0,
+  er: 0
 }
 
 const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) => ({
@@ -37,8 +47,6 @@ interface DirectorsContext {
   setRows: Dispatch<Array<DirectorsRow>>
   details: DetailsProps
   setDetails: Function,
-  grossTotal: Number | null,
-  setGrossTotal: Dispatch<Number | null>
   earningsPeriod: PeriodLabel | null
   setEarningsPeriod: Dispatch<PeriodLabel | null>
   niPaidNet: string
@@ -49,12 +57,12 @@ interface DirectorsContext {
   setErrors: Dispatch<GenericErrors>
   categoryTotals: TotalsInCategories
   setCategoryTotals: Dispatch<TotalsInCategories>
-  calculatedRows: Array<Calculated>
-  setCalculatedRows: Dispatch<Array<Calculated>>
   categories: Array<string>
   setCategories: Dispatch<Array<string>>
   activeRowId: string | null
   setActiveRowId: Dispatch<string | null>
+  result: Class1Result | null
+  setResult: Dispatch<Class1Result | null>
 }
 
 export const DirectorsContext = React.createContext<DirectorsContext>(
@@ -72,8 +80,6 @@ export const DirectorsContext = React.createContext<DirectorsContext>(
     setRows: () => {},
     details: initialDetails,
     setDetails: () => {},
-    grossTotal: null,
-    setGrossTotal: () => {},
     niPaidNet: '',
     setNiPaidNet: () => {},
     niPaidEmployee: '',
@@ -84,12 +90,12 @@ export const DirectorsContext = React.createContext<DirectorsContext>(
     setErrors: () => {},
     categoryTotals: {},
     setCategoryTotals: () => {},
-    calculatedRows: [],
-    setCalculatedRows: () => {},
     categories: [],
     setCategories: () => {},
     activeRowId: null,
     setActiveRowId: () => {},
+    result: null,
+    setResult: () => {}
   }
 )
 
@@ -97,15 +103,13 @@ export function useDirectorsForm() {
   const [categories, setCategories] = useState<Array<string>>([])
   const [defaultRow, setDefaultRow] = useState<DirectorsRow>(initRow)
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
-  const [grossTotal, setGrossTotal] = useState<Number | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [niPaidNet, setNiPaidNet] = useState<string>('')
   const [niPaidEmployee, setNiPaidEmployee] = useState<string>('')
   const [earningsPeriod, setEarningsPeriod] = useState<PeriodLabel | null>(null)
   const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({})
-  const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
-
+  const [result, setResult] = useState<Class1Result | null>(null)
   const {
     NiFrontendInterface
   } = useContext(NiFrontendContext)
@@ -125,9 +129,6 @@ export function useDirectorsForm() {
   const [rows, setRows] = useState<Array<DirectorsRow>>([defaultRow])
   useEffect(() => {
     setCategoryTotals(getTotalsInCategories(rows as DirectorsRow[]))
-    setGrossTotal(rows.reduce((grossTotal, row) => {
-      return grossTotal + parseFloat(row.gross)
-    }, 0))
   }, [rows])
 
   return {
@@ -140,8 +141,6 @@ export function useDirectorsForm() {
     setRows,
     details,
     setDetails,
-    grossTotal,
-    setGrossTotal,
     errors,
     setErrors,
     earningsPeriod,
@@ -152,11 +151,11 @@ export function useDirectorsForm() {
     setNiPaidEmployee,
     categoryTotals,
     setCategoryTotals,
-    calculatedRows,
-    setCalculatedRows,
     categories,
     setCategories,
     activeRowId,
-    setActiveRowId
+    setActiveRowId,
+    result,
+    setResult
   }
 }

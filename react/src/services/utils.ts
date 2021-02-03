@@ -2,15 +2,14 @@ import moment from 'moment'
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 import {
-  Calculated,
-  DirectorsRow,
   OverOrUnder,
-  Row,
   TotalsInCategories,
   TotalType,
   TaxYear
 } from "../interfaces";
 import {ErrorMessage} from "../validation/validation";
+import {Row} from "../components/calculators/class1/ClassOneContext";
+import {DirectorsRow} from "../components/calculators/directors/DirectorsContext";
 
 export const emptyStringToZero = (input: string) => input === '' ? 0 : parseFloat(input)
 
@@ -21,31 +20,6 @@ export const hasKeys = (obj: object) => Object.keys(obj).length > 0
 export const isEmptyString = (str: string) => str.length === 0 || !str.trim()
 
 export const hasNonEmptyStrings = (stringsList: string[]) => stringsList.some(str => !isEmptyString(str))
-
-export function sumOfContributionsInRow(calculatedRow: Calculated, type: number): number {
-  return Object.keys(calculatedRow).reduce((prev, key) => {
-    return prev + calculatedRow[key][type]
-  }, 0)
-}
-
-export function addResultsToRow(row: Row | DirectorsRow, calculatedRow: any) {
-  row.ee = sumOfContributionsInRow(calculatedRow, 1).toString()
-  row.er = sumOfContributionsInRow(calculatedRow, 2).toString()
-  row.bands = calculatedRow
-  return row
-}
-
-export function updateRowInResults(rows: Array<any>, calculatedRow: any, index: number) {
-  const newRows = [...rows]
-  newRows[index] = addResultsToRow(newRows[index], calculatedRow)
-  return newRows;
-}
-
-export const calculateNiDue = (calculatedRows: Calculated[], arrPosition: number) => (
-  calculatedRows.reduce((totalContributionsDue: number, calculatedRow: Calculated) =>
-    totalContributionsDue + sumOfContributionsInRow(calculatedRow, arrPosition)
-  , 0)
-)
 
 export const overUnderPaymentDisplay = (value: number, type: OverOrUnder) => {
   if (type === OverOrUnder.UNDER) {
@@ -61,7 +35,12 @@ const getTotalsInCategory = (type: TotalType, rows: Array<Row | DirectorsRow>, c
   return rows
     .filter(row => row.category === category)
     .reduce((total: number, row: Row | DirectorsRow) => {
-      return total + parseFloat(row[type])
+
+      if(row.hasOwnProperty(type)) {
+        return total + parseFloat(row[type].toString())
+      }
+
+      return total
     }, 0)
 }
 

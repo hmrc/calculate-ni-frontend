@@ -1,7 +1,7 @@
 import React, {Context} from 'react'
 
 // components
-import {Calculators, DirectorsRow, Row, TotalsInCategories} from '../../../interfaces'
+import {Calculators, TotalsInCategories} from '../../../interfaces'
 
 // services
 import {uniqueCategories} from "../../../services/utils";
@@ -9,15 +9,15 @@ import {uniqueCategories} from "../../../services/utils";
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 import {useClassOneTotals} from "../../../services/classOneTotals";
-import {ClassOneContext} from "../class1/ClassOneContext";
-import {DirectorsContext} from "../directors/DirectorsContext";
+import {ClassOneContext, Row} from "../class1/ClassOneContext";
+import {DirectorsContext, DirectorsRow} from "../directors/DirectorsContext";
 
 numeral.locale('en-gb');
 
 function CategoryTotals(props: {
   rows: Array<Row | DirectorsRow>,
   categoryTotals: TotalsInCategories
-  grossTotal: Number | null
+  grossTotal: number | null
   type: Calculators
 }) {
   const { rows, categoryTotals, grossTotal, type } = props
@@ -52,8 +52,8 @@ function CategoryTotals(props: {
             <th>Category</th>
             <th>Gross Pay</th>
             {/* Bands (by tax year), so we can just take the first band to map the rows */}
-            {rows[0].bands && Object.keys(rows[0].bands).map(k =>
-              <th key={k}>{k}</th>
+            {rows[0].bands && rows[0].bands.map(k =>
+              <th key={k.name}>{k.name}</th>
             )}
             <th>Total</th>
             <th>EE</th>
@@ -68,9 +68,9 @@ function CategoryTotals(props: {
                 {/* Gross total for Category */}
                 {formatCurrencyAmount(categoryTotals[c]?.gross)}
               </td>
-              {rows[0].bands && Object.keys(rows[0].bands).map(k =>
+              {rows[0].bands && rows[0].bands.map(k =>
                 <td key={`${k}-val`}>
-                  {numeral(rows[0].bands?.[k][0]).format('$0,0.00')}
+                  {numeral(k.amountInBand).format('$0,0.00')}
                 </td>
               )}
 
@@ -97,8 +97,8 @@ function CategoryTotals(props: {
               {formatCurrencyAmount(grossTotal)}
             </td>
             {/* Bands (by tax year), so we can just take the first band to map the rows */}
-            {rows[0].bands && Object.keys(rows[0].bands).map(k =>
-              <td key={`${k}-band-total`}>
+            {rows[0].bands && rows[0].bands.map(k =>
+              <td key={`${k.name}-band-total`}>
                 &ndash;
               </td>
             )}

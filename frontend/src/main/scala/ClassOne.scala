@@ -120,6 +120,7 @@ class ClassOneFrontend(
 
 @JSExportTopLevel("ClassOneRow")
 case class ClassOneRow(
+  id: String,
   period: String, // "M", "W" or "4W"
   category: String,
   grossPay: Double,

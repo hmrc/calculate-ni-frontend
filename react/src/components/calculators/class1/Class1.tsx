@@ -1,9 +1,8 @@
 import React, {useContext, useState} from 'react'
 import {validateClassOnePayload} from '../../../validation/validation'
-import {PeriodValue} from '../../../config'
 
 // types
-import {Calculated, Calculators, Row} from '../../../interfaces'
+import {Calculators} from '../../../interfaces'
 
 // components
 import Details from '../shared/Details'
@@ -13,7 +12,7 @@ import Class1Print from './Class1Print'
 import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 
 // utils
-import {hasKeys, updateRowInResults} from "../../../services/utils";
+import {hasKeys} from "../../../services/utils";
 import {ClassOneContext, useClassOneForm} from "./ClassOneContext";
 
 const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
@@ -34,7 +33,7 @@ const Class1Page = () => {
     niPaidEmployee,
     setNiPaidEmployee,
     setNiPaidNet,
-    calculatedRows,
+    result,
     setResult,
     setActiveRowId
   } = useContext(ClassOneContext)
@@ -69,6 +68,7 @@ const Class1Page = () => {
       setResult(ClassOneCalculator.calculate(
         taxYear.from,
         rows.map(row => ({
+          id: row.id,
           period: row.period,
           category: row.category,
           grossPay: row.gross,
@@ -98,7 +98,7 @@ const Class1Page = () => {
         <Class1Print
           title={pageTitle}
           setShowSummary={setShowSummary}
-          calculatedRows={calculatedRows}
+          result={result}
         />
       :
         <>
@@ -128,7 +128,7 @@ const Class1Page = () => {
       }
       <Totals
         grossPayTally={showSummary}
-        calculatedRows={calculatedRows}
+        result={result}
         isSaveAndPrint={showSummary}
         type={Calculators.CLASS_ONE}
       />
