@@ -14,15 +14,15 @@ class ClassOneFrontend(
   config: Configuration
 ) extends js.Object {
 
+
   def calculate(
     on: js.Date,
     rows: js.Array[ClassOneRow],
     totalContributions: Double = 0,
     employeeContributions: Double = 0
   ): js.Object = {
-
-    val results = rows.toList.map { row => 
-      config.calculateClassOne(
+    val results = rows.toList.map { row =>
+      row.id -> config.calculateClassOne(
         on,
         row.grossPay,
         row.category.head,
@@ -41,50 +41,28 @@ class ClassOneFrontend(
       )
     }
 
-    new js.Object {
-      val resultRows = results.map { res => 
-        new js.Object {
-          val bands = res.map { case (key, (b, _, _)) =>
-            new js.Object {
-              val name = key
-              val amountInBand = b
-            }
-          }.toJSArray
+    formatClassOne(results, rows.toList.map(_.grossPay).sum, totalContributions, employeeContributions)
+  }
 
-          val (employeeBD, employerBD) = res.toList.map {
-              case (_, (_, ee, er)) => (ee, er)
-          }.combineAll
+  def calculateProRata(
+    on: js.Date,
+    rows: js.Array[ClassOneRowProRata],
+    totalContributions: Double = 0,
+    employeeContributions: Double = 0
+  ): js.Object = {
 
-          val employee = employeeBD.toDouble
-          val employer = employerBD.toDouble          
-          val totalContributions = (employeeBD + employerBD).toDouble
-        }
-      }.toJSArray
-
-      private val (totalEmployee, totalEmployer) =
-        resultRows.toList.map{ r => (r.employeeBD, r.employerBD) }.combineAll
-
-      val totals = new js.Object {
-        val gross: Double = rows.toList.map(_.grossPay).sum
-        val net: Double = (totalEmployee + totalEmployer).toDouble
-        val employee: Double = totalEmployee.toDouble
-        val employer: Double = totalEmployer.toDouble
-      }
-
-      val employerContributions = totalContributions - employeeContributions
-
-      val underpayment = new js.Object {
-        val employee = (totalEmployee - employeeContributions).max(Zero).toDouble
-        val employer = (totalEmployer - employerContributions).max(Zero).toDouble
-        val net = employee + employer
-      }
-
-      val overpayment = new js.Object {
-        val employee = ((totalEmployee - employeeContributions) * -1).max(Zero).toDouble
-        val employer = ((totalEmployer - employerContributions) * -1).max(Zero).toDouble
-        val net = employee + employer
-      }
+    val results = rows.toList.map { row =>
+      row.id -> config.calculateClassOne(
+        on,
+        row.grossPay,
+        row.category.head,
+        Period.Year,
+        config.proRataRatio(row.from, row.to).get,
+        row.contractedOutStandardRate
+      )
     }
+
+    formatClassOne(results, rows.toList.map(_.grossPay).sum, totalContributions, employeeContributions)
   }
 
 
@@ -116,6 +94,58 @@ class ClassOneFrontend(
     throw new NoSuchElementException(s"Class One A and B undefined for $on")
   ).toString
 
+  private def formatClassOne(
+    results: List[(String, Map[String,(BigDecimal, BigDecimal, BigDecimal)])],
+    grossPay: BigDecimal,
+    totalContributions: Double = 0,
+    employeeContributions: Double = 0
+  ): js.Object = {
+    new js.Object {
+      val resultRows = results.map { case (rowId, res) =>
+        new js.Object {
+          val bands = res.map { case (key, (b, _, _)) =>
+            new js.Object {
+              val name = key
+              val amountInBand = b
+            }
+          }.toJSArray
+
+          val (employeeBD, employerBD) = res.toList.map {
+              case (_, (_, ee, er)) => (ee, er)
+          }.combineAll
+          val id = rowId
+          val employee = employeeBD.toDouble
+          val employer = employerBD.toDouble          
+          val totalContributions = (employeeBD + employerBD).toDouble
+        }
+      }.toJSArray
+
+      private val (totalEmployee, totalEmployer) =
+        resultRows.toList.map{ r => (r.employeeBD, r.employerBD) }.combineAll
+
+      val totals = new js.Object {
+        val gross: Double = grossPay.toDouble
+        val net: Double = (totalEmployee + totalEmployer).toDouble
+        val employee: Double = totalEmployee.toDouble
+        val employer: Double = totalEmployer.toDouble
+      }
+
+      val employerContributions = totalContributions - employeeContributions
+
+      val underpayment = new js.Object {
+        val employee = (totalEmployee - employeeContributions).max(Zero).toDouble
+        val employer = (totalEmployer - employerContributions).max(Zero).toDouble
+        val net = employee + employer
+      }
+
+      val overpayment = new js.Object {
+        val employee = ((totalEmployee - employeeContributions) * -1).max(Zero).toDouble
+        val employer = ((totalEmployer - employerContributions) * -1).max(Zero).toDouble
+        val net = employee + employer
+      }
+    }
+  }
+
 }
 
 @JSExportTopLevel("ClassOneRow")
@@ -126,3 +156,13 @@ case class ClassOneRow(
   grossPay: Double,
   contractedOutStandardRate: Boolean = false
 ) 
+
+@JSExportTopLevel("ClassOneRowProRata")
+case class ClassOneRowProRata(
+  id: String,
+  from: Date,
+  to: Date,
+  category: String,
+  grossPay: Double,
+  contractedOutStandardRate: Boolean = false
+)
