@@ -89,6 +89,7 @@ function LateRefundsTable(props: LateRefundsTable) {
             row={row}
             index={index}
             printView={printView}
+            key={row.id}
           />
         ))}
         </tbody>

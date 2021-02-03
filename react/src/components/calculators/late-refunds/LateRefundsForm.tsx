@@ -29,7 +29,7 @@ function LateRefundsForm() {
           inputClassName="govuk-input govuk-input--width-3"
           inputValue={bankHolidaysNo}
           error={errors.bankHolidays}
-          onChangeCallback={(e) => handleChange?.(e)}
+          onChangeCallback={handleChange}
         />
       </div>
 

@@ -44,7 +44,6 @@ function LateRefundsTableRow(props: {
   const { index, row, printView, taxYears } = props
   return (
     <tr
-      key={row.id}
       className={activeRowId === row.id ? "active" : ""}
       id={row.id}
       onClick={() => setActiveRowId(row.id)}
