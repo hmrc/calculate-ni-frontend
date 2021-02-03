@@ -11,7 +11,7 @@ class Monotonicity extends FlatSpec with PropertyChecks with Matchers {
 implicit override val generatorDrivenConfig =
   PropertyCheckConfiguration(minSuccessful=100000, workers=10)
 
-  val config = eoi.calc.default
+  lazy val config = eoi.calc.fromFile(new java.io.File("national-insurance.conf"))  
 
   val nat: Gen[Int] = arbitrary[Int] suchThat (_ >= 0)
   val letters: Gen[Char] = Gen.oneOf(
