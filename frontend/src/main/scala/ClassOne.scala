@@ -110,37 +110,37 @@ class ClassOneFrontend(
             }
           }.toJSArray
 
-          val (employeeBD, employerBD) = res.toList.map {
+          val (employee, employer, totalContributions) = {
+            val (employeeBD, employerBD) = res.toList.map {
               case (_, (_, ee, er)) => (ee, er)
-          }.combineAll
+            }.combineAll
+            (employeeBD.toDouble, employerBD.toDouble, (employeeBD + employerBD).toDouble)
+          }
           val id = rowId
-          val employee = employeeBD.toDouble
-          val employer = employerBD.toDouble          
-          val totalContributions = (employeeBD + employerBD).toDouble
         }
       }.toJSArray
 
       private val (totalEmployee, totalEmployer) =
-        resultRows.toList.map{ r => (r.employeeBD, r.employerBD) }.combineAll
+        resultRows.toList.map{ r => (r.employee, r.employer) }.combineAll
 
       val totals = new js.Object {
         val gross: Double = grossPay.toDouble
-        val net: Double = (totalEmployee + totalEmployer).toDouble
-        val employee: Double = totalEmployee.toDouble
-        val employer: Double = totalEmployer.toDouble
+        val net: Double = (totalEmployee + totalEmployer)
+        val employee: Double = totalEmployee
+        val employer: Double = totalEmployer
       }
 
       val employerContributions = totalContributions - employeeContributions
 
       val underpayment = new js.Object {
-        val employee = (totalEmployee - employeeContributions).max(Zero).toDouble
-        val employer = (totalEmployer - employerContributions).max(Zero).toDouble
+        val employee = (totalEmployee - employeeContributions).max(0)
+        val employer = (totalEmployer - employerContributions).max(0)
         val net = employee + employer
       }
 
       val overpayment = new js.Object {
-        val employee = ((totalEmployee - employeeContributions) * -1).max(Zero).toDouble
-        val employer = ((totalEmployer - employerContributions) * -1).max(Zero).toDouble
+        val employee = ((totalEmployee - employeeContributions) * -1).max(0)
+        val employer = ((totalEmployer - employerContributions) * -1).max(0)
         val net = employee + employer
       }
     }
@@ -165,4 +165,4 @@ case class ClassOneRowProRata(
   category: String,
   grossPay: Double,
   contractedOutStandardRate: Boolean = false
-) extends js.Object
+)
