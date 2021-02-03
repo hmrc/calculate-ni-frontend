@@ -71,3 +71,6 @@ export const taxYearString = (ty: TaxYear, onlyStartYear?: boolean) => {
     return `${moment(ty.from).format('YYYY')}`
   }
 }
+
+export const taxYearFromString = (ty: TaxYear) => `${moment(ty.from).format(momentDateFormat)}`
+  

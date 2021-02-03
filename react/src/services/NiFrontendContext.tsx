@@ -7,6 +7,11 @@ interface InterestOnLateClassOne {
   getRates: Function
 }
 
+interface InterestOnRefundsClassOne {
+  calculate: Function
+  getRates: Function
+}
+
 export interface ClassOneCalculator {
   calculate: Function
   calculateJson: Function
@@ -14,6 +19,7 @@ export interface ClassOneCalculator {
   calculateProRataJson: Function
   getApplicableCategories: Function
   interestOnLateClassOne: InterestOnLateClassOne
+  interestOnRefundsClassOne: InterestOnRefundsClassOne
   getTaxYears: Array<string>
 }
 
@@ -42,6 +48,10 @@ export const initClassOneCalculator = {
   calculateProRataJson: () => {},
   getApplicableCategories: () => {},
   interestOnLateClassOne: {
+    calculate: () => {},
+    getRates: () => {}
+  },
+  interestOnRefundsClassOne: {
     calculate: () => {},
     getRates: () => {}
   },
