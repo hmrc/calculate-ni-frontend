@@ -165,4 +165,4 @@ case class ClassOneRowProRata(
   category: String,
   grossPay: Double,
   contractedOutStandardRate: Boolean = false
-)
+) extends js.Object

@@ -4,9 +4,10 @@ import {buildTaxYears, periods, PeriodValue} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
 import {initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
+import uniqid from "uniqid";
 
 const initRow = {
-  id: 'default',
+  id: uniqid(),
   category: '',
   gross: '',
   ee: 0,

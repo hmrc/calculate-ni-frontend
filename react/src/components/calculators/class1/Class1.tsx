@@ -1,5 +1,6 @@
 import React, {useContext, useState} from 'react'
 import {validateClassOnePayload} from '../../../validation/validation'
+import {ClassOneRow} from '../../../calculation'
 
 // types
 import {Calculators} from '../../../interfaces'
@@ -16,6 +17,14 @@ import {hasKeys} from "../../../services/utils";
 import {ClassOneContext, useClassOneForm} from "./ClassOneContext";
 
 const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
+
+interface ClassOneRowInterface {
+  id: string,
+  period: string, // "M", "W" or "4W"
+  category: string,
+  grossPay: number,
+  contractedOutStandardRate: boolean
+}
 
 const Class1Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
@@ -65,15 +74,17 @@ const Class1Page = () => {
     }
 
     if (validateClassOnePayload(payload, setErrors)) {
+      const requestRows: Array<ClassOneRowInterface> = rows
+        .map(row => new (ClassOneRow as any)(
+          row.id,
+          row.period,
+          row.category,
+          parseFloat(row.gross),
+          false
+        ))
       setResult(ClassOneCalculator.calculate(
         taxYear.from,
-        rows.map(row => ({
-          id: row.id,
-          period: row.period,
-          category: row.category,
-          grossPay: row.gross,
-          contractedOutStandardRate: false
-        })),
+        requestRows,
         parseFloat(payload.niPaidNet),
         parseFloat(payload.niPaidEmployee)
       ))
