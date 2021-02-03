@@ -124,31 +124,35 @@ class ClassOneFrontend(
       }
     }.toJSArray
 
-    val (totalEmployee, totalEmployer) = results.flatMap {
+    val (totalEmployeeBD, totalEmployerBD) = results.flatMap {
       _._2.map { case (_, (_, ee, er)) => (ee,er) }
     }.combineAll
+
+    val totalEmployee = totalEmployeeBD.toDouble
+    val totalEmployer = totalEmployerBD.toDouble
+    val grossPayD = grossPay.toDouble
 
     new js.Object {
       val rows = resultRows
 
       val totals = new js.Object {
-        val gross: Double = grossPay.toDouble
-        val employee: Double = totalEmployee.toDouble
-        val employer: Double = totalEmployer.toDouble
+        val gross: Double = grossPayD
+        val employee: Double = totalEmployee
+        val employer: Double = totalEmployer
         val net: Double = (employee + employer)
       }
 
       val employerContributions = totalContributions - employeeContributions
 
       val underpayment = new js.Object {
-        val employee: Double = (totalEmployee.toDouble - employeeContributions).max(0)
-        val employer: Double = (totalEmployer.toDouble - employerContributions).max(0)
+        val employee: Double = (totalEmployee - employeeContributions).max(0)
+        val employer: Double = (totalEmployer - employerContributions).max(0)
         val net = employee + employer
       }
 
       val overpayment = new js.Object {
-        val employee: Double = ((totalEmployee.toDouble - employeeContributions) * -1).max(0)
-        val employer: Double  = ((totalEmployer.toDouble - employerContributions) * -1).max(0)
+        val employee: Double = ((totalEmployee - employeeContributions) * -1).max(0)
+        val employer: Double  = ((totalEmployer - employerContributions) * -1).max(0)
         val net = employee + employer
       }
     }
