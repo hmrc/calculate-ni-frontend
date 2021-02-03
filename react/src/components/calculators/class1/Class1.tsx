@@ -14,17 +14,9 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 
 // utils
 import {hasKeys} from "../../../services/utils";
-import {ClassOneContext, useClassOneForm} from "./ClassOneContext";
+import {ClassOneContext, useClassOneForm, ClassOneRowInterface} from "./ClassOneContext";
 
 const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
-
-interface ClassOneRowInterface {
-  id: string,
-  period: string, // "M", "W" or "4W"
-  category: string,
-  grossPay: number,
-  contractedOutStandardRate: boolean
-}
 
 const Class1Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)

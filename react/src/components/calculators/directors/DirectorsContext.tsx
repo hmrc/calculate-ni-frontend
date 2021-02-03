@@ -1,5 +1,5 @@
 import React, {Dispatch, useContext, useEffect, useState} from "react";
-import {Calculated, DetailsProps, TaxYear, TotalsInCategories} from "../../../interfaces";
+import {DetailsProps, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {PeriodLabel, buildTaxYears} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
@@ -14,6 +14,15 @@ export interface DirectorsRow {
   ee: number
   er: number
   bands?: Band[]
+}
+
+export interface ClassOneProRataRow {
+  id: string,
+  from: Date,
+  to: Date,
+  category: string,
+  grossPay: number,
+  contractedOutStandardRate: boolean
 }
 
 const initialDetails: DetailsProps = {

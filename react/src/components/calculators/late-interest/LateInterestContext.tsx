@@ -5,7 +5,12 @@ import uniqid from 'uniqid';
 import {Class1DebtRow, DetailsProps, GovDateRange, TaxYear} from '../../../interfaces'
 import {buildTaxYears} from "../../../config";
 import {GenericErrors} from '../../../validation/validation'
-import {ClassOneCalculator, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
+import {
+  ClassOneCalculator,
+  initClassOneCalculator,
+  initInterestOnLateClassOne, InterestOnLateClassOne,
+  NiFrontendContext
+} from "../../../services/NiFrontendContext";
 
 
 const detailsState = {
@@ -33,7 +38,7 @@ export interface Rate {
 }
 
 interface LateInterestContext {
-  ClassOneCalculator: ClassOneCalculator
+  InterestOnLateClassOneCalculator: InterestOnLateClassOne
   details: DetailsProps
   setDetails: Function
   taxYears: TaxYear[]
@@ -53,7 +58,7 @@ interface LateInterestContext {
 
 export const LateInterestContext = React.createContext<LateInterestContext>(
   {
-    ClassOneCalculator: initClassOneCalculator,
+    InterestOnLateClassOneCalculator: initInterestOnLateClassOne,
     details: detailsState,
     setDetails: () => {},
     rows: [],
@@ -83,7 +88,8 @@ export function useLateInterestForm() {
   } = useContext(NiFrontendContext)
   const ClassOneCalculator = NiFrontendInterface.classOne
   const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears)
-  const interestRates = ClassOneCalculator.interestOnLateClassOne.getRates()
+  const InterestOnLateClassOneCalculator = NiFrontendInterface.interestOnLateClassOne
+  const interestRates = InterestOnLateClassOneCalculator.getRates()
   const [rates] = useState<Rate[] | null>(interestRates)
   const defaultRows = [{
     id: uniqid(),
@@ -94,7 +100,7 @@ export function useLateInterestForm() {
   }]
   const [rows, setRows] = useState<Array<Class1DebtRow>>(defaultRows)
   return {
-    ClassOneCalculator,
+    InterestOnLateClassOneCalculator,
     details,
     setDetails,
     rows,

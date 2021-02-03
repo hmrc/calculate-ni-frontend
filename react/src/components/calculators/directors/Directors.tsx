@@ -11,10 +11,12 @@ import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
 import {Calculators, GovDateRange, TaxYear} from '../../../interfaces'
-import {DirectorsContext, useDirectorsForm} from "./DirectorsContext";
+import {ClassOneProRataRow, DirectorsContext, useDirectorsForm} from "./DirectorsContext";
 
 // services
 import {extractTaxYearFromDate, hasKeys} from "../../../services/utils";
+import {ClassOneRowProRata} from "../../../calculation";
+import {ClassOneRowInterface} from "../class1/ClassOneContext";
 
 const pageTitle = 'Directors’ contributions'
 
@@ -43,15 +45,6 @@ const DirectorsPage = () => {
     setResult
   } = useContext(DirectorsContext)
 
- useEffect(() => {
-    if(dateRange && dateRange.from) {
-      const matchingTaxYear: TaxYear | null = extractTaxYearFromDate(dateRange.from, taxYears)
-      if(matchingTaxYear) {
-        setTaxYear(matchingTaxYear)
-      }
-    }
-  }, [dateRange, setTaxYear, taxYears])
-
   const handleChange = ({
     currentTarget: { name, value },
   }: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,21 +72,23 @@ const DirectorsPage = () => {
     }
 
     if(validateDirectorsPayload(payload, setErrors, taxYears)) {
-      if (earningsPeriod === PeriodLabel.ANNUAL) {
-        setResult(ClassOneCalculator.calculate(
-          taxYear.from,
-          rows.map(row => ({
-            category: row.category,
-            grossPay: row.gross,
-            contractedOutStandardRate: false
-          })),
-          parseFloat(payload.niPaidNet),
-          parseFloat(payload.niPaidEmployee)
+      const requestRows: Array<ClassOneProRataRow> = rows
+        .map(row => new (ClassOneRowProRata as any)(
+          row.id,
+          earningsPeriod === PeriodLabel.ANNUAL ? taxYear.from : dateRange.from,
+          earningsPeriod === PeriodLabel.ANNUAL ? taxYear.to : dateRange.to,
+          row.category,
+          parseFloat(row.gross),
+          false
         ))
-      } else {
-        // TODO: awaiting a proRata method from interface
-        setResult(null)
-      }
+
+      setResult(ClassOneCalculator.calculateProRata(
+        taxYear.from,
+        requestRows,
+        parseFloat(payload.niPaidNet),
+        parseFloat(payload.niPaidEmployee)
+      ))
+
       if (showSummaryIfValid) {
         setShowSummary(true)
       }
