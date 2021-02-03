@@ -14,7 +14,6 @@ class ClassOneFrontend(
   config: Configuration
 ) extends js.Object {
 
-
   def calculate(
     on: js.Date,
     rows: js.Array[ClassOneRow],
@@ -100,54 +99,56 @@ class ClassOneFrontend(
     totalContributions: Double = 0,
     employeeContributions: Double = 0
   ): js.Object = {
-    new js.Object {
-      val resultRows = results.map { case (rowId, res) =>
+
+    val resultRows = results.map { case (rowId, res) =>
+
+      val resultBands = res.map { case (key, (b, _, _)) =>
         new js.Object {
-          val bands = res.map { case (key, (b, _, _)) =>
-            new js.Object {
-              val name = key
-              val amountInBand = b
-            }
-          }.toJSArray
-
-          val employee = res.toList.map {
-            case (_, (_, ee, _)) => ee
-          }.sum.toDouble
-
-          val employer = res.toList.map {
-            case (_, (_, _, er)) => er
-          }.sum.toDouble
-
-          val totalContributions = employer + employee
-
-          val id = rowId
+          val name = key
+          val amountInBand = b.toDouble
         }
       }.toJSArray
 
-      private val totalEmployee =
-        resultRows.toList.map(_.employee).sum.toDouble
+      val (employeeResult, employerResult) = res.toList.map {
+        case (_, (_, ee, er)) => (ee,er)
+      }.combineAll
 
-      private val totalEmployer =
-        resultRows.toList.map(_.employer).sum.toDouble
+      new js.Object {
+        val bands = resultBands
+
+        val employee = employeeResult.toDouble
+        val employer = employerResult.toDouble
+        val totalContributions = employer + employee
+
+        val id = rowId
+      }
+    }.toJSArray
+
+    val (totalEmployee, totalEmployer) = results.flatMap {
+      _._2.map { case (_, (_, ee, er)) => (ee,er) }
+    }.combineAll
+
+    new js.Object {
+      val rows = resultRows
 
       val totals = new js.Object {
         val gross: Double = grossPay.toDouble
-        val employee: Double = totalEmployee
-        val employer: Double = totalEmployer
+        val employee: Double = totalEmployee.toDouble
+        val employer: Double = totalEmployer.toDouble
         val net: Double = (employee + employer)
       }
 
       val employerContributions = totalContributions - employeeContributions
 
       val underpayment = new js.Object {
-        val employee = (totalEmployee - employeeContributions).max(0)
-        val employer = (totalEmployer - employerContributions).max(0)
+        val employee: Double = (totalEmployee.toDouble - employeeContributions).max(0)
+        val employer: Double = (totalEmployer.toDouble - employerContributions).max(0)
         val net = employee + employer
       }
 
       val overpayment = new js.Object {
-        val employee = ((totalEmployee - employeeContributions) * -1).max(0)
-        val employer = ((totalEmployer - employerContributions) * -1).max(0)
+        val employee: Double = ((totalEmployee.toDouble - employeeContributions) * -1).max(0)
+        val employer: Double  = ((totalEmployer.toDouble - employerContributions) * -1).max(0)
         val net = employee + employer
       }
     }
