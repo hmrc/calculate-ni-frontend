@@ -110,24 +110,31 @@ class ClassOneFrontend(
             }
           }.toJSArray
 
-          val (employee, employer, totalContributions) = {
-            val (employeeBD, employerBD) = res.toList.map {
-              case (_, (_, ee, er)) => (ee, er)
-            }.combineAll
-            (employeeBD.toDouble, employerBD.toDouble, (employeeBD + employerBD).toDouble)
-          }
+          val employee = res.toList.map {
+            case (_, (_, ee, _)) => ee
+          }.sum.toDouble
+
+          val employer = res.toList.map {
+            case (_, (_, _, er)) => er
+          }.sum.toDouble
+
+          val totalContributions = employer + employee
+
           val id = rowId
         }
       }.toJSArray
 
-      private val (totalEmployee, totalEmployer) =
-        resultRows.toList.map{ r => (r.employee, r.employer) }.combineAll
+      private val totalEmployee =
+        resultRows.toList.map(_.employee).sum.toDouble
+
+      private val totalEmployer =
+        resultRows.toList.map(_.employer).sum.toDouble
 
       val totals = new js.Object {
         val gross: Double = grossPay.toDouble
-        val net: Double = (totalEmployee + totalEmployer)
         val employee: Double = totalEmployee
         val employer: Double = totalEmployer
+        val net: Double = (employee + employer)
       }
 
       val employerContributions = totalContributions - employeeContributions
@@ -155,7 +162,7 @@ case class ClassOneRow(
   category: String,
   grossPay: Double,
   contractedOutStandardRate: Boolean = false
-) 
+)
 
 @JSExportTopLevel("ClassOneRowProRata")
 case class ClassOneRowProRata(
