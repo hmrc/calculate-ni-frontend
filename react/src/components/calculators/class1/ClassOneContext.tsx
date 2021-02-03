@@ -40,6 +40,14 @@ export interface Row {
   bands?: Array<Band>
 }
 
+export interface ClassOneRowInterface {
+  id: string,
+  period: string, // "M", "W" or "4W"
+  category: string,
+  grossPay: number,
+  contractedOutStandardRate: boolean
+}
+
 interface Calculator {
   calculate: Function
   calculateProRata: Function
