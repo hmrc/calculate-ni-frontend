@@ -2,7 +2,7 @@
 
 import {PeriodLabel, PeriodValue} from "../config";
 import {GenericErrors} from "../validation/validation";
-import React, {Dispatch, SetStateAction} from "react";
+import React, {Context, Dispatch, SetStateAction} from "react";
 import {Class2Or3Result} from "../components/calculators/class-2-or-3/Class2Or3Context";
 import {Class1Result, Row} from "../components/calculators/class1/ClassOneContext";
 import {DirectorsRow} from "../components/calculators/directors/DirectorsContext";
@@ -105,12 +105,7 @@ export interface TotalsProps {
   errors?: GenericErrors | null
   result: Class1Result | null
   isSaveAndPrint: boolean
-  type: Calculators.CLASS_ONE | Calculators.DIRECTORS
-}
-
-export enum OverOrUnder {
-  OVER = 'over',
-  UNDER = 'under'
+  context: Context<any>
 }
 
 // Errors

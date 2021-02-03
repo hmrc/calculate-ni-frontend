@@ -58,13 +58,10 @@ function Class1Form(props: Class1FormProps) {
     e.preventDefault()
     if(activeRowId) {
       setPeriodNumbers(activeRowId)
-      // errors are now stale
       setErrors({})
       setActiveRowId(null)
     }
   }
-
-
 
   return (
     <div className="form-group table-wrapper">

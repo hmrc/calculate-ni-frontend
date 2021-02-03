@@ -3,39 +3,18 @@ import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
 // types
-import {Calculators, TotalsProps} from '../../../interfaces'
-
-// services
-import {useClassOneTotals} from "../../../services/classOneTotals";
-import {ClassOneContext} from "../class1/ClassOneContext";
-import {DirectorsContext} from "../directors/DirectorsContext";
+import {TotalsProps} from '../../../interfaces'
 
 numeral.locale('en-gb');
 
 function Totals (props: TotalsProps) {
-  const { isSaveAndPrint, type, result } = props;
-  const context: Context<any> =
-    type === Calculators.CLASS_ONE ? ClassOneContext : DirectorsContext
-  const {
-    niPaidEmployer,
-    netContributionsTotal,
-    employeeContributionsTotal,
-    employerContributionsTotal,
-    underpaymentNet,
-    overpaymentNet,
-    underpaymentEmployee,
-    overpaymentEmployee,
-    underpaymentEmployer,
-    overpaymentEmployer
-  } = useClassOneTotals(context)
-
+  const { isSaveAndPrint, result, context } = props;
   const {
     errors,
     niPaidNet,
     setNiPaidNet,
     niPaidEmployee,
-    setNiPaidEmployee,
-    grossTotal,
+    setNiPaidEmployee
   } = useContext(context)
 
   const readOnlyClass: string = isSaveAndPrint ? '' : 'readonly'
@@ -63,15 +42,15 @@ function Totals (props: TotalsProps) {
               <td className={`${isSaveAndPrint || !props.grossPayTally ? 'right' : 'readonly'}`}>
                 <span>
                   {props.grossPayTally ?
-                    numeral(grossTotal).format('$0,0.00')
+                    numeral(result?.totals.gross).format('$0,0.00')
                     :
                     "Total NI due"
                   }
                 </span>
               </td>
-              <td className={readOnlyClass}><span>{numeral(netContributionsTotal).format('$0,0.00')}</span></td>
-              <td className={readOnlyClass}><span>{numeral(employeeContributionsTotal).format('$0,0.00')}</span></td>
-              <td className={readOnlyClass}><span>{numeral(employerContributionsTotal).format('$0,0.00')}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.totals.net).format('$0,0.00')}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.totals.employee).format('$0,0.00')}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.totals.employer).format('$0,0.00')}</span></td>
             </tr>
             <tr>
               <th className="right error-line-label"><span>NI paid</span></th>
@@ -119,19 +98,19 @@ function Totals (props: TotalsProps) {
                   </div>
                 </td>
               }
-              <td className={readOnlyClass}><span>{numeral(niPaidEmployer).format('$0,0.00')}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.employerContributions).format('$0,0.00')}</span></td>
             </tr>
             <tr>
               <th className="right">Underpayment</th>
-              <td className={readOnlyClass}><span>{numeral(underpaymentNet).format('$0,0.00')}</span></td>
-              <td className={readOnlyClass}><span>{numeral(underpaymentEmployee).format('$0,0.00')}</span></td>
-              <td className={readOnlyClass}><span>{numeral(underpaymentEmployer).format('$0,0.00')}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.underpayment.net).format('$0,0.00')}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.underpayment.employee).format('$0,0.00')}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.underpayment.employer).format('$0,0.00')}</span></td>
             </tr>
             <tr>
               <th className="right">Overpayment</th>
-              <td className={readOnlyClass}><span>{numeral(overpaymentNet).format('$0,0.00')}</span></td>
-              <td className={readOnlyClass}><span>{numeral(overpaymentEmployee).format('$0,0.00')}</span></td>
-              <td className={readOnlyClass}><span>{numeral(overpaymentEmployer).format('$0,0.00')}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.overpayment.net).format('$0,0.00')}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.overpayment.employee).format('$0,0.00')}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.overpayment.employer).format('$0,0.00')}</span></td>
             </tr>
             </tbody>
           </table>

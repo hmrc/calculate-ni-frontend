@@ -2,7 +2,6 @@ import moment from 'moment'
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 import {
-  OverOrUnder,
   TotalsInCategories,
   TotalType,
   TaxYear
@@ -20,14 +19,6 @@ export const hasKeys = (obj: object) => Object.keys(obj).length > 0
 export const isEmptyString = (str: string) => str.length === 0 || !str.trim()
 
 export const hasNonEmptyStrings = (stringsList: string[]) => stringsList.some(str => !isEmptyString(str))
-
-export const overUnderPaymentDisplay = (value: number, type: OverOrUnder) => {
-  if (type === OverOrUnder.UNDER) {
-    return (value > 0) ? value : 0
-  } else {
-    return (value < 0) ? Math.abs(value) : 0
-  }
-}
 
 const onlyUnique = (value: any, index: number, self: any[]) => self.indexOf(value) === index;
 

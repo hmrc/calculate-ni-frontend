@@ -150,7 +150,7 @@ const DirectorsPage = () => {
         grossPayTally={showSummary}
         result={result}
         isSaveAndPrint={showSummary}
-        type={Calculators.DIRECTORS}
+        context={DirectorsContext}
       />
       {showSummary && (
         <div className="govuk-!-padding-bottom-9">

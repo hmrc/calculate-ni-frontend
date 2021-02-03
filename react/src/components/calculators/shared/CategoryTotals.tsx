@@ -8,26 +8,17 @@ import {uniqueCategories} from "../../../services/utils";
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
-import {useClassOneTotals} from "../../../services/classOneTotals";
-import {ClassOneContext, Row} from "../class1/ClassOneContext";
-import {DirectorsContext, DirectorsRow} from "../directors/DirectorsContext";
+import {Class1Result, Row} from "../class1/ClassOneContext";
+import {DirectorsRow} from "../directors/DirectorsContext";
 
 numeral.locale('en-gb');
 
 function CategoryTotals(props: {
   rows: Array<Row | DirectorsRow>,
   categoryTotals: TotalsInCategories
-  grossTotal: number | null
-  type: Calculators
+  result: Class1Result | null
 }) {
-  const { rows, categoryTotals, grossTotal, type } = props
-  const context: Context<any> =
-    type === Calculators.CLASS_ONE ? ClassOneContext : DirectorsContext
-  const {
-    netContributionsTotal,
-    employeeContributionsTotal,
-    employerContributionsTotal,
-  } = useClassOneTotals(context)
+  const { rows, categoryTotals, result } = props
   const categoriesList = uniqueCategories(rows)
   const formatCurrencyAmount = (currencyAmount: string | number | Number | undefined | null) =>
     currencyAmount && numeral(currencyAmount.toString()).format('$0,0.00')
@@ -39,7 +30,7 @@ function CategoryTotals(props: {
             {rows[0].bands &&
               <th
                 className="border"
-                colSpan={Object.keys(rows[0].bands).length + 2}
+                colSpan={rows[0].bands.length + 2}
               >
                 &nbsp;
               </th>
@@ -94,7 +85,7 @@ function CategoryTotals(props: {
 
             <th><strong>Totals</strong></th>
             <td>
-              {formatCurrencyAmount(grossTotal)}
+              {formatCurrencyAmount(result?.totals.gross)}
             </td>
             {/* Bands (by tax year), so we can just take the first band to map the rows */}
             {rows[0].bands && rows[0].bands.map(k =>
@@ -104,17 +95,17 @@ function CategoryTotals(props: {
             )}
 
             <td>
-              {formatCurrencyAmount(netContributionsTotal)}
+              {formatCurrencyAmount(result?.totals.net)}
             </td>
 
             {/* EE total contributions */}
             <td>
-              {formatCurrencyAmount(employeeContributionsTotal)}
+              {formatCurrencyAmount(result?.totals.employee)}
             </td>
             
             {/* ER total contributions */}
             <td>
-              {formatCurrencyAmount(employerContributionsTotal)}
+              {formatCurrencyAmount(result?.totals.employer)}
             </td>
           </tr>
         </tbody>

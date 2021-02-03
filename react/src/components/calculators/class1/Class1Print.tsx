@@ -42,8 +42,7 @@ function Class1Print(props: Class1DirectorsSavePrintProps) {
         <CategoryTotals
           rows={rows}
           categoryTotals={categoryTotals}
-          grossTotal={result ? result.totals?.gross : null}
-          type={Calculators.CLASS_ONE}
+          result={result}
         />
 
       </div>

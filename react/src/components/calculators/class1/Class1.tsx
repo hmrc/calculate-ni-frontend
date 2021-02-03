@@ -133,7 +133,7 @@ const Class1Page = () => {
         grossPayTally={showSummary}
         result={result}
         isSaveAndPrint={showSummary}
-        type={Calculators.CLASS_ONE}
+        context={ClassOneContext}
       />
       {showSummary && (
         <div className="govuk-!-padding-bottom-9">
