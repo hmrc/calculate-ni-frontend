@@ -68,7 +68,7 @@ export interface Band {
   amountInBand: number
 }
 
-interface CalculatedRow {
+export interface CalculatedRow {
   id: string
   bands: Array<Band>
   employee: number
@@ -83,7 +83,7 @@ interface TotalRow {
 }
 
 export interface Class1Result {
-  resultRows: CalculatedRow[]
+  rows: CalculatedRow[]
   totals: CalculatedTotals
   overpayment: TotalRow
   underpayment: TotalRow
@@ -181,17 +181,19 @@ export function useClassOneForm() {
   }, [taxYear.from])
 
   useEffect(() => {
-    if(result && result.resultRows) {
+    if(result && result.rows) {
       setRows((prevState: Row[]) => prevState.map(row => {
         const matchingRow: CalculatedRow | undefined =
-          result.resultRows
+          result.rows
             .find(resultRow =>
               resultRow.id === row.id
             )
         if(matchingRow) {
           return {
             ...row,
-            ...matchingRow
+            ee: matchingRow.employee,
+            er: matchingRow.employer,
+            totalContributions: matchingRow.totalContributions
           }
         }
         return row

@@ -5,7 +5,7 @@ import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
 import {ClassOneCalculator, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
 import uniqid from 'uniqid'
-import {Band, Class1Result} from "../class1/ClassOneContext";
+import {Band, CalculatedRow, Class1Result} from "../class1/ClassOneContext";
 
 export interface DirectorsRow {
   id: string
@@ -136,9 +136,29 @@ export function useDirectorsForm() {
     }
   }, [taxYear.from])
   const [rows, setRows] = useState<Array<DirectorsRow>>([defaultRow])
+
   useEffect(() => {
-    setCategoryTotals(getTotalsInCategories(rows as DirectorsRow[]))
-  }, [rows])
+    if(result && result.rows) {
+      setRows((prevState: DirectorsRow[]) => prevState.map(row => {
+        const matchingRow: CalculatedRow | undefined =
+          result.rows
+            .find(resultRow =>
+              resultRow.id === row.id
+            )
+        if(matchingRow) {
+          return {
+            ...row,
+            ee: matchingRow.employee,
+            er: matchingRow.employer,
+            totalContributions: matchingRow.totalContributions
+          }
+        }
+        return row
+      }))
+      setCategoryTotals(getTotalsInCategories(rows as DirectorsRow[]))
+    }
+
+  }, [result])
 
   return {
     ClassOneCalculator,
