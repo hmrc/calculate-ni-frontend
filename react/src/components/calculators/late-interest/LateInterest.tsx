@@ -19,7 +19,7 @@ const pageTitle = 'Interest on late or unpaid Class 1 NI contributions'
 function LateInterestPage() {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const {
-    ClassOneCalculator,
+    InterestOnLateClassOneCalculator,
     details,
     rows,
     setRows,
@@ -60,7 +60,7 @@ function LateInterestPage() {
       })
       const remission = dateRange.from ? dateRange.from : null
 
-      const resultFromCalculator = ClassOneCalculator.interestOnLateClassOne.calculate(transformedRows, remission)
+      const resultFromCalculator = InterestOnLateClassOneCalculator.calculate(transformedRows, remission)
 
       const newRows = rows.map((row: Class1DebtRow, i: number) => {
         return {

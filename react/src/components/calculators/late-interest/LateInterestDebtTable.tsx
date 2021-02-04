@@ -7,7 +7,7 @@ import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 
 // types
 import {LateInterestContext} from './LateInterestContext'
-import {Class1DebtRow, Class3Row} from '../../../interfaces'
+import {Class1DebtRow} from '../../../interfaces'
 
 interface LateInterestDebtProps {
   printView: boolean
@@ -26,7 +26,6 @@ function LateInterestDebtTable(props: LateInterestDebtProps) {
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    const lastRow = rows[rows.length - 1]
     setRows([...rows, {
       id: uniqid(),
       taxYears: taxYears,

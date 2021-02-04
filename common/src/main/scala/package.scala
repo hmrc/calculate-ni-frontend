@@ -147,5 +147,4 @@ package object eoi {
       )
     }
   }
-
 }

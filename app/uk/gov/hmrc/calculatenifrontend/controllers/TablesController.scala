@@ -81,15 +81,15 @@ class TablesController @Inject()(
         val noOfWeeks = selectedInterval.numberOfWeeks().get
         val response = List (
           "Term Date" -> LocalDate.of(lowerBound.getYear, 4, 9), // unknown... but always the 9th of april
-          "Weekly Rate" -> data.weeklyRate.formatSterling,
-          "Rate Total" -> (data.weeklyRate * noOfWeeks).formatSterling
-        ) ++ (data.vdwRate match {
+          "Weekly Rate" -> data.weeklyRate.default.formatSterling,
+          "Rate Total" -> (data.weeklyRate.default * noOfWeeks).formatSterling
+        ) ++ (data.weeklyRate.voluntary match {
           case None => Nil
           case Some(vdw) => List (
             "Voluntary Development Workers (VDW) Weekly Rate" -> vdw,
             "Voluntary Development Workers (VDW) Total" -> vdw * noOfWeeks
           )
-        }) ++ (data.shareFishingRate match {
+        }) ++ (data.weeklyRate.fishermen match {
           case None => Nil
           case Some(vdw) => List (
             "Share Fishing Weekly Rate" -> vdw,

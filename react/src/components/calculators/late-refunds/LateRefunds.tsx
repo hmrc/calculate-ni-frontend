@@ -19,7 +19,7 @@ const pageTitle = 'Interest on late-paid refunds from 1993 to 1994'
 function LateRefundsPage() {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const {
-    ClassOneCalculator,
+    InterestOnLateRefundsCalculator,
     bankHolidaysNo,
     rows,
     setRows,
@@ -59,7 +59,7 @@ function LateRefundsPage() {
         }
       })
 
-      const resultFromCalculator = ClassOneCalculator.interestOnRefundsClassOne.calculate(transformedRows)
+      const resultFromCalculator = InterestOnLateRefundsCalculator.calculate(transformedRows)
 
       const newRows = rows.map((row: LateRefundsTableRowProps, i: number) => ({
         ...row,

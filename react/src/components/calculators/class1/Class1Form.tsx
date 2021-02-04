@@ -48,8 +48,8 @@ function Class1Form(props: Class1FormProps) {
       period: lastRow.period,
       gross: lastRow.gross,
       number: periodNumber,
-      ee: '0',
-      er: '0'
+      ee: 0,
+      er: 0
     }])
     setActiveRowId(id)
   }
@@ -58,13 +58,10 @@ function Class1Form(props: Class1FormProps) {
     e.preventDefault()
     if(activeRowId) {
       setPeriodNumbers(activeRowId)
-      // errors are now stale
       setErrors({})
       setActiveRowId(null)
     }
   }
-
-
 
   return (
     <div className="form-group table-wrapper">

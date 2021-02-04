@@ -1,16 +1,17 @@
 import React, {Dispatch, useContext, useEffect, useState} from "react";
-import {Calculated, DetailsProps, Row, TaxYear, TotalsInCategories} from "../../../interfaces";
+import {DetailsProps, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {buildTaxYears, periods, PeriodValue} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
 import {initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
+import uniqid from "uniqid";
 
 const initRow = {
-  id: 'default',
+  id: uniqid(),
   category: '',
   gross: '',
-  ee: '0',
-  er: '0',
+  ee: 0,
+  er: 0,
   number: 1,
   period: PeriodValue.WEEKLY
 }
@@ -28,13 +29,65 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
   ...action,
 })
 
+export interface Row {
+  id: string
+  category: string
+  number: number
+  period: PeriodValue
+  gross: string
+  ee: number
+  er: number
+  bands?: Array<Band>
+}
+
+export interface ClassOneRowInterface {
+  id: string,
+  period: string, // "M", "W" or "4W"
+  category: string,
+  grossPay: number,
+  contractedOutStandardRate: boolean
+}
+
 interface Calculator {
   calculate: Function
-  calculateJson: Function
   calculateProRata: Function
   calculateProRataJson: Function
   getApplicableCategories: Function
   getTaxYears: Array<string>
+}
+
+interface CalculatedTotals {
+  gross: number
+  net: number
+  employee: number
+  employer: number
+}
+
+export interface Band {
+  name: string
+  amountInBand: number
+}
+
+export interface CalculatedRow {
+  id: string
+  bands: Array<Band>
+  employee: number
+  employer: number
+  totalContributions: number
+}
+
+interface TotalRow {
+  employee: number
+  employer: number
+  net: number
+}
+
+export interface Class1Result {
+  rows: CalculatedRow[]
+  totals: CalculatedTotals
+  overpayment: TotalRow
+  underpayment: TotalRow
+  employerContributions: number
 }
 
 interface ClassOneContext {
@@ -47,8 +100,6 @@ interface ClassOneContext {
   setRows: Dispatch<Array<Row>>
   details: DetailsProps
   setDetails: Function,
-  grossTotal: Number | null
-  setGrossTotal: Dispatch<Number | null>
   niPaidNet: string
   setNiPaidNet: Dispatch<string>
   niPaidEmployee: string
@@ -57,18 +108,18 @@ interface ClassOneContext {
   setErrors: Dispatch<GenericErrors>
   categoryTotals: TotalsInCategories
   setCategoryTotals: Dispatch<TotalsInCategories>
-  calculatedRows: Array<Calculated>
-  setCalculatedRows: Dispatch<Array<Calculated>>
   categories: Array<string>
   setCategories: Dispatch<Array<string>>
   activeRowId: string | null
   setActiveRowId: Dispatch<string | null>
   setPeriodNumbers: Function
+  result: Class1Result | null
+  setResult: Dispatch<Class1Result | null>
 }
 
 export const ClassOneContext = React.createContext<ClassOneContext>(
   {
-    ClassOneCalculator:initClassOneCalculator,
+    ClassOneCalculator: initClassOneCalculator,
     taxYears: [],
     taxYear: {
       id: '1',
@@ -81,8 +132,6 @@ export const ClassOneContext = React.createContext<ClassOneContext>(
     setRows: () => {},
     details: initialDetails,
     setDetails: () => {},
-    grossTotal: null,
-    setGrossTotal: () => {},
     niPaidNet: '',
     setNiPaidNet: () => {},
     niPaidEmployee: '',
@@ -91,13 +140,13 @@ export const ClassOneContext = React.createContext<ClassOneContext>(
     setErrors: () => {},
     categoryTotals: {},
     setCategoryTotals: () => {},
-    calculatedRows: [],
-    setCalculatedRows: () => {},
     categories: [],
     setCategories: () => {},
     activeRowId: null,
     setActiveRowId: () => {},
-    setPeriodNumbers: () => {}
+    setPeriodNumbers: () => {},
+    result: null,
+    setResult: () => {}
   }
 )
 
@@ -112,12 +161,11 @@ export function useClassOneForm() {
   const [rows, setRows] = useState<Array<Row>>([defaultRow])
   const [categories, setCategories] = useState<Array<string>>([])
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
-  const [grossTotal, setGrossTotal] = useState<Number | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [niPaidNet, setNiPaidNet] = useState<string>('')
   const [niPaidEmployee, setNiPaidEmployee] = useState<string>('')
   const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({})
-  const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
+  const [result, setResult] = useState<Class1Result | null>(null)
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   useEffect(() => {
     if(taxYear.from) {
@@ -133,14 +181,34 @@ export function useClassOneForm() {
   }, [taxYear.from])
 
   useEffect(() => {
+    if(result && result.rows) {
+      setRows((prevState: Row[]) => prevState.map(row => {
+        const matchingRow: CalculatedRow | undefined =
+          result.rows
+            .find(resultRow =>
+              resultRow.id === row.id
+            )
+        if(matchingRow) {
+          return {
+            ...row,
+            ee: matchingRow.employee,
+            er: matchingRow.employer,
+            totalContributions: matchingRow.totalContributions,
+            bands: matchingRow.bands
+          }
+        }
+        return row
+      }))
+    }
+
+  }, [result])
+
+  useEffect(() => {
     setRows([defaultRow])
   }, [defaultRow])
 
   useEffect(() => {
     setCategoryTotals(getTotalsInCategories(rows as Row[]))
-    setGrossTotal(rows.reduce((grossTotal, row) => {
-      return grossTotal + parseFloat(row.gross)
-    }, 0))
   }, [rows])
 
   const setPeriodNumbers = (deletedRow: string | undefined) => {
@@ -151,7 +219,8 @@ export function useClassOneForm() {
         :
         [...rows]
       newRows.forEach(row => {
-        if(periods[period] === row.period) {
+        if(periods.hasOwnProperty(period) &&
+          periods[period] === row.period) {
             periodAccumulator += 1
             row.number = periodAccumulator
           }
@@ -169,8 +238,6 @@ export function useClassOneForm() {
     setRows,
     details,
     setDetails,
-    grossTotal,
-    setGrossTotal,
     errors,
     setErrors,
     niPaidNet,
@@ -179,12 +246,12 @@ export function useClassOneForm() {
     setNiPaidEmployee,
     categoryTotals,
     setCategoryTotals,
-    calculatedRows,
-    setCalculatedRows,
     categories,
     setCategories,
     activeRowId,
     setActiveRowId,
-    setPeriodNumbers
+    setPeriodNumbers,
+    result,
+    setResult
   }
 }

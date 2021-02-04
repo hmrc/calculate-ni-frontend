@@ -110,7 +110,6 @@ export function useClass2Or3Form() {
   const [month, setMonth] = useState('')
   const [year, setYear] = useState('')
   const {
-    config,
     NiFrontendInterface
   } = useContext(NiFrontendContext)
   const ClassTwoCalculator = NiFrontendInterface.classTwo
