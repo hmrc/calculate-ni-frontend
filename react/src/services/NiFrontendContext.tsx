@@ -7,11 +7,17 @@ export interface InterestOnLateClassOne {
   getRates: Function
 }
 
+interface InterestOnRefundsClassOne {
+  calculate: Function
+  getRates: Function
+}
+
 export interface ClassOneCalculator {
   calculate: Function
   calculateProRata: Function
   calculateProRataJson: Function
   getApplicableCategories: Function
+  interestOnLateClassOne: InterestOnLateClassOne
   getTaxYears: Array<string>
 }
 

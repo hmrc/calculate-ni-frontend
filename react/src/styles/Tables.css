@@ -214,6 +214,10 @@ table.contribution-details td:has(input:focus) {
   text-align: left;
 }
 
+.table-wrapper thead tr.clear.bottom-nobor th {
+  border-bottom: 1px solid transparent;
+}
+
 .table-wrapper thead tr.clear th span {
   display: block;
   padding-left: 10px;

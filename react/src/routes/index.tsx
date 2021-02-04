@@ -28,7 +28,7 @@ const routes = [
     name: 'Interest on late or unpaid Class 1 NI contributions'
   },
   {
-    pathname: '/interest-refunds',
+    pathname: '/late-refunds',
     name: 'Interest on late-paid refunds from 1993 to 1994'
   }
 ]
