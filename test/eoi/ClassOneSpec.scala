@@ -79,15 +79,17 @@ class ClassOneSpec extends FunSpec with Matchers {
           writer.write(System.lineSeparator())
         }
 
-        lines.map { case (line, indexMinus) =>
+        val (pass, fail) = lines.foldLeft((0,0)){ case ((passAcc,failAcc),(line, indexMinus)) =>
 
           line.map(_.trim) match { 
             case (Int(year)::periodS::Int(periodNumber)::categoryS::Money(grossPay)::Money(expectedEmployee)::Money(expectedEmployer)::xs) =>
 
+              val statusString = s"${file.getName}:${indexMinus + 1}"
+
               val comments = xs.mkString(",")
               val cosr = comments.contains("COSR")
               val category = categoryS(0)
-              val (explanation,result) = config.calculateClassOneRow(
+              val (explanation,(employee,employer)) = config.calculateClassOneRowP(
                 LocalDate.of(year, 10, 1),
                 grossPay,
                 category,
@@ -96,14 +98,10 @@ class ClassOneSpec extends FunSpec with Matchers {
                 cosr
               ).run
 
-              val (employee, employer) = result.foldLeft((Zero, Zero)){
-                case ((ee_acc, er_acc), (_, (_, ee, er))) => (ee_acc + ee, er_acc + er)
-              }
-
               if (employee != expectedEmployee || employer != expectedEmployer) {
 
                 val director = comments.contains("director")
-                val statusString = s"${file.getName}:${indexMinus + 1}"
+
 
                 writeln(statusString)
                 writeln(statusString.map{_ => '='})
@@ -122,8 +120,11 @@ class ClassOneSpec extends FunSpec with Matchers {
                 }
 
                 writeln()
-                writeln(explanation.map("  " + _).mkString("\n"))
+                writeln(explanation.map("  " + _.tail).mkString("\n"))
                 writeln()
+                (passAcc, failAcc+1)
+              } else {
+                (passAcc+1, failAcc)
               }
 
               // val director = comments.contains("director")
@@ -134,9 +135,14 @@ class ClassOneSpec extends FunSpec with Matchers {
               // it(s"${file.getName}:${indexMinus + 1} employer's NI [$statusString]") {
               //   employer should be (BigDecimal(expectedEmployerS) /* +- 0.02 */)
               // }
-            case _ =>
+            case _ => (passAcc, failAcc)
           }
         }
+
+        val total = pass + fail
+        writeln(f"pass: $pass (${pass * 100/ total}%%)")
+        writeln(f"fail: $fail (${fail * 100 / total}%%)")        
+
         reader.close()
         writer.close()
       }
