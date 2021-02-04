@@ -2,9 +2,6 @@ import React, {useContext, useState} from 'react'
 import {validateClassOnePayload} from '../../../validation/validation'
 import {ClassOneRow} from '../../../calculation'
 
-// types
-import {Calculators} from '../../../interfaces'
-
 // components
 import Details from '../shared/Details'
 import Class1Form from './Class1Form'

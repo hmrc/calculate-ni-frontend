@@ -5,8 +5,6 @@ import {DetailsProps, LateRefundsTableRowProps, Rate, TaxYear} from '../../../in
 import uniqid from 'uniqid'
 import {buildTaxYears} from '../../../config'
 import {
-  ClassOneCalculator,
-  initClassOneCalculator,
   initInterestOnRefundsClassOne, InterestOnRefundsClassOne,
   NiFrontendContext
 } from '../../../services/NiFrontendContext'

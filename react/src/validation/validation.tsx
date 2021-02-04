@@ -1,7 +1,7 @@
 import {Class1DebtRow, Class3Row, GovDateRange, LateRefundsTableRowProps, TaxYear} from '../interfaces'
 import {PeriodLabel} from "../config";
 import {Dispatch} from "react";
-import {extractTaxYearFromDate, govDateFormat, hasKeys, isEmpty, isEmptyString} from "../services/utils";
+import {extractTaxYearFromDate, govDateFormat, hasKeys, isEmpty} from "../services/utils";
 import moment from "moment";
 import {UnofficialDefermentRow} from "../components/calculators/unofficial-deferment/UnofficialDefermentContext";
 import {DirectorsRow} from "../components/calculators/directors/DirectorsContext";

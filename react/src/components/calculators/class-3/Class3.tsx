@@ -6,7 +6,6 @@ import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import {Class3Context, class3DefaultRows, useClass3Form} from "./Class3Context";
 import Class3Form from "./Class3Form";
 import {validateClass3Payload} from "../../../validation/validation";
-import {Class3Row} from "../../../interfaces";
 
 const pageTitle = 'Weekly contribution conversion'
 

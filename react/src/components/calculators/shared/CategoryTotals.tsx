@@ -1,7 +1,7 @@
-import React, {Context} from 'react'
+import React from 'react'
 
 // components
-import {Calculators, TotalsInCategories} from '../../../interfaces'
+import {TotalsInCategories} from '../../../interfaces'
 
 // services
 import {uniqueCategories} from "../../../services/utils";

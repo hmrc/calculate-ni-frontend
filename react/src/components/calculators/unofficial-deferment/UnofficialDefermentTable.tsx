@@ -5,7 +5,6 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
-import {NiFrontendContext} from "../../../services/NiFrontendContext";
 import {UnofficialDefermentContext, UnofficialDefermentRow} from "./UnofficialDefermentContext";
 
 numeral.locale('en-gb');
@@ -16,13 +15,10 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
     rows,
     setRows,
     categories,
-    errors,
     activeRowId,
     setActiveRowId,
     earningsFields
   } = useContext(UnofficialDefermentContext)
-
-  const { config } = useContext(NiFrontendContext)
 
   const handleSelectChange = (r: UnofficialDefermentRow, e: React.ChangeEvent<HTMLSelectElement>) => {
     setRows(rows.map((cur: UnofficialDefermentRow) =>

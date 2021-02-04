@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useContext, useState} from 'react'
 import {validateDirectorsPayload} from '../../../validation/validation'
 import {PeriodLabel} from '../../../config'
 
@@ -10,13 +10,12 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
-import {Calculators, GovDateRange, TaxYear} from '../../../interfaces'
+import {GovDateRange} from '../../../interfaces'
 import {ClassOneProRataRow, DirectorsContext, DirectorsRow, useDirectorsForm} from "./DirectorsContext";
 
 // services
-import {extractTaxYearFromDate, hasKeys} from "../../../services/utils";
+import {hasKeys} from "../../../services/utils";
 import {ClassOneRowProRata} from "../../../calculation";
-import {ClassOneRowInterface} from "../class1/ClassOneContext";
 
 const pageTitle = 'Directors’ contributions'
 
@@ -27,7 +26,6 @@ const DirectorsPage = () => {
     ClassOneCalculator,
     taxYears,
     taxYear,
-    setTaxYear,
     defaultRow,
     rows,
     setRows,
