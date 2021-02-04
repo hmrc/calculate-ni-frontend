@@ -193,7 +193,8 @@ export function useClassOneForm() {
             ...row,
             ee: matchingRow.employee,
             er: matchingRow.employer,
-            totalContributions: matchingRow.totalContributions
+            totalContributions: matchingRow.totalContributions,
+            bands: matchingRow.bands
           }
         }
         return row
