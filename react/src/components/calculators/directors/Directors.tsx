@@ -11,7 +11,7 @@ import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
 import {Calculators, GovDateRange, TaxYear} from '../../../interfaces'
-import {ClassOneProRataRow, DirectorsContext, useDirectorsForm} from "./DirectorsContext";
+import {ClassOneProRataRow, DirectorsContext, DirectorsRow, useDirectorsForm} from "./DirectorsContext";
 
 // services
 import {extractTaxYearFromDate, hasKeys} from "../../../services/utils";
@@ -73,7 +73,7 @@ const DirectorsPage = () => {
 
     if(validateDirectorsPayload(payload, setErrors, taxYears)) {
       const requestRows: Array<ClassOneProRataRow> = rows
-        .map(row => new (ClassOneRowProRata as any)(
+        .map((row: DirectorsRow) => new (ClassOneRowProRata as any)(
           row.id,
           earningsPeriod === PeriodLabel.ANNUAL ? taxYear.from : dateRange.from,
           earningsPeriod === PeriodLabel.ANNUAL ? taxYear.to : dateRange.to,

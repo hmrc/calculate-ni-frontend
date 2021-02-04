@@ -4,7 +4,12 @@ import React, {Dispatch, useContext, useState} from 'react'
 import {DetailsProps, LateRefundsTableRowProps, Rate, TaxYear} from '../../../interfaces'
 import uniqid from 'uniqid'
 import {buildTaxYears} from '../../../config'
-import {ClassOneCalculator, initClassOneCalculator, NiFrontendContext} from '../../../services/NiFrontendContext'
+import {
+  ClassOneCalculator,
+  initClassOneCalculator,
+  initInterestOnRefundsClassOne, InterestOnRefundsClassOne,
+  NiFrontendContext
+} from '../../../services/NiFrontendContext'
 import {GenericErrors} from '../../../validation/validation'
 
 const detailsState = {
@@ -27,7 +32,7 @@ const stateReducer = (state: DetailsProps, action: { [x: string]: string }) => (
 })
 
 interface LateRefundsContext {
-  ClassOneCalculator: ClassOneCalculator
+  InterestOnLateRefundsCalculator: InterestOnRefundsClassOne
   details: DetailsProps
   setDetails: Function
   taxYears: TaxYear[]
@@ -47,7 +52,7 @@ interface LateRefundsContext {
 
 export const LateRefundsContext = React.createContext<LateRefundsContext>(
   {
-    ClassOneCalculator: initClassOneCalculator,
+    InterestOnLateRefundsCalculator: initInterestOnRefundsClassOne,
     details: detailsState,
     setDetails: () => {},
     taxYears: [],
@@ -78,6 +83,7 @@ export function useLateRefundsForm() {
   } = useContext(NiFrontendContext)
   const ClassOneCalculator = NiFrontendInterface.classOne
   const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears)
+  const InterestOnLateRefundsCalculator = NiFrontendInterface.interestOnRefundsClassOne
   const defaultRows = [{
     id: uniqid(),
     taxYears: taxYears,
@@ -86,11 +92,11 @@ export function useLateRefundsForm() {
     payable: ''
   }]
   const [rows, setRows] = useState<Array<LateRefundsTableRowProps>>(defaultRows)
-  const interestRates = ClassOneCalculator.interestOnRefundsClassOne.getRates()
+  const interestRates = InterestOnLateRefundsCalculator.getRates()
   const [rates] = useState<Rate[] | null>(interestRates)
 
   return {
-    ClassOneCalculator,
+    InterestOnLateRefundsCalculator,
     details,
     setDetails,
     bankHolidaysNo,

@@ -1,3 +1,6 @@
+package eoi
+package frontend
+
 import scala.scalajs.js.annotation._
 import scala.scalajs.js.Date
 import scala.scalajs.js, js.JSConverters._

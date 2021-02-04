@@ -7,7 +7,7 @@ export interface InterestOnLateClassOne {
   getRates: Function
 }
 
-interface InterestOnRefundsClassOne {
+export interface InterestOnRefundsClassOne {
   calculate: Function
   getRates: Function
 }
@@ -17,7 +17,6 @@ export interface ClassOneCalculator {
   calculateProRata: Function
   calculateProRataJson: Function
   getApplicableCategories: Function
-  interestOnLateClassOne: InterestOnLateClassOne
   getTaxYears: Array<string>
 }
 
@@ -52,12 +51,18 @@ export const initInterestOnLateClassOne = {
   getRates: () => {}
 }
 
+export const initInterestOnRefundsClassOne = {
+  calculate: () => {},
+  getRates: () => {}
+}
+
 interface NiFrontendService {
   classOne: ClassOneCalculator
   classTwo: Class2Or3Calculator
   classThree: Class2Or3Calculator
   weeklyContributions: WeeklyContributionsCalculator
-  interestOnLateClassOne: InterestOnLateClassOne
+  interestOnLateClassOne: InterestOnLateClassOne,
+  interestOnRefundsClassOne: InterestOnRefundsClassOne
 }
 
 const initService: NiFrontendService = {
@@ -65,7 +70,8 @@ const initService: NiFrontendService = {
   classTwo: initClass2Or3Calculator,
   classThree: initClass2Or3Calculator,
   weeklyContributions: initWeeklyContributionsCalculator,
-  interestOnLateClassOne: initInterestOnLateClassOne
+  interestOnLateClassOne: initInterestOnLateClassOne,
+  interestOnRefundsClassOne: initInterestOnRefundsClassOne
 }
 
 interface NiFrontendContext {
