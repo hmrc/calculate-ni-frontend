@@ -23,51 +23,56 @@
 @(selectedInterval: LocalDate, intervals: List[(LocalDate, String)], selectedCategory: Char, categories: List[Char], bands: List[(String, RateDefinition)])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @layout(pageTitle = Some("calculate-ni-frontend")) {
-<h1 class="govuk-heading-xl">calculate-ni-frontend</h1>
+<h1 class="govuk-heading-xl">Class One</h1>
 
 <form method="GET">
-  <select name="date">
-    @intervals.map { case (k,v) => 
-      <option value="@{k.toString}" @if(k == selectedInterval){selected}>@v</option>    
-    }
-  </select>
+  <div class="govuk-form-group">
+    <select name="date" class="govuk-select">
+      @intervals.map { case (k,v) =>
+        <option value="@{k.toString}" @if(k == selectedInterval){selected}>@v</option>
+      }
+    </select>
 
-  <select name="category">
+    <select name="category" class="govuk-select">
+      @categories.map { k =>
+        <option value="@{k.toString}" @if(k == selectedCategory){selected}>@k</option>
+      }
+    </select>
+  </div>
 
-    @categories.map { k => 
-      <option value="@{k.toString}" @if(k == selectedCategory){selected}>@k</option>    
-    }
-  </select>
+  <button class="govuk-button" data-module="govuk-button">
+    Submit
+  </button>
 
-  <input type="submit" />
-
-  @bands.map { case (name, band) => 
-  <h2>@name</h2>
-  <table>
-    <tr>
-      <th>Weekly</th>
-      <td>@{band.effectiveWeek.lowerValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>      
-      <th>To</th>
-      <td>@{band.effectiveWeek.upperValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>            
-    </tr>
-    <tr>
-      <th>Monthly</th>
-      <td>@{band.effectiveMonth.lowerValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>      
-      <th>To</th>
-      <td>@{band.effectiveMonth.upperValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>            
-    </tr>
-    <tr>
-      <th>Annually</th>
-      <td>@{band.year.lowerValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>      
-      <th>To</th>
-      <td>@{band.year.upperValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>            
-     </tr>
-    <tr>
-      <th>Employee Rate</th>
-      <td>@{band.employee.getOrElse(selectedCategory, BigDecimal(0)) * 100}%</td>      
-      <th>Employer Rate</th>
-      <td>@{band.employer.getOrElse(selectedCategory, BigDecimal(0)) * 100}%</td>      
-    </tr>
+  @bands.map { case (name, band) =>
+  <table class="govuk-table">
+    <caption class="govuk-table__caption">@name</caption>
+    <tbody>
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Weekly</th>
+        <td class="govuk-table__cell">@{band.effectiveWeek.lowerValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>
+        <th scope="col" class="govuk-table__header">To</th>
+        <td class="govuk-table__cell">@{band.effectiveWeek.upperValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Monthly</th>
+        <td class="govuk-table__cell">@{band.effectiveMonth.lowerValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>
+        <th scope="col" class="govuk-table__header">To</th>
+        <td class="govuk-table__cell">@{band.effectiveMonth.upperValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Annually</th>
+        <td class="govuk-table__cell">@{band.year.lowerValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>
+        <th scope="col" class="govuk-table__header">To</th>
+        <td class="govuk-table__cell">@{band.year.upperValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Employee Rate</th>
+        <td class="govuk-table__cell">@{band.employee.getOrElse(selectedCategory, BigDecimal(0)) * 100}%</td>
+        <th scope="col" class="govuk-table__header">Employer Rate</th>
+        <td class="govuk-table__cell">@{band.employer.getOrElse(selectedCategory, BigDecimal(0)) * 100}%</td>
+      </tr>
+    </tbody>
   </table>
   }
 </form>
