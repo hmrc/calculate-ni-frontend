@@ -1,9 +1,11 @@
 import React, {useState, useContext} from 'react'
+import { RemissionPeriod } from '../../../calculation'
 
 // components
 import Details from "../shared/Details"
 import LateInterestForm from "../late-interest/LateInterestForm"
 import LateInterestResults from "../late-interest/LateInterestResults"
+import InterestRatesTable from '../shared/InterestRatesTable'
 
 // types
 import {LateInterestContext, useLateInterestForm} from './LateInterestContext'
@@ -23,12 +25,14 @@ function LateInterestPage() {
     details,
     rows,
     setRows,
+    rates,
     dateRange,
     setDetails,
     errors,
     setErrors,
     setActiveRowId,
-    setResults
+    setResults,
+    hasRemissionPeriod
   } = useContext(LateInterestContext)
 
   const handleShowSummary = (event: React.FormEvent) => {
@@ -48,7 +52,8 @@ function LateInterestPage() {
 
     const payload = {
       rows,
-      dateRange
+      dateRange,
+      hasRemissionPeriod
     }
 
     if(validateLateInterestPayload(payload, setErrors)) {
@@ -58,9 +63,16 @@ function LateInterestPage() {
           debt: row.debt
         }
       })
-      const remission = dateRange.from ? dateRange.from : null
+      const remission = payload.hasRemissionPeriod ? new (RemissionPeriod as any)(dateRange.from, dateRange.to) : null
 
-      const resultFromCalculator = InterestOnLateClassOneCalculator.calculate(transformedRows, remission)
+      let resultFromCalculator: any;
+      if (payload.hasRemissionPeriod) {
+        resultFromCalculator = InterestOnLateClassOneCalculator.calculate(transformedRows, remission)
+      } else {
+        resultFromCalculator = InterestOnLateClassOneCalculator.calculate(transformedRows)
+      }
+
+
 
       const newRows = rows.map((row: Class1DebtRow, i: number) => {
         return {
@@ -105,13 +117,20 @@ function LateInterestPage() {
             handleChange={handleChange}
           />
 
-          <form onSubmit={handleSubmit} noValidate>
-            <div className="form-group table-wrapper nomar">
-              <LateInterestForm
-                handleShowSummary={handleShowSummary}
-              />
+          <div className="container">
+            <div className="container container-block two-thirds">
+              <form onSubmit={handleSubmit} noValidate>
+                <div className="form-group table-wrapper nomar">
+                  <LateInterestForm
+                    handleShowSummary={handleShowSummary}
+                  />
+                </div>
+              </form>
             </div>
-          </form>
+            <div className="table-wrapper container third">
+              <InterestRatesTable rates={rates} />
+            </div>
+          </div>
 
           <LateInterestResults />
 

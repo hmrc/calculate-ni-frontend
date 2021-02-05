@@ -9,44 +9,21 @@ import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import {LateInterestContext} from './LateInterestContext'
 import {Class1DebtRow} from '../../../interfaces'
 
-interface LateInterestDebtProps {
+interface LateInterestDebtTable {
   printView: boolean
 }
 
-function LateInterestDebtTable(props: LateInterestDebtProps) {
-  const {printView} = props
+function LateInterestDebtTable(props: LateInterestDebtTable) {
+  const { printView } = props
   const {
     rows,
-    setRows,
-    taxYears,
-    activeRowId,
-    setActiveRowId,
-    setErrors
+    taxYears
   } = useContext(LateInterestContext)
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    setRows([...rows, {
-      id: uniqid(),
-      taxYears: taxYears,
-      taxYear: taxYears[0],
-      debt: ''
-    }])
-  }
-
-  const handleDeleteRow = (e: React.MouseEvent) => {
-    e.preventDefault()
-    if(activeRowId) {
-      setRows(rows.filter((row: Class1DebtRow) => row.id !== activeRowId))
-      // errors are now stale
-      setErrors({})
-      setActiveRowId(null)
-    }
-  }
 
   return (
     <div className="full">
       <h2 className="section-heading">Debt</h2>
+
       <table className="contribution-details section-outer--top">
         <thead>
           <tr>
@@ -70,24 +47,6 @@ function LateInterestDebtTable(props: LateInterestDebtProps) {
         ))}
         </tbody>
       </table>
-
-      {!printView &&
-        <div className="container stack-left">
-          <div className="form-group repeat-button">
-            <SecondaryButton
-              label="Repeat row"
-              onClick={handleClick}
-            />
-          </div>
-          <div className="form-group repeat-button">
-            <SecondaryButton
-              label="Delete active row"
-              onClick={handleDeleteRow}
-              disabled={!activeRowId || rows.length === 1}
-            />
-          </div>
-        </div>
-      }
 
     </div>
   )
