@@ -52,6 +52,8 @@ interface LateInterestContext {
   results: LateInterestResults | null
   setResults: Dispatch<LateInterestResults | null>
   defaultRows: Class1DebtRow[]
+  hasRemissionPeriod: boolean | null
+  setHasRemissionPeriod: Dispatch<boolean>
 }
 
 export const LateInterestContext = React.createContext<LateInterestContext>(
@@ -71,7 +73,9 @@ export const LateInterestContext = React.createContext<LateInterestContext>(
     rates: null,
     results: null,
     setResults: () => {},
-    defaultRows: []
+    defaultRows: [],
+    hasRemissionPeriod: null,
+    setHasRemissionPeriod: () => {}
   }
 )
 
@@ -97,6 +101,8 @@ export function useLateInterestForm() {
     interestDue: null
   }]
   const [rows, setRows] = useState<Array<Class1DebtRow>>(defaultRows)
+  const [hasRemissionPeriod, setHasRemissionPeriod] = useState<boolean | null>(null)
+
   return {
     InterestOnLateClassOneCalculator,
     details,
@@ -113,6 +119,8 @@ export function useLateInterestForm() {
     rates,
     results,
     setResults,
-    defaultRows
+    defaultRows,
+    hasRemissionPeriod,
+    setHasRemissionPeriod
   }
 }

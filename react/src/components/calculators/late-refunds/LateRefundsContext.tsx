@@ -65,7 +65,7 @@ export const LateRefundsContext = React.createContext<LateRefundsContext>(
     setErrors: () => {},
     defaultRows: [],
     results: null,
-    setResults: () => {},
+    setResults: () => {}
   }
 )
 

@@ -51,7 +51,8 @@ export interface ClassOneErrors {
 
 interface LateInterestPayload {
   rows: Array<Class1DebtRow>
-  dateRange: GovDateRange
+  dateRange: GovDateRange,
+  hasRemissionPeriod: boolean | null
 }
 
 interface LateRefundsPayload {
@@ -223,19 +224,27 @@ export const validateLateInterestPayload  = (
 ) => {
   const errors: GenericErrors = {}
 
-  if((payload.dateRange.hasContentFrom || payload.dateRange.hasContentTo) && !payload.dateRange.from) {
-    errors.remissionPeriodFromDay = {
-      name: 'remissionPeriod',
-      link: 'remissionPeriodFromDay',
-      message: 'Remission periods from date must be entered as a real date'
+  if(payload.hasRemissionPeriod !== true && payload.hasRemissionPeriod !== false) {
+    errors.hasRemissionPeriod = {
+      name: 'hasRemissionPeriod',
+      link: 'hasRemissionPeriod',
+      message: 'Select yes if there is a remission period'
     }
   }
 
-  if((payload.dateRange.hasContentFrom || payload.dateRange.hasContentTo) && !payload.dateRange.to) {
+  if(payload.hasRemissionPeriod === true && !payload.dateRange.from) {
+    errors.remissionPeriodFromDay = {
+      name: 'remissionPeriod',
+      link: 'remissionPeriodFromDay',
+      message: 'Remission period start date must be entered as a real date'
+    }
+  }
+
+  if(payload.hasRemissionPeriod === true  && !payload.dateRange.to) {
     errors.remissionPeriodToDay = {
       name: 'remissionPeriod',
       link: 'remissionPeriodToDay',
-      message: 'Remission periods to date must be entered as a real date'
+      message: 'Remission period end date must be entered as a real date'
     }
   }
 
