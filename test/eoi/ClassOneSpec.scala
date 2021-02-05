@@ -89,7 +89,7 @@ class ClassOneSpec extends FunSpec with Matchers {
               val comments = xs.mkString(",")
               val cosr = comments.contains("COSR")
               val category = categoryS(0)
-              val res = config.calculateClassOneRowPP(
+              val res = config.calculateClassOne(
                 LocalDate.of(year, 10, 1),
                 ClassOneRowInput(
                   "row1", 

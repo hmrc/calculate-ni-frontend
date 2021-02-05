@@ -74,7 +74,7 @@ package object eoi {
     def compare(x: LocalDate, y: LocalDate): Int = x.toEpochDay compare y.toEpochDay
   }
 
-  implicit class RichList[K,V](in: List[(K,V)]) {
+  implicit class RichListPair[K,V](in: List[(K,V)]) {
     /** Build a map from a list of key/value pairs with a combining function. */
     def toMapWith(f: (V, V) => V): Map[K,V] = {
       in.groupBy(_._1).mapValues(_.map(_._2).reduce(f))
@@ -159,8 +159,11 @@ package object eoi {
 
   implicit class RichExplained[A](in: Explained[A]) {
     def explain: List[String] =
-      in.written.foldLeft(List.empty[String]){ case (acc,i) =>
-        if (acc.contains(i)) acc else i :: acc
-      }.reverse
+      in.written.toList.dedupPreserveOrder
   }
+
+  implicit class RichList[A](in: List[A]) {
+    def dedupPreserveOrder: List[A] = collection.mutable.LinkedHashSet(in:_*).toList
+  }
+
 }
