@@ -1,6 +1,6 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useContext, useState} from 'react'
 import {validateDirectorsPayload} from '../../../validation/validation'
-import {PeriodLabel, PeriodValue} from '../../../config'
+import {PeriodLabel} from '../../../config'
 
 // components
 import Details from '../shared/Details'
@@ -10,11 +10,12 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
-import {Calculated, Calculators, DirectorsRow, GovDateRange, TaxYear} from '../../../interfaces'
-import {DirectorsContext, useDirectorsForm} from "./DirectorsContext";
+import {GovDateRange} from '../../../interfaces'
+import {ClassOneProRataRow, DirectorsContext, DirectorsRow, useDirectorsForm} from "./DirectorsContext";
 
 // services
-import {updateRowInResults, extractTaxYearFromDate, hasKeys} from "../../../services/utils";
+import {hasKeys} from "../../../services/utils";
+import {ClassOneRowProRata} from "../../../calculation";
 
 const pageTitle = 'Directors’ contributions'
 
@@ -25,7 +26,6 @@ const DirectorsPage = () => {
     ClassOneCalculator,
     taxYears,
     taxYear,
-    setTaxYear,
     defaultRow,
     rows,
     setRows,
@@ -39,18 +39,9 @@ const DirectorsPage = () => {
     setNiPaidNet,
     earningsPeriod,
     setEarningsPeriod,
-    calculatedRows,
-    setCalculatedRows
+    result,
+    setResult
   } = useContext(DirectorsContext)
-
- useEffect(() => {
-    if(dateRange && dateRange.from) {
-      const matchingTaxYear: TaxYear | null = extractTaxYearFromDate(dateRange.from, taxYears)
-      if(matchingTaxYear) {
-        setTaxYear(matchingTaxYear)
-      }
-    }
-  }, [dateRange, setTaxYear, taxYears])
 
   const handleChange = ({
     currentTarget: { name, value },
@@ -79,43 +70,28 @@ const DirectorsPage = () => {
     }
 
     if(validateDirectorsPayload(payload, setErrors, taxYears)) {
-      setCalculatedRows(
-        calculateRows(rows as DirectorsRow[], taxYear.from) as Calculated[]
-      )
+      const requestRows: Array<ClassOneProRataRow> = rows
+        .map((row: DirectorsRow) => new (ClassOneRowProRata as any)(
+          row.id,
+          earningsPeriod === PeriodLabel.ANNUAL ? taxYear.from : dateRange.from,
+          earningsPeriod === PeriodLabel.ANNUAL ? taxYear.to : dateRange.to,
+          row.category,
+          parseFloat(row.gross),
+          false
+        ))
+
+      setResult(ClassOneCalculator.calculateProRata(
+        taxYear.from,
+        requestRows,
+        parseFloat(payload.niPaidNet),
+        parseFloat(payload.niPaidEmployee)
+      ))
+
       if (showSummaryIfValid) {
         setShowSummary(true)
       }
     }
   }
-
-  const calculateRows = (rows: Array<DirectorsRow>, taxYear: Date) => rows
-    .map((row: DirectorsRow, index: number) => {
-        let calculatedRow: Calculated;
-        if (earningsPeriod === PeriodLabel.ANNUAL) {
-          calculatedRow = JSON.parse(ClassOneCalculator
-            .calculateJson(
-              taxYear,
-              parseFloat(row.gross),
-              row.category,
-              PeriodValue.ANNUAL,
-              1,
-              false
-            ))
-        } else {
-          calculatedRow = JSON.parse(ClassOneCalculator
-            .calculateProRataJson(
-              dateRange.from,
-              dateRange.to,
-              parseFloat(row.gross),
-              row.category,
-              false
-            ))
-        }
-
-        setRows(updateRowInResults(rows, calculatedRow, index))
-
-        return calculatedRow
-      }) as Calculated[]
 
   const handlePeriodChange = (value: any) => {
     resetTotals()
@@ -125,7 +101,7 @@ const DirectorsPage = () => {
   const resetTotals = () => {
     setErrors({})
     setRows([defaultRow])
-    setCalculatedRows([])
+    setResult(null)
     setNiPaidEmployee('')
     setNiPaidNet('')
   }
@@ -136,7 +112,7 @@ const DirectorsPage = () => {
         <DirectorsPrintView
           title={pageTitle}
           setShowSummary={setShowSummary}
-          calculatedRows={calculatedRows}
+          result={result}
         />
         :
         <>
@@ -170,9 +146,9 @@ const DirectorsPage = () => {
       }
       <Totals
         grossPayTally={showSummary}
-        calculatedRows={calculatedRows}
+        result={result}
         isSaveAndPrint={showSummary}
-        type={Calculators.DIRECTORS}
+        context={DirectorsContext}
       />
       {showSummary && (
         <div className="govuk-!-padding-bottom-9">

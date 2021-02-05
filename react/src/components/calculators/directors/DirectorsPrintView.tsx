@@ -11,12 +11,11 @@ import {Calculators, Class1DirectorsSavePrintProps} from '../../../interfaces'
 import BackLink from "../../helpers/gov-design-system/BackLink";
 
 function DirectorsPrintView(props: Class1DirectorsSavePrintProps) {
-  const { title, setShowSummary } = props;
+  const { title, setShowSummary, result } = props;
   const {
     rows,
     details,
-    categoryTotals,
-    grossTotal
+    categoryTotals
   } = useContext(DirectorsContext)
 
   return (
@@ -47,8 +46,7 @@ function DirectorsPrintView(props: Class1DirectorsSavePrintProps) {
         <CategoryTotals
           rows={rows}
           categoryTotals={categoryTotals}
-          grossTotal={grossTotal}
-          type={Calculators.DIRECTORS}
+          result={result}
         />
 
       </div>

@@ -133,8 +133,6 @@ case class Configuration(
   classFour: Map[Interval[LocalDate], ClassFour]   
 ) {
 
-
-
   private def compute[A](in: A)(msg: String): cats.data.Writer[Vector[String], A] =
     tell(Vector(msg + " = " + in.toString)) flatMap {_ => value[Vector[String], A](in)}
 
@@ -237,7 +235,7 @@ case class Configuration(
       .sortBy(_._2.year.lowerValue.getOrElse(Zero))
     defs.collect { case (k,d) if d.contractedOutStandardRate.fold(true)(_ == contractedOutStandardRate) && d.trigger.interval(period, qty).contains(amount) => 
       val interval = period match {
-        case Period.Year => d.year
+        case Period.Year => (d.year * qty).mapBounds(_.roundUpWhole)
         case Period.Month => (d.effectiveMonth * qty).mapBounds(_.roundUpWhole)
         case Period.Week => (d.effectiveWeek * qty).mapBounds(_.roundUpWhole)
         case Period.FourWeek => (d.effectiveFourWeek * qty).mapBounds(_.roundUpWhole)

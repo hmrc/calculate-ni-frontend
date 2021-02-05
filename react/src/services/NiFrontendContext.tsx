@@ -2,44 +2,76 @@ import {NiFrontend} from '../calculation'
 import React, {useEffect, useState} from "react";
 
 
-interface InterestOnLateClassOne {
+export interface InterestOnLateClassOne {
+  calculate: Function
+  getRates: Function
+}
+
+export interface InterestOnRefundsClassOne {
   calculate: Function
   getRates: Function
 }
 
 export interface ClassOneCalculator {
   calculate: Function
-  calculateJson: Function
   calculateProRata: Function
   calculateProRataJson: Function
   getApplicableCategories: Function
-  interestOnLateClassOne: InterestOnLateClassOne
   getTaxYears: Array<string>
+}
+
+export interface Class2Or3Calculator {
+  calculate: Function
+  getTaxYears: Array<string>
+}
+
+export interface WeeklyContributionsCalculator {
+  calculate: Function
+}
+
+const initClass2Or3Calculator = {
+  calculate: () => {},
+  getTaxYears: ['']
+}
+
+export const initWeeklyContributionsCalculator = {
+  calculate: () => {}
 }
 
 export const initClassOneCalculator = {
   calculate: () => {},
-  calculateJson: () => {},
   calculateProRata: () => {},
   calculateProRataJson: () => {},
   getApplicableCategories: () => {},
-  interestOnLateClassOne: {
-    calculate: () => {},
-    getRates: () => {}
-  },
   getTaxYears: ['']
+}
+
+export const initInterestOnLateClassOne = {
+  calculate: () => {},
+  getRates: () => {}
+}
+
+export const initInterestOnRefundsClassOne = {
+  calculate: () => {},
+  getRates: () => {}
 }
 
 interface NiFrontendService {
   classOne: ClassOneCalculator
-  classTwo: ClassOneCalculator
-  classThree: ClassOneCalculator
+  classTwo: Class2Or3Calculator
+  classThree: Class2Or3Calculator
+  weeklyContributions: WeeklyContributionsCalculator
+  interestOnLateClassOne: InterestOnLateClassOne,
+  interestOnRefundsClassOne: InterestOnRefundsClassOne
 }
 
 const initService: NiFrontendService = {
   classOne: initClassOneCalculator,
-  classTwo: initClassOneCalculator,
-  classThree: initClassOneCalculator
+  classTwo: initClass2Or3Calculator,
+  classThree: initClass2Or3Calculator,
+  weeklyContributions: initWeeklyContributionsCalculator,
+  interestOnLateClassOne: initInterestOnLateClassOne,
+  interestOnRefundsClassOne: initInterestOnRefundsClassOne
 }
 
 interface NiFrontendContext {

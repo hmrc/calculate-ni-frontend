@@ -1,8 +1,8 @@
-import React, {useContext} from 'react'
-import {ClassOneContext} from "./ClassOneContext";
+import React, {useContext, useState} from 'react'
+import {ClassOneContext, Row} from "./ClassOneContext";
 
 // types
-import {TableProps, Row} from '../../../interfaces'
+import {TableProps} from '../../../interfaces'
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
@@ -19,6 +19,7 @@ function ClassOneEarningsTable(props: TableProps) {
     setRows,
     setErrors
   } = useContext(ClassOneContext)
+  const [periodSortDirection, setPeriodSortDirection] = useState<'ascending' | 'descending' | 'none' | undefined>('none')
 
   const handleSortPeriod = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -27,6 +28,7 @@ function ClassOneEarningsTable(props: TableProps) {
       .slice()
       .sort((a: Row, b: Row) =>
         (a.period < b.period ? 1 : (a.period > b.period) ? -1 : 0)))
+    setPeriodSortDirection('descending')
   }
 
   return (
@@ -35,7 +37,7 @@ function ClassOneEarningsTable(props: TableProps) {
         <tr className="clear">
           <th className="lg" colSpan={3}><span>Contribution payment details</span></th>
           {showBands && rows[0].bands &&
-            <th className="border" colSpan={Object.keys(rows[0].bands).length}><span>Earnings</span></th>
+            <th className="border" colSpan={rows[0].bands.length}><span>Earnings</span></th>
           }
           <th className="border" colSpan={showBands && rows[0].bands ? 3 : 2}><span>Net contributions</span></th>
         </tr>
@@ -43,7 +45,7 @@ function ClassOneEarningsTable(props: TableProps) {
           <th>
             #<span className="govuk-visually-hidden"> Row number</span>
           </th>
-          <th className="column-toggle" onClick={handleSortPeriod}>
+          <th className="column-toggle" aria-sort={periodSortDirection} onClick={handleSortPeriod}>
             <strong>
               {printView ? 'Period': 'Select period'}
               <abbr title="Sort periods">
@@ -55,8 +57,8 @@ function ClassOneEarningsTable(props: TableProps) {
           <th><strong>{printView ? '' : 'Select '}NI category letter</strong></th>
           <th><strong>{printView ? 'Gross pay' : 'Enter gross pay'}</strong></th>
           {/* Bands - by tax year, so we can just take the first band to map the rows */}
-          {showBands && rows[0].bands && Object.keys(rows[0].bands).map(k =>
-            <th key={k}>{k}</th>
+          {showBands && rows[0].bands && rows[0].bands.map(k =>
+            <th key={k.name}>{k.name}</th>
           )}
 
           {showBands && rows[0].bands &&

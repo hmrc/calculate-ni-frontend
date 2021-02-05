@@ -1,15 +1,12 @@
 # microservice specific routes
-
 ->         /govuk-frontend          govuk.Routes
 ->         /hmrc-frontend           hmrcfrontend.Routes
-
 GET        /tables/classOne         uk.gov.hmrc.calculatenifrontend.controllers.TablesController.classOne(date: Option[java.time.LocalDate], category: Option[Char])
 GET        /tables/classTwo         uk.gov.hmrc.calculatenifrontend.controllers.TablesController.classTwo(date: Option[java.time.LocalDate])
 GET        /tables/classThree       uk.gov.hmrc.calculatenifrontend.controllers.TablesController.classThree(date: Option[java.time.LocalDate])
 GET        /tables/classFour        uk.gov.hmrc.calculatenifrontend.controllers.TablesController.classFour(date: Option[java.time.LocalDate])
-
 GET        /national-insurance.json uk.gov.hmrc.calculatenifrontend.controllers.NiConfigController.configJson
-
+GET        /stylesheets/*file       controllers.Assets.at(path = "/public/stylesheets", file)
+GET        /javascripts/*file       controllers.Assets.at(path = "/public/javascripts", file)
 GET        /                        controllers.Assets.at(path = "/public/build", file = "index.html")
 GET        /*file                   controllers.Assets.versioned(path = "/public/build", file: Asset)
-

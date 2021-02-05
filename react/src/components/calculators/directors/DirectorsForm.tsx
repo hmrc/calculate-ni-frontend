@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {PeriodLabel} from '../../../config';
-import {DirectorsContext} from "./DirectorsContext";
+import {DirectorsContext, DirectorsRow} from "./DirectorsContext";
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
@@ -12,7 +12,7 @@ import {DateRange} from "../shared/DateRange";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 
 // types
-import {DirectorsFormProps, DirectorsRow} from '../../../interfaces';
+import {DirectorsFormProps} from '../../../interfaces';
 import uniqid from 'uniqid'
 
 numeral.locale('en-gb');
@@ -44,8 +44,8 @@ export default function DirectorsForm(props: DirectorsFormProps) {
       id: uniqid(),
       category: ClassOneCalculator.getApplicableCategories(taxYears[0].from)[0],
       gross: '',
-      ee: '0',
-      er: '0'
+      ee: 0,
+      er: 0
     }])
   }
 

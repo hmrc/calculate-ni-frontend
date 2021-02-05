@@ -27,7 +27,7 @@ import UnofficialDeferment from './components/calculators/unofficial-deferment/U
 import Class2Or3 from './components/calculators/class-2-or-3/Class2Or3'
 import Class3 from './components/calculators/class-3/Class3'
 import LateInterest from './components/calculators/late-interest/LateInterest'
-import InterestRefunds from './components/calculators/interest-refunds/InterestRefunds'
+import LateRefunds from './components/calculators/late-refunds/LateRefunds'
 import BreadCrumbs from "./components/helpers/gov-design-system/BreadCrumbs";
 import {NiFrontendContext, useNiFrontend} from "./services/NiFrontendContext";
 
@@ -60,8 +60,8 @@ function App() {
               <Route path="/late-interest">
                 <LateInterest />
               </Route>
-              <Route path="/interest-refunds">
-                <InterestRefunds />
+              <Route path="/late-refunds">
+                <LateRefunds />
               </Route>
               <Route path="/">
                 <Home />

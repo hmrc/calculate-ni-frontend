@@ -25,9 +25,9 @@ case class Bands(
   week: Option[Interval[BigDecimal]] = None,
   fourWeek: Option[Interval[BigDecimal]] = None
 ) {
-  def interval(period: Period.Period, qty: Int = 1): Interval[BigDecimal] = {
+  def interval(period: Period.Period, qty: BigDecimal = 1): Interval[BigDecimal] = {
     val raw = period match {
-      case Period.Year => year
+      case Period.Year => (year * qty)
       case Period.Month => (month.getOrElse((year / 12)) * qty)
       case Period.Week => (week.getOrElse((year / 52)) * qty)
       case Period.FourWeek => (fourWeek.getOrElse((year / 13)) * qty)

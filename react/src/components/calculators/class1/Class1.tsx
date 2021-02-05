@@ -1,9 +1,6 @@
 import React, {useContext, useState} from 'react'
 import {validateClassOnePayload} from '../../../validation/validation'
-import {PeriodValue} from '../../../config'
-
-// types
-import {Calculated, Calculators, Row} from '../../../interfaces'
+import {ClassOneRow} from '../../../calculation'
 
 // components
 import Details from '../shared/Details'
@@ -13,8 +10,8 @@ import Class1Print from './Class1Print'
 import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 
 // utils
-import {hasKeys, updateRowInResults} from "../../../services/utils";
-import {ClassOneContext, useClassOneForm} from "./ClassOneContext";
+import {hasKeys} from "../../../services/utils";
+import {ClassOneContext, useClassOneForm, ClassOneRowInterface} from "./ClassOneContext";
 
 const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 
@@ -34,8 +31,8 @@ const Class1Page = () => {
     niPaidEmployee,
     setNiPaidEmployee,
     setNiPaidNet,
-    calculatedRows,
-    setCalculatedRows,
+    result,
+    setResult,
     setActiveRowId
   } = useContext(ClassOneContext)
 
@@ -66,9 +63,20 @@ const Class1Page = () => {
     }
 
     if (validateClassOnePayload(payload, setErrors)) {
-      setCalculatedRows(
-        calculateRows(rows as Row[], taxYear.from) as Calculated[]
-      )
+      const requestRows: Array<ClassOneRowInterface> = rows
+        .map(row => new (ClassOneRow as any)(
+          row.id,
+          row.period,
+          row.category,
+          parseFloat(row.gross),
+          false
+        ))
+      setResult(ClassOneCalculator.calculate(
+        taxYear.from,
+        requestRows,
+        parseFloat(payload.niPaidNet),
+        parseFloat(payload.niPaidEmployee)
+      ))
       if (showSummaryIfValid) {
         setShowSummary(true)
       }
@@ -79,31 +87,10 @@ const Class1Page = () => {
     setActiveRowId(null)
     setErrors({})
     setRows([defaultRow])
-    setCalculatedRows([])
+    setResult(null)
     setNiPaidEmployee('')
     setNiPaidNet('')
   }
-
-  const calculateRows = (rows: Row[], taxYear: Date) => rows
-      .map((row, i) => {
-        const rowPeriod = (row.period === PeriodValue.FORTNIGHTLY ? PeriodValue.WEEKLY : row.period)
-        const rowPeriodQty = (row.period === PeriodValue.FORTNIGHTLY ? 2 : 1)
-        const calculatedRow = JSON.parse(
-          ClassOneCalculator
-            .calculateJson(
-              taxYear,
-              parseFloat(row.gross),
-              row.category,
-              rowPeriod,
-              rowPeriodQty,
-              false
-            )
-        )
-
-        setRows(updateRowInResults(rows, calculatedRow, i))
-
-        return calculatedRow
-      }) as Calculated[]
 
   return (
     <div>
@@ -111,7 +98,7 @@ const Class1Page = () => {
         <Class1Print
           title={pageTitle}
           setShowSummary={setShowSummary}
-          calculatedRows={calculatedRows}
+          result={result}
         />
       :
         <>
@@ -141,9 +128,9 @@ const Class1Page = () => {
       }
       <Totals
         grossPayTally={showSummary}
-        calculatedRows={calculatedRows}
+        result={result}
         isSaveAndPrint={showSummary}
-        type={Calculators.CLASS_ONE}
+        context={ClassOneContext}
       />
       {showSummary && (
         <div className="govuk-!-padding-bottom-9">

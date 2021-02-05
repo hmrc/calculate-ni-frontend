@@ -1,11 +1,13 @@
 // App
 
-import {PeriodLabel, PeriodValue} from "../config";
+import {PeriodLabel} from "../config";
 import {GenericErrors} from "../validation/validation";
-import React, {Dispatch, SetStateAction} from "react";
+import React, {Context, Dispatch, SetStateAction} from "react";
 import {Class2Or3Result} from "../components/calculators/class-2-or-3/Class2Or3Context";
+import {Class1Result, Row} from "../components/calculators/class1/ClassOneContext";
+import {DirectorsRow} from "../components/calculators/directors/DirectorsContext";
 
-interface GenericObject {
+export interface GenericObject {
   [key: string]: string
 }
 
@@ -56,25 +58,6 @@ export interface Class3Row {
   deficiency?: number
 }
 
-export interface Row {
-  id: string
-  category: string
-  number: number
-  period: PeriodValue
-  gross: string
-  ee: string
-  er: string
-  bands?: Calculated
-}
-
-export interface DirectorsRow {
-  id: string
-  category: string
-  gross: string
-  ee: string
-  er: string
-  bands?: Calculated
-}
 
 // Table
 export interface TaxYear {
@@ -106,6 +89,14 @@ export interface Class1DebtRow {
   interestDue: string | null
 }
 
+export interface LateRefundsTableRowProps {
+  id: string
+  taxYears: TaxYear[]
+  taxYear: TaxYear
+  refund: string,
+  payable: string
+}
+
 export interface TableProps {
   showBands: boolean;
   printView: boolean
@@ -120,15 +111,9 @@ export enum Calculators {
 export interface TotalsProps {
   grossPayTally: boolean
   errors?: GenericErrors | null
-  grossTotal?: Number | null
-  calculatedRows: Array<Calculated>;
+  result: Class1Result | null
   isSaveAndPrint: boolean
-  type: Calculators.CLASS_ONE | Calculators.DIRECTORS
-}
-
-export enum OverOrUnder {
-  OVER = 'over',
-  UNDER = 'under'
+  context: Context<any>
 }
 
 // Errors
@@ -143,16 +128,15 @@ export interface SavePrintBaseProps {
 }
 
 export interface Class1DirectorsSavePrintProps extends SavePrintBaseProps {
-  calculatedRows: Calculated[]
+  result: Class1Result | null
 }
 
 export interface Class12Or3SavePrintProps extends SavePrintBaseProps {
   result: Class2Or3Result | null
 }
 
-export interface LateInterestPrintProps extends SavePrintBaseProps {
-
-}
+export interface LateInterestPrintProps extends SavePrintBaseProps {}
+export interface LateRefundPrintProps extends SavePrintBaseProps {}
 
 export interface CategoryTotalsProps {
   rows: Array<Row | DirectorsRow>
@@ -179,6 +163,7 @@ export interface TextInputProps {
   inputMode?: "numeric"
   onChangeCallback: React.ChangeEventHandler<HTMLInputElement>
   onBlurCallback?: React.ChangeEventHandler<HTMLInputElement>
+  error?: any // todo
 }
 
 export interface GovDateRange {
@@ -207,4 +192,9 @@ export enum TotalType {
   EE = 'ee',
   ER = 'er',
   GROSS = 'gross'
+}
+
+export interface Rate {
+  year: number
+  rate: number
 }

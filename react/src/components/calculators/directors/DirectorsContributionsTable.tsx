@@ -1,8 +1,8 @@
 import React, {useContext} from 'react'
-import {DirectorsContext} from "./DirectorsContext";
+import {DirectorsContext, DirectorsRow} from "./DirectorsContext";
 
 // types
-import {DirectorsRow, TableProps} from '../../../interfaces'
+import {TableProps} from '../../../interfaces'
 
 // components
 import TextInput from '../../helpers/formhelpers/TextInput'
@@ -44,7 +44,7 @@ function DirectorsEarningsTable(props: TableProps) {
         <tr className="clear">
           <th className="lg" colSpan={2}><span>Contribution payment details</span></th>
           {showBands && rows[0].bands &&
-            <th className="border" colSpan={Object.keys(rows[0].bands).length}><span>Earnings</span></th>
+            <th className="border" colSpan={rows[0].bands.length}><span>Earnings</span></th>
           }
           <th className="border" colSpan={showBands && rows[0].bands ? 2 : 1}><span>Net contributions</span></th>
         </tr>
@@ -52,8 +52,8 @@ function DirectorsEarningsTable(props: TableProps) {
           <th><strong>{printView ? '' : 'Select '}NI category letter</strong></th>
           <th><strong>{printView ? 'Gross pay' : 'Enter gross pay'}</strong></th>
           {/* Bands - by tax year, so we can just take the first band to map the rows */}
-          {showBands && rows[0].bands && Object.keys(rows[0].bands).map(k =>
-            <th key={k}>{k}</th>
+          {showBands && rows[0].bands && rows[0].bands.map(k =>
+            <th key={k.name}>{k.name}</th>
           )}
 
           {showBands && rows[0].bands &&
@@ -108,8 +108,8 @@ function DirectorsEarningsTable(props: TableProps) {
             </td>
 
             {/* Bands */}
-            {showBands && r.bands && Object.keys(r.bands).map(k =>
-              <td key={`${k}-val`}>{numeral(r.bands?.[k][0]).format('$0,0.00')}</td>
+            {showBands && r.bands && r.bands.map(k =>
+              <td key={`${k.name}-val`}>{numeral(k.amountInBand).format('$0,0.00')}</td>
             )}
 
             {/* Total */}
@@ -117,7 +117,7 @@ function DirectorsEarningsTable(props: TableProps) {
               // Total (if calculate has run)
               <td>
                 {numeral(
-                  (parseFloat(r.ee) + parseFloat(r.er)).toString()
+                  (r.ee + r.er).toString()
                 ).format('$0,0.00')}
               </td>
             }

@@ -1,8 +1,11 @@
-import {Class1DebtRow, Class3Row, DirectorsRow, GovDateRange, Row, TaxYear} from '../interfaces'
+import {Class1DebtRow, Class3Row, GovDateRange, LateRefundsTableRowProps, TaxYear} from '../interfaces'
 import {PeriodLabel} from "../config";
 import {Dispatch} from "react";
 import {extractTaxYearFromDate, govDateFormat, hasKeys, isEmpty} from "../services/utils";
 import moment from "moment";
+import {UnofficialDefermentRow} from "../components/calculators/unofficial-deferment/UnofficialDefermentContext";
+import {DirectorsRow} from "../components/calculators/directors/DirectorsContext";
+import {Row} from "../components/calculators/class1/ClassOneContext";
 
 interface ClassOnePayload {
   rows: Array<Row>
@@ -16,6 +19,11 @@ interface DirectorsPayload {
   dateRange: GovDateRange;
   earningsPeriod: PeriodLabel | null;
   rows: Array<DirectorsRow>
+}
+
+interface UnofficialDefermentPayload {
+  rows: UnofficialDefermentRow[]
+  taxYear: TaxYear
 }
 
 interface Class2Or3Payload {
@@ -44,6 +52,11 @@ export interface ClassOneErrors {
 interface LateInterestPayload {
   rows: Array<Class1DebtRow>
   dateRange: GovDateRange
+}
+
+interface LateRefundsPayload {
+  rows: Array<LateRefundsTableRowProps>
+  bankHolidaysNo: string
 }
 
 export interface GenericErrors {
@@ -110,6 +123,13 @@ export const validateDirectorsPayload = (
     return false
   }
 
+  return true
+}
+
+export const validateUnofficialDefermentPayload = (
+  payload: UnofficialDefermentPayload,
+  setErrors: Dispatch<GenericErrors>
+) => {
   return true
 }
 
@@ -225,6 +245,57 @@ export const validateLateInterestPayload  = (
     return false
   }
   return true
+}
+
+export const validateLateRefundsPayload = (
+  payload: LateRefundsPayload,
+  setErrors: Dispatch<GenericErrors>
+) => {
+  const errors: GenericErrors = {}
+
+  if (isNaN(+payload.bankHolidaysNo)) {
+    errors[`bankHolidays`] = {
+      name: `bankHolidays`,
+      link: `bankHolidays`,
+      message: `Number of bank holidays must be a number between 1 and 4`
+    }
+  } else if (parseInt(payload.bankHolidaysNo) > 4) {
+    errors[`bankHolidays`] = {
+      name: `bankHolidays`,
+      link: `bankHolidays`,
+      message: `Number of bank holidays must be a number between 1 and 4`
+    }
+  }
+
+  validateLateRefundsRows(payload.rows, setErrors, errors)
+
+  if (hasKeys(errors)) {
+    setErrors(errors)
+    return false
+  }
+  return true
+}
+
+const validateLateRefundsRows = (
+  rows: Array<LateRefundsTableRowProps>,
+  setErrors: Dispatch<GenericErrors>,
+  errors: GenericErrors
+) => {
+  rows.forEach((row: LateRefundsTableRowProps, index: number) => {
+    if(!row.refund) {
+      errors[`${row.id}-refund`] = {
+        name: `${row.id}-refund`,
+        link: `${row.id}-refund`,
+        message: `Refund amount for row #${index + 1} must be entered`
+      }
+    } else if (isNaN(+row.refund)) {
+      errors[`${row.id}-refund`] = {
+        name: `${row.id}-refund`,
+        link: `${row.id}-refund`,
+        message: `Refund amount for row #${index + 1} must be an amount of money`
+      }
+    }
+  })
 }
 
 const validateLateInterestRows = (

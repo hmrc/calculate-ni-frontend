@@ -1,32 +1,30 @@
-import React, {useContext} from 'react';
-import uniqid from 'uniqid';
-
+import React, {useContext, useEffect} from 'react';
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
-import ClassOneEarningsTable from './Class1ContributionsTable'
-
 // types
-import { Class1FormProps } from '../../../interfaces';
-import {ClassOneContext} from "./ClassOneContext";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
+import uniqid from "uniqid";
+import {UnofficialDefermentContext, UnofficialDefermentRow} from "./UnofficialDefermentContext";
 import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
+import UnofficialDefermentTable from "./UnofficialDefermentTable";
+import UnofficialDefermentLimits from "./UnofficialDefermentLimits";
 
 numeral.locale('en-gb');
 
-function Class1Form(props: Class1FormProps) {
-  const { handleShowSummary, resetTotals } = props
+export default function UnofficialDefermentForm(props: any) {
+  const { resetTotals } = props
   const {
-    taxYears,
-    taxYear,
-    setTaxYear,
     rows,
     setRows,
-    setActiveRowId,
     activeRowId,
+    setActiveRowId,
     setErrors,
-    setPeriodNumbers
-  } = useContext(ClassOneContext)
+    defaultRow,
+    taxYears,
+    taxYear,
+    setTaxYear
+  } = useContext(UnofficialDefermentContext)
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTaxYear(taxYears.find(ty => ty.id === e.target.value) || taxYears[0])
@@ -34,59 +32,46 @@ function Class1Form(props: Class1FormProps) {
 
   const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
     e.preventDefault()
+    setErrors({})
+    setActiveRowId(null)
     resetTotals()
   }
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const lastRow = rows[rows.length -1]
-    const periodNumber = rows.filter(row => row.period === lastRow.period).length + 1
-    const id = uniqid()
-    setRows([...rows, {
-      id: id,
-      category: lastRow.category,
-      period: lastRow.period,
-      gross: lastRow.gross,
-      number: periodNumber,
-      ee: 0,
-      er: 0
-    }])
-    setActiveRowId(id)
+    const newId = uniqid()
+    setRows([...rows, {...defaultRow, id: newId}])
+    setActiveRowId(newId)
   }
 
   const handleDeleteRow = (e: React.MouseEvent) => {
     e.preventDefault()
     if(activeRowId) {
-      setPeriodNumbers(activeRowId)
+      setRows(rows.filter((row: UnofficialDefermentRow) => row.id !== activeRowId))
+      // errors are now stale
       setErrors({})
       setActiveRowId(null)
     }
   }
 
+  useEffect(() => {
+    setTaxYear(taxYears[0])
+  }, [])
+
   return (
     <div className="form-group table-wrapper">
-      <div className="container">
-        <div className="form-group half">
-          <SelectTaxYear
-            taxYears={taxYears}
-            taxYear={taxYear}
-            handleTaxYearChange={handleTaxYearChange}
-          />
-        </div>
-
-        <div className="form-group half">
-          <SecondaryButton
-            label="Save and print"
-            onClick={handleShowSummary}
-          />
-        </div>
+      <div className="container half">
+        <SelectTaxYear
+          taxYears={taxYears}
+          taxYear={taxYear}
+          handleTaxYearChange={handleTaxYearChange}
+        />
       </div>
 
-      <ClassOneEarningsTable
-        showBands={false}
-        printView={false}
-      />
-      
+      <UnofficialDefermentLimits />
+
+      <UnofficialDefermentTable printView={false} />
+
       <div className="container">
         <div className="container">
           <div className="form-group">
@@ -97,6 +82,7 @@ function Class1Form(props: Class1FormProps) {
         </div>
 
         <div className="container">
+
           <div className="form-group repeat-button">
             <SecondaryButton
               label="Delete active row"
@@ -107,7 +93,7 @@ function Class1Form(props: Class1FormProps) {
 
           <div className="form-group repeat-button">
             <SecondaryButton
-              label="Repeat row"
+              label="Add row"
               onClick={handleClick}
             />
           </div>
@@ -124,5 +110,3 @@ function Class1Form(props: Class1FormProps) {
     </div>
   )
 }
-
-export default Class1Form;

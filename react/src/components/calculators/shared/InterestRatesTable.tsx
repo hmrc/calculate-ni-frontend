@@ -1,19 +1,23 @@
-import React, {useContext} from 'react'
+import React from 'react'
 
 // types
-import {LateInterestContext, Rate} from './LateInterestContext'
+import {Rate} from '../../../interfaces'
 
-function LateInterestRatesTable() {
-  const { rates } = useContext(LateInterestContext)
+interface InterestRatesTableProps {
+  rates: Rate[] | null
+}
+
+function LateInterestRatesTable(props: InterestRatesTableProps) {
+  const { rates } = props
   return (
     <div className="full">
       <h2 className="section-heading">Interest rates</h2>
       <table className="section-outer--top">
         <thead>
-          <tr>
-            <th><strong>From</strong></th>
-            <th><strong>Rate</strong></th>
-          </tr>
+        <tr>
+          <th><strong>From</strong></th>
+          <th><strong>Rate</strong></th>
+        </tr>
         </thead>
         <tbody>
         {rates && rates.map((r: Rate, index: number) => (
