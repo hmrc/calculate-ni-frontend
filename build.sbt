@@ -140,8 +140,10 @@ lazy val `frontend` = project
     scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "1.1.0",
-      "org.scala-js" %%% "scalajs-java-time" % "1.0.0"
+      "org.scala-js" %%% "scalajs-java-time" % "1.0.0", 
+      "org.typelevel" %%% "simulacrum" % "1.0.0"
     ),
+    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
     publish := {},
     publishLocal := {}

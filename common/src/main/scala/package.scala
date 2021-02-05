@@ -147,4 +147,20 @@ package object eoi {
       )
     }
   }
+
+  type Explained[A] = cats.data.Writer[Vector[String], A]
+
+  implicit class RichAnything[A](in: A) {
+    def gives(msg: String): Explained[A] = {
+      import cats.data.Writer._
+      tell(Vector(msg + " = " + in.toString)) flatMap {_ => value[Vector[String], A](in)}
+    }
+  }
+
+  implicit class RichExplained[A](in: Explained[A]) {
+    def explain: List[String] =
+      in.written.foldLeft(List.empty[String]){ case (acc,i) =>
+        if (acc.contains(i)) acc else i :: acc
+      }.reverse
+  }
 }

@@ -89,39 +89,43 @@ class ClassOneSpec extends FunSpec with Matchers {
               val comments = xs.mkString(",")
               val cosr = comments.contains("COSR")
               val category = categoryS(0)
-              val (explanation,(employee,employer)) = config.calculateClassOneRowP(
+              val res = config.calculateClassOneRowPP(
                 LocalDate.of(year, 10, 1),
-                grossPay,
-                category,
-                parsePeriod(periodS),
-                periodNumber,
-                cosr
-              ).run
+                ClassOneRowInput(
+                  "row1", 
+                  grossPay,
+                  category,
+                  parsePeriod(periodS),
+                  periodNumber
+                ) :: Nil
+              )
 
+              val employee = res.employeeContributions.value
+              val employer = res.employerContributions.value              
               if (employee != expectedEmployee || employer != expectedEmployer) {
 
                 val director = comments.contains("director")
-
-
                 writeln(statusString)
                 writeln(statusString.map{_ => '='})
                 writeln()                
                 writeln("  " + line.mkString(","))
-                writeln()
+
 
                 if (expectedEmployee != employee) {
                   val error = expectedEmployee - employee
                   writeln(s"  Employee expected: $expectedEmployee, actual: $employee ($error)")
+                  writeln()
+                  writeln(res.employeeContributions.explain.map("  " + _).mkString("\n"))
+                  writeln()
                 }
 
                 if (expectedEmployer != employer) {
                   val error = expectedEmployer - employer
                   writeln(s"  Employer expected: $expectedEmployer, actual: $employer ($error)")
+                  writeln()                  
+                  writeln(res.employerContributions.explain.map("  " + _).mkString("\n"))
+                  writeln()
                 }
-
-                writeln()
-                writeln(explanation.map("  " + _.tail).mkString("\n"))
-                writeln()
                 (passAcc, failAcc+1)
               } else {
                 (passAcc+1, failAcc)

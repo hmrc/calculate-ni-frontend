@@ -20,6 +20,7 @@ import java.time.LocalDate
 import spire.implicits._
 import spire.math.Interval
 import cats.data.Writer, Writer._
+import cats.syntax.applicative._
 
 case class RateDefinition(
   year: Interval[BigDecimal],
@@ -133,7 +134,7 @@ case class Configuration(
   classFour: Map[Interval[LocalDate], ClassFour]   
 ) {
 
-  private def compute[A](in: A)(msg: String): cats.data.Writer[Vector[String], A] =
+  private def compute[A](in: A)(msg: String): Explained[A] =
     tell(Vector(msg + " = " + in.toString)) flatMap {_ => value[Vector[String], A](in)}
 
   def proRataRatio(from: LocalDate, to: LocalDate): Option[BigDecimal] = {
@@ -184,7 +185,7 @@ case class Configuration(
     on: LocalDate,
     paymentDate: LocalDate,
     earningsFactor: BigDecimal
-  ): Writer[Vector[String], ClassTwoAndThreeResult] = {
+  ): Explained[ClassTwoAndThreeResult] = {
     import cats.implicits._
 
     val year: ClassTwo = classTwo.at(on).getOrElse {
@@ -220,77 +221,10 @@ case class Configuration(
 
   }
 
-  def calculateClassOneRow(
+  def calculateClassOne(
     on: LocalDate,
-    amount: BigDecimal,
-    cat: Char,
-    period: Period.Period,
-    qty: Int = 1, 
-    contractedOutStandardRate: Boolean = false,
-    rowId: String = ""    
-  ): Writer[Vector[String], Map[String,(BigDecimal, BigDecimal, BigDecimal)]] = {
-    val defs = classOne.at(on).getOrElse(Map.empty)
-      .toList
-      .filter(x => x._2.employer.getOrElse(cat,Zero) != Zero || x._2.employee.getOrElse(cat,Zero) != Zero)
-      .sortBy(_._2.year.lowerValue.getOrElse(Zero))
-    defs.collect { case (k,d) if d.contractedOutStandardRate.fold(true)(_ == contractedOutStandardRate) && d.trigger.interval(period, qty).contains(amount) => 
-      val interval = period match {
-        case Period.Year => (d.year * qty).mapBounds(_.roundUpWhole)
-        case Period.Month => (d.effectiveMonth * qty).mapBounds(_.roundUpWhole)
-        case Period.Week => (d.effectiveWeek * qty).mapBounds(_.roundUpWhole)
-        case Period.FourWeek => (d.effectiveFourWeek * qty).mapBounds(_.roundUpWhole)
-      }
-
-      compute(amount.inBand(interval))(s"$rowId.$k.amountInBand: |[0, $amount] ∩ $interval|") flatMap {
-        case Zero => value((k, (Zero, Zero, Zero))) 
-        case amountInBand =>
-          val employeeRate = d.employee.getOrElse(cat, Zero)
-          val employerRate = d.employer.getOrElse(cat, Zero)
-          for {
-            employee <- compute((amountInBand * employeeRate).roundHalfDown)(
-              s"$rowId.$k.employee: ⌊amountInBand * employeeRate⌋ = ⌊$amountInBand * $employeeRate⌋ = ⌊${amountInBand * employeeRate}⌋")
-            employer <- compute((amountInBand * employerRate).roundHalfDown)(
-              s"$rowId.$k.employer: ⌊amountInBand * employerRate⌋ = ⌊$amountInBand * $employerRate⌋ = ⌊${amountInBand * employerRate}⌋")
-          } yield (k, (amountInBand, employee, employer))
-      }
-    }.toList.foldLeft(
-      Writer.value[Vector[String], Map[String,(BigDecimal, BigDecimal, BigDecimal)]](Map.empty[String, (BigDecimal, BigDecimal, BigDecimal)])
-    ){ case (acc, in) => for { a <- acc; i <- in } yield (a + i) }
-  }
-
-  def calculateClassOneRowP(
-    on: LocalDate,
-    amount: BigDecimal,
-    cat: Char,
-    period: Period.Period,
-    qty: Int = 1, 
-    contractedOutStandardRate: Boolean = false,
-    rowId: String = ""    
-  ): Writer[Vector[String], (BigDecimal, BigDecimal)] = calculateClassOneRow(
-    on,
-    amount,
-    cat,
-    period,
-    qty, 
-    contractedOutStandardRate,
-    rowId
-  ).flatMap { m => 
-    for {
-      employee <- compute(m.map{case (k,(_,ee,_)) => ee}.sum)(
-        s"$rowId.employee: ${m.keys.mkString("+")} = ${m.map{case (k,(_,ee,_)) => ee}.mkString("+")}"
-      )
-      employer <- compute(m.map{case (k,(_,_,er)) => er}.sum)(
-        s"$rowId.employer: ${m.keys.mkString("+")} = ${m.map{case (k,(_,_,er)) => er}.mkString("+")}"
-      )      
-    } yield ((employee, employer))
-  }
-
-  // def calculateClassOne(
-  //   on: LocalDate,
-  //   rows: List[ClassOneRow]
-  // ): Writer[Vector[String], (BigDecimal, BigDecimal)] = {
-
-  // }
+    rows: List[ClassOneRowInput]
+  ) = ClassOneResult(classOne.at(on).getOrElse(Map.empty), rows)
 }
 
 
