@@ -19,8 +19,6 @@ function Totals (props: TotalsProps) {
 
   const readOnlyClass: string = isSaveAndPrint ? '' : 'readonly'
 
-  console.log('totals result', result)
-
   return (
     <>
       <div className={`${isSaveAndPrint ? `save-print-wrapper ` : ``}subsection totals`}>

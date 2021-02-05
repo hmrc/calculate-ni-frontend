@@ -3,7 +3,12 @@ import {Class3Context} from "./Class3Context";
 import {Class3Row} from "../../../interfaces";
 import Class3TableRow from "./Class3TableRow";
 
-const Class3Table = () => {
+interface Class3TableProps {
+  printView: boolean
+}
+
+const Class3Table = (props: Class3TableProps) => {
+  const { printView } = props
   const {
     rows
   } = useContext(Class3Context)
@@ -18,9 +23,11 @@ const Class3Table = () => {
           <th>
             #<span className="govuk-visually-hidden"> Row number</span>
           </th>
-          <th className="date-mode">
-            <span className="govuk-visually-hidden">Change how dates are entered</span>
-          </th>
+          {!printView &&
+            <th className="date-mode">
+              <span className="govuk-visually-hidden">Change how dates are entered</span>
+            </th>
+          }
           <th className="date-toggles">
             <table className="borderless">
               <thead>
@@ -43,6 +50,7 @@ const Class3Table = () => {
           index={index}
           row={r}
           key={`row-${r.id}`}
+          printView={printView}
         />
       ))}
       </tbody>

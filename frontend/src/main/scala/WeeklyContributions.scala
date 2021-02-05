@@ -8,15 +8,14 @@ import java.time.LocalDate
 import io.circe.generic.auto._, io.circe.syntax._
 import io.circe._
 
-
 class WeeklyContributions(
   config: Configuration
-){
+) extends js.Object {
 
   def calculate(
-    from: LocalDate,
-    to: LocalDate,
-    earningsFactor: BigDecimal
+    from: js.Date,
+    to: js.Date,
+    earningsFactor: Double
   ) = new js.Object {
     val maxPotentialWeeks: Int = 52
     val actualWeeks: Int = 12

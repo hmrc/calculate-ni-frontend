@@ -6,6 +6,7 @@ import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import {Class3Context, class3DefaultRows, useClass3Form} from "./Class3Context";
 import Class3Form from "./Class3Form";
 import {validateClass3Payload} from "../../../validation/validation";
+import Class3Print from './Class3Print'
 
 const pageTitle = 'Weekly contribution conversion'
 
@@ -17,7 +18,6 @@ const Class3Page = () => {
         setRows,
         details,
         setDetails,
-        enteredNiDate,
         errors,
         setErrors,
         setActiveRowId,
@@ -36,7 +36,6 @@ const Class3Page = () => {
     const submitForm = (showSummaryIfValid: boolean) => {
         setErrors({})
         const payload = {
-            enteredNiDate,
             rows
         }
         if(validateClass3Payload(payload, setErrors, taxYears)) {
@@ -69,7 +68,10 @@ const Class3Page = () => {
     return (
       <div>
           {showSummary ?
-            <p>Print view</p>
+            <Class3Print
+                title={pageTitle}
+                setShowSummary={setShowSummary}
+            />
             :
             <>
                 {hasKeys(errors) &&

@@ -4,32 +4,36 @@ import TextInput from "../../helpers/formhelpers/TextInput";
 import {Class3Context} from "./Class3Context";
 import FullOrPartialTaxYear from "../../helpers/formhelpers/FullOrPartialTaxYear";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
-import {getNumberOfWeeks, latestDate} from "../../../services/utils";
+import {dateRangeString} from '../../../config'
 
 const Class3TableRow = (props: {
   index: number,
   row: Class3Row
+  printView: boolean
 }) => {
-  const { index, row } = props
+  const { index, row, printView } = props
   const {
     taxYears,
     setRows,
     rows,
     errors,
-    enteredNiDate,
     activeRowId,
     setActiveRowId
   } = useContext(Class3Context)
   const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
-  const [dateRange, setDateRange] = useState<GovDateRange>({from: taxYear.from, to: taxYear.to, hasContentFrom: false, hasContentTo: false})
+  const initDateRange = row.dateRange.from ? row.dateRange : {from: taxYear.from, to: taxYear.to, hasContentFrom: false, hasContentTo: false}
+  const [dateRange, setDateRange] = useState<GovDateRange>(initDateRange)
   const [showDates, setShowDates] = useState<boolean>(false)
+
   const handleEdit = (e: React.MouseEvent) => {
     e.preventDefault()
     setShowDates(!showDates)
   }
+
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTaxYear(taxYears.find(ty => ty.id === e.target.value) || taxYears[0])
   }
+
   const handleChange = (r: Class3Row, e: React.ChangeEvent<HTMLInputElement>) => {
     setRows(rows.map((cur: Class3Row) =>
       cur.id === r.id ?
@@ -40,21 +44,8 @@ const Class3TableRow = (props: {
   }
 
   useEffect(() => {
-    const startDate = enteredNiDate ?
-      latestDate(taxYear.from, enteredNiDate) : taxYear.from
-    setDateRange((prevState: GovDateRange) => {
-      return {
-        from: startDate,
-        to: taxYear.to,
-        numberOfWeeks: getNumberOfWeeks(startDate, taxYear.to),
-        hasContentFrom: prevState.hasContentFrom,
-        hasContentTo: prevState.hasContentTo
-      }
-    })
-  }, [taxYear, enteredNiDate])
-
-  useEffect(() => {
     if(dateRange) {
+      console.log('setting dateRange to ', dateRange.from, dateRange.to)
       setRows((prevState: Array<Class3Row>) => prevState
         .map(
           (cur: Class3Row) =>
@@ -74,35 +65,46 @@ const Class3TableRow = (props: {
       <td className="row-number">
         {index + 1}
       </td>
-      <td className={"mode"}>
-        <SecondaryButton
-          onClick={handleEdit}
-          label={showDates ? `Select tax year` : `Edit dates`}
-        />
-      </td>
+      {!printView &&
+        <td className={"mode"}>
+          <SecondaryButton
+            onClick={handleEdit}
+            label={showDates ? `Select tax year` : `Edit dates`}
+          />
+        </td>
+      }
       <td className={
           `input date-toggles ${errors?.[`${row.id}FromDay`] ? "error-cell" : ""}`}>
-        <FullOrPartialTaxYear
-          id={row.id}
-          hiddenLabel={true}
-          taxYears={taxYears}
-          taxYear={taxYear}
-          handleTaxYearChange={handleTaxYearChange}
-          dateRange={dateRange}
-          setDateRange={setDateRange}
-          errors={errors}
-          showDates={showDates}
-        />
+        {printView ?
+          <div>{dateRangeString(dateRange)}</div>
+          :
+          <FullOrPartialTaxYear
+            id={row.id}
+            hiddenLabel={true}
+            taxYears={taxYears}
+            taxYear={taxYear}
+            handleTaxYearChange={handleTaxYearChange}
+            dateRange={dateRange}
+            setDateRange={setDateRange}
+            errors={errors}
+            showDates={showDates}
+          />
+        }
+
       </td>
       <td className={`input${errors[`${row.id}-earningsFactor`] ? ` error-cell` : ``}`}>
-        <TextInput
-          hiddenLabel={true}
-          name={`${row.id}-earningsFactor`}
-          labelText="earnings"
-          inputValue={row.earningsFactor}
-          inputClassName="number"
-          onChangeCallback={(e) => handleChange(row, e)}
+        {printView ?
+          <div>{row.earningsFactor}</div>
+          :
+          <TextInput
+            hiddenLabel={true}
+            name={`${row.id}-earningsFactor`}
+            labelText="earnings"
+            inputValue={row.earningsFactor}
+            inputClassName="number"
+            onChangeCallback={(e) => handleChange(row, e)}
           />
+        }
       </td>
       <td>{row.maxWeeks}</td>
       <td>{row.actualWeeks}</td>

@@ -1,6 +1,6 @@
 import moment from 'moment';
 // types
-import { TaxYear } from './interfaces'
+import {GovDateRange, TaxYear} from './interfaces'
 
 export enum NiClassName {
   CLASS_ONE = "classOne",
@@ -62,6 +62,11 @@ export const periodValueToLabel = (str: PeriodValue) => {
     case PeriodValue.FOURWEEKLY:
       return PeriodLabel.FOURWEEKLY
   }
+}
+
+export const dateRangeString = (dateRange: GovDateRange) => {
+  console.log(dateRange)
+  return `${moment(dateRange.from).format(momentDateFormat)} - ${moment(dateRange.to).format(momentDateFormat)}`
 }
 
 export const taxYearString = (ty: TaxYear, onlyStartYear?: boolean) => {

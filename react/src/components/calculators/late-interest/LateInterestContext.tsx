@@ -64,7 +64,7 @@ export const LateInterestContext = React.createContext<LateInterestContext>(
     rows: [],
     setRows: () => {},
     taxYears: [],
-    dateRange: {from: null, to: null, hasContentFrom: false, hasContentTo: false},
+    dateRange: {from: null, to: null},
     setDateRange: () => {},
     errors: {},
     setErrors: () => {},
