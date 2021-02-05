@@ -1,4 +1,4 @@
-import React, {Context, useContext} from 'react';
+import React, {useContext} from 'react';
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 

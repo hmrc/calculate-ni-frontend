@@ -5,7 +5,6 @@ import LateInterestDebtTable from './LateInterestDebtTable'
 import LateInterestRemissionPeriods from './LateInterestRemissionPeriods'
 import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import {LateInterestContext} from './LateInterestContext'
-import InterestRatesTable from '../shared/InterestRatesTable'
 import uniqid from 'uniqid'
 import {Class1DebtRow} from '../../../interfaces'
 

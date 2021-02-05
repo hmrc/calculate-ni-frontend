@@ -1,9 +1,7 @@
 import React, {useContext} from 'react'
-import uniqid from 'uniqid'
 
 // components
 import Class1DebtTableRow from './Class1DebtTableRow'
-import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 
 // types
 import {LateInterestContext} from './LateInterestContext'

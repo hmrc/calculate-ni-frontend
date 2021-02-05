@@ -10,11 +10,12 @@ interface TableRowProps {
   index: number
   showBands: boolean
   printView: boolean
-  setShowExplanation: Dispatch<string | null>
+  setShowExplanation: Dispatch<string>
+  showExplanation?: string
 }
 
 export default function Class1TableRow(props: TableRowProps) {
-  const { row, index, showBands, printView, setShowExplanation } = props
+  const { row, index, showBands, printView, setShowExplanation, showExplanation } = props
   const {
     activeRowId,
     setActiveRowId,
@@ -138,12 +139,19 @@ export default function Class1TableRow(props: TableRowProps) {
 
       <td>{numeral(row.ee).format('$0,0.00')}</td>
       <td>{numeral(row.er).format('$0,0.00')}</td>
-      {row.explain && row.explain.length > 0 &&
+      {!printView && row.explain && row.explain.length > 0 &&
         <td>
-          <a href={`#${row.id}-explain`} onClick={(e) => {
-            e.preventDefault()
-            setShowExplanation(row.id)
-          }}>?</a>
+           <a href={`#${row.id}-explain`} onClick={(e) => {
+             e.preventDefault()
+             setShowExplanation(showExplanation === row.id ? '' : row.id)
+           }}>
+             <strong
+               className={`govuk-tag ${showExplanation === row.id ? 
+                 `govuk-tag--blue` : `govuk-tag--grey`}`}
+             >
+               ?
+             </strong>
+           </a>
         </td>
       }
     </tr>
