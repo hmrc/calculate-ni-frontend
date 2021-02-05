@@ -38,6 +38,7 @@ export interface Row {
   ee: number
   er: number
   bands?: Array<Band>
+  explain?: Array<string>
 }
 
 export interface ClassOneRowInterface {
@@ -69,11 +70,12 @@ export interface Band {
 }
 
 export interface CalculatedRow {
-  id: string
-  bands: Array<Band>
+  name: string
+  resultBands: Array<Band>
   employee: number
   employer: number
   totalContributions: number
+  explain: Array<string>
 }
 
 interface TotalRow {
@@ -83,7 +85,7 @@ interface TotalRow {
 }
 
 export interface Class1Result {
-  rows: CalculatedRow[]
+  resultRows: CalculatedRow[]
   totals: CalculatedTotals
   overpayment: TotalRow
   underpayment: TotalRow
@@ -181,12 +183,12 @@ export function useClassOneForm() {
   }, [taxYear.from])
 
   useEffect(() => {
-    if(result && result.rows) {
+    if(result && result.resultRows) {
       setRows((prevState: Row[]) => prevState.map(row => {
         const matchingRow: CalculatedRow | undefined =
-          result.rows
+          result.resultRows
             .find(resultRow =>
-              resultRow.id === row.id
+              resultRow.name === row.id
             )
         if(matchingRow) {
           return {
@@ -194,7 +196,8 @@ export function useClassOneForm() {
             ee: matchingRow.employee,
             er: matchingRow.employer,
             totalContributions: matchingRow.totalContributions,
-            bands: matchingRow.bands
+            bands: matchingRow.resultBands,
+            explain: matchingRow.explain
           }
         }
         return row

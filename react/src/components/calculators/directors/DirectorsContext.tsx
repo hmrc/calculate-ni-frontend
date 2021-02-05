@@ -138,12 +138,12 @@ export function useDirectorsForm() {
   const [rows, setRows] = useState<Array<DirectorsRow>>([defaultRow])
 
   useEffect(() => {
-    if(result && result.rows) {
+    if(result && result.resultRows) {
       setRows((prevState: DirectorsRow[]) => prevState.map(row => {
         const matchingRow: CalculatedRow | undefined =
-          result.rows
+          result.resultRows
             .find(resultRow =>
-              resultRow.id === row.id
+              resultRow.name === row.id
             )
         if(matchingRow) {
           return {
@@ -151,7 +151,8 @@ export function useDirectorsForm() {
             ee: matchingRow.employee,
             er: matchingRow.employer,
             totalContributions: matchingRow.totalContributions,
-            bands: matchingRow.bands
+            bands: matchingRow.resultBands,
+            explain: matchingRow.explain
           }
         }
         return row

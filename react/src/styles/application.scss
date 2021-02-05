@@ -30,3 +30,12 @@ $hmrc-assets-path: "/assets/lib/hmrc-frontend/hmrc/";
     margin-right: 1em;
   }
 }
+
+#root .explanation-row {
+  .explanation {
+    padding: 1em 0;
+    font-style: italic;
+    font-size: 16px;
+    text-align: right;
+  }
+}

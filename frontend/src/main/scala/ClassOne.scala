@@ -40,7 +40,8 @@ class ClassOneFrontend(
         }: js.Object }.toJSArray
 
         val employer = row.employerContributions.value.toDouble
-        val employee = row.employeeContributions.value.toDouble        
+        val employee = row.employeeContributions.value.toDouble
+        val explain = (row.employeeContributions.explain ++ row.employerContributions.explain).dedupPreserveOrder.toJSArray
 
       }: js.Object }.toJSArray
 
