@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {SetStateAction, useContext, useState} from 'react'
 import {ClassOneContext, Row} from "./ClassOneContext";
 
 // types
@@ -14,7 +14,7 @@ numeral.locale('en-gb');
 
 function ClassOneEarningsTable(props: TableProps) {
   const { showBands, printView } = props
-  const [showExplanation, setShowExplanation] = useState<string | null>(null)
+  const [showExplanation, setShowExplanation] = useState<string>('')
   const {
     rows,
     setRows,
@@ -50,9 +50,11 @@ function ClassOneEarningsTable(props: TableProps) {
           <th className="column-toggle" aria-sort={periodSortDirection} onClick={handleSortPeriod}>
             <strong>
               {printView ? 'Period': 'Select period'}
-              <abbr title="Sort periods">
-                <img src={SortToggle} alt="Sort by period" />
-              </abbr>
+              {!printView &&
+                <abbr title="Sort periods">
+                  <img src={SortToggle} alt="Sort by period" />
+                </abbr>
+              }
             </strong>
           </th>
           <th className="notes"><strong>Period No.</strong></th>
@@ -68,7 +70,7 @@ function ClassOneEarningsTable(props: TableProps) {
           }
           <th><strong><abbr title="Employee">EE</abbr></strong></th>
           <th><strong><abbr title="Employer">ER</abbr></strong></th>
-          {result && <th></th>}
+          {!printView && result && <th></th>}
         </tr>
       </thead>
       
@@ -82,6 +84,7 @@ function ClassOneEarningsTable(props: TableProps) {
               showBands={showBands}
               printView={printView}
               setShowExplanation={setShowExplanation}
+              showExplanation={showExplanation}
             />
             {result &&
             <tr className={showExplanation === r.id ? "explanation-row" : "govuk-visually-hidden"}>
