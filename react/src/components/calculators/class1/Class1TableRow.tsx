@@ -147,7 +147,7 @@ export default function Class1TableRow(props: TableRowProps) {
            }}>
              <strong
                className={`govuk-tag ${showExplanation === row.id ? 
-                 `govuk-tag--turquoise` : `govuk-tag--grey`}`}
+                 `govuk-tag--blue` : `govuk-tag--grey`}`}
              >
                ?
              </strong>
