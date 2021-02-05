@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react"
+import React, {Dispatch, useContext, useEffect} from "react"
 import {periods, PeriodValue, periodValueToLabel} from "../../../config";
 import TextInput from "../../helpers/formhelpers/TextInput";
 import numeral from "numeral";
@@ -10,10 +10,11 @@ interface TableRowProps {
   index: number
   showBands: boolean
   printView: boolean
+  setShowExplanation: Dispatch<string | null>
 }
 
 export default function Class1TableRow(props: TableRowProps) {
-  const { row, index, showBands, printView } = props
+  const { row, index, showBands, printView, setShowExplanation } = props
   const {
     activeRowId,
     setActiveRowId,
@@ -137,6 +138,14 @@ export default function Class1TableRow(props: TableRowProps) {
 
       <td>{numeral(row.ee).format('$0,0.00')}</td>
       <td>{numeral(row.er).format('$0,0.00')}</td>
+      {row.explain && row.explain.length > 0 &&
+        <td>
+          <a href={`#${row.id}-explain`} onClick={(e) => {
+            e.preventDefault()
+            setShowExplanation(row.id)
+          }}>?</a>
+        </td>
+      }
     </tr>
   )
 }

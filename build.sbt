@@ -75,7 +75,8 @@ lazy val microservice = Project(appName, file("."))
       "com.typesafe.play"       %% "play-test"                % play.core.PlayVersion.current,
       "com.vladsch.flexmark"    %  "flexmark-all"             % "0.35.10",
       "org.scalatestplus.play"  %% "scalatestplus-play"       % "4.0.3",
-      "org.scalacheck"          %% "scalacheck"               % "1.14.1"      
+      "org.scalacheck"          %% "scalacheck"               % "1.14.1",
+      "com.github.tototoshi"    %% "scala-csv"                % "1.3.6"
     ).map(_ % Test),
     TwirlKeys.templateImports ++= Seq(
       "uk.gov.hmrc.calculatenifrontend.config.AppConfig",
@@ -139,8 +140,10 @@ lazy val `frontend` = project
     scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "1.1.0",
-      "org.scala-js" %%% "scalajs-java-time" % "1.0.0"
+      "org.scala-js" %%% "scalajs-java-time" % "1.0.0", 
+      "org.typelevel" %%% "simulacrum" % "1.0.0"
     ),
+    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
     publish := {},
     publishLocal := {}

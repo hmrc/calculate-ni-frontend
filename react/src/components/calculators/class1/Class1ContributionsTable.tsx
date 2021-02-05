@@ -14,10 +14,12 @@ numeral.locale('en-gb');
 
 function ClassOneEarningsTable(props: TableProps) {
   const { showBands, printView } = props
+  const [showExplanation, setShowExplanation] = useState<string | null>(null)
   const {
     rows,
     setRows,
-    setErrors
+    setErrors,
+    result
   } = useContext(ClassOneContext)
   const [periodSortDirection, setPeriodSortDirection] = useState<'ascending' | 'descending' | 'none' | undefined>('none')
 
@@ -66,18 +68,36 @@ function ClassOneEarningsTable(props: TableProps) {
           }
           <th><strong><abbr title="Employee">EE</abbr></strong></th>
           <th><strong><abbr title="Employer">ER</abbr></strong></th>
+          {result && <th></th>}
         </tr>
       </thead>
       
       <tbody>
         {rows.map((r: Row, i: number) => (
-          <Class1TableRow
-            key={`row-${i}`}
-            row={r}
-            index={i}
-            showBands={showBands}
-            printView={printView}
-          />
+          <>
+            <Class1TableRow
+              key={`row-${i}`}
+              row={r}
+              index={i}
+              showBands={showBands}
+              printView={printView}
+              setShowExplanation={setShowExplanation}
+            />
+            {result &&
+            <tr className={showExplanation === r.id ? "explanation-row" : "govuk-visually-hidden"}>
+              <td colSpan={8}>
+                <div className="explanation">
+                  {r.explain && r.explain.map(line =>
+                    <>
+                    {line}<br />
+                    </>
+                  )}
+                </div>
+              </td>
+            </tr>
+            }
+          </>
+
         ))}
       </tbody>
     </table>

@@ -20,6 +20,7 @@ import java.time.LocalDate
 import spire.implicits._
 import spire.math.Interval
 import cats.data.Writer, Writer._
+import cats.syntax.applicative._
 
 case class RateDefinition(
   year: Interval[BigDecimal],
@@ -133,10 +134,8 @@ case class Configuration(
   classFour: Map[Interval[LocalDate], ClassFour]   
 ) {
 
-
-
-  private def compute[A](in: A)(msg: String): cats.data.Writer[List[String], A] =
-    tell(List(msg + " = " + in.toString)) flatMap {_ => value[List[String], A](in)}
+  private def compute[A](in: A)(msg: String): Explained[A] =
+    tell(Vector(msg + " = " + in.toString)) flatMap {_ => value[Vector[String], A](in)}
 
   def proRataRatio(from: LocalDate, to: LocalDate): Option[BigDecimal] = {
     import spire.math.interval._
@@ -186,7 +185,7 @@ case class Configuration(
     on: LocalDate,
     paymentDate: LocalDate,
     earningsFactor: BigDecimal
-  ): Writer[List[String], ClassTwoAndThreeResult] = {
+  ): Explained[ClassTwoAndThreeResult] = {
     import cats.implicits._
 
     val year: ClassTwo = classTwo.at(on).getOrElse {
@@ -224,30 +223,8 @@ case class Configuration(
 
   def calculateClassOne(
     on: LocalDate,
-    amount: BigDecimal,
-    cat: Char,
-    period: Period.Period,
-    qty: BigDecimal = 1, 
-    contractedOutStandardRate: Boolean = false
-  ): Map[String,(BigDecimal, BigDecimal, BigDecimal)] = {
-    val defs = classOne.at(on).getOrElse(Map.empty)
-    defs.collect { case (k,d) if d.contractedOutStandardRate.fold(true)(_ == contractedOutStandardRate) && d.trigger.interval(period, qty).contains(amount) => 
-      val interval = period match {
-        case Period.Year => (d.year * qty).mapBounds(_.roundUpWhole)
-        case Period.Month => (d.effectiveMonth * qty).mapBounds(_.roundUpWhole)
-        case Period.Week => (d.effectiveWeek * qty).mapBounds(_.roundUpWhole)
-        case Period.FourWeek => (d.effectiveFourWeek * qty).mapBounds(_.roundUpWhole)
-      }
-      val amountInBand = amount.inBand(interval)
-      val employeeRate = d.employee.getOrElse(cat, BigDecimal(0))
-      val employerRate = d.employer.getOrElse(cat, BigDecimal(0))
-      (k,(
-        amountInBand,
-        (amountInBand * employeeRate).roundHalfDown,
-        (amountInBand * employerRate).roundHalfDown
-      ))
-    }
-  }
+    rows: List[ClassOneRowInput]
+  ) = ClassOneResult(classOne.at(on).getOrElse(Map.empty), rows)
 }
 
 
