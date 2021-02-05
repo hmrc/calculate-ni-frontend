@@ -7,7 +7,7 @@ import ClassOneEarningsTable from './Class1ContributionsTable'
 import DetailsPrint from "../shared/DetailsPrint";
 
 // types
-import {Calculators, Class1DirectorsSavePrintProps} from '../../../interfaces'
+import {Class1DirectorsSavePrintProps} from '../../../interfaces'
 import BackLink from "../../helpers/gov-design-system/BackLink";
 
 function Class1Print(props: Class1DirectorsSavePrintProps) {
