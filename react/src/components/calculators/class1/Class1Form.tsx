@@ -25,11 +25,13 @@ function Class1Form(props: Class1FormProps) {
     setActiveRowId,
     activeRowId,
     setErrors,
-    setPeriodNumbers
+    setPeriodNumbers,
+    setResult
   } = useContext(ClassOneContext)
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTaxYear(taxYears.find(ty => ty.id === e.target.value) || taxYears[0])
+    setResult(null)
   }
 
   const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {

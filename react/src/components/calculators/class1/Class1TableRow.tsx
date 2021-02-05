@@ -149,7 +149,10 @@ export default function Class1TableRow(props: TableRowProps) {
                className={`govuk-tag ${showExplanation === row.id ? 
                  `govuk-tag--blue` : `govuk-tag--grey`}`}
              >
-               ?
+               <span aria-hidden="true">?</span>
+               <span className="govuk-visually-hidden">
+                 Explain the results in this row
+               </span>
              </strong>
            </a>
         </td>
