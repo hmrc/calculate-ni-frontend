@@ -92,7 +92,7 @@ function ClassOneEarningsTable(props: TableProps) {
                 <div className="explanation">
                   {r.explain && r.explain.map(line =>
                     <>
-                    {line}<br />
+                    {line.replace(`${r.id}.`, '')}<br />
                     </>
                   )}
                 </div>
