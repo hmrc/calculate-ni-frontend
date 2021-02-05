@@ -170,8 +170,6 @@ export interface GovDateRange {
   from: Date | null;
   to: Date | null;
   numberOfWeeks?: number
-  hasContentFrom: boolean
-  hasContentTo: boolean
 }
 
 export type NiCategory =

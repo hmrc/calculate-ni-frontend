@@ -14,7 +14,6 @@ const pageTitle = 'Class 1 NI contributions an employer owes due to unofficial d
 function UnofficialDefermentPage() {
     const [showSummary, setShowSummary] = useState<boolean>(false)
     const {
-        ClassOneCalculator,
         taxYear,
         defaultRow,
         rows,

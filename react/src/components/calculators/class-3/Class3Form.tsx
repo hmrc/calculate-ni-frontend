@@ -5,8 +5,6 @@ import 'numeral/locales/en-gb';
 // types
 import {Class3Context, class3DefaultRows} from "./Class3Context";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
-import DateInputs from "../../helpers/formhelpers/DateInputs";
-import {validDateParts} from "../../../services/utils";
 import Class3Table from "./Class3Table";
 import uniqid from "uniqid";
 import {Class3Row} from "../../../interfaces";
@@ -18,14 +16,6 @@ export default function Class3Form(props: any) {
   const {
     rows,
     setRows,
-    setEnteredNiDate,
-    day,
-    month,
-    year,
-    setDay,
-    setMonth,
-    setYear,
-    errors,
     activeRowId,
     setActiveRowId,
     setErrors
@@ -55,30 +45,9 @@ export default function Class3Form(props: any) {
     }
   }
 
-  useEffect(() => {
-    const niDate = validDateParts(day, month, year) ?
-      new Date(`${year}-${month}-${day}`) : null
-    setEnteredNiDate(niDate)
-  }, [day, month, year, setEnteredNiDate])
-
   return (
     <div className="form-group table-wrapper">
-      <div className="container half">
-          <DateInputs
-            description="enteredNiDate"
-            legend="Date customer first entered NI (optional)"
-            hint="This is the usually the date they received their National Insurance number"
-            day={day}
-            month={month}
-            year={year}
-            setDay={setDay}
-            setMonth={setMonth}
-            setYear={setYear}
-            error={errors.enteredNiDate}
-          />
-      </div>
-
-      <Class3Table />
+      <Class3Table printView={false} />
 
       <div className="container">
         <div className="container">

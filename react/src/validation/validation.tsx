@@ -35,7 +35,6 @@ interface Class2Or3Payload {
 
 interface Class3Payload {
   rows: Array<Class3Row>
-  enteredNiDate: Date | null
 }
 
 export interface ErrorMessage {
@@ -201,15 +200,6 @@ export const validateClass3Payload = (
   taxYears: TaxYear[]
 ) => {
   const errors: GenericErrors = {}
-  if(payload.enteredNiDate) {
-    if(afterMaximumTaxYear(payload.enteredNiDate, taxYears[0].to)) {
-      errors.enteredNiDate = {
-        name: 'enteredNiDate',
-        link: 'enteredNiDateFromDay',
-        message: `The date the customer first entered NI must be before ${moment(taxYears[0].to).format(govDateFormat)}`
-      }
-    }
-  }
   validateClass3Rows(payload.rows, setErrors, errors, taxYears)
   if (hasKeys(errors)) {
     setErrors(errors)

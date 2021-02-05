@@ -37,8 +37,6 @@ interface Class3Context {
   setDetails: Function
   rows: Array<Class3Row>
   setRows: Dispatch<SetStateAction<Array<Class3Row>>>
-  enteredNiDate: Date | null,
-  setEnteredNiDate: Dispatch<SetStateAction<Date | null>>
   day: string,
   setDay: Dispatch<string>
   month: string,
@@ -73,8 +71,6 @@ export const Class3Context = React.createContext<Class3Context>(
     setMonth: () => {},
     year: '',
     setYear: () => {},
-    enteredNiDate: null,
-    setEnteredNiDate: () => {},
     errors: {},
     setErrors: () => {},
     result: null,
@@ -88,7 +84,6 @@ export const Class3Context = React.createContext<Class3Context>(
 export function useClass3Form() {
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [rows, setRows] = useState<Array<Class3Row>>(class3DefaultRows)
-  const [enteredNiDate, setEnteredNiDate] = useState<Date | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [result, setResult] = useState<Class3Result | null>(null)
   const [day, setDay] = useState('')
@@ -115,8 +110,6 @@ export function useClass3Form() {
     setMonth,
     year,
     setYear,
-    enteredNiDate,
-    setEnteredNiDate,
     errors,
     setErrors,
     result,
