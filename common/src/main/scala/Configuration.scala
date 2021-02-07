@@ -26,7 +26,7 @@ case class RateDefinition(
   year: Interval[BigDecimal],
   month: Option[Interval[BigDecimal]],
   week: Option[Interval[BigDecimal]],
-  fourWeek: Option[Interval[BigDecimal]],    
+  fourWeek: Option[Interval[BigDecimal]],
   employee: Map[Char, BigDecimal] = Map.empty,
   employer: Map[Char, BigDecimal] = Map.empty,
   contractedOutStandardRate: Option[Boolean] = None,
@@ -35,7 +35,7 @@ case class RateDefinition(
   def effectiveYear = year
   def effectiveMonth = month.getOrElse(year / 12)
   def effectiveWeek = week.getOrElse(year / 52)
-  def effectiveFourWeek = fourWeek.getOrElse(year / 13)    
+  def effectiveFourWeek = fourWeek.getOrElse(year / 13)
 }
 
 case class ClassTwoRates(
@@ -44,24 +44,36 @@ case class ClassTwoRates(
   voluntary: Option[BigDecimal]
 )
 
+trait ClassTwoOrThree {
+  def noOfWeeks: Int
+  def rate: BigDecimal
+  def qualifyingRate: BigDecimal
+}
+
 case class ClassTwo(
   weeklyRate: ClassTwoRates,
   smallEarningsException: Option[BigDecimal],
   qualifyingRate: BigDecimal,
+  hrpDate: Option[LocalDate],
+  penaltyOn: Option[LocalDate],
   noOfWeeks: Int = 52
-) 
+) extends ClassTwoOrThree {
+  def rate = weeklyRate.default
+}
 
 case class ClassThree(
-  efQual: String,
+  qualifyingRate: BigDecimal,
   lel: String,
   startWeek: Int,
   finalDate: LocalDate,
   weekRate: BigDecimal,
   noOfWeeks: Int
-)
+) extends ClassTwoOrThree {
+  def rate = weekRate
+}
 
 case class ClassFour(
-  lowerLimit: BigDecimal, 
+  lowerLimit: BigDecimal,
   upperLimit: BigDecimal,
   mainRate: BigDecimal,
   upperRate: BigDecimal = 0
@@ -77,14 +89,14 @@ case class ClassFour(
   * payable [sic] only where the employee was a member of a contracted-out
   * occupational scheme in place of State Second Pension (formerly
   * SERPS). Class 1 NICs are collected by HMRC along with income tax
-  * under the Pay As You Earn (PAYE) scheme. 
-  * 
+  * under the Pay As You Earn (PAYE) scheme.
+  *
   * Class 1A NICs are paid only by employers on the value of most
   * taxable benefits-in-kind provided to employees, such as private
   * use of company cars and fuel, private medical insurance,
   * accommodation and loan benefits.  They do not give any benefit
   * rights.
-  * 
+  *
   * Class 1B NICs were introduced on 6 April 1999.  Like Class 1A they
   * are also paid only by employers and cover PAYE Settlement
   * Agreements (PSA) under which employers agree to meet the income
@@ -93,7 +105,7 @@ case class ClassFour(
   * would otherwise attract a Class 1 or Class 1A liability and the
   * value of the income tax met by the employer.  They do not give any
   * benefit rights.
-  * 
+  *
   * Class 2 contributions are a flat rate weekly liability payable by
   * all self-employed people over 16 (up to State Pension age) with
   * profits above the Small Profits Threshold. Self-employed people
@@ -103,17 +115,17 @@ case class ClassFour(
   * paid up to six years after the tax year.  Class 4 NICs may also
   * have to be paid by the self-employed if their profits for the year
   * are over the lower profits limit (see below).
-  * 
+  *
   * Class 3 NICs may be paid voluntarily by people aged 16 and over
   * (but below State Pension age) to help them qualify for State
   * Pension if their contribution record would not otherwise be
   * sufficient.  Contributions are flat rate and can be paid up to six
   * years after the year in which they are due.
-  * 
+  *
   * Class 4 NICS are paid by the self-employed whose profits are above
   * the lower profits limit.  They are profit related and do not count
   * for any benefits themselves.
-  * 
+  *
   * Source: https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/882271/Table-a4.pdf
   * */
 case class Configuration(
@@ -128,14 +140,11 @@ case class Configuration(
    'X' -> "Exempt"
   ),
   classOne: Map[Interval[LocalDate], Map[String, RateDefinition]],
-  classOneAB: Map[Interval[LocalDate], BigDecimal], 
+  classOneAB: Map[Interval[LocalDate], BigDecimal],
   classTwo: Map[Interval[LocalDate], ClassTwo],
   classThree: Map[Interval[LocalDate], ClassThree],
-  classFour: Map[Interval[LocalDate], ClassFour]   
+  classFour: Map[Interval[LocalDate], ClassFour]
 ) {
-
-  private def compute[A](in: A)(msg: String): Explained[A] =
-    tell(Vector(msg + " = " + in.toString)) flatMap {_ => value[Vector[String], A](in)}
 
   def proRataRatio(from: LocalDate, to: LocalDate): Option[BigDecimal] = {
     import spire.math.interval._
@@ -171,7 +180,7 @@ case class Configuration(
   def calculateClassFour(
     on: LocalDate,
     amount: BigDecimal
-  ): Option[(BigDecimal,BigDecimal)] = 
+  ): Option[(BigDecimal,BigDecimal)] =
     classFour.at(on).map{ f =>
       val lowerBand = Interval.closed(f.lowerLimit, f.upperLimit)
       val upperBand = Interval.above(f.upperLimit)
@@ -185,40 +194,18 @@ case class Configuration(
     on: LocalDate,
     paymentDate: LocalDate,
     earningsFactor: BigDecimal
-  ): Explained[ClassTwoAndThreeResult] = {
+  ): ClassTwoAndThreeResult[ClassTwo] = {
     import cats.implicits._
 
-    val year: ClassTwo = classTwo.at(on).getOrElse {
-      throw new NoSuchElementException(s"Class Two is not defined for $on")
-    }
-
-    import year._
-
-    for {
-      contributionsFloat <- compute(((qualifyingRate - earningsFactor) / earningsFactor) * noOfWeeks)(
-        s"contributionsFloat: ((qualifyingRate ($qualifyingRate) - earnings factor ($earningsFactor)) / earningsFactor) * weeks in year ($noOfWeeks)"
-      )
-      contributionsDue <- compute(contributionsFloat.setScale(0, BigDecimal.RoundingMode.CEILING).toInt)(
-        s"contributionsDue: $contributionsFloat rounded up to nearest integer")
-      higherRateDate <- compute(on.plusYears(2))(s"higherRateDate: start date ($on) + 2 years")
-      finalDate <- compute(on.plusYears(4))(s"finalDate: start date ($on) + 4 years")      
-      higherRateApplies <- compute(paymentDate.isBefore(higherRateDate))(s"higherRateApplies: higherRateDate ($higherRateDate) > paymentDate ($paymentDate)")
-      rate <- if (higherRateApplies){
-        compute(weeklyRate.default)(s"default weekly rate")
-      } else {
-        compute(classTwo.at(paymentDate).getOrElse {
-          throw new NoSuchElementException(s"Class Two is not defined for $paymentDate")
-        }.weeklyRate.default)(s"weekly rate for $paymentDate")
-      }
-      totalDue <- compute(rate * contributionsDue)(s"rate ($rate) * contributionsDue ($contributionsDue)")
-    } yield ClassTwoAndThreeResult(
-      contributionsDue,
-      rate,
-      totalDue,
-      higherRateDate,
-      finalDate
+    ClassTwoAndThreeResult[ClassTwo](
+      on,
+      classTwo.at(on).getOrElse(
+        throw new IllegalStateException(s"No C2 band defined for $on")
+      ),
+      paymentDate,
+      earningsFactor,
+      classTwo
     )
-
   }
 
   def calculateClassOne(
@@ -228,12 +215,3 @@ case class Configuration(
     employeePaid: BigDecimal = Zero
   ) = ClassOneResult(classOne.at(on).getOrElse(Map.empty), rows, netPaid, employeePaid)
 }
-
-
-case class ClassTwoAndThreeResult(
-  numberOfContributions: Int,
-  rate: BigDecimal,
-  totalDue: BigDecimal,
-  higherProvisionsApplyOn: LocalDate,
-  finalDate: LocalDate
-)
