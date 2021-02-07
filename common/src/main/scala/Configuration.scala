@@ -223,8 +223,10 @@ case class Configuration(
 
   def calculateClassOne(
     on: LocalDate,
-    rows: List[ClassOneRowInput]
-  ) = ClassOneResult(classOne.at(on).getOrElse(Map.empty), rows)
+    rows: List[ClassOneRowInput],
+    netPaid: BigDecimal = Zero,
+    employeePaid: BigDecimal = Zero
+  ) = ClassOneResult(classOne.at(on).getOrElse(Map.empty), rows, netPaid, employeePaid)
 }
 
 

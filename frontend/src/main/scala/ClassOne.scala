@@ -15,15 +15,15 @@ class ClassOneFrontend(
   config: Configuration
 ) extends js.Object {
 
-  /* this defines the structure of the JS object that is derived from 
-   * the Scala output. 
-   * Any of the elements of ClassOneResult can be made accessible to the 
-   * JS frontend from here. 
+  /* this defines the structure of the JS object that is derived from
+   * the Scala output.
+   * Any of the elements of ClassOneResult can be made accessible to the
+   * JS frontend from here.
    */
   implicit val c1ResultAdapter = new JsObjectAdapter[ClassOneResult] {
     def toJSObject(in: ClassOneResult): js.Object = new js.Object {
 
-      // the rows 
+      // the rows
       val resultRows: js.Array[js.Object] = in.rowsOutput.map { row => new js.Object {
         val name = row.rowId
 
@@ -32,10 +32,10 @@ class ClassOneFrontend(
           val name = band.bandId
 
           // anywhere where we have an 'Explained' datatype we can call 'value' to get
-          // the Scala value (normally a BigDecimal) - 
+          // the Scala value (normally a BigDecimal) -
           val amountInBand = band.amountInBand.value.toDouble
 
-          // or call 'explain' to get a List[String] trace - 
+          // or call 'explain' to get a List[String] trace -
           val amountInBandExplain: js.Array[String] = band.amountInBand.explain.toJSArray
         }: js.Object }.toJSArray
 
@@ -52,13 +52,28 @@ class ClassOneFrontend(
         val employer = in.employerContributions.value.toDouble
         val net = in.totalContributions.value.toDouble
       }
+
+      val underpayment = new js.Object {
+        val employee = in.underpayment.employee.value.formatSterling
+        val employer = in.underpayment.employer.value.formatSterling
+        val total = in.underpayment.total.value.formatSterling
+      }
+
+      val overpayment = new js.Object {
+        val employee = in.overpayment.employee.value.formatSterling
+        val employer = in.overpayment.employer.value.formatSterling
+        val total = in.overpayment.total.value.formatSterling
+      }
+
     }
   }
 
   def calculate(
     on: js.Date,
-    rows: js.Array[ClassOneRow]
-  ): js.Object = 
+    rows: js.Array[ClassOneRow],
+    netPaid: String,
+    employeePaid: String
+  ): js.Object =
     config.calculateClassOne(
       on,
       rows.toList.collect {
@@ -72,7 +87,9 @@ class ClassOneFrontend(
           }
 
           ClassOneRowInput(id, grossPay, category.head, p, if (period == "2W") 2 else 1 )
-      }
+      },
+      BigDecimal(netPaid),
+      BigDecimal(employeePaid)
     ).toJSObject
 
   def isCosrApplicable(on: Date): Boolean = {
@@ -112,7 +129,7 @@ case class ClassOneRow(
   category: String,
   grossPay: Double,
   contractedOutStandardRate: Boolean = false
-) 
+)
 
 @JSExportTopLevel("ClassOneRowProRata")
 case class ClassOneRowProRata(
@@ -123,4 +140,3 @@ case class ClassOneRowProRata(
   grossPay: Double,
   contractedOutStandardRate: Boolean = false
 )
-
