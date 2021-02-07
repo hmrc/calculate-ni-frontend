@@ -17,10 +17,10 @@ class NiFrontend(json: String) extends js.Object {
   }
 
   lazy val classOne = new ClassOneFrontend(config)
-  lazy val classTwo = new ClassTwoFrontend(config)
-  lazy val classThree = new ClassThreeFrontend(config)
-  lazy val classFour = new ClassFourFrontend(config)  
-  lazy val weeklyContributions = new WeeklyContributions(config)  
+  lazy val classTwo = new ClassTwoAndThreeFrontend(config.classTwo)
+  lazy val classThree = new ClassTwoAndThreeFrontend(config.classThree)
+  lazy val classFour = new ClassFourFrontend(config)
+  lazy val weeklyContributions = new WeeklyContributions(config)
   lazy val interestOnLateClassOne = new InterestOnUnpaidFrontend(config)
   lazy val interestOnRefundsClassOne = new InterestOnRefundsClassOne(config)
 

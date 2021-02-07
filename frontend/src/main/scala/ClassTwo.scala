@@ -5,13 +5,25 @@ import scala.scalajs.js.annotation._
 import scala.scalajs.js.Date
 import scala.scalajs.js, js.JSConverters._
 import java.time.LocalDate
+import JsObjectAdapter.ops._
+import spire.math.Interval
 
-class ClassTwoFrontend(
-  config: Configuration
+class ClassTwoAndThreeFrontend[A <: ClassTwoOrThree](
+  rates: Map[Interval[LocalDate], A]
 ) extends js.Object {
 
+  implicit val c2ResultAdapter = new JsObjectAdapter[ClassTwoAndThreeResult[A]] {
+    def toJSObject(in: ClassTwoAndThreeResult[A]): js.Object = new js.Object {
+      val contributionsDue: Int = in.numberOfContributions.value
+      val rate: Double = in.rate.value.toDouble
+      val totalAmountDue: Double = in.totalDue.value.toDouble
+      val dateHigherRateApply: js.Date = in.higherProvisionsApplyOn.value
+      val finalPaymentDate: js.Date = in.finalDate.value
+    }
+  }
+
   def getTaxYears: js.Array[String] = {
-    val i = config.classTwo.keys.map(_.toString)
+    val i = rates.keys.map(_.toString)
     i.toJSArray
   }
 
@@ -19,11 +31,13 @@ class ClassTwoFrontend(
     taxYear: Date,
     paymentDate: Date,
     earningsFactor: Double
-  ) = new js.Object {
-    val contributionsDue: Int = 39
-    val rate: Double = 3.05
-    val totalAmountDue: Double = 118.45
-    val dateHigherRateApply: js.Date = LocalDate.of(2019, 4, 5)
-    val finalPaymentDate: js.Date = LocalDate.of(2019, 4, 5)
-  }
+  ): js.Object = ClassTwoAndThreeResult[A](
+    taxYear,
+    rates.at(taxYear).getOrElse(
+      throw new IllegalStateException(s"No band defined for $taxYear")
+    ),
+    paymentDate,
+    earningsFactor,
+    rates
+  ).toJSObject
 }

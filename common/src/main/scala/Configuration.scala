@@ -19,8 +19,6 @@ package eoi
 import java.time.LocalDate
 import spire.implicits._
 import spire.math.Interval
-import cats.data.Writer, Writer._
-import cats.syntax.applicative._
 
 case class RateDefinition(
   year: Interval[BigDecimal],
@@ -194,19 +192,29 @@ case class Configuration(
     on: LocalDate,
     paymentDate: LocalDate,
     earningsFactor: BigDecimal
-  ): ClassTwoAndThreeResult[ClassTwo] = {
-    import cats.implicits._
+  ) = ClassTwoAndThreeResult[ClassTwo](
+    on,
+    classTwo.at(on).getOrElse(
+      throw new IllegalStateException(s"No C2 band defined for $on")
+    ),
+    paymentDate,
+    earningsFactor,
+    classTwo
+  )
 
-    ClassTwoAndThreeResult[ClassTwo](
-      on,
-      classTwo.at(on).getOrElse(
-        throw new IllegalStateException(s"No C2 band defined for $on")
-      ),
-      paymentDate,
-      earningsFactor,
-      classTwo
-    )
-  }
+  def calculateClassThree(
+    on: LocalDate,
+    paymentDate: LocalDate,
+    earningsFactor: BigDecimal
+  ) = ClassTwoAndThreeResult[ClassThree](
+    on,
+    classThree.at(on).getOrElse(
+      throw new IllegalStateException(s"No C3 band defined for $on")
+    ),
+    paymentDate,
+    earningsFactor,
+    classThree
+  )
 
   def calculateClassOne(
     on: LocalDate,
