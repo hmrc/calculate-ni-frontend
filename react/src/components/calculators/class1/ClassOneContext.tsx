@@ -79,9 +79,9 @@ export interface CalculatedRow {
 }
 
 interface TotalRow {
-  employee: number
-  employer: number
-  net: number
+  employee: string
+  employer: string
+  total: string
 }
 
 export interface Class1Result {
@@ -184,6 +184,7 @@ export function useClassOneForm() {
 
   useEffect(() => {
     if(result && result.resultRows) {
+      console.log('result', result)
       setRows((prevState: Row[]) => prevState.map(row => {
         const matchingRow: CalculatedRow | undefined =
           result.resultRows
