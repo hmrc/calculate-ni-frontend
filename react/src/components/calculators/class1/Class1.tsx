@@ -71,6 +71,10 @@ const Class1Page = () => {
           parseFloat(row.gross),
           false
         ))
+
+      const dateSent = taxYear.from
+
+      console.log('date sent', dateSent)
       setResult(ClassOneCalculator.calculate(
         taxYear.from,
         requestRows,

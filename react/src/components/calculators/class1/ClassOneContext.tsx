@@ -79,9 +79,9 @@ export interface CalculatedRow {
 }
 
 interface TotalRow {
-  employee: string
-  employer: string
-  total: string
+  employee: number
+  employer: number
+  total: number
 }
 
 export interface Class1Result {

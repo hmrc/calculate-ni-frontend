@@ -100,15 +100,15 @@ function Totals (props: TotalsProps) {
             </tr>
             <tr>
               <th className="right">Underpayment</th>
-              <td className={readOnlyClass}><span>{result?.underpayment?.total}</span></td>
-              <td className={readOnlyClass}><span>{result?.underpayment?.employee}</span></td>
-              <td className={readOnlyClass}><span>{result?.underpayment?.employer}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.underpayment?.total).format('$0,0.00')}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.underpayment?.employee).format('$0,0.00')}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.underpayment?.employer).format('$0,0.00')}</span></td>
             </tr>
             <tr>
               <th className="right">Overpayment</th>
-              <td className={readOnlyClass}><span>{result?.overpayment?.total}</span></td>
-              <td className={readOnlyClass}><span>{result?.overpayment?.employee}</span></td>
-              <td className={readOnlyClass}><span>{result?.overpayment?.employer}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.overpayment?.total).format('$0,0.00')}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.overpayment?.employee).format('$0,0.00')}</span></td>
+              <td className={readOnlyClass}><span>{numeral(result?.overpayment?.employer).format('$0,0.00')}</span></td>
             </tr>
             </tbody>
           </table>
