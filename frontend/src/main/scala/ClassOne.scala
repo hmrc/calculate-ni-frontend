@@ -65,6 +65,8 @@ class ClassOneFrontend(
         val total = in.overpayment.total.value.toDouble
       }
 
+      val employerContributions = in.employerPaid.value.toDouble
+
     }
   }
 
