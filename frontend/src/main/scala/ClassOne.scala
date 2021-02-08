@@ -45,6 +45,8 @@ class ClassOneFrontend(
 
       }: js.Object }.toJSArray
 
+      val employerPaid = in.employerPaid.value.toDouble
+
       // aggregate values
       val totals = new js.Object {
         val gross = in.grossPay.value.toDouble
