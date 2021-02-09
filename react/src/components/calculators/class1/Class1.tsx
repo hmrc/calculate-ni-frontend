@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {validateClassOnePayload} from '../../../validation/validation'
 import {ClassOneRow} from '../../../calculation'
 
@@ -19,8 +19,6 @@ const Class1Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const {
     ClassOneCalculator,
-    setTaxYear,
-    taxYears,
     taxYear,
     defaultRow,
     rows,
@@ -73,6 +71,7 @@ const Class1Page = () => {
           parseFloat(row.gross),
           false
         ))
+
       taxYear && setResult(ClassOneCalculator.calculate(
         taxYear.from,
         requestRows,

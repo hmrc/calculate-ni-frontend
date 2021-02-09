@@ -50,6 +50,14 @@ export default function Class1TableRow(props: TableRowProps) {
 
   useEffect(periodCallBack, [row.period])
 
+  useEffect(() => {
+    setRows(rows.map((cur: Row) =>
+      (cur.id === row.id ? {
+      ...cur, category: categories[0]
+    } : cur)
+    ))
+  }, [categories])
+
   return (
     <tr
       className={activeRowId === row.id ? "active" : ""}
@@ -91,7 +99,7 @@ export default function Class1TableRow(props: TableRowProps) {
           :
           <>
             <label className="govuk-visually-hidden" htmlFor={`row${index}-category`}>Category</label>
-            <select name="category" value={row.category} onChange={(e) => handleSelectChange?.(row, e)} className="borderless" id={`row${index}-category`}>
+            <select name="category" value={row.category || categories[0]} onChange={(e) => handleSelectChange?.(row, e)} className="borderless" id={`row${index}-category`}>
               {categories.map((c: string, i: number) => (
                 <option key={i} value={c}>
                   {`${c}${config.categoryNames[c] ? ` - ${config.categoryNames[c]}` : ``}`}
