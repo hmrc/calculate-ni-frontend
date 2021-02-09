@@ -21,6 +21,7 @@ function ClassOneEarningsTable(props: TableProps) {
     setErrors,
     result
   } = useContext(ClassOneContext)
+
   const [periodSortDirection, setPeriodSortDirection] = useState<'ascending' | 'descending' | 'none' | undefined>('none')
 
   const handleSortPeriod = (e: React.MouseEvent) => {
