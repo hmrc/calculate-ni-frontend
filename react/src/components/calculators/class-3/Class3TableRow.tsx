@@ -21,7 +21,7 @@ const Class3TableRow = (props: {
     setActiveRowId
   } = useContext(Class3Context)
   const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
-  const initDateRange = row.dateRange.from ? row.dateRange : {from: taxYear.from, to: taxYear.to, hasContentFrom: false, hasContentTo: false}
+  const initDateRange = row.dateRange?.from ? row.dateRange : {from: taxYear?.from, to: taxYear?.to}
   const [dateRange, setDateRange] = useState<GovDateRange>(initDateRange)
   const [showDates, setShowDates] = useState<boolean>(false)
 
@@ -83,6 +83,7 @@ const Class3TableRow = (props: {
             hiddenLabel={true}
             taxYears={taxYears}
             taxYear={taxYear}
+            setTaxYear={setTaxYear}
             handleTaxYearChange={handleTaxYearChange}
             dateRange={dateRange}
             setDateRange={setDateRange}

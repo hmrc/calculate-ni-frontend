@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useContext, useState} from 'react'
+import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from 'react'
 import {buildTaxYears} from "../../../config";
 
 // types
@@ -82,6 +82,7 @@ export const Class3Context = React.createContext<Class3Context>(
 )
 
 export function useClass3Form() {
+  const [taxYears, setTaxYears] = useState<TaxYear[]>([])
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [rows, setRows] = useState<Array<Class3Row>>(class3DefaultRows)
   const [errors, setErrors] = useState<GenericErrors>({})
@@ -95,8 +96,10 @@ export function useClass3Form() {
   } = useContext(NiFrontendContext)
   const ClassThreeCalculator = NiFrontendInterface.classThree
   const WeeklyContributionsCalculator = NiFrontendInterface.weeklyContributions
-  const taxYears: TaxYear[] = buildTaxYears(ClassThreeCalculator.getTaxYears)
-
+  useEffect(() => {
+    const taxYearData = buildTaxYears(ClassThreeCalculator.getTaxYears)
+    setTaxYears(taxYearData)
+  }, [ClassThreeCalculator, NiFrontendInterface])
   return {
     WeeklyContributionsCalculator,
     taxYears,
