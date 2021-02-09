@@ -18,8 +18,6 @@ import spire.math.Interval
 import spire.math.interval._
 import spire.implicits._
 import java.time.LocalDate
-import java.text.{NumberFormat => NF}
-import java.util.Locale.UK
 
 package object eoi {
 
@@ -61,8 +59,22 @@ package object eoi {
       }
     }
 
-    def formatPercentage: String = NF.getPercentInstance(UK).format(in)
-    def formatSterling: String = NF.getCurrencyInstance(UK).format(in)
+    def formatSterling: String = formatSterling(false)
+
+    def formatSterling(alwaysShowPence: Boolean): String =
+      if (in.isWhole && !alwaysShowPence) f"£${in}%,.0f" else f"£${in}%,.2f"
+
+    def formatPercentage: String = {
+      val p = in * 100
+      if (p.isWhole) {
+        f"${p}%.0f%%"
+      } else {
+        f"${p}%.20f".
+          reverse.
+          dropWhile(_ == '0').
+          reverse + "%"
+      }
+    }
 
   }
 

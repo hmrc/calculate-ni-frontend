@@ -17,7 +17,6 @@
 package eoi
 
 import spire.math.Interval
-import cats.data.Writer
 import cats.syntax.applicative._
 import cats.syntax.traverse._
 import cats.instances.list._
@@ -34,7 +33,9 @@ case class ClassOneRowInput(
 
 case class ClassOneResult(
   config: Map[String, RateDefinition],
-  rowsInput: List[ClassOneRowInput]
+  rowsInput: List[ClassOneRowInput],
+  netPaid: BigDecimal = Zero,
+  employeePaid: BigDecimal = Zero
 ) {
 
   case class ClassOneRowOutput(
@@ -136,32 +137,31 @@ case class ClassOneResult(
     }
 
   }
-  
+
   lazy val rowsOutput: List[ClassOneRowOutput] = rowsInput.map {
     case ClassOneRowInput(id, money, category, period, periodQty) =>
       ClassOneRowOutput(id, money, category, period, periodQty)
   }
 
-    def employeeContributions: Explained[BigDecimal] = {
-      rowsOutput.map(b => b.employeeContributions.map(b.rowId -> _): Explained[(String, BigDecimal)])
-        .sequence
-        .flatMap{ e =>
-          val (ids, amts) = e.filter(_._2 != 0).unzip
-          amts.sum gives
+  def employeeContributions: Explained[BigDecimal] = {
+    rowsOutput.map(b => b.employeeContributions.map(b.rowId -> _): Explained[(String, BigDecimal)])
+      .sequence
+      .flatMap{ e =>
+        val (ids, amts) = e.filter(_._2 != 0).unzip
+        amts.sum gives
           s"employee: ${ids.mkString(" + ")} = ${amts.mkString(" + ")}"
-        }
-    }
+      }
+  }
 
-    def employerContributions: Explained[BigDecimal] = {
-      rowsOutput.map(b => b.employerContributions.map(b.rowId -> _): Explained[(String, BigDecimal)])
-        .sequence
-        .flatMap{ e =>
-          val (ids, amts) = e.filter(_._2 != 0).unzip
-          amts.sum gives
-          s"employer: ${ids.mkString(" + ")} = ${amts.mkString(" + ")}"
-        }
-    }
-
+  def employerContributions: Explained[BigDecimal] = {
+    rowsOutput.map(b => b.employerContributions.map(b.rowId -> _): Explained[(String, BigDecimal)])
+      .sequence
+      .flatMap{ e =>
+        val (ids, amts) = e.filter(_._2 != 0).unzip
+        amts.sum gives
+        s"employer: ${ids.mkString(" + ")} = ${amts.mkString(" + ")}"
+      }
+  }
 
   def totalContributions: Explained[BigDecimal] = (
     employeeContributions,
@@ -172,5 +172,52 @@ case class ClassOneResult(
 
   def grossPay: Explained[BigDecimal] = rowsInput.map{_.money}.sum gives
     s"grossPay: ${rowsInput.map(_.money).mkString(" + ")}"
-  
+
+
+  def employerPaid: Explained[BigDecimal] =
+    (netPaid - employeePaid) gives s"employerPaid: $netPaid - $employeePaid"
+
+  object underpayment {
+
+    def employee: Explained[BigDecimal] =
+      employeeContributions.flatMap(c =>
+        (c - employeePaid).max(Zero) gives
+          s"underpayment.employee: max(0, employeeContributions - employeePaid) = max(0, $c - $employeePaid)"
+      )
+
+    def employer: Explained[BigDecimal] = (
+      employerContributions,
+      employerPaid
+    ).tupled.flatMap{ case (c, p) => (c - p).max(Zero) gives
+        s"underpayment.employer: max(0, $employerContributions - $employerPaid) = max(0, $c - $p)"
+    }
+
+    def total = (employee, employer).tupled.flatMap { case (ee,er) => (ee + er) gives
+      s"underpayment.total: employee + employer = $ee + $er"
+    }
+
+    override def toString = (employee.value, employer.value).toString
+  }
+
+  object overpayment {
+    def employee: Explained[BigDecimal] =
+      employeeContributions.flatMap(c =>
+        (employeePaid - c).max(Zero) gives
+          s"overpayment.employee: max(0, employeePaid - employeeContributions) = max(0, $employeePaid - $c)"
+      )
+
+    def employer: Explained[BigDecimal] = (
+      employerContributions,
+      employerPaid
+    ).tupled.flatMap{ case (c, p) => (p - c).max(Zero) gives
+        s"overpayment.employer: max(0, $employerPaid - $employerContributions) = max(0, $p - $c)"
+    }
+
+    def total = (employee, employer).tupled.flatMap { case (ee,er) => (ee + er) gives
+      s"overpayment.total: employee + employer = $ee + $er"
+    }
+
+    override def toString = (employee.value, employer.value).toString
+  }
+
 }

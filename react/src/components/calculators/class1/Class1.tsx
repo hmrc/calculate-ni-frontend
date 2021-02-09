@@ -11,7 +11,7 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 
 // utils
 import {hasKeys} from "../../../services/utils";
-import {ClassOneContext, useClassOneForm, ClassOneRowInterface} from "./ClassOneContext";
+import {ClassOneContext, useClassOneForm, ClassOneRowInterface, Row} from "./ClassOneContext";
 
 const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 
@@ -64,18 +64,22 @@ const Class1Page = () => {
 
     if (validateClassOnePayload(payload, setErrors)) {
       const requestRows: Array<ClassOneRowInterface> = rows
-        .map(row => new (ClassOneRow as any)(
+        .map((row: Row) => new (ClassOneRow as any)(
           row.id,
           row.period,
           row.category,
           parseFloat(row.gross),
           false
         ))
+
+      const dateSent = taxYear.from
+
+      console.log('date sent', dateSent)
       setResult(ClassOneCalculator.calculate(
         taxYear.from,
         requestRows,
-        parseFloat(payload.niPaidNet),
-        parseFloat(payload.niPaidEmployee)
+        payload.niPaidNet,
+        payload.niPaidEmployee
       ))
       if (showSummaryIfValid) {
         setShowSummary(true)
