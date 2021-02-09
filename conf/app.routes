@@ -8,5 +8,12 @@ GET        /tables/classFour        uk.gov.hmrc.calculatenifrontend.controllers.
 GET        /national-insurance.json uk.gov.hmrc.calculatenifrontend.controllers.NiConfigController.configJson
 GET        /stylesheets/*file       controllers.Assets.at(path = "/public/stylesheets", file)
 GET        /javascripts/*file       controllers.Assets.at(path = "/public/javascripts", file)
-GET        /                        controllers.Assets.at(path = "/public/build", file = "index.html")
+GET        /                        uk.gov.hmrc.calculatenifrontend.controllers.CalculatorUIController.loadApplication()
+GET        /class-1                 uk.gov.hmrc.calculatenifrontend.controllers.CalculatorUIController.loadApplication()
+GET        /directors               uk.gov.hmrc.calculatenifrontend.controllers.CalculatorUIController.loadApplication()
+GET        /unofficial-deferment    uk.gov.hmrc.calculatenifrontend.controllers.CalculatorUIController.loadApplication()
+GET        /class-2-or-3            uk.gov.hmrc.calculatenifrontend.controllers.CalculatorUIController.loadApplication()
+GET        /class-3                 uk.gov.hmrc.calculatenifrontend.controllers.CalculatorUIController.loadApplication()
+GET        /late-interest           uk.gov.hmrc.calculatenifrontend.controllers.CalculatorUIController.loadApplication()
+GET        /late-refunds            uk.gov.hmrc.calculatenifrontend.controllers.CalculatorUIController.loadApplication()
 GET        /*file                   controllers.Assets.versioned(path = "/public/build", file: Asset)
