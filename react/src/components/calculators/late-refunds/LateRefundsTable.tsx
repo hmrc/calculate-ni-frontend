@@ -59,19 +59,9 @@ function LateRefundsTable(props: LateRefundsTable) {
 
   return (
     <>
+      <h2 className="section-heading">Refunds</h2>
       <table className="contribution-details section-outer--top">
         <thead>
-        <tr className="clear bottom-nobor">
-          <th></th>
-          <th className="border lg"><span>Tax year</span></th>
-          <th colSpan={3}></th>
-        </tr>
-        <tr className="clear">
-          <th></th>
-          <th className="border"><span>Refund</span></th>
-          <th className="border"><span>Amount Paid</span></th>
-          <th className="border" colSpan={2}><span>Amount for interest</span></th>
-        </tr>
         <tr>
           <th>
             #<span className="govuk-visually-hidden"> Row number</span>

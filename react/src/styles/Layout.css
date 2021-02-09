@@ -80,7 +80,8 @@
 
   .container.third {
     flex-grow: 1;
-    width: 33.333%;
+    width: 33.3333%;
+    box-sizing: border-box;
   }
 
   .container.third + .third {
@@ -88,6 +89,15 @@
   }
 
   .container .item + .item {
+    margin-left: 4%;
+  }
+
+  .container.quarter {
+    flex-grow: 1;
+    width: 25%;
+  }
+
+  .container.quarter + .quarter {
     margin-left: 4%;
   }
 }
