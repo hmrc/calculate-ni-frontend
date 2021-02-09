@@ -28,8 +28,6 @@ export default function Class1TableRow(props: TableRowProps) {
 
   const { config } = useContext(NiFrontendContext)
 
-  console.log('categories', categories)
-
   const handleChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
     setActiveRowId(r.id)
     setRows(rows.map((cur: Row) =>

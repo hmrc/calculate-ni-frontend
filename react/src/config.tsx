@@ -66,7 +66,6 @@ export const periodValueToLabel = (str: PeriodValue) => {
 }
 
 export const dateRangeString = (dateRange: GovDateRange) => {
-  console.log(dateRange)
   return `${moment(dateRange.from).format(momentDateFormat)} - ${moment(dateRange.to).format(momentDateFormat)}`
 }
 

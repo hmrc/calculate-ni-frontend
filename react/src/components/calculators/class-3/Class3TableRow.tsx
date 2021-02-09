@@ -45,7 +45,6 @@ const Class3TableRow = (props: {
 
   useEffect(() => {
     if(dateRange) {
-      console.log('setting dateRange to ', dateRange.from, dateRange.to)
       setRows((prevState: Array<Class3Row>) => prevState
         .map(
           (cur: Class3Row) =>

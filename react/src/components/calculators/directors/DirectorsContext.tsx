@@ -163,7 +163,6 @@ export function useDirectorsForm() {
 
   useEffect(() => {
     if(taxYears.length > 0) {
-      console.log('taxYears set', taxYears)
       setTaxYear(taxYears[0])
     }
   }, [taxYears])

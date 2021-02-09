@@ -182,7 +182,6 @@ export function useClassOneForm() {
 
   useEffect(() => {
     if(result && result.resultRows) {
-      console.log('result', result)
       setRows((prevState: Row[]) => prevState.map(row => {
         const matchingRow: CalculatedRow | undefined =
           result.resultRows
@@ -216,7 +215,6 @@ export function useClassOneForm() {
   useEffect(() => {
     const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
     setTaxYears(taxYearData)
-
   }, [ClassOneCalculator])
 
   const setPeriodNumbers = (deletedRow: string | undefined) => {
