@@ -35,11 +35,11 @@ case class ClassTwoAndThreeResult[A <: ClassTwoOrThree](
   import year._
 
   def numberOfContributions: Explained[Int] = {
-    val unrounded = (((qualifyingRate - earningsFactor) / earningsFactor) * noOfWeeks)
+    val unrounded = (((qualifyingRate - earningsFactor) / qualifyingRate) * noOfWeeks)
     val rounded = unrounded.setScale(0, BigDecimal.RoundingMode.CEILING).toInt
     rounded gives {
-      "noContributions: ⌈((qualRate - ef) / ef) * noOfWeeks⌉ = " ++
-      s"⌈(($qualifyingRate - $earningsFactor) / $earningsFactor) * $noOfWeeks⌉ = " ++
+      "noContributions: ⌈((qualRate - ef) / qualRate) * noOfWeeks⌉ = " ++
+      s"⌈(($qualifyingRate - $earningsFactor) / $qualifyingRate) * $noOfWeeks⌉ = " ++
       s"⌈$unrounded⌉"
     }
   }
@@ -74,9 +74,12 @@ case class ClassTwoAndThreeResult[A <: ClassTwoOrThree](
     }
 
   def rate: Explained[BigDecimal] = higherRateApplies flatMap {
-    case true => otherRates.at(paymentDate).getOrElse(
-      throw new IllegalStateException(s"No band defined for $paymentDate")
-    ).rate gives s"rate: for $paymentDate, due to higher rate"
+    case true => otherRates.at(paymentDate) match {
+      case Some(r) => r.rate gives s"rate: for $paymentDate, due to higher rate"
+      case None =>
+        val mostRecent = otherRates.toList.sortBy(_._1.lowerValue.get.toEpochDay).last
+        mostRecent._2.rate gives s"rate: for ${mostRecent._1}, due to higher rate but no rate defined for $paymentDate"
+    }
     case false => year.rate gives s"rate: normal (non-HRP)"
   }
 
