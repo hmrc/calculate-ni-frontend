@@ -27,7 +27,11 @@ function LateRefundsPrint(props: LateRefundPrintProps) {
 
         <div className="divider--bottom">
           <div className="section--top">
-            <p><strong>Number of bank holidays:</strong> {bankHolidaysNo}</p>
+
+            <div className="divider--bottom section--bottom section-outer--bottom">
+              <p><strong>Number of bank holidays:</strong> {bankHolidaysNo ? bankHolidaysNo : 'Not entered'}</p>
+            </div>
+
             <LateRefundsTable printView={true} />
           </div>
         </div>

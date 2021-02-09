@@ -20,17 +20,16 @@ function LateRefundsTable(props: LateRefundsTable) {
     defaultRows,
     rows,
     setRows,
-    taxYears,
     activeRowId,
     setActiveRowId,
-    setErrors
+    setErrors,
+    taxYears
   } = useContext(LateRefundsContext)
 
   const handleAddRow = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     setRows([...rows, {
       id: uniqid(),
-      taxYears: taxYears,
       taxYear: taxYears[0],
       debt: ''
     }])
@@ -59,19 +58,9 @@ function LateRefundsTable(props: LateRefundsTable) {
 
   return (
     <>
+      <h2 className="section-heading">Refunds</h2>
       <table className="contribution-details section-outer--top">
         <thead>
-        <tr className="clear bottom-nobor">
-          <th></th>
-          <th className="border lg"><span>Tax year</span></th>
-          <th colSpan={3}></th>
-        </tr>
-        <tr className="clear">
-          <th></th>
-          <th className="border"><span>Refund</span></th>
-          <th className="border"><span>Amount Paid</span></th>
-          <th className="border" colSpan={2}><span>Amount for interest</span></th>
-        </tr>
         <tr>
           <th>
             #<span className="govuk-visually-hidden"> Row number</span>
@@ -85,7 +74,6 @@ function LateRefundsTable(props: LateRefundsTable) {
         <tbody>
         {rows.map((row: LateRefundsTableRowProps, index: number) => (
           <LateRefundsTableRow
-            taxYears={taxYears}
             row={row}
             index={index}
             printView={printView}

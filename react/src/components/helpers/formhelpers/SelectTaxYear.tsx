@@ -6,7 +6,7 @@ import {TaxYear} from '../../../interfaces'
 
 interface SelectTaxYearProps {
   taxYears: TaxYear[]
-  taxYear: TaxYear
+  taxYear: TaxYear | null
   handleTaxYearChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
   onlyStartYear?: boolean
   hiddenLabel?: boolean
@@ -24,7 +24,7 @@ function SelectTaxYear(props: SelectTaxYearProps) {
         Select a tax year
       </label>
       <select
-        value={taxYear.id}
+        value={taxYear?.id}
         onChange={handleTaxYearChange}
         id="taxYear"
         name="taxYear"

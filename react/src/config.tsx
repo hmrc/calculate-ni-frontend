@@ -16,6 +16,7 @@ export const extractFromDateString = (ty: string) => ty.substr(1, 10)
 export const extractToDateString = (ty: string) => ty.substr(13, 10)
 export const sortByTaxYear = (a: TaxYear, b: TaxYear) => (a.id < b.id ? 1 : (a.id > b.id ? -1 : 0))
 export const buildTaxYears = (config: Array<string>) => config
+  .filter(k => taxYearStringFormat.test(k))
   .map((ty: string) => ({
     id: ty,
     from: new Date(extractFromDateString(ty)),
@@ -65,7 +66,6 @@ export const periodValueToLabel = (str: PeriodValue) => {
 }
 
 export const dateRangeString = (dateRange: GovDateRange) => {
-  console.log(dateRange)
   return `${moment(dateRange.from).format(momentDateFormat)} - ${moment(dateRange.to).format(momentDateFormat)}`
 }
 

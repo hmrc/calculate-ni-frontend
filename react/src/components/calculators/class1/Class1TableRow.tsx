@@ -50,6 +50,14 @@ export default function Class1TableRow(props: TableRowProps) {
 
   useEffect(periodCallBack, [row.period])
 
+  useEffect(() => {
+    setRows(rows.map((cur: Row) =>
+      (cur.id === row.id ? {
+      ...cur, category: categories[0]
+    } : cur)
+    ))
+  }, [categories])
+
   return (
     <tr
       className={activeRowId === row.id ? "active" : ""}
@@ -149,7 +157,10 @@ export default function Class1TableRow(props: TableRowProps) {
                className={`govuk-tag ${showExplanation === row.id ? 
                  `govuk-tag--blue` : `govuk-tag--grey`}`}
              >
-               ?
+               <span aria-hidden="true">?</span>
+               <span className="govuk-visually-hidden">
+                 Explain the results in this row
+               </span>
              </strong>
            </a>
         </td>

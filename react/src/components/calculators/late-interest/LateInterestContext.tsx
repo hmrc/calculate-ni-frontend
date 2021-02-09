@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useContext, useState} from 'react'
+import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from 'react'
 import uniqid from 'uniqid';
 
 // types
@@ -91,8 +91,7 @@ export function useLateInterestForm() {
   const ClassOneCalculator = NiFrontendInterface.classOne
   const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears)
   const InterestOnLateClassOneCalculator = NiFrontendInterface.interestOnLateClassOne
-  const interestRates = InterestOnLateClassOneCalculator.getRates()
-  const [rates] = useState<Rate[] | null>(interestRates)
+  const [rates, setRates] = useState<Rate[] | null>([])
   const defaultRows = [{
     id: uniqid(),
     taxYears: taxYears,
@@ -102,6 +101,11 @@ export function useLateInterestForm() {
   }]
   const [rows, setRows] = useState<Array<Class1DebtRow>>(defaultRows)
   const [hasRemissionPeriod, setHasRemissionPeriod] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    const interestRates = InterestOnLateClassOneCalculator.getRates()
+    setRates(interestRates)
+  }, [InterestOnLateClassOneCalculator])
 
   return {
     InterestOnLateClassOneCalculator,

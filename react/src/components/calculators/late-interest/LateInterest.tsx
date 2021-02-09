@@ -59,7 +59,7 @@ function LateInterestPage() {
     if(validateLateInterestPayload(payload, setErrors)) {
       const transformedRows = rows.map((row: Class1DebtRow) => {
         return {
-          periodStart: row.taxYear.from,
+          periodStart: row.taxYear?.from,
           debt: row.debt
         }
       })
