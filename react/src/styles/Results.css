@@ -1,11 +1,16 @@
 .results .value {
   background-color: #E6E6E6;
   border: 2px solid var(--input-border);
+  box-sizing: border-box;
   display: block;
   height: 36px;
   line-height: 36px;
   margin-bottom: 15px;
   padding: 0 5px;
+}
+
+.results .value.full {
+  width: 100%;
 }
 
 .results .label{

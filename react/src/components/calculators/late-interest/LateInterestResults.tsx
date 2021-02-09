@@ -10,31 +10,33 @@ function LateInterestResults() {
     <div className="section--top section-outer--top section--bottom section-outer--bottom divider--bottom results print-totals-inline">
       <h2 className="section-heading">Totals</h2>
 
-      <div className="container section--top column">
-        <span className="label block">Class 1 debt</span>
-        <div className="value inline width-8">
-          {results?.totalDebt}
+      <div className="container">
+        <div className="container quarter section--top column">
+          <span className="label block">Class 1 debt</span>
+          <div className="value inline full">
+            {results?.totalDebt}
+          </div>
         </div>
-      </div>
 
-      <div className="container section--top column">
-        <span className="label block">Interest due</span>
-        <div className="value inline width-8">
-          {results?.totalInterest}
+        <div className="container quarter section--top column">
+          <span className="label block">Interest due</span>
+          <div className="value inline full">
+            {results?.totalInterest}
+          </div>
         </div>
-      </div>
 
-      <div className="container section--top column">
-        <span className="label block">Class1 debt and interest due</span>
-        <div className="value inline width-8">
-          {results?.grandTotal}
+        <div className="container quarter section--top column">
+          <span className="label block">Class1 debt and interest due</span>
+          <div className="value inline full">
+            {results?.grandTotal}
+          </div>
         </div>
-      </div>
 
-      <div className="container section--top column">
-        <span className="label block">Daily interest rate</span>
-        <div className="value inline width-8">
-          [todo]
+        <div className="container quarter section--top column">
+          <span className="label block">Daily interest rate</span>
+          <div className="value inline full">
+            [todo]
+          </div>
         </div>
       </div>
 
