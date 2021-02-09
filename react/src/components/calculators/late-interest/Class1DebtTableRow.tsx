@@ -21,10 +21,12 @@ function Class1DebtTableRow(props: {
     setRows,
     errors,
     activeRowId,
-    setActiveRowId
+    setActiveRowId,
+    setResults
   } = useContext(LateInterestContext)
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    invalidateResults()
     const ty = e.currentTarget.value
 
     const tYObject: TaxYear = {
@@ -39,9 +41,14 @@ function Class1DebtTableRow(props: {
   }
 
   const handleChange = (row: Class1DebtRow, e:  React.ChangeEvent<HTMLInputElement>) => {
+    invalidateResults()
     setRows(rows.map((cur: Class1DebtRow) =>
       cur.id === row.id ? {...cur, debt: e.currentTarget.value} : cur
     ))
+  }
+
+  const invalidateResults = () => {
+    setResults(null)
   }
 
   return (

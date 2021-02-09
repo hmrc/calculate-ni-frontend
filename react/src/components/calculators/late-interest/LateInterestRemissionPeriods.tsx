@@ -10,11 +10,17 @@ function LateInterestRemissionPeridos() {
     setDateRange,
     errors,
     hasRemissionPeriod,
-    setHasRemissionPeriod
+    setHasRemissionPeriod,
+    setResults
   } = useContext(LateInterestContext)
 
   const handleChange = (value: string) => {
+    invalidateResults()
     setHasRemissionPeriod(value === 'Yes')
+  }
+
+  const invalidateResults = () => {
+    setResults(null)
   }
 
   return (

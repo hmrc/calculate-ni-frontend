@@ -13,7 +13,6 @@ interface LateInterestFormProps {
 }
 
 function LateInterestForm(props: LateInterestFormProps) {
-  const { handleShowSummary } = props
   const {
     rows,
     setRows,
@@ -21,21 +20,19 @@ function LateInterestForm(props: LateInterestFormProps) {
     setErrors,
     defaultRows,
     activeRowId,
-    setActiveRowId
+    setActiveRowId,
+    setResults
   } = useContext(LateInterestContext)
 
   const handleClearForm = () => {
-    // clear form
     setRows(defaultRows)
-
-    // clear results
-
-    // reset errors
+    setResults(null)
     setErrors({})
   }
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
+    invalidateResults()
     setRows([...rows, {
       id: uniqid(),
       taxYears: taxYears,
@@ -46,12 +43,17 @@ function LateInterestForm(props: LateInterestFormProps) {
 
   const handleDeleteRow = (e: React.MouseEvent) => {
     e.preventDefault()
+    invalidateResults()
     if(activeRowId) {
       setRows(rows.filter((row: Class1DebtRow) => row.id !== activeRowId))
       // errors are now stale
       setErrors({})
       setActiveRowId(null)
     }
+  }
+
+  const invalidateResults = () => {
+    setResults(null)
   }
 
   return (

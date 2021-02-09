@@ -1,42 +1,21 @@
 import React, {useContext} from 'react'
-import {DirectorsContext, DirectorsRow} from "./DirectorsContext";
+import numeral from 'numeral'
+import 'numeral/locales/en-gb';
 
 // types
+import {DirectorsContext, DirectorsRow} from "./DirectorsContext";
 import {TableProps} from '../../../interfaces'
 
 // components
-import TextInput from '../../helpers/formhelpers/TextInput'
-
-import numeral from 'numeral'
-import 'numeral/locales/en-gb';
-import {NiFrontendContext} from "../../../services/NiFrontendContext";
+import DirectorsTableRow from './DirectorsTableRow'
 
 numeral.locale('en-gb');
 
 function DirectorsEarningsTable(props: TableProps) {
   const { showBands, printView } = props
   const {
-    rows,
-    setRows,
-    categories,
-    errors,
-    activeRowId,
-    setActiveRowId
+    rows
   } = useContext(DirectorsContext)
-
-  const { config } = useContext(NiFrontendContext)
-
-  const handleGrossChange = (r: DirectorsRow, e: React.ChangeEvent<HTMLInputElement>) => {
-    setRows(rows.map((cur: DirectorsRow) =>
-      cur.id === r.id ? {...cur, gross: e.currentTarget.value} : cur
-    ))
-  }
-
-  const handleSelectChange = (r: DirectorsRow, e: React.ChangeEvent<HTMLSelectElement>) => {
-    setRows(rows.map((cur: DirectorsRow) =>
-      cur.id === r.id ? {...cur, [e.currentTarget.name]: e.currentTarget.value} : cur
-    ))
-  }
 
   return (
     <table className="contribution-details">
@@ -66,67 +45,13 @@ function DirectorsEarningsTable(props: TableProps) {
       
       <tbody>
         {rows.map((r: DirectorsRow, i: number) => (
-          <tr
+          <DirectorsTableRow
             key={r.id}
-            id={r.id}
-            className={activeRowId === r.id ? "active" : ""}
-            onClick={() => setActiveRowId(r.id)}
-          >
-            <td className="input">
-              {printView ?
-                <div>{r.category}</div>
-                :
-                <>
-                  <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category</label>
-                  <select name="category" value={r.category} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
-                    {categories.map((c: string, i: number) => (
-                      <option key={i} value={c}>
-                        {`${c}${config.categoryNames[c] ? ` - ${config.categoryNames[c]}` : ``}`}
-                      </option>
-                    ))}
-                  </select>
-                </>
-              }
-            </td>
-
-            {/* Gross Pay */}
-            <td className={
-              `input ${errors?.[`${r.id}-gross`] ? "error-cell" : ""}`}>
-              {printView ?
-                <div>{r.gross}</div>
-                :
-                <TextInput
-                  hiddenLabel={true}
-                  name={`${r.id}-gross`}
-                  labelText="Gross pay"
-                  inputClassName="gross-pay"
-                  inputValue={r.gross}
-                  placeholderText="Enter the gross pay amount"
-                  onChangeCallback={(e) => handleGrossChange?.(r, e)}
-                />
-              }
-            </td>
-
-            {/* Bands */}
-            {showBands && r.bands && r.bands.map(k =>
-              <td key={`${k.name}-val`}>{numeral(k.amountInBand).format('$0,0.00')}</td>
-            )}
-
-            {/* Total */}
-            {showBands && r.bands &&
-              // Total (if calculate has run)
-              <td>
-                {numeral(
-                  (r.ee + r.er).toString()
-                ).format('$0,0.00')}
-              </td>
-            }
-
-            {/* EE */}
-            <td>{numeral(r.ee).format('$0,0.00')}</td>
-            {/* ER */}
-            <td>{numeral(r.er).format('$0,0.00')}</td>
-          </tr>
+            row={r}
+            index={i}
+            printView={printView}
+            showBands={showBands}
+          />
         ))}
       </tbody>
     </table>

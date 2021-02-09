@@ -39,6 +39,7 @@ export interface Row {
   er: number
   bands?: Array<Band>
   explain?: Array<string>
+  totalContributions?: number
 }
 
 export interface ClassOneRowInterface {
@@ -164,6 +165,7 @@ export function useClassOneForm() {
   const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({})
   const [result, setResult] = useState<Class1Result | null>(null)
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
+
   useEffect(() => {
     if(taxYear && taxYear.from) {
       const categoriesForTaxYear = ClassOneCalculator.getApplicableCategories(taxYear.from)
@@ -198,6 +200,14 @@ export function useClassOneForm() {
             explain: matchingRow.explain
           }
         }
+        return row
+      }))
+    } else {
+      setRows((prevState: Row[]) => prevState.map(row => {
+        delete row.totalContributions
+        delete row.explain
+        row.ee = 0
+        row.er = 0
         return row
       }))
     }

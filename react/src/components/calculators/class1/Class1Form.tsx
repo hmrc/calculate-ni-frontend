@@ -5,17 +5,17 @@ import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
 import ClassOneEarningsTable from './Class1ContributionsTable'
+import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
+import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
 
 // types
 import { Class1FormProps } from '../../../interfaces';
 import {ClassOneContext} from "./ClassOneContext";
-import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
-import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
 
 numeral.locale('en-gb');
 
 function Class1Form(props: Class1FormProps) {
-  const { handleShowSummary, resetTotals } = props
+  const { resetTotals } = props
   const {
     taxYears,
     taxYear,
@@ -41,6 +41,7 @@ function Class1Form(props: Class1FormProps) {
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setResult(null)
     const lastRow = rows[rows.length -1]
     const periodNumber = rows.filter(row => row.period === lastRow.period).length + 1
     const id = uniqid()
@@ -58,6 +59,7 @@ function Class1Form(props: Class1FormProps) {
 
   const handleDeleteRow = (e: React.MouseEvent) => {
     e.preventDefault()
+    setResult(null)
     if(activeRowId) {
       setPeriodNumbers(activeRowId)
       setErrors({})
@@ -73,13 +75,6 @@ function Class1Form(props: Class1FormProps) {
             taxYears={taxYears}
             taxYear={taxYear}
             handleTaxYearChange={handleTaxYearChange}
-          />
-        </div>
-
-        <div className="form-group half">
-          <SecondaryButton
-            label="Save and print"
-            onClick={handleShowSummary}
           />
         </div>
       </div>

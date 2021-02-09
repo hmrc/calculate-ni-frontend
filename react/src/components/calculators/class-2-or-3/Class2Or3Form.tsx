@@ -37,17 +37,20 @@ function Class2Or3Form() {
   } = useContext(Class2Or3Context)
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    invalidateResult()
     const taxYears = activeClass === NiClassName.CLASS_TWO ? class2TaxYears : class3TaxYears
     setTaxYear(taxYears.find(ty => ty.id === e.target.value) || taxYears[0])
   }
 
   useEffect(() => {
+    invalidateResult()
     const paymentEnquiryDate = validDateParts(day, month, year) ?
       new Date(`${year}-${month}-${day}`) : null
       setPaymentEnquiryDate(paymentEnquiryDate)
   }, [day, month, year, setPaymentEnquiryDate])
 
   const handleClassChange = (value: NiClassName) => {
+    invalidateResult()
     setActiveClass(value)
   }
 
@@ -65,6 +68,10 @@ function Class2Or3Form() {
 
     // reset errors
     setErrors({})
+  }
+
+  const invalidateResult = () => {
+    setResult(null)
   }
 
   return (
@@ -114,7 +121,10 @@ function Class2Or3Form() {
         label="Total earnings factor"
         value={earningsFactor}
         error={errors.earningsFactor}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEarningsFactor(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          invalidateResult()
+          setEarningsFactor(e.target.value)
+        }}
         hint="This must include an element of Class 1"
       />
 

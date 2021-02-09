@@ -18,10 +18,12 @@ function LateRefundsTableRow(props: {
     setRows,
     activeRowId,
     setActiveRowId,
-    errors
+    errors,
+    setResults
   } = useContext(LateRefundsContext)
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    invalidateResults()
     const ty = e.currentTarget.value
 
     const tYObject: TaxYear = {
@@ -36,9 +38,14 @@ function LateRefundsTableRow(props: {
   }
 
   const handleChange = (row: LateRefundsTableRowProps, e:  React.ChangeEvent<HTMLInputElement>) => {
+    invalidateResults()
     setRows(rows.map((cur: LateRefundsTableRowProps) =>
       cur.id === row.id ? {...cur, refund: e.currentTarget.value} : cur
     ))
+  }
+
+  const invalidateResults = () => {
+    setResults(null)
   }
 
   const { index, row, printView } = props

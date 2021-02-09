@@ -23,6 +23,7 @@ const Class3Page = () => {
         setActiveRowId,
         WeeklyContributionsCalculator
     } = useContext(Class3Context)
+
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()
         setActiveRowId(null)

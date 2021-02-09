@@ -107,6 +107,23 @@ export function useLateInterestForm() {
     setRates(interestRates)
   }, [InterestOnLateClassOneCalculator])
 
+  useEffect(() => {
+    if(!results) {
+      setRows((prevState: Class1DebtRow[]) => prevState.map(row => ({
+        ...row,
+        interestDue: null
+      })))
+    }
+  }, [results])
+
+  useEffect(() => {
+    setResults(null)
+    setRows((prevState: Class1DebtRow[]) => prevState.map(row => ({
+      ...row,
+      interestDue: null
+    })))
+  }, [dateRange])
+
   return {
     InterestOnLateClassOneCalculator,
     details,
