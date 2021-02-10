@@ -93,7 +93,7 @@ export interface LateRefundsTableRowProps {
   id: string
   taxYear: TaxYear
   refund: string,
-  payable: string
+  payable: string | null
 }
 
 export interface TableProps {

@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react'
 import {validateDirectorsPayload} from '../../../validation/validation'
-import {PeriodLabel} from '../../../config'
+import {PeriodLabel, PeriodValue} from '../../../config'
+import {ClassOneRow} from '../../../calculation'
 
 // components
 import Details from '../shared/Details'
@@ -11,11 +12,11 @@ import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
 import {GovDateRange} from '../../../interfaces'
-import {ClassOneProRataRow, DirectorsContext, DirectorsRow, useDirectorsForm} from "./DirectorsContext";
+import {DirectorsContext, DirectorsRow, useDirectorsForm} from "./DirectorsContext";
+import {ClassOneRowInterface} from '../class1/ClassOneContext'
 
 // services
 import {hasKeys} from "../../../services/utils";
-import {ClassOneRowProRata} from "../../../calculation";
 
 const pageTitle = 'Directors’ contributions'
 
@@ -70,21 +71,19 @@ const DirectorsPage = () => {
     }
 
     if(validateDirectorsPayload(payload, setErrors, taxYears)) {
-      const requestRows: Array<ClassOneProRataRow> = rows
-        .map((row: DirectorsRow) => new (ClassOneRowProRata as any)(
+      const requestRows: Array<ClassOneRowInterface> = rows
+        .map((row: DirectorsRow) => new (ClassOneRow as any)(
           row.id,
-          earningsPeriod === PeriodLabel.ANNUAL ? taxYear?.from : dateRange.from,
-          earningsPeriod === PeriodLabel.ANNUAL ? taxYear?.to : dateRange.to,
+          PeriodValue.MONTHLY,
           row.category,
           parseFloat(row.gross),
           false
         ))
-
-      setResult(ClassOneCalculator.calculateProRata(
+      setResult(ClassOneCalculator.calculate(
         taxYear?.from,
         requestRows,
-        parseFloat(payload.niPaidNet),
-        parseFloat(payload.niPaidEmployee)
+        payload.niPaidNet,
+        payload.niPaidEmployee
       ))
 
       if (showSummaryIfValid) {

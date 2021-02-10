@@ -1,7 +1,7 @@
 import React, {Dispatch, useContext, useEffect, useState} from 'react'
 
 // types
-import {DetailsProps, LateRefundsTableRowProps, Rate, TaxYear} from '../../../interfaces'
+import {Class1DebtRow, DetailsProps, LateRefundsTableRowProps, Rate, TaxYear} from '../../../interfaces'
 import uniqid from 'uniqid'
 import {buildTaxYears} from '../../../config'
 import {
@@ -100,6 +100,15 @@ export function useLateRefundsForm() {
     const interestRates = InterestOnLateRefundsCalculator.getRates()
     setRates(interestRates)
   }, [InterestOnLateRefundsCalculator])
+
+  useEffect(() => {
+    if(!results) {
+      setRows((prevState: LateRefundsTableRowProps[]) => prevState.map(row => ({
+        ...row,
+        payable: null
+      })))
+    }
+  }, [results])
 
   return {
     InterestOnLateRefundsCalculator,

@@ -54,7 +54,7 @@ function LateRefundsPage() {
     if(validateLateRefundsPayload(payload, setErrors)) {
       const transformedRows = rows.map((row: LateRefundsTableRowProps) => {
         return {
-          periodStart: row.taxYear.from,
+          periodStart: row.taxYear?.from,
           refund: row.refund
         }
       })

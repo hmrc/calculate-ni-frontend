@@ -13,11 +13,17 @@ function LateRefundsForm() {
     bankHolidaysNo,
     setBankHolidaysNo,
     errors,
-    rates
+    rates,
+    setResults
   } = useContext(LateRefundsContext)
 
   const handleChange = (e:  React.ChangeEvent<HTMLInputElement>) => {
+    invalidateResults()
     setBankHolidaysNo(e.currentTarget.value)
+  }
+
+  const invalidateResults = () => {
+    setResults(null)
   }
 
   return (

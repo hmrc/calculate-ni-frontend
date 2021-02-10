@@ -87,7 +87,7 @@ function ClassOneEarningsTable(props: TableProps) {
               setShowExplanation={setShowExplanation}
               showExplanation={showExplanation}
             />
-            {!printView && showExplanation === r.id &&
+            {!printView && result && showExplanation === r.id &&
               <tr aria-live="polite" className="explanation-row">
                 <td colSpan={8}>
                   <div className="explanation">
