@@ -11,6 +11,7 @@ import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
 // types
 import { Class1FormProps } from '../../../interfaces';
 import {ClassOneContext} from "./ClassOneContext";
+import NiPaidInputs from "../shared/NiPaidInputs";
 
 numeral.locale('en-gb');
 
@@ -59,10 +60,10 @@ function Class1Form(props: Class1FormProps) {
 
   const handleDeleteRow = (e: React.MouseEvent) => {
     e.preventDefault()
-    setResult(null)
     if(activeRowId) {
       setPeriodNumbers(activeRowId)
       setErrors({})
+      setResult(null)
       setActiveRowId(null)
     }
   }
@@ -78,6 +79,8 @@ function Class1Form(props: Class1FormProps) {
           />
         </div>
       </div>
+
+      <NiPaidInputs context={ClassOneContext} />
 
       <ClassOneEarningsTable
         showBands={false}
