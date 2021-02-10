@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction} from 'react'
+import React, {Dispatch, SetStateAction, useEffect} from 'react'
 import {taxYearString} from '../../../config'
 
 // types
@@ -16,6 +16,7 @@ interface FullOrPartialTaxYearProps {
   setDateRange: Dispatch<SetStateAction<GovDateRange>>
   errors: GenericErrors
   showDates: boolean
+  setTaxYear: Dispatch<TaxYear>
 }
 
 function FullOrPartialTaxYear(props: FullOrPartialTaxYearProps) {
@@ -23,6 +24,7 @@ function FullOrPartialTaxYear(props: FullOrPartialTaxYearProps) {
     id,
     taxYears,
     taxYear,
+    setTaxYear,
     handleTaxYearChange,
     hiddenLabel,
     dateRange,
@@ -34,6 +36,11 @@ function FullOrPartialTaxYear(props: FullOrPartialTaxYearProps) {
   const taxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     handleTaxYearChange(e)
   }
+  useEffect(() => {
+    if(taxYears.length > 0) {
+      setTaxYear(taxYears[0])
+    }
+  }, [taxYears])
   return (
     <>
       {!showDates ?
@@ -45,7 +52,7 @@ function FullOrPartialTaxYear(props: FullOrPartialTaxYearProps) {
             Select a tax year
           </label>
           <select
-            value={taxYear.id}
+            value={taxYear?.id}
             onChange={taxYearChange}
             id="taxYear"
             name="taxYear"

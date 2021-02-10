@@ -73,15 +73,15 @@ const DirectorsPage = () => {
       const requestRows: Array<ClassOneProRataRow> = rows
         .map((row: DirectorsRow) => new (ClassOneRowProRata as any)(
           row.id,
-          earningsPeriod === PeriodLabel.ANNUAL ? taxYear.from : dateRange.from,
-          earningsPeriod === PeriodLabel.ANNUAL ? taxYear.to : dateRange.to,
+          earningsPeriod === PeriodLabel.ANNUAL ? taxYear?.from : dateRange.from,
+          earningsPeriod === PeriodLabel.ANNUAL ? taxYear?.to : dateRange.to,
           row.category,
           parseFloat(row.gross),
           false
         ))
 
       setResult(ClassOneCalculator.calculateProRata(
-        taxYear.from,
+        taxYear?.from,
         requestRows,
         parseFloat(payload.niPaidNet),
         parseFloat(payload.niPaidEmployee)

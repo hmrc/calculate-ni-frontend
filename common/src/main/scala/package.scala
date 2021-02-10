@@ -89,7 +89,6 @@ package object eoi {
       if (in <= 0) in.setScale(2, HALF_DOWN)
       else in.setScale(3, FLOOR).setScale(2, HALF_DOWN)
     }
-
   }
 
   implicit class RichIntervalMap[K,V](value: Map[Interval[K],V]) {

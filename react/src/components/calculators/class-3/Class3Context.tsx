@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useContext, useState} from 'react'
+import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from 'react'
 import {buildTaxYears} from "../../../config";
 
 // types
@@ -22,7 +22,7 @@ const initialDetails = {
 export const class3DefaultRows = [{
   id: uniqid(),
   earningsFactor: '',
-  dateRange: {from: null, to: null, hasContentFrom: false, hasContentTo: false}
+  dateRange: {from: null, to: null}
 }]
 
 export interface Class3Result {
@@ -82,6 +82,12 @@ export const Class3Context = React.createContext<Class3Context>(
 )
 
 export function useClass3Form() {
+  const {
+    NiFrontendInterface
+  } = useContext(NiFrontendContext)
+  const ClassThreeCalculator = NiFrontendInterface.classThree
+  const WeeklyContributionsCalculator = NiFrontendInterface.weeklyContributions
+  const [taxYears, setTaxYears] = useState<TaxYear[]>([])
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [rows, setRows] = useState<Array<Class3Row>>(class3DefaultRows)
   const [errors, setErrors] = useState<GenericErrors>({})
@@ -90,12 +96,21 @@ export function useClass3Form() {
   const [month, setMonth] = useState('')
   const [year, setYear] = useState('')
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
-  const {
-    NiFrontendInterface
-  } = useContext(NiFrontendContext)
-  const ClassThreeCalculator = NiFrontendInterface.classThree
-  const WeeklyContributionsCalculator = NiFrontendInterface.weeklyContributions
-  const taxYears: TaxYear[] = buildTaxYears(ClassThreeCalculator.getTaxYears)
+
+  useEffect(() => {
+    if(taxYears && taxYears.length > 0) {
+      setRows([{
+        id: uniqid(),
+        earningsFactor: '',
+        dateRange: {from: taxYears[0].from, to: taxYears[0].to}
+      }])
+    }
+  }, [taxYears])
+
+  useEffect(() => {
+    const taxYearData = buildTaxYears(ClassThreeCalculator.getTaxYears)
+    setTaxYears(taxYearData)
+  }, [ClassThreeCalculator, NiFrontendInterface])
 
   return {
     WeeklyContributionsCalculator,

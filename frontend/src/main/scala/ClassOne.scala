@@ -56,16 +56,18 @@ class ClassOneFrontend(
       }
 
       val underpayment = new js.Object {
-        val employee = in.underpayment.employee.value.formatSterling
-        val employer = in.underpayment.employer.value.formatSterling
-        val total = in.underpayment.total.value.formatSterling
+        val employee = in.underpayment.employee.value.toDouble
+        val employer = in.underpayment.employer.value.toDouble
+        val total = in.underpayment.total.value.toDouble
       }
 
       val overpayment = new js.Object {
-        val employee = in.overpayment.employee.value.formatSterling
-        val employer = in.overpayment.employer.value.formatSterling
-        val total = in.overpayment.total.value.formatSterling
+        val employee = in.overpayment.employee.value.toDouble
+        val employer = in.overpayment.employer.value.toDouble
+        val total = in.overpayment.total.value.toDouble
       }
+
+      val employerContributions = in.employerPaid.value.toDouble
 
     }
   }

@@ -21,6 +21,7 @@ function ClassOneEarningsTable(props: TableProps) {
     setErrors,
     result
   } = useContext(ClassOneContext)
+
   const [periodSortDirection, setPeriodSortDirection] = useState<'ascending' | 'descending' | 'none' | undefined>('none')
 
   const handleSortPeriod = (e: React.MouseEvent) => {
@@ -70,7 +71,7 @@ function ClassOneEarningsTable(props: TableProps) {
           }
           <th><strong><abbr title="Employee">EE</abbr></strong></th>
           <th><strong><abbr title="Employer">ER</abbr></strong></th>
-          {!printView && result && <th></th>}
+          {!printView && result && <th><span className="govuk-visually-hidden">Explain results</span></th>}
         </tr>
       </thead>
       
@@ -86,18 +87,18 @@ function ClassOneEarningsTable(props: TableProps) {
               setShowExplanation={setShowExplanation}
               showExplanation={showExplanation}
             />
-            {result &&
-            <tr className={showExplanation === r.id ? "explanation-row" : "govuk-visually-hidden"}>
-              <td colSpan={8}>
-                <div className="explanation">
-                  {r.explain && r.explain.map(line =>
-                    <>
-                    {line.replace(`${r.id}.`, '')}<br />
-                    </>
-                  )}
-                </div>
-              </td>
-            </tr>
+            {!printView && showExplanation === r.id &&
+              <tr aria-live="polite" className="explanation-row">
+                <td colSpan={8}>
+                  <div className="explanation">
+                    {r.explain && r.explain.map((line: string, index: number) =>
+                      <span key={`${r.id}-explain-${index}`}>
+                        {line.replace(`${r.id}.`, '')}<br />
+                      </span>
+                    )}
+                  </div>
+                </td>
+              </tr>
             }
           </>
 

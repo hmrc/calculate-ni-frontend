@@ -80,8 +80,27 @@ export const validateClassOnePayload = (
       name: 'Net NI paid',
       message: 'NI paid net contributions must be entered'
     }
-  }
-  if(payload.niPaidEmployee === '' && payload.niPaidNet !== '') {
+  } else if (payload.niPaidNet !== '' && payload.niPaidEmployee !== '') {
+    if(isNaN(+payload.niPaidNet)) {
+      errors.niPaidNet = {
+        link: 'niPaidNet',
+        name: 'Net NI paid',
+        message: 'NI paid net contributions must be an amount of money'
+      }
+    } else if(!isNaN(+payload.niPaidEmployee) && parseFloat(payload.niPaidNet) < parseFloat(payload.niPaidEmployee)) {
+      errors.niPaidNet = {
+        link: 'niPaidNet',
+        name: 'Net NI paid',
+        message: 'NI paid net contributions cannot be less than employee contributions'
+      }
+    } else if(isNaN(+payload.niPaidEmployee)) {
+      errors.niPaidEmployee = {
+        link: 'niPaidNet',
+        name: 'Net NI paid',
+        message: 'NI paid employee contributions must be an amount of money'
+      }
+    }
+  } else if(payload.niPaidEmployee === '' && payload.niPaidNet !== '') {
     errors.niPaidEmployee = {
       link: 'niPaidEmployee',
       name: 'Net NI paid by employee',
