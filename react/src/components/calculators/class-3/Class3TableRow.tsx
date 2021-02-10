@@ -44,6 +44,12 @@ const Class3TableRow = (props: {
   }
 
   useEffect(() => {
+    if(taxYear?.from) {
+      setDateRange({from: taxYear.from, to: taxYear.to})
+    }
+  }, [taxYear])
+
+  useEffect(() => {
     if(dateRange) {
       setRows((prevState: Array<Class3Row>) => prevState
         .map(
