@@ -27,9 +27,9 @@ class NiConfigController @Inject()(
 ) extends FrontendController(mcc) {
 
   private val ni = ConfigLoader.default
+  private val jsonString: String = toJson(ni).toString
 
   val configJson: Action[AnyContent] = Action {
-    val jsonString: String = toJson(ni).toString
     Ok(jsonString).as("application/json")
   }
 
