@@ -76,6 +76,20 @@ package object eoi {
       }
     }
 
+    /** Round half-up to the nearest penny if the midpoint is 0.6 for
+      * positive values, half down for negative values. 
+      * 
+      * {{{
+      * BigDecimal("0.0059999").roundNi == 0.00
+      * BigDecimal("0.006").roundNi == 0.01
+      * }}}
+      */
+    def roundNi: BigDecimal = {
+      import BigDecimal.RoundingMode._
+      if (in <= 0) in.setScale(2, HALF_DOWN)
+      else in.setScale(3, FLOOR).setScale(2, HALF_DOWN)
+    }
+
   }
 
   implicit class RichIntervalMap[K,V](value: Map[Interval[K],V]) {

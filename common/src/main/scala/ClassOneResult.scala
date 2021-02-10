@@ -22,6 +22,7 @@ import cats.syntax.traverse._
 import cats.instances.list._
 import cats.syntax.apply._
 import spire.implicits._
+import java.time.LocalDate
 
 case class ClassOneRowInput(
   rowId: String,
@@ -32,6 +33,7 @@ case class ClassOneRowInput(
 )
 
 case class ClassOneResult(
+  on: LocalDate,
   config: Map[String, RateDefinition],
   rowsInput: List[ClassOneRowInput],
   netPaid: BigDecimal = Zero,
@@ -62,7 +64,7 @@ case class ClassOneResult(
           case FourWeek => definition.fourWeek.fold{
             (definition.year / 13).gives(s"$id: year / 13 = ${definition.year} / 13")
           }(_.pure[Explained])
-          case Week => definition.fourWeek.fold{
+          case Week => definition.week.fold{
             (definition.year / 52).gives(s"$id: year / 52 = ${definition.year} / 52")
           }(_.pure[Explained])
         }
@@ -72,7 +74,7 @@ case class ClassOneResult(
           b <- if (periodQty == 1) a.pure[Explained] else {
             (a * periodQty) gives s"$id: $a * $periodQty"
           }
-          rounded = b.mapBounds(_.roundUpWhole)
+          rounded = b.mapBounds(_.roundNi)
           c <- if (rounded == b) { b.pure[Explained] } else { rounded gives s"$id: ⌈$b⌉" }
         } yield c
       }
@@ -84,7 +86,13 @@ case class ClassOneResult(
       def employerContributions: Explained[BigDecimal] = if (employerRate != 0) {
           amountInBand.flatMap{
             case Zero => Zero.pure[Explained]
-            case amt => (amt * employerRate).roundHalfDown gives
+
+            case amt if period == Period.FourWeek && on.getYear <= 1999 =>
+              ((amt / 4 * employerRate).roundNi * 4) gives
+              s"$rowId.$bandId.employer (pre-2000 rule):" ++
+              " ⌊amt / 4 * employerRate⌋ * 4 = ⌊$amt / 4 * $employerRate⌋ * 4"
+
+            case amt => (amt * employerRate).roundNi gives
               s"$rowId.$bandId.employer: ⌊$amt * $employerRate⌋ = ⌊${amt * employerRate}⌋"
           }
       } else Zero.pure[Explained]
@@ -92,7 +100,12 @@ case class ClassOneResult(
       def employeeContributions: Explained[BigDecimal] = if (employeeRate != 0) {
         amountInBand.flatMap{
           case Zero => Zero.pure[Explained]
-          case amt => (amt * employeeRate).roundHalfDown gives
+          case amt if period == Period.FourWeek && on.getYear <= 1999 =>
+            ((amt / 4 * employeeRate).roundNi * 4) gives
+              s"$rowId.$bandId.employee (pre-2000 rule):" ++
+              " ⌊amt / 4 * employeeRate⌋ * 4 = ⌊$amt / 4 * $employeeRate⌋ * 4"
+
+          case amt => (amt * employeeRate).roundNi gives
             s"$rowId.$bandId.employee: ⌊$amt * $employeeRate⌋ = ⌊${amt * employeeRate}⌋"
         }
       } else Zero.pure[Explained]
@@ -105,8 +118,10 @@ case class ClassOneResult(
       }
     }
 
-    lazy val bands: List[ClassOneRowOutputBand] = config.toList.sortBy(_._2.year.lowerValue.getOrElse(Zero)).map {
-      case (bandId, bandDefinition) => ClassOneRowOutputBand(bandId, bandDefinition)
+
+    lazy val bands: List[ClassOneRowOutputBand] = config.toList.sortBy(_._2.year.lowerValue.getOrElse(Zero)).collect {
+      case (bandId, bandDefinition) if bandDefinition.trigger.interval(period, periodQty).contains(money) =>
+        ClassOneRowOutputBand(bandId, bandDefinition)
     }
 
     def employeeContributions: Explained[BigDecimal] = {
