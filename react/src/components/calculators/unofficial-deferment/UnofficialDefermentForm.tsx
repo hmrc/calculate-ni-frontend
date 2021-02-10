@@ -54,10 +54,6 @@ export default function UnofficialDefermentForm(props: any) {
     }
   }
 
-  useEffect(() => {
-    setTaxYear(taxYears[0])
-  }, [])
-
   return (
     <div className="form-group table-wrapper">
       <div className="container half">
