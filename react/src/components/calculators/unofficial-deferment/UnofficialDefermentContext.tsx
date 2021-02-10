@@ -216,7 +216,7 @@ export function useUnofficialDefermentForm() {
     NiFrontendInterface
   } = useContext(NiFrontendContext)
   const ClassOneCalculator = NiFrontendInterface.classOne
-  const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears)
+  const [taxYears, setTaxYears] = useState<TaxYear[]>([])
   const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
   const [defaultRow, setDefaultRow] = useState<UnofficialDefermentRow>(initRow)
   const [rows, setRows] = useState<Array<UnofficialDefermentRow>>([defaultRow])
@@ -227,7 +227,7 @@ export function useUnofficialDefermentForm() {
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   useEffect(() => {
-    if(taxYear) {
+    if(taxYear?.from) {
       const categoriesForTaxYear = ClassOneCalculator.getApplicableCategories(taxYear.from)
       if(categoriesForTaxYear) {
         setCategories(categoriesForTaxYear.split(''))
@@ -237,13 +237,23 @@ export function useUnofficialDefermentForm() {
           category: categoriesForTaxYear[0]
         }))
         setResults({})
+        setRows([defaultRow])
       }
     }
-  }, [taxYear])
+  }, [taxYear, ClassOneCalculator])
 
   useEffect(() => {
     setRows([defaultRow])
   }, [defaultRow, earningsFields])
+
+  useEffect(() => {
+    setTaxYear(taxYears[0])
+  }, [taxYears])
+
+  useEffect(() => {
+    const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
+    setTaxYears(taxYearData)
+  }, [ClassOneCalculator])
 
   const [results, setResults] = useState({})
 
