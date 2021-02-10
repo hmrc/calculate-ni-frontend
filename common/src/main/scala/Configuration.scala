@@ -221,5 +221,5 @@ case class Configuration(
     rows: List[ClassOneRowInput],
     netPaid: BigDecimal = Zero,
     employeePaid: BigDecimal = Zero
-  ) = ClassOneResult(classOne.at(on).getOrElse(Map.empty), rows, netPaid, employeePaid)
+  ) = ClassOneResult(on, classOne.at(on).getOrElse(Map.empty), rows, netPaid, employeePaid)
 }
