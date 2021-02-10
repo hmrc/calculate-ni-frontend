@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {validateDirectorsPayload} from '../../../validation/validation'
 import {PeriodLabel, PeriodValue} from '../../../config'
 import {ClassOneRow} from '../../../calculation'
@@ -11,7 +11,7 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
-import {GovDateRange} from '../../../interfaces'
+import {Class1DebtRow, GovDateRange} from '../../../interfaces'
 import {DirectorsContext, DirectorsRow, useDirectorsForm} from "./DirectorsContext";
 import {ClassOneRowInterface} from '../class1/ClassOneContext'
 
@@ -43,6 +43,10 @@ const DirectorsPage = () => {
     result,
     setResult
   } = useContext(DirectorsContext)
+
+  useEffect(() => {
+    invalidateResults()
+  }, [dateRange])
 
   const handleChange = ({
     currentTarget: { name, value },
@@ -107,6 +111,10 @@ const DirectorsPage = () => {
     setResult(null)
     setNiPaidEmployee('')
     setNiPaidNet('')
+  }
+
+  const invalidateResults = () => {
+    setResult(null)
   }
 
   return (
