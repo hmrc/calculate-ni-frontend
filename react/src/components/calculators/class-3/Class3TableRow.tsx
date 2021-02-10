@@ -31,7 +31,8 @@ const Class3TableRow = (props: {
   }
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTaxYear(taxYears.find(ty => ty.id === e.target.value) || taxYears[0])
+    const newTaxYear = taxYears.find(ty => ty.id === e.target.value) || taxYears[0]
+    setTaxYear(newTaxYear)
   }
 
   const handleChange = (r: Class3Row, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +61,8 @@ const Class3TableRow = (props: {
     }
 
   }, [dateRange, row.id, setRows])
+
+
 
   return (
     <tr

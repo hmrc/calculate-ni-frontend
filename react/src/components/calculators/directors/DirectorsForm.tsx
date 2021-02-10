@@ -14,6 +14,7 @@ import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 // types
 import {DirectorsFormProps} from '../../../interfaces';
 import uniqid from 'uniqid'
+import NiPaidInputs from "../shared/NiPaidInputs";
 
 numeral.locale('en-gb');
 
@@ -113,6 +114,8 @@ export default function DirectorsForm(props: DirectorsFormProps) {
         selected={earningsPeriod}
         error={errors.earningsPeriod}
       />
+
+      <NiPaidInputs context={DirectorsContext} />
 
       <DirectorsEarningsTable
         showBands={false}

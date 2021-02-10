@@ -57,21 +57,8 @@ function Totals (props: TotalsProps) {
                   {numeral(niPaidNet).format('$0,0.00')}
                 </td>
                 :
-                <td className="input-cell">
-                  <div className={`form-group ${errors?.niPaidNet ? "form-group-error" : ""}`}>
-                    <label className="govuk-visually-hidden" htmlFor="niPaidNet">NI paid net contributions</label>
-                    {errors?.niPaidNet && <span className='govuk-error-message' id="niPaidNet-error">{errors.niPaidNet?.message}</span>}
-                    <input
-                      type="text"
-                      inputMode="decimal"
-                      name="niPaidNet"
-                      id="niPaidNet"
-                      className={`govuk-input ${errors?.niPaidNet ? "govuk-input--error" : ""}`}
-                      value={niPaidNet}
-                      onChange={(e) => setNiPaidNet(e.target.value)}
-                      {...(errors?.niPaidNet && {"aria-describedby": "niPaidNet-error"})}
-                    />
-                  </div>
+                <td className={readOnlyClass}>
+                  <span>{numeral(niPaidNet).format('$0,0.00')}</span>
                 </td>
               }
               {isSaveAndPrint ?
@@ -79,21 +66,8 @@ function Totals (props: TotalsProps) {
                   {numeral(niPaidEmployee).format('$0,0.00')}
                 </td>
                 :
-                <td className="input-cell">
-                  <div className={`form-group ${errors?.niPaidEmployee ? "form-group-error" : ""}`}>
-                    <label className="govuk-visually-hidden" htmlFor="niPaidEmployee">NI paid employee contributions</label>
-                    {errors?.niPaidEmployee && <span className='govuk-error-message' id="niPaidEmployee-error">{errors?.niPaidEmployee.message}</span>}
-                    <input
-                      type="text"
-                      inputMode="decimal"
-                      name="niPaidEmployee"
-                      id="niPaidEmployee"
-                      className={`govuk-input ${errors?.niPaidEmployee ? "govuk-input--error" : ""}`}
-                      value={niPaidEmployee}
-                      onChange={(e) => setNiPaidEmployee(e.target.value)}
-                      {...(errors?.niPaidEmployee && {"aria-describedby": "niPaidEmployee-error"})}
-                    />
-                  </div>
+                <td className={readOnlyClass}>
+                  <span>{numeral(niPaidEmployee).format('$0,0.00')}</span>
                 </td>
               }
               <td className={readOnlyClass}><span>{numeral(result?.employerContributions).format('$0,0.00')}</span></td>

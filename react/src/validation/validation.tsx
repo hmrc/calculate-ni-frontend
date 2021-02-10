@@ -74,7 +74,18 @@ export const validateClassOnePayload = (
   setErrors: Dispatch<GenericErrors>
 ) => {
   const errors: GenericErrors = {}
-  if(payload.niPaidNet === '' && payload.niPaidEmployee !== '') {
+  if(payload.niPaidNet === '' && payload.niPaidEmployee === '') {
+    errors.niPaidNet = {
+      link: 'niPaidNet',
+      name: 'Net NI paid',
+      message: 'NI paid net contributions must be entered'
+    }
+    errors.niPaidEmployee = {
+      link: 'niPaidNet',
+      name: 'Net NI paid',
+      message: 'NI paid employee contributions must be entered'
+    }
+  } else if(payload.niPaidNet === '' && payload.niPaidEmployee !== '') {
     errors.niPaidNet = {
       link: 'niPaidNet',
       name: 'Net NI paid',

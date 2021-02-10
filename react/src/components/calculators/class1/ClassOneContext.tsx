@@ -211,7 +211,6 @@ export function useClassOneForm() {
         return row
       }))
     }
-
   }, [result])
 
   useEffect(() => {
