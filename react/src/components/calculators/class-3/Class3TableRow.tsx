@@ -31,17 +31,28 @@ const Class3TableRow = (props: {
   }
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    invalidateTotals()
     const newTaxYear = taxYears.find(ty => ty.id === e.target.value) || taxYears[0]
     setTaxYear(newTaxYear)
   }
 
   const handleChange = (r: Class3Row, e: React.ChangeEvent<HTMLInputElement>) => {
+    invalidateTotals()
     setRows(rows.map((cur: Class3Row) =>
       cur.id === r.id ?
         {...cur, [`${e.currentTarget.name.split('-')[1]}`]: e.currentTarget.value}
         :
         cur
     ))
+  }
+
+  const invalidateTotals = () => {
+    setRows(prevState => prevState.map(row => {
+      delete row.maxWeeks
+      delete row.actualWeeks
+      delete row.deficiency
+      return row
+    }))
   }
 
   useEffect(() => {
