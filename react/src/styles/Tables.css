@@ -244,6 +244,10 @@ table.contribution-details td:has(input:focus) {
   border: 1px solid var(--active-highlight-border);
 }
 
+.table-wrapper tbody tr td.result-cell {
+  white-space: nowrap;
+}
+
 @media screen and (min-width: 760px) {
   .spaced-table-wrapper {
     margin: 0 -20px;

@@ -104,9 +104,9 @@ function DirectorsTableRow(props: TableRowProps) {
       }
 
       {/* EE */}
-      <td>{numeral(row.ee).format('$0,0.00')}</td>
+      <td className="result-cell">{numeral(row.ee).format('$0,0.00')}</td>
       {/* ER */}
-      <td>{numeral(row.er).format('$0,0.00')}</td>
+      <td className="result-cell">{numeral(row.er).format('$0,0.00')}</td>
     </tr>
   )
 }

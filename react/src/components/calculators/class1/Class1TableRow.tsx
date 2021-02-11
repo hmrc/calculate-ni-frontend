@@ -152,8 +152,8 @@ export default function Class1TableRow(props: TableRowProps) {
       </td>
       }
 
-      <td>{numeral(row.ee).format('$0,0.00')}</td>
-      <td>{numeral(row.er).format('$0,0.00')}</td>
+      <td className="result-cell">{numeral(row.ee).format('$0,0.00')}</td>
+      <td className="result-cell">{numeral(row.er).format('$0,0.00')}</td>
       {!printView && result && row.explain && row.explain.length > 0 &&
         <td>
            <a href={`#${row.id}-explain`} onClick={(e) => {
