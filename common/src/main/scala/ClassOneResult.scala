@@ -32,131 +32,136 @@ case class ClassOneRowInput(
   periodQty: BigDecimal = 1
 )
 
-case class ClassOneResult(
-  on: LocalDate,
-  config: Map[String, RateDefinition],
-  rowsInput: List[ClassOneRowInput],
-  netPaid: BigDecimal = Zero,
-  employeePaid: BigDecimal = Zero
-) {
+case class ClassOneRowOutput(
+                              on: LocalDate,
+                              config: Map[String, RateDefinition],
+                              rowId: String,
+                              money: BigDecimal,
+                              category: Char,
+                              period: Period.Period,
+                              periodQty: BigDecimal,
+                              precededAmount: BigDecimal = Zero
+                            ) {
 
-  case class ClassOneRowOutput(
-    rowId: String,
-    money: BigDecimal,
-    category: Char,
-    period: Period.Period,
-    periodQty: BigDecimal
-  ) {
+  case class ClassOneRowOutputBand(
+                                    bandId: String,
+                                    definition: RateDefinition
+                                  ) {
 
-    case class ClassOneRowOutputBand(
-      bandId: String,
-      definition: RateDefinition
-    ) {
-
-      def moneyInterval: Explained[Interval[BigDecimal]] = {
-        val id = s"$rowId.$bandId.band"
-        import Period._
-        val baseInterval = period match {
-          case Year => definition.year.pure[Explained]
-          case Month => definition.month.fold{
-            (definition.year / 12).gives(s"$id: year / 12 = ${definition.year} / 12")
-          }(_.pure[Explained])
-          case FourWeek => definition.fourWeek.fold{
-            (definition.year / 13).gives(s"$id: year / 13 = ${definition.year} / 13")
-          }(_.pure[Explained])
-          case Week => definition.week.fold{
-            (definition.year / 52).gives(s"$id: year / 52 = ${definition.year} / 52")
-          }(_.pure[Explained])
-        }
-
-        for {
-          a <- baseInterval
-          b <- if (periodQty == 1) a.pure[Explained] else {
-            (a * periodQty) gives s"$id: $a * $periodQty"
-          }
-          rounded = b.mapBounds(_.roundNi)
-          c <- if (rounded == b) { b.pure[Explained] } else { rounded gives s"$id: ⌈$b⌉" }
-        } yield c
+    def moneyInterval: Explained[Interval[BigDecimal]] = {
+      val id = s"$rowId.$bandId.band"
+      import Period._
+      val baseInterval = period match {
+        case Year => definition.year.pure[Explained]
+        case Month => definition.month.fold{
+          (definition.year / 12).gives(s"$id: year / 12 = ${definition.year} / 12")
+        }(_.pure[Explained])
+        case FourWeek => definition.fourWeek.fold{
+          (definition.year / 13).gives(s"$id: year / 13 = ${definition.year} / 13")
+        }(_.pure[Explained])
+        case Week => definition.week.fold{
+          (definition.year / 52).gives(s"$id: year / 52 = ${definition.year} / 52")
+        }(_.pure[Explained])
       }
 
-      def amountInBand: Explained[BigDecimal] = moneyInterval.flatMap(
-        m => money.inBand(m) gives s"$rowId.$bandId.amountInBand: |[0, $money] ∩ $m|")
-      def employerRate: BigDecimal = definition.employer.getOrElse(category, Zero)
-      def employeeRate: BigDecimal = definition.employee.getOrElse(category, Zero)
-      def employerContributions: Explained[BigDecimal] = if (employerRate != 0) {
-          amountInBand.flatMap{
-            case Zero => Zero.pure[Explained]
+      for {
+        a <- baseInterval
+        b <- if (periodQty == 1) a.pure[Explained] else {
+          (a * periodQty) gives s"$id: $a * $periodQty"
+        }
+        rounded = b.mapBounds(_.roundNi)
+        c <- if (rounded == b) { b.pure[Explained] } else { rounded gives s"$id: ⌈$b⌉" }
+      } yield c
+    }
 
-            case amt if period == Period.FourWeek && on.getYear <= 1999 =>
-              ((amt / 4 * employerRate).roundNi * 4) gives
-              s"$rowId.$bandId.employer (pre-2000 rule):" ++
+    def amountInBand: Explained[BigDecimal] = moneyInterval.flatMap(
+      m => (money + precededAmount).inBand(m) gives s"$rowId.$bandId.amountInBand: |[0, $money + $precededAmount] ∩ $m|")
+    def employerRate: BigDecimal = definition.employer.getOrElse(category, Zero)
+    def employeeRate: BigDecimal = definition.employee.getOrElse(category, Zero)
+    def employerContributions: Explained[BigDecimal] = if (employerRate != 0) {
+      amountInBand.flatMap{
+        case Zero => Zero.pure[Explained]
+
+        case amt if period == Period.FourWeek && on.getYear <= 1999 =>
+          ((amt / 4 * employerRate).roundNi * 4) gives
+            s"$rowId.$bandId.employer (pre-2000 rule):" ++
               " ⌊amt / 4 * employerRate⌋ * 4 = ⌊$amt / 4 * $employerRate⌋ * 4"
 
-            case amt => (amt * employerRate).roundNi gives
-              s"$rowId.$bandId.employer: ⌊$amt * $employerRate⌋ = ⌊${amt * employerRate}⌋"
-          }
-      } else Zero.pure[Explained]
+        case amt => (amt * employerRate).roundNi gives
+          s"$rowId.$bandId.employer: ⌊$amt * $employerRate⌋ = ⌊${amt * employerRate}⌋"
+      }
+    } else Zero.pure[Explained]
 
-      def employeeContributions: Explained[BigDecimal] = if (employeeRate != 0) {
-        amountInBand.flatMap{
-          case Zero => Zero.pure[Explained]
-          case amt if period == Period.FourWeek && on.getYear <= 1999 =>
-            ((amt / 4 * employeeRate).roundNi * 4) gives
-              s"$rowId.$bandId.employee (pre-2000 rule):" ++
+    def employeeContributions: Explained[BigDecimal] = if (employeeRate != 0) {
+      amountInBand.flatMap{
+        case Zero => Zero.pure[Explained]
+        case amt if period == Period.FourWeek && on.getYear <= 1999 =>
+          ((amt / 4 * employeeRate).roundNi * 4) gives
+            s"$rowId.$bandId.employee (pre-2000 rule):" ++
               " ⌊amt / 4 * employeeRate⌋ * 4 = ⌊$amt / 4 * $employeeRate⌋ * 4"
 
-          case amt => (amt * employeeRate).roundNi gives
-            s"$rowId.$bandId.employee: ⌊$amt * $employeeRate⌋ = ⌊${amt * employeeRate}⌋"
-        }
-      } else Zero.pure[Explained]
-
-      def totalContributions: Explained[BigDecimal] = (
-        employeeContributions,
-        employerContributions
-      ).tupled.flatMap {case (ee,er) =>
-        (ee + er) gives s"$rowId.$bandId.total: employee + employer = $ee + $er"
+        case amt => (amt * employeeRate).roundNi gives
+          s"$rowId.$bandId.employee: ⌊$amt * $employeeRate⌋ = ⌊${amt * employeeRate}⌋"
       }
-    }
-
-
-    lazy val bands: List[ClassOneRowOutputBand] = config.toList.sortBy(_._2.year.lowerValue.getOrElse(Zero)).collect {
-      case (bandId, bandDefinition) if bandDefinition.trigger.interval(period, periodQty).contains(money) =>
-        ClassOneRowOutputBand(bandId, bandDefinition)
-    }
-
-    def employeeContributions: Explained[BigDecimal] = {
-      bands.map(b => b.employeeContributions.map(b.bandId -> _): Explained[(String, BigDecimal)])
-        .sequence
-        .flatMap{ e =>
-          val (ids, amts) = e.filter(_._2 != 0).unzip
-          amts.sum gives
-          s"$rowId.employee: ${ids.mkString(" + ")} = ${amts.mkString(" + ")}"
-        }
-    }
-
-    def employerContributions: Explained[BigDecimal] = {
-      bands.map(b => b.employerContributions.map(b.bandId -> _): Explained[(String, BigDecimal)])
-        .sequence
-        .flatMap{ e =>
-          val (ids, amts) = e.filter(_._2 != 0).unzip
-          amts.sum gives
-          s"$rowId.employer: ${ids.mkString(" + ")} = ${amts.mkString(" + ")}"
-        }
-    }
+    } else Zero.pure[Explained]
 
     def totalContributions: Explained[BigDecimal] = (
       employeeContributions,
       employerContributions
-    ).tupled.flatMap {case (ee,er) =>
-        (ee + er) gives s"$rowId.total: employee + employer = $ee + er"
+      ).tupled.flatMap {case (ee,er) =>
+      (ee + er) gives s"$rowId.$bandId.total: employee + employer = $ee + $er"
     }
-
   }
 
-  lazy val rowsOutput: List[ClassOneRowOutput] = rowsInput.map {
-    case ClassOneRowInput(id, money, category, period, periodQty) =>
-      ClassOneRowOutput(id, money, category, period, periodQty)
+
+  lazy val bands: List[ClassOneRowOutputBand] = config.toList.sortBy(_._2.year.lowerValue.getOrElse(Zero)).collect {
+    case (bandId, bandDefinition) if bandDefinition.trigger.interval(period, periodQty).contains(money + precededAmount) =>
+      ClassOneRowOutputBand(bandId, bandDefinition)
   }
+
+  def employeeContributions: Explained[BigDecimal] = {
+    bands.map(b => b.employeeContributions.map(b.bandId -> _): Explained[(String, BigDecimal)])
+      .sequence
+      .flatMap{ e =>
+        val (ids, amts) = e.filter(_._2 != 0).unzip
+        amts.sum gives
+          s"$rowId.employee: ${ids.mkString(" + ")} = ${amts.mkString(" + ")}"
+      }
+  }
+
+  def employerContributions: Explained[BigDecimal] = {
+    bands.map(b => b.employerContributions.map(b.bandId -> _): Explained[(String, BigDecimal)])
+      .sequence
+      .flatMap{ e =>
+        val (ids, amts) = e.filter(_._2 != 0).unzip
+        amts.sum gives
+          s"$rowId.employer: ${ids.mkString(" + ")} = ${amts.mkString(" + ")}"
+      }
+  }
+
+  def totalContributions: Explained[BigDecimal] = (
+    employeeContributions,
+    employerContributions
+    ).tupled.flatMap {case (ee,er) =>
+    (ee + er) gives s"$rowId.total: employee + employer = $ee + er"
+  }
+
+}
+
+
+trait ClassOneResultLike {
+
+  def rowsOutput: List[ClassOneRowOutput]
+
+  def grossPay: Explained[BigDecimal]
+
+  val netPaid: BigDecimal
+
+  val employeePaid: BigDecimal
+
+  def employerPaid: Explained[BigDecimal] =
+    (netPaid - employeePaid) gives s"employerPaid: $netPaid - $employeePaid"
+
 
   def employeeContributions: Explained[BigDecimal] = {
     rowsOutput.map(b => b.employeeContributions.map(b.rowId -> _): Explained[(String, BigDecimal)])
@@ -174,23 +179,17 @@ case class ClassOneResult(
       .flatMap{ e =>
         val (ids, amts) = e.filter(_._2 != 0).unzip
         amts.sum gives
-        s"employer: ${ids.mkString(" + ")} = ${amts.mkString(" + ")}"
+          s"employer: ${ids.mkString(" + ")} = ${amts.mkString(" + ")}"
       }
   }
 
   def totalContributions: Explained[BigDecimal] = (
     employeeContributions,
     employerContributions
-  ).tupled.flatMap {case (ee,er) =>
-      (ee + er) gives s"total: employee + employer = $ee + $er"
+    ).tupled.flatMap {case (ee,er) =>
+    (ee + er) gives s"total: employee + employer = $ee + $er"
   }
 
-  def grossPay: Explained[BigDecimal] = rowsInput.map{_.money}.sum gives
-    s"grossPay: ${rowsInput.map(_.money).mkString(" + ")}"
-
-
-  def employerPaid: Explained[BigDecimal] =
-    (netPaid - employeePaid) gives s"employerPaid: $netPaid - $employeePaid"
 
   object underpayment {
 
@@ -203,8 +202,8 @@ case class ClassOneResult(
     def employer: Explained[BigDecimal] = (
       employerContributions,
       employerPaid
-    ).tupled.flatMap{ case (c, p) => (c - p).max(Zero) gives
-        s"underpayment.employer: max(0, $employerContributions - $employerPaid) = max(0, $c - $p)"
+      ).tupled.flatMap{ case (c, p) => (c - p).max(Zero) gives
+      s"underpayment.employer: max(0, $employerContributions - $employerPaid) = max(0, $c - $p)"
     }
 
     def total = (employee, employer).tupled.flatMap { case (ee,er) => (ee + er) gives
@@ -224,15 +223,33 @@ case class ClassOneResult(
     def employer: Explained[BigDecimal] = (
       employerContributions,
       employerPaid
-    ).tupled.flatMap{ case (c, p) => (p - c).max(Zero) gives
-        s"overpayment.employer: max(0, $employerPaid - $employerContributions) = max(0, $p - $c)"
+      ).tupled.flatMap{ case (c, p) => (p - c).max(Zero) gives
+      s"overpayment.employer: max(0, $employerPaid - $employerContributions) = max(0, $p - $c)"
     }
 
-    def total = (employee, employer).tupled.flatMap { case (ee,er) => (ee + er) gives
+    def total: Explained[BigDecimal] = (employee, employer).tupled.flatMap { case (ee,er) => (ee + er) gives
       s"overpayment.total: employee + employer = $ee + $er"
     }
 
     override def toString = (employee.value, employer.value).toString
   }
+
+}
+
+case class ClassOneResult(
+  on: LocalDate,
+  config: Map[String, RateDefinition],
+  rowsInput: List[ClassOneRowInput],
+  netPaid: BigDecimal = Zero,
+  employeePaid: BigDecimal = Zero
+) extends ClassOneResultLike {
+
+  lazy val rowsOutput: List[ClassOneRowOutput] = rowsInput.map {
+    case ClassOneRowInput(id, money, category, period, periodQty) =>
+      ClassOneRowOutput(on, config, id, money, category, period, periodQty)
+  }
+
+  def grossPay: Explained[BigDecimal] = rowsInput.map{_.money}.sum gives
+    s"grossPay: ${rowsInput.map(_.money).mkString(" + ")}"
 
 }

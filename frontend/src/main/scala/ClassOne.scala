@@ -4,9 +4,6 @@ package frontend
 import scala.scalajs.js.annotation._
 import scala.scalajs.js.Date
 import scala.scalajs.js, js.JSConverters._
-import java.time.LocalDate
-import io.circe.generic.auto._, io.circe.syntax._
-import io.circe._
 import cats.implicits._
 import JsObjectAdapter.ops._
 
@@ -15,62 +12,7 @@ class ClassOneFrontend(
   config: Configuration
 ) extends js.Object {
 
-  /* this defines the structure of the JS object that is derived from
-   * the Scala output.
-   * Any of the elements of ClassOneResult can be made accessible to the
-   * JS frontend from here.
-   */
-  implicit val c1ResultAdapter = new JsObjectAdapter[ClassOneResult] {
-    def toJSObject(in: ClassOneResult): js.Object = new js.Object {
-
-      // the rows
-      val resultRows: js.Array[js.Object] = in.rowsOutput.map { row => new js.Object {
-        val name = row.rowId
-
-        // the bands within a row
-        val resultBands = row.bands.map { band => new js.Object {
-          val name = band.bandId
-
-          // anywhere where we have an 'Explained' datatype we can call 'value' to get
-          // the Scala value (normally a BigDecimal) -
-          val amountInBand = band.amountInBand.value.toDouble
-
-          // or call 'explain' to get a List[String] trace -
-          val amountInBandExplain: js.Array[String] = band.amountInBand.explain.toJSArray
-        }: js.Object }.toJSArray
-
-        val employer = row.employerContributions.value.toDouble
-        val employee = row.employeeContributions.value.toDouble
-        val explain = (row.employeeContributions.explain ++ row.employerContributions.explain).dedupPreserveOrder.toJSArray
-
-      }: js.Object }.toJSArray
-
-      val employerPaid = in.employerPaid.value.toDouble
-
-      // aggregate values
-      val totals = new js.Object {
-        val gross = in.grossPay.value.toDouble
-        val employee = in.employeeContributions.value.toDouble
-        val employer = in.employerContributions.value.toDouble
-        val net = in.totalContributions.value.toDouble
-      }
-
-      val underpayment = new js.Object {
-        val employee = in.underpayment.employee.value.toDouble
-        val employer = in.underpayment.employer.value.toDouble
-        val total = in.underpayment.total.value.toDouble
-      }
-
-      val overpayment = new js.Object {
-        val employee = in.overpayment.employee.value.toDouble
-        val employer = in.overpayment.employer.value.toDouble
-        val total = in.overpayment.total.value.toDouble
-      }
-
-      val employerContributions = in.employerPaid.value.toDouble
-
-    }
-  }
+  import ClassOneFrontend.c1ResultLikeAdapter
 
   def calculate(
     on: js.Date,
@@ -125,6 +67,68 @@ class ClassOneFrontend(
   ).toString
 
 }
+
+object ClassOneFrontend {
+
+  /* this defines the structure of the JS object that is derived from
+ * the Scala output.
+ * Any of the elements of ClassOneResult can be made accessible to the
+ * JS frontend from here.
+ */
+  implicit def c1ResultLikeAdapter[A <: ClassOneResultLike] = new JsObjectAdapter[A] {
+    def toJSObject(in: A): js.Object = new js.Object {
+
+      // the rows
+      val resultRows: js.Array[js.Object] = in.rowsOutput.map { row => new js.Object {
+        val name = row.rowId
+
+        // the bands within a row
+        val resultBands = row.bands.map { band => new js.Object {
+          val name = band.bandId
+
+          // anywhere where we have an 'Explained' datatype we can call 'value' to get
+          // the Scala value (normally a BigDecimal) -
+          val amountInBand = band.amountInBand.value.toDouble
+
+          // or call 'explain' to get a List[String] trace -
+          val amountInBandExplain: js.Array[String] = band.amountInBand.explain.toJSArray
+        }: js.Object }.toJSArray
+
+        val employer = row.employerContributions.value.toDouble
+        val employee = row.employeeContributions.value.toDouble
+        val explain = (row.employeeContributions.explain ++ row.employerContributions.explain).dedupPreserveOrder.toJSArray
+
+      }: js.Object }.toJSArray
+
+      val employerPaid = in.employerPaid.value.toDouble
+
+      // aggregate values
+      val totals = new js.Object {
+        val gross = in.grossPay.value.toDouble
+        val employee = in.employeeContributions.value.toDouble
+        val employer = in.employerContributions.value.toDouble
+        val net = in.totalContributions.value.toDouble
+      }
+
+      val underpayment = new js.Object {
+        val employee = in.underpayment.employee.value.toDouble
+        val employer = in.underpayment.employer.value.toDouble
+        val total = in.underpayment.total.value.toDouble
+      }
+
+      val overpayment = new js.Object {
+        val employee = in.overpayment.employee.value.toDouble
+        val employer = in.overpayment.employer.value.toDouble
+        val total = in.overpayment.total.value.toDouble
+      }
+
+      val employerContributions = in.employerPaid.value.toDouble
+
+    }
+  }
+
+}
+
 
 @JSExportTopLevel("ClassOneRow")
 case class ClassOneRow(
