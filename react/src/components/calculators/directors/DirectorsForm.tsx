@@ -54,7 +54,6 @@ export default function DirectorsForm(props: DirectorsFormProps) {
 
   const handleDeleteRow = (e: React.MouseEvent) => {
     e.preventDefault()
-    invalidateResults()
     if(activeRowId) {
       // errors are now stale
       setErrors({})
@@ -65,14 +64,15 @@ export default function DirectorsForm(props: DirectorsFormProps) {
       })
 
       setRows(newRows)
+      invalidateResults()
     }
   }
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    invalidateResults()
     const selectedTaxYear = taxYears.find(ty => ty.id === e.target.value)
     if (selectedTaxYear) {
       setTaxYear(selectedTaxYear)
+      invalidateResults()
     }
   }
 
