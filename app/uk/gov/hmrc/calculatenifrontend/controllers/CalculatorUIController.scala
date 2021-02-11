@@ -28,6 +28,6 @@ class CalculatorUIController @Inject() (
 ) extends FrontendController(mcc) {
 
   def loadApplication(): Action[AnyContent] = Action.async { request =>
-    assets.at("/public/build/", "index.html").apply(request)
+    assets.at("/public/", "index.html").apply(request)
   }
 }

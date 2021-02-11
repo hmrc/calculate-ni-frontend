@@ -15,6 +15,7 @@
  *@
 
 @import uk.gov.hmrc.calculatenifrontend.config.AppConfig
+@import uk.gov.hmrc.calculatenifrontend.views.html.helpers._
 @import eoi._
 @import java.time.LocalDate
 
@@ -22,7 +23,23 @@
 
 @(selectedInterval: LocalDate, intervals: List[(LocalDate, String)], selectedCategory: Char, categories: List[Char], bands: List[(String, RateDefinition)])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@layout(pageTitle = Some("calculate-ni-frontend")) {
+@breadcrumbs = {
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <a class="govuk-breadcrumbs__link" href="/calculate-ni">Home</a>
+      </li>
+      <li class="govuk-breadcrumbs__list-item">
+        Class One
+      </li>
+    </ol>
+  </div>
+}
+
+@layout(
+  pageTitle = Some("calculate-ni-frontend"),
+  beforeContentBlock = Some(breadcrumbs)
+) {
 <h1 class="govuk-heading-xl">Class One</h1>
 
 <form method="GET">

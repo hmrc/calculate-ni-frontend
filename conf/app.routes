@@ -16,4 +16,4 @@ GET        /class-2-or-3            uk.gov.hmrc.calculatenifrontend.controllers.
 GET        /class-3                 uk.gov.hmrc.calculatenifrontend.controllers.CalculatorUIController.loadApplication()
 GET        /late-interest           uk.gov.hmrc.calculatenifrontend.controllers.CalculatorUIController.loadApplication()
 GET        /late-refunds            uk.gov.hmrc.calculatenifrontend.controllers.CalculatorUIController.loadApplication()
-GET        /*file                   controllers.Assets.versioned(path = "/public/build", file: Asset)
+GET        /*file                   controllers.Assets.versioned(path = "/public", file: Asset)
