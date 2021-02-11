@@ -73,11 +73,14 @@ const Class1Page = () => {
           false
         ))
 
+      const netNi = payload.niPaidNet || '0'
+      const employeeNi = payload.niPaidEmployee || '0'
+
       taxYear && setResult(ClassOneCalculator.calculate(
         taxYear.from,
         requestRows,
-        payload.niPaidNet,
-        payload.niPaidEmployee
+        netNi,
+        employeeNi
       ))
       if (showSummaryIfValid) {
         setShowSummary(true)
