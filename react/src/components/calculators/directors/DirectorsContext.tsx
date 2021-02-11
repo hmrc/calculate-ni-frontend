@@ -1,11 +1,11 @@
 import React, {Dispatch, useContext, useEffect, useState} from "react";
-import {DetailsProps, TaxYear, TotalsInCategories} from "../../../interfaces";
+import {Class1DebtRow, DetailsProps, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {PeriodLabel, buildTaxYears} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
 import {ClassOneCalculator, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
 import uniqid from 'uniqid'
-import {Band, CalculatedRow, Class1Result} from "../class1/ClassOneContext";
+import {Band, CalculatedRow, Class1Result, Row} from "../class1/ClassOneContext";
 
 export interface DirectorsRow {
   id: string
@@ -157,6 +157,12 @@ export function useDirectorsForm() {
         return row
       }))
       setCategoryTotals(getTotalsInCategories(rows as DirectorsRow[]))
+    } else {
+      setRows((prevState: DirectorsRow[]) => prevState.map(row => {
+        row.ee = 0
+        row.er = 0
+        return row
+      }))
     }
 
   }, [result])
@@ -171,6 +177,10 @@ export function useDirectorsForm() {
     const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
     setTaxYears(taxYearData)
   }, [ClassOneCalculator, NiFrontendInterface])
+
+  useEffect(() => {
+    setResult(null)
+  }, [niPaidNet, niPaidEmployee])
 
   return {
     ClassOneCalculator,

@@ -31,7 +31,8 @@ export default function DirectorsForm(props: DirectorsFormProps) {
     rows,
     setRows,
     activeRowId,
-    setActiveRowId
+    setActiveRowId,
+    setResult
   } = useContext(DirectorsContext)
 
   const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
@@ -41,6 +42,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
 
   const handleAddRow = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
+    invalidateResults()
     setRows([...rows, {
       id: uniqid(),
       category: ClassOneCalculator.getApplicableCategories(taxYears[0].from)[0],
@@ -62,6 +64,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
       })
 
       setRows(newRows)
+      invalidateResults()
     }
   }
 
@@ -69,7 +72,12 @@ export default function DirectorsForm(props: DirectorsFormProps) {
     const selectedTaxYear = taxYears.find(ty => ty.id === e.target.value)
     if (selectedTaxYear) {
       setTaxYear(selectedTaxYear)
+      invalidateResults()
     }
+  }
+
+  const invalidateResults = () => {
+    setResult(null)
   }
 
   return (
