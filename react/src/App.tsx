@@ -32,7 +32,7 @@ import BreadCrumbs from "./components/helpers/gov-design-system/BreadCrumbs";
 import {NiFrontendContext, useNiFrontend} from "./services/NiFrontendContext";
 
 function App() {    
-  const serviceName = "Calculate National Insurance contributions"
+  const serviceName = "National Insurance (NI) Calculation Support Tool"
   return (
     <NiFrontendContext.Provider value={useNiFrontend()}>
       <div className="govuk-width-container">

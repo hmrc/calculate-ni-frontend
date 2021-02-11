@@ -11,7 +11,7 @@ export default function Home() {
         :
         <>
           <h1 className="govuk-heading-l">
-            Calculate National Insurance (NI) contributions
+            National Insurance (NI) Calculation Support Tool
           </h1>
           <p className="govuk-body">
             This service was previously known as ‘Calculation Support’.
