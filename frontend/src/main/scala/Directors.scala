@@ -40,7 +40,7 @@ class Directors (
 
 object Directors {
 
-  @JSExportTopLevel("ClassOneRow")
+  @JSExportTopLevel("DirectorsRow")
   case class DirectorsRow(
                           id: String,
                           category: String,
