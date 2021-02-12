@@ -19,6 +19,8 @@ interface DirectorsPayload {
   dateRange: GovDateRange;
   earningsPeriod: PeriodLabel | null;
   rows: Array<DirectorsUIRow>
+  askApp: boolean | undefined
+  app: string | null
 }
 
 interface UnofficialDefermentPayload {
@@ -133,6 +135,14 @@ export const validateDirectorsPayload = (
     }
   } else if (payload.earningsPeriod === PeriodLabel.PRORATA) {
     validateDirectorshipDates(payload.dateRange, taxYears, errors)
+  }
+
+  if(payload.askApp && !payload.app) {
+    errors.app = {
+      name: 'app',
+      link: 'app',
+      message: 'Select yes if an Appropriate Personal Pension is applicable'
+    }
   }
 
   validateClass1Rows(payload.rows, errors)

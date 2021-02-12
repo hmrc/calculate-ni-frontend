@@ -72,7 +72,9 @@ const DirectorsPage = () => {
       niPaidEmployee: niPaidEmployee,
       niPaidNet: niPaidNet,
       dateRange: dateRange,
-      earningsPeriod: earningsPeriod
+      earningsPeriod: earningsPeriod,
+      askApp: askApp,
+      app: app
     }
 
     if(validateDirectorsPayload(payload, setErrors, taxYears)) {

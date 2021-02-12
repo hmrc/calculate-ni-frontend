@@ -131,7 +131,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
       />
 
       {askApp && <Radios
-        legend="Is an Appropriate Pension Scheme applicable?"
+        legend="Is an Appropriate Personal Pension Scheme applicable?"
         name="app"
         items={[
           {
