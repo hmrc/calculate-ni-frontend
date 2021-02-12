@@ -21,12 +21,16 @@ class Directors (
                  from: Date,
                  to: Date,
                  rows: js.Array[DirectorsRow],
-                 appropriatePersonalPensionScheme: Option[Boolean]
+                 appropriatePersonalPensionScheme: Option[Boolean],
+                 netPaid: String,
+                 employeePaid: String
                ): js.Object = config.calculateDirectors(
     from,
     to,
     rows.map(row => DirectorsRowInput(row.category.head, row.grossPay, row.id)).toList,
-    appropriatePersonalPensionScheme
+    appropriatePersonalPensionScheme,
+    BigDecimal(netPaid),
+    BigDecimal(employeePaid)
   ).toJSObject
 
   def getTaxYearsWithOptions: js.Array[String] =
