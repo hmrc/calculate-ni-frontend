@@ -25,7 +25,7 @@ class Directors (
                ): js.Object = config.calculateDirectors(
     from,
     to,
-    rows.map(row => DirectorsRowInput(row.category.head, row.grossPay, row.id)),
+    rows.map(row => DirectorsRowInput(row.category.head, row.grossPay, row.id)).toList,
     appropriatePersonalPensionScheme
   ).toJSObject
 
