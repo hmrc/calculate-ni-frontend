@@ -43,7 +43,7 @@ case class DirectorsResult(
   import DirectorsResult._
 
   val (period, periodQuantity) =
-    Period.Week -> Interval(from, to).numberOfWeeks().getOrElse(sys.error(s"Could not work  number of weeks between $from and $to"))
+    Period.Week -> (Interval(from, to).numberOfWeeks().getOrElse(sys.error(s"Could not work  number of weeks between $from and $to")) -1)
 
   lazy val rowsOutput: List[ClassOneRowOutput] = {
     val sortedRows = rowsInput.sortWithOrder(
