@@ -20,7 +20,7 @@ class Directors (
                  from: Date,
                  to: Date,
                  rows: js.Array[DirectorsRow],
-                 appropriatePersonalPensionScheme: Option[Boolean],
+                 appropriatePersonalPensionScheme: UndefOr[Boolean],
                  netPaid: String,
                  employeePaid: String
                ): js.Object = config.calculateDirectors(
