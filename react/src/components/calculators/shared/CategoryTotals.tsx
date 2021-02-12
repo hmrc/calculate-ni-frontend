@@ -9,12 +9,12 @@ import {uniqueCategories} from "../../../services/utils";
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 import {Class1Result, Row} from "../class1/ClassOneContext";
-import {DirectorsRow} from "../directors/DirectorsContext";
+import {DirectorsUIRow} from "../directors/DirectorsContext";
 
 numeral.locale('en-gb');
 
 function CategoryTotals(props: {
-  rows: Array<Row | DirectorsRow>,
+  rows: Array<Row | DirectorsUIRow>,
   categoryTotals: TotalsInCategories
   result: Class1Result | null
 }) {

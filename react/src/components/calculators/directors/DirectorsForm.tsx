@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {PeriodLabel} from '../../../config';
-import {DirectorsContext, DirectorsRow} from "./DirectorsContext";
+import {DirectorsContext, DirectorsUIRow} from "./DirectorsContext";
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
@@ -21,7 +21,6 @@ numeral.locale('en-gb');
 export default function DirectorsForm(props: DirectorsFormProps) {
   const { handleShowSummary, resetTotals, setDateRange } = props
   const {
-    ClassOneCalculator,
     taxYears,
     taxYear,
     setTaxYear,
@@ -32,7 +31,11 @@ export default function DirectorsForm(props: DirectorsFormProps) {
     setRows,
     activeRowId,
     setActiveRowId,
-    setResult
+    setResult,
+    categories,
+    askApp,
+    app,
+    setApp
   } = useContext(DirectorsContext)
 
   const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
@@ -45,7 +48,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
     invalidateResults()
     setRows([...rows, {
       id: uniqid(),
-      category: ClassOneCalculator.getApplicableCategories(taxYears[0].from)[0],
+      category: categories[0],
       gross: '',
       ee: 0,
       er: 0
@@ -59,7 +62,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
       setErrors({})
       setActiveRowId(null)
 
-      const newRows = rows.filter((row: DirectorsRow) => {
+      const newRows = rows.filter((row: DirectorsUIRow) => {
         return row.id !== activeRowId
       })
 
@@ -74,6 +77,10 @@ export default function DirectorsForm(props: DirectorsFormProps) {
       setTaxYear(selectedTaxYear)
       invalidateResults()
     }
+  }
+
+  const handleAppChange = (value: string) => {
+    setApp(value)
   }
 
   const invalidateResults = () => {
@@ -122,6 +129,26 @@ export default function DirectorsForm(props: DirectorsFormProps) {
         selected={earningsPeriod}
         error={errors.earningsPeriod}
       />
+
+      {askApp && <Radios
+        legend="Is an Appropriate Pension Scheme applicable?"
+        name="app"
+        items={[
+          {
+            label: 'Yes',
+            value: 'Yes',
+            conditionalContent: null
+          },
+          {
+            label: 'No',
+            value: 'No',
+            conditionalContent: null
+          }
+        ]}
+        handleChange={handleAppChange}
+        selected={app}
+        error={errors.app}
+      />}
 
       <NiPaidInputs context={DirectorsContext} />
 

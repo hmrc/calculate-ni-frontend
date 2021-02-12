@@ -52,8 +52,6 @@ export interface ClassOneRowInterface {
 
 interface Calculator {
   calculate: Function
-  calculateProRata: Function
-  calculateProRataJson: Function
   getApplicableCategories: Function
   getTaxYears: Array<string>
 }

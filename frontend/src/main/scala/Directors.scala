@@ -3,10 +3,9 @@ package frontend
 
 import main.scala.DirectorsRowInput
 
-import scala.scalajs.js.Date
+import scala.scalajs.js.{Date, UndefOr}
 import scala.scalajs.js
 import JsObjectAdapter.ops._
-import eoi.frontend.Directors.DirectorsRow
 
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.annotation.JSExportTopLevel
@@ -28,7 +27,7 @@ class Directors (
     from,
     to,
     rows.map(row => DirectorsRowInput(row.category.head, row.grossPay, row.id)).toList,
-    appropriatePersonalPensionScheme,
+    appropriatePersonalPensionScheme.toOption,
     BigDecimal(netPaid),
     BigDecimal(employeePaid)
   ).toJSObject
@@ -42,13 +41,9 @@ class Directors (
 
 }
 
-object Directors {
-
-  @JSExportTopLevel("DirectorsRow")
-  case class DirectorsRow(
-                          id: String,
-                          category: String,
-                          grossPay: Double
-                        )
-
-}
+@JSExportTopLevel("DirectorsRow")
+case class DirectorsRow(
+                        id: String,
+                        category: String,
+                        grossPay: Double
+                      )

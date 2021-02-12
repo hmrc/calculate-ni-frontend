@@ -8,7 +8,7 @@ import {
 } from "../interfaces";
 import {ErrorMessage} from "../validation/validation";
 import {Row} from "../components/calculators/class1/ClassOneContext";
-import {DirectorsRow} from "../components/calculators/directors/DirectorsContext";
+import {DirectorsUIRow} from "../components/calculators/directors/DirectorsContext";
 
 export const emptyStringToZero = (input: string) => input === '' ? 0 : parseFloat(input)
 
@@ -22,10 +22,10 @@ export const hasNonEmptyStrings = (stringsList: string[]) => stringsList.some(st
 
 const onlyUnique = (value: any, index: number, self: any[]) => self.indexOf(value) === index;
 
-const getTotalsInCategory = (type: TotalType, rows: Array<Row | DirectorsRow>, category: string) => {
+const getTotalsInCategory = (type: TotalType, rows: Array<Row | DirectorsUIRow>, category: string) => {
   return rows
     .filter(row => row.category === category)
-    .reduce((total: number, row: Row | DirectorsRow) => {
+    .reduce((total: number, row: Row | DirectorsUIRow) => {
 
       if(row.hasOwnProperty(type)) {
         return total + parseFloat(row[type].toString())
@@ -35,11 +35,11 @@ const getTotalsInCategory = (type: TotalType, rows: Array<Row | DirectorsRow>, c
     }, 0)
 }
 
-export const uniqueCategories = (rows: Array<Row | DirectorsRow>) => rows
+export const uniqueCategories = (rows: Array<Row | DirectorsUIRow>) => rows
     .map(r => r.category)
     .filter(onlyUnique)
 
-export const getTotalsInCategories = (rows: Array<Row | DirectorsRow>) => uniqueCategories(rows)
+export const getTotalsInCategories = (rows: Array<Row | DirectorsUIRow>) => uniqueCategories(rows)
   .reduce((list, next: string) => {
     const eeTotal = getTotalsInCategory(TotalType.EE, rows, next)
     const erTotal = getTotalsInCategory(TotalType.ER, rows, next)
