@@ -7,7 +7,7 @@ import {
   TaxYear
 } from "../interfaces";
 import {ErrorMessage} from "../validation/validation";
-import {Row} from "../components/calculators/class1/ClassOneContext";
+import {Band, Row} from "../components/calculators/class1/ClassOneContext";
 import {DirectorsUIRow} from "../components/calculators/directors/DirectorsContext";
 
 export const emptyStringToZero = (input: string) => input === '' ? 0 : parseFloat(input)
@@ -35,19 +35,54 @@ const getTotalsInCategory = (type: TotalType, rows: Array<Row | DirectorsUIRow>,
     }, 0)
 }
 
+const getBandTotalsInCategory = (band: string, rows: Array<Row | DirectorsUIRow>, category: string) => {
+  return rows
+    .filter(row => row.category === category)
+    .reduce((total: number, row: Row | DirectorsUIRow) => {
+
+      const matchingBand = row.bands?.find(b => b.name === band)
+      if(matchingBand) {
+        return total + matchingBand.amountInBand
+      }
+
+      return total
+    }, 0)
+}
+
 export const uniqueCategories = (rows: Array<Row | DirectorsUIRow>) => rows
     .map(r => r.category)
     .filter(onlyUnique)
+
+export const getTotalsInBand = (band: string, rows: Array<Row | DirectorsUIRow>) => {
+  return rows
+    .reduce((total: number, row: Row | DirectorsUIRow) => {
+      const matchingBand = row.bands?.find(b => b.name === band)
+      if(matchingBand) {
+        return total + matchingBand.amountInBand
+      }
+
+      return total
+    }, 0)
+}
 
 export const getTotalsInCategories = (rows: Array<Row | DirectorsUIRow>) => uniqueCategories(rows)
   .reduce((list, next: string) => {
     const eeTotal = getTotalsInCategory(TotalType.EE, rows, next)
     const erTotal = getTotalsInCategory(TotalType.ER, rows, next)
+    const bands = rows[0].bands && rows[0].bands.reduce((list: Band[], nextBand: Band) => {
+      const bandResult = {
+        name: nextBand.name,
+        amountInBand: getBandTotalsInCategory(nextBand.name, rows, next)
+      }
+      list.push(bandResult)
+      return list
+    }, [] as Band[])
     list[next] = {
       gross: getTotalsInCategory(TotalType.GROSS, rows, next),
       ee: eeTotal,
       er: erTotal,
-      contributionsTotal: eeTotal + erTotal
+      contributionsTotal: eeTotal + erTotal,
+      bands: bands
     }
     return list
   }, {} as TotalsInCategories)

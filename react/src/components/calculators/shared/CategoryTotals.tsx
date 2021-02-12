@@ -4,7 +4,7 @@ import React from 'react'
 import {TotalsInCategories} from '../../../interfaces'
 
 // services
-import {uniqueCategories} from "../../../services/utils";
+import {getTotalsInBand, uniqueCategories} from "../../../services/utils";
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
@@ -59,7 +59,7 @@ function CategoryTotals(props: {
                 {/* Gross total for Category */}
                 {formatCurrencyAmount(categoryTotals[c]?.gross)}
               </td>
-              {rows[0].bands && rows[0].bands.map(k =>
+              {categoryTotals[c]?.bands && categoryTotals[c]?.bands.map(k =>
                 <td key={`${k.name}-cat-val`}>
                   {numeral(k.amountInBand).format('$0,0.00')}
                 </td>
@@ -87,10 +87,10 @@ function CategoryTotals(props: {
             <td>
               {formatCurrencyAmount(result?.totals.gross)}
             </td>
-            {/* Bands (by tax year), so we can just take the first band to map the rows */}
+
             {rows[0].bands && rows[0].bands.map(k =>
               <td key={`${k.name}-band-total`}>
-                &ndash;
+                {formatCurrencyAmount(getTotalsInBand(k.name, rows))}
               </td>
             )}
 
