@@ -74,8 +74,20 @@ case class ClassOneRowOutput(
       } yield c
     }
 
-    def amountInBand: Explained[BigDecimal] = moneyInterval.flatMap(
-      m => (money + precededAmount).inBand(m) gives s"$rowId.$bandId.amountInBand: |[0, $money + $precededAmount] ∩ $m|")
+    def amountInBand: Explained[BigDecimal] = moneyInterval.flatMap(m =>
+      if(precededAmount == Zero)
+      money.inBand(m) gives s"$rowId.$bandId.amountInBand: |[0, $money] ∩ $m|"
+      else {
+        val intersection = Interval(precededAmount, money + precededAmount).intersect(m)
+          val intersectionSize = for{
+            upper <- intersection.upperValue
+            lower <- intersection.lowerValue
+          } yield upper - lower
+
+          intersectionSize.getOrElse(Zero) gives s"$rowId.$bandId.amountInBand: |[$precededAmount, $money + $precededAmount,  ∞) ∩ $m|"
+      }
+    )
+
     def employerRate: BigDecimal = definition.employer.getOrElse(category, Zero)
     def employeeRate: BigDecimal = definition.employee.getOrElse(category, Zero)
     def employerContributions: Explained[BigDecimal] = if (employerRate != 0) {
