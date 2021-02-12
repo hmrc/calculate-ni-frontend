@@ -16,6 +16,8 @@
 
 package eoi
 
+import main.scala.{DirectorsResult, DirectorsRowInput}
+
 import java.time.LocalDate
 import spire.implicits._
 import spire.math.Interval
@@ -222,4 +224,23 @@ case class Configuration(
     netPaid: BigDecimal = Zero,
     employeePaid: BigDecimal = Zero
   ) = ClassOneResult(on, classOne.at(on).getOrElse(Map.empty), rows, netPaid, employeePaid)
+
+  def calculateDirectors(
+                        from: LocalDate,
+                        to: LocalDate,
+                        rows: List[DirectorsRowInput],
+                        appropriatePersonalPensionScheme: Option[Boolean],
+                        netPaid: BigDecimal = Zero,
+                        employeePaid: BigDecimal = Zero
+                        ) =
+    DirectorsResult(
+      from,
+      to,
+      classOne.at(from).getOrElse(throw new IllegalStateException(s"No C1 config defined for $from")),
+      rows,
+      appropriatePersonalPensionScheme,
+      netPaid,
+      employeePaid
+    )
+
 }
