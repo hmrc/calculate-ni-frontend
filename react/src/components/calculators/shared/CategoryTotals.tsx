@@ -81,31 +81,31 @@ function CategoryTotals(props: {
               </td>
             </tr>
           ))}
-          <tr>
+          <tr className="total-row">
 
             <th><strong>Totals</strong></th>
             <td>
-              {formatCurrencyAmount(result?.totals.gross)}
+              <strong>{formatCurrencyAmount(result?.totals.gross)}</strong>
             </td>
 
             {rows[0].bands && rows[0].bands.map(k =>
               <td key={`${k.name}-band-total`}>
-                {formatCurrencyAmount(getTotalsInBand(k.name, rows))}
+                <strong>{formatCurrencyAmount(getTotalsInBand(k.name, rows))}</strong>
               </td>
             )}
 
             <td>
-              {formatCurrencyAmount(result?.totals.net)}
+              <strong>{formatCurrencyAmount(result?.totals.net)}</strong>
             </td>
 
             {/* EE total contributions */}
             <td>
-              {formatCurrencyAmount(result?.totals.employee)}
+              <strong>{formatCurrencyAmount(result?.totals.employee)}</strong>
             </td>
             
             {/* ER total contributions */}
             <td>
-              {formatCurrencyAmount(result?.totals.employer)}
+              <strong>{formatCurrencyAmount(result?.totals.employer)}</strong>
             </td>
           </tr>
         </tbody>
