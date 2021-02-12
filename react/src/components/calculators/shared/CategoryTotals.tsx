@@ -44,7 +44,7 @@ function CategoryTotals(props: {
             <th>Gross Pay</th>
             {/* Bands (by tax year), so we can just take the first band to map the rows */}
             {rows[0].bands && rows[0].bands.map(k =>
-              <th key={k.name}>{k.name}</th>
+              <th key={`${k.name}-cat-band-header`}>{k.name}</th>
             )}
             <th>Total</th>
             <th>EE</th>
@@ -53,14 +53,14 @@ function CategoryTotals(props: {
         </thead>
         <tbody>
           {categoriesList.map(c => (
-            <tr key={c}>
+            <tr key={`${c}-cat-list`}>
               <td>{c}</td>
               <td>
                 {/* Gross total for Category */}
                 {formatCurrencyAmount(categoryTotals[c]?.gross)}
               </td>
               {rows[0].bands && rows[0].bands.map(k =>
-                <td key={`${k}-val`}>
+                <td key={`${k.name}-cat-val`}>
                   {numeral(k.amountInBand).format('$0,0.00')}
                 </td>
               )}
