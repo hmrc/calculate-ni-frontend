@@ -1,4 +1,6 @@
+/** @jsx jsx */
 import React, {Dispatch, useContext} from 'react'
+import { css, jsx } from '@emotion/react'
 import numeral from 'numeral'
 
 // components
@@ -7,6 +9,14 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 // types
 import {DirectorsContext, DirectorsUIRow} from './DirectorsContext'
 import {NiFrontendContext} from '../../../services/NiFrontendContext'
+
+const mq = [`@media (max-width: ${760}px)`]
+
+const selectCatCellStyle = css({[mq[0]]: {':before': { content: `"Select NI category letter"` }}})
+const grossPayCellStyle = css({[mq[0]]: {':before': { content: `"Enter gross pay"` }}})
+const employeeCellStyle = css({[mq[0]]: {':before': { content: `"Employee"` }}})
+const employerCellStyle = css({[mq[0]]: {':before': { content: `"Employer"` }}})
+const totalCellStyle = css({[mq[0]]: {':before': { content: `"Total"` }}})
 
 interface TableRowProps {
   row: DirectorsUIRow
@@ -56,11 +66,11 @@ function DirectorsTableRow(props: TableRowProps) {
       className={activeRowId === row.id ? "active" : ""}
       onClick={() => setActiveRowId(row.id)}
     >
-      <td className="input">
+      <td className="input" css={selectCatCellStyle}>
         {printView ?
           <div>{row.category}</div>
           :
-          <>
+          <React.Fragment>
             <label className="govuk-visually-hidden" htmlFor={`row${index}-category`}>Category</label>
             <select name="category" value={row.category} onChange={(e) => handleSelectChange?.(row, e)} className="borderless" id={`row${index}-category`}>
               {categories.map((c: string, i: number) => (
@@ -69,13 +79,15 @@ function DirectorsTableRow(props: TableRowProps) {
                 </option>
               ))}
             </select>
-          </>
+          </React.Fragment>
         }
       </td>
 
       {/* Gross Pay */}
       <td className={
-        `input ${errors?.[`${row.id}-gross`] ? "error-cell" : ""}`}>
+        `input ${errors?.[`${row.id}-gross`] ? "error-cell" : ""}`}
+        css={grossPayCellStyle}
+      >
         {printView ?
           <div>{row.gross}</div>
           :
@@ -93,13 +105,18 @@ function DirectorsTableRow(props: TableRowProps) {
 
       {/* Bands */}
       {showBands && row.bands && row.bands.map(k =>
-        <td key={`${k.name}-val`}>{numeral(k.amountInBand).format('$0,0.00')}</td>
+        <td
+          key={`${k.name}-val`}
+          css={css({[mq[0]]: {':before': { content: `"${k.name}"` }}})}
+        >
+          {numeral(k.amountInBand).format('$0,0.00')}
+        </td>
       )}
 
       {/* Total */}
       {showBands && row.bands &&
       // Total (if calculate has run)
-      <td>
+      <td css={totalCellStyle}>
         {numeral(
           (row.ee + row.er).toString()
         ).format('$0,0.00')}
@@ -107,9 +124,9 @@ function DirectorsTableRow(props: TableRowProps) {
       }
 
       {/* EE */}
-      <td className="result-cell">{numeral(row.ee).format('$0,0.00')}</td>
+      <td className="result-cell" css={employeeCellStyle}>{numeral(row.ee).format('$0,0.00')}</td>
       {/* ER */}
-      <td className="result-cell">{numeral(row.er).format('$0,0.00')}</td>
+      <td className="result-cell" css={employerCellStyle}>{numeral(row.er).format('$0,0.00')}</td>
       {!printView && result && row.explain && row.explain.length > 0 &&
       <td>
         <a href={`#${row.id}-explain`} onClick={(e) => {

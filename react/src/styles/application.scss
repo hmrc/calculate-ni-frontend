@@ -28,16 +28,52 @@ $hmrc-assets-path: "/lib/hmrc-frontend/hmrc/";
   margin-bottom: 1em;
   .field-col {
     margin-right: 1em;
-    max-width: 40%;
+    @media only screen and (max-width: 760px) {
+      margin-right: 0;
+      width: 100%;
+    }
   }
+}
+
+@media only screen and (min-width: 40em) {
+  max-width: 40%;
 }
 
 #root .explanation-row {
   .explanation {
-    padding: 1em 0;
     font-style: italic;
     font-size: 16px;
+    line-height: 21px;
+    padding: 0 5px;
     text-align: right;
+    @media only screen and (min-width: 40em) {
+      padding: 1em 0;
+    }
+  }
+}
+
+// forms
+.govuk-hint {
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.25;
+  @media (min-width: 40.0625em) {
+    font-size: 19px;
+    font-size: 1.1875rem;
+    line-height: 1.31579;
+  }
+}
+
+.govuk-label {
+  font-size: 16px;
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1.25;
+  margin-bottom: 5px;
+  @media (min-width: 40.0625em) {
+    font-size: 19px;
+    font-size: 1.1875rem;
+    line-height: 1.31579;
   }
 }
 

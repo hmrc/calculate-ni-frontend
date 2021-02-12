@@ -1,4 +1,6 @@
+/** @jsx jsx */
 import React from 'react'
+import { css, jsx } from '@emotion/react'
 
 // components
 import {TotalsInCategories} from '../../../interfaces'
@@ -13,6 +15,13 @@ import {DirectorsUIRow} from "../directors/DirectorsContext";
 
 numeral.locale('en-gb');
 
+const mq = [`@media (max-width: ${759}px)`]
+const categoryCellStyle = css({[mq[0]]: {':before': { content: `"Category"` }}})
+const grossPayCellStyle = css({[mq[0]]: {':before': { content: `"Gross pay"` }}})
+const totalCellStyle = css({[mq[0]]: {':before': { content: `"Total"` }}})
+const employeeCellStyle = css({[mq[0]]: {':before': { content: `"Employee"` }}})
+const employerCellStyle = css({[mq[0]]: {':before': { content: `"Employer"` }}})
+
 function CategoryTotals(props: {
   rows: Array<Row | DirectorsUIRow>,
   categoryTotals: TotalsInCategories
@@ -24,6 +33,7 @@ function CategoryTotals(props: {
     currencyAmount && numeral(currencyAmount.toString()).format('$0,0.00')
   return (
     <div className="category-totals">
+      <h2 className="section-heading">Category Totals</h2>
       <table>
         <thead>
           <tr className="clear">
@@ -54,57 +64,56 @@ function CategoryTotals(props: {
         <tbody>
           {categoriesList.map(c => (
             <tr key={`${c}-cat-list`}>
-              <td>{c}</td>
-              <td>
+              <td css={categoryCellStyle}>{c}</td>
+              <td css={grossPayCellStyle}>
                 {/* Gross total for Category */}
                 {formatCurrencyAmount(categoryTotals[c]?.gross)}
               </td>
               {categoryTotals[c]?.bands && categoryTotals[c]?.bands.map(k =>
-                <td key={`${k.name}-cat-val`}>
+                <td key={`${k.name}-cat-val`} css={css({[mq[0]]: {':before': { content: `"${k.name}"` }}})}>
                   {numeral(k.amountInBand).format('$0,0.00')}
                 </td>
               )}
 
               {/* Total contributions for category */}
-              <td>
+              <td css={totalCellStyle}>
                 {formatCurrencyAmount(categoryTotals[c]?.contributionsTotal)}
               </td>
 
               {/* EE contributions for category */}
-              <td>
+              <td css={employeeCellStyle}>
                 {formatCurrencyAmount(categoryTotals[c]?.ee)}
               </td>
               
               {/* ER contributions for category */}
-              <td>
+              <td css={employerCellStyle}>
                 {formatCurrencyAmount(categoryTotals[c]?.er)}
               </td>
             </tr>
           ))}
           <tr className="total-row">
-
-            <th><strong>Totals</strong></th>
-            <td>
+            <th className="totals-row-header"><strong>Totals</strong></th>
+            <td css={grossPayCellStyle}>
               <strong>{formatCurrencyAmount(result?.totals.gross)}</strong>
             </td>
 
             {rows[0].bands && rows[0].bands.map(k =>
-              <td key={`${k.name}-band-total`}>
+              <td key={`${k.name}-band-total`} css={css({[mq[0]]: {':before': { content: `"${k.name}"` }}})}>
                 <strong>{formatCurrencyAmount(getTotalsInBand(k.name, rows))}</strong>
               </td>
             )}
 
-            <td>
+            <td css={totalCellStyle}>
               <strong>{formatCurrencyAmount(result?.totals.net)}</strong>
             </td>
 
             {/* EE total contributions */}
-            <td>
+            <td css={employeeCellStyle}>
               <strong>{formatCurrencyAmount(result?.totals.employee)}</strong>
             </td>
             
             {/* ER total contributions */}
-            <td>
+            <td css={employerCellStyle}>
               <strong>{formatCurrencyAmount(result?.totals.employer)}</strong>
             </td>
           </tr>

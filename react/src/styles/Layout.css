@@ -59,6 +59,14 @@
   }
 }
 
+.container.third {
+  margin-top: 15px;
+}
+
+.container.third:first-child {
+  margin-top: 0;
+}
+
 @media screen and (min-width: 760px) {
   .container.half {
     flex-grow: 1;
@@ -82,6 +90,7 @@
     flex-grow: 1;
     width: 33.3333%;
     box-sizing: border-box;
+    margin-top: 0;
   }
 
   .container.third + .third {

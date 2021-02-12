@@ -1,4 +1,6 @@
+/** @jsx jsx */
 import React, {useContext} from 'react'
+import { css, jsx } from '@emotion/react'
 
 // components
 import TextInput from '../../helpers/formhelpers/TextInput'
@@ -8,6 +10,19 @@ import 'numeral/locales/en-gb';
 import {UnofficialDefermentContext, UnofficialDefermentRow} from "./UnofficialDefermentContext";
 
 numeral.locale('en-gb');
+
+const mq = [`@media (max-width: ${760}px)`]
+
+const nameEmployerCellStyle = css({[mq[0]]: {':before': { content: `"Name of employer"` }}})
+const grossPayCellStyle = css({[mq[0]]: {':before': { content: `"Gross pay"` }}})
+const niCatCellStyle = css({[mq[0]]: {':before': { content: `"NI category"` }}})
+const lelCellStyle = css({[mq[0]]: {':before': { content: `"LEL"` }}})
+const lelPtCellStyle = css({[mq[0]]: {':before': { content: `"LEL - PT"` }}})
+const ptUelCellStyle = css({[mq[0]]: {':before': { content: `"PT - UEL"` }}})
+const employeeNicsCellStyle = css({[mq[0]]: {':before': { content: `"Employee NICS"` }}})
+const overUelCellStyle = css({[mq[0]]: {':before': { content: `"Over UEL"` }}})
+const nicsNonCoCellStyle = css({[mq[0]]: {':before': { content: `"NICS non-CO"` }}})
+const ifNotUdCellStyle = css({[mq[0]]: {':before': { content: `"If not U/D"` }}})
 
 export default function UnofficialDefermentTable(props: {printView: boolean}) {
   const { printView } = props
@@ -69,7 +84,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
           className={activeRowId === r.id ? "active" : ""}
           onClick={() => setActiveRowId(r.id)}
         >
-          <td className="input">
+          <td className="input" css={nameEmployerCellStyle}>
             {printView ?
               <div>{r.nameOfEmployer}</div>
               :
@@ -84,12 +99,12 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
               />
             }
           </td>
-          <td><div>{numeral(r.grossPay).format('$0,0.00')}</div></td>
-          <td className="input">
+          <td css={grossPayCellStyle}><div>{numeral(r.grossPay).format('$0,0.00')}</div></td>
+          <td className="input" css={niCatCellStyle}>
             {printView ?
               <div>{r.category}</div>
               :
-              <>
+              <React.Fragment>
                 <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category</label>
                 <select name="category" value={r.category} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
                   {categories.map((c: string, i: number) => (
@@ -98,10 +113,10 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
                     </option>
                   ))}
                 </select>
-              </>
+              </React.Fragment>
             }
           </td>
-          <td className="input">
+          <td className="input" css={lelCellStyle}>
             {printView ?
               <div>{numeral(r.earnings1a).format('$0,0.00')}</div>
               :
@@ -116,14 +131,14 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
               />
             }
           </td>
-          <td className="input">
+          <td className="input" css={lelPtCellStyle}>
             {printView ?
               <div>{numeral(r.earnings1b).format('$0,0.00')}</div>
               :
               <TextInput
                 hiddenLabel={true}
                 name={`${r.id}-earnings1b`}
-                labelText="LEL"
+                labelText="LEL - PT"
                 inputClassName="gross-pay"
                 inputValue={r.earnings1b}
                 placeholderText=""
@@ -131,14 +146,14 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
               />
             }
           </td>
-          <td className="input">
+          <td className="input" css={ptUelCellStyle}>
             {printView ?
               <div>{numeral(r.earnings1c).format('$0,0.00')}</div>
               :
               <TextInput
                 hiddenLabel={true}
                 name={`${r.id}-earnings1c`}
-                labelText="LEL"
+                labelText="PT - UEL"
                 inputClassName="gross-pay"
                 inputValue={r.earnings1c}
                 placeholderText=""
@@ -181,14 +196,14 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
           </td>
           }
           {earningsFields['f'] &&
-          <td className="input">
+          <td className="input" css={employeeNicsCellStyle}>
             {printView ?
               <div>{numeral(r.earnings1f).format('$0,0.00')}</div>
               :
               <TextInput
                 hiddenLabel={true}
                 name={`${r.id}-earnings1f`}
-                labelText="LEL"
+                labelText="Employee NICS"
                 inputClassName=""
                 inputValue={r.earnings1f ? r.earnings1f : '0'}
                 placeholderText=""
@@ -197,9 +212,9 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
             }
           </td>
           }
-          <td>{numeral(r.overUEL).format('$0,0.00')}</td>
-          <td>{numeral(r.NICsDueNonCO).format('$0,0.00')}</td>
-          <td>{numeral(r.IfNotUD).format('$0,0.00')}</td>
+          <td css={overUelCellStyle}>{numeral(r.overUEL).format('$0,0.00')}</td>
+          <td css={nicsNonCoCellStyle}>{numeral(r.NICsDueNonCO).format('$0,0.00')}</td>
+          <td css={ifNotUdCellStyle}>{numeral(r.IfNotUD).format('$0,0.00')}</td>
         </tr>
       ))}
       </tbody>

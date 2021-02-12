@@ -1,4 +1,6 @@
+/** @jsx jsx */
 import React, {Dispatch, useContext, useEffect} from "react"
+import { css, jsx } from '@emotion/react'
 import {periods, PeriodValue, periodValueToLabel} from "../../../config";
 import TextInput from "../../helpers/formhelpers/TextInput";
 import numeral from "numeral";
@@ -13,6 +15,18 @@ interface TableRowProps {
   setShowExplanation: Dispatch<string>
   showExplanation?: string
 }
+
+
+const mq = [`@media (max-width: ${760}px)`]
+
+const rowNumberCellStyle = css({[mq[0]]: {':before': { content: `"Row number"` }}})
+const selectPeriodCellStyle = css({[mq[0]]: {':before': { content: `"Select period"` }}})
+const periodNumberCellStyle = css({[mq[0]]: {':before': { content: `"Period No."` }}})
+const selectNICategoryLetterCellStyle = css({[mq[0]]: {':before': { content: `"Select NI category letter"` }}})
+const enterGrossPayCellStyle = css({[mq[0]]: {':before': { content: `"Enter gross pay"` }}})
+const employeeCellStyle = css({[mq[0]]: {':before': { content: `"Employee"` }}})
+const employerCellStyle = css({[mq[0]]: {':before': { content: `"Employer"` }}})
+const totalCellStyle = css({[mq[0]]: {':before': { content: `"Total"` }}})
 
 export default function Class1TableRow(props: TableRowProps) {
   const { row, index, showBands, printView, setShowExplanation, showExplanation } = props
@@ -72,14 +86,14 @@ export default function Class1TableRow(props: TableRowProps) {
       id={row.id}
       onClick={() => setActiveRowId(row.id)}
     >
-      <td className="row-number">
+      <td className="row-number" css={rowNumberCellStyle}>
         {index + 1}
       </td>
-      <td className="input">
+      <td className="input" css={selectPeriodCellStyle}>
         {printView ?
           <div>{periodValueToLabel(row.period)}</div>
           :
-          <>
+          <React.Fragment>
             <label className="govuk-visually-hidden" htmlFor={`row${index}-period`}>Period</label>
             <select
               name="period"
@@ -91,21 +105,21 @@ export default function Class1TableRow(props: TableRowProps) {
                 <option key={i} value={p}>{periodValueToLabel(p)}</option>
               ))}
             </select>
-          </>
+          </React.Fragment>
 
         }
       </td>
 
-      <td>
+      <td css={periodNumberCellStyle}>
         {row.number}
       </td>
 
       {/* Category */}
-      <td className="input">
+      <td className="input" css={selectNICategoryLetterCellStyle}>
         {printView ?
           <div>{row.category}</div>
           :
-          <>
+          <React.Fragment>
             <label className="govuk-visually-hidden" htmlFor={`row${index}-category`}>Category</label>
             <select name="category" value={row.category} onChange={(e) => handleSelectChange?.(row, e)} className="borderless" id={`row${index}-category`}>
               {categories.map((c: string, i: number) => (
@@ -114,17 +128,19 @@ export default function Class1TableRow(props: TableRowProps) {
                 </option>
               ))}
             </select>
-          </>
+          </React.Fragment>
         }
       </td>
 
       {/* Gross Pay */}
       <td className={
-        `input ${errors?.[`${row.id}-gross`] ? "error-cell" : ""}`}>
+        `input ${errors?.[`${row.id}-gross`] ? "error-cell" : ""}`}
+          css={enterGrossPayCellStyle}
+      >
         {printView ?
           <div>{row.gross}</div>
           :
-          <>
+          <React.Fragment>
             <TextInput
               hiddenLabel={true}
               name={`${row.id}-gross`}
@@ -134,27 +150,27 @@ export default function Class1TableRow(props: TableRowProps) {
               placeholderText="Enter the gross pay amount"
               onChangeCallback={(e) => handleChange?.(row, e)}
             />
-          </>
+          </React.Fragment>
         }
       </td>
 
       {/* Bands */}
       {showBands && row.bands && row.bands.map(k =>
-        <td key={`${k.name}-val`}>{numeral(k.amountInBand).format('$0,0.00')}</td>
+        <td key={`${k.name}-val`} css={css({[mq[0]]: {':before': { content: `"${k.name}"` }}})}> {numeral(k.amountInBand).format('$0,0.00')}</td>
       )}
 
       {/* Total */}
       {showBands && row.bands &&
       // Total (if calculate has run)
-      <td>
+      <td css={totalCellStyle}>
         {numeral(
           (row.ee + row.er).toString()
         ).format('$0,0.00')}
       </td>
       }
 
-      <td className="result-cell">{numeral(row.ee).format('$0,0.00')}</td>
-      <td className="result-cell">{numeral(row.er).format('$0,0.00')}</td>
+      <td className="result-cell" css={employeeCellStyle}>{numeral(row.ee).format('$0,0.00')}</td>
+      <td className="result-cell" css={employerCellStyle}>{numeral(row.er).format('$0,0.00')}</td>
       {!printView && result && row.explain && row.explain.length > 0 &&
         <td>
            <a href={`#${row.id}-explain`} onClick={(e) => {

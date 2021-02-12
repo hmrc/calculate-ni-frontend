@@ -1,10 +1,25 @@
-import {Class3Row, GovDateRange, TaxYear} from "../../../interfaces";
+/** @jsx jsx */
 import React, {useContext, useEffect, useState} from "react";
-import TextInput from "../../helpers/formhelpers/TextInput";
+import { css, jsx } from '@emotion/react'
+import {dateRangeString} from '../../../config'
+
+// types
 import {Class3Context} from "./Class3Context";
+import {Class3Row, GovDateRange, TaxYear} from "../../../interfaces";
+
+// components
 import FullOrPartialTaxYear from "../../helpers/formhelpers/FullOrPartialTaxYear";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
-import {dateRangeString} from '../../../config'
+import TextInput from "../../helpers/formhelpers/TextInput";
+
+const mq = [`@media (max-width: ${760}px)`]
+
+const rowNumberCellStyle = css({[mq[0]]: {':before': { content: `"Row number"` }}})
+const fromToCellStyle = css({[mq[0]]: {':before': { content: `"From/To"` }}})
+const earningsFactorCellStyle = css({[mq[0]]: {':before': { content: `"Earnings factor"` }}})
+const maxWeeksCellStyle = css({[mq[0]]: {':before': { content: `"Max weeks"` }}})
+const actualWeeksCellStyle = css({[mq[0]]: {':before': { content: `"Actual weeks"` }}})
+const deficientCellStyle = css({[mq[0]]: {':before': { content: `"Deficient"` }}})
 
 const Class3TableRow = (props: {
   index: number,
@@ -81,7 +96,7 @@ const Class3TableRow = (props: {
       id={row.id}
       onClick={() => setActiveRowId(row.id)}
     >
-      <td className="row-number">
+      <td className="row-number" css={rowNumberCellStyle}>
         {index + 1}
       </td>
       {!printView &&
@@ -92,8 +107,10 @@ const Class3TableRow = (props: {
           />
         </td>
       }
-      <td className={
-          `input date-toggles ${errors?.[`${row.id}FromDay`] ? "error-cell" : ""}`}>
+      <td
+        className={`input date-toggles ${showDates ? "date-inputs" : ""}${errors?.[`${row.id}FromDay`] ? "error-cell" : ""}`}
+        css={fromToCellStyle}
+      >
         {printView ?
           <div>{dateRangeString(dateRange)}</div>
           :
@@ -112,7 +129,7 @@ const Class3TableRow = (props: {
         }
 
       </td>
-      <td className={`input${errors[`${row.id}-earningsFactor`] ? ` error-cell` : ``}`}>
+      <td className={`input${errors[`${row.id}-earningsFactor`] ? ` error-cell` : ``}`} css={earningsFactorCellStyle}>
         {printView ?
           <div>{row.earningsFactor}</div>
           :
@@ -126,9 +143,9 @@ const Class3TableRow = (props: {
           />
         }
       </td>
-      <td>{row.maxWeeks}</td>
-      <td>{row.actualWeeks}</td>
-      <td>{row.deficiency}</td>
+      <td css={maxWeeksCellStyle}>{row.maxWeeks}</td>
+      <td css={actualWeeksCellStyle}>{row.actualWeeks}</td>
+      <td css={deficientCellStyle}>{row.deficiency}</td>
     </tr>
   )
 }

@@ -1,4 +1,7 @@
+/** @jsx jsx */
 import React, {useContext} from 'react'
+import { css, jsx } from '@emotion/react'
+
 import {extractFromDateString, extractToDateString, taxYearFromString, taxYearString} from '../../../config'
 
 // types
@@ -6,6 +9,14 @@ import {LateRefundsTableRowProps, TaxYear} from '../../../interfaces'
 import SelectTaxYear from '../../helpers/formhelpers/SelectTaxYear'
 import {LateRefundsContext} from './LateRefundsContext'
 import TextInput from '../../helpers/formhelpers/TextInput'
+
+const mq = [`@media (max-width: ${760}px)`]
+
+const rowNumberCellStyle = css({[mq[0]]: {':before': { content: `"Row number"` }}})
+const fromCellStyle = css({[mq[0]]: {':before': { content: `"From"` }}})
+const dateCellStyle = css({[mq[0]]: {':before': { content: `"Date"` }}})
+const refundCellStyle = css({[mq[0]]: {':before': { content: `"Date"` }}})
+const payableCellStyle = css({[mq[0]]: {':before': { content: `"Date"` }}})
 
 function LateRefundsTableRow(props: {
   row: LateRefundsTableRowProps,
@@ -55,10 +66,10 @@ function LateRefundsTableRow(props: {
       id={row.id}
       onClick={() => setActiveRowId(row.id)}
     >
-      <td>{index + 1}</td>
-      <td className="input">
+      <td css={rowNumberCellStyle}>{index + 1}</td>
+      <td className="input" css={fromCellStyle}>
         {printView ?
-          <div>{taxYearString(row.taxYear, true)}</div>
+          <div>{row.taxYear && taxYearString(row.taxYear, true)}</div>
           :
           <SelectTaxYear
             borderless={true}
@@ -70,8 +81,8 @@ function LateRefundsTableRow(props: {
           />
         }
       </td>
-      <td>{row.taxYear && taxYearFromString(row.taxYear)}</td>
-      <td className={`input${errors[`${row.id}-refund`] ? ` error-cell` : ``}`}>
+      <td css={dateCellStyle}>{row.taxYear && taxYearFromString(row.taxYear)}</td>
+      <td className={`input${errors[`${row.id}-refund`] ? ` error-cell` : ``}`} css={refundCellStyle}>
         {printView ?
           <div>{row.refund}</div>
           :
@@ -86,7 +97,7 @@ function LateRefundsTableRow(props: {
           />
         }
       </td>
-      <td>{row.payable}</td>
+      <td css={payableCellStyle}>{row.payable}</td>
     </tr>
 
   )

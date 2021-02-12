@@ -17,6 +17,7 @@ import {DirectorsContext, DirectorsUIRow, DirectorsRowInterface, useDirectorsFor
 // services
 import {hasKeys} from "../../../services/utils";
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
+import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 
 const pageTitle = 'Directors’ contributions'
 
@@ -161,14 +162,29 @@ const DirectorsPage = () => {
           </form>
         </>
       }
-      <Totals
-        grossPayTally={showSummary}
-        result={result}
-        isSaveAndPrint={showSummary}
-        context={DirectorsContext}
-      />
+
+      <div className="divider--bottom">
+        <Totals
+          grossPayTally={showSummary}
+          result={result}
+          isSaveAndPrint={showSummary}
+          context={DirectorsContext}
+        />
+      </div>
+
+      {!showSummary && (
+        <div className="container section--top section-outer--top">
+          <div className="form-group half">
+            <SecondaryButton
+              label="Save and print"
+              onClick={handleShowSummary}
+            />
+          </div>
+        </div>
+      )}
+
       {showSummary && (
-        <div className="govuk-!-padding-bottom-9">
+        <div className="govuk-!-padding-bottom-9 section--top">
           <button className="button" onClick={() => window.print()}>
             Save and print
           </button>

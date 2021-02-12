@@ -186,7 +186,6 @@ table.contribution-details td:has(input:focus) {
 .table-wrapper thead th, .table-wrapper tbody td, .table-wrapper tbody td.input {
   height: 40px;
 }
-
 @media screen and (min-width: 760px) {
   .table-wrapper thead th, .table-wrapper tbody td {
     height: 40px;
@@ -295,14 +294,6 @@ table.contribution-details td:has(input:focus) {
 }
 
 /* Totals table */
-.totals {
-  /* border-color: var(--border-divider);
-  border-style: solid;
-  border-width: 0 0 1px; */
-  padding-bottom: 15px;
-  margin-bottom: 30px;
-}
-
 .totals-table td.readonly {
   padding-bottom: 0;
 }
@@ -328,7 +319,13 @@ table.contribution-details td:has(input:focus) {
 }
 
 .totals-table td.right, .totals-table th.right {
-  text-align: right;
+  text-align: left;
+}
+
+@media (min-width: 40.0625em) {
+  .totals-table td.right, .totals-table th.right {
+    text-align: right;
+  }
 }
 
 
@@ -349,8 +346,7 @@ Max width before this PARTICULAR table gets nasty
 This query will take effect for any screen smaller than 760px
 and also iPads specifically.
 */
-@media 
-only screen and (max-width: 760px),
+@media only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px)  {
 
 	/* Force table to not be like tables anymore */
@@ -367,45 +363,77 @@ only screen and (max-width: 760px),
 	
 	tr { border: 1px solid #ccc; }
 	
-	td { 
+	td,
+    table.contribution-details td.input {
 		/* Behave  like a "row" */
 		border: none;
 		border-bottom: 1px solid #eee; 
 		position: relative;
-		padding-left: 50%; 
+		padding-left: 50%;
 	}
-	
-	td:before { 
-    /* Now like a table header */
-    color: #505a5f;
-		position: absolute;
-		/* Top/left values mimic padding */
-		top: 6px;
-		left: 6px;
-		width: 45%; 
-		padding-right: 10px; 
-		white-space: nowrap;
+
+  table.contribution-details td,
+  .save-print-wrapper .category-totals td {
+    border-bottom: 1px solid #eee;
+  }
+
+  .save-print-wrapper table.contribution-details td,
+  .save-print-wrapper .category-totals td,
+  .save-print-wrapper .totals-table td {
+    border-bottom: 1px solid #eee;
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+
+  .save-print-wrapper .totals-row-header {
+    padding: 7px 0 7px 6px;
+  }
+
+	td:before {
+      /* Now like a table header */
+      color: #505a5f;
+      position: absolute;
+      /* Top/left values mimic padding */
+      top: 0;
+      left: 6px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+
+      height: 100%;
 	}
-	
-	/*
-	  Cell labels
-	*/
-	.contribution-details td:nth-of-type(1):before { content: "Select period"; }
-	.contribution-details td:nth-of-type(2):before { content: "Select NI category letter"; }
-	.contribution-details td:nth-of-type(3):before { content: "	Enter gross pay"; }
-	.contribution-details td:nth-of-type(4):before { content: "Employee"; }
-  .contribution-details td:nth-of-type(5):before { content: "Employer"; }
-  
-  .totals-table td:nth-of-type(1):before { content: "Gross pay"; }
-  .totals-table td:nth-of-type(2):before { content: "Net contributions"; }
-  .totals-table td:nth-of-type(3):before { content: "Employee contributions"; }
-  .totals-table td:nth-of-type(4):before { content: "Employer contributions"; }
-  
-  .category-totals td:nth-of-type(1):before { content: "Category"; }
-  .category-totals td:nth-of-type(2):before { content: "Gross Pay"; }
-  .category-totals td:nth-of-type(3):before { content: "Total"; }
-  .category-totals td:nth-of-type(4):before { content: "Employee"; }
-  .category-totals td:nth-of-type(5):before { content: "Employer"; }
+
+    td.input:before {
+      top: 5px;
+    }
+
+    .save-print-wrapper .contribution-details td:before,
+    .save-print-wrapper .category-totals td:before,
+    .save-print-wrapper .totals-table td:before {
+      top: 8px;
+    }
+
+    table.totals td:before {
+      top: 0px;
+      line-height: 40px;
+    }
+
+  .contribution-details .explanation-row td {
+    height: auto;
+    padding-left: 0;
+  }
+
+  .contribution-details .explanation-row td .explanation {
+    padding: 0 5px;
+  }
+
+  .contribution-details .explanation-row td:before { content: ""; }
+
+  @media only screen and (max-width: 760px){
+    .contribution-details .date-toggles.date-inputs {
+      height: auto;
+    }
+  }
 
 
   /* Totals */
@@ -433,14 +461,16 @@ only screen and (max-width: 760px),
 }
 
 /* Contribution Details */
-table.contribution-details td:not(.input) {
-  padding-left: calc(50% + 10px);
-}
-@media screen and (min-width: 760px) {
-  table.contribution-details td:not(.input) {
-    padding-left: 10px;
-  }
-}
+/*@media (min-width: 40.0625em) {*/
+/*  table.contribution-details td:not(.input) {*/
+/*    padding-left: calc(50% + 10px);*/
+/*  }*/
+/*}*/
+/*@media screen and (min-width: 760px) {*/
+/*  table.contribution-details td:not(.input) {*/
+/*    padding-left: 10px;*/
+/*  }*/
+/*}*/
 
 #save-print-wrapper th {
   height: 30px;

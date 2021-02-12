@@ -19,7 +19,7 @@ import NiPaidInputs from "../shared/NiPaidInputs";
 numeral.locale('en-gb');
 
 export default function DirectorsForm(props: DirectorsFormProps) {
-  const { handleShowSummary, resetTotals  } = props
+  const { resetTotals  } = props
   const {
     taxYears,
     taxYear,
@@ -92,15 +92,6 @@ export default function DirectorsForm(props: DirectorsFormProps) {
 
   return (
     <>
-      <div className="container float--right">
-        <div className="form-group half">
-          <SecondaryButton
-            label="Save and print"
-            onClick={handleShowSummary}
-          />
-        </div>
-      </div>
-
       <SelectTaxYear
         taxYears={taxYears}
         taxYear={taxYear}
