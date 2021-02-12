@@ -81,6 +81,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
 
   const handleAppChange = (value: string) => {
     setApp(value)
+    setResult(null)
   }
 
   const invalidateResults = () => {

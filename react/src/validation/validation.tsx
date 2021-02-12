@@ -71,45 +71,48 @@ export const beforeMinimumTaxYear = (date: Date, minDate: Date) =>
 export const afterMaximumTaxYear = (date: Date, maxDate: Date) =>
   moment(date).isAfter(moment(maxDate))
 
-export const validateClassOnePayload = (
-  payload: ClassOnePayload,
-  setErrors: Dispatch<GenericErrors>
-) => {
-  const errors: GenericErrors = {}
-  if(payload.niPaidNet === '' && payload.niPaidEmployee !== '') {
+const validateNiPaid = (errors: GenericErrors, niPaidNet: string, niPaidEmployee: string) => {
+  if(niPaidNet === '' && niPaidEmployee !== '') {
     errors.niPaidNet = {
       link: 'niPaidNet',
       name: 'Net NI paid',
       message: 'NI paid net contributions must be entered'
     }
-  } else if (payload.niPaidNet !== '' && payload.niPaidEmployee !== '') {
-    if(isNaN(+payload.niPaidNet)) {
+  } else if (niPaidNet !== '' && niPaidEmployee !== '') {
+    if(isNaN(+niPaidNet)) {
       errors.niPaidNet = {
         link: 'niPaidNet',
         name: 'Net NI paid',
         message: 'NI paid net contributions must be an amount of money'
       }
-    } else if(!isNaN(+payload.niPaidEmployee) && parseFloat(payload.niPaidNet) < parseFloat(payload.niPaidEmployee)) {
+    } else if(!isNaN(+niPaidEmployee) && parseFloat(niPaidNet) < parseFloat(niPaidEmployee)) {
       errors.niPaidNet = {
         link: 'niPaidNet',
         name: 'Net NI paid',
         message: 'NI paid net contributions cannot be less than employee contributions'
       }
-    } else if(isNaN(+payload.niPaidEmployee)) {
+    } else if(isNaN(+niPaidEmployee)) {
       errors.niPaidEmployee = {
         link: 'niPaidNet',
         name: 'Net NI paid',
         message: 'NI paid employee contributions must be an amount of money'
       }
     }
-  } else if(payload.niPaidEmployee === '' && payload.niPaidNet !== '') {
+  } else if(niPaidEmployee === '' && niPaidNet !== '') {
     errors.niPaidEmployee = {
       link: 'niPaidEmployee',
       name: 'Net NI paid by employee',
       message: 'NI paid employee contributions must be entered'
     }
   }
+}
 
+export const validateClassOnePayload = (
+  payload: ClassOnePayload,
+  setErrors: Dispatch<GenericErrors>
+) => {
+  const errors: GenericErrors = {}
+  validateNiPaid(errors, payload.niPaidNet, payload.niPaidEmployee)
   validateClass1Rows(payload.rows, errors)
 
   if (hasKeys(errors)) {
@@ -126,7 +129,7 @@ export const validateDirectorsPayload = (
   taxYears: TaxYear[]
 ) => {
   let errors: GenericErrors = {}
-
+  validateNiPaid(errors, payload.niPaidNet, payload.niPaidEmployee)
   if(!payload.earningsPeriod) {
     errors.earningsPeriod = {
       name: 'Earnings period',
@@ -141,7 +144,7 @@ export const validateDirectorsPayload = (
     errors.app = {
       name: 'app',
       link: 'app',
-      message: 'Select yes if an Appropriate Personal Pension is applicable'
+      message: 'Select yes if an Appropriate Personal Pension Scheme is applicable'
     }
   }
 
