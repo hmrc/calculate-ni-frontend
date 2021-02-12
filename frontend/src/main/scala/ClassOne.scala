@@ -75,7 +75,7 @@ object ClassOneFrontend {
  * Any of the elements of ClassOneResult can be made accessible to the
  * JS frontend from here.
  */
-  implicit def c1ResultLikeAdapter[A <: ClassOneResultLike] = new JsObjectAdapter[A] {
+  implicit def c1ResultLikeAdapter[A <: ClassOneResultLike]: JsObjectAdapter[A] = new JsObjectAdapter[A] {
     def toJSObject(in: A): js.Object = new js.Object {
 
       // the rows
