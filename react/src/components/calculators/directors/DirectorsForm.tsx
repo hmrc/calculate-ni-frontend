@@ -137,7 +137,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
       />
 
       {askApp && <Radios
-        legend="Is an Appropriate Personal Pension Scheme applicable?"
+        legend="Did the director have an Appropriate Personal Pension or Appropriate Personal Pension Stakeholder Pension in this earnings period?"
         name="app"
         items={[
           {

@@ -146,6 +146,7 @@ export function useDirectorsForm() {
     if(taxYear && taxYear.from) {
       const isAppApplicable = DirectorsCalculator.isAppropriatePersonalPensionSchemeApplicable(taxYear.from)
       setApp(null)
+      setEarningsPeriod(null)
       setAskApp(isAppApplicable || undefined)
       const categories = ClassOneCalculator.getApplicableCategories(taxYear.from)
       if(categories) {

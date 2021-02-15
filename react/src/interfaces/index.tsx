@@ -2,7 +2,7 @@
 
 import {PeriodLabel} from "../config";
 import {GenericErrors} from "../validation/validation";
-import React, {Context, Dispatch, SetStateAction} from "react";
+import React, {Context, Dispatch} from "react";
 import {Class2Or3Result} from "../components/calculators/class-2-or-3/Class2Or3Context";
 import {Band, Class1Result, Row} from "../components/calculators/class1/ClassOneContext";
 import {DirectorsUIRow} from "../components/calculators/directors/DirectorsContext";
