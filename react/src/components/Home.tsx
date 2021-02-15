@@ -10,7 +10,7 @@ export default function Home() {
         <span className="govuk-error-message">{error}</span>
         :
         <>
-          <div className="govuk-width-container">
+
             <main className="govuk-main-wrapper">
               <div className="govuk-grid-row">
                 <div className="govuk-grid-column-two-thirds">
@@ -49,17 +49,18 @@ export default function Home() {
                 </div>
 
                 <div className="govuk-grid-column-one-third">
-                  <h2 className="govuk-heading-m">Rates tables</h2>
-                  <ul className="govuk-list govuk-list--bullet">
-                    <li><a href="/calculate-ni/tables/classOne" className="govuk-link">Class One</a></li>
-                    <li><a href="/calculate-ni/tables/classTwo" className="govuk-link">Class Two</a></li>
-                    <li><a href="/calculate-ni/tables/classThree" className="govuk-link">Class Three</a></li>
-                    <li><a href="/calculate-ni/tables/classFour" className="govuk-link">Class Four</a></li>
-                  </ul>
+                  <div className="app-related-items" role="complementary">
+                    <h2 className="govuk-heading-m">Rates tables</h2>
+                    <ul className="govuk-list">
+                      <li><a href="/calculate-ni/tables/classOne" className="govuk-link">Class One</a></li>
+                      <li><a href="/calculate-ni/tables/classTwo" className="govuk-link">Class Two</a></li>
+                      <li><a href="/calculate-ni/tables/classThree" className="govuk-link">Class Three</a></li>
+                      <li><a href="/calculate-ni/tables/classFour" className="govuk-link">Class Four</a></li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </main>
-          </div>
         </>
       }
   </>

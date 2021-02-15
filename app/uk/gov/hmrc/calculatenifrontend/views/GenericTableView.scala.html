@@ -15,29 +15,20 @@
  *@
 
 @import uk.gov.hmrc.calculatenifrontend.config.AppConfig
-@import eoi._
 @import java.time.LocalDate
+@import uk.gov.hmrc.calculatenifrontend.views.html.Layout
 
-@this(layout: Layout)
+@this(
+        layout: Layout,
+        breadcrumbs: uk.gov.hmrc.calculatenifrontend.views.html.helpers.breadcrumbs
+)
 
 @(selectedInterval: LocalDate, intervals: List[(LocalDate, String)], title: String, data: List[(String, Html)])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@breadcrumbs = {
-  <div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item">
-        <a class="govuk-breadcrumbs__link" href="/calculate-ni">Home</a>
-      </li>
-      <li class="govuk-breadcrumbs__list-item">
-        @title
-      </li>
-    </ol>
-  </div>
-}
 
 @layout(
   pageTitle = Some(title),
-  beforeContentBlock = Some(breadcrumbs)
+  beforeContentBlock = Some(breadcrumbs(title))
 ) {
 <h1 class="govuk-heading-xl">@title</h1>
 
