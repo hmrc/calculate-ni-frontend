@@ -80,8 +80,8 @@ export const getTotalsInCategories = (rows: Array<Row | DirectorsUIRow>) => uniq
   }, {} as TotalsInCategories)
 
 export const extractTaxYearFromDate = (date: Date, taxYears: TaxYear[]) => {
-  const dateMoment = moment(date)
-  const match = taxYears
+  const dateMoment = moment(date).utc(true)
+  const match = [...taxYears]
     .find((ty: TaxYear) =>
       moment(ty.from).isSameOrBefore(dateMoment) && moment(ty.to).isSameOrAfter(dateMoment))
   return match || null

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import uniqid from 'uniqid';
 
 import numeral from 'numeral'
