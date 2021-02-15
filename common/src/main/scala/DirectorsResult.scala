@@ -19,7 +19,6 @@ package main.scala
 import cats.{Eq, Order}
 import cats.syntax.order._
 import eoi.{Period, RateDefinition}
-import cats.syntax.eq._
 import cats.instances.char._
 import spire.math.Interval
 import eoi._
