@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {validateDirectorsPayload} from '../../../validation/validation'
-import {PeriodLabel, PeriodValue} from '../../../config'
-import {ClassOneRow} from '../../../calculation'
+import {PeriodLabel} from '../../../config'
+import {DirectorsRow} from '../../../calculation'
 
 // components
 import Details from '../shared/Details'
@@ -11,9 +11,8 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
-import {Class1DebtRow, GovDateRange} from '../../../interfaces'
-import {DirectorsContext, DirectorsRow, useDirectorsForm} from "./DirectorsContext";
-import {ClassOneRowInterface} from '../class1/ClassOneContext'
+import {GovDateRange} from '../../../interfaces'
+import {DirectorsContext, DirectorsUIRow, DirectorsRowInterface, useDirectorsForm} from "./DirectorsContext";
 
 // services
 import {hasKeys} from "../../../services/utils";
@@ -22,9 +21,8 @@ const pageTitle = 'Directors’ contributions'
 
 const DirectorsPage = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
-  const [dateRange, setDateRange] = useState<GovDateRange>((() => ({from: null, to: null, hasContentFrom: false, hasContentTo: false})))
   const {
-    ClassOneCalculator,
+    DirectorsCalculator,
     taxYears,
     taxYear,
     defaultRow,
@@ -41,7 +39,11 @@ const DirectorsPage = () => {
     earningsPeriod,
     setEarningsPeriod,
     result,
-    setResult
+    setResult,
+    app,
+    askApp,
+    dateRange,
+    setDateRange
   } = useContext(DirectorsContext)
 
   useEffect(() => {
@@ -71,25 +73,28 @@ const DirectorsPage = () => {
       niPaidEmployee: niPaidEmployee,
       niPaidNet: niPaidNet,
       dateRange: dateRange,
-      earningsPeriod: earningsPeriod
+      earningsPeriod: earningsPeriod,
+      askApp: askApp,
+      app: app
     }
 
     if(validateDirectorsPayload(payload, setErrors, taxYears)) {
-      const requestRows: Array<ClassOneRowInterface> = rows
-        .map((row: DirectorsRow) => new (ClassOneRow as any)(
+      const requestRows: Array<DirectorsRowInterface> = rows
+        .map((row: DirectorsUIRow) => new (DirectorsRow as any)(
           row.id,
-          PeriodValue.MONTHLY,
           row.category,
-          parseFloat(row.gross),
-          false
+          parseFloat(row.gross)
         ))
 
       const netNi = payload.niPaidNet || '0'
       const employeeNi = payload.niPaidEmployee || '0'
+      const appApplicable = askApp ? app === 'Yes' : undefined
 
-      setResult(ClassOneCalculator.calculate(
-        taxYear?.from,
+      setResult(DirectorsCalculator.calculate(
+        dateRange?.from,
+        dateRange?.to,
         requestRows,
+        appApplicable,
         netNi,
         employeeNi
       ))
@@ -145,8 +150,6 @@ const DirectorsPage = () => {
               <DirectorsForm
                 resetTotals={resetTotals}
                 setShowSummary={setShowSummary}
-                dateRange={dateRange}
-                setDateRange={setDateRange}
                 handleChange={handleChange}
                 handlePeriodChange={handlePeriodChange}
                 handleShowSummary={handleShowSummary}

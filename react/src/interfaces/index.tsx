@@ -2,10 +2,10 @@
 
 import {PeriodLabel} from "../config";
 import {GenericErrors} from "../validation/validation";
-import React, {Context, Dispatch, SetStateAction} from "react";
+import React, {Context, Dispatch} from "react";
 import {Class2Or3Result} from "../components/calculators/class-2-or-3/Class2Or3Context";
-import {Class1Result, Row} from "../components/calculators/class1/ClassOneContext";
-import {DirectorsRow} from "../components/calculators/directors/DirectorsContext";
+import {Band, Class1Result, Row} from "../components/calculators/class1/ClassOneContext";
+import {DirectorsUIRow} from "../components/calculators/directors/DirectorsContext";
 
 export interface GenericObject {
   [key: string]: string
@@ -74,8 +74,6 @@ export interface Class1FormProps {
 export interface DirectorsFormProps {
   resetTotals: () => void
   setShowSummary: Dispatch<boolean>
-  dateRange: GovDateRange
-  setDateRange: Dispatch<SetStateAction<GovDateRange>>
   handlePeriodChange: (value: PeriodLabel) => void
   handleChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
   handleShowSummary: (event: React.FormEvent) => void
@@ -138,7 +136,7 @@ export interface LateInterestPrintProps extends SavePrintBaseProps {}
 export interface LateRefundPrintProps extends SavePrintBaseProps {}
 
 export interface CategoryTotalsProps {
-  rows: Array<Row | DirectorsRow>
+  rows: Array<Row | DirectorsUIRow>
   categoriesList: string[]
 }
 
@@ -183,6 +181,7 @@ export interface TotalsInCategory {
   ee: number
   er: number
   contributionsTotal: number
+  bands?: Array<Band>
 }
 
 export enum TotalType {

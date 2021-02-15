@@ -60,8 +60,9 @@ export default function Class1TableRow(props: TableRowProps) {
   useEffect(() => {
     setRows(rows.map((cur: Row) =>
       (cur.id === row.id ? {
-      ...cur, category: categories[0]
-    } : cur)
+        ...cur,
+        category: categories.includes(cur.category) ? cur.category : categories[0]
+      } : cur)
     ))
   }, [categories])
 

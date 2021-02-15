@@ -1,28 +1,31 @@
-import React, {Dispatch, useContext, useEffect, useState} from "react";
-import {Class1DebtRow, DetailsProps, TaxYear, TotalsInCategories} from "../../../interfaces";
+import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from "react";
+import {DetailsProps, GovDateRange, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {PeriodLabel, buildTaxYears} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
-import {ClassOneCalculator, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
+import {
+  ClassOneCalculator,
+  DirectorsCalculator, initClassOneCalculator,
+  initDirectorsCalculator,
+  NiFrontendContext
+} from "../../../services/NiFrontendContext";
 import uniqid from 'uniqid'
-import {Band, CalculatedRow, Class1Result, Row} from "../class1/ClassOneContext";
+import {Band, CalculatedRow, Class1Result} from "../class1/ClassOneContext";
 
-export interface DirectorsRow {
+export interface DirectorsUIRow {
   id: string
   category: string
   gross: string
   ee: number
   er: number
-  bands?: Band[]
+  bands?: Band[],
+  explain?: string[]
 }
 
-export interface ClassOneProRataRow {
+export interface DirectorsRowInterface {
   id: string,
-  from: Date,
-  to: Date,
   category: string,
-  grossPay: number,
-  contractedOutStandardRate: boolean
+  grossPay: number
 }
 
 const initialDetails: DetailsProps = {
@@ -33,7 +36,7 @@ const initialDetails: DetailsProps = {
   date: '',
 }
 
-const initRow: DirectorsRow = {
+const initRow: DirectorsUIRow = {
   id: uniqid(),
   category: '',
   gross: '',
@@ -47,13 +50,14 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
 })
 
 interface DirectorsContext {
+  DirectorsCalculator: DirectorsCalculator
   ClassOneCalculator: ClassOneCalculator
   taxYears: TaxYear[]
   taxYear: TaxYear | null
   setTaxYear: Dispatch<TaxYear>
-  defaultRow: DirectorsRow
-  rows: DirectorsRow[]
-  setRows: Dispatch<Array<DirectorsRow>>
+  defaultRow: DirectorsUIRow
+  rows: DirectorsUIRow[]
+  setRows: Dispatch<Array<DirectorsUIRow>>
   details: DetailsProps
   setDetails: Function,
   earningsPeriod: PeriodLabel | null
@@ -71,11 +75,18 @@ interface DirectorsContext {
   activeRowId: string | null
   setActiveRowId: Dispatch<string | null>
   result: Class1Result | null
-  setResult: Dispatch<Class1Result | null>
+  setResult: Dispatch<Class1Result | null>,
+  askApp: boolean | undefined,
+  setAskApp: Dispatch<boolean | undefined>,
+  app: string | null,
+  setApp: Dispatch<string | null>,
+  dateRange: GovDateRange,
+  setDateRange: Dispatch<SetStateAction<GovDateRange>>
 }
 
 export const DirectorsContext = React.createContext<DirectorsContext>(
   {
+    DirectorsCalculator: initDirectorsCalculator,
     ClassOneCalculator: initClassOneCalculator,
     taxYears: [],
     taxYear: null,
@@ -100,7 +111,13 @@ export const DirectorsContext = React.createContext<DirectorsContext>(
     activeRowId: null,
     setActiveRowId: () => {},
     result: null,
-    setResult: () => {}
+    setResult: () => {},
+    askApp: undefined,
+    setAskApp: () => {},
+    app: '',
+    setApp: () => {},
+    dateRange: {from: null, to: null},
+    setDateRange: () => {}
   }
 )
 
@@ -109,10 +126,11 @@ export function useDirectorsForm() {
     NiFrontendInterface
   } = useContext(NiFrontendContext)
   const ClassOneCalculator = NiFrontendInterface.classOne
+  const DirectorsCalculator = NiFrontendInterface.directors
   const [taxYear, setTaxYear] = useState<TaxYear | null>(null)
   const [taxYears, setTaxYears] = useState<TaxYear[]>([])
   const [categories, setCategories] = useState<Array<string>>([])
-  const [defaultRow, setDefaultRow] = useState<DirectorsRow>(initRow)
+  const [defaultRow, setDefaultRow] = useState<DirectorsUIRow>(initRow)
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [niPaidNet, setNiPaidNet] = useState<string>('')
@@ -121,8 +139,15 @@ export function useDirectorsForm() {
   const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({})
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   const [result, setResult] = useState<Class1Result | null>(null)
+  const [askApp, setAskApp] = useState<boolean | undefined>(undefined)
+  const [app, setApp] = useState<string | null>(null)
+  const [dateRange, setDateRange] = useState<GovDateRange>((() => ({from: null, to: null})))
   useEffect(() => {
     if(taxYear && taxYear.from) {
+      const isAppApplicable = DirectorsCalculator.isAppropriatePersonalPensionSchemeApplicable(taxYear.from)
+      setApp(null)
+      setEarningsPeriod(null)
+      setAskApp(isAppApplicable || undefined)
       const categories = ClassOneCalculator.getApplicableCategories(taxYear.from)
       if(categories) {
         setCategories(categories.split(''))
@@ -132,13 +157,17 @@ export function useDirectorsForm() {
         }))
         setRows([defaultRow])
       }
+      setDateRange(() => ({
+        from: taxYear.from,
+        to: taxYear.to
+      }))
     }
   }, [taxYear, ClassOneCalculator])
-  const [rows, setRows] = useState<Array<DirectorsRow>>([defaultRow])
+  const [rows, setRows] = useState<Array<DirectorsUIRow>>([defaultRow])
 
   useEffect(() => {
     if(result && result.resultRows) {
-      setRows((prevState: DirectorsRow[]) => prevState.map(row => {
+      setRows((prevState: DirectorsUIRow[]) => prevState.map(row => {
         const matchingRow: CalculatedRow | undefined =
           result.resultRows
             .find(resultRow =>
@@ -156,9 +185,9 @@ export function useDirectorsForm() {
         }
         return row
       }))
-      setCategoryTotals(getTotalsInCategories(rows as DirectorsRow[]))
+      setCategoryTotals(getTotalsInCategories(rows as DirectorsUIRow[]))
     } else {
-      setRows((prevState: DirectorsRow[]) => prevState.map(row => {
+      setRows((prevState: DirectorsUIRow[]) => prevState.map(row => {
         row.ee = 0
         row.er = 0
         return row
@@ -174,15 +203,16 @@ export function useDirectorsForm() {
   }, [taxYears])
 
   useEffect(() => {
-    const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
+    const taxYearData = buildTaxYears(DirectorsCalculator.getTaxYearsWithOptions)
     setTaxYears(taxYearData)
-  }, [ClassOneCalculator, NiFrontendInterface])
+  }, [DirectorsCalculator, NiFrontendInterface])
 
   useEffect(() => {
     setResult(null)
   }, [niPaidNet, niPaidEmployee])
 
   return {
+    DirectorsCalculator,
     ClassOneCalculator,
     taxYears,
     taxYear,
@@ -207,6 +237,12 @@ export function useDirectorsForm() {
     activeRowId,
     setActiveRowId,
     result,
-    setResult
+    setResult,
+    askApp,
+    setAskApp,
+    app,
+    setApp,
+    dateRange,
+    setDateRange
   }
 }

@@ -15,8 +15,8 @@ interface RadiosProps {
   legend: string
   name: string
   items: Array<RadioItem>
-  handleChange: Function;
-  selected: string | null;
+  handleChange: Function
+  selected: string | null
   error: ErrorMessage
 }
 

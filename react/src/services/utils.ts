@@ -7,8 +7,8 @@ import {
   TaxYear
 } from "../interfaces";
 import {ErrorMessage} from "../validation/validation";
-import {Row} from "../components/calculators/class1/ClassOneContext";
-import {DirectorsRow} from "../components/calculators/directors/DirectorsContext";
+import {Band, Row} from "../components/calculators/class1/ClassOneContext";
+import {DirectorsUIRow} from "../components/calculators/directors/DirectorsContext";
 
 export const emptyStringToZero = (input: string) => input === '' ? 0 : parseFloat(input)
 
@@ -22,32 +22,59 @@ export const hasNonEmptyStrings = (stringsList: string[]) => stringsList.some(st
 
 const onlyUnique = (value: any, index: number, self: any[]) => self.indexOf(value) === index;
 
-const getTotalsInCategory = (type: TotalType, rows: Array<Row | DirectorsRow>, category: string) => {
+const getTotalsInCategory = (
+  type: TotalType,
+  rows: Array<Row | DirectorsUIRow>,
+  category: string
+) => {
   return rows
     .filter(row => row.category === category)
-    .reduce((total: number, row: Row | DirectorsRow) => {
-
-      if(row.hasOwnProperty(type)) {
-        return total + parseFloat(row[type].toString())
-      }
-
-      return total
-    }, 0)
+    .reduce((total: number, row: Row | DirectorsUIRow) =>
+        row.hasOwnProperty(type) ?
+          total + parseFloat(row[type].toString()) : total
+    , 0)
 }
 
-export const uniqueCategories = (rows: Array<Row | DirectorsRow>) => rows
+const addBandToTotal = (band: string) =>
+  (total: number, row: Row | DirectorsUIRow) => {
+    const matchingBand = row.bands?.find(b => b.name === band)
+    return matchingBand ? total + matchingBand.amountInBand : total
+  }
+
+const getBandTotalsInCategory = (
+  band: string,
+  rows: Array<Row | DirectorsUIRow>,
+  category: string
+) => rows
+    .filter(row => row.category === category)
+    .reduce(addBandToTotal(band), 0)
+
+export const getTotalsInBand = (
+  band: string,
+  rows: Array<Row | DirectorsUIRow>
+) =>
+  rows.reduce(addBandToTotal(band), 0)
+
+export const uniqueCategories = (rows: Array<Row | DirectorsUIRow>) => rows
     .map(r => r.category)
     .filter(onlyUnique)
 
-export const getTotalsInCategories = (rows: Array<Row | DirectorsRow>) => uniqueCategories(rows)
-  .reduce((list, next: string) => {
-    const eeTotal = getTotalsInCategory(TotalType.EE, rows, next)
-    const erTotal = getTotalsInCategory(TotalType.ER, rows, next)
-    list[next] = {
-      gross: getTotalsInCategory(TotalType.GROSS, rows, next),
+export const getTotalsInCategories = (rows: Array<Row | DirectorsUIRow>) => uniqueCategories(rows)
+  .reduce((list: TotalsInCategories, category: string) => {
+    const eeTotal = getTotalsInCategory(TotalType.EE, rows, category)
+    const erTotal = getTotalsInCategory(TotalType.ER, rows, category)
+    list[category] = {
+      gross: getTotalsInCategory(TotalType.GROSS, rows, category),
       ee: eeTotal,
       er: erTotal,
-      contributionsTotal: eeTotal + erTotal
+      contributionsTotal: eeTotal + erTotal,
+      bands: rows[0].bands?.reduce((bands: Band[], nextBand: Band) => {
+        bands.push({
+          name: nextBand.name,
+          amountInBand: getBandTotalsInCategory(nextBand.name, rows, category)
+        })
+        return bands
+      }, [] as Band[])
     }
     return list
   }, {} as TotalsInCategories)
@@ -83,6 +110,7 @@ interface DescribedByKeys {
   error?: ErrorMessage,
   extraContent?: Array<string>
 }
+
 export const buildDescribedByKeys = (
   id: string,
   describedByKeys: DescribedByKeys

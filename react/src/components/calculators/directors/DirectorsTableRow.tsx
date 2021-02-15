@@ -1,22 +1,24 @@
-import React, {useContext} from 'react'
+import React, {Dispatch, useContext} from 'react'
 import numeral from 'numeral'
 
 // components
 import TextInput from '../../helpers/formhelpers/TextInput'
 
 // types
-import {DirectorsContext, DirectorsRow} from './DirectorsContext'
+import {DirectorsContext, DirectorsUIRow} from './DirectorsContext'
 import {NiFrontendContext} from '../../../services/NiFrontendContext'
 
 interface TableRowProps {
-  row: DirectorsRow
+  row: DirectorsUIRow
   index: number
   printView: boolean
   showBands: boolean
+  setShowExplanation: Dispatch<string>
+  showExplanation?: string
 }
 
 function DirectorsTableRow(props: TableRowProps) {
-  const { row, index, printView, showBands } = props
+  const { row, index, printView, showBands, showExplanation, setShowExplanation } = props
   const {
     categories,
     errors,
@@ -24,21 +26,22 @@ function DirectorsTableRow(props: TableRowProps) {
     setRows,
     activeRowId,
     setActiveRowId,
-    setResult
+    setResult,
+    result
   } = useContext(DirectorsContext)
 
   const { config } = useContext(NiFrontendContext)
 
-  const handleGrossChange = (r: DirectorsRow, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleGrossChange = (r: DirectorsUIRow, e: React.ChangeEvent<HTMLInputElement>) => {
     invalidateResults()
-    setRows(rows.map((cur: DirectorsRow) =>
+    setRows(rows.map((cur: DirectorsUIRow) =>
       cur.id === r.id ? {...cur, gross: e.currentTarget.value} : cur
     ))
   }
 
-  const handleSelectChange = (r: DirectorsRow, e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectChange = (r: DirectorsUIRow, e: React.ChangeEvent<HTMLSelectElement>) => {
     invalidateResults()
-    setRows(rows.map((cur: DirectorsRow) =>
+    setRows(rows.map((cur: DirectorsUIRow) =>
       cur.id === r.id ? {...cur, [e.currentTarget.name]: e.currentTarget.value} : cur
     ))
   }
@@ -107,6 +110,24 @@ function DirectorsTableRow(props: TableRowProps) {
       <td className="result-cell">{numeral(row.ee).format('$0,0.00')}</td>
       {/* ER */}
       <td className="result-cell">{numeral(row.er).format('$0,0.00')}</td>
+      {!printView && result && row.explain && row.explain.length > 0 &&
+      <td>
+        <a href={`#${row.id}-explain`} onClick={(e) => {
+          e.preventDefault()
+          setShowExplanation(showExplanation === row.id ? '' : row.id)
+        }}>
+          <strong
+            className={`govuk-tag ${showExplanation === row.id ?
+              `govuk-tag--blue` : `govuk-tag--grey`}`}
+          >
+            <span aria-hidden="true">?</span>
+            <span className="govuk-visually-hidden">
+                 Explain the results in this row
+               </span>
+          </strong>
+        </a>
+      </td>
+      }
     </tr>
   )
 }

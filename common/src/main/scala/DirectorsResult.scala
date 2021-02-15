@@ -16,14 +16,15 @@
 
 package main.scala
 
-import cats.Eq
+import cats.{Eq, Order}
+import cats.syntax.order._
 import eoi.{Period, RateDefinition}
-import cats.syntax.eq._
 import cats.instances.char._
 import spire.math.Interval
 import eoi._
 
 import java.time.LocalDate
+import scala.math.BigDecimal.RoundingMode
 
 case class DirectorsRowInput(
                               category: Char,
@@ -42,8 +43,29 @@ case class DirectorsResult(
 
   import DirectorsResult._
 
-  val (period, periodQuantity) =
-    Period.Week -> Interval(from, to).numberOfWeeks().getOrElse(sys.error(s"Could not work  number of weeks between $from and $to"))
+  private def taxWeekNumber(date: LocalDate): Int = {
+    val taxYearStartDate: LocalDate = {
+      val startYear =
+        if (date >= LocalDate.of(date.getYear, 4, 6))
+          date.getYear
+        else
+          date.getYear - 1
+
+      LocalDate.of(startYear, 4, 6)
+    }
+
+    Interval(taxYearStartDate, date)
+      .numberOfWeeks(RoundingMode.DOWN)
+      .getOrElse(
+        sys.error(s"Could not work  number of weeks between $taxYearStartDate and $date")
+      )
+  }
+
+
+  val (period, periodQuantity) = {
+    val proRataWeeks = (52 - taxWeekNumber(from)).max(1)
+    if(proRataWeeks == 52) Period.Year -> 1 else Period.Week -> proRataWeeks
+  }
 
   lazy val rowsOutput: List[ClassOneRowOutput] = {
     val sortedRows = rowsInput.sortWithOrder(
@@ -91,5 +113,6 @@ object DirectorsResult {
 
   val categoryOrderApp: List[Char] = List('G','E', 'B', 'M', 'A', 'F', 'I', 'D', 'Z', 'J', 'S', 'K', 'L', 'C')
 
+  implicit val localDateOrder: Order[LocalDate] = Order.from(_ compareTo _)
 
 }

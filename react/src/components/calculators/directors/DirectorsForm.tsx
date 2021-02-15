@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {PeriodLabel} from '../../../config';
-import {DirectorsContext, DirectorsRow} from "./DirectorsContext";
+import {DirectorsContext, DirectorsUIRow} from "./DirectorsContext";
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
@@ -19,9 +19,8 @@ import NiPaidInputs from "../shared/NiPaidInputs";
 numeral.locale('en-gb');
 
 export default function DirectorsForm(props: DirectorsFormProps) {
-  const { handleShowSummary, resetTotals, setDateRange } = props
+  const { handleShowSummary, resetTotals  } = props
   const {
-    ClassOneCalculator,
     taxYears,
     taxYear,
     setTaxYear,
@@ -32,7 +31,13 @@ export default function DirectorsForm(props: DirectorsFormProps) {
     setRows,
     activeRowId,
     setActiveRowId,
-    setResult
+    setResult,
+    categories,
+    askApp,
+    app,
+    setApp,
+    dateRange,
+    setDateRange
   } = useContext(DirectorsContext)
 
   const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
@@ -45,7 +50,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
     invalidateResults()
     setRows([...rows, {
       id: uniqid(),
-      category: ClassOneCalculator.getApplicableCategories(taxYears[0].from)[0],
+      category: categories[0],
       gross: '',
       ee: 0,
       er: 0
@@ -59,7 +64,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
       setErrors({})
       setActiveRowId(null)
 
-      const newRows = rows.filter((row: DirectorsRow) => {
+      const newRows = rows.filter((row: DirectorsUIRow) => {
         return row.id !== activeRowId
       })
 
@@ -74,6 +79,11 @@ export default function DirectorsForm(props: DirectorsFormProps) {
       setTaxYear(selectedTaxYear)
       invalidateResults()
     }
+  }
+
+  const handleAppChange = (value: string) => {
+    setApp(value)
+    setResult(null)
   }
 
   const invalidateResults = () => {
@@ -91,6 +101,12 @@ export default function DirectorsForm(props: DirectorsFormProps) {
         </div>
       </div>
 
+      <SelectTaxYear
+        taxYears={taxYears}
+        taxYear={taxYear}
+        handleTaxYearChange={handleTaxYearChange}
+      />
+
       <Radios
         legend="Earnings period"
         name="earningsPeriod"
@@ -98,11 +114,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
           {
             label: PeriodLabel.ANNUAL,
             value: PeriodLabel.ANNUAL,
-            conditionalContent: <SelectTaxYear
-              taxYears={taxYears}
-              taxYear={taxYear}
-              handleTaxYearChange={handleTaxYearChange}
-            />
+            conditionalContent: null
           },
           {
             label: PeriodLabel.PRORATA,
@@ -110,6 +122,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
             conditionalContent: <DateRange
               id="directorship"
               setDateRange={setDateRange}
+              dateRange={dateRange}
               errors={errors}
               legends={{
                 from: "Directorship from",
@@ -122,6 +135,26 @@ export default function DirectorsForm(props: DirectorsFormProps) {
         selected={earningsPeriod}
         error={errors.earningsPeriod}
       />
+
+      {askApp && <Radios
+        legend="Did the director have an Appropriate Personal Pension or Appropriate Personal Pension Stakeholder Pension in this earnings period?"
+        name="app"
+        items={[
+          {
+            label: 'Yes',
+            value: 'Yes',
+            conditionalContent: null
+          },
+          {
+            label: 'No',
+            value: 'No',
+            conditionalContent: null
+          }
+        ]}
+        handleChange={handleAppChange}
+        selected={app}
+        error={errors.app}
+      />}
 
       <NiPaidInputs context={DirectorsContext} />
 

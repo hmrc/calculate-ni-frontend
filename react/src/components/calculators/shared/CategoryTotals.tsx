@@ -4,17 +4,17 @@ import React from 'react'
 import {TotalsInCategories} from '../../../interfaces'
 
 // services
-import {uniqueCategories} from "../../../services/utils";
+import {getTotalsInBand, uniqueCategories} from "../../../services/utils";
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 import {Class1Result, Row} from "../class1/ClassOneContext";
-import {DirectorsRow} from "../directors/DirectorsContext";
+import {DirectorsUIRow} from "../directors/DirectorsContext";
 
 numeral.locale('en-gb');
 
 function CategoryTotals(props: {
-  rows: Array<Row | DirectorsRow>,
+  rows: Array<Row | DirectorsUIRow>,
   categoryTotals: TotalsInCategories
   result: Class1Result | null
 }) {
@@ -44,7 +44,7 @@ function CategoryTotals(props: {
             <th>Gross Pay</th>
             {/* Bands (by tax year), so we can just take the first band to map the rows */}
             {rows[0].bands && rows[0].bands.map(k =>
-              <th key={k.name}>{k.name}</th>
+              <th key={`${k.name}-cat-band-header`}>{k.name}</th>
             )}
             <th>Total</th>
             <th>EE</th>
@@ -53,14 +53,14 @@ function CategoryTotals(props: {
         </thead>
         <tbody>
           {categoriesList.map(c => (
-            <tr key={c}>
+            <tr key={`${c}-cat-list`}>
               <td>{c}</td>
               <td>
                 {/* Gross total for Category */}
                 {formatCurrencyAmount(categoryTotals[c]?.gross)}
               </td>
-              {rows[0].bands && rows[0].bands.map(k =>
-                <td key={`${k}-val`}>
+              {categoryTotals[c]?.bands && categoryTotals[c]?.bands.map(k =>
+                <td key={`${k.name}-cat-val`}>
                   {numeral(k.amountInBand).format('$0,0.00')}
                 </td>
               )}
@@ -81,31 +81,31 @@ function CategoryTotals(props: {
               </td>
             </tr>
           ))}
-          <tr>
+          <tr className="total-row">
 
             <th><strong>Totals</strong></th>
             <td>
-              {formatCurrencyAmount(result?.totals.gross)}
+              <strong>{formatCurrencyAmount(result?.totals.gross)}</strong>
             </td>
-            {/* Bands (by tax year), so we can just take the first band to map the rows */}
+
             {rows[0].bands && rows[0].bands.map(k =>
               <td key={`${k.name}-band-total`}>
-                &ndash;
+                <strong>{formatCurrencyAmount(getTotalsInBand(k.name, rows))}</strong>
               </td>
             )}
 
             <td>
-              {formatCurrencyAmount(result?.totals.net)}
+              <strong>{formatCurrencyAmount(result?.totals.net)}</strong>
             </td>
 
             {/* EE total contributions */}
             <td>
-              {formatCurrencyAmount(result?.totals.employee)}
+              <strong>{formatCurrencyAmount(result?.totals.employee)}</strong>
             </td>
             
             {/* ER total contributions */}
             <td>
-              {formatCurrencyAmount(result?.totals.employer)}
+              <strong>{formatCurrencyAmount(result?.totals.employer)}</strong>
             </td>
           </tr>
         </tbody>

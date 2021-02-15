@@ -4,7 +4,7 @@ import {Dispatch} from "react";
 import {extractTaxYearFromDate, govDateFormat, hasKeys, isEmpty} from "../services/utils";
 import moment from "moment";
 import {UnofficialDefermentRow} from "../components/calculators/unofficial-deferment/UnofficialDefermentContext";
-import {DirectorsRow} from "../components/calculators/directors/DirectorsContext";
+import {DirectorsUIRow} from "../components/calculators/directors/DirectorsContext";
 import {Row} from "../components/calculators/class1/ClassOneContext";
 
 interface ClassOnePayload {
@@ -18,7 +18,9 @@ interface DirectorsPayload {
   niPaidEmployee: string
   dateRange: GovDateRange;
   earningsPeriod: PeriodLabel | null;
-  rows: Array<DirectorsRow>
+  rows: Array<DirectorsUIRow>
+  askApp: boolean | undefined
+  app: string | null
 }
 
 interface UnofficialDefermentPayload {
@@ -69,45 +71,48 @@ export const beforeMinimumTaxYear = (date: Date, minDate: Date) =>
 export const afterMaximumTaxYear = (date: Date, maxDate: Date) =>
   moment(date).isAfter(moment(maxDate))
 
-export const validateClassOnePayload = (
-  payload: ClassOnePayload,
-  setErrors: Dispatch<GenericErrors>
-) => {
-  const errors: GenericErrors = {}
-  if(payload.niPaidNet === '' && payload.niPaidEmployee !== '') {
+const validateNiPaid = (errors: GenericErrors, niPaidNet: string, niPaidEmployee: string) => {
+  if(niPaidNet === '' && niPaidEmployee !== '') {
     errors.niPaidNet = {
       link: 'niPaidNet',
       name: 'Net NI paid',
       message: 'NI paid net contributions must be entered'
     }
-  } else if (payload.niPaidNet !== '' && payload.niPaidEmployee !== '') {
-    if(isNaN(+payload.niPaidNet)) {
+  } else if (niPaidNet !== '' && niPaidEmployee !== '') {
+    if(isNaN(+niPaidNet)) {
       errors.niPaidNet = {
         link: 'niPaidNet',
         name: 'Net NI paid',
         message: 'NI paid net contributions must be an amount of money'
       }
-    } else if(!isNaN(+payload.niPaidEmployee) && parseFloat(payload.niPaidNet) < parseFloat(payload.niPaidEmployee)) {
+    } else if(!isNaN(+niPaidEmployee) && parseFloat(niPaidNet) < parseFloat(niPaidEmployee)) {
       errors.niPaidNet = {
         link: 'niPaidNet',
         name: 'Net NI paid',
         message: 'NI paid net contributions cannot be less than employee contributions'
       }
-    } else if(isNaN(+payload.niPaidEmployee)) {
+    } else if(isNaN(+niPaidEmployee)) {
       errors.niPaidEmployee = {
         link: 'niPaidNet',
         name: 'Net NI paid',
         message: 'NI paid employee contributions must be an amount of money'
       }
     }
-  } else if(payload.niPaidEmployee === '' && payload.niPaidNet !== '') {
+  } else if(niPaidEmployee === '' && niPaidNet !== '') {
     errors.niPaidEmployee = {
       link: 'niPaidEmployee',
       name: 'Net NI paid by employee',
       message: 'NI paid employee contributions must be entered'
     }
   }
+}
 
+export const validateClassOnePayload = (
+  payload: ClassOnePayload,
+  setErrors: Dispatch<GenericErrors>
+) => {
+  const errors: GenericErrors = {}
+  validateNiPaid(errors, payload.niPaidNet, payload.niPaidEmployee)
   validateClass1Rows(payload.rows, errors)
 
   if (hasKeys(errors)) {
@@ -124,7 +129,7 @@ export const validateDirectorsPayload = (
   taxYears: TaxYear[]
 ) => {
   let errors: GenericErrors = {}
-
+  validateNiPaid(errors, payload.niPaidNet, payload.niPaidEmployee)
   if(!payload.earningsPeriod) {
     errors.earningsPeriod = {
       name: 'Earnings period',
@@ -133,6 +138,14 @@ export const validateDirectorsPayload = (
     }
   } else if (payload.earningsPeriod === PeriodLabel.PRORATA) {
     validateDirectorshipDates(payload.dateRange, taxYears, errors)
+  }
+
+  if(payload.askApp && !payload.app) {
+    errors.app = {
+      name: 'app',
+      link: 'app',
+      message: 'Select yes if an Appropriate Personal Pension Scheme is applicable'
+    }
   }
 
   validateClass1Rows(payload.rows, errors)
@@ -396,9 +409,9 @@ const validateClass3Rows = (
   })
 }
 
-const validateClass1Rows = (rows: Array<Row | DirectorsRow>, errors: GenericErrors) => {
+const validateClass1Rows = (rows: Array<Row | DirectorsUIRow>, errors: GenericErrors) => {
   const manyRows = rows.length > 1
-  rows.forEach((r: Row | DirectorsRow, index: number) => {
+  rows.forEach((r: Row | DirectorsUIRow, index: number) => {
     if (!r.gross) {
       errors[`${r.id}-gross`] = {
         name: `Gross pay amount`,
