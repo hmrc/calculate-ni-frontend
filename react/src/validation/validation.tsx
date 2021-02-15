@@ -475,7 +475,7 @@ const validateDirectorshipDates = (dateRange: GovDateRange, taxYears: TaxYear[],
       name: 'End date of directorship',
       message: `End date of directorship must be on or before ${moment(maxDate).format(govDateFormat)}`
     }
-  } else if (!errors.directorshipFromDay && dateRange.from && moment(dateRange.to).isBefore(dateRange.from)) {
+  } else if (!errors.directorshipFromDay && dateRange.from && moment(dateRange.to).isBefore(moment(dateRange.from))) {
     errors.directorshipToDay = {
       link: 'directorshipToDay',
       name: 'End date of directorship',

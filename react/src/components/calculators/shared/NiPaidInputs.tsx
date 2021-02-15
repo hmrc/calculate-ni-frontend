@@ -1,5 +1,4 @@
 import React, {Context, useContext} from "react"
-import TextInput from "../../helpers/formhelpers/TextInput";
 import CurrencyInput from "../../helpers/gov-design-system/CurrencyInput";
 
 export default function NiPaidInputs(props: {context: Context<any>}) {

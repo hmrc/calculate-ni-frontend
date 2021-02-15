@@ -1,7 +1,7 @@
 import React, {Dispatch, useContext, useEffect, useState} from 'react'
 
 // types
-import {Class1DebtRow, DetailsProps, LateRefundsTableRowProps, Rate, TaxYear} from '../../../interfaces'
+import {DetailsProps, LateRefundsTableRowProps, Rate, TaxYear} from '../../../interfaces'
 import uniqid from 'uniqid'
 import {buildTaxYears} from '../../../config'
 import {
