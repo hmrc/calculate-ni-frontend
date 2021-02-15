@@ -75,7 +75,8 @@ const DirectorsPage = () => {
       dateRange: dateRange,
       earningsPeriod: earningsPeriod,
       askApp: askApp,
-      app: app
+      app: app,
+      taxYear: taxYear
     }
 
     if(validateDirectorsPayload(payload, setErrors, taxYears)) {

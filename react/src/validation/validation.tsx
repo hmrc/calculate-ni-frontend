@@ -21,6 +21,7 @@ interface DirectorsPayload {
   rows: Array<DirectorsUIRow>
   askApp: boolean | undefined
   app: string | null
+  taxYear: TaxYear | null
 }
 
 interface UnofficialDefermentPayload {
@@ -137,7 +138,7 @@ export const validateDirectorsPayload = (
       message: 'Select either Annual or Pro Rata'
     }
   } else if (payload.earningsPeriod === PeriodLabel.PRORATA) {
-    validateDirectorshipDates(payload.dateRange, taxYears, errors)
+    validateDirectorshipDates(payload.taxYear, payload.dateRange, taxYears, errors)
   }
 
   if(payload.askApp && !payload.app) {
@@ -434,61 +435,54 @@ const validateClass1Rows = (rows: Array<Row | DirectorsUIRow>, errors: GenericEr
   })
 }
 
-const validateDirectorshipDates = (dateRange: GovDateRange, taxYears: TaxYear[], errors: GenericErrors) => {
-  const minDate = taxYears[taxYears.length-1].from
-  const maxDate = taxYears[0].to
-  if (!dateRange.from) {
-    errors.directorshipFromDay = {
-      link: 'directorshipFromDay',
-      name: 'Start date of directorship',
-      message: 'Start date of directorship must be entered as a real date'
+const validateDirectorshipDates = (taxYear: TaxYear | null, dateRange: GovDateRange, taxYears: TaxYear[], errors: GenericErrors) => {
+  if(taxYear) {
+    const minDate = taxYear?.from
+    const maxDate = taxYear?.to
+    if (!dateRange.from) {
+      errors.directorshipFromDay = {
+        link: 'directorshipFromDay',
+        name: 'Start date of directorship',
+        message: 'Start date of directorship must be entered as a real date'
+      }
+    } else if(beforeMinimumTaxYear(dateRange.from, minDate)) {
+      errors.directorshipFromDay = {
+        link: 'directorshipFromDay',
+        name: 'Start date of directorship',
+        message: `Start date of directorship must be on or after ${moment(minDate).format(govDateFormat)}`
+      }
+    } else if (afterMaximumTaxYear(dateRange.from, maxDate)) {
+      errors.directorshipFromDay = {
+        link: 'directorshipFromDay',
+        name: 'Start date of directorship',
+        message: `Start date of directorship must be on or before ${moment(maxDate).format(govDateFormat)}`
+      }
     }
-  } else if(beforeMinimumTaxYear(dateRange.from, minDate)) {
-    errors.directorshipFromDay = {
-      link: 'directorshipFromDay',
-      name: 'Start date of directorship',
-      message: `Start date of directorship must be on or after ${moment(minDate).format(govDateFormat)}`
-    }
-  } else if (afterMaximumTaxYear(dateRange.from, maxDate)) {
-    errors.directorshipFromDay = {
-      link: 'directorshipFromDay',
-      name: 'Start date of directorship',
-      message: `Start date of directorship must be on or before ${moment(maxDate).format(govDateFormat)}`
-    }
-  }
 
-  if (!dateRange.to) {
-    errors.directorshipToDay = {
-      link: 'directorshipToDay',
-      name: 'End date of directorship',
-      message: 'End date of directorship must be entered as a real date'
-    }
-  } else if (beforeMinimumTaxYear(dateRange.to, minDate)) {
-    errors.directorshipToDay = {
-      link: 'directorshipToDay',
-      name: 'End date of directorship',
-      message: `End date of directorship must be on or after ${moment(minDate).format(govDateFormat)}`
-    }
-  } else if (afterMaximumTaxYear(dateRange.to, maxDate)) {
-    errors.directorshipToDay = {
-      link: 'directorshipToDay',
-      name: 'End date of directorship',
-      message: `End date of directorship must be on or before ${moment(maxDate).format(govDateFormat)}`
-    }
-  } else if (!errors.directorshipFromDay && dateRange.from && moment(dateRange.to).isBefore(moment(dateRange.from))) {
-    errors.directorshipToDay = {
-      link: 'directorshipToDay',
-      name: 'End date of directorship',
-      message: `End date of directorship must be on or after the start date of the directorship`
-    }
-  } else if (!errors.directorshipFromDay && dateRange.from &&
-    extractTaxYearFromDate(dateRange.from, taxYears) !==
-    extractTaxYearFromDate(dateRange.to, taxYears)) {
-    const taxYearForMatch = extractTaxYearFromDate(dateRange.from, taxYears)
-    errors.directorshipToDay = {
-      link: 'directorshipToDay',
-      name: 'End date of directorship',
-      message: `End date of directorship must be on or before ${moment(taxYearForMatch?.to).format(govDateFormat)} to be in the same tax year as the start date`
+    if (!dateRange.to) {
+      errors.directorshipToDay = {
+        link: 'directorshipToDay',
+        name: 'End date of directorship',
+        message: 'End date of directorship must be entered as a real date'
+      }
+    } else if (beforeMinimumTaxYear(dateRange.to, minDate)) {
+      errors.directorshipToDay = {
+        link: 'directorshipToDay',
+        name: 'End date of directorship',
+        message: `End date of directorship must be on or after ${moment(minDate).format(govDateFormat)}`
+      }
+    } else if (afterMaximumTaxYear(dateRange.to, maxDate)) {
+      errors.directorshipToDay = {
+        link: 'directorshipToDay',
+        name: 'End date of directorship',
+        message: `End date of directorship must be on or before ${moment(maxDate).format(govDateFormat)}`
+      }
+    } else if (!errors.directorshipFromDay && dateRange.from && moment(dateRange.to).isBefore(moment(dateRange.from))) {
+      errors.directorshipToDay = {
+        link: 'directorshipToDay',
+        name: 'End date of directorship',
+        message: `End date of directorship must be on or after the start date of the directorship`
+      }
     }
   }
 }
