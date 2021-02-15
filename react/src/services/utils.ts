@@ -35,23 +35,25 @@ const getTotalsInCategory = (
     , 0)
 }
 
-const bandTotal = (band: string) => (total: number, row: Row | DirectorsUIRow) => {
-  const matchingBand = row.bands?.find(b => b.name === band)
-  return matchingBand ? total + matchingBand.amountInBand : total
-}
+const addBandToTotal = (band: string) =>
+  (total: number, row: Row | DirectorsUIRow) => {
+    const matchingBand = row.bands?.find(b => b.name === band)
+    return matchingBand ? total + matchingBand.amountInBand : total
+  }
 
 const getBandTotalsInCategory = (
   band: string,
   rows: Array<Row | DirectorsUIRow>,
   category: string
-) => {
-  return rows
+) => rows
     .filter(row => row.category === category)
-    .reduce(bandTotal(band), 0)
-}
+    .reduce(addBandToTotal(band), 0)
 
-export const getTotalsInBand = (band: string, rows: Array<Row | DirectorsUIRow>) =>
-  rows.reduce(bandTotal(band), 0)
+export const getTotalsInBand = (
+  band: string,
+  rows: Array<Row | DirectorsUIRow>
+) =>
+  rows.reduce(addBandToTotal(band), 0)
 
 export const uniqueCategories = (rows: Array<Row | DirectorsUIRow>) => rows
     .map(r => r.category)
@@ -61,20 +63,18 @@ export const getTotalsInCategories = (rows: Array<Row | DirectorsUIRow>) => uniq
   .reduce((list: TotalsInCategories, category: string) => {
     const eeTotal = getTotalsInCategory(TotalType.EE, rows, category)
     const erTotal = getTotalsInCategory(TotalType.ER, rows, category)
-    const bands = rows[0].bands?.reduce((bands: Band[], nextBand: Band) => {
-      const bandResult = {
-        name: nextBand.name,
-        amountInBand: getBandTotalsInCategory(nextBand.name, rows, category)
-      }
-      bands.push(bandResult)
-      return bands
-    }, [] as Band[])
     list[category] = {
       gross: getTotalsInCategory(TotalType.GROSS, rows, category),
       ee: eeTotal,
       er: erTotal,
       contributionsTotal: eeTotal + erTotal,
-      bands: bands
+      bands: rows[0].bands?.reduce((bands: Band[], nextBand: Band) => {
+        bands.push({
+          name: nextBand.name,
+          amountInBand: getBandTotalsInCategory(nextBand.name, rows, category)
+        })
+        return bands
+      }, [] as Band[])
     }
     return list
   }, {} as TotalsInCategories)

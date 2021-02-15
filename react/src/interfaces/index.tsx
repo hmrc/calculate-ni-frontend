@@ -74,8 +74,6 @@ export interface Class1FormProps {
 export interface DirectorsFormProps {
   resetTotals: () => void
   setShowSummary: Dispatch<boolean>
-  dateRange: GovDateRange
-  setDateRange: Dispatch<SetStateAction<GovDateRange>>
   handlePeriodChange: (value: PeriodLabel) => void
   handleChange: ({ currentTarget: { name, value }, }: React.ChangeEvent<HTMLInputElement>) => void
   handleShowSummary: (event: React.FormEvent) => void

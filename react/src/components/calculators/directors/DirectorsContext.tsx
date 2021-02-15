@@ -1,5 +1,5 @@
-import React, {Dispatch, useContext, useEffect, useState} from "react";
-import {DetailsProps, TaxYear, TotalsInCategories} from "../../../interfaces";
+import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from "react";
+import {DetailsProps, GovDateRange, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {PeriodLabel, buildTaxYears} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
@@ -79,7 +79,9 @@ interface DirectorsContext {
   askApp: boolean | undefined,
   setAskApp: Dispatch<boolean | undefined>,
   app: string | null,
-  setApp: Dispatch<string | null>
+  setApp: Dispatch<string | null>,
+  dateRange: GovDateRange,
+  setDateRange: Dispatch<SetStateAction<GovDateRange>>
 }
 
 export const DirectorsContext = React.createContext<DirectorsContext>(
@@ -113,7 +115,9 @@ export const DirectorsContext = React.createContext<DirectorsContext>(
     askApp: undefined,
     setAskApp: () => {},
     app: '',
-    setApp: () => {}
+    setApp: () => {},
+    dateRange: {from: null, to: null},
+    setDateRange: () => {}
   }
 )
 
@@ -137,6 +141,7 @@ export function useDirectorsForm() {
   const [result, setResult] = useState<Class1Result | null>(null)
   const [askApp, setAskApp] = useState<boolean | undefined>(undefined)
   const [app, setApp] = useState<string | null>(null)
+  const [dateRange, setDateRange] = useState<GovDateRange>((() => ({from: null, to: null})))
   useEffect(() => {
     if(taxYear && taxYear.from) {
       const isAppApplicable = DirectorsCalculator.isAppropriatePersonalPensionSchemeApplicable(taxYear.from)
@@ -151,6 +156,10 @@ export function useDirectorsForm() {
         }))
         setRows([defaultRow])
       }
+      setDateRange(() => ({
+        from: taxYear.from,
+        to: taxYear.to
+      }))
     }
   }, [taxYear, ClassOneCalculator])
   const [rows, setRows] = useState<Array<DirectorsUIRow>>([defaultRow])
@@ -231,6 +240,8 @@ export function useDirectorsForm() {
     askApp,
     setAskApp,
     app,
-    setApp
+    setApp,
+    dateRange,
+    setDateRange
   }
 }

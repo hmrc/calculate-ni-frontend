@@ -21,7 +21,6 @@ const pageTitle = 'Directors’ contributions'
 
 const DirectorsPage = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
-  const [dateRange, setDateRange] = useState<GovDateRange>((() => ({from: null, to: null, hasContentFrom: false, hasContentTo: false})))
   const {
     DirectorsCalculator,
     taxYears,
@@ -42,7 +41,9 @@ const DirectorsPage = () => {
     result,
     setResult,
     app,
-    askApp
+    askApp,
+    dateRange,
+    setDateRange
   } = useContext(DirectorsContext)
 
   useEffect(() => {
@@ -90,8 +91,8 @@ const DirectorsPage = () => {
       const appApplicable = askApp ? app === 'Yes' : undefined
 
       setResult(DirectorsCalculator.calculate(
-        taxYear?.from,
-        taxYear?.to,
+        dateRange?.from,
+        dateRange?.to,
         requestRows,
         appApplicable,
         netNi,
@@ -149,8 +150,6 @@ const DirectorsPage = () => {
               <DirectorsForm
                 resetTotals={resetTotals}
                 setShowSummary={setShowSummary}
-                dateRange={dateRange}
-                setDateRange={setDateRange}
                 handleChange={handleChange}
                 handlePeriodChange={handlePeriodChange}
                 handleShowSummary={handleShowSummary}

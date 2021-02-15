@@ -19,7 +19,7 @@ import NiPaidInputs from "../shared/NiPaidInputs";
 numeral.locale('en-gb');
 
 export default function DirectorsForm(props: DirectorsFormProps) {
-  const { handleShowSummary, resetTotals, setDateRange } = props
+  const { handleShowSummary, resetTotals  } = props
   const {
     taxYears,
     taxYear,
@@ -35,7 +35,9 @@ export default function DirectorsForm(props: DirectorsFormProps) {
     categories,
     askApp,
     app,
-    setApp
+    setApp,
+    dateRange,
+    setDateRange
   } = useContext(DirectorsContext)
 
   const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
@@ -99,6 +101,12 @@ export default function DirectorsForm(props: DirectorsFormProps) {
         </div>
       </div>
 
+      <SelectTaxYear
+        taxYears={taxYears}
+        taxYear={taxYear}
+        handleTaxYearChange={handleTaxYearChange}
+      />
+
       <Radios
         legend="Earnings period"
         name="earningsPeriod"
@@ -106,11 +114,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
           {
             label: PeriodLabel.ANNUAL,
             value: PeriodLabel.ANNUAL,
-            conditionalContent: <SelectTaxYear
-              taxYears={taxYears}
-              taxYear={taxYear}
-              handleTaxYearChange={handleTaxYearChange}
-            />
+            conditionalContent: null
           },
           {
             label: PeriodLabel.PRORATA,
@@ -118,6 +122,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
             conditionalContent: <DateRange
               id="directorship"
               setDateRange={setDateRange}
+              dateRange={dateRange}
               errors={errors}
               legends={{
                 from: "Directorship from",
