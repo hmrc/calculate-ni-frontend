@@ -2,6 +2,8 @@
 
 export LC_CTYPE=LC_ALL
 
+rm app/assets/precache-manifest.*
+rm -rf app/assets/static
 rsync -av react/build/ app/assets/
 
 sed -i'' -e 's|href="/|href="/calculate-ni/|g' -e 's|src="/|src="/calculate-ni/|g' app/assets/index.html

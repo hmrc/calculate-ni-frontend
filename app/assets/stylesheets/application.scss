@@ -3,3 +3,8 @@ $hmrc-assets-path: "/calculate-ni/lib/hmrc-frontend/hmrc/";
 
 @import "lib/govuk-frontend/govuk/all";
 @import "lib/hmrc-frontend/hmrc/all";
+
+.app-related-items {
+  padding-top: 10px;
+  border-top: 5px solid #1d70b8;
+}

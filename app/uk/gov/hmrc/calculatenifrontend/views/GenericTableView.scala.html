@@ -30,30 +30,47 @@
   pageTitle = Some(title),
   beforeContentBlock = Some(breadcrumbs(title))
 ) {
-<h1 class="govuk-heading-xl">@title</h1>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">@title</h1>
 
+      <form method="GET">
+        <div class="govuk-form-group">
+          <select name="date" class="govuk-select">
+            @intervals.map { case (k,v) =>
+              <option value="@{k.toString}" @if(k == selectedInterval){selected}>@v</option>
+            }
+          </select>
+        </div>
 
-<form method="GET">
-  <div class="govuk-form-group">
-    <select name="date" class="govuk-select">
-      @intervals.map { case (k,v) =>
-        <option value="@{k.toString}" @if(k == selectedInterval){selected}>@v</option>
-      }
-    </select>
-  </div>
+        <button class="govuk-button" data-module="govuk-button">
+          Submit
+        </button>
+      </form>
 
-  <button class="govuk-button" data-module="govuk-button">
-    Submit
-  </button>
-</form>
+      <dl class="govuk-summary-list">
+        @data.map{ case (k,v) =>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">@k:</dt>
+            <dd class="govuk-summary-list__value">@v</dd>
+          </div>
+        }
+      </dl>
 
-<dl class="govuk-summary-list">
-  @data.map{ case (k,v) =>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">@k:</dt>
-      <dd class="govuk-summary-list__value">@v</dd>
     </div>
-  }
-</dl>
+
+    <div class="govuk-grid-column-one-third">
+      <div class="app-related-items" role="complementary">
+        <h2 class="govuk-heading-m">Rates tables</h2>
+        <ul class="govuk-list">
+          <li><a href="/calculate-ni/tables/classOne" class="govuk-link">Class One</a></li>
+          <li><a href="/calculate-ni/tables/classTwo" class="govuk-link">Class Two</a></li>
+          <li><a href="/calculate-ni/tables/classThree" class="govuk-link">Class Three</a></li>
+          <li><a href="/calculate-ni/tables/classFour" class="govuk-link">Class Four</a></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
 
 }
