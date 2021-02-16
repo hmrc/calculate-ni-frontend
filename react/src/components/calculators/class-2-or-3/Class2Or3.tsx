@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect, useRef} from 'react'
 import {validateClass2Or3Payload} from '../../../validation/validation'
 
 // components
@@ -13,11 +13,13 @@ import {Class2Or3Context, useClass2Or3Form} from './Class2Or3Context'
 import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 import {hasKeys} from "../../../services/utils";
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
+import {SuccessNotification} from "../shared/SuccessNotification";
 
 const pageTitle = 'Class 2 or 3 NI contributions needed for a qualifying year'
 
 const Class2Or3Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
+  const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const {
     ClassTwoCalculator,
     ClassThreeCalculator,
@@ -83,8 +85,17 @@ const Class2Or3Page = () => {
     }
   }
 
+  useEffect(() => {
+    if(result) {
+      resultRef.current.focus()
+    }
+  }, [result, resultRef])
+
   return (
-    <main>
+    <div>
+      <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
+        {result && <SuccessNotification table={false} totals={true} />}
+      </div>
       {showSummary ?
         <Class2Or3Print
           title={pageTitle}
@@ -98,6 +109,7 @@ const Class2Or3Page = () => {
               errors={errors}
             />
           }
+
           <h1>{pageTitle}</h1>
 
           <Details
@@ -124,7 +136,7 @@ const Class2Or3Page = () => {
         </>
       }
     
-    </main>
+    </div>
   )
 }
 

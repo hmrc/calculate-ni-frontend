@@ -81,3 +81,13 @@ $hmrc-assets-path: "/lib/hmrc-frontend/hmrc/";
   padding-top: 10px;
   border-top: 5px solid #1d70b8;
 }
+
+.result-announcement,
+.value,
+#results-totals,
+#results-table,
+td.readonly > span {
+  &:focus {
+    outline-color: $govuk-focus-colour;
+  }
+}

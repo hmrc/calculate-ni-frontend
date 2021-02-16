@@ -1,5 +1,4 @@
-import React, {useState, useContext} from 'react'
-
+import React, {useState, useContext, useRef, useEffect} from 'react'
 import { RemissionPeriod } from '../../../calculation'
 
 // components
@@ -17,11 +16,13 @@ import LateInterestPrint from './LateInterestPrint'
 import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import {Class1DebtRow} from '../../../interfaces'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
+import {SuccessNotification} from "../shared/SuccessNotification";
 
 const pageTitle = 'Interest on late or unpaid Class 1 NI contributions'
 
 function LateInterestPage() {
   const [showSummary, setShowSummary] = useState<boolean>(false)
+  const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const {
     InterestOnLateClassOneCalculator,
     details,
@@ -34,6 +35,7 @@ function LateInterestPage() {
     setErrors,
     setActiveRowId,
     setResults,
+    results,
     hasRemissionPeriod
   } = useContext(LateInterestContext)
   const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
@@ -98,8 +100,17 @@ function LateInterestPage() {
     submitForm(false)
   }
 
+  useEffect(() => {
+    if(results) {
+      resultRef.current.focus()
+    }
+  }, [results, resultRef])
+
   return (
-    <main>
+    <div>
+      <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
+        {results && <SuccessNotification />}
+      </div>
       {showSummary ?
         <LateInterestPrint
           title={pageTitle}

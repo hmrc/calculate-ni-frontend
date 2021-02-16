@@ -25,7 +25,7 @@ function Totals (props: TotalsProps) {
       <div className={`${isSaveAndPrint ? `save-print-wrapper ` : ``}subsection totals`}>
         <h2 className="section-heading">Totals</h2>
         <div className="spaced-table-wrapper">
-          <table className={`totals-table spaced-table ${isSaveAndPrint ? 'save-print-totals' : 'totals'}`}>
+          <table id="results-totals" tabIndex={-1} className={`totals-table spaced-table ${isSaveAndPrint ? 'save-print-totals' : 'totals'}`}>
             <thead>
             <tr>
               <th>{props.grossPayTally ? "Gross pay" : ""}</th>

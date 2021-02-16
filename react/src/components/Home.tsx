@@ -2,8 +2,9 @@ import React, {useContext} from "react";
 import {Link} from "react-router-dom";
 import {NiFrontendContext} from "../services/NiFrontendContext";
 import {useDocumentTitle} from "../services/useDocumentTitle";
+import {serviceName} from "../config";
 
-const pageTitle = "Home"
+const pageTitle = serviceName
 
 export default function Home() {
   const { error, loading } = useContext(NiFrontendContext)
@@ -24,7 +25,7 @@ export default function Home() {
                   <div className="govuk-grid-column-two-thirds">
 
                     <h1 className="govuk-heading-l">
-                      Calculate National Insurance (NI) contributions
+                      {pageTitle}
                     </h1>
                     <p className="govuk-body">
                       This service was previously known as ‘Calculation Support’.

@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import {hasKeys} from '../../../services/utils'
 import {validateLateRefundsPayload} from '../../../validation/validation'
 
@@ -14,11 +14,13 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 import {LateRefundsContext, useLateRefundsForm} from './LateRefundsContext'
 import {LateRefundsTableRowProps} from '../../../interfaces'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
+import {SuccessNotification} from "../shared/SuccessNotification";
 
 const pageTitle = 'Interest on late-paid refunds from 1993 to 1994'
 
 function LateRefundsPage() {
   const [showSummary, setShowSummary] = useState<boolean>(false)
+  const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const {
     InterestOnLateRefundsCalculator,
     bankHolidaysNo,
@@ -29,6 +31,7 @@ function LateRefundsPage() {
     details,
     setDetails,
     setResults,
+    results,
     setActiveRowId
   } = useContext(LateRefundsContext)
   const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
@@ -82,8 +85,17 @@ function LateRefundsPage() {
     submitForm(false)
   }
 
+  useEffect(() => {
+    if(results) {
+      resultRef.current.focus()
+    }
+  }, [results, resultRef])
+
   return (
-    <main>
+    <div>
+      <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
+        {results && <SuccessNotification />}
+      </div>
       {showSummary ?
         <LateRefundsPrint
           title={pageTitle}
@@ -130,7 +142,7 @@ function LateRefundsPage() {
         </div>
       )}
 
-    </main>
+    </div>
   )
 }
 

@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import {validateClassOnePayload} from '../../../validation/validation'
 import {ClassOneRow} from '../../../calculation'
 
@@ -14,11 +14,13 @@ import {hasKeys} from "../../../services/utils";
 import {ClassOneContext, useClassOneForm, ClassOneRowInterface, Row} from "./ClassOneContext";
 import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
+import {SuccessNotification} from "../shared/SuccessNotification";
 
 const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 
 const Class1Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
+  const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const {
     ClassOneCalculator,
     taxYear,
@@ -100,8 +102,17 @@ const Class1Page = () => {
     setNiPaidNet('')
   }
 
+  useEffect(() => {
+    if(result) {
+      resultRef.current.focus()
+    }
+  }, [result, resultRef])
+
   return (
     <div>
+      <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
+        {result && <SuccessNotification table={true} totals={true} />}
+      </div>
       {showSummary ?
         <Class1Print
           title={pageTitle}

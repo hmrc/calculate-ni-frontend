@@ -78,6 +78,10 @@
   line-height: 2
 }
 
+.save-print-wrapper td {
+  line-height: 2
+}
+
 .save-print-wrapper .govuk-summary-list .govuk-summary-list__row {
   border-bottom: none;
   margin-bottom: 5px;

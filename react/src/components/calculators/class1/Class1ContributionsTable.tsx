@@ -37,7 +37,7 @@ function ClassOneEarningsTable(props: TableProps) {
   }
 
   return (
-    <table className="contribution-details">
+    <table className="contribution-details" id="results-table" tabIndex={-1}>
       <thead>
         <tr className="clear">
           <th className="lg" colSpan={3}><span>Contribution payment details</span></th>

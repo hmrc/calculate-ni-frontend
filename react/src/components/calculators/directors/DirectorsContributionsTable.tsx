@@ -21,7 +21,7 @@ function DirectorsEarningsTable(props: TableProps) {
   } = useContext(DirectorsContext)
 
   return (
-    <table className="contribution-details">
+    <table className="contribution-details" id="results-table" tabIndex={-1}>
       <thead>
         <tr className="clear">
           <th className="lg" colSpan={2}><span>Contribution payment details</span></th>

@@ -30,9 +30,9 @@ import LateInterest from './components/calculators/late-interest/LateInterest'
 import LateRefunds from './components/calculators/late-refunds/LateRefunds'
 import BreadCrumbs from "./components/helpers/gov-design-system/BreadCrumbs";
 import {NiFrontendContext, useNiFrontend} from "./services/NiFrontendContext";
+import {serviceName} from "./config";
 
-function App() {    
-  const serviceName = "National Insurance (NI) Calculation Support Tool"
+function App() {
   return (
     <NiFrontendContext.Provider value={useNiFrontend()}>
       <div className="govuk-width-container">
