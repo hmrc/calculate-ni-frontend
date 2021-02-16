@@ -24,7 +24,21 @@
 .save-print-wrapper .govuk-heading-l {
   color: #6F777B;
   font-weight: 400;
+  font-size: 24px;
+  margin: 20px 0 15px;
+}
+
+.save-print-wrapper .govuk-heading-m {
+  color: #6F777B;
+  font-weight: 400;
   font-size: 21px;
+  margin: 20px 0 15px;
+}
+
+.save-print-wrapper .govuk-heading-s {
+  color: #6F777B;
+  font-weight: 400;
+  font-size: 18px;
   margin: 20px 0 15px;
 }
 
@@ -56,6 +70,10 @@
 
 .save-print-wrapper .contribution-details td:not(.input) {
   padding-left: 0;
+}
+
+.save-print-wrapper td {
+  line-height: 2
 }
 
 .save-print-wrapper .govuk-summary-list .govuk-summary-list__row {

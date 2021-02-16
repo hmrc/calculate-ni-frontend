@@ -92,6 +92,7 @@ export function validDateParts(day: string, month: string, year: string) {
 }
 
 export const govDateString = (date: Date) => moment(date).format(govDateFormat)
+export const taxYearShorthand = (taxYear: TaxYear) => `${taxYear.from.getFullYear()}/${taxYear.to.getFullYear()}`
 export const dateStringSlashSeparated = (date: Date) => moment(date).format('DD/MM/YYYY')
 
 export const goveDateRangeString = (dateRangeObject: TaxYear) => {

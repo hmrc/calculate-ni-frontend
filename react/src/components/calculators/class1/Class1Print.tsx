@@ -9,13 +9,15 @@ import DetailsPrint from "../shared/DetailsPrint";
 // types
 import {Class1DirectorsSavePrintProps} from '../../../interfaces'
 import BackLink from "../../helpers/gov-design-system/BackLink";
+import {taxYearShorthand} from "../../../services/utils";
 
 function Class1Print(props: Class1DirectorsSavePrintProps) {
   const { title, setShowSummary, result } = props;
   const {
     rows,
     details,
-    categoryTotals
+    categoryTotals,
+    taxYear
   } = useContext(ClassOneContext)
 
   return (
@@ -30,14 +32,18 @@ function Class1Print(props: Class1DirectorsSavePrintProps) {
         
         <DetailsPrint details={details} />
 
+        <h2 className="govuk-heading-m">
+          Tax year: {taxYear && taxYearShorthand(taxYear)}
+        </h2>
+
         <ClassOneEarningsTable
           showBands={true}
           printView={true}
         />
-        
-        <div className="ni-due">
-          <p><strong>NI due</strong> [TBC]</p>
-        </div>
+
+        <h2 className="govuk-heading-m">
+          NI due
+        </h2>
 
         <CategoryTotals
           rows={rows}

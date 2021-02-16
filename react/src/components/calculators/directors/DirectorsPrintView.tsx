@@ -9,13 +9,20 @@ import DetailsPrint from "../shared/DetailsPrint";
 // types
 import {Calculators, Class1DirectorsSavePrintProps} from '../../../interfaces'
 import BackLink from "../../helpers/gov-design-system/BackLink";
+import {govDateString, taxYearShorthand} from "../../../services/utils";
+import {PeriodLabel} from "../../../config";
 
 function DirectorsPrintView(props: Class1DirectorsSavePrintProps) {
   const { title, setShowSummary, result } = props;
   const {
     rows,
     details,
-    categoryTotals
+    categoryTotals,
+    dateRange,
+    taxYear,
+    earningsPeriod,
+    askApp,
+    app
   } = useContext(DirectorsContext)
 
   return (
@@ -34,14 +41,36 @@ function DirectorsPrintView(props: Class1DirectorsSavePrintProps) {
           details={details}
         />
 
+        <h2 className="govuk-heading-m">
+          Tax year: {taxYear && taxYearShorthand(taxYear)}
+        </h2>
+
+        {dateRange.from && dateRange.to && earningsPeriod === PeriodLabel.PRORATA ?
+          <div className="pro-rata-print">
+            <h3 className="govuk-heading-s">Pro rata dates</h3>
+            <p>
+              From <strong>{govDateString(dateRange.from)}</strong> to <strong>{govDateString(dateRange.to)}</strong>
+              {' '}({dateRange.numberOfWeeks} weeks)
+            </p>
+          </div>
+          :
+          <h3 className="govuk-heading-s">Annual directorship</h3>
+        }
+
+        {askApp &&
+          <div>
+            <h3>Appropriate pension scheme: <strong>{app}</strong></h3>
+          </div>
+        }
+
         <DirectorsEarningsTable
           showBands={true}
           printView={true}
         />
 
-        <div className="ni-due">
-          <p><strong>NI due</strong> [TBC]</p>
-        </div>
+        <h2 className="govuk-heading-m">
+          NI due
+        </h2>
 
         <CategoryTotals
           rows={rows}
