@@ -35,7 +35,13 @@ tmp
 bin
 app/assets/configuration.json
 app/assets/javascripts/calculation.js
-app/assets/build
+app/assets/static
+app/assets/index.html
+app/assets/asset-manifest.json
+app/assets/service-worker.js
+app/assets/precache-manifest.*
+app/assets/favicon.ico
+app/assets/robots.txt
 project/metals.sbt
 */target
 react/build

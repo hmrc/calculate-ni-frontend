@@ -1,6 +1,6 @@
-$govuk-assets-path: "/assets/lib/govuk-frontend/govuk/assets/";
+$govuk-assets-path: "/lib/govuk-frontend/govuk/assets/";
 @import "node_modules/govuk-frontend/govuk/all";
-$hmrc-assets-path: "/assets/lib/hmrc-frontend/hmrc/";
+$hmrc-assets-path: "/lib/hmrc-frontend/hmrc/";
 @import "node_modules/hmrc-frontend/hmrc/all";
 
 #root .hmrc-internal-header__logo-link::before {
@@ -39,4 +39,9 @@ $hmrc-assets-path: "/assets/lib/hmrc-frontend/hmrc/";
     font-size: 16px;
     text-align: right;
   }
+}
+
+.app-related-items {
+  padding-top: 10px;
+  border-top: 5px solid #1d70b8;
 }
