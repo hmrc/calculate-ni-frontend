@@ -20,7 +20,9 @@ function DirectorsPrintView(props: Class1DirectorsSavePrintProps) {
     categoryTotals,
     dateRange,
     taxYear,
-    earningsPeriod
+    earningsPeriod,
+    askApp,
+    app
   } = useContext(DirectorsContext)
 
   return (
@@ -53,6 +55,12 @@ function DirectorsPrintView(props: Class1DirectorsSavePrintProps) {
           </div>
           :
           <h3 className="govuk-heading-s">Annual directorship</h3>
+        }
+
+        {askApp &&
+          <div>
+            <h3>Appropriate pension scheme: <strong>{app}</strong></h3>
+          </div>
         }
 
         <DirectorsEarningsTable
