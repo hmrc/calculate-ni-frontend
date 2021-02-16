@@ -38,7 +38,7 @@ function App() {
       <div className="govuk-width-container">
         <Header serviceName={serviceName} />
         <PhaseBanner type="ALPHA" link="#feedback" />
-        <div className="main">
+        <div className="main" id="main-content">
           <Router basename="calculate-ni">
             <BreadCrumbs />
             <Switch>

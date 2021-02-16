@@ -18,6 +18,7 @@ function Details (props: DetailsForm) {
           className={`toggle icon ${showDetails ? 'arrow-up' : 'arrow-right'}`}
           onClick={() => setShowDetails(!showDetails)}>
           {showDetails ? 'Close details' : 'Open details'}
+          <span className="govuk-visually-hidden">about customer, date and operator for this calculation</span>
         </button>
       </div>
       {showDetails &&
