@@ -12,6 +12,7 @@ import Class2Or3Print from './Class2Or3Print'
 import {Class2Or3Context, useClass2Or3Form} from './Class2Or3Context'
 import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 import {hasKeys} from "../../../services/utils";
+import {useDocumentTitle} from "../../../services/useDocumentTitle";
 
 const pageTitle = 'Class 2 or 3 NI contributions needed for a qualifying year'
 
@@ -31,6 +32,8 @@ const Class2Or3Page = () => {
     result,
     setResult
   } = useContext(Class2Or3Context)
+  const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
+  useDocumentTitle(titleWithPrefix)
 
   const handleChange = ({
     currentTarget: { name, value },

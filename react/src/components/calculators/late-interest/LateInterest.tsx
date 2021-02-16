@@ -15,6 +15,7 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 import LateInterestPrint from './LateInterestPrint'
 import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import {Class1DebtRow} from '../../../interfaces'
+import {useDocumentTitle} from "../../../services/useDocumentTitle";
 
 const pageTitle = 'Interest on late or unpaid Class 1 NI contributions'
 
@@ -34,6 +35,8 @@ function LateInterestPage() {
     setResults,
     hasRemissionPeriod
   } = useContext(LateInterestContext)
+  const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
+  useDocumentTitle(titleWithPrefix)
 
   const handleShowSummary = (event: React.FormEvent) => {
     event.preventDefault()

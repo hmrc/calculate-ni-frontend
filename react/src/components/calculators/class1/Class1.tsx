@@ -13,6 +13,7 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 import {hasKeys} from "../../../services/utils";
 import {ClassOneContext, useClassOneForm, ClassOneRowInterface, Row} from "./ClassOneContext";
 import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
+import {useDocumentTitle} from "../../../services/useDocumentTitle";
 
 const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 
@@ -36,6 +37,8 @@ const Class1Page = () => {
     setResult,
     setActiveRowId
   } = useContext(ClassOneContext)
+  const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
+  useDocumentTitle(titleWithPrefix)
 
   const handleDetailsChange = ({
     currentTarget: { name, value },

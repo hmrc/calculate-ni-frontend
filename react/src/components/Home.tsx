@@ -1,9 +1,13 @@
 import React, {useContext} from "react";
 import {Link} from "react-router-dom";
 import {NiFrontendContext} from "../services/NiFrontendContext";
+import {useDocumentTitle} from "../services/useDocumentTitle";
+
+const pageTitle = "Home"
 
 export default function Home() {
   const { error } = useContext(NiFrontendContext)
+  useDocumentTitle(pageTitle)
   return (
     <>
       {error ?
