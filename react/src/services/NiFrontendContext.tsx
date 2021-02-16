@@ -86,7 +86,8 @@ const initService: NiFrontendService = {
 
 interface NiFrontendContext {
   NiFrontendInterface: NiFrontendService
-  config: any,
+  loading: boolean
+  config: any
   error: string
 }
 
@@ -94,13 +95,15 @@ export const NiFrontendContext = React.createContext<NiFrontendContext>(
   {
     NiFrontendInterface: initService,
     config: {},
-    error: ''
+    error: '',
+    loading: true
   }
 )
 
 export function useNiFrontend() {
   const [NiFrontendInterface, setNiFrontendInterface] = useState<NiFrontendService>(initService)
-  const [error, setError] = useState<string>('Trying to load configuration from /calculate-ni/national-insurance.json')
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string>('')
   const [config, setConfig] = useState({
     classOne: {},
     classTwo: {},
@@ -129,13 +132,17 @@ export function useNiFrontend() {
           setError('Configuration unable to be loaded from server.')
         }
 
+        setLoading(false)
+
       } catch(error) {
+        setLoading(false)
         setError('Configuration not loaded: ' + error.toString())
         console.log(error)
       }
     })()
   }, [])
   return {
+    loading,
     error,
     config,
     NiFrontendInterface
