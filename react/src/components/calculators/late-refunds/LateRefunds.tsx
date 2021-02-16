@@ -13,6 +13,7 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 // types
 import {LateRefundsContext, useLateRefundsForm} from './LateRefundsContext'
 import {LateRefundsTableRowProps} from '../../../interfaces'
+import {useDocumentTitle} from "../../../services/useDocumentTitle";
 
 const pageTitle = 'Interest on late-paid refunds from 1993 to 1994'
 
@@ -30,6 +31,8 @@ function LateRefundsPage() {
     setResults,
     setActiveRowId
   } = useContext(LateRefundsContext)
+  const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
+  useDocumentTitle(titleWithPrefix)
 
   const handleShowSummary = (event: React.FormEvent) => {
     event.preventDefault()

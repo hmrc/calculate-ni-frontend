@@ -18,73 +18,76 @@ function Details (props: DetailsForm) {
           className={`toggle icon ${showDetails ? 'arrow-up' : 'arrow-right'}`}
           onClick={() => setShowDetails(!showDetails)}>
           {showDetails ? 'Close details' : 'Open details'}
+          <span className="govuk-visually-hidden">about customer, date and operator for this calculation</span>
         </button>
       </div>
       {showDetails &&
-      <fieldset className="details" role="alert">
-        <legend className="float-left legend-small">Enter the details for this calculation</legend>
+        <div role="alert">
+          <fieldset className="details">
+            <legend className="float-left legend-small">Enter the details for this calculation</legend>
+            <div className="container">
+              <div className="container half">
+                <div className="form-group item">
+                  <TextInput
+                    labelText="Customer’s full name (optional)"
+                    name="fullName"
+                    inputClassName="form-control full"
+                    inputValue={details.fullName}
+                    onChangeCallback={handleChange}
+                  />
+                </div>
+              </div>
 
-        <div className="container">
-          <div className="container half">
-            <div className="form-group item">
-              <TextInput
-                labelText="Customer’s full name (optional)"
-                name="fullName"
-                inputClassName="form-control full"
-                inputValue={details.fullName}
-                onChangeCallback={handleChange}
-              />
+              <div className="container half">
+                <div className="form-group item">
+                  <TextInput
+                    labelText="NI number (optional)"
+                    name="ni"
+                    inputClassName="form-control full"
+                    inputValue={details.ni}
+                    onChangeCallback={handleChange}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div className="container half">
-            <div className="form-group item">
-              <TextInput
-                labelText="NI number (optional)"
-                name="ni"
-                inputClassName="form-control full"
-                inputValue={details.ni}
-                onChangeCallback={handleChange}
-              />
+            <div className="container">
+              <div className="container half">
+                <div className="form-group item">
+                  <TextInput
+                    labelText="Reference (optional)"
+                    name="reference"
+                    inputClassName="form-control full"
+                    inputValue={details.reference}
+                    onChangeCallback={handleChange}
+                  />
+                </div>
+                <div className="form-group item">
+                  <TextInput
+                    labelText="Prepared by (optional)"
+                    name="preparedBy"
+                    inputClassName="form-control full"
+                    inputValue={details.preparedBy}
+                    onChangeCallback={handleChange}
+                  />
+                </div>
+              </div>
+              <div className="container half">
+                <div className="form-group item">
+                  <TextInput
+                    labelText="Date (optional)"
+                    name="date"
+                    inputClassName="form-control full"
+                    inputValue={details.date}
+                    onChangeCallback={handleChange}
+                  />
+                </div>
+              </div>
+
             </div>
-          </div>
+          </fieldset>
         </div>
 
-        <div className="container">
-          <div className="container half">
-            <div className="form-group item">
-              <TextInput
-                labelText="Reference (optional)"
-                name="reference"
-                inputClassName="form-control full"
-                inputValue={details.reference}
-                onChangeCallback={handleChange}
-              />
-            </div>
-            <div className="form-group item">
-              <TextInput
-                labelText="Prepared by (optional)"
-                name="preparedBy"
-                inputClassName="form-control full"
-                inputValue={details.preparedBy}
-                onChangeCallback={handleChange}
-              />
-            </div>
-          </div>
-          <div className="container half">
-            <div className="form-group item">
-              <TextInput
-                labelText="Date (optional)"
-                name="date"
-                inputClassName="form-control full"
-                inputValue={details.date}
-                onChangeCallback={handleChange}
-              />
-            </div>
-          </div>
-
-        </div>
-      </fieldset>
       }
     </>
   )

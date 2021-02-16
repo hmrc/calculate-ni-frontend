@@ -8,6 +8,7 @@ import {UnofficialDefermentContext, useUnofficialDefermentForm} from "./Unoffici
 import UnofficialDefermentForm from "./UnofficialDefermentForm";
 import UnofficialDefermentTotals from "./UnofficialDefermentTotals";
 import UnofficialDefermentPrint from "./UnofficialDefermentPrint";
+import {useDocumentTitle} from "../../../services/useDocumentTitle";
 
 const pageTitle = 'Class 1 NI contributions an employer owes due to unofficial deferment'
 
@@ -26,6 +27,8 @@ function UnofficialDefermentPage() {
         setActiveRowId,
         setResults
     } = useContext(UnofficialDefermentContext)
+    const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
+    useDocumentTitle(titleWithPrefix)
 
     const handleDetailsChange = ({
          currentTarget: { name, value },

@@ -7,6 +7,7 @@ import {Class3Context, class3DefaultRows, useClass3Form} from "./Class3Context";
 import Class3Form from "./Class3Form";
 import {validateClass3Payload} from "../../../validation/validation";
 import Class3Print from './Class3Print'
+import {useDocumentTitle} from "../../../services/useDocumentTitle";
 
 const pageTitle = 'Weekly contribution conversion'
 
@@ -23,6 +24,8 @@ const Class3Page = () => {
         setActiveRowId,
         WeeklyContributionsCalculator
     } = useContext(Class3Context)
+    const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
+    useDocumentTitle(titleWithPrefix)
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()

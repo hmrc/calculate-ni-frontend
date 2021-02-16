@@ -16,6 +16,7 @@ import {DirectorsContext, DirectorsUIRow, DirectorsRowInterface, useDirectorsFor
 
 // services
 import {hasKeys} from "../../../services/utils";
+import {useDocumentTitle} from "../../../services/useDocumentTitle";
 
 const pageTitle = 'Directors’ contributions'
 
@@ -42,9 +43,10 @@ const DirectorsPage = () => {
     setResult,
     app,
     askApp,
-    dateRange,
-    setDateRange
+    dateRange
   } = useContext(DirectorsContext)
+  const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
+  useDocumentTitle(titleWithPrefix)
 
   useEffect(() => {
     invalidateResults()
