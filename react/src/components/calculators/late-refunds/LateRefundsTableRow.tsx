@@ -1,22 +1,16 @@
-/** @jsx jsx */
 import React, {useContext} from 'react'
-import { css, jsx } from '@emotion/react'
+import * as thStyles from '../../../services/mobileHeadingStyles'
 
 import {extractFromDateString, extractToDateString, taxYearFromString, taxYearString} from '../../../config'
 
 // types
 import {LateRefundsTableRowProps, TaxYear} from '../../../interfaces'
-import SelectTaxYear from '../../helpers/formhelpers/SelectTaxYear'
 import {LateRefundsContext} from './LateRefundsContext'
+
+// components
+import SelectTaxYear from '../../helpers/formhelpers/SelectTaxYear'
 import TextInput from '../../helpers/formhelpers/TextInput'
-
-const mq = [`@media (max-width: ${760}px)`]
-
-const rowNumberCellStyle = css({[mq[0]]: {':before': { content: `"Row number"` }}})
-const fromCellStyle = css({[mq[0]]: {':before': { content: `"From"` }}})
-const dateCellStyle = css({[mq[0]]: {':before': { content: `"Date"` }}})
-const refundCellStyle = css({[mq[0]]: {':before': { content: `"Date"` }}})
-const payableCellStyle = css({[mq[0]]: {':before': { content: `"Date"` }}})
+import MqTableCell from '../shared/MqTableCell'
 
 function LateRefundsTableRow(props: {
   row: LateRefundsTableRowProps,
@@ -66,8 +60,9 @@ function LateRefundsTableRow(props: {
       id={row.id}
       onClick={() => setActiveRowId(row.id)}
     >
-      <td css={rowNumberCellStyle}>{index + 1}</td>
-      <td className="input" css={fromCellStyle}>
+      <MqTableCell cellStyle={thStyles.rowNumber}>{index + 1}</MqTableCell>
+
+      <MqTableCell cellClassName="input" cellStyle={thStyles.from}>
         {printView ?
           <div>{row.taxYear && taxYearString(row.taxYear, true)}</div>
           :
@@ -80,9 +75,13 @@ function LateRefundsTableRow(props: {
             onlyStartYear={true}
           />
         }
-      </td>
-      <td css={dateCellStyle}>{row.taxYear && taxYearFromString(row.taxYear)}</td>
-      <td className={`input${errors[`${row.id}-refund`] ? ` error-cell` : ``}`} css={refundCellStyle}>
+      </MqTableCell>
+
+      <MqTableCell cellStyle={thStyles.date}>
+        {row.taxYear && taxYearFromString(row.taxYear)}
+      </MqTableCell>
+
+      <MqTableCell cellClassName={`input${errors[`${row.id}-refund`] ? ` error-cell` : ``}`} cellStyle={thStyles.refund}>
         {printView ?
           <div>{row.refund}</div>
           :
@@ -96,8 +95,11 @@ function LateRefundsTableRow(props: {
             onChangeCallback={(e) => handleChange?.(row, e)}
           />
         }
-      </td>
-      <td css={payableCellStyle}>{row.payable}</td>
+      </MqTableCell>
+
+      <MqTableCell cellStyle={thStyles.payable}>
+        {row.payable}
+      </MqTableCell>
     </tr>
 
   )

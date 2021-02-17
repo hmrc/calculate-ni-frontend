@@ -1,14 +1,9 @@
-/** @jsx jsx */
 import React from 'react'
-import { css, jsx } from '@emotion/react'
+import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // types
 import {Rate} from '../../../interfaces'
-
-const mq = [`@media (max-width: ${760}px)`]
-
-const interestFromCellStyle = css({[mq[0]]: {':before': { content: `"From"` }}})
-const interestRateCellStyle = css({[mq[0]]: {':before': { content: `"Rate"` }}})
+import MqTableCell from './MqTableCell'
 
 interface InterestRatesTableProps {
   rates: Rate[] | null
@@ -29,8 +24,8 @@ function LateInterestRatesTable(props: InterestRatesTableProps) {
         <tbody>
         {rates && rates.map((r: Rate, index: number) => (
           <tr key={index}>
-            <td css={interestFromCellStyle}>{r.year}</td>
-            <td css={interestRateCellStyle}>{r.rate}%</td>
+            <MqTableCell cellStyle={thStyles.from}>{r.year}</MqTableCell>
+            <MqTableCell cellStyle={thStyles.rate}>{r.rate}</MqTableCell>
           </tr>
         ))}
         </tbody>

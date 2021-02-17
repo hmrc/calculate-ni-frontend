@@ -1,11 +1,15 @@
-/** @jsx jsx */
 import React, {Dispatch, useContext, useEffect} from "react"
-import { css, jsx } from '@emotion/react'
 import {periods, PeriodValue, periodValueToLabel} from "../../../config";
-import TextInput from "../../helpers/formhelpers/TextInput";
 import numeral from "numeral";
+import * as thStyles from '../../../services/mobileHeadingStyles'
+
+// types
 import {ClassOneContext, Row} from "./ClassOneContext";
 import {NiFrontendContext} from "../../../services/NiFrontendContext";
+
+// components
+import TextInput from "../../helpers/formhelpers/TextInput";
+import MqTableCell from '../shared/MqTableCell'
 
 interface TableRowProps {
   row: Row
@@ -15,18 +19,6 @@ interface TableRowProps {
   setShowExplanation: Dispatch<string>
   showExplanation?: string
 }
-
-
-const mq = [`@media (max-width: ${760}px)`]
-
-const rowNumberCellStyle = css({[mq[0]]: {':before': { content: `"Row number"` }}})
-const selectPeriodCellStyle = css({[mq[0]]: {':before': { content: `"Select period"` }}})
-const periodNumberCellStyle = css({[mq[0]]: {':before': { content: `"Period No."` }}})
-const selectNICategoryLetterCellStyle = css({[mq[0]]: {':before': { content: `"Select NI category letter"` }}})
-const enterGrossPayCellStyle = css({[mq[0]]: {':before': { content: `"Enter gross pay"` }}})
-const employeeCellStyle = css({[mq[0]]: {':before': { content: `"Employee"` }}})
-const employerCellStyle = css({[mq[0]]: {':before': { content: `"Employer"` }}})
-const totalCellStyle = css({[mq[0]]: {':before': { content: `"Total"` }}})
 
 export default function Class1TableRow(props: TableRowProps) {
   const { row, index, showBands, printView, setShowExplanation, showExplanation } = props
@@ -86,14 +78,16 @@ export default function Class1TableRow(props: TableRowProps) {
       id={row.id}
       onClick={() => setActiveRowId(row.id)}
     >
-      <td className="row-number" css={rowNumberCellStyle}>
+
+      <MqTableCell cellStyle={thStyles.rowNumber}>
         {index + 1}
-      </td>
-      <td className="input" css={selectPeriodCellStyle}>
+      </MqTableCell>
+
+      <MqTableCell cellStyle={thStyles.selectPeriod}>
         {printView ?
           <div>{periodValueToLabel(row.period)}</div>
           :
-          <React.Fragment>
+          <>
             <label className="govuk-visually-hidden" htmlFor={`row${index}-period`}>Period</label>
             <select
               name="period"
@@ -105,21 +99,22 @@ export default function Class1TableRow(props: TableRowProps) {
                 <option key={i} value={p}>{periodValueToLabel(p)}</option>
               ))}
             </select>
-          </React.Fragment>
+          </>
 
         }
-      </td>
+      </MqTableCell>
 
-      <td css={periodNumberCellStyle}>
+      <MqTableCell cellStyle={thStyles.periodNumber}>
         {row.number}
-      </td>
+      </MqTableCell>
+
 
       {/* Category */}
-      <td className="input" css={selectNICategoryLetterCellStyle}>
+      <MqTableCell cellStyle={thStyles.selectNICategoryLetter} cellClassName="input">
         {printView ?
           <div>{row.category}</div>
           :
-          <React.Fragment>
+          <>
             <label className="govuk-visually-hidden" htmlFor={`row${index}-category`}>Category</label>
             <select name="category" value={row.category} onChange={(e) => handleSelectChange?.(row, e)} className="borderless" id={`row${index}-category`}>
               {categories.map((c: string, i: number) => (
@@ -128,14 +123,15 @@ export default function Class1TableRow(props: TableRowProps) {
                 </option>
               ))}
             </select>
-          </React.Fragment>
+          </>
         }
-      </td>
+
+      </MqTableCell>
 
       {/* Gross Pay */}
-      <td className={
-        `input ${errors?.[`${row.id}-gross`] ? "error-cell" : ""}`}
-          css={enterGrossPayCellStyle}
+      <MqTableCell
+        cellStyle={thStyles.enterGrossPay}
+        cellClassName={`input ${errors?.[`${row.id}-gross`] ? "error-cell" : ""}`}
       >
         {printView ?
           <div>{row.gross}</div>
@@ -152,25 +148,32 @@ export default function Class1TableRow(props: TableRowProps) {
             />
           </React.Fragment>
         }
-      </td>
+      </MqTableCell>
 
       {/* Bands */}
       {showBands && row.bands && row.bands.map(k =>
-        <td key={`${k.name}-val`} css={css({[mq[0]]: {':before': { content: `"${k.name}"` }}})}> {numeral(k.amountInBand).format('$0,0.00')}</td>
+        <MqTableCell
+          cellStyle={thStyles.dynamicCellContentAttr(k.name)}
+          key={`${k.name}-val`}
+        >
+          {numeral(k.amountInBand).format('$0,0.00')}
+        </MqTableCell>
       )}
 
       {/* Total */}
       {showBands && row.bands &&
-      // Total (if calculate has run)
-      <td css={totalCellStyle}>
-        {numeral(
-          (row.ee + row.er).toString()
-        ).format('$0,0.00')}
-      </td>
+        // Total (if calculate has run)
+        <MqTableCell cellStyle={thStyles.total}>
+          {numeral(
+            (row.ee + row.er).toString()
+          ).format('$0,0.00')}
+
+        </MqTableCell>
       }
 
-      <td className="result-cell" css={employeeCellStyle}>{numeral(row.ee).format('$0,0.00')}</td>
-      <td className="result-cell" css={employerCellStyle}>{numeral(row.er).format('$0,0.00')}</td>
+      <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employee}>{numeral(row.ee).format('$0,0.00')}</MqTableCell>
+      <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employer}>{numeral(row.er).format('$0,0.00')}</MqTableCell>
+
       {!printView && result && row.explain && row.explain.length > 0 &&
         <td>
            <a href={`#${row.id}-explain`} onClick={(e) => {

@@ -1,7 +1,6 @@
-/** @jsx jsx */
 import React, {Dispatch, useContext} from 'react'
-import { css, jsx } from '@emotion/react'
 import numeral from 'numeral'
+import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // components
 import TextInput from '../../helpers/formhelpers/TextInput'
@@ -9,14 +8,7 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 // types
 import {DirectorsContext, DirectorsUIRow} from './DirectorsContext'
 import {NiFrontendContext} from '../../../services/NiFrontendContext'
-
-const mq = [`@media (max-width: ${760}px)`]
-
-const selectCatCellStyle = css({[mq[0]]: {':before': { content: `"Select NI category letter"` }}})
-const grossPayCellStyle = css({[mq[0]]: {':before': { content: `"Enter gross pay"` }}})
-const employeeCellStyle = css({[mq[0]]: {':before': { content: `"Employee"` }}})
-const employerCellStyle = css({[mq[0]]: {':before': { content: `"Employer"` }}})
-const totalCellStyle = css({[mq[0]]: {':before': { content: `"Total"` }}})
+import MqTableCell from '../shared/MqTableCell'
 
 interface TableRowProps {
   row: DirectorsUIRow
@@ -66,11 +58,11 @@ function DirectorsTableRow(props: TableRowProps) {
       className={activeRowId === row.id ? "active" : ""}
       onClick={() => setActiveRowId(row.id)}
     >
-      <td className="input" css={selectCatCellStyle}>
+      <MqTableCell cellStyle={thStyles.selectNICategoryLetter} cellClassName="input">
         {printView ?
           <div>{row.category}</div>
           :
-          <React.Fragment>
+          <>
             <label className="govuk-visually-hidden" htmlFor={`row${index}-category`}>Category</label>
             <select name="category" value={row.category} onChange={(e) => handleSelectChange?.(row, e)} className="borderless" id={`row${index}-category`}>
               {categories.map((c: string, i: number) => (
@@ -79,14 +71,14 @@ function DirectorsTableRow(props: TableRowProps) {
                 </option>
               ))}
             </select>
-          </React.Fragment>
+          </>
         }
-      </td>
+      </MqTableCell>
 
       {/* Gross Pay */}
-      <td className={
-        `input ${errors?.[`${row.id}-gross`] ? "error-cell" : ""}`}
-        css={grossPayCellStyle}
+      <MqTableCell
+        cellClassName={`input ${errors?.[`${row.id}-gross`] ? "error-cell" : ""}`}
+        cellStyle={thStyles.enterGrossPay}
       >
         {printView ?
           <div>{row.gross}</div>
@@ -101,32 +93,33 @@ function DirectorsTableRow(props: TableRowProps) {
             onChangeCallback={(e) => handleGrossChange?.(row, e)}
           />
         }
-      </td>
+      </MqTableCell>
+
 
       {/* Bands */}
       {showBands && row.bands && row.bands.map(k =>
-        <td
+        <MqTableCell
           key={`${k.name}-val`}
-          css={css({[mq[0]]: {':before': { content: `"${k.name}"` }}})}
+          cellStyle={thStyles.dynamicCellContentAttr(k.name)}
         >
           {numeral(k.amountInBand).format('$0,0.00')}
-        </td>
+        </MqTableCell>
       )}
 
       {/* Total */}
       {showBands && row.bands &&
       // Total (if calculate has run)
-      <td css={totalCellStyle}>
+      <MqTableCell cellStyle={thStyles.total}>
         {numeral(
           (row.ee + row.er).toString()
         ).format('$0,0.00')}
-      </td>
+      </MqTableCell>
       }
 
       {/* EE */}
-      <td className="result-cell" css={employeeCellStyle}>{numeral(row.ee).format('$0,0.00')}</td>
+      <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employee}>{numeral(row.ee).format('$0,0.00')}</MqTableCell>
       {/* ER */}
-      <td className="result-cell" css={employerCellStyle}>{numeral(row.er).format('$0,0.00')}</td>
+      <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employer}>{numeral(row.er).format('$0,0.00')}</MqTableCell>
       {!printView && result && row.explain && row.explain.length > 0 &&
       <td>
         <a href={`#${row.id}-explain`} onClick={(e) => {

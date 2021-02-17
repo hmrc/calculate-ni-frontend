@@ -1,6 +1,5 @@
-/** @jsx jsx */
 import React, {useContext} from 'react'
-import { css, jsx } from '@emotion/react'
+import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // components
 import SelectTaxYear from '../../helpers/formhelpers/SelectTaxYear';
@@ -10,13 +9,7 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 import {Class1DebtRow, TaxYear} from '../../../interfaces'
 import {LateInterestContext} from './LateInterestContext'
 import {extractFromDateString, extractToDateString, taxYearString} from '../../../config'
-
-const mq = [`@media (max-width: ${760}px)`]
-
-const rowNumberCellStyle = css({[mq[0]]: {':before': { content: `"Row number"` }}})
-const taxYearCellStyle = css({[mq[0]]: {':before': { content: `"Tax Year"` }}})
-const classOneDebtCellStyle = css({[mq[0]]: {':before': { content: `"Class 1 Debt"` }}})
-const interestDueCellStyle = css({[mq[0]]: {':before': { content: `"Interest Due"` }}})
+import MqTableCell from '../shared/MqTableCell'
 
 function Class1DebtTableRow(props: {
   row: Class1DebtRow,
@@ -67,10 +60,11 @@ function Class1DebtTableRow(props: {
       id={row.id}
       onClick={() => setActiveRowId(row.id)}
     >
-      <td className="row-number" css={rowNumberCellStyle}>
+      <MqTableCell cellStyle={thStyles.rowNumber}>
         {index + 1}
-      </td>
-      <td className="input" css={taxYearCellStyle}>
+      </MqTableCell>
+
+      <MqTableCell cellStyle={thStyles.taxYear}>
         {printView ?
           <div>{taxYearString(row.taxYear, true)}</div>
           :
@@ -83,11 +77,9 @@ function Class1DebtTableRow(props: {
             onlyStartYear={true}
           />
         }
-      </td>
-      <td
-        className={`input${errors[`${row.id}-class1-debt`] ? ` error-cell` : ``}`}
-        css={classOneDebtCellStyle}
-      >
+      </MqTableCell>
+
+      <MqTableCell cellStyle={thStyles.classOneDebt} cellClassName={`input${errors[`${row.id}-class1-debt`] ? ` error-cell` : ``}`}>
         {printView ?
           <div>{row.debt}</div>
           :
@@ -101,8 +93,11 @@ function Class1DebtTableRow(props: {
             onChangeCallback={(e) => handleChange?.(row, e)}
           />
         }
-      </td>
-      <td css={interestDueCellStyle}>{row.interestDue}</td>
+      </MqTableCell>
+
+      <MqTableCell cellStyle={thStyles.interestDue}>
+        {row.interestDue}
+      </MqTableCell>
     </tr>
   )
 }

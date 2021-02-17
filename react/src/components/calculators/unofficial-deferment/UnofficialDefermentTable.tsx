@@ -1,6 +1,5 @@
-/** @jsx jsx */
 import React, {useContext} from 'react'
-import { css, jsx } from '@emotion/react'
+import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // components
 import TextInput from '../../helpers/formhelpers/TextInput'
@@ -8,21 +7,9 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 import {UnofficialDefermentContext, UnofficialDefermentRow} from "./UnofficialDefermentContext";
+import MqTableCell from '../shared/MqTableCell'
 
 numeral.locale('en-gb');
-
-const mq = [`@media (max-width: ${760}px)`]
-
-const nameEmployerCellStyle = css({[mq[0]]: {':before': { content: `"Name of employer"` }}})
-const grossPayCellStyle = css({[mq[0]]: {':before': { content: `"Gross pay"` }}})
-const niCatCellStyle = css({[mq[0]]: {':before': { content: `"NI category"` }}})
-const lelCellStyle = css({[mq[0]]: {':before': { content: `"LEL"` }}})
-const lelPtCellStyle = css({[mq[0]]: {':before': { content: `"LEL - PT"` }}})
-const ptUelCellStyle = css({[mq[0]]: {':before': { content: `"PT - UEL"` }}})
-const employeeNicsCellStyle = css({[mq[0]]: {':before': { content: `"Employee NICS"` }}})
-const overUelCellStyle = css({[mq[0]]: {':before': { content: `"Over UEL"` }}})
-const nicsNonCoCellStyle = css({[mq[0]]: {':before': { content: `"NICS non-CO"` }}})
-const ifNotUdCellStyle = css({[mq[0]]: {':before': { content: `"If not U/D"` }}})
 
 export default function UnofficialDefermentTable(props: {printView: boolean}) {
   const { printView } = props
@@ -84,7 +71,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
           className={activeRowId === r.id ? "active" : ""}
           onClick={() => setActiveRowId(r.id)}
         >
-          <td className="input" css={nameEmployerCellStyle}>
+          <MqTableCell cellClassName="input" cellStyle={thStyles.nameEmployer}>
             {printView ?
               <div>{r.nameOfEmployer}</div>
               :
@@ -98,13 +85,15 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
                 onChangeCallback={(e) => handleChange?.(r, e)}
               />
             }
-          </td>
-          <td css={grossPayCellStyle}><div>{numeral(r.grossPay).format('$0,0.00')}</div></td>
-          <td className="input" css={niCatCellStyle}>
+          </MqTableCell>
+
+          <MqTableCell cellStyle={thStyles.grossPay}><div>{numeral(r.grossPay).format('$0,0.00')}</div></MqTableCell>
+
+          <MqTableCell cellClassName="input" cellStyle={thStyles.niCat}>
             {printView ?
               <div>{r.category}</div>
               :
-              <React.Fragment>
+              <>
                 <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category</label>
                 <select name="category" value={r.category} onChange={(e) => handleSelectChange?.(r, e)} className="borderless" id={`row${i}-category`}>
                   {categories.map((c: string, i: number) => (
@@ -113,10 +102,11 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
                     </option>
                   ))}
                 </select>
-              </React.Fragment>
+              </>
             }
-          </td>
-          <td className="input" css={lelCellStyle}>
+          </MqTableCell>
+
+          <MqTableCell cellClassName="input" cellStyle={thStyles.lel}>
             {printView ?
               <div>{numeral(r.earnings1a).format('$0,0.00')}</div>
               :
@@ -130,8 +120,9 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
                 onChangeCallback={(e) => handleChange?.(r, e)}
               />
             }
-          </td>
-          <td className="input" css={lelPtCellStyle}>
+          </MqTableCell>
+
+          <MqTableCell cellClassName="input" cellStyle={thStyles.lelPt}>
             {printView ?
               <div>{numeral(r.earnings1b).format('$0,0.00')}</div>
               :
@@ -145,8 +136,9 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
                 onChangeCallback={(e) => handleChange?.(r, e)}
               />
             }
-          </td>
-          <td className="input" css={ptUelCellStyle}>
+          </MqTableCell>
+
+          <MqTableCell cellClassName="input" cellStyle={thStyles.ptUel}>
             {printView ?
               <div>{numeral(r.earnings1c).format('$0,0.00')}</div>
               :
@@ -160,7 +152,8 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
                 onChangeCallback={(e) => handleChange?.(r, e)}
               />
             }
-          </td>
+          </MqTableCell>
+
           {earningsFields['d'] &&
           <td className="input">
             {printView ?
@@ -196,7 +189,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
           </td>
           }
           {earningsFields['f'] &&
-          <td className="input" css={employeeNicsCellStyle}>
+          <MqTableCell cellClassName="input" cellStyle={thStyles.employeeNics}>
             {printView ?
               <div>{numeral(r.earnings1f).format('$0,0.00')}</div>
               :
@@ -210,11 +203,11 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
                 onChangeCallback={(e) => handleChange?.(r, e)}
               />
             }
-          </td>
+          </MqTableCell>
           }
-          <td css={overUelCellStyle}>{numeral(r.overUEL).format('$0,0.00')}</td>
-          <td css={nicsNonCoCellStyle}>{numeral(r.NICsDueNonCO).format('$0,0.00')}</td>
-          <td css={ifNotUdCellStyle}>{numeral(r.IfNotUD).format('$0,0.00')}</td>
+          <MqTableCell cellStyle={thStyles.overUel}>{numeral(r.overUEL).format('$0,0.00')}</MqTableCell>
+          <MqTableCell cellStyle={thStyles.nicsNonCo}>{numeral(r.NICsDueNonCO).format('$0,0.00')}</MqTableCell>
+          <MqTableCell cellStyle={thStyles.ifNotUd}>{numeral(r.IfNotUD).format('$0,0.00')}</MqTableCell>
         </tr>
       ))}
       </tbody>
