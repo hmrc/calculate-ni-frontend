@@ -460,18 +460,6 @@ and also iPads specifically.
   }
 }
 
-/* Contribution Details */
-/*@media (min-width: 40.0625em) {*/
-/*  table.contribution-details td:not(.input) {*/
-/*    padding-left: calc(50% + 10px);*/
-/*  }*/
-/*}*/
-/*@media screen and (min-width: 760px) {*/
-/*  table.contribution-details td:not(.input) {*/
-/*    padding-left: 10px;*/
-/*  }*/
-/*}*/
-
 #save-print-wrapper th {
   height: 30px;
   line-height: 30px;
