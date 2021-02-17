@@ -62,16 +62,28 @@ case class DirectorsResult(
   }
 
 
-  val (period, periodQuantity) = {
+  val (period, periodQuantity, proRata) = {
     val proRataWeeks = (52 - taxWeekNumber(from)).max(1)
-    if(proRataWeeks == 52) Period.Year -> 1 else Period.Week -> proRataWeeks
+    if(proRataWeeks == 52) (Period.Year, 1, false)
+    else                   (Period.Week, proRataWeeks, true)
   }
 
   lazy val rowsOutput: List[ClassOneRowOutput] = {
     val sortedRows = rowsInput.sortWithOrder(
       if(appropriatePersonalPensionScheme.exists(identity)) categoryOrderApp else categoryOrder)(_.category)
     sortedRows.foldLeft(List.empty[ClassOneRowOutput] -> Zero){ case ((acc, precededAmount), directorsRowInput) =>
-      val rowOutput = ClassOneRowOutput(from, config, directorsRowInput.rowId, directorsRowInput.grossPay, directorsRowInput.category, period, periodQuantity, precededAmount)
+      val rowOutput =
+        ClassOneRowOutput(
+          from,
+          config,
+          directorsRowInput.rowId,
+          directorsRowInput.grossPay,
+          directorsRowInput.category,
+          period,
+          periodQuantity,
+          precededAmount,
+          proRata = proRata
+        )
       (rowOutput :: acc) -> (precededAmount + directorsRowInput.grossPay)
     }._1.reverse
   }
