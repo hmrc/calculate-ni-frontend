@@ -15,7 +15,7 @@ export default function NiPaidInputs(props: {context: Context<any>}) {
       <div className="field-col">
         <CurrencyInput
           id="niPaidNet"
-          label="NI paid net"
+          label="NI paid net (optional)"
           value={niPaidNet}
           error={errors.niPaidNet}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNiPaidNet(e.target.value)}
