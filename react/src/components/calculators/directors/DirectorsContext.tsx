@@ -157,13 +157,18 @@ export function useDirectorsForm() {
         }))
         setRows([defaultRow])
       }
+    }
+  }, [taxYear, ClassOneCalculator])
+  const [rows, setRows] = useState<Array<DirectorsUIRow>>([defaultRow])
+
+  useEffect(() => {
+    if(taxYear && taxYear.from) {
       setDateRange(() => ({
         from: taxYear.from,
         to: taxYear.to
       }))
     }
-  }, [taxYear, ClassOneCalculator])
-  const [rows, setRows] = useState<Array<DirectorsUIRow>>([defaultRow])
+  }, [earningsPeriod, taxYear])
 
   useEffect(() => {
     if(result && result.resultRows) {
