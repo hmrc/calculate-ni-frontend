@@ -111,8 +111,16 @@ case class ClassOneRowOutput(
                   case _ => sys.error(s"Weekly $boundDescription bound value not found but annual $boundDescription bound value exists")
                 }
 
-                if ((y / 52).isWhole) (w * periodQty).gives(s"$id: $boundDescription yearBound / 52 = $y / 52 ∈ ℤ ⇒ $boundDescription bound = $periodQty * $boundDescription weekBound = $w")
-                else (y * periodQty / 52).roundUpWhole.gives(s"$id: $boundDescription yearBound / 52 = $y / 52 ∉ ℤ ⇒ $boundDescription bound = ⌈ $periodQty * $boundDescription yearBound / 52 ⌉ = ${(y / 52).roundUpWhole}")
+                if ((y / 52).isWhole) {
+                  val result = w * periodQty
+                  val description = s"$id: $boundDescription yearBound / 52 = $y / 52 ∈ ℤ ⇒ $boundDescription bound = $periodQty * $boundDescription weekBound = $result"
+                  result.gives(description)
+                }
+                else {
+                  val result = (y * periodQty / 52).roundUpWhole
+                  val description = s"$id: $boundDescription yearBound / 52 = $y / 52 ∉ ℤ ⇒ $boundDescription bound = ⌈ $periodQty * $boundDescription yearBound / 52 ⌉ = $result"
+                  result.gives(description)
+                }
               }
 
               sequence(result)
