@@ -3,11 +3,14 @@ import {Link} from "react-router-dom";
 import {NiFrontendContext} from "../services/NiFrontendContext";
 import {useDocumentTitle} from "../services/useDocumentTitle";
 import {serviceName} from "../config";
+import {SuccessNotificationContext} from "../services/SuccessNotificationContext";
+import SecondaryButton from "./helpers/gov-design-system/SecondaryButton";
 
 const pageTitle = serviceName
 
 export default function Home() {
   const { error, loading } = useContext(NiFrontendContext)
+  const { successNotificationsOn, setSuccessNotificationsOn } = useContext(SuccessNotificationContext)
   useDocumentTitle(pageTitle)
   return (
     <>
@@ -55,6 +58,12 @@ export default function Home() {
                         <li><Link to="/late-refunds" className="govuk-link">Interest on late-paid refunds from 1993 to 1994</Link></li>
                       </ul>
                     </nav>
+
+                    <h2 className="govuk-heading-m">Control success notifications</h2>
+                    <SecondaryButton
+                      label={`Turn success notifications ${successNotificationsOn ? 'off' : 'on'}`}
+                      onClick={() => setSuccessNotificationsOn(!successNotificationsOn)}
+                    />
                   </div>
 
                   <div className="govuk-grid-column-one-third">
