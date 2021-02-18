@@ -60,6 +60,9 @@ export default function Home() {
                     </nav>
 
                     <h2 className="govuk-heading-m">Control success notifications</h2>
+                    <p className="govuk-body">
+                      Success notifications are currently <strong>{successNotificationsOn ? 'on' : 'off'}</strong>
+                    </p>
                     <SecondaryButton
                       label={`Turn success notifications ${successNotificationsOn ? 'off' : 'on'}`}
                       onClick={() => setSuccessNotificationsOn(!successNotificationsOn)}
