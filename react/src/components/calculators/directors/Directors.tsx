@@ -12,6 +12,7 @@ import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
 import {DirectorsContext, DirectorsUIRow, DirectorsRowInterface, useDirectorsForm} from "./DirectorsContext";
+import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
 
 // services
 import {hasKeys} from "../../../services/utils";
@@ -47,6 +48,7 @@ const DirectorsPage = () => {
     askApp,
     dateRange
   } = useContext(DirectorsContext)
+  const { successNotificationsOn } = useContext(SuccessNotificationContext)
   const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
   useDocumentTitle(titleWithPrefix)
 
@@ -133,10 +135,16 @@ const DirectorsPage = () => {
     }
   }, [result, resultRef])
 
+  useEffect(() => {
+    if(successNotificationsOn && result) {
+      resultRef.current.focus()
+    }
+  }, [result, resultRef, successNotificationsOn])
+
   return (
     <div>
       <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
-        {result && <SuccessNotification table={true} totals={true} />}
+        {successNotificationsOn && result && <SuccessNotification table={true} totals={true} />}
       </div>
       {showSummary ?
         <DirectorsPrintView
