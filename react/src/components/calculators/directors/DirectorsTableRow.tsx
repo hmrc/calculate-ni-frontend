@@ -1,5 +1,6 @@
 import React, {Dispatch, useContext} from 'react'
 import numeral from 'numeral'
+import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // components
 import TextInput from '../../helpers/formhelpers/TextInput'
@@ -7,6 +8,7 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 // types
 import {DirectorsContext, DirectorsUIRow} from './DirectorsContext'
 import {NiFrontendContext} from '../../../services/NiFrontendContext'
+import MqTableCell from '../shared/MqTableCell'
 
 interface TableRowProps {
   row: DirectorsUIRow
@@ -56,7 +58,7 @@ function DirectorsTableRow(props: TableRowProps) {
       className={activeRowId === row.id ? "active" : ""}
       onClick={() => setActiveRowId(row.id)}
     >
-      <td className="input">
+      <MqTableCell cellStyle={thStyles.selectNICategoryLetter} cellClassName="input">
         {printView ?
           <div>{row.category}</div>
           :
@@ -71,11 +73,13 @@ function DirectorsTableRow(props: TableRowProps) {
             </select>
           </>
         }
-      </td>
+      </MqTableCell>
 
       {/* Gross Pay */}
-      <td className={
-        `input ${errors?.[`${row.id}-gross`] ? "error-cell" : ""}`}>
+      <MqTableCell
+        cellClassName={`input ${errors?.[`${row.id}-gross`] ? "error-cell" : ""}`}
+        cellStyle={thStyles.enterGrossPay}
+      >
         {printView ?
           <div>{row.gross}</div>
           :
@@ -89,27 +93,33 @@ function DirectorsTableRow(props: TableRowProps) {
             onChangeCallback={(e) => handleGrossChange?.(row, e)}
           />
         }
-      </td>
+      </MqTableCell>
+
 
       {/* Bands */}
       {showBands && row.bands && row.bands.map(k =>
-        <td key={`${k.name}-val`}>{numeral(k.amountInBand).format('$0,0.00')}</td>
+        <MqTableCell
+          key={`${k.name}-val`}
+          cellStyle={thStyles.dynamicCellContentAttr(k.name)}
+        >
+          {numeral(k.amountInBand).format('$0,0.00')}
+        </MqTableCell>
       )}
 
       {/* Total */}
       {showBands && row.bands &&
       // Total (if calculate has run)
-      <td>
+      <MqTableCell cellStyle={thStyles.total}>
         {numeral(
           (row.ee + row.er).toString()
         ).format('$0,0.00')}
-      </td>
+      </MqTableCell>
       }
 
       {/* EE */}
-      <td className="result-cell">{numeral(row.ee).format('$0,0.00')}</td>
+      <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employee}>{numeral(row.ee).format('$0,0.00')}</MqTableCell>
       {/* ER */}
-      <td className="result-cell">{numeral(row.er).format('$0,0.00')}</td>
+      <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employer}>{numeral(row.er).format('$0,0.00')}</MqTableCell>
       {!printView && result && row.explain && row.explain.length > 0 &&
       <td>
         <a href={`#${row.id}-explain`} onClick={(e) => {

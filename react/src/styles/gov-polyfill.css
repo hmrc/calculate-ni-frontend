@@ -645,7 +645,7 @@ input:focus, textarea:focus, select:focus, .button:focus {
   -webkit-box-shadow: inset 0 0 0 1px #fd0;
   box-shadow: inset 0 0 0 1px #fd0;
 }
-@media (min-width: 641px) {
+@media (min-width: 760px) {
   .govuk-button, .govuk-button--secondary {
     width: auto;
   }

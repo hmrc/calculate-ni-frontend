@@ -1,11 +1,16 @@
 import React, {useContext} from 'react'
+import * as thStyles from '../../../services/mobileHeadingStyles'
+
 import {extractFromDateString, extractToDateString, taxYearFromString, taxYearString} from '../../../config'
 
 // types
 import {LateRefundsTableRowProps, TaxYear} from '../../../interfaces'
-import SelectTaxYear from '../../helpers/formhelpers/SelectTaxYear'
 import {LateRefundsContext} from './LateRefundsContext'
+
+// components
+import SelectTaxYear from '../../helpers/formhelpers/SelectTaxYear'
 import TextInput from '../../helpers/formhelpers/TextInput'
+import MqTableCell from '../shared/MqTableCell'
 
 function LateRefundsTableRow(props: {
   row: LateRefundsTableRowProps,
@@ -55,10 +60,11 @@ function LateRefundsTableRow(props: {
       id={row.id}
       onClick={() => setActiveRowId(row.id)}
     >
-      <td>{index + 1}</td>
-      <td className="input">
+      <MqTableCell cellStyle={thStyles.rowNumber}>{index + 1}</MqTableCell>
+
+      <MqTableCell cellClassName="input" cellStyle={thStyles.from}>
         {printView ?
-          <div>{taxYearString(row.taxYear, true)}</div>
+          <div>{row.taxYear && taxYearString(row.taxYear, true)}</div>
           :
           <SelectTaxYear
             borderless={true}
@@ -69,9 +75,13 @@ function LateRefundsTableRow(props: {
             onlyStartYear={true}
           />
         }
-      </td>
-      <td>{row.taxYear && taxYearFromString(row.taxYear)}</td>
-      <td className={`input${errors[`${row.id}-refund`] ? ` error-cell` : ``}`}>
+      </MqTableCell>
+
+      <MqTableCell cellStyle={thStyles.date}>
+        {row.taxYear && taxYearFromString(row.taxYear)}
+      </MqTableCell>
+
+      <MqTableCell cellClassName={`input${errors[`${row.id}-refund`] ? ` error-cell` : ``}`} cellStyle={thStyles.refund}>
         {printView ?
           <div>{row.refund}</div>
           :
@@ -85,8 +95,11 @@ function LateRefundsTableRow(props: {
             onChangeCallback={(e) => handleChange?.(row, e)}
           />
         }
-      </td>
-      <td>{row.payable}</td>
+      </MqTableCell>
+
+      <MqTableCell cellStyle={thStyles.payable}>
+        {row.payable}
+      </MqTableCell>
     </tr>
 
   )

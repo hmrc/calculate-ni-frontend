@@ -112,7 +112,7 @@ function LateRefundsPage() {
 
           <LateRefundsResults />
 
-          <div className="container section--top section-outer--top">
+          <div className="container section--top section-outer--top section--bottom">
             <SecondaryButton
               label="Save and print"
               onClick={handleShowSummary}
@@ -121,6 +121,14 @@ function LateRefundsPage() {
 
         </>
       }
+
+      {showSummary && (
+        <div className="govuk-!-padding-bottom-9 section--top">
+          <button className="button" onClick={() => window.print()}>
+            Save and print
+          </button>
+        </div>
+      )}
 
     </main>
   )

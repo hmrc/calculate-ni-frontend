@@ -1,10 +1,16 @@
-import {Class3Row, GovDateRange, TaxYear} from "../../../interfaces";
 import React, {useContext, useEffect, useState} from "react";
-import TextInput from "../../helpers/formhelpers/TextInput";
+import {dateRangeString} from '../../../config'
+import * as thStyles from '../../../services/mobileHeadingStyles'
+
+// types
 import {Class3Context} from "./Class3Context";
+import {Class3Row, GovDateRange, TaxYear} from "../../../interfaces";
+
+// components
 import FullOrPartialTaxYear from "../../helpers/formhelpers/FullOrPartialTaxYear";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
-import {dateRangeString} from '../../../config'
+import TextInput from "../../helpers/formhelpers/TextInput";
+import MqTableCell from '../shared/MqTableCell'
 
 const Class3TableRow = (props: {
   index: number,
@@ -81,9 +87,10 @@ const Class3TableRow = (props: {
       id={row.id}
       onClick={() => setActiveRowId(row.id)}
     >
-      <td className="row-number">
+      <MqTableCell cellStyle={thStyles.rowNumber} cellClassName="row-number">
         {index + 1}
-      </td>
+      </MqTableCell>
+
       {!printView &&
         <td className={"mode"}>
           <SecondaryButton
@@ -92,8 +99,11 @@ const Class3TableRow = (props: {
           />
         </td>
       }
-      <td className={
-          `input date-toggles ${errors?.[`${row.id}FromDay`] ? "error-cell" : ""}`}>
+
+      <MqTableCell
+        cellStyle={thStyles.fromTo}
+        cellClassName={`input date-toggles ${showDates ? "date-inputs" : ""}${errors?.[`${row.id}FromDay`] ? "error-cell" : ""}`}
+      >
         {printView ?
           <div>{dateRangeString(dateRange)}</div>
           :
@@ -110,9 +120,12 @@ const Class3TableRow = (props: {
             showDates={showDates}
           />
         }
+      </MqTableCell>
 
-      </td>
-      <td className={`input${errors[`${row.id}-earningsFactor`] ? ` error-cell` : ``}`}>
+      <MqTableCell
+        cellStyle={thStyles.earningsFactor}
+        cellClassName={`input${errors[`${row.id}-earningsFactor`] ? ` error-cell` : ``}`}
+      >
         {printView ?
           <div>{row.earningsFactor}</div>
           :
@@ -125,10 +138,11 @@ const Class3TableRow = (props: {
             onChangeCallback={(e) => handleChange(row, e)}
           />
         }
-      </td>
-      <td>{row.maxWeeks}</td>
-      <td>{row.actualWeeks}</td>
-      <td>{row.deficiency}</td>
+      </MqTableCell>
+
+      <MqTableCell cellStyle={thStyles.maxWeeks}>{row.maxWeeks}</MqTableCell>
+      <MqTableCell cellStyle={thStyles.actualWeeks}>{row.actualWeeks}</MqTableCell>
+      <MqTableCell cellStyle={thStyles.deficient}>{row.deficiency}</MqTableCell>
     </tr>
   )
 }

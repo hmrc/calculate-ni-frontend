@@ -112,22 +112,22 @@ fieldset legend {
   box-shadow: inset 0 0 0 2px;
 }
 
-.govuk-label {
-  font-family: "GDS Transport",arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  color: #0b0c0c;
-  display: block;
-  margin-bottom: 5px;
-}
+/*.govuk-label {*/
+/*  font-family: "GDS Transport",arial,sans-serif;*/
+/*  -webkit-font-smoothing: antialiased;*/
+/*  -moz-osx-font-smoothing: grayscale;*/
+/*  font-weight: 400;*/
+/*  font-size: 16px;*/
+/*  color: #0b0c0c;*/
+/*  display: block;*/
+/*  margin-bottom: 5px;*/
+/*}*/
 
-@media (min-width: 760px) {
-  .govuk-label {
-    font-size: 19px;
-  }
-}
+/*@media (min-width: 760px) {*/
+/*  .govuk-label {*/
+/*    font-size: 19px;*/
+/*  }*/
+/*}*/
 
 /* Select wrapping element */
 .select {

@@ -1,4 +1,5 @@
 import React, {useContext} from 'react'
+import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // components
 import TextInput from '../../helpers/formhelpers/TextInput'
@@ -6,6 +7,7 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 import {UnofficialDefermentContext, UnofficialDefermentRow} from "./UnofficialDefermentContext";
+import MqTableCell from '../shared/MqTableCell'
 
 numeral.locale('en-gb');
 
@@ -69,7 +71,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
           className={activeRowId === r.id ? "active" : ""}
           onClick={() => setActiveRowId(r.id)}
         >
-          <td className="input">
+          <MqTableCell cellClassName="input" cellStyle={thStyles.nameEmployer}>
             {printView ?
               <div>{r.nameOfEmployer}</div>
               :
@@ -83,9 +85,11 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
                 onChangeCallback={(e) => handleChange?.(r, e)}
               />
             }
-          </td>
-          <td><div>{numeral(r.grossPay).format('$0,0.00')}</div></td>
-          <td className="input">
+          </MqTableCell>
+
+          <MqTableCell cellStyle={thStyles.grossPay}><div>{numeral(r.grossPay).format('$0,0.00')}</div></MqTableCell>
+
+          <MqTableCell cellClassName="input" cellStyle={thStyles.niCat}>
             {printView ?
               <div>{r.category}</div>
               :
@@ -100,8 +104,9 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
                 </select>
               </>
             }
-          </td>
-          <td className="input">
+          </MqTableCell>
+
+          <MqTableCell cellClassName="input" cellStyle={thStyles.lel}>
             {printView ?
               <div>{numeral(r.earnings1a).format('$0,0.00')}</div>
               :
@@ -115,37 +120,40 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
                 onChangeCallback={(e) => handleChange?.(r, e)}
               />
             }
-          </td>
-          <td className="input">
+          </MqTableCell>
+
+          <MqTableCell cellClassName="input" cellStyle={thStyles.lelPt}>
             {printView ?
               <div>{numeral(r.earnings1b).format('$0,0.00')}</div>
               :
               <TextInput
                 hiddenLabel={true}
                 name={`${r.id}-earnings1b`}
-                labelText="LEL"
+                labelText="LEL - PT"
                 inputClassName="gross-pay"
                 inputValue={r.earnings1b}
                 placeholderText=""
                 onChangeCallback={(e) => handleChange?.(r, e)}
               />
             }
-          </td>
-          <td className="input">
+          </MqTableCell>
+
+          <MqTableCell cellClassName="input" cellStyle={thStyles.ptUel}>
             {printView ?
               <div>{numeral(r.earnings1c).format('$0,0.00')}</div>
               :
               <TextInput
                 hiddenLabel={true}
                 name={`${r.id}-earnings1c`}
-                labelText="LEL"
+                labelText="PT - UEL"
                 inputClassName="gross-pay"
                 inputValue={r.earnings1c}
                 placeholderText=""
                 onChangeCallback={(e) => handleChange?.(r, e)}
               />
             }
-          </td>
+          </MqTableCell>
+
           {earningsFields['d'] &&
           <td className="input">
             {printView ?
@@ -181,25 +189,25 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
           </td>
           }
           {earningsFields['f'] &&
-          <td className="input">
+          <MqTableCell cellClassName="input" cellStyle={thStyles.employeeNics}>
             {printView ?
               <div>{numeral(r.earnings1f).format('$0,0.00')}</div>
               :
               <TextInput
                 hiddenLabel={true}
                 name={`${r.id}-earnings1f`}
-                labelText="LEL"
+                labelText="Employee NICS"
                 inputClassName=""
                 inputValue={r.earnings1f ? r.earnings1f : '0'}
                 placeholderText=""
                 onChangeCallback={(e) => handleChange?.(r, e)}
               />
             }
-          </td>
+          </MqTableCell>
           }
-          <td>{numeral(r.overUEL).format('$0,0.00')}</td>
-          <td>{numeral(r.NICsDueNonCO).format('$0,0.00')}</td>
-          <td>{numeral(r.IfNotUD).format('$0,0.00')}</td>
+          <MqTableCell cellStyle={thStyles.overUel}>{numeral(r.overUEL).format('$0,0.00')}</MqTableCell>
+          <MqTableCell cellStyle={thStyles.nicsNonCo}>{numeral(r.NICsDueNonCO).format('$0,0.00')}</MqTableCell>
+          <MqTableCell cellStyle={thStyles.ifNotUd}>{numeral(r.IfNotUD).format('$0,0.00')}</MqTableCell>
         </tr>
       ))}
       </tbody>

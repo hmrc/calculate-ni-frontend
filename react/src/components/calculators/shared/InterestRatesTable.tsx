@@ -1,7 +1,9 @@
 import React from 'react'
+import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // types
 import {Rate} from '../../../interfaces'
+import MqTableCell from './MqTableCell'
 
 interface InterestRatesTableProps {
   rates: Rate[] | null
@@ -12,7 +14,7 @@ function LateInterestRatesTable(props: InterestRatesTableProps) {
   return (
     <div className="full">
       <h2 className="section-heading">Interest rates</h2>
-      <table className="section-outer--top">
+      <table className="section-outer--top interest-rates">
         <thead>
         <tr>
           <th><strong>From</strong></th>
@@ -22,8 +24,8 @@ function LateInterestRatesTable(props: InterestRatesTableProps) {
         <tbody>
         {rates && rates.map((r: Rate, index: number) => (
           <tr key={index}>
-            <td>{r.year}</td>
-            <td>{r.rate}%</td>
+            <MqTableCell cellStyle={thStyles.from}>{r.year}</MqTableCell>
+            <MqTableCell cellStyle={thStyles.rate}>{r.rate}</MqTableCell>
           </tr>
         ))}
         </tbody>

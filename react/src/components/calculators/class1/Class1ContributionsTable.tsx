@@ -12,6 +12,8 @@ import SortToggle from "../../../assets/select-dropdown-arrows.svg"
 
 numeral.locale('en-gb');
 
+
+
 function ClassOneEarningsTable(props: TableProps) {
   const { showBands, printView } = props
   const [showExplanation, setShowExplanation] = useState<string>('')
