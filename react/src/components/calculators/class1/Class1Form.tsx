@@ -69,59 +69,61 @@ function Class1Form(props: Class1FormProps) {
   }
 
   return (
-    <div className="form-group table-wrapper">
-      <div className="container">
-        <div className="form-group half">
-          <SelectTaxYear
-            taxYears={taxYears}
-            taxYear={taxYear}
-            handleTaxYearChange={handleTaxYearChange}
-          />
-        </div>
-      </div>
-
-      <NiPaidInputs context={ClassOneContext} />
-
-      <ClassOneEarningsTable
-        showBands={false}
-        printView={false}
-      />
-      
-      <div className="container">
+    <>
+      <div className="form-group table-wrapper">
         <div className="container">
-          <div className="form-group">
-            <button className="govuk-button nomar" type="submit">
-              Calculate
-            </button>
+          <div className="form-group half">
+            <SelectTaxYear
+              taxYears={taxYears}
+              taxYear={taxYear}
+              handleTaxYearChange={handleTaxYearChange}
+            />
           </div>
         </div>
+
+        <NiPaidInputs context={ClassOneContext} />
+
+        <ClassOneEarningsTable
+          showBands={false}
+          printView={false}
+        />
 
         <div className="container">
-          <div className="form-group repeat-button">
-            <SecondaryButton
-              label="Delete active row"
-              onClick={handleDeleteRow}
-              disabled={!activeRowId || rows.length === 1}
-            />
+          <div className="container">
           </div>
 
-          <div className="form-group repeat-button">
-            <SecondaryButton
-              label="Repeat row"
-              onClick={handleClick}
-            />
-          </div>
+          <div className="container">
+            <div className="form-group repeat-button">
+              <SecondaryButton
+                label="Delete active row"
+                onClick={handleDeleteRow}
+                disabled={!activeRowId || rows.length === 1}
+              />
+            </div>
 
-          <div className="form-group">
-            <SecondaryButton
-              label="Clear table"
-              onClick={handleClear}
-            />
+            <div className="form-group repeat-button">
+              <SecondaryButton
+                label="Repeat row"
+                onClick={handleClick}
+              />
+            </div>
+
+            <div className="form-group">
+              <SecondaryButton
+                label="Clear table"
+                onClick={handleClear}
+              />
+            </div>
           </div>
         </div>
+        <div className="form-group">
+          <button className="govuk-button nomar" type="submit">
+            Calculate
+          </button>
+        </div>
       </div>
+    </>
 
-    </div>
   )
 }
 
