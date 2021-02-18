@@ -94,9 +94,25 @@ table.contribution-details {
 table.contribution-details th.date-toggles {
   width: 308px;
 }
-table.contribution-details th.earnings-factor,
-table.contribution-details th.notes {
+table.contributions-details,
+table.contribution-details th.earnings-factor {
   width: 110px;
+}
+
+table.contribution-details th.category-col {
+  width: 240px;
+}
+
+.save-print-wrapper table.contribution-details th.category-col {
+  width: 125px;
+}
+
+table.contribution-details th.gross-pay {
+  width: 130px;
+}
+
+table.contribution-details th.notes {
+  width: 85px;
 }
 table.contribution-details th.date-from {
   width: 160px;
@@ -232,6 +248,11 @@ table.contribution-details td:has(input:focus) {
 
 .table-wrapper thead tr.clear th.lg {
   font-size: 21px;
+}
+
+table caption {
+  font-size: 21px;
+  text-align: left;
 }
 
 .table-wrapper tbody td {

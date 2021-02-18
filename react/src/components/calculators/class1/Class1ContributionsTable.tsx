@@ -40,25 +40,22 @@ function ClassOneEarningsTable(props: TableProps) {
 
   return (
     <table className="contribution-details" id="results-table" tabIndex={-1}>
-      <colgroup span={3} />
-      {displayBands &&
-        <colgroup span={rows[0].bands?.length} />
-      }
+      <caption>Contribution payment details</caption>
+      <colgroup span={4} />
+      <colgroup span={displayBands && rows[0].bands ? rows[0].bands?.length + 1 : 1} />
       <colgroup span={!printView && result ? 3 : 2} />
       <col />
       <thead>
         <tr className="clear">
-          <th scope="colgroup" className="lg" colSpan={3}><span>Contribution payment details</span></th>
-          {displayBands &&
-            <th scope="colgroup" className="border" colSpan={rows[0].bands?.length}><span>Earnings</span></th>
-          }
+          <td scope="col" colSpan={4} />
+          <th scope="colgroup" className="border" colSpan={displayBands && rows[0].bands ? rows[0].bands?.length + 1 : 1}><span>Earnings</span></th>
           <th scope="colgroup" className="border" colSpan={displayBands ? 3 : 2}><span>Net contributions</span></th>
         </tr>
         <tr>
           <th scope="col">
             #<span className="govuk-visually-hidden"> Row number</span>
           </th>
-          <th scope="col" className="column-toggle" aria-sort={periodSortDirection} onClick={handleSortPeriod}>
+          <th scope="col" className="column-toggle select-period" aria-sort={periodSortDirection} onClick={handleSortPeriod}>
             <strong>
               {printView ? 'Period': 'Select period'}
               {!printView &&
@@ -69,8 +66,8 @@ function ClassOneEarningsTable(props: TableProps) {
             </strong>
           </th>
           <th scope="col" className="notes"><strong>Period No.</strong></th>
-          <th scope="col"><strong>{printView ? '' : 'Select '}NI category letter</strong></th>
-          <th scope="col"><strong>{printView ? 'Gross pay' : 'Enter gross pay'}</strong></th>
+          <th scope="col" className="category-col"><strong>{printView ? '' : 'Select '}NI category letter</strong></th>
+          <th scope="col" className="gross-pay"><strong>{printView ? 'Gross pay' : 'Enter gross pay'}</strong></th>
           {/* Bands - by tax year, so we can just take the first band to map the rows */}
           {showBands && rows[0].bands && rows[0].bands.map(k =>
             <th scope="col" key={k.name}>{k.name}</th>

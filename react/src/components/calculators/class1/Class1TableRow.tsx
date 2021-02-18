@@ -143,7 +143,6 @@ export default function Class1TableRow(props: TableRowProps) {
               labelText="Gross pay"
               inputClassName="gross-pay"
               inputValue={row.gross}
-              placeholderText="Enter the gross pay amount"
               onChangeCallback={(e) => handleChange?.(row, e)}
             />
           </React.Fragment>

@@ -15,6 +15,7 @@ $hmrc-assets-path: "/lib/hmrc-frontend/hmrc/";
 #root .column-toggle {
   cursor: pointer;
   white-space: nowrap;
+  width: 110px;
   img {
     display: inline-block;
     margin-left: 1.2ex;
