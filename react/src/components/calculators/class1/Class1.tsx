@@ -15,6 +15,7 @@ import {ClassOneContext, useClassOneForm, ClassOneRowInterface, Row} from "./Cla
 import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
 import {SuccessNotification} from "../shared/SuccessNotification";
+import {SuccessNotificationContext} from "../../../services/SuccessNotificationContext";
 
 const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 
@@ -39,6 +40,7 @@ const Class1Page = () => {
     setResult,
     setActiveRowId
   } = useContext(ClassOneContext)
+  const { successNotificationsOn } = useContext(SuccessNotificationContext)
   const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
   useDocumentTitle(titleWithPrefix)
 
@@ -103,15 +105,15 @@ const Class1Page = () => {
   }
 
   useEffect(() => {
-    if(result) {
+    if(successNotificationsOn && result) {
       resultRef.current.focus()
     }
-  }, [result, resultRef])
+  }, [result, resultRef, successNotificationsOn])
 
   return (
     <div>
       <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
-        {result && <SuccessNotification table={true} totals={true} />}
+        {successNotificationsOn && result && <SuccessNotification table={true} totals={true} />}
       </div>
       {showSummary ?
         <Class1Print
