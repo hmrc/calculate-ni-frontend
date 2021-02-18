@@ -166,7 +166,7 @@ function LateInterestPage() {
           </button>
         </div>
       )}
-    </main>
+    </div>
   )
 }
 
