@@ -83,7 +83,7 @@ export default function Class1TableRow(props: TableRowProps) {
         {index + 1}
       </MqTableCell>
 
-      <MqTableCell cellStyle={thStyles.selectPeriod}>
+      <MqTableCell cellStyle={thStyles.selectPeriod} cellClassName="input">
         {printView ?
           <div>{periodValueToLabel(row.period)}</div>
           :
