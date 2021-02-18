@@ -1,19 +1,15 @@
-/** @jsx jsx */
 import React, {useContext} from 'react';
-import { css, jsx } from '@emotion/react'
+import * as thStyles from '../../../services/mobileHeadingStyles'
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
 // types
 import {TotalsProps} from '../../../interfaces'
 
-numeral.locale('en-gb');
+// components
+import MqTableCell from './MqTableCell'
 
-const mq = [`@media (max-width: ${759}px)`]
-const grossPayCellStyle = css({[mq[0]]: {':before': { content: `"Gross pay"` }}})
-const netContsCellStyle = css({[mq[0]]: {':before': { content: `"Net contributions"` }}})
-const employeeContsCellStyle = css({[mq[0]]: {':before': { content: `"Employee contributions"` }}})
-const employerContsCellStyle = css({[mq[0]]: {':before': { content: `"Employer contributions"` }}})
+numeral.locale('en-gb');
 
 function Totals (props: TotalsProps) {
   const { isSaveAndPrint, result, context } = props;
@@ -25,7 +21,7 @@ function Totals (props: TotalsProps) {
   const readOnlyClass: string = isSaveAndPrint ? '' : 'readonly'
 
   return (
-    <React.Fragment>
+    <>
       <div className={`${isSaveAndPrint ? `save-print-wrapper ` : ``}subsection totals`}>
         <h2 className="section-heading">Totals</h2>
         <div className="spaced-table-wrapper">
@@ -41,53 +37,53 @@ function Totals (props: TotalsProps) {
             <tbody>
             <tr>
               {props.isSaveAndPrint ?
-                <td css={grossPayCellStyle}>{numeral(result?.totals.gross).format('$0,0.00')}</td>
+                <MqTableCell cellStyle={thStyles.grossPay}>{numeral(result?.totals.gross).format('$0,0.00')}</MqTableCell>
                 :
                 <th className="right">Total NI due</th>
               }
-              <td className={readOnlyClass} css={netContsCellStyle}><span>{numeral(result?.totals.net).format('$0,0.00')}</span></td>
-              <td className={readOnlyClass} css={employeeContsCellStyle}><span>{numeral(result?.totals.employee).format('$0,0.00')}</span></td>
-              <td className={readOnlyClass} css={employerContsCellStyle}><span>{numeral(result?.totals.employer).format('$0,0.00')}</span></td>
+              <MqTableCell cellClassName={readOnlyClass} cellStyle={thStyles.netConts}><span>{numeral(result?.totals.net).format('$0,0.00')}</span></MqTableCell>
+              <MqTableCell cellClassName={readOnlyClass} cellStyle={thStyles.employeeConts}><span>{numeral(result?.totals.employee).format('$0,0.00')}</span></MqTableCell>
+              <MqTableCell cellClassName={readOnlyClass} cellStyle={thStyles.employerConts}><span>{numeral(result?.totals.employer).format('$0,0.00')}</span></MqTableCell>
             </tr>
             <tr>
               <th className="right">NI paid</th>
               {props.isSaveAndPrint ?
-                <td css={netContsCellStyle}>
+                <MqTableCell cellStyle={thStyles.netConts}>
                   {numeral(niPaidNet).format('$0,0.00')}
-                </td>
+                </MqTableCell>
                 :
-                <td className={readOnlyClass} css={netContsCellStyle}>
+                <MqTableCell cellClassName={readOnlyClass} cellStyle={thStyles.netConts}>
                   <span>{numeral(niPaidNet).format('$0,0.00')}</span>
-                </td>
+                </MqTableCell>
               }
               {isSaveAndPrint ?
-                <td css={employeeContsCellStyle}>
+                <MqTableCell cellStyle={thStyles.employeeConts}>
                   {numeral(niPaidEmployee).format('$0,0.00')}
-                </td>
+                </MqTableCell>
                 :
-                <td className={readOnlyClass} css={employeeContsCellStyle}>
+                <MqTableCell cellClassName={readOnlyClass} cellStyle={thStyles.employeeConts}>
                   <span>{numeral(niPaidEmployee).format('$0,0.00')}</span>
-                </td>
+                </MqTableCell>
               }
-              <td className={readOnlyClass} css={employerContsCellStyle}><span>{numeral(result?.employerContributions).format('$0,0.00')}</span></td>
+              <MqTableCell cellClassName={readOnlyClass} cellStyle={thStyles.employerConts}><span>{numeral(result?.employerContributions).format('$0,0.00')}</span></MqTableCell>
             </tr>
             <tr>
               <th className="right">Underpayment</th>
-              <td className={readOnlyClass} css={netContsCellStyle}><span>{numeral(result?.underpayment?.total).format('$0,0.00')}</span></td>
-              <td className={readOnlyClass} css={employeeContsCellStyle}><span>{numeral(result?.underpayment?.employee).format('$0,0.00')}</span></td>
-              <td className={readOnlyClass} css={employerContsCellStyle}><span>{numeral(result?.underpayment?.employer).format('$0,0.00')}</span></td>
+              <MqTableCell cellClassName={readOnlyClass} cellStyle={thStyles.netConts}><span>{numeral(result?.underpayment?.total).format('$0,0.00')}</span></MqTableCell>
+              <MqTableCell cellClassName={readOnlyClass} cellStyle={thStyles.employeeConts}><span>{numeral(result?.underpayment?.employee).format('$0,0.00')}</span></MqTableCell>
+              <MqTableCell cellClassName={readOnlyClass} cellStyle={thStyles.employerConts}><span>{numeral(result?.underpayment?.employer).format('$0,0.00')}</span></MqTableCell>
             </tr>
             <tr>
               <th className="right">Overpayment</th>
-              <td className={readOnlyClass} css={netContsCellStyle}><span>{numeral(result?.overpayment?.total).format('$0,0.00')}</span></td>
-              <td className={readOnlyClass} css={employeeContsCellStyle}><span>{numeral(result?.overpayment?.employee).format('$0,0.00')}</span></td>
-              <td className={readOnlyClass} css={employerContsCellStyle}><span>{numeral(result?.overpayment?.employer).format('$0,0.00')}</span></td>
+              <MqTableCell cellClassName={readOnlyClass} cellStyle={thStyles.netConts}><span>{numeral(result?.overpayment?.total).format('$0,0.00')}</span></MqTableCell>
+              <MqTableCell cellClassName={readOnlyClass} cellStyle={thStyles.employeeConts}><span>{numeral(result?.overpayment?.employee).format('$0,0.00')}</span></MqTableCell>
+              <MqTableCell cellClassName={readOnlyClass} cellStyle={thStyles.employerConts}><span>{numeral(result?.overpayment?.employer).format('$0,0.00')}</span></MqTableCell>
             </tr>
             </tbody>
           </table>
         </div>
       </div>
-    </React.Fragment>
+    </>
   )
 }
 

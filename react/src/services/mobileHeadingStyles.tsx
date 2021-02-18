@@ -35,3 +35,7 @@ export const employeeNics = css({[mq[0]]: {':before': { content: `"Employee NICS
 export const overUel = css({[mq[0]]: {':before': { content: `"Over UEL"` }}})
 export const nicsNonCo = css({[mq[0]]: {':before': { content: `"NICS non-CO"` }}})
 export const ifNotUd = css({[mq[0]]: {':before': { content: `"If not U/D"` }}})
+export const netConts = css({[mq[0]]: {':before': { content: `"Net contributions"` }}})
+export const employeeConts = css({[mq[0]]: {':before': { content: `"Employee contributions"` }}})
+export const employerConts = css({[mq[0]]: {':before': { content: `"Employer contributions"` }}})
+export const category = css({[mq[0]]: {':before': { content: `"Category"` }}})

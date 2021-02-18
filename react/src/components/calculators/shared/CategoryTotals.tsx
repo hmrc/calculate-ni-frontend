@@ -1,9 +1,9 @@
-/** @jsx jsx */
 import React from 'react'
-import { css, jsx } from '@emotion/react'
+import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // components
 import {TotalsInCategories} from '../../../interfaces'
+import MqTableCell from './MqTableCell'
 
 // services
 import {getTotalsInBand, uniqueCategories} from "../../../services/utils";
@@ -14,13 +14,6 @@ import {Class1Result, Row} from "../class1/ClassOneContext";
 import {DirectorsUIRow} from "../directors/DirectorsContext";
 
 numeral.locale('en-gb');
-
-const mq = [`@media (max-width: ${759}px)`]
-const categoryCellStyle = css({[mq[0]]: {':before': { content: `"Category"` }}})
-const grossPayCellStyle = css({[mq[0]]: {':before': { content: `"Gross pay"` }}})
-const totalCellStyle = css({[mq[0]]: {':before': { content: `"Total"` }}})
-const employeeCellStyle = css({[mq[0]]: {':before': { content: `"Employee"` }}})
-const employerCellStyle = css({[mq[0]]: {':before': { content: `"Employer"` }}})
 
 function CategoryTotals(props: {
   rows: Array<Row | DirectorsUIRow>,
@@ -64,58 +57,58 @@ function CategoryTotals(props: {
         <tbody>
           {categoriesList.map(c => (
             <tr key={`${c}-cat-list`}>
-              <td css={categoryCellStyle}>{c}</td>
-              <td css={grossPayCellStyle}>
+              <MqTableCell cellStyle={thStyles.category}>{c}</MqTableCell>
+              <MqTableCell cellStyle={thStyles.grossPay}>
                 {/* Gross total for Category */}
                 {formatCurrencyAmount(categoryTotals[c]?.gross)}
-              </td>
+              </MqTableCell>
               {categoryTotals[c]?.bands && categoryTotals[c]?.bands.map(k =>
-                <td key={`${k.name}-cat-val`} css={css({[mq[0]]: {':before': { content: `"${k.name}"` }}})}>
+                <MqTableCell key={`${k.name}-cat-val`} cellStyle={thStyles.dynamicCellContentAttr(k.name)}>
                   {numeral(k.amountInBand).format('$0,0.00')}
-                </td>
+                </MqTableCell>
               )}
 
               {/* Total contributions for category */}
-              <td css={totalCellStyle}>
+              <MqTableCell cellStyle={thStyles.total}>
                 {formatCurrencyAmount(categoryTotals[c]?.contributionsTotal)}
-              </td>
+              </MqTableCell>
 
               {/* EE contributions for category */}
-              <td css={employeeCellStyle}>
+              <MqTableCell cellStyle={thStyles.employee}>
                 {formatCurrencyAmount(categoryTotals[c]?.ee)}
-              </td>
+              </MqTableCell>
               
               {/* ER contributions for category */}
-              <td css={employerCellStyle}>
+              <MqTableCell cellStyle={thStyles.employer}>
                 {formatCurrencyAmount(categoryTotals[c]?.er)}
-              </td>
+              </MqTableCell>
             </tr>
           ))}
           <tr className="total-row">
             <th className="totals-row-header"><strong>Totals</strong></th>
-            <td css={grossPayCellStyle}>
+            <MqTableCell cellStyle={thStyles.grossPay}>
               <strong>{formatCurrencyAmount(result?.totals.gross)}</strong>
-            </td>
+            </MqTableCell>
 
             {rows[0].bands && rows[0].bands.map(k =>
-              <td key={`${k.name}-band-total`} css={css({[mq[0]]: {':before': { content: `"${k.name}"` }}})}>
+              <MqTableCell key={`${k.name}-band-total`} cellStyle={thStyles.dynamicCellContentAttr(k.name)}>
                 <strong>{formatCurrencyAmount(getTotalsInBand(k.name, rows))}</strong>
-              </td>
+              </MqTableCell>
             )}
 
-            <td css={totalCellStyle}>
+            <MqTableCell cellStyle={thStyles.total}>
               <strong>{formatCurrencyAmount(result?.totals.net)}</strong>
-            </td>
+            </MqTableCell>
 
             {/* EE total contributions */}
-            <td css={employeeCellStyle}>
+            <MqTableCell cellStyle={thStyles.employee}>
               <strong>{formatCurrencyAmount(result?.totals.employee)}</strong>
-            </td>
+            </MqTableCell>
             
             {/* ER total contributions */}
-            <td css={employerCellStyle}>
+            <MqTableCell cellStyle={thStyles.employer}>
               <strong>{formatCurrencyAmount(result?.totals.employer)}</strong>
-            </td>
+            </MqTableCell>
           </tr>
         </tbody>
       </table>
