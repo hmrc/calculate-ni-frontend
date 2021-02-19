@@ -43,9 +43,12 @@ function ClassOneEarningsTable(props: TableProps) {
   return (
     <table className="contribution-details" id="results-table" tabIndex={-1}>
       <caption>Contribution payment details</caption>
-      <colgroup span={4} />
-      <colgroup span={displayBands ? firstBands.length + 1 : 1} />
-      <colgroup span={printView && result ? 3 : 2} />
+      <colgroup>
+        <col span={4} />
+        <col span={displayBands ? firstBands.length + 1 : 1} />
+        <col span={printView && result ? 3 : 2} />
+        {!printView && result && <col />}
+      </colgroup>
       <thead>
         <tr className="clear">
           <td scope="colgroup" colSpan={4} />
@@ -85,9 +88,8 @@ function ClassOneEarningsTable(props: TableProps) {
       
       <tbody>
         {rows.map((r: Row, i: number) => (
-          <>
+          <React.Fragment key={`row-${i}`}>
             <Class1TableRow
-              key={`row-${i}`}
               row={r}
               index={i}
               showBands={showBands}
@@ -105,7 +107,7 @@ function ClassOneEarningsTable(props: TableProps) {
                 </td>
               </tr>
             }
-          </>
+          </React.Fragment>
 
         ))}
       </tbody>

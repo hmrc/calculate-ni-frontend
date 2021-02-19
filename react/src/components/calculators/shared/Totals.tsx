@@ -28,7 +28,7 @@ function Totals (props: TotalsProps) {
             <caption>Totals</caption>
             <thead>
             <tr>
-              {props.grossPayTally ? <th scope="col">Gross pay</th> : <td />}
+              {props.grossPayTally ? <th>Gross pay</th> : <td />}
               <th scope="col">Net contributions</th>
               <th scope="col">Employee contributions</th>
               <th scope="col" className="last-heading">Employer contributions</th>
@@ -39,7 +39,7 @@ function Totals (props: TotalsProps) {
                 {props.isSaveAndPrint ?
                   <MqTableCell cellStyle={thStyles.grossPay}>{numeral(result?.totals.gross).format('$0,0.00')}</MqTableCell>
                   :
-                  <th className="right">Total NI due</th>
+                  <th scope="row" className="right">Total NI due</th>
                 }
                 <MqTableCell cellClassName={readOnlyClass} cellStyle={thStyles.netConts}><span>{numeral(result?.totals.net).format('$0,0.00')}</span></MqTableCell>
                 <MqTableCell cellClassName={readOnlyClass} cellStyle={thStyles.employeeConts}><span>{numeral(result?.totals.employee).format('$0,0.00')}</span></MqTableCell>
