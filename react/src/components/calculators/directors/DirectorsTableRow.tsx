@@ -9,6 +9,7 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 import {DirectorsContext, DirectorsUIRow} from './DirectorsContext'
 import {NiFrontendContext} from '../../../services/NiFrontendContext'
 import MqTableCell from '../shared/MqTableCell'
+import ExplainToggle from "../shared/ExplainToggle";
 
 interface TableRowProps {
   row: DirectorsUIRow
@@ -122,20 +123,11 @@ function DirectorsTableRow(props: TableRowProps) {
       <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employer}>{numeral(row.er).format('$0,0.00')}</MqTableCell>
       {!printView && result && row.explain && row.explain.length > 0 &&
       <td>
-        <a href={`#${row.id}-explain`} onClick={(e) => {
-          e.preventDefault()
-          setShowExplanation(showExplanation === row.id ? '' : row.id)
-        }}>
-          <strong
-            className={`govuk-tag ${showExplanation === row.id ?
-              `govuk-tag--blue` : `govuk-tag--grey`}`}
-          >
-            <span aria-hidden="true">?</span>
-            <span className="govuk-visually-hidden">
-                 Explain the results in this row
-               </span>
-          </strong>
-        </a>
+        <ExplainToggle
+          id={row.id}
+          showExplanation={showExplanation}
+          setShowExplanation={setShowExplanation}
+        />
       </td>
       }
     </tr>

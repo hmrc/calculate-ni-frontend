@@ -87,7 +87,8 @@ $hmrc-assets-path: "/lib/hmrc-frontend/hmrc/";
 .value,
 #results-totals,
 #results-table,
-td.readonly > span {
+td.readonly > span,
+.explain-toggle {
   &:focus {
     outline-color: $govuk-focus-colour;
   }

@@ -9,6 +9,7 @@ import 'numeral/locales/en-gb';
 import Class1TableRow from "./Class1TableRow";
 
 import SortToggle from "../../../assets/select-dropdown-arrows.svg"
+import ExplainRow from "../shared/ExplainRow";
 
 numeral.locale('en-gb');
 
@@ -36,20 +37,22 @@ function ClassOneEarningsTable(props: TableProps) {
     setPeriodSortDirection('descending')
   }
 
-  const displayBands = showBands && rows[0].bands
+  const firstBands = rows[0].bands ? rows[0].bands : []
+  const displayBands = showBands && firstBands.length
 
   return (
     <table className="contribution-details" id="results-table" tabIndex={-1}>
       <caption>Contribution payment details</caption>
       <colgroup span={4} />
-      <colgroup span={displayBands && rows[0].bands ? rows[0].bands?.length + 1 : 1} />
-      <colgroup span={!printView && result ? 3 : 2} />
-      <col />
+      <colgroup span={displayBands ? firstBands.length + 1 : 1} />
+      <colgroup span={printView && result ? 3 : 2} />
+      {!printView && result && <col />}
       <thead>
         <tr className="clear">
-          <td scope="col" colSpan={4} />
-          <th scope="colgroup" className="border" colSpan={displayBands && rows[0].bands ? rows[0].bands?.length + 1 : 1}><span>Earnings</span></th>
-          <th scope="colgroup" className="border" colSpan={displayBands ? 3 : 2}><span>Net contributions</span></th>
+          <td scope="colgroup" colSpan={4} />
+          <th scope="colgroup" className="border" colSpan={displayBands ? firstBands.length + 1 : 1}><span>Earnings</span></th>
+          <th scope="colgroup" className="border" colSpan={printView ? 3 : 2}><span>Net contributions</span></th>
+          {!printView && result && <td scope="col" />}
         </tr>
         <tr>
           <th scope="col">
@@ -68,8 +71,7 @@ function ClassOneEarningsTable(props: TableProps) {
           <th scope="col" className="notes"><strong>Period No.</strong></th>
           <th scope="col" className="category-col"><strong>{printView ? '' : 'Select '}NI category letter</strong></th>
           <th scope="col" className="gross-pay"><strong>{printView ? 'Gross pay' : 'Enter gross pay'}</strong></th>
-          {/* Bands - by tax year, so we can just take the first band to map the rows */}
-          {showBands && rows[0].bands && rows[0].bands.map(k =>
+          {displayBands && firstBands.map(k =>
             <th scope="col" key={k.name}>{k.name}</th>
           )}
 
@@ -97,13 +99,10 @@ function ClassOneEarningsTable(props: TableProps) {
             {!printView && result && showExplanation === r.id &&
               <tr aria-live="polite" className="explanation-row">
                 <td colSpan={8}>
-                  <div className="explanation">
-                    {r.explain && r.explain.map((line: string, index: number) =>
-                      <span key={`${r.id}-explain-${index}`}>
-                        {line.replace(`${r.id}.`, '')}<br />
-                      </span>
-                    )}
-                  </div>
+                  <ExplainRow
+                    id={r.id}
+                    explanation={r.explain}
+                  />
                 </td>
               </tr>
             }
