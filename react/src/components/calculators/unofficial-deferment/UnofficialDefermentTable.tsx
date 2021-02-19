@@ -39,7 +39,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
   }
 
   return (
-    <table className="contribution-details">
+    <table className="contribution-details" id="results-table">
       <thead>
         <tr>
           <th><strong>Name of employer</strong></th>
