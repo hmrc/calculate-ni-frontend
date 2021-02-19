@@ -151,7 +151,7 @@ const Class1Page = () => {
         </>
       }
 
-      <div className="totals-wrapper divider--bottom" ref={totalsRef} tabIndex={-1}>
+      <div className="divider--bottom no-focus-outline" ref={totalsRef} tabIndex={-1}>
         <Totals
           grossPayTally={showSummary}
           result={result}

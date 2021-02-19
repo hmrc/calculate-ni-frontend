@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useRef} from "react";
 import {Link} from "react-router-dom";
 import {NiFrontendContext} from "../services/NiFrontendContext";
 import {useDocumentTitle} from "../services/useDocumentTitle";
@@ -10,8 +10,12 @@ const pageTitle = serviceName
 
 export default function Home() {
   const { error, loading } = useContext(NiFrontendContext)
+  const notificationStatusRef = useRef() as React.MutableRefObject<HTMLParagraphElement>
   const { successNotificationsOn, setSuccessNotificationsOn } = useContext(SuccessNotificationContext)
   useDocumentTitle(pageTitle)
+  useEffect(() => {
+    notificationStatusRef.current && notificationStatusRef.current.focus()
+  }, [successNotificationsOn, notificationStatusRef])
   return (
     <>
       {loading ?
@@ -61,7 +65,7 @@ export default function Home() {
 
                     <div className="settings">
                       <h2 className="govuk-heading-m">Control success notifications</h2>
-                      <p className="govuk-body">
+                      <p className="govuk-body no-focus-outline" tabIndex={-1} ref={notificationStatusRef}>
                         Success notifications are currently <strong>{successNotificationsOn ? 'on' : 'off'}</strong>
                       </p>
                       <SecondaryButton

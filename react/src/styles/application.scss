@@ -80,7 +80,7 @@ $hmrc-assets-path: "/lib/hmrc-frontend/hmrc/";
 
 .app-related-items {
   padding-top: 10px;
-  border-top: 5px solid #1d70b8;
+  border-top: 5px solid #008670;
 }
 
 .result-announcement,
@@ -94,12 +94,12 @@ td.readonly > span,
   }
 }
 
-.totals-wrapper:focus {
+.no-focus-outline:focus {
   outline: none;
 }
 
 .settings {
   margin-top: 2em;
   padding-top: 2em;
-  border-top: 2px solid #1d70b8;
+  border-top: 2px solid #008670;
 }

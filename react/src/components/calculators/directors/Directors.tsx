@@ -184,7 +184,7 @@ const DirectorsPage = () => {
         </>
       }
 
-      <div className="totals-wrapper divider--bottom" ref={totalsRef} tabIndex={-1}>
+      <div className="no-focus-outline divider--bottom" ref={totalsRef} tabIndex={-1}>
         <Totals
           grossPayTally={showSummary}
           result={result}
