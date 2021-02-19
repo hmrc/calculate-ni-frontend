@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import {hasKeys} from '../../../services/utils'
 import {validateLateRefundsPayload} from '../../../validation/validation'
 
@@ -9,16 +9,20 @@ import LateRefundsResults from './LateRefundsResults'
 import LateRefundsPrint from './LateRefundsPrint'
 import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
+import {SuccessNotification} from "../shared/SuccessNotification";
 
 // types
 import {LateRefundsContext, useLateRefundsForm} from './LateRefundsContext'
 import {LateRefundsTableRowProps} from '../../../interfaces'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
+import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
 
 const pageTitle = 'Interest on late-paid refunds from 1993 to 1994'
 
 function LateRefundsPage() {
   const [showSummary, setShowSummary] = useState<boolean>(false)
+  const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const {
     InterestOnLateRefundsCalculator,
     bankHolidaysNo,
@@ -29,8 +33,12 @@ function LateRefundsPage() {
     details,
     setDetails,
     setResults,
+    results,
     setActiveRowId
   } = useContext(LateRefundsContext)
+
+  const { successNotificationsOn } = useContext(SuccessNotificationContext)
+
   const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
   useDocumentTitle(titleWithPrefix)
 
@@ -82,8 +90,19 @@ function LateRefundsPage() {
     submitForm(false)
   }
 
+  useEffect(() => {
+    if(successNotificationsOn && results) {
+      resultRef.current.focus()
+    } else if (results) {
+      totalsRef.current.focus()
+    }
+  }, [results, resultRef, totalsRef, successNotificationsOn])
+
   return (
-    <main>
+    <div>
+      <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
+        {successNotificationsOn && results && <SuccessNotification table={true} totals={true} />}
+      </div>
       {showSummary ?
         <LateRefundsPrint
           title={pageTitle}
@@ -110,7 +129,9 @@ function LateRefundsPage() {
             </div>
           </form>
 
-          <LateRefundsResults />
+          <div className="no-focus-outline" ref={totalsRef} tabIndex={-1}>
+            <LateRefundsResults />
+          </div>
 
           <div className="container section--top section-outer--top section--bottom">
             <SecondaryButton
@@ -130,7 +151,7 @@ function LateRefundsPage() {
         </div>
       )}
 
-    </main>
+    </div>
   )
 }
 

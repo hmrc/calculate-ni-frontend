@@ -1,5 +1,5 @@
-import React, {useContext, useState} from 'react'
-import {hasKeys} from "../../../services/utils";
+import React, {useContext, useEffect, useRef, useState} from 'react'
+import {hasKeys, isEmpty} from "../../../services/utils";
 import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 import Details from "../shared/Details";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
@@ -9,11 +9,14 @@ import UnofficialDefermentForm from "./UnofficialDefermentForm";
 import UnofficialDefermentTotals from "./UnofficialDefermentTotals";
 import UnofficialDefermentPrint from "./UnofficialDefermentPrint";
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
+import {SuccessNotification} from "../shared/SuccessNotification";
+import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
 
 const pageTitle = 'Class 1 NI contributions an employer owes due to unofficial deferment'
 
 function UnofficialDefermentPage() {
     const [showSummary, setShowSummary] = useState<boolean>(false)
+    const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
     const {
         taxYear,
         defaultRow,
@@ -25,8 +28,12 @@ function UnofficialDefermentPage() {
         setDetails,
         setCalculatedRows,
         setActiveRowId,
-        setResults
+        setResults,
+        results
     } = useContext(UnofficialDefermentContext)
+
+    const { successNotificationsOn } = useContext(SuccessNotificationContext)
+
     const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
     useDocumentTitle(titleWithPrefix)
 
@@ -78,8 +85,17 @@ function UnofficialDefermentPage() {
         setResults({})
     }
 
+    useEffect(() => {
+        if(successNotificationsOn && !isEmpty(results)) {
+            resultRef.current.focus()
+        }
+    }, [results, resultRef, successNotificationsOn])
+
     return (
       <div>
+          <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
+              {successNotificationsOn && !isEmpty(results) && <SuccessNotification table={true} totals={true} />}
+          </div>
           {showSummary ?
             <UnofficialDefermentPrint
               title={pageTitle}
@@ -92,6 +108,7 @@ function UnofficialDefermentPage() {
                       errors={errors}
                     />
                 }
+
                 <h1>{pageTitle}</h1>
 
                 <Details

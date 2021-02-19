@@ -2,6 +2,8 @@ import moment from 'moment';
 // types
 import {GovDateRange, TaxYear} from './interfaces'
 
+export const serviceName = "National Insurance (NI) Calculation Support Tool"
+
 export enum NiClassName {
   CLASS_ONE = "classOne",
   CLASS_ONE_AB = "classOneAB",

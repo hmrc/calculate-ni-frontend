@@ -15,6 +15,7 @@ $hmrc-assets-path: "/lib/hmrc-frontend/hmrc/";
 #root .column-toggle {
   cursor: pointer;
   white-space: nowrap;
+  width: 110px;
   img {
     display: inline-block;
     margin-left: 1.2ex;
@@ -79,5 +80,26 @@ $hmrc-assets-path: "/lib/hmrc-frontend/hmrc/";
 
 .app-related-items {
   padding-top: 10px;
-  border-top: 5px solid #1d70b8;
+  border-top: 5px solid #008670;
+}
+
+.result-announcement,
+.value,
+#results-totals,
+#results-table,
+td.readonly > span,
+.explain-toggle {
+  &:focus {
+    outline-color: $govuk-focus-colour;
+  }
+}
+
+.no-focus-outline:focus {
+  outline: none;
+}
+
+.settings {
+  margin-top: 2em;
+  padding-top: 2em;
+  border-top: 2px solid #008670;
 }

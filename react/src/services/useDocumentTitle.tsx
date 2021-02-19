@@ -1,9 +1,11 @@
 import React, { useEffect } from "react"
+import {serviceName} from "../config";
 
 export function useDocumentTitle(title: string) {
   useEffect(() => {
     const prevTitle = document.title
-    document.title = title + ' - National Insurance (NI) Calculator Support Tool - GOV.UK'
+    const suffix = serviceName + ' - GOV.UK'
+    document.title = title === serviceName ? suffix : title + ' - ' + suffix
     return () => {
       document.title = prevTitle
     }

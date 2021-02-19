@@ -94,9 +94,25 @@ table.contribution-details {
 table.contribution-details th.date-toggles {
   width: 308px;
 }
-table.contribution-details th.earnings-factor,
-table.contribution-details th.notes {
+table.contributions-details,
+table.contribution-details th.earnings-factor {
   width: 110px;
+}
+
+table.contribution-details th.category-col {
+  width: 240px;
+}
+
+.save-print-wrapper table.contribution-details th.category-col {
+  width: 125px;
+}
+
+table.contribution-details th.gross-pay {
+  width: 130px;
+}
+
+table.contribution-details th.notes {
+  width: 85px;
 }
 table.contribution-details th.date-from {
   width: 160px;
@@ -234,6 +250,11 @@ table.contribution-details td:has(input:focus) {
   font-size: 21px;
 }
 
+table caption {
+  font-size: 21px;
+  text-align: left;
+}
+
 .table-wrapper tbody td {
   border: 1px solid var(--table-body-border);
   color: #333333;
@@ -247,29 +268,14 @@ table.contribution-details td:has(input:focus) {
   white-space: nowrap;
 }
 
-@media screen and (min-width: 760px) {
-  .spaced-table-wrapper {
-    margin: 0 -20px;
-  }
-}
-
-.spaced-table {
-  border-collapse: separate;
-  border-spacing: 20px;
-}
-
-.spaced-table th {
-  padding: 0;
-}
-
+.spaced-table th,
 .spaced-table td.input-cell, .spaced-table td.readonly {
-  vertical-align: bottom;
+  padding: 10px 20px;
 }
 
-@media screen and (min-width: 760px) {
-  .spaced-table td.input-cell, .spaced-table td.readonly {
-    padding: 0;
-  } 
+.spaced-table td.readonly.last-cell,
+.spaced-table th.last-heading {
+  padding-right: 0;
 }
 
 .spaced-table td.input-cell .form-group {
@@ -294,9 +300,6 @@ table.contribution-details td:has(input:focus) {
 }
 
 /* Totals table */
-.totals-table td.readonly {
-  padding-bottom: 0;
-}
 
 .totals-table th.error-line-label {
   padding-bottom: 0;

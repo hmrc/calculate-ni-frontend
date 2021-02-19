@@ -8,7 +8,7 @@ export default function UnofficialDefermentTotals() {
     results
   } = useContext(UnofficialDefermentContext)
   return (
-    <div className="section--top section-outer--top section--bottom section-outer--bottom divider--bottom results print-totals-inline">
+    <div id="results-totals" className="section--top section-outer--top section--bottom section-outer--bottom divider--bottom results print-totals-inline">
       <h2 className="section-heading">Totals</h2>
 
       <div className="container section--top column">

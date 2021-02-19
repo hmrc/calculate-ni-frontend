@@ -1,13 +1,21 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useRef} from "react";
 import {Link} from "react-router-dom";
 import {NiFrontendContext} from "../services/NiFrontendContext";
 import {useDocumentTitle} from "../services/useDocumentTitle";
+import {serviceName} from "../config";
+import {SuccessNotificationContext} from "../services/SuccessNotificationContext";
+import SecondaryButton from "./helpers/gov-design-system/SecondaryButton";
 
-const pageTitle = "Home"
+const pageTitle = serviceName
 
 export default function Home() {
   const { error, loading } = useContext(NiFrontendContext)
+  const notificationStatusRef = useRef() as React.MutableRefObject<HTMLParagraphElement>
+  const { successNotificationsOn, setSuccessNotificationsOn } = useContext(SuccessNotificationContext)
   useDocumentTitle(pageTitle)
+  useEffect(() => {
+    notificationStatusRef.current && notificationStatusRef.current.focus()
+  }, [successNotificationsOn, notificationStatusRef])
   return (
     <>
       {loading ?
@@ -24,7 +32,7 @@ export default function Home() {
                   <div className="govuk-grid-column-two-thirds">
 
                     <h1 className="govuk-heading-l">
-                      Calculate National Insurance (NI) contributions
+                      {pageTitle}
                     </h1>
                     <p className="govuk-body">
                       This service was previously known as ‘Calculation Support’.
@@ -54,6 +62,18 @@ export default function Home() {
                         <li><Link to="/late-refunds" className="govuk-link">Interest on late-paid refunds from 1993 to 1994</Link></li>
                       </ul>
                     </nav>
+
+                    <div className="settings">
+                      <h2 className="govuk-heading-m">Control success notifications</h2>
+                      <p className="govuk-body no-focus-outline" tabIndex={-1} ref={notificationStatusRef}>
+                        In-page success notifications are currently <strong>{successNotificationsOn ? 'on' : 'off'}</strong>
+                      </p>
+                      <SecondaryButton
+                        label={`Turn success notifications ${successNotificationsOn ? 'off' : 'on'}`}
+                        onClick={() => setSuccessNotificationsOn(!successNotificationsOn)}
+                      />
+                    </div>
+
                   </div>
 
                   <div className="govuk-grid-column-one-third">

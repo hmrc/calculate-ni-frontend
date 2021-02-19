@@ -62,16 +62,16 @@ function LateRefundsTable(props: LateRefundsTable) {
   return (
     <>
       <h2 className="section-heading">Refunds</h2>
-      <table className="contribution-details section-outer--top">
+      <table className="contribution-details section-outer--top" id="results-table">
         <thead>
         <tr>
-          <th>
+          <th scope="col">
             #<span className="govuk-visually-hidden"> Row number</span>
           </th>
-          <th>From</th>
-          <th>Date</th>
-          <th>Refund</th>
-          <th>Payable</th>
+          <th scope="col">From</th>
+          <th scope="col">Date</th>
+          <th scope="col">Refund</th>
+          <th scope="col">Payable</th>
         </tr>
         </thead>
         <tbody>
@@ -90,11 +90,6 @@ function LateRefundsTable(props: LateRefundsTable) {
       <>
         <div className="container">
           <div className="container container-block">
-            <div className="form-group">
-              <button className="govuk-button govuk-!-margin-right-1" type="submit">
-                Calculate
-              </button>
-            </div>
           </div>
 
           <div className="container">
@@ -118,6 +113,11 @@ function LateRefundsTable(props: LateRefundsTable) {
               />
             </div>
           </div>
+        </div>
+        <div className="form-group">
+          <button className="govuk-button govuk-!-margin-right-1" type="submit">
+            Calculate
+          </button>
         </div>
       </>
       }

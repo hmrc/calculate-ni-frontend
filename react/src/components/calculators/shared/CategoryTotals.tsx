@@ -26,8 +26,8 @@ function CategoryTotals(props: {
     currencyAmount && numeral(currencyAmount.toString()).format('$0,0.00')
   return (
     <div className="category-totals">
-      <h2 className="section-heading">Category Totals</h2>
       <table>
+        <caption>Category Totals</caption>
         <thead>
           <tr className="clear">
             {rows[0].bands &&

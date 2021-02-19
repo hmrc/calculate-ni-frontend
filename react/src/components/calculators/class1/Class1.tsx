@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import {validateClassOnePayload} from '../../../validation/validation'
 import {ClassOneRow} from '../../../calculation'
 
@@ -14,11 +14,15 @@ import {hasKeys} from "../../../services/utils";
 import {ClassOneContext, useClassOneForm, ClassOneRowInterface, Row} from "./ClassOneContext";
 import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
+import {SuccessNotification} from "../shared/SuccessNotification";
+import {SuccessNotificationContext} from "../../../services/SuccessNotificationContext";
 
 const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 
 const Class1Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
+  const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const {
     ClassOneCalculator,
     taxYear,
@@ -37,6 +41,7 @@ const Class1Page = () => {
     setResult,
     setActiveRowId
   } = useContext(ClassOneContext)
+  const { successNotificationsOn } = useContext(SuccessNotificationContext)
   const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
   useDocumentTitle(titleWithPrefix)
 
@@ -100,8 +105,19 @@ const Class1Page = () => {
     setNiPaidNet('')
   }
 
+  useEffect(() => {
+    if(successNotificationsOn && result) {
+      resultRef.current.focus()
+    } else if (result) {
+      totalsRef.current.focus()
+    }
+  }, [result, resultRef, totalsRef, successNotificationsOn])
+
   return (
     <div>
+      <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
+        {successNotificationsOn && result && <SuccessNotification table={true} totals={true} />}
+      </div>
       {showSummary ?
         <Class1Print
           title={pageTitle}
@@ -135,7 +151,7 @@ const Class1Page = () => {
         </>
       }
 
-      <div className="divider--bottom">
+      <div className="divider--bottom no-focus-outline" ref={totalsRef} tabIndex={-1}>
         <Totals
           grossPayTally={showSummary}
           result={result}
