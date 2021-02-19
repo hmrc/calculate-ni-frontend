@@ -94,6 +94,10 @@ td.readonly > span,
   }
 }
 
+.totals-wrapper:focus {
+  outline: none;
+}
+
 .settings {
   margin-top: 2em;
   padding-top: 2em;
