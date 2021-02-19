@@ -86,13 +86,7 @@ function UnofficialDefermentPage() {
     }
 
     useEffect(() => {
-        if(results) {
-            resultRef.current.focus()
-        }
-    }, [results, resultRef])
-
-    useEffect(() => {
-        if(successNotificationsOn && results) {
+        if(successNotificationsOn && !isEmpty(results)) {
             resultRef.current.focus()
         }
     }, [results, resultRef, successNotificationsOn])
@@ -100,7 +94,7 @@ function UnofficialDefermentPage() {
     return (
       <div>
           <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
-              {successNotificationsOn && !isEmpty(results) && <SuccessNotification />}
+              {successNotificationsOn && !isEmpty(results) && <SuccessNotification table={true} totals={true} />}
           </div>
           {showSummary ?
             <UnofficialDefermentPrint
