@@ -6,6 +6,7 @@ import Details from "../shared/Details"
 import LateInterestForm from "../late-interest/LateInterestForm"
 import LateInterestResults from "../late-interest/LateInterestResults"
 import InterestRatesTable from '../shared/InterestRatesTable'
+import {SuccessNotification} from "../shared/SuccessNotification";
 
 // types
 import {LateInterestContext, useLateInterestForm} from './LateInterestContext'
@@ -16,7 +17,7 @@ import LateInterestPrint from './LateInterestPrint'
 import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import {Class1DebtRow} from '../../../interfaces'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
-import {SuccessNotification} from "../shared/SuccessNotification";
+import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
 
 const pageTitle = 'Interest on late or unpaid Class 1 NI contributions'
 
@@ -38,6 +39,9 @@ function LateInterestPage() {
     results,
     hasRemissionPeriod
   } = useContext(LateInterestContext)
+
+  const { successNotificationsOn } = useContext(SuccessNotificationContext)
+
   const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
   useDocumentTitle(titleWithPrefix)
 
@@ -106,10 +110,16 @@ function LateInterestPage() {
     }
   }, [results, resultRef])
 
+  useEffect(() => {
+    if(successNotificationsOn && results) {
+      resultRef.current.focus()
+    }
+  }, [results, resultRef, successNotificationsOn])
+
   return (
     <div>
       <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
-        {results && <SuccessNotification />}
+        {successNotificationsOn && results && <SuccessNotification table={true} totals={true} />}
       </div>
       {showSummary ?
         <LateInterestPrint

@@ -62,7 +62,7 @@ function LateRefundsTable(props: LateRefundsTable) {
   return (
     <>
       <h2 className="section-heading">Refunds</h2>
-      <table className="contribution-details section-outer--top">
+      <table className="contribution-details section-outer--top" id="results-table">
         <thead>
         <tr>
           <th>

@@ -22,7 +22,7 @@ function LateInterestDebtTable(props: LateInterestDebtTable) {
     <div className="full">
       <h2 className="section-heading">Debt</h2>
 
-      <table className="contribution-details section-outer--top">
+      <table className="contribution-details section-outer--top" id="results-table">
         <thead>
           <tr>
             <th>

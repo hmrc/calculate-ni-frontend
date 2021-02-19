@@ -1,5 +1,7 @@
 import React, {useState, useContext, useEffect, useRef} from 'react'
 import {validateClass2Or3Payload} from '../../../validation/validation'
+import {hasKeys, isEmpty} from "../../../services/utils";
+import {useDocumentTitle} from "../../../services/useDocumentTitle";
 
 // components
 import Details from '../shared/Details'
@@ -7,13 +9,12 @@ import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import Class2Or3Form from './Class2Or3Form'
 import Class2Or3Results from './Class2Or3Results'
 import Class2Or3Print from './Class2Or3Print'
+import {SuccessNotification} from "../shared/SuccessNotification";
+import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 
 // types
 import {Class2Or3Context, useClass2Or3Form} from './Class2Or3Context'
-import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
-import {hasKeys} from "../../../services/utils";
-import {useDocumentTitle} from "../../../services/useDocumentTitle";
-import {SuccessNotification} from "../shared/SuccessNotification";
+import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
 
 const pageTitle = 'Class 2 or 3 NI contributions needed for a qualifying year'
 
@@ -34,6 +35,9 @@ const Class2Or3Page = () => {
     result,
     setResult
   } = useContext(Class2Or3Context)
+
+  const { successNotificationsOn } = useContext(SuccessNotificationContext)
+
   const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
   useDocumentTitle(titleWithPrefix)
 
@@ -91,10 +95,16 @@ const Class2Or3Page = () => {
     }
   }, [result, resultRef])
 
+  useEffect(() => {
+    if(successNotificationsOn && result) {
+      resultRef.current.focus()
+    }
+  }, [result, resultRef, successNotificationsOn])
+
   return (
     <div>
       <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
-        {result && <SuccessNotification table={false} totals={true} />}
+        {successNotificationsOn && result && <SuccessNotification table={false} totals={true} />}
       </div>
       {showSummary ?
         <Class2Or3Print

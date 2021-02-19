@@ -9,12 +9,13 @@ import LateRefundsResults from './LateRefundsResults'
 import LateRefundsPrint from './LateRefundsPrint'
 import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
+import {SuccessNotification} from "../shared/SuccessNotification";
 
 // types
 import {LateRefundsContext, useLateRefundsForm} from './LateRefundsContext'
 import {LateRefundsTableRowProps} from '../../../interfaces'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
-import {SuccessNotification} from "../shared/SuccessNotification";
+import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
 
 const pageTitle = 'Interest on late-paid refunds from 1993 to 1994'
 
@@ -34,6 +35,9 @@ function LateRefundsPage() {
     results,
     setActiveRowId
   } = useContext(LateRefundsContext)
+
+  const { successNotificationsOn } = useContext(SuccessNotificationContext)
+
   const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
   useDocumentTitle(titleWithPrefix)
 
@@ -91,10 +95,16 @@ function LateRefundsPage() {
     }
   }, [results, resultRef])
 
+  useEffect(() => {
+    if(successNotificationsOn && results) {
+      resultRef.current.focus()
+    }
+  }, [results, resultRef, successNotificationsOn])
+
   return (
     <div>
       <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
-        {results && <SuccessNotification />}
+        {successNotificationsOn && results && <SuccessNotification table={true} totals={true} />}
       </div>
       {showSummary ?
         <LateRefundsPrint

@@ -4,7 +4,7 @@ import {LateRefundsContext} from './LateRefundsContext'
 function LateRefundsResults() {
   const {results} = useContext(LateRefundsContext)
   return (
-    <div className="section--top section-outer--top section--bottom section-outer--bottom divider--bottom results print-totals-inline">
+    <div className="section--top section-outer--top section--bottom section-outer--bottom divider--bottom results print-totals-inline" id="results-totals">
       <h2 className="section-heading">Totals</h2>
 
       <div className="container">
