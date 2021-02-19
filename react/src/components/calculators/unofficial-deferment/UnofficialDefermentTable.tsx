@@ -70,6 +70,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
           id={r.id}
           className={activeRowId === r.id ? "active" : ""}
           onClick={() => setActiveRowId(r.id)}
+          aria-selected={activeRowId === r.id}
         >
           <MqTableCell cellClassName="input" cellStyle={thStyles.nameEmployer}>
             {printView ?
