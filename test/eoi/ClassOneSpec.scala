@@ -24,19 +24,6 @@ import cats.syntax.either._
 import java.time.LocalDate
 import java.io._
 
-object Int {
-  def unapply(in: String): Option[Int] = {
-    Either.catchOnly[NumberFormatException](in.toInt).toOption
-  }
-}
-
-object Money {
-  def unapply(in: String): Option[BigDecimal] = {
-    Either.catchOnly[NumberFormatException](BigDecimal(in)).toOption
-  }
-}
-
-
 class ClassOneSpec extends FunSpec with Matchers {
 
   val config: Configuration = eoi.ConfigLoader.default
@@ -50,13 +37,6 @@ class ClassOneSpec extends FunSpec with Matchers {
     val d = new File("target/testing-reports")
     if (!d.exists) d.mkdirs
     d
-  }
-
-  def parsePeriod(in: String): Period.Period = in match {
-    case "M" => Period.Month
-    case "W" => Period.Week
-    case "4W" => Period.FourWeek
-    case "Y" => Period.Year
   }
 
   describe("Access Application compatibility") {
@@ -82,7 +62,7 @@ class ClassOneSpec extends FunSpec with Matchers {
         val (pass, fail) = lines.foldLeft((0,0)){ case ((passAcc,failAcc),(line, indexMinus)) =>
 
           line.map(_.trim) match { 
-            case (Int(year)::periodS::Int(periodNumber)::categoryS::Money(grossPay)::Money(expectedEmployee)::Money(expectedEmployer)::xs) =>
+            case (Int(year)::PeriodParse(period)::Int(periodNumber)::categoryS::Money(grossPay)::Money(expectedEmployee)::Money(expectedEmployer)::xs) =>
 
               val statusString = s"${file.getName}:${indexMinus + 1}"
 
@@ -95,7 +75,7 @@ class ClassOneSpec extends FunSpec with Matchers {
                   "row1", 
                   grossPay,
                   category,
-                  parsePeriod(periodS),
+                  period,
                   periodNumber
                 ) :: Nil
               )
