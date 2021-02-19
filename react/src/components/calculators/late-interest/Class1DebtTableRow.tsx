@@ -65,7 +65,7 @@ function Class1DebtTableRow(props: {
         {index + 1}
       </MqTableCell>
 
-      <MqTableCell cellStyle={thStyles.taxYear}>
+      <MqTableCell cellStyle={thStyles.taxYear} cellClassName="input">
         {printView ?
           <div>{taxYearString(row.taxYear, true)}</div>
           :
