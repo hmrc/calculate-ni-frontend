@@ -268,29 +268,14 @@ table caption {
   white-space: nowrap;
 }
 
-@media screen and (min-width: 760px) {
-  .spaced-table-wrapper {
-    margin: 0 -20px;
-  }
-}
-
-.spaced-table {
-  border-collapse: separate;
-  border-spacing: 20px;
-}
-
-.spaced-table th {
-  padding: 0;
-}
-
+.spaced-table th,
 .spaced-table td.input-cell, .spaced-table td.readonly {
-  vertical-align: bottom;
+  padding: 10px 20px;
 }
 
-@media screen and (min-width: 760px) {
-  .spaced-table td.input-cell, .spaced-table td.readonly {
-    padding: 0;
-  } 
+.spaced-table td.readonly.last-cell,
+.spaced-table th.last-heading {
+  padding-right: 0;
 }
 
 .spaced-table td.input-cell .form-group {
@@ -315,9 +300,6 @@ table caption {
 }
 
 /* Totals table */
-.totals-table td.readonly {
-  padding-bottom: 0;
-}
 
 .totals-table th.error-line-label {
   padding-bottom: 0;

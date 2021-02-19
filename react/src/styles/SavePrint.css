@@ -58,6 +58,15 @@
   margin-top: 20px;
 }
 
+.save-print-wrapper .spaced-table caption {
+  margin-bottom: 1em;
+}
+
+
+.save-print-wrapper .spaced-table th {
+  padding: 0;
+}
+
 .save-print-wrapper .contribution-details th.lg {
   font-weight: 400;
 }
@@ -107,6 +116,10 @@
 
 .save-print-wrapper .spaced-table {
   border-spacing: 0;
+}
+
+.save-print-wrapper .spaced-table td.readonly {
+  padding: 0;
 }
 
 .save-print-wrapper .spaced-table .right {
