@@ -60,6 +60,10 @@ function DirectorsTableRow(props: TableRowProps) {
       onClick={() => setActiveRowId(row.id)}
       aria-selected={activeRowId === row.id}
     >
+      <MqTableCell cellStyle={thStyles.rowNumber}>
+        {index + 1}
+      </MqTableCell>
+
       <MqTableCell cellStyle={thStyles.selectNICategoryLetter} cellClassName="input">
         {printView ?
           <div>{row.category}</div>

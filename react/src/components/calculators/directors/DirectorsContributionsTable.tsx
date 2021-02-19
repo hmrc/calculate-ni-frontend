@@ -28,31 +28,32 @@ function DirectorsEarningsTable(props: TableProps) {
     <table className="contribution-details" id="results-table" tabIndex={-1}>
       <caption>Contribution payment details</caption>
       <colgroup>
-        <col />
+        <col span={2} />
         <col span={displayBands ? firstBands.length + 1 : 1} />
         <col span={printView && result ? 3 : 2} />
         {!printView && result && <col />}
       </colgroup>
       <thead>
         <tr className="clear">
-          <td scope="col" colSpan={1} />
-          <th className="border" colSpan={printView && displayBands ? firstBands.length + 1 : 1}><span>Earnings</span></th>
-          <th className="border" colSpan={!printView && result ? 3 : 2}><span>Net contributions</span></th>
-          {!printView && result && <td scope="col" />}
+          <td colSpan={2} />
+          <th scope="colgroup" className="border" colSpan={printView && displayBands ? firstBands.length + 1 : 1}><span>Earnings</span></th>
+          <th scope="colgroup" className="border" colSpan={!printView && result ? 3 : 2}><span>Net contributions</span></th>
+          {!printView && result && <td />}
         </tr>
         <tr>
-          <th><strong>{printView ? '' : 'Select '}NI category letter</strong></th>
-          <th><strong>{printView ? 'Gross pay' : 'Enter gross pay'}</strong></th>
+          <th scope="col">#<span className="govuk-visually-hidden"> Row number</span></th>
+          <th scope="col"><strong>{printView ? '' : 'Select '}NI category letter</strong></th>
+          <th scope="col"><strong>{printView ? 'Gross pay' : 'Enter gross pay'}</strong></th>
           {displayBands && firstBands.map(k =>
             <th key={k.name}>{k.name}</th>
           )}
 
           {displayBands &&
-            <th><strong>Total</strong></th>
+            <th scope="col"><strong>Total</strong></th>
           }
-          <th><strong><abbr title="Employee">EE</abbr></strong></th>
-          <th><strong><abbr title="Employer">ER</abbr></strong></th>
-          {!printView && result && <th><span className="govuk-visually-hidden">Explain results</span></th>}
+          <th scope="col"><strong><abbr title="Employee">EE</abbr></strong></th>
+          <th scope="col"><strong><abbr title="Employer">ER</abbr></strong></th>
+          {!printView && result && <th scope="col"><span className="govuk-visually-hidden">Explain results</span></th>}
         </tr>
       </thead>
       
