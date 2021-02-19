@@ -46,7 +46,6 @@ function ClassOneEarningsTable(props: TableProps) {
       <colgroup span={4} />
       <colgroup span={displayBands ? firstBands.length + 1 : 1} />
       <colgroup span={printView && result ? 3 : 2} />
-      {!printView && result && <col />}
       <thead>
         <tr className="clear">
           <td scope="colgroup" colSpan={4} />

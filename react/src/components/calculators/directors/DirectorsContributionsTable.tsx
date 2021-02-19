@@ -30,7 +30,6 @@ function DirectorsEarningsTable(props: TableProps) {
       <col />
       <colgroup span={displayBands ? firstBands.length + 1 : 1} />
       <colgroup span={printView && result ? 3 : 2} />
-      {result && <col />}
       <thead>
         <tr className="clear">
           <td scope="col" colSpan={1} />
