@@ -44,34 +44,6 @@ case class ClassTwoRates(
   voluntary: Option[BigDecimal]
 )
 
-trait ClassTwoOrThree {
-  def noOfWeeks: Int
-  def rate: BigDecimal
-  def qualifyingRate: BigDecimal
-}
-
-case class ClassTwo(
-  weeklyRate: ClassTwoRates,
-  smallEarningsException: Option[BigDecimal],
-  qualifyingRate: BigDecimal,
-  hrpDate: Option[LocalDate],
-  penaltyOn: Option[LocalDate],
-  noOfWeeks: Int = 52
-) extends ClassTwoOrThree {
-  def rate = weeklyRate.default
-}
-
-case class ClassThree(
-  qualifyingRate: BigDecimal,
-  lel: String,
-  startWeek: Int,
-  finalDate: LocalDate,
-  weekRate: BigDecimal,
-  noOfWeeks: Int
-) extends ClassTwoOrThree {
-  def rate = weekRate
-}
-
 case class ClassFour(
   lowerLimit: BigDecimal,
   upperLimit: BigDecimal,

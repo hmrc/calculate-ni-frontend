@@ -24,25 +24,70 @@ import cats.syntax.apply._
 import spire.implicits._
 import java.time.LocalDate
 
+
+trait ClassTwoOrThree {
+  def noOfWeeks: Int
+  def rate: BigDecimal
+  def lowerEarningLimit: Explained[BigDecimal]
+  def qualifyingEarningsFactor: Explained[BigDecimal]
+}
+
+case class ClassTwo(
+  weeklyRate: ClassTwoRates,
+  smallEarningsException: Option[BigDecimal],
+  hrpDate: Option[LocalDate],
+  penaltyOn: Option[LocalDate],
+  noOfWeeks: Int = 52,
+  qualifyingRate: BigDecimal
+) extends ClassTwoOrThree {
+  def rate = weeklyRate.default
+  def lowerEarningLimit = ((qualifyingRate + 50) / noOfWeeks) gives
+    s"lowerEarningLimit: (qualifyingRate + 50) / noOfWeeks = ($qualifyingRate + 50) / $noOfWeeks"
+
+  def qualifyingEarningsFactor: Explained[BigDecimal] = qualifyingRate.pure[Explained]
+}
+
+case class ClassThree(
+  startWeek: Int,
+  finalDate: LocalDate,
+  weekRate: BigDecimal,
+  noOfWeeks: Int = 52,
+  lel: BigDecimal,
+  qualifyingRate: Option[BigDecimal]
+) extends ClassTwoOrThree {
+  def rate = weekRate
+  def qualifyingEarningsFactor: Explained[BigDecimal] = qualifyingRate match {
+    case Some(r) => r.pure[Explained]
+    case None =>
+      (lel * noOfWeeks - 50) gives s"qualifyingRate: lel * noOfWeeks - 50 = $lel * $noOfWeeks - 50"
+  }
+    
+  def lowerEarningLimit = lel.pure[Explained]
+}
+
+
 case class ClassTwoAndThreeResult[A <: ClassTwoOrThree](
   on: LocalDate,
   year: A,
   paymentDate: LocalDate,
   earningsFactor: BigDecimal,
-  otherRates: Map[Interval[LocalDate], A],
+  otherRates: Map[Interval[LocalDate], A]
 ) {
 
   import year._
 
-  def numberOfContributions: Explained[Int] = {
-    val unrounded = (((qualifyingRate - earningsFactor) / qualifyingRate) * noOfWeeks)
-    val rounded = unrounded.setScale(0, BigDecimal.RoundingMode.CEILING).toInt
-    rounded gives {
-      "noContributions: ⌈((qualRate - ef) / qualRate) * noOfWeeks⌉ = " ++
-      s"⌈(($qualifyingRate - $earningsFactor) / $qualifyingRate) * $noOfWeeks⌉ = " ++
-      s"⌈$unrounded⌉"
-    }
+  def shortfall: Explained[BigDecimal] =  qualifyingEarningsFactor.flatMap { qr => 
+    (qr - earningsFactor) gives s"shortfall = qualifyingRate - earningsFactor = $qr - $earningsFactor"
   }
+
+  def numberOfContributions: Explained[Int] = for {
+    sf        <- shortfall
+    lel       <- lowerEarningLimit
+    unrounded = sf / lel
+    rounded   = unrounded.setScale(0, BigDecimal.RoundingMode.CEILING).toInt
+    r         <- rounded gives 
+      s"noContributions: ⌈shortfall / lel⌉ = ⌈$sf / $lel⌉ = ⌈$unrounded⌉"
+  } yield r
 
   def higherProvisionsApplyOn: Explained[LocalDate] = {
     val startOpt: Option[LocalDate] = year match {
@@ -64,7 +109,7 @@ case class ClassTwoAndThreeResult[A <: ClassTwoOrThree](
 
     startOpt match {
       case Some(date) => date gives "finalDate: from config"
-      case None => on.plusYears(4) gives s"finalDate: start date ($on) + 4 years"
+      case None => on.plusYears(6) gives s"finalDate: start date ($on) + 6 years"
     }
   }
 
@@ -74,12 +119,13 @@ case class ClassTwoAndThreeResult[A <: ClassTwoOrThree](
     }
 
   def rate: Explained[BigDecimal] = higherRateApplies flatMap {
-    case true => otherRates.at(paymentDate) match {
-      case Some(r) => r.rate gives s"rate: for $paymentDate, due to higher rate"
-      case None =>
-        val mostRecent = otherRates.toList.sortBy(_._1.lowerValue.get.toEpochDay).last
-        mostRecent._2.rate gives s"rate: for ${mostRecent._1}, due to higher rate but no rate defined for $paymentDate"
-    }
+    case true =>
+      val range = Interval.openLower(on, paymentDate)
+      val (when, highest) = otherRates.toList
+        .filter(_._1 intersects range)
+        .sortBy(_._2.rate)
+        .last
+      highest.rate gives s"rate: HRP applies, $when gives highest rate in $range"
     case false => year.rate gives s"rate: normal (non-HRP)"
   }
 
