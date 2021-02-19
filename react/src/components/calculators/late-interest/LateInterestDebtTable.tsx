@@ -20,17 +20,16 @@ function LateInterestDebtTable(props: LateInterestDebtTable) {
 
   return (
     <div className="full">
-      <h2 className="section-heading">Debt</h2>
-
       <table className="contribution-details section-outer--top" id="results-table">
+        <caption>Debt</caption>
         <thead>
           <tr>
-            <th>
+            <th scope="col">
               #<span className="govuk-visually-hidden"> Row number</span>
             </th>
-            <th><strong>Tax Year</strong></th>
-            <th><strong>Class 1 Debt</strong></th>
-            <th><strong>Interest Due</strong></th>
+            <th scope="col"><strong>Tax Year</strong></th>
+            <th scope="col"><strong>Class 1 Debt</strong></th>
+            <th scope="col"><strong>Interest Due</strong></th>
           </tr>
         </thead>
         <tbody>
@@ -45,7 +44,6 @@ function LateInterestDebtTable(props: LateInterestDebtTable) {
         ))}
         </tbody>
       </table>
-
     </div>
   )
 }

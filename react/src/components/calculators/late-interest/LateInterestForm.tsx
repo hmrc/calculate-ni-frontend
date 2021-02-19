@@ -63,11 +63,6 @@ function LateInterestForm(props: LateInterestFormProps) {
 
       <div className="container">
         <div className="container">
-          <div className="form-group">
-            <button className="govuk-button nomar" type="submit">
-              Calculate
-            </button>
-          </div>
         </div>
 
         <div className="container">
@@ -93,6 +88,11 @@ function LateInterestForm(props: LateInterestFormProps) {
             />
           </div>
         </div>
+      </div>
+      <div className="form-group">
+        <button className="govuk-button nomar" type="submit">
+          Calculate
+        </button>
       </div>
     </>
   )
