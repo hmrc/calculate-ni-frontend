@@ -24,6 +24,7 @@ const pageTitle = 'Interest on late or unpaid Class 1 NI contributions'
 function LateInterestPage() {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const {
     InterestOnLateClassOneCalculator,
     details,
@@ -113,8 +114,10 @@ function LateInterestPage() {
   useEffect(() => {
     if(successNotificationsOn && results) {
       resultRef.current.focus()
+    } else if (results) {
+      totalsRef.current.focus()
     }
-  }, [results, resultRef, successNotificationsOn])
+  }, [results, resultRef, totalsRef, successNotificationsOn])
 
   return (
     <div>
@@ -157,7 +160,9 @@ function LateInterestPage() {
             </div>
           </div>
 
-          <LateInterestResults />
+          <div ref={totalsRef} tabIndex={-1}>
+            <LateInterestResults />
+          </div>
 
           <div className="container section--top section-outer--top section--bottom">
             <SecondaryButton
