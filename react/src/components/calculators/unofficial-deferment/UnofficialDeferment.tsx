@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
-import {hasKeys} from "../../../services/utils";
+import {hasKeys, isEmpty} from "../../../services/utils";
 import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 import Details from "../shared/Details";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
@@ -10,6 +10,7 @@ import UnofficialDefermentTotals from "./UnofficialDefermentTotals";
 import UnofficialDefermentPrint from "./UnofficialDefermentPrint";
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
 import {SuccessNotification} from "../shared/SuccessNotification";
+import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
 
 const pageTitle = 'Class 1 NI contributions an employer owes due to unofficial deferment'
 
@@ -30,6 +31,9 @@ function UnofficialDefermentPage() {
         setResults,
         results
     } = useContext(UnofficialDefermentContext)
+
+    const { successNotificationsOn } = useContext(SuccessNotificationContext)
+
     const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
     useDocumentTitle(titleWithPrefix)
 
@@ -87,10 +91,16 @@ function UnofficialDefermentPage() {
         }
     }, [results, resultRef])
 
+    useEffect(() => {
+        if(successNotificationsOn && results) {
+            resultRef.current.focus()
+        }
+    }, [results, resultRef, successNotificationsOn])
+
     return (
       <div>
           <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
-              {results && <SuccessNotification />}
+              {successNotificationsOn && !isEmpty(results) && <SuccessNotification />}
           </div>
           {showSummary ?
             <UnofficialDefermentPrint
