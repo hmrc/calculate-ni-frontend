@@ -93,3 +93,13 @@ td.readonly > span,
     outline-color: $govuk-focus-colour;
   }
 }
+
+.totals-wrapper:focus {
+  outline: none;
+}
+
+.settings {
+  margin-top: 2em;
+  padding-top: 2em;
+  border-top: 2px solid #1d70b8;
+}

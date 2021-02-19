@@ -59,6 +59,7 @@ function LateRefundsTableRow(props: {
       className={activeRowId === row.id ? "active" : ""}
       id={row.id}
       onClick={() => setActiveRowId(row.id)}
+      aria-selected={activeRowId === row.id}
     >
       <MqTableCell cellStyle={thStyles.rowNumber}>{index + 1}</MqTableCell>
 

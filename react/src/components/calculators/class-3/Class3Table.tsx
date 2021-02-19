@@ -14,21 +14,24 @@ const Class3Table = (props: Class3TableProps) => {
   } = useContext(Class3Context)
   return (
     <table className="contribution-details">
+      <caption>Periods of insurance</caption>
+      <colgroup span={4} />
+      <colgroup span={3} />
       <thead>
         <tr className="clear">
-          <th className="lg" colSpan={4}><span>Period of insurance</span></th>
-          <th className="border" colSpan={3}><span>Weeks</span></th>
+          <td colSpan={4} />
+          <th scope="colgroup" className="border" colSpan={3}><span>Weeks</span></th>
         </tr>
         <tr>
-          <th>
+          <th scope="col">
             #<span className="govuk-visually-hidden"> Row number</span>
           </th>
           {!printView &&
-            <th className="date-mode">
+            <th scope="col" className="date-mode">
               <span className="govuk-visually-hidden">Change how dates are entered</span>
             </th>
           }
-          <th className="date-toggles">
+          <th scope="col" className="date-toggles">
             <table className="borderless">
               <thead>
                 <tr className="clear">
@@ -38,10 +41,10 @@ const Class3Table = (props: Class3TableProps) => {
               </thead>
             </table>
           </th>
-          <th className="earnings-factor">Earnings factor</th>
-          <th>Max weeks</th>
-          <th>Actual weeks</th>
-          <th>Deficient</th>
+          <th scope="col" className="earnings-factor">Earnings factor</th>
+          <th scope="col">Max weeks</th>
+          <th scope="col">Actual weeks</th>
+          <th scope="col">Deficient</th>
         </tr>
       </thead>
       <tbody>

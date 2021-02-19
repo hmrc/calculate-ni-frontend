@@ -27,9 +27,12 @@ function DirectorsEarningsTable(props: TableProps) {
   return (
     <table className="contribution-details" id="results-table" tabIndex={-1}>
       <caption>Contribution payment details</caption>
-      <col />
-      <colgroup span={displayBands ? firstBands.length + 1 : 1} />
-      <colgroup span={printView && result ? 3 : 2} />
+      <colgroup>
+        <col />
+        <col span={displayBands ? firstBands.length + 1 : 1} />
+        <col span={printView && result ? 3 : 2} />
+        {!printView && result && <col />}
+      </colgroup>
       <thead>
         <tr className="clear">
           <td scope="col" colSpan={1} />
@@ -55,9 +58,8 @@ function DirectorsEarningsTable(props: TableProps) {
       
       <tbody>
         {rows.map((r: DirectorsUIRow, i: number) => (
-          <>
+          <React.Fragment key={r.id}>
             <DirectorsTableRow
-              key={r.id}
               row={r}
               index={i}
               printView={printView}
@@ -75,7 +77,7 @@ function DirectorsEarningsTable(props: TableProps) {
               </td>
             </tr>
             }
-          </>
+          </React.Fragment>
 
         ))}
       </tbody>

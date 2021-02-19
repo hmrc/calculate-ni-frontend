@@ -22,6 +22,7 @@ const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 const Class1Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const {
     ClassOneCalculator,
     taxYear,
@@ -107,8 +108,10 @@ const Class1Page = () => {
   useEffect(() => {
     if(successNotificationsOn && result) {
       resultRef.current.focus()
+    } else if (result) {
+      totalsRef.current.focus()
     }
-  }, [result, resultRef, successNotificationsOn])
+  }, [result, resultRef, totalsRef, successNotificationsOn])
 
   return (
     <div>
@@ -148,7 +151,7 @@ const Class1Page = () => {
         </>
       }
 
-      <div className="divider--bottom">
+      <div className="totals-wrapper divider--bottom" ref={totalsRef} tabIndex={-1}>
         <Totals
           grossPayTally={showSummary}
           result={result}
