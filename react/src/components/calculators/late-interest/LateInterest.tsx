@@ -106,12 +106,6 @@ function LateInterestPage() {
   }
 
   useEffect(() => {
-    if(results) {
-      resultRef.current.focus()
-    }
-  }, [results, resultRef])
-
-  useEffect(() => {
     if(successNotificationsOn && results) {
       resultRef.current.focus()
     } else if (results) {

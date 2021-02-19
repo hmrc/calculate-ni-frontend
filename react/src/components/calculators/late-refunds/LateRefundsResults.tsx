@@ -9,22 +9,22 @@ function LateRefundsResults() {
 
       <div className="container">
         <div className="container third section--top column">
-          <span className="label block">Total amount for refund</span>
-          <div className="value full inline">
+          <span className="label block" id="total-refund-label">Total amount for refund</span>
+          <div className="value full inline" aria-describedby="total-refund-label">
             {results?.totalRefund}
           </div>
         </div>
 
         <div className="container third section--top column">
-          <span className="label block">Total interest payable</span>
-          <div className="value full inline">
+          <span className="label block" id="total-interest-label">Total interest payable</span>
+          <div className="value full inline" aria-describedby="total-interest-label">
             {results?.totalInterest}
           </div>
         </div>
 
         <div className="container third section--top column">
-          <span className="label block">Total amount for refund and interest payable</span>
-          <div className="value full inline">
+          <span className="label block" id="refund-plus-interest-label">Total amount for refund and interest payable</span>
+          <div className="value full inline" aria-describedby="refund-plus-interest-label">
             {results?.grandTotal}
           </div>
         </div>

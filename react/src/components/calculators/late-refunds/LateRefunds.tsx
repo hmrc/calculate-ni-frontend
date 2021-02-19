@@ -22,6 +22,7 @@ const pageTitle = 'Interest on late-paid refunds from 1993 to 1994'
 function LateRefundsPage() {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const {
     InterestOnLateRefundsCalculator,
     bankHolidaysNo,
@@ -90,16 +91,12 @@ function LateRefundsPage() {
   }
 
   useEffect(() => {
-    if(results) {
-      resultRef.current.focus()
-    }
-  }, [results, resultRef])
-
-  useEffect(() => {
     if(successNotificationsOn && results) {
       resultRef.current.focus()
+    } else if (results) {
+      totalsRef.current.focus()
     }
-  }, [results, resultRef, successNotificationsOn])
+  }, [results, resultRef, totalsRef, successNotificationsOn])
 
   return (
     <div>
@@ -132,7 +129,9 @@ function LateRefundsPage() {
             </div>
           </form>
 
-          <LateRefundsResults />
+          <div className="no-focus-outline" ref={totalsRef} tabIndex={-1}>
+            <LateRefundsResults />
+          </div>
 
           <div className="container section--top section-outer--top section--bottom">
             <SecondaryButton
