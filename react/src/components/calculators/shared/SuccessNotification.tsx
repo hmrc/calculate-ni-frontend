@@ -12,8 +12,8 @@ export function SuccessNotification(props: {table?: boolean, totals?: boolean}) 
       </div>
       <div className="govuk-notification-banner__content">
         <ul className="govuk-list">
-          {table && <li><a href="#results-table">Skip to results in table</a></li>}
-          {totals && <li><a href="#results-totals">Skip to results totals</a></li>}
+          {table && <li><a href="#results-table" className="govuk-link">Skip to results in table</a></li>}
+          {totals && <li><a href="#results-totals" className="govuk-link">Skip to results totals</a></li>}
         </ul>
       </div>
     </div>
