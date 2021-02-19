@@ -160,7 +160,7 @@ function LateInterestPage() {
             </div>
           </div>
 
-          <div ref={totalsRef} tabIndex={-1}>
+          <div className="no-focus-outline" ref={totalsRef} tabIndex={-1}>
             <LateInterestResults />
           </div>
 
