@@ -34,7 +34,7 @@ import {serviceName} from "./config";
 import {SuccessNotificationContext} from "./services/SuccessNotificationContext";
 
 function App() {
-  const [successNotificationsOn, setSuccessNotificationsOn] = useState<boolean>(true)
+  const [successNotificationsOn, setSuccessNotificationsOn] = useState<boolean>(false)
   return (
     <NiFrontendContext.Provider value={useNiFrontend()}>
       <SuccessNotificationContext.Provider value={{successNotificationsOn, setSuccessNotificationsOn}}>

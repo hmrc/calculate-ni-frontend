@@ -66,7 +66,7 @@ export default function Home() {
                     <div className="settings">
                       <h2 className="govuk-heading-m">Control success notifications</h2>
                       <p className="govuk-body no-focus-outline" tabIndex={-1} ref={notificationStatusRef}>
-                        Success notifications are currently <strong>{successNotificationsOn ? 'on' : 'off'}</strong>
+                        In-page success notifications are currently <strong>{successNotificationsOn ? 'on' : 'off'}</strong>
                       </p>
                       <SecondaryButton
                         label={`Turn success notifications ${successNotificationsOn ? 'off' : 'on'}`}
