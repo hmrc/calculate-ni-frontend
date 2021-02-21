@@ -18,25 +18,23 @@ package eoi
 
 import spire.math.Interval
 import cats.syntax.applicative._
-import cats.syntax.traverse._
-import cats.instances.list._
 import cats.syntax.apply._
 import spire.implicits._
 import java.time.LocalDate
-
 
 trait ClassTwoOrThree {
   def noOfWeeks: Int
   def rate: BigDecimal
   def lowerEarningLimit: Explained[BigDecimal]
   def qualifyingEarningsFactor: Explained[BigDecimal]
+  def finalDate: Option[LocalDate]
 }
 
 case class ClassTwo(
   weeklyRate: ClassTwoRates,
   smallEarningsException: Option[BigDecimal],
   hrpDate: Option[LocalDate],
-  penaltyOn: Option[LocalDate],
+  finalDate: Option[LocalDate],
   noOfWeeks: Int = 52,
   qualifyingRate: BigDecimal
 ) extends ClassTwoOrThree {
@@ -48,8 +46,7 @@ case class ClassTwo(
 }
 
 case class ClassThree(
-  startWeek: Int,
-  finalDate: LocalDate,
+  finalDate: Option[LocalDate],
   weekRate: BigDecimal,
   noOfWeeks: Int = 52,
   lel: BigDecimal,
@@ -101,16 +98,9 @@ case class ClassTwoAndThreeResult[A <: ClassTwoOrThree](
     }
   }
 
-  def finalDate: Explained[LocalDate] = {
-    val startOpt: Option[LocalDate] = year match {
-      case c2: ClassTwo => c2.penaltyOn
-      case _ => None
-    }
-
-    startOpt match {
-      case Some(date) => date gives "finalDate: from config"
-      case None => on.plusYears(6) gives s"finalDate: start date ($on) + 6 years"
-    }
+  def finalDate: Explained[LocalDate] = year.finalDate match {
+    case Some(date) => date gives "finalDate: from config"
+    case None => on.plusYears(7).minusDays(1) gives s"finalDate: start date ($on) + 7 years - 1 day"
   }
 
   def higherRateApplies: Explained[Boolean] = 

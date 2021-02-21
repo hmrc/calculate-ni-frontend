@@ -39,6 +39,15 @@ class ClassThreeSpec extends SpreadsheetTest {
       (
         row.get("total amount") >>= Money.unapply
       ) map (result.totalDue equalOrExplain _)
+
+      (
+        row.get("date higher rate") >>= Date.unapply
+      ) map (result.higherProvisionsApplyOn equalOrExplain _)
+
+      (
+        row.get("final payment date") >>= Date.unapply
+      ) map (result.finalDate equalOrExplain _)
+      
     }
 
   }
