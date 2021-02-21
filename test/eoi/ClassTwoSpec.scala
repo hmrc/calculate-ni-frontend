@@ -32,13 +32,13 @@ class ClassTwoSpec extends SpreadsheetTest {
     ).mapN(config.calculateClassTwo) map {
       result =>
 
-      (
-        row.get("no conts due") >>= Int.unapply
-      ) map (result.numberOfContributions equalOrExplain _)
+      // (
+      //   row.get("no conts due") >>= Int.unapply
+      // ) map (result.numberOfContributions equalOrExplain _)
 
-      (
-        row.get("total amount") >>= Money.unapply
-      ) map (result.totalDue equalOrExplain _)
+      // (
+      //   row.get("total amount") >>= Money.unapply
+      // ) map (result.totalDue equalOrExplain _)
     }
 
   }
