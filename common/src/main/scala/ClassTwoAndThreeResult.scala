@@ -97,7 +97,7 @@ case class ClassTwoAndThreeResult[A <: ClassTwoOrThree](
 
     startOpt match {
       case Some(hrp) => hrp gives "higherRateDate: from config"
-      case None => on.plusYears(2) gives s"higherRateDate: start date ($on) + 2 years"
+      case None => on.plusYears(3) gives s"higherRateDate: start date ($on) + 3 years"
     }
   }
 
