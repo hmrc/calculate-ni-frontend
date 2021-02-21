@@ -39,27 +39,27 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
   }
 
   return (
-    <table className="contribution-details">
+    <table className="contribution-details" id="results-table">
       <thead>
         <tr>
-          <th><strong>Name of employer</strong></th>
-          <th><strong>Gross pay</strong></th>
-          <th><strong>NI category</strong></th>
-          <th><strong>{earningsFields['a'].field}</strong></th>
-          <th><strong>{earningsFields['b'].field}</strong></th>
-          <th><strong>{earningsFields['c'].field}</strong></th>
+          <th scope="col"><strong>Name of employer</strong></th>
+          <th scope="col"><strong>Gross pay</strong></th>
+          <th scope="col"><strong>NI category</strong></th>
+          <th scope="col"><strong>{earningsFields['a'].field}</strong></th>
+          <th scope="col"><strong>{earningsFields['b'].field}</strong></th>
+          <th scope="col"><strong>{earningsFields['c'].field}</strong></th>
           {earningsFields['d'] &&
-            <th><strong>{earningsFields['d'].field}</strong></th>
+            <th scope="col"><strong>{earningsFields['d'].field}</strong></th>
           }
           {earningsFields['e'] &&
-          <th><strong>{earningsFields['e'].field}</strong></th>
+          <th scope="col"><strong>{earningsFields['e'].field}</strong></th>
           }
           {earningsFields['f'] &&
-          <th><strong>{earningsFields['f'].field}</strong></th>
+          <th scope="col"><strong>{earningsFields['f'].field}</strong></th>
           }
-          <th><strong>Over UEL</strong></th>
-          <th><strong>NICS non-CO</strong></th>
-          <th><strong>If not U/D</strong></th>
+          <th scope="col"><strong>Over UEL</strong></th>
+          <th scope="col"><strong>NICS non-CO</strong></th>
+          <th scope="col"><strong>If not U/D</strong></th>
         </tr>
       </thead>
 
@@ -70,6 +70,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
           id={r.id}
           className={activeRowId === r.id ? "active" : ""}
           onClick={() => setActiveRowId(r.id)}
+          aria-selected={activeRowId === r.id}
         >
           <MqTableCell cellClassName="input" cellStyle={thStyles.nameEmployer}>
             {printView ?

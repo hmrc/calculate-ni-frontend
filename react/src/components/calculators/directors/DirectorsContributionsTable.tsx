@@ -8,7 +8,8 @@ import {TableProps} from '../../../interfaces'
 
 // components
 import DirectorsTableRow from './DirectorsTableRow'
-import Class1TableRow from "../class1/Class1TableRow";
+import ExplainToggle from "../shared/ExplainToggle";
+import ExplainRow from "../shared/ExplainRow";
 
 numeral.locale('en-gb');
 
@@ -20,38 +21,46 @@ function DirectorsEarningsTable(props: TableProps) {
     result
   } = useContext(DirectorsContext)
 
+  const firstBands = rows[0].bands ? rows[0].bands : []
+  const displayBands = showBands && firstBands.length
+
   return (
-    <table className="contribution-details">
+    <table className="contribution-details" id="results-table" tabIndex={-1}>
+      <caption>Contribution payment details</caption>
+      <colgroup>
+        <col span={2} />
+        <col span={displayBands ? firstBands.length + 1 : 1} />
+        <col span={printView && result ? 3 : 2} />
+        {!printView && result && <col />}
+      </colgroup>
       <thead>
         <tr className="clear">
-          <th className="lg" colSpan={2}><span>Contribution payment details</span></th>
-          {showBands && rows[0].bands &&
-            <th className="border" colSpan={rows[0].bands.length}><span>Earnings</span></th>
-          }
-          <th className="border" colSpan={showBands && rows[0].bands ? 2 : 1}><span>Net contributions</span></th>
+          <td colSpan={2} />
+          <th scope="colgroup" className="border" colSpan={printView && displayBands ? firstBands.length + 1 : 1}><span>Earnings</span></th>
+          <th scope="colgroup" className="border" colSpan={!printView && result ? 3 : 2}><span>Net contributions</span></th>
+          {!printView && result && <td />}
         </tr>
         <tr>
-          <th><strong>{printView ? '' : 'Select '}NI category letter</strong></th>
-          <th><strong>{printView ? 'Gross pay' : 'Enter gross pay'}</strong></th>
-          {/* Bands - by tax year, so we can just take the first band to map the rows */}
-          {showBands && rows[0].bands && rows[0].bands.map(k =>
+          <th scope="col">#<span className="govuk-visually-hidden"> Row number</span></th>
+          <th scope="col"><strong>{printView ? '' : 'Select '}NI category letter</strong></th>
+          <th scope="col"><strong>{printView ? 'Gross pay' : 'Enter gross pay'}</strong></th>
+          {displayBands && firstBands.map(k =>
             <th key={k.name}>{k.name}</th>
           )}
 
-          {showBands && rows[0].bands &&
-            <th><strong>Total</strong></th>
+          {displayBands &&
+            <th scope="col"><strong>Total</strong></th>
           }
-          <th><strong><abbr title="Employee">EE</abbr></strong></th>
-          <th><strong><abbr title="Employer">ER</abbr></strong></th>
-          {!printView && result && <th><span className="govuk-visually-hidden">Explain results</span></th>}
+          <th scope="col"><strong><abbr title="Employee">EE</abbr></strong></th>
+          <th scope="col"><strong><abbr title="Employer">ER</abbr></strong></th>
+          {!printView && result && <th scope="col"><span className="govuk-visually-hidden">Explain results</span></th>}
         </tr>
       </thead>
       
       <tbody>
         {rows.map((r: DirectorsUIRow, i: number) => (
-          <>
+          <React.Fragment key={r.id}>
             <DirectorsTableRow
-              key={r.id}
               row={r}
               index={i}
               printView={printView}
@@ -60,19 +69,16 @@ function DirectorsEarningsTable(props: TableProps) {
               showExplanation={showExplanation}
             />
             {!printView && result && showExplanation === r.id &&
-            <tr aria-live="polite" className="explanation-row">
+            <tr className="explanation-row">
               <td colSpan={8}>
-                <div className="explanation">
-                  {r.explain && r.explain.map((line: string, index: number) =>
-                      <span key={`${r.id}-explain-${index}`}>
-                        {line.replace(`${r.id}.`, '')}<br />
-                      </span>
-                  )}
-                </div>
+                <ExplainRow
+                  id={r.id}
+                  explanation={r.explain}
+                />
               </td>
             </tr>
             }
-          </>
+          </React.Fragment>
 
         ))}
       </tbody>

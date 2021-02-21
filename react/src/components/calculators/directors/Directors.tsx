@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import {validateDirectorsPayload} from '../../../validation/validation'
 import {PeriodLabel} from '../../../config'
 import {DirectorsRow} from '../../../calculation'
@@ -11,11 +11,12 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
-import {GovDateRange} from '../../../interfaces'
 import {DirectorsContext, DirectorsUIRow, DirectorsRowInterface, useDirectorsForm} from "./DirectorsContext";
+import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
 
 // services
 import {hasKeys} from "../../../services/utils";
+import {SuccessNotification} from "../shared/SuccessNotification";
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
 import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 
@@ -23,6 +24,8 @@ const pageTitle = 'Directors’ contributions'
 
 const DirectorsPage = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
+  const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const {
     DirectorsCalculator,
     taxYears,
@@ -46,6 +49,7 @@ const DirectorsPage = () => {
     askApp,
     dateRange
   } = useContext(DirectorsContext)
+  const { successNotificationsOn } = useContext(SuccessNotificationContext)
   const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
   useDocumentTitle(titleWithPrefix)
 
@@ -126,8 +130,25 @@ const DirectorsPage = () => {
     setResult(null)
   }
 
+  useEffect(() => {
+    if(result) {
+      resultRef.current.focus()
+    }
+  }, [result, resultRef])
+
+  useEffect(() => {
+    if(successNotificationsOn && result) {
+      resultRef.current.focus()
+    } else if (result) {
+      totalsRef.current.focus()
+    }
+  }, [result, resultRef, totalsRef, successNotificationsOn])
+
   return (
-    <main>
+    <div>
+      <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
+        {successNotificationsOn && result && <SuccessNotification table={true} totals={true} />}
+      </div>
       {showSummary ?
         <DirectorsPrintView
           title={pageTitle}
@@ -163,7 +184,7 @@ const DirectorsPage = () => {
         </>
       }
 
-      <div className="divider--bottom">
+      <div className="no-focus-outline divider--bottom" ref={totalsRef} tabIndex={-1}>
         <Totals
           grossPayTally={showSummary}
           result={result}
@@ -190,7 +211,7 @@ const DirectorsPage = () => {
           </button>
         </div>
       )}
-    </main>
+    </div>
   )
 }
 

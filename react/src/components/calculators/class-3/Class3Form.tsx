@@ -50,14 +50,7 @@ export default function Class3Form(props: any) {
       <Class3Table printView={false} />
 
       <div className="container">
-        <div className="container">
-          <div className="form-group">
-            <button className="govuk-button nomar" type="submit">
-              Calculate
-            </button>
-          </div>
-        </div>
-
+        <div className="container" />
         <div className="container">
 
           <div className="form-group repeat-button">
@@ -82,6 +75,11 @@ export default function Class3Form(props: any) {
             />
           </div>
         </div>
+      </div>
+      <div className="form-group">
+        <button className="govuk-button nomar" type="submit">
+          Calculate
+        </button>
       </div>
 
     </div>

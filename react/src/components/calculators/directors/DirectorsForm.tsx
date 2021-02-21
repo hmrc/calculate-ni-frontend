@@ -156,11 +156,6 @@ export default function DirectorsForm(props: DirectorsFormProps) {
 
       <div className="container">
         <div className="container">
-          <div className="form-group">
-            <button className="govuk-button nomar" type="submit">
-              Calculate
-            </button>
-          </div>
         </div>
 
         <div className="container">
@@ -184,6 +179,11 @@ export default function DirectorsForm(props: DirectorsFormProps) {
             />
           </div>
         </div>
+      </div>
+      <div className="form-group">
+        <button className="govuk-button nomar" type="submit">
+          Calculate
+        </button>
       </div>
     </>
   )

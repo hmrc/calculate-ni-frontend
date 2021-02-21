@@ -8,38 +8,38 @@ import {NiClassNameLabels} from "../../../interfaces";
 function Class2Or3Results() {
   const {result, activeClass} = useContext(Class2Or3Context)
   return (
-    <div className="results section--top section--bottom divider--bottom">
+    <div id="results-totals" tabIndex={-1} className="results section--top section--bottom divider--bottom">
       <div className="container section--bottom divider--bottom">
         <div className="container column third">
-          <span className="label block">Contributions due</span>
-          <div className="value nomar inline width-3">
+          <span className="label block" id="contributions-due-label">Contributions due</span>
+          <div tabIndex={0} className="value nomar inline width-3" aria-describedby="contributions-due-label">
             {result?.contributionsDue}
           </div>
         </div>
         <div className="container column third">
-          <span className="label block">{activeClass ? NiClassNameLabels[activeClass] : 'Class'} rate</span>
-          <div className="value nomar inline width-8">
+          <span className="label block" id="rate-label">{activeClass ? NiClassNameLabels[activeClass] : 'Class'} rate</span>
+          <div tabIndex={0} className="value nomar inline width-8" aria-describedby="rate-label">
             {result?.rate ? sterlingStringValue(result.rate.toString()) : result?.rate}
           </div>
         </div>
         <div className="container column third">
-          <span className="label block">Total amount due</span>
-          <span className="value nomar inline width-8">
+          <span className="label block" id="total-label">Total amount due</span>
+          <span tabIndex={0} className="value nomar inline width-8" aria-describedby="total-label">
             {result?.totalAmountDue ? sterlingStringValue(result.totalAmountDue.toString()) : result?.totalAmountDue}
           </span>
         </div>
       </div>
 
       <div className="container section--top column">
-        <span className="label block">Date higher rate provisions apply</span>
-        <div className="value inline width-8">
+        <span className="label block" id="higher-rate-date-label">Date higher rate provisions apply</span>
+        <div tabIndex={0} className="value inline width-8" aria-describedby="higher-rate-date-label">
           {result?.dateHigherRateApply ? dateStringSlashSeparated(result.dateHigherRateApply) : result?.dateHigherRateApply}
         </div>
       </div>
 
       <div className="container column">
-        <span className="label block">Final payment date for pension purposes</span>
-        <div className="value inline width-8">
+        <span className="label block" id="final-pension-date-label">Final payment date for pension purposes</span>
+        <div tabIndex={0} className="value inline width-8" aria-describedby="final-pension-date-label">
           {result?.finalPaymentDate ? dateStringSlashSeparated(result.finalPaymentDate) : result?.finalPaymentDate}
         </div>
       </div>

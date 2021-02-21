@@ -17,8 +17,8 @@ function LateInterestRatesTable(props: InterestRatesTableProps) {
       <table className="section-outer--top interest-rates">
         <thead>
         <tr>
-          <th><strong>From</strong></th>
-          <th><strong>Rate</strong></th>
+          <th scope="col"><strong>From</strong></th>
+          <th scope="col"><strong>Rate</strong></th>
         </tr>
         </thead>
         <tbody>

@@ -59,12 +59,13 @@ function Class1DebtTableRow(props: {
       className={activeRowId === row.id ? "active" : ""}
       id={row.id}
       onClick={() => setActiveRowId(row.id)}
+      aria-selected={activeRowId === row.id}
     >
       <MqTableCell cellStyle={thStyles.rowNumber}>
         {index + 1}
       </MqTableCell>
 
-      <MqTableCell cellStyle={thStyles.taxYear}>
+      <MqTableCell cellStyle={thStyles.taxYear} cellClassName="input">
         {printView ?
           <div>{taxYearString(row.taxYear, true)}</div>
           :
