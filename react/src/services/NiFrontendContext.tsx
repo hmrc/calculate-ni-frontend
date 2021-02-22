@@ -27,15 +27,17 @@ export interface DirectorsCalculator {
 export interface Class2Or3Calculator {
   calculate: Function
   getTaxYears: Array<string>
+  getFinalDate: Function
 }
 
 export interface WeeklyContributionsCalculator {
   calculate: Function
 }
 
-const initClass2Or3Calculator = {
+export const initClass2Or3Calculator = {
   calculate: () => {},
-  getTaxYears: ['']
+  getTaxYears: [''],
+  getFinalDate: () => {}
 }
 
 export const initWeeklyContributionsCalculator = {

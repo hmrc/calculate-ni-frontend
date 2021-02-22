@@ -33,7 +33,8 @@ interface Class2Or3Payload {
   paymentEnquiryDate: Date | null
   earningsFactor: string
   taxYear: TaxYear,
-  activeClass: string
+  activeClass: string,
+  finalDate: Date
 }
 
 interface Class3Payload {
@@ -170,8 +171,8 @@ export const validateClass2Or3Payload = (
   payload: Class2Or3Payload,
   setErrors: Dispatch<GenericErrors>
 ) => {
-  const minDate = payload.taxYear.from
-  const maxDate = payload.taxYear.to
+  const maxDate = payload.finalDate
+  console.log('final date', payload.finalDate)
   let errors: GenericErrors = {}
   if(!payload.activeClass) {
     errors.nationalInsuranceClass = {
@@ -185,12 +186,6 @@ export const validateClass2Or3Payload = (
       name: 'paymentEnquiryDate',
       link: 'paymentEnquiryDateDay',
       message: 'Payment/enquiry date must be entered as a real date'
-    }
-  } else if(beforeMinimumTaxYear(payload.paymentEnquiryDate, minDate)) {
-    errors.paymentEnquiryDate = {
-      name: 'paymentEnquiryDate',
-      link: 'paymentEnquiryDateDay',
-      message: `Payment/enquiry date must be on or after ${moment(minDate).format(govDateFormat)}`
     }
   } else if (afterMaximumTaxYear(payload.paymentEnquiryDate, maxDate)) {
     errors.paymentEnquiryDate = {
