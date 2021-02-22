@@ -29,7 +29,7 @@ trait ClassTwoOrThree {
   def qualifyingEarningsFactor: Explained[BigDecimal]
   def finalDate: Option[LocalDate]
 
-  def getFinalDate(start: LocalDate): Explained[LocalDate] = finalDate match {
+  protected[eoi] def getFinalDate(start: LocalDate): Explained[LocalDate] = finalDate match {
     case Some(date) => date gives "finalDate: from config"
     case None => start.plusYears(7).minusDays(1) gives s"finalDate: start date ($start) + 7 years - 1 day"
   }  
@@ -68,7 +68,7 @@ case class ClassThree(
 }
 
 
-case class ClassTwoAndThreeResult[A <: ClassTwoOrThree](
+case class ClassTwoAndThreeResult[A <: ClassTwoOrThree] protected[eoi] (
   on: LocalDate,
   year: A,
   paymentDate: LocalDate,

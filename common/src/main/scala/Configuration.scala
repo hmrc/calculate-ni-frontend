@@ -180,15 +180,20 @@ case class Configuration(
     on: LocalDate,
     paymentDate: LocalDate,
     earningsFactor: BigDecimal
-  ) = ClassTwoAndThreeResult[ClassThree](
-    on,
-    classThree.at(on).getOrElse(
+  ) = {
+    val (interval, c3taxYear) = classThree.findAt(on).getOrElse(
       throw new IllegalStateException(s"No C3 band defined for $on")
-    ),
-    paymentDate,
-    earningsFactor,
-    classThree
-  )
+    )
+
+    ClassTwoAndThreeResult[ClassThree](
+      interval.lowerValue.get,
+      c3taxYear,
+      paymentDate,
+      earningsFactor,
+      classThree
+    )
+  }
+
 
   def calculateClassOne(
     on: LocalDate,
