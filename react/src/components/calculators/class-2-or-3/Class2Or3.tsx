@@ -5,7 +5,6 @@ import {useDocumentTitle} from "../../../services/useDocumentTitle";
 
 // components
 import Details from '../shared/Details'
-import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import Class2Or3Form from './Class2Or3Form'
 import Class2Or3Results from './Class2Or3Results'
 import Class2Or3Print from './Class2Or3Print'
@@ -15,12 +14,14 @@ import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 // types
 import {Class2Or3Context, useClass2Or3Form} from './Class2Or3Context'
 import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
+import PrintButtons from "../shared/PrintButtons";
 
 const pageTitle = 'Class 2 or 3 NI contributions needed for a qualifying year'
 
 const Class2Or3Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const {
     ClassTwoCalculator,
     ClassThreeCalculator,
@@ -64,19 +65,19 @@ const Class2Or3Page = () => {
       earningsFactor,
       taxYear,
       activeClass,
-      finalDate: ClassTwoCalculator.getFinalDate(taxYear.from)
+      finalDate: ClassTwoCalculator.getFinalDate(taxYear?.from)
     }
 
     if(validateClass2Or3Payload(payload, setErrors)) {
       const resultFromCalculator = payload.activeClass === 'Class 2' ?
         ClassTwoCalculator.calculate(
-          payload.taxYear.from,
+          payload.taxYear?.from,
           payload.paymentEnquiryDate,
           parseFloat(payload.earningsFactor)
         )
         :
         ClassThreeCalculator.calculate(
-          payload.taxYear.from,
+          payload.taxYear?.from,
           payload.paymentEnquiryDate,
           parseFloat(payload.earningsFactor)
         )
@@ -93,8 +94,10 @@ const Class2Or3Page = () => {
   useEffect(() => {
     if(successNotificationsOn && result) {
       resultRef.current.focus()
+    } else if (result) {
+      totalsRef.current.focus()
     }
-  }, [result, resultRef, successNotificationsOn])
+  }, [result, resultRef, totalsRef, successNotificationsOn])
 
   return (
     <div>
@@ -127,19 +130,17 @@ const Class2Or3Page = () => {
               <Class2Or3Form />
             </div>
           </form>
-
-          <Class2Or3Results />
-
-          <div className="container section--top">
-            <div className="form-group">
-              <SecondaryButton
-                label="Save and print"
-                onClick={handleShowSummary}
-              />
-            </div>
-          </div>
         </>
       }
+
+      <div id="results-totals" className="no-focus-outline" tabIndex={-1} ref={totalsRef}>
+        <Class2Or3Results result={result} printView={showSummary} />
+      </div>
+
+      <PrintButtons
+        showSummary={showSummary}
+        handleShowSummary={handleShowSummary}
+      />
     
     </div>
   )

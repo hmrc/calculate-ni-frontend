@@ -19,7 +19,7 @@ import {SuccessNotificationContext} from '../../../services/SuccessNotificationC
 
 const pageTitle = 'Interest on late-paid refunds from 1993 to 1994'
 
-function LateRefundsPage() {
+const LateRefundsPage = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>

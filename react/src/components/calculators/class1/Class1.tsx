@@ -16,6 +16,7 @@ import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
 import {SuccessNotification} from "../shared/SuccessNotification";
 import {SuccessNotificationContext} from "../../../services/SuccessNotificationContext";
+import PrintButtons from "../shared/PrintButtons";
 
 const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 
@@ -160,24 +161,11 @@ const Class1Page = () => {
         />
       </div>
 
-      {!showSummary && (
-        <div className="container section--top section-outer--top">
-          <div className="form-group half">
-            <SecondaryButton
-              label="Save and print"
-              onClick={handleShowSummary}
-            />
-          </div>
-        </div>
-      )}
+      <PrintButtons
+        showSummary={showSummary}
+        handleShowSummary={handleShowSummary}
+      />
 
-      {showSummary && (
-        <div className="govuk-!-padding-bottom-9 section--top">
-          <button className="button" onClick={() => window.print()}>
-            Save and print
-          </button>
-        </div>
-      )}
     </div>
   )
 }
