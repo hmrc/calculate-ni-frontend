@@ -92,7 +92,11 @@ package object eoi {
   }
 
   implicit class RichIntervalMap[K,V](value: Map[Interval[K],V]) {
-    def at(in: K)(implicit o: spire.algebra.Order[K]): Option[V] = value.collectFirst{case (k,v) if k.contains(in) => v}
+    def at(in: K)(implicit o: spire.algebra.Order[K]): Option[V] =
+      value.collectFirst{case (k,v) if k.contains(in) => v}
+
+    def findAt(in: K)(implicit o: spire.algebra.Order[K]): Option[(Interval[K],V)] =
+      value.find{case (k,v) => k.contains(in)}
   }
 
   implicit def localDateOrder = new spire.algebra.Order[LocalDate] {
