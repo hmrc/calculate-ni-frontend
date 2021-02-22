@@ -67,7 +67,7 @@ function Class1DebtTableRow(props: {
 
       <MqTableCell cellStyle={thStyles.taxYear} cellClassName="input">
         {printView ?
-          <div>{taxYearString(row.taxYear, true)}</div>
+          <div>{row.taxYear && taxYearString(row.taxYear, true)}</div>
           :
           <SelectTaxYear
             borderless={true}

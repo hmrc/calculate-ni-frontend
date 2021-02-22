@@ -1,10 +1,11 @@
 import React, {useContext} from 'react'
 import {LateRefundsContext} from './LateRefundsContext'
 
-function LateRefundsResults() {
+function LateRefundsResults(props: {printView: boolean}) {
+  const { printView } = props
   const {results} = useContext(LateRefundsContext)
   return (
-    <div className="section--top section-outer--top section--bottom section-outer--bottom divider--bottom results print-totals-inline" id="results-totals">
+    <div className={`section--top section-outer--top section--bottom section-outer--bottom divider--bottom results print-totals-inline${printView ? ` save-print-wrapper` : ``}`} id="results-totals">
       <h2 className="section-heading">Totals</h2>
 
       <div className="container">

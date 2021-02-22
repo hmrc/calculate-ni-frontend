@@ -36,7 +36,6 @@ function LateRefundsPrint(props: LateRefundPrintProps) {
           </div>
         </div>
 
-        <LateRefundsResults />
       </div>
     </div>
   )

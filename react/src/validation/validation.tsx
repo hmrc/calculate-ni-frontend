@@ -32,7 +32,7 @@ interface UnofficialDefermentPayload {
 interface Class2Or3Payload {
   paymentEnquiryDate: Date | null
   earningsFactor: string
-  taxYear: TaxYear,
+  taxYear: TaxYear | null,
   activeClass: string,
   finalDate: Date
 }

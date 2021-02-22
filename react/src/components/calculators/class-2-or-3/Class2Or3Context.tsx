@@ -31,8 +31,8 @@ interface Class2Or3Context {
   setDetails: Function
   activeClass: string
   setActiveClass: Dispatch<string>
-  taxYear: TaxYear,
-  setTaxYear: Dispatch<TaxYear>,
+  taxYear: TaxYear | null,
+  setTaxYear: Dispatch<TaxYear | null>,
   paymentEnquiryDate: Date | null,
   day: string,
   setDay: Dispatch<string>
@@ -65,11 +65,7 @@ export const Class2Or3Context = React.createContext<Class2Or3Context>(
     setDetails: () => {},
     activeClass: '',
     setActiveClass: () => {},
-    taxYear: {
-      id: '1',
-        from: new Date(),
-        to: new Date()
-    },
+    taxYear: null,
     setTaxYear: () => {},
     day: '',
     setDay: () => {},
@@ -103,9 +99,20 @@ export function useClass2Or3Form() {
   } = useContext(NiFrontendContext)
   const ClassTwoCalculator = NiFrontendInterface.classTwo
   const ClassThreeCalculator = NiFrontendInterface.classThree
-  const class2TaxYears: TaxYear[] = buildTaxYears(ClassTwoCalculator.getTaxYears)
-  const class3TaxYears: TaxYear[] = buildTaxYears(ClassThreeCalculator.getTaxYears)
-  const [taxYear, setTaxYear] = useState<TaxYear>(class2TaxYears[0])
+  const [class2TaxYears, setClass2TaxYears] = useState<TaxYear[]>([])
+  const [class3TaxYears, setClass3TaxYears] = useState<TaxYear[]>([])
+  const [taxYear, setTaxYear] = useState<TaxYear | null>(null)
+
+  useEffect(() => {
+    const taxYearData = buildTaxYears(ClassTwoCalculator.getTaxYears)
+    setClass2TaxYears(taxYearData)
+    setTaxYear(taxYearData[0])
+  }, [ClassTwoCalculator])
+
+  useEffect(() => {
+    const taxYearData = buildTaxYears(ClassThreeCalculator.getTaxYears)
+    setClass3TaxYears(taxYearData)
+  }, [ClassThreeCalculator])
 
   useEffect(() => {
     const taxYears = activeClass === NiClassName.CLASS_TWO ? class2TaxYears : class3TaxYears
