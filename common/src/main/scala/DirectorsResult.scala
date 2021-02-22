@@ -129,7 +129,7 @@ object DirectorsResult {
 
   def categoryOrderPre2016(app: Boolean): List[Char] =
     if(app)
-    List('G','E', 'B', 'F', 'I', 'D', 'M', 'A', 'S', 'K', 'L', 'Z', 'J', 'C')
+      List('G','E', 'B', 'F', 'I', 'D', 'M', 'A', 'S', 'K', 'L', 'Z', 'J', 'C')
     else
       List('G','E', 'B', 'M', 'A', 'F', 'I', 'D', 'Z', 'J', 'S', 'K', 'L', 'C')
 
