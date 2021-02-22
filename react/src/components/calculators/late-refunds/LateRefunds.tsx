@@ -16,6 +16,7 @@ import {LateRefundsContext, useLateRefundsForm} from './LateRefundsContext'
 import {LateRefundsTableRowProps} from '../../../interfaces'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
 import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
+import PrintButtons from "../shared/PrintButtons";
 
 const pageTitle = 'Interest on late-paid refunds from 1993 to 1994'
 
@@ -128,28 +129,17 @@ const LateRefundsPage = () => {
               <LateRefundsForm />
             </div>
           </form>
-
-          <div className="no-focus-outline" ref={totalsRef} tabIndex={-1}>
-            <LateRefundsResults />
-          </div>
-
-          <div className="container section--top section-outer--top section--bottom">
-            <SecondaryButton
-              label="Save and print"
-              onClick={handleShowSummary}
-            />
-          </div>
-
         </>
       }
 
-      {showSummary && (
-        <div className="govuk-!-padding-bottom-9 section--top">
-          <button className="button" onClick={() => window.print()}>
-            Save and print
-          </button>
-        </div>
-      )}
+      <div className="no-focus-outline" ref={totalsRef} tabIndex={-1}>
+        <LateRefundsResults printView={showSummary} />
+      </div>
+
+      <PrintButtons
+        showSummary={showSummary}
+        handleShowSummary={handleShowSummary}
+      />
 
     </div>
   )
