@@ -27,6 +27,18 @@ class ClassTwoAndThreeFrontend[A <: ClassTwoOrThree](
     i.toJSArray
   }
 
+  def getFinalDate(
+    taxYear: Date
+  ): js.Date = rates.at(taxYear).getOrElse(
+    throw new IllegalStateException(s"No band defined for $taxYear")
+  ).getFinalDate(taxYear).value
+
+  def getQualifyingEarningsFactor(
+    taxYear: Date
+  ): Double = rates.at(taxYear).getOrElse(
+    throw new IllegalStateException(s"No band defined for $taxYear")
+  ).qualifyingEarningsFactor.value.toDouble
+
   def calculate(
     taxYear: Date,
     paymentDate: Date,

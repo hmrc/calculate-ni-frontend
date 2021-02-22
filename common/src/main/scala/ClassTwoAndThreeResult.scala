@@ -28,6 +28,11 @@ trait ClassTwoOrThree {
   def lowerEarningLimit: Explained[BigDecimal]
   def qualifyingEarningsFactor: Explained[BigDecimal]
   def finalDate: Option[LocalDate]
+
+  def getFinalDate(start: LocalDate): Explained[LocalDate] = finalDate match {
+    case Some(date) => date gives "finalDate: from config"
+    case None => start.plusYears(7).minusDays(1) gives s"finalDate: start date ($start) + 7 years - 1 day"
+  }  
 }
 
 case class ClassTwo(
@@ -98,10 +103,7 @@ case class ClassTwoAndThreeResult[A <: ClassTwoOrThree](
     }
   }
 
-  def finalDate: Explained[LocalDate] = year.finalDate match {
-    case Some(date) => date gives "finalDate: from config"
-    case None => on.plusYears(7).minusDays(1) gives s"finalDate: start date ($on) + 7 years - 1 day"
-  }
+  def finalDate: Explained[LocalDate] = year.getFinalDate(on)
 
   def higherRateApplies: Explained[Boolean] = 
     higherProvisionsApplyOn.flatMap { hrpDate => 
