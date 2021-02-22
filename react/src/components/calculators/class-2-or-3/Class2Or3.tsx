@@ -134,7 +134,7 @@ const Class2Or3Page = () => {
       }
 
       <div id="results-totals" className="no-focus-outline" tabIndex={-1} ref={totalsRef}>
-        <Class2Or3Results result={result} printView={showSummary} />
+        <Class2Or3Results printView={showSummary} />
       </div>
 
       <PrintButtons

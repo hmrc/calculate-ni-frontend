@@ -5,9 +5,9 @@ import {sterlingStringValue, dateStringSlashSeparated} from '../../../services/u
 import {Class2Or3Context, Class2Or3Result} from "./Class2Or3Context";
 import {NiClassNameLabels} from "../../../interfaces";
 
-function Class2Or3Results(props: {printView: boolean, result: Class2Or3Result | null}) {
-  const { printView, result } = props
-  const {activeClass} = useContext(Class2Or3Context)
+function Class2Or3Results(props: {printView: boolean}) {
+  const { printView } = props
+  const {result, activeClass} = useContext(Class2Or3Context)
   return (
     <div className={`results section--top section--bottom divider--bottom${printView ? ` save-print-wrapper` : ``}`}>
       <div className="container section--bottom divider--bottom">
