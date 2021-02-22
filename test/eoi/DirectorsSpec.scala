@@ -16,8 +16,8 @@
 
 package eoi
 
-import cats.data.Validated.{Invalid, Valid}
-import cats.data.{NonEmptyList, Validated, ValidatedNel}
+import cats.data.Validated.Invalid
+import cats.data.{Validated, ValidatedNel}
 import cats.kernel.Semigroup
 import cats.instances.list._
 import cats.syntax.traverse._
@@ -71,7 +71,6 @@ class DirectorsSpec extends AnyWordSpec with Matchers {
         test.description -> validateResult(result, test)
       }
 
-      val passed = results.collect{ case (_, Valid(_)) => () }
       val failed = results.collect{ case (d, Invalid(e)) => d -> e }
 
       if(failed.nonEmpty)
