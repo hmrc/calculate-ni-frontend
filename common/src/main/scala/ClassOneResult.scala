@@ -278,10 +278,10 @@ trait ClassOneResultLike {
       employerContributions,
       employerPaid
       ).tupled.flatMap{ case (c, p) => (c - p).max(Zero) gives
-      s"underpayment.employer: max(0, $employerContributions - $employerPaid) = max(0, $c - $p)"
+      s"underpayment.employer: max(0, employerContributions - employerPaid) = max(0, $c - $p)"
     }
 
-    def total = (employee, employer).tupled.flatMap { case (ee,er) => (ee + er) gives
+    def total: Explained[BigDecimal] = (employee, employer).tupled.flatMap { case (ee,er) => (ee + er) gives
       s"underpayment.total: employee + employer = $ee + $er"
     }
 

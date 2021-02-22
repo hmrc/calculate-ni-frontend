@@ -69,8 +69,11 @@ case class DirectorsResult(
   }
 
   lazy val rowsOutput: List[ClassOneRowOutput] = {
-    val sortedRows = rowsInput.sortWithOrder(
-      if(appropriatePersonalPensionScheme.exists(identity)) categoryOrderApp else categoryOrder)(_.category)
+    val categoryOrder =
+      if(from.getYear >= 2016) categoryOrder2016Onwards
+      else categoryOrderPre2016(appropriatePersonalPensionScheme.exists(identity))
+
+    val sortedRows = rowsInput.sortWithOrder(categoryOrder)(_.category)
     sortedRows.foldLeft(List.empty[ClassOneRowOutput] -> Zero){ case ((acc, precededAmount), directorsRowInput) =>
       val rowOutput =
         ClassOneRowOutput(
@@ -121,9 +124,15 @@ object DirectorsResult {
 
   }
 
-  val categoryOrder: List[Char] = List('G','E', 'B', 'F', 'H', 'I', 'D', 'M', 'A', 'S', 'K', 'L', 'Z', 'J', 'C')
+  val categoryOrder2016Onwards: List[Char] =
+    List('B', 'M', 'A', 'Z', 'J', 'C', 'H')
 
-  val categoryOrderApp: List[Char] = List('G','E', 'B', 'M', 'A', 'F', 'I', 'D', 'Z', 'J', 'S', 'K', 'L', 'C')
+  def categoryOrderPre2016(app: Boolean): List[Char] =
+    if(app)
+      List('G','E', 'B', 'F', 'I', 'D', 'M', 'A', 'S', 'K', 'L', 'Z', 'J', 'C')
+    else
+      List('G','E', 'B', 'M', 'A', 'F', 'I', 'D', 'Z', 'J', 'S', 'K', 'L', 'C')
+
 
   implicit val localDateOrder: Order[LocalDate] = Order.from(_ compareTo _)
 
