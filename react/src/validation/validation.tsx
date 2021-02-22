@@ -67,10 +67,10 @@ export interface GenericErrors {
   [key: string]: ErrorMessage
 }
 
-export const beforeMinimumTaxYear = (date: Date, minDate: Date) =>
+export const beforeMinimumDate = (date: Date, minDate: Date) =>
   moment(date).isBefore(moment(minDate))
 
-export const afterMaximumTaxYear = (date: Date, maxDate: Date) =>
+export const afterMaximumDate = (date: Date, maxDate: Date) =>
   moment(date).isAfter(moment(maxDate))
 
 const validateNiPaid = (errors: GenericErrors, niPaidNet: string, niPaidEmployee: string) => {
@@ -172,7 +172,6 @@ export const validateClass2Or3Payload = (
   setErrors: Dispatch<GenericErrors>
 ) => {
   const maxDate = payload.finalDate
-  console.log('final date', payload.finalDate)
   let errors: GenericErrors = {}
   if(!payload.activeClass) {
     errors.nationalInsuranceClass = {
@@ -187,7 +186,7 @@ export const validateClass2Or3Payload = (
       link: 'paymentEnquiryDateDay',
       message: 'Payment/enquiry date must be entered as a real date'
     }
-  } else if (afterMaximumTaxYear(payload.paymentEnquiryDate, maxDate)) {
+  } else if (afterMaximumDate(payload.paymentEnquiryDate, maxDate)) {
     errors.paymentEnquiryDate = {
       name: 'paymentEnquiryDate',
       link: 'paymentEnquiryDateDay',
@@ -366,24 +365,24 @@ const validateClass3Rows = (
         ...coreMsg(fromId),
         message: `Both start and end dates must be entered for row #${index + 1}`
       }
-    } else if(beforeMinimumTaxYear(dateRange.from, minDate)) {
+    } else if(beforeMinimumDate(dateRange.from, minDate)) {
       errors[fromId] = {
         ...coreMsg(fromId),
         message: `Start date for row #${index + 1} must be on or after ${moment(minDate).format(govDateFormat)}`
       }
-    } else if(afterMaximumTaxYear(dateRange.from, maxDate)) {
+    } else if(afterMaximumDate(dateRange.from, maxDate)) {
       errors[fromId] = {
         ...coreMsg(fromId),
         message: `Start date for row #${index + 1} must be on or before ${moment(maxDate).format(govDateFormat)}`
       }
     }
 
-    if(dateRange.to && beforeMinimumTaxYear(dateRange.to, minDate)) {
+    if(dateRange.to && beforeMinimumDate(dateRange.to, minDate)) {
       errors[toId] = {
         ...coreMsg(toId),
         message: `End date for row #${index + 1} must be on or after ${moment(minDate).format(govDateFormat)}`
       }
-    } else if(dateRange.to && afterMaximumTaxYear(dateRange.to, maxDate)) {
+    } else if(dateRange.to && afterMaximumDate(dateRange.to, maxDate)) {
       errors[toId] = {
         ...coreMsg(toId),
         message: `End date for row #${index + 1} must be on or before ${moment(maxDate).format(govDateFormat)}`
@@ -440,13 +439,13 @@ const validateDirectorshipDates = (taxYear: TaxYear | null, dateRange: GovDateRa
         name: 'Start date of directorship',
         message: 'Start date of directorship must be entered as a real date'
       }
-    } else if(beforeMinimumTaxYear(dateRange.from, minDate)) {
+    } else if(beforeMinimumDate(dateRange.from, minDate)) {
       errors.directorshipFromDay = {
         link: 'directorshipFromDay',
         name: 'Start date of directorship',
         message: `Start date of directorship must be on or after ${moment(minDate).format(govDateFormat)}`
       }
-    } else if (afterMaximumTaxYear(dateRange.from, maxDate)) {
+    } else if (afterMaximumDate(dateRange.from, maxDate)) {
       errors.directorshipFromDay = {
         link: 'directorshipFromDay',
         name: 'Start date of directorship',
@@ -460,13 +459,13 @@ const validateDirectorshipDates = (taxYear: TaxYear | null, dateRange: GovDateRa
         name: 'End date of directorship',
         message: 'End date of directorship must be entered as a real date'
       }
-    } else if (beforeMinimumTaxYear(dateRange.to, minDate)) {
+    } else if (beforeMinimumDate(dateRange.to, minDate)) {
       errors.directorshipToDay = {
         link: 'directorshipToDay',
         name: 'End date of directorship',
         message: `End date of directorship must be on or after ${moment(minDate).format(govDateFormat)}`
       }
-    } else if (afterMaximumTaxYear(dateRange.to, maxDate)) {
+    } else if (afterMaximumDate(dateRange.to, maxDate)) {
       errors.directorshipToDay = {
         link: 'directorshipToDay',
         name: 'End date of directorship',
