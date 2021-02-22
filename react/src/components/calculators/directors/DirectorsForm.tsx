@@ -154,9 +154,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
         printView={false}
       />
 
-      <div className="container">
-        <div className="container">
-        </div>
+      <div className="container stack-right">
 
         <div className="container">
           <div className="form-group repeat-button">

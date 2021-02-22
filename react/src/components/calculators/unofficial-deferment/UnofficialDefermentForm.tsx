@@ -68,15 +68,7 @@ export default function UnofficialDefermentForm(props: any) {
 
       <UnofficialDefermentTable printView={false} />
 
-      <div className="container">
-        <div className="container">
-          <div className="form-group">
-            <button className="govuk-button nomar" type="submit">
-              Calculate
-            </button>
-          </div>
-        </div>
-
+      <div className="container stack-right">
         <div className="container">
 
           <div className="form-group repeat-button">
@@ -103,6 +95,11 @@ export default function UnofficialDefermentForm(props: any) {
         </div>
       </div>
 
+      <div className="form-group">
+        <button className="govuk-button nomar" type="submit">
+          Calculate
+        </button>
+      </div>
     </div>
   )
 }
