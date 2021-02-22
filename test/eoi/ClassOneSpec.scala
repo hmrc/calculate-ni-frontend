@@ -44,7 +44,7 @@ class ClassOneSpec extends FunSpec with Matchers {
   val files = {
     val dir = new File("calc/src/test/resources/testing-tables")
     dir.listFiles().filter(_.getName().endsWith(".csv"))
-  }
+}
 
   val reportDir = {
     val d = new File("target/testing-reports")
