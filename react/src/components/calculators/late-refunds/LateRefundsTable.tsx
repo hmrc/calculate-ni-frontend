@@ -88,9 +88,7 @@ function LateRefundsTable(props: LateRefundsTable) {
 
       {!printView &&
       <>
-        <div className="container">
-          <div className="container container-block">
-          </div>
+        <div className="container stack-right">
 
           <div className="container">
             <div className="form-group repeat-button">

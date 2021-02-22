@@ -88,9 +88,7 @@ function Class1Form(props: Class1FormProps) {
           printView={false}
         />
 
-        <div className="container">
-          <div className="container">
-          </div>
+        <div className="container stack-right">
 
           <div className="container">
             <div className="form-group repeat-button">
