@@ -63,7 +63,8 @@ const Class2Or3Page = () => {
       paymentEnquiryDate,
       earningsFactor,
       taxYear,
-      activeClass
+      activeClass,
+      finalDate: ClassTwoCalculator.getFinalDate(taxYear.from)
     }
 
     if(validateClass2Or3Payload(payload, setErrors)) {
@@ -88,12 +89,6 @@ const Class2Or3Page = () => {
 
     }
   }
-
-  useEffect(() => {
-    if(result) {
-      resultRef.current.focus()
-    }
-  }, [result, resultRef])
 
   useEffect(() => {
     if(successNotificationsOn && result) {
