@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -28,54 +28,49 @@ import Class2Or3 from './components/calculators/class-2-or-3/Class2Or3'
 import Class3 from './components/calculators/class-3/Class3'
 import LateInterest from './components/calculators/late-interest/LateInterest'
 import LateRefunds from './components/calculators/late-refunds/LateRefunds'
-import BreadCrumbs from "./components/helpers/gov-design-system/BreadCrumbs";
 import {NiFrontendContext, useNiFrontend} from "./services/NiFrontendContext";
-import {serviceName} from "./config";
 import {SuccessNotificationContext} from "./services/SuccessNotificationContext";
+import MainTemplate from "./layout/MainTemplate";
 
 function App() {
   const [successNotificationsOn, setSuccessNotificationsOn] = useState<boolean>(false)
+
   return (
     <NiFrontendContext.Provider value={useNiFrontend()}>
       <SuccessNotificationContext.Provider value={{successNotificationsOn, setSuccessNotificationsOn}}>
-        <div className="govuk-width-container">
-          <Header serviceName={serviceName} />
-          <PhaseBanner type="ALPHA" link="#feedback" />
-          <div className="main" id="main-content">
-            <Router basename="calculate-ni">
-              <BreadCrumbs />
-              <Switch>
-                <Route path="/class-1">
-                  <Class1 />
-                </Route>
-                <Route path="/directors">
-                  <Directors />
-                </Route>
-                <Route path="/unofficial-deferment">
-                  <UnofficialDeferment />
-                </Route>
-                <Route path="/class-2-or-3">
-                  <Class2Or3 />
-                </Route>
-                <Route path="/class-3">
-                  <Class3 />
-                </Route>
-                <Route path="/late-interest">
-                  <LateInterest />
-                </Route>
-                <Route path="/late-refunds">
-                  <LateRefunds />
-                </Route>
-                <Route path="/">
-                  <Home />
-                </Route>
-              </Switch>
-            </Router>
-          </div>
-        </div>
+        <Router basename="calculate-ni">
+          <MainTemplate>
+            <Switch>
+              <Route path="/class-1">
+                <Class1 />
+              </Route>
+              <Route path="/directors">
+                <Directors />
+              </Route>
+              <Route path="/unofficial-deferment">
+                <UnofficialDeferment />
+              </Route>
+              <Route path="/class-2-or-3">
+                <Class2Or3 />
+              </Route>
+              <Route path="/class-3">
+                <Class3 />
+              </Route>
+              <Route path="/late-interest">
+                <LateInterest />
+              </Route>
+              <Route path="/late-refunds">
+                <LateRefunds />
+              </Route>
+              <Route path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </MainTemplate>
+        </Router>
       </SuccessNotificationContext.Provider>
     </NiFrontendContext.Provider>
-  );
+  )
 }
 
 export default App;
