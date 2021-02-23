@@ -15,7 +15,7 @@ export default function MainTemplate(props: {  children: ReactNode}) {
         <Header serviceName={serviceName} />
         <PhaseBanner type="ALPHA" link="#feedback" />
         <BreadCrumbs />
-        <main className="main" id="main-content">
+        <main className="govuk-main-wrapper" id="main-content">
           {props.children}
         </main>
       </div>
