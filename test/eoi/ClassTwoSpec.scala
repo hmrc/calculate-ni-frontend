@@ -16,7 +16,6 @@
 
 package eoi
 
-import org.scalatest._
 import cats.implicits._
 
 class ClassTwoSpec extends SpreadsheetTest {
@@ -25,12 +24,12 @@ class ClassTwoSpec extends SpreadsheetTest {
 
   def lineTest(row: Map[String, String]): Unit = {
     // data
-    val result = (
+    val _ = (
       (row.get("year") >>= TaxYear.unapply).map(_.start),
       row.get("payment / enquiry date") >>= Date.unapply,
       row.get("total earnings factor") >>= Money.unapply
     ).mapN(config.calculateClassTwo) map {
-      result =>
+      _ =>
 
       // (
       //   row.get("no conts due") >>= Int.unapply
