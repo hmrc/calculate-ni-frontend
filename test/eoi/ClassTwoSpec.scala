@@ -23,22 +23,32 @@ class ClassTwoSpec extends SpreadsheetTest {
 
   val files = csvsInDir("calc/src/test/resources/testing-tables/class2")
 
+
   def lineTest(row: Map[String, String]): Unit = {
     // data
-    val result = (
+    (
       (row.get("year") >>= TaxYear.unapply).map(_.start),
       row.get("payment / enquiry date") >>= Date.unapply,
       row.get("total earnings factor") >>= Money.unapply
     ).mapN(config.calculateClassTwo) map {
       result =>
 
-      // (
-      //   row.get("no conts due") >>= Int.unapply
-      // ) map (result.numberOfContributions equalOrExplain _)
+      (
+        row.get("no conts due") >>= Int.unapply
+      ) map (result.numberOfContributions equalOrExplain _)
 
-      // (
-      //   row.get("total amount") >>= Money.unapply
-      // ) map (result.totalDue equalOrExplain _)
+      (
+        row.get("total amount") >>= Money.unapply
+      ) map (result.totalDue equalOrExplain _)
+
+      (
+        row.get("date higher rate") >>= Date.unapply
+      ) map (result.higherProvisionsApplyOn equalOrExplain _)
+
+      (
+        row.get("final payment date") >>= Date.unapply
+      ) map (result.finalDate equalOrExplain _)
+      
     }
 
   }
