@@ -22,17 +22,17 @@ import cats.kernel.Semigroup
 import cats.instances.list._
 import cats.syntax.traverse._
 import cats.syntax.apply._
-import eoi.DirectorsSpec._
 import main.scala.{DirectorsResult, DirectorsRowInput}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import pureconfig.{ConfigReader, ConfigSource}
-import pureconfig.generic.auto._
 
 import java.time.LocalDate
 import scala.util.Try
 
 class DirectorsSpec extends AnyWordSpec with Matchers {
+
+  import eoi.DirectorsSpec._
 
   val tests: List[Test] =
     ConfigSource
@@ -191,8 +191,42 @@ object DirectorsSpec {
 
   case class Tests(tests: List[Test])
 
+  implicit val rowReader: ConfigReader[Row] =
+    ConfigReader.forProduct5("category", "gross-pay", "id", "total", "ee")(Row(_, _, _, _, _))
+
+  implicit val totalReader: ConfigReader[Total] =
+    ConfigReader.forProduct3("net", "ee", "er")(Total(_, _, _))
+
+  implicit val paidReader: ConfigReader[Paid] =
+    ConfigReader.forProduct2("net", "ee")(Paid(_, _))
+
+  implicit val underPaymentReader: ConfigReader[UnderPayment] =
+    ConfigReader.forProduct3("net", "ee", "er")(UnderPayment(_, _, _))
+
+  implicit val overPaymentReader: ConfigReader[OverPayment] =
+    ConfigReader.forProduct3("net", "ee", "er")(OverPayment(_, _, _))
+
   implicit val localDataConfigReader: ConfigReader[LocalDate] =
     ConfigReader.fromNonEmptyStringTry(s => Try(LocalDate.parse(s)))
+
+  implicit val proRataReader: ConfigReader[ProRata] =
+    ConfigReader.forProduct2("from", "to")(ProRata(_, _))
+
+  implicit val testReader: ConfigReader[Test] =
+    ConfigReader.forProduct9(
+      "tax-year",
+      "pro-rata",
+      "rows",
+      "paid",
+      "total",
+      "underpayment",
+      "overpayment",
+      "description",
+      "app"
+    )(Test(_, _, _, _ ,_, _, _, _, _))
+
+  implicit val testsReader: ConfigReader[Tests] =
+    ConfigReader.forProduct1("tests")(Tests(_))
 
   implicit val unitSemiGroup: Semigroup[Unit] =   Semigroup.instance[Unit]{ case _ => () }
 
