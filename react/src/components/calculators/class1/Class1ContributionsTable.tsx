@@ -54,7 +54,7 @@ function ClassOneEarningsTable(props: TableProps) {
           <td colSpan={4} />
           <th scope="colgroup" className="border" colSpan={displayBands ? firstBands.length + 1 : 1}><span>Earnings</span></th>
           <th scope="colgroup" className="border" colSpan={printView ? 3 : 2}><span>Net contributions</span></th>
-          {!printView && result && <td scope="col" />}
+          {!printView && result && <td />}
         </tr>
         <tr>
           <th scope="col">
