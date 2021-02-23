@@ -160,7 +160,7 @@ case class ClassOneRowOutput(
         case amt if period == Period.FourWeek && on.getYear <= 1999 =>
           ((amt / 4 * employerRate).roundNi * 4) gives
             s"$rowId.$bandId.employer (pre-2000 rule):" ++
-              " ⌊amt / 4 * employerRate⌋ * 4 = ⌊$amt / 4 * $employerRate⌋ * 4"
+              s" ⌊amt / 4 * employerRate⌋ * 4 = ⌊$amt / 4 * $employerRate⌋ * 4"
 
         case amt => (amt * employerRate).roundNi gives
           s"$rowId.$bandId.employer: ⌊$amt * $employerRate⌋ = ⌊${amt * employerRate}⌋"
@@ -173,7 +173,7 @@ case class ClassOneRowOutput(
         case amt if period == Period.FourWeek && on.getYear <= 1999 =>
           ((amt / 4 * employeeRate).roundNi * 4) gives
             s"$rowId.$bandId.employee (pre-2000 rule):" ++
-              " ⌊amt / 4 * employeeRate⌋ * 4 = ⌊$amt / 4 * $employeeRate⌋ * 4"
+              s" ⌊amt / 4 * employeeRate⌋ * 4 = ⌊$amt / 4 * $employeeRate⌋ * 4"
 
         case amt => (amt * employeeRate).roundNi gives
           s"$rowId.$bandId.employee: ⌊$amt * $employeeRate⌋ = ⌊${amt * employeeRate}⌋"

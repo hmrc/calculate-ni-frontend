@@ -17,14 +17,14 @@
 package eoi
 
 import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpec
 import com.github.tototoshi.csv._
 import org.scalatest._
-import cats.syntax.either._
+import org.scalatest.funspec.AnyFunSpec
+
 import java.time.LocalDate
 import java.io._
 
-class ClassOneSpec extends FunSpec with Matchers {
+class ClassOneSpec extends AnyFunSpec with Matchers {
 
   val config: Configuration = eoi.ConfigLoader.default
 
@@ -64,10 +64,9 @@ class ClassOneSpec extends FunSpec with Matchers {
           line.map(_.trim) match { 
             case (Int(year)::PeriodParse(period)::Int(periodNumber)::categoryS::Money(grossPay)::Money(expectedEmployee)::Money(expectedEmployer)::xs) =>
 
-              val statusString = s"${file.getName}:${indexMinus + 1}"
+              // val statusString = s"${file.getName}:${indexMinus + 1}"
 
-              val comments = xs.mkString(",")
-              val cosr = comments.contains("COSR")
+              // val comments = xs.mkString(",")
               val category = categoryS(0)
               val res = config.calculateClassOne(
                 LocalDate.of(year, 10, 1),
@@ -84,11 +83,11 @@ class ClassOneSpec extends FunSpec with Matchers {
               val employer = res.employerContributions.value              
               if (employee != expectedEmployee || employer != expectedEmployer) {
 
-                val director = comments.contains("director")
-                writeln(statusString)
-                writeln(statusString.map{_ => '='})
-                writeln()                
-                writeln("  " + line.mkString(","))
+//                val director = comments.contains("director")
+//                writeln(statusString)
+//                writeln(statusString.map{_ => '='})
+//                writeln()
+//                writeln("  " + line.mkString(","))
 
 
                 if (expectedEmployee != employee) {
