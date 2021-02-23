@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,8 +18,6 @@ import './styles/SavePrint.css';
 import './styles/Results.css';
 
 // components
-import Header from './components/helpers/hmrc-design-system/Header'
-import PhaseBanner from './components/helpers/gov-design-system/PhaseBanner'
 import Home from './components/Home'
 import Class1 from './components/calculators/class1/Class1'
 import Directors from './components/calculators/directors/Directors'
