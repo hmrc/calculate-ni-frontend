@@ -7,7 +7,6 @@ import Details from '../shared/Details'
 import LateRefundsForm from './LateRefundsForm'
 import LateRefundsResults from './LateRefundsResults'
 import LateRefundsPrint from './LateRefundsPrint'
-import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 import {SuccessNotification} from "../shared/SuccessNotification";
 

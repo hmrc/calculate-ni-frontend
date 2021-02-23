@@ -82,7 +82,6 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
                 labelText="Name of employer"
                 inputClassName="gross-pay"
                 inputValue={r.nameOfEmployer}
-                placeholderText="Enter employer name"
                 onChangeCallback={(e) => handleChange?.(r, e)}
               />
             }

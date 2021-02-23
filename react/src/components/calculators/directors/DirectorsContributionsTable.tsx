@@ -8,7 +8,6 @@ import {TableProps} from '../../../interfaces'
 
 // components
 import DirectorsTableRow from './DirectorsTableRow'
-import ExplainToggle from "../shared/ExplainToggle";
 import ExplainRow from "../shared/ExplainRow";
 
 numeral.locale('en-gb');

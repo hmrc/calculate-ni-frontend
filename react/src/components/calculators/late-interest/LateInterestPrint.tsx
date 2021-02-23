@@ -9,7 +9,6 @@ import {LateInterestPrintProps} from '../../../interfaces'
 import {LateInterestContext} from './LateInterestContext'
 import LateInterestDebtTable from './LateInterestDebtTable'
 import {taxYearString} from '../../../config'
-import LateInterestResults from './LateInterestResults'
 
 function LateInterestPrint(props: LateInterestPrintProps) {
   const { title, setShowSummary } = props

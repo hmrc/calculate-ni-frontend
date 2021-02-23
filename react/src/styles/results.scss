@@ -1,0 +1,48 @@
+.results {
+  .value {
+    background-color: #E6E6E6;
+    border: 2px solid var(--input-border);
+    box-sizing: border-box;
+    display: block;
+    height: 36px;
+    line-height: 36px;
+    margin-bottom: 15px;
+    padding: 0 5px;
+    &.full {
+      width: 100%;
+    }
+    &.inline {
+      @media screen and (min-width: 760px) {
+        margin-right: auto;
+      }
+    }
+    &.width-3 {
+      @media screen and (min-width: 760px) {
+        width: 70px;
+      }
+    }
+    &.width-8 {
+      @media screen and (min-width: 760px) {
+        width: 180px;
+      }
+    }
+  }
+
+  .label {
+    margin-bottom: 10px;
+  }
+}
+
+.save-print-wrapper {
+  .label {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .value {
+    margin-bottom: 20px;
+    background-color: transparent;
+    border: none;
+    height: auto;
+    padding: 0;
+  }
+}

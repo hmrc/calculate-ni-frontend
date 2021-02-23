@@ -7,7 +7,7 @@ import DirectorsEarningsTable from './DirectorsContributionsTable'
 import DetailsPrint from "../shared/DetailsPrint";
 
 // types
-import {Calculators, Class1DirectorsSavePrintProps} from '../../../interfaces'
+import {Class1DirectorsSavePrintProps} from '../../../interfaces'
 import BackLink from "../../helpers/gov-design-system/BackLink";
 import {govDateString, taxYearShorthand} from "../../../services/utils";
 import {PeriodLabel} from "../../../config";
