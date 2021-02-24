@@ -92,6 +92,7 @@ function Class1DebtTableRow(props: {
             inputValue={row.debt}
             placeholderText="Enter the Class 1 debt"
             onChangeCallback={(e) => handleChange?.(row, e)}
+            error={errors[`${row.id}-class1-debt`]}
           />
         }
       </MqTableCell>
