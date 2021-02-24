@@ -97,6 +97,7 @@ function DirectorsTableRow(props: TableRowProps) {
             inputValue={row.gross}
             placeholderText="Enter the gross pay amount"
             onChangeCallback={(e) => handleGrossChange?.(row, e)}
+            error={errors[`${row.id}-gross`]}
           />
         }
       </MqTableCell>

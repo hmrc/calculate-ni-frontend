@@ -146,6 +146,7 @@ export default function Class1TableRow(props: TableRowProps) {
               inputClassName="gross-pay"
               inputValue={row.gross}
               onChangeCallback={(e) => handleChange?.(row, e)}
+              error={errors[`${row.id}-gross`]}
             />
           </React.Fragment>
         }

@@ -137,6 +137,7 @@ const Class3TableRow = (props: {
             inputValue={row.earningsFactor}
             inputClassName="number"
             onChangeCallback={(e) => handleChange(row, e)}
+            error={errors[`${row.id}-earningsFactor`]}
           />
         }
       </MqTableCell>
