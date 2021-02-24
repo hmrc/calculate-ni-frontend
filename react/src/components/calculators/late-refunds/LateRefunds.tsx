@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import {hasKeys} from '../../../services/utils'
-import {validateLateRefundsPayload} from '../../../validation/validation'
+import {stripCommas, validateLateRefundsPayload} from '../../../validation/validation'
 
 // components
 import Details from '../shared/Details'
@@ -67,7 +67,7 @@ const LateRefundsPage = () => {
       const transformedRows = rows.map((row: LateRefundsTableRowProps) => {
         return {
           periodStart: row.taxYear?.from,
-          refund: row.refund
+          refund: stripCommas(row.refund)
         }
       })
 

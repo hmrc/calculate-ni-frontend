@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
-import {validateClassOnePayload} from '../../../validation/validation'
+import {stripCommas, validateClassOnePayload} from '../../../validation/validation'
 import {ClassOneRow} from '../../../calculation'
 
 // components
@@ -78,12 +78,12 @@ const Class1Page = () => {
           row.id,
           row.period,
           row.category,
-          parseFloat(row.gross),
+          parseFloat(stripCommas(row.gross)),
           false
         ))
 
-      const netNi = payload.niPaidNet || '0'
-      const employeeNi = payload.niPaidEmployee || '0'
+      const netNi = stripCommas(payload.niPaidNet) || '0'
+      const employeeNi = stripCommas(payload.niPaidEmployee) || '0'
 
       taxYear && setResult(ClassOneCalculator.calculate(
         taxYear.from,

@@ -73,34 +73,38 @@ export const beforeMinimumDate = (date: Date, minDate: Date) =>
 export const afterMaximumDate = (date: Date, maxDate: Date) =>
   moment(date).isAfter(moment(maxDate))
 
+export const stripCommas = (val: string) => val.replace(/,/g, '')
+
 const validateNiPaid = (errors: GenericErrors, niPaidNet: string, niPaidEmployee: string) => {
-  if(niPaidNet === '' && niPaidEmployee !== '') {
+  const net = stripCommas(niPaidNet)
+  const employee = stripCommas(niPaidEmployee)
+  if(net === '' && employee !== '') {
     errors.niPaidNet = {
       link: 'niPaidNet',
       name: 'Net NI paid',
       message: 'NI paid net contributions must be entered'
     }
-  } else if (niPaidNet !== '' && niPaidEmployee !== '') {
-    if(isNaN(+niPaidNet)) {
+  } else if (net !== '' && net !== '') {
+    if(isNaN(+net)) {
       errors.niPaidNet = {
         link: 'niPaidNet',
         name: 'Net NI paid',
         message: 'NI paid net contributions must be an amount of money'
       }
-    } else if(!isNaN(+niPaidEmployee) && parseFloat(niPaidNet) < parseFloat(niPaidEmployee)) {
+    } else if(!isNaN(+employee) && parseFloat(net) < parseFloat(employee)) {
       errors.niPaidNet = {
         link: 'niPaidNet',
         name: 'Net NI paid',
         message: 'NI paid net contributions cannot be less than employee contributions'
       }
-    } else if(isNaN(+niPaidEmployee)) {
+    } else if(isNaN(+employee)) {
       errors.niPaidEmployee = {
         link: 'niPaidNet',
         name: 'Net NI paid',
         message: 'NI paid employee contributions must be an amount of money'
       }
     }
-  } else if(niPaidEmployee === '' && niPaidNet !== '') {
+  } else if(employee === '' && net !== '') {
     errors.niPaidEmployee = {
       link: 'niPaidEmployee',
       name: 'Net NI paid by employee',
@@ -172,6 +176,7 @@ export const validateClass2Or3Payload = (
   setErrors: Dispatch<GenericErrors>
 ) => {
   const maxDate = payload.finalDate
+  const earningsFactor = stripCommas(payload.earningsFactor)
   let errors: GenericErrors = {}
   if(!payload.activeClass) {
     errors.nationalInsuranceClass = {
@@ -194,19 +199,19 @@ export const validateClass2Or3Payload = (
     }
   }
 
-  if(!payload.earningsFactor) {
+  if(!earningsFactor) {
     errors.earningsFactor = {
       name: 'earningsFactor',
       link: 'earningsFactor',
       message: 'Total earnings factor must be entered'
     }
-  } else if(isNaN(+payload.earningsFactor)) {
+  } else if(isNaN(+earningsFactor)) {
     errors.earningsFactor = {
       name: 'earningsFactor',
       link: 'earningsFactor',
       message: 'Total earnings factor must be an amount of money'
     }
-  } else if(parseFloat(payload.earningsFactor) < 0) {
+  } else if(parseFloat(earningsFactor) < 0) {
     errors.earningsFactor = {
       name: 'earningsFactor',
       link: 'earningsFactor',
@@ -308,13 +313,14 @@ const validateLateRefundsRows = (
   errors: GenericErrors
 ) => {
   rows.forEach((row: LateRefundsTableRowProps, index: number) => {
-    if(!row.refund) {
+    const refund = stripCommas(row.refund)
+    if(!refund) {
       errors[`${row.id}-refund`] = {
         name: `${row.id}-refund`,
         link: `${row.id}-refund`,
         message: `Refund amount for row #${index + 1} must be entered`
       }
-    } else if (isNaN(+row.refund)) {
+    } else if (isNaN(+refund)) {
       errors[`${row.id}-refund`] = {
         name: `${row.id}-refund`,
         link: `${row.id}-refund`,
@@ -330,13 +336,14 @@ const validateLateInterestRows = (
   errors: GenericErrors
 ) => {
   rows.forEach((row: Class1DebtRow, index: number) => {
-    if (!row.debt) {
+    const debt = stripCommas(row.debt)
+    if (!debt) {
       errors[`${row.id}-class1-debt`] = {
         name: `${row.id}-class1-debt`,
         link: `${row.id}-class1-debt`,
         message: `Class 1 debt for row #${index + 1} must be entered`
       }
-    } else if (isNaN(+row.debt)) {
+    } else if (isNaN(+debt)) {
       errors[`${row.id}-class1-debt`] = {
         name: `${row.id}-class1-debt`,
         link: `${row.id}-class1-debt`,
@@ -358,6 +365,7 @@ const validateClass3Rows = (
   rows.forEach((row: Class3Row, index: number) => {
     const fromId = `${row.id}FromDay`
     const toId = `${row.id}ToDay`
+    const earningsFactor = stripCommas(row.earningsFactor)
     const earningsFactorId = `${row.id}-earningsFactor`
     const dateRange = row.dateRange
     if(!dateRange.from || !dateRange.to) {
@@ -389,12 +397,12 @@ const validateClass3Rows = (
       }
     }
 
-    if(!row.earningsFactor) {
+    if(!earningsFactor) {
       errors[earningsFactorId] = {
         ...coreMsg(earningsFactorId),
         message: `Earnings factor for row #${index + 1} must be entered`
       }
-    } else if (isNaN(+row.earningsFactor)) {
+    } else if (isNaN(+earningsFactor)) {
       errors[earningsFactorId] = {
         ...coreMsg(earningsFactorId),
         message: `Earnings factor for row #${index + 1} must be an amount of money`
@@ -407,7 +415,8 @@ const validateClass3Rows = (
 const validateClass1Rows = (rows: Array<Row | DirectorsUIRow>, errors: GenericErrors) => {
   const manyRows = rows.length > 1
   rows.forEach((r: Row | DirectorsUIRow, index: number) => {
-    if (!r.gross) {
+    const gross = stripCommas(r.gross)
+    if (!gross) {
       errors[`${r.id}-gross`] = {
         name: `Gross pay amount`,
         link: `${r.id}-gross`,
@@ -416,7 +425,7 @@ const validateClass1Rows = (rows: Array<Row | DirectorsUIRow>, errors: GenericEr
           :
           `Gross pay amount must be entered`
       }
-    } else if (isNaN(+r.gross)) {
+    } else if (isNaN(+gross)) {
       errors[`${r.id}-gross`] = {
         name: `Gross pay amount`,
         link: `${r.id}-gross`,
