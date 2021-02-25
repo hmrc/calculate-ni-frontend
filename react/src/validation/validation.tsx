@@ -34,7 +34,7 @@ interface Class2Or3Payload {
   earningsFactor: string
   taxYear: TaxYear | null,
   activeClass: string,
-  finalDate: Date
+  finalDate: Date | null
 }
 
 interface Class3Payload {
@@ -178,7 +178,7 @@ export const validateClass2Or3Payload = (
   const maxDate = payload.finalDate
   const earningsFactor = stripCommas(payload.earningsFactor)
   let errors: GenericErrors = {}
-  if(!payload.activeClass) {
+  if(!payload.activeClass || !payload.taxYear) {
     errors.nationalInsuranceClass = {
       name: 'nationalInsuranceClass',
       link: 'nationalInsuranceClass',
@@ -191,7 +191,7 @@ export const validateClass2Or3Payload = (
       link: 'paymentEnquiryDateDay',
       message: 'Payment/enquiry date must be entered as a real date'
     }
-  } else if (afterMaximumDate(payload.paymentEnquiryDate, maxDate)) {
+  } else if (maxDate && afterMaximumDate(payload.paymentEnquiryDate, maxDate)) {
     errors.paymentEnquiryDate = {
       name: 'paymentEnquiryDate',
       link: 'paymentEnquiryDateDay',

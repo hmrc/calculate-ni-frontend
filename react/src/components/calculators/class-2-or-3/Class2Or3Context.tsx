@@ -47,6 +47,7 @@ interface Class2Or3Context {
   setErrors: Dispatch<GenericErrors>
   result: Class2Or3Result | null
   setResult: Dispatch<Class2Or3Result | null>
+  finalDate: Date | null
 }
 
 const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) => ({
@@ -80,7 +81,8 @@ export const Class2Or3Context = React.createContext<Class2Or3Context>(
     errors: {},
     setErrors: () => {},
     result: null,
-    setResult: () => {}
+    setResult: () => {},
+    finalDate: new Date()
   }
 )
 
@@ -102,6 +104,7 @@ export function useClass2Or3Form() {
   const [class2TaxYears, setClass2TaxYears] = useState<TaxYear[]>([])
   const [class3TaxYears, setClass3TaxYears] = useState<TaxYear[]>([])
   const [taxYear, setTaxYear] = useState<TaxYear | null>(null)
+  const [finalDate, setFinalDate] = useState<Date | null>(null)
 
   useEffect(() => {
     const taxYearData = buildTaxYears(ClassTwoCalculator.getTaxYears)
@@ -118,6 +121,12 @@ export function useClass2Or3Form() {
     const taxYears = activeClass === NiClassName.CLASS_TWO ? class2TaxYears : class3TaxYears
     setTaxYear(taxYears[0])
   }, [activeClass])
+
+  useEffect(() => {
+    if(taxYear) {
+      setFinalDate(ClassTwoCalculator.getFinalDate(taxYear.from))
+    }
+  }, [taxYear, ClassTwoCalculator])
 
   return {
     ClassTwoCalculator,
@@ -143,6 +152,7 @@ export function useClass2Or3Form() {
     errors,
     setErrors,
     result,
-    setResult
+    setResult,
+    finalDate
   }
 }
