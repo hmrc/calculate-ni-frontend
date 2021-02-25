@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
-import {validateDirectorsPayload} from '../../../validation/validation'
+import {stripCommas, validateDirectorsPayload} from '../../../validation/validation'
 import {PeriodLabel} from '../../../config'
 import {DirectorsRow} from '../../../calculation'
 
@@ -91,11 +91,11 @@ const DirectorsPage = () => {
         .map((row: DirectorsUIRow) => new (DirectorsRow as any)(
           row.id,
           row.category,
-          parseFloat(row.gross)
+          parseFloat(stripCommas(row.gross))
         ))
 
-      const netNi = payload.niPaidNet || '0'
-      const employeeNi = payload.niPaidEmployee || '0'
+      const netNi = stripCommas(payload.niPaidNet) || '0'
+      const employeeNi = stripCommas(payload.niPaidEmployee) || '0'
       const appApplicable = askApp ? app === 'Yes' : undefined
 
       setResult(DirectorsCalculator.calculate(

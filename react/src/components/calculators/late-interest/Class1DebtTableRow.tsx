@@ -67,7 +67,7 @@ function Class1DebtTableRow(props: {
 
       <MqTableCell cellStyle={thStyles.taxYear} cellClassName="input">
         {printView ?
-          <div>{taxYearString(row.taxYear, true)}</div>
+          <div>{row.taxYear && taxYearString(row.taxYear, true)}</div>
           :
           <SelectTaxYear
             borderless={true}
@@ -92,6 +92,7 @@ function Class1DebtTableRow(props: {
             inputValue={row.debt}
             placeholderText="Enter the Class 1 debt"
             onChangeCallback={(e) => handleChange?.(row, e)}
+            error={errors[`${row.id}-class1-debt`]}
           />
         }
       </MqTableCell>

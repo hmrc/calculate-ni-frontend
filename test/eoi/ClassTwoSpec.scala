@@ -16,7 +16,6 @@
 
 package eoi
 
-import org.scalatest._
 import cats.implicits._
 
 class ClassTwoSpec extends SpreadsheetTest {
@@ -31,7 +30,7 @@ class ClassTwoSpec extends SpreadsheetTest {
       row.get("payment / enquiry date") >>= Date.unapply,
       row.get("total earnings factor") >>= Money.unapply
     ).mapN(config.calculateClassTwo) map {
-      result =>
+      _ =>
 
       (
         row.get("no conts due") >>= Int.unapply

@@ -37,16 +37,14 @@ function LateInterestPrint(props: LateInterestPrintProps) {
                 <h2 className="section-heading divider--top section--top">Remission period</h2>
                 <div>
                   {taxYearString({
-                    from: dateRange.from,
-                    to: dateRange.to,
+                    from: dateRange?.from,
+                    to: dateRange?.to,
                     id: '' // unused within util fn
                   })}
                 </div>
               </div>
             }
           </div>
-
-          <LateInterestResults />
 
         </div>
       </div>

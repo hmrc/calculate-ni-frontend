@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
-import {validateClassOnePayload} from '../../../validation/validation'
+import {stripCommas, validateClassOnePayload} from '../../../validation/validation'
 import {ClassOneRow} from '../../../calculation'
 
 // components
@@ -16,6 +16,7 @@ import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
 import {SuccessNotification} from "../shared/SuccessNotification";
 import {SuccessNotificationContext} from "../../../services/SuccessNotificationContext";
+import PrintButtons from "../shared/PrintButtons";
 
 const pageTitle = 'Calculate Class 1 National Insurance (NI) contributions'
 
@@ -77,12 +78,12 @@ const Class1Page = () => {
           row.id,
           row.period,
           row.category,
-          parseFloat(row.gross),
+          parseFloat(stripCommas(row.gross)),
           false
         ))
 
-      const netNi = payload.niPaidNet || '0'
-      const employeeNi = payload.niPaidEmployee || '0'
+      const netNi = stripCommas(payload.niPaidNet) || '0'
+      const employeeNi = stripCommas(payload.niPaidEmployee) || '0'
 
       taxYear && setResult(ClassOneCalculator.calculate(
         taxYear.from,
@@ -160,24 +161,11 @@ const Class1Page = () => {
         />
       </div>
 
-      {!showSummary && (
-        <div className="container section--top section-outer--top">
-          <div className="form-group half">
-            <SecondaryButton
-              label="Save and print"
-              onClick={handleShowSummary}
-            />
-          </div>
-        </div>
-      )}
+      <PrintButtons
+        showSummary={showSummary}
+        handleShowSummary={handleShowSummary}
+      />
 
-      {showSummary && (
-        <div className="govuk-!-padding-bottom-9 section--top">
-          <button className="button" onClick={() => window.print()}>
-            Save and print
-          </button>
-        </div>
-      )}
     </div>
   )
 }

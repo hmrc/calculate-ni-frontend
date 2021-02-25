@@ -49,10 +49,9 @@ export default function Class3Form(props: any) {
     <div className="form-group table-wrapper">
       <Class3Table printView={false} />
 
-      <div className="container">
-        <div className="container" />
-        <div className="container">
+      <div className="container stack-right">
 
+        <div className="container">
           <div className="form-group repeat-button">
             <SecondaryButton
               label="Delete active row"

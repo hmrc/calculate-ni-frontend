@@ -17,10 +17,11 @@
 package eoi
 
 import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpec
 import com.github.tototoshi.csv._
 import org.scalatest._
 import cats.syntax.either._
+import org.scalatest.funspec.AnyFunSpec
+
 import java.time.LocalDate
 import java.io._
 
@@ -64,7 +65,7 @@ object Date{
 
 case class FileTracker(name: String, position: Int)
 
-trait SpreadsheetTest extends FunSpec with Matchers {
+trait SpreadsheetTest extends AnyFunSpec with Matchers {
 
   val config: Configuration = eoi.ConfigLoader.default
 

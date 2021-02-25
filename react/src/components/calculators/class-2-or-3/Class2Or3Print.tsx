@@ -4,7 +4,6 @@ import {govDateString, sterlingStringValue, goveDateRangeString} from '../../../
 // components
 import BackLink from "../../helpers/gov-design-system/BackLink";
 import DetailsPrint from "../shared/DetailsPrint";
-import Class2Or3Results from "./Class2Or3Results";
 
 // types
 import {Class12Or3SavePrintProps} from "../../../interfaces";
@@ -33,7 +32,7 @@ function Class2Or3Print(props: Class12Or3SavePrintProps) {
             <div className="section--top section--bottom divider--bottom">
               {taxYear &&
               <div className="container column">
-                <span className="label block">Date higher rate provisions apply:</span>
+                <span className="label block">Tax year:</span>
                 <div className="value inline width-8">
                   {goveDateRangeString(taxYear)}
                 </div>
@@ -42,7 +41,7 @@ function Class2Or3Print(props: Class12Or3SavePrintProps) {
 
               {paymentEnquiryDate &&
                 <div className="container column">
-                  <span className="label block">Date higher rate provisions apply:</span>
+                  <span className="label block">Payment/enquiry date:</span>
                   <div className="value inline width-8">
                     {govDateString(paymentEnquiryDate)}
                   </div>
@@ -51,7 +50,7 @@ function Class2Or3Print(props: Class12Or3SavePrintProps) {
 
               {earningsFactor &&
               <div className="container column">
-                <span className="label block">Date higher rate provisions apply:</span>
+                <span className="label block">Total earnings factor:</span>
                 <div className="value inline width-8 nomar">
                   {sterlingStringValue(earningsFactor)}
                 </div>
@@ -60,7 +59,6 @@ function Class2Or3Print(props: Class12Or3SavePrintProps) {
 
             </div>
 
-            <Class2Or3Results />
           </div>
         </div>
       </>

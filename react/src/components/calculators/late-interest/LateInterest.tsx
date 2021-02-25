@@ -10,7 +10,7 @@ import {SuccessNotification} from "../shared/SuccessNotification";
 
 // types
 import {LateInterestContext, useLateInterestForm} from './LateInterestContext'
-import {validateLateInterestPayload} from '../../../validation/validation'
+import {stripCommas, validateLateInterestPayload} from '../../../validation/validation'
 import {hasKeys} from '../../../services/utils'
 import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 import LateInterestPrint from './LateInterestPrint'
@@ -18,10 +18,11 @@ import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import {Class1DebtRow} from '../../../interfaces'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
 import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
+import PrintButtons from "../shared/PrintButtons";
 
 const pageTitle = 'Interest on late or unpaid Class 1 NI contributions'
 
-function LateInterestPage() {
+const LateInterestPage = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>
@@ -71,7 +72,7 @@ function LateInterestPage() {
       const transformedRows = rows.map((row: Class1DebtRow) => {
         return {
           periodStart: row.taxYear?.from,
-          debt: row.debt
+          debt: stripCommas(row.debt)
         }
       })
       const remission = payload.hasRemissionPeriod ? new (RemissionPeriod as any)(dateRange.from, dateRange.to) : null
@@ -153,28 +154,18 @@ function LateInterestPage() {
               <InterestRatesTable rates={rates} />
             </div>
           </div>
-
-          <div className="no-focus-outline" ref={totalsRef} tabIndex={-1}>
-            <LateInterestResults />
-          </div>
-
-          <div className="container section--top section-outer--top section--bottom">
-            <SecondaryButton
-              label="Save and print"
-              onClick={handleShowSummary}
-            />
-          </div>
-
         </>
       }
 
-      {showSummary && (
-        <div className="govuk-!-padding-bottom-9 section--top">
-          <button className="button" onClick={() => window.print()}>
-            Save and print
-          </button>
-        </div>
-      )}
+      <div className="no-focus-outline" ref={totalsRef} tabIndex={-1}>
+        <LateInterestResults printView={showSummary} />
+      </div>
+
+      <PrintButtons
+        showSummary={showSummary}
+        handleShowSummary={handleShowSummary}
+      />
+
     </div>
   )
 }

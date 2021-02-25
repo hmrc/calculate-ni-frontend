@@ -16,7 +16,6 @@
 
 package eoi
 
-import org.scalatest._
 import cats.implicits._
 
 class ClassThreeSpec extends SpreadsheetTest {

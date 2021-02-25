@@ -18,7 +18,6 @@
 @import uk.gov.hmrc.calculatenifrontend.views.FooterLinks
 @import uk.gov.hmrc.govukfrontend.views.Layouts
 @import uk.gov.hmrc.hmrcfrontend.views.html.components._
-@import uk.gov.hmrc.calculatenifrontend.views.html.Head
 
 @this(
   govukLayout: uk.gov.hmrc.calculatenifrontend.views.html.templates.niCalcLayout,
@@ -30,7 +29,7 @@
   headBlock: Option[Html] = None,
   scriptsBlock: Option[Html] = None,
   beforeContentBlock: Option[Html] = None
-)(contentBlock: Html)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+)(contentBlock: Html)(implicit messages: Messages, appConfig: AppConfig)
 
 @hmrcAdminHeader = @{
   Html(s"""<div class="govuk-width-container">${header(
