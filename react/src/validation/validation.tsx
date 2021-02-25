@@ -34,7 +34,7 @@ interface Class2Or3Payload {
   earningsFactor: string
   taxYear: TaxYear | null,
   activeClass: string,
-  finalDate: Date
+  finalDate: Date | null
 }
 
 interface Class3Payload {
@@ -178,7 +178,7 @@ export const validateClass2Or3Payload = (
   const maxDate = payload.finalDate
   const earningsFactor = stripCommas(payload.earningsFactor)
   let errors: GenericErrors = {}
-  if(!payload.activeClass) {
+  if(!payload.activeClass || !payload.taxYear) {
     errors.nationalInsuranceClass = {
       name: 'nationalInsuranceClass',
       link: 'nationalInsuranceClass',
@@ -191,7 +191,7 @@ export const validateClass2Or3Payload = (
       link: 'paymentEnquiryDateDay',
       message: 'Payment/enquiry date must be entered as a real date'
     }
-  } else if (afterMaximumDate(payload.paymentEnquiryDate, maxDate)) {
+  } else if (maxDate && afterMaximumDate(payload.paymentEnquiryDate, maxDate)) {
     errors.paymentEnquiryDate = {
       name: 'paymentEnquiryDate',
       link: 'paymentEnquiryDateDay',
@@ -228,11 +228,10 @@ export const validateClass2Or3Payload = (
 
 export const validateClass3Payload = (
   payload: Class3Payload,
-  setErrors: Dispatch<GenericErrors>,
-  taxYears: TaxYear[]
+  setErrors: Dispatch<GenericErrors>
 ) => {
   const errors: GenericErrors = {}
-  validateClass3Rows(payload.rows, setErrors, errors, taxYears)
+  validateClass3Rows(payload.rows, setErrors, errors)
   if (hasKeys(errors)) {
     setErrors(errors)
     return false
@@ -356,11 +355,8 @@ const validateLateInterestRows = (
 const validateClass3Rows = (
   rows: Array<Class3Row>,
   setErrors: Dispatch<GenericErrors>,
-  errors: GenericErrors,
-  taxYears: TaxYear[]
+  errors: GenericErrors
 ) => {
-  const maxDate = taxYears[0].to
-  const minDate = taxYears[taxYears.length - 1].from
   const coreMsg = (id: string) => ({name: id, link: id})
   rows.forEach((row: Class3Row, index: number) => {
     const fromId = `${row.id}FromDay`
@@ -373,36 +369,14 @@ const validateClass3Rows = (
         ...coreMsg(fromId),
         message: `Both start and end dates must be entered for row #${index + 1}`
       }
-    } else if(beforeMinimumDate(dateRange.from, minDate)) {
-      errors[fromId] = {
-        ...coreMsg(fromId),
-        message: `Start date for row #${index + 1} must be on or after ${moment(minDate).format(govDateFormat)}`
-      }
-    } else if(afterMaximumDate(dateRange.from, maxDate)) {
-      errors[fromId] = {
-        ...coreMsg(fromId),
-        message: `Start date for row #${index + 1} must be on or before ${moment(maxDate).format(govDateFormat)}`
+    } else if(beforeMinimumDate(dateRange.to, dateRange.from)) {
+      errors[toId] = {
+        ...coreMsg(toId),
+        message: `End date for row #${index + 1} must be on or after ${moment(dateRange.from).format(govDateFormat)}`
       }
     }
 
-    if(dateRange.to && beforeMinimumDate(dateRange.to, minDate)) {
-      errors[toId] = {
-        ...coreMsg(toId),
-        message: `End date for row #${index + 1} must be on or after ${moment(minDate).format(govDateFormat)}`
-      }
-    } else if(dateRange.to && afterMaximumDate(dateRange.to, maxDate)) {
-      errors[toId] = {
-        ...coreMsg(toId),
-        message: `End date for row #${index + 1} must be on or before ${moment(maxDate).format(govDateFormat)}`
-      }
-    }
-
-    if(!earningsFactor) {
-      errors[earningsFactorId] = {
-        ...coreMsg(earningsFactorId),
-        message: `Earnings factor for row #${index + 1} must be entered`
-      }
-    } else if (isNaN(+earningsFactor)) {
+    if (earningsFactor && isNaN(+earningsFactor)) {
       errors[earningsFactorId] = {
         ...coreMsg(earningsFactorId),
         message: `Earnings factor for row #${index + 1} must be an amount of money`

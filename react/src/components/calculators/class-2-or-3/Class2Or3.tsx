@@ -34,7 +34,8 @@ const Class2Or3Page = () => {
     errors,
     setErrors,
     result,
-    setResult
+    setResult,
+    finalDate
   } = useContext(Class2Or3Context)
 
   const { successNotificationsOn } = useContext(SuccessNotificationContext)
@@ -65,7 +66,7 @@ const Class2Or3Page = () => {
       earningsFactor,
       taxYear,
       activeClass,
-      finalDate: ClassTwoCalculator.getFinalDate(taxYear?.from)
+      finalDate
     }
 
     if(validateClass2Or3Payload(payload, setErrors)) {

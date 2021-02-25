@@ -42,13 +42,14 @@ const Class3Page = () => {
         const payload = {
             rows
         }
-        if(validateClass3Payload(payload, setErrors, taxYears)) {
+
+        if(validateClass3Payload(payload, setErrors)) {
             rows.map(row => {
                 const result = WeeklyContributionsCalculator
                   .calculate(
                     row.dateRange.from,
                     row.dateRange.to,
-                    parseFloat(stripCommas(row.earningsFactor))
+                    parseFloat(stripCommas(row.earningsFactor)) || 0
                   )
                 row.maxWeeks = result.maxPotentialWeeks
                 row.actualWeeks = result.actualWeeks
