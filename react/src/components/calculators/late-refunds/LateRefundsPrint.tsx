@@ -8,7 +8,6 @@ import {LateRefundsContext} from './LateRefundsContext'
 import BackLink from '../../helpers/gov-design-system/BackLink'
 import DetailsPrint from '../shared/DetailsPrint'
 import LateRefundsTable from './LateRefundsTable'
-import LateRefundsResults from './LateRefundsResults'
 
 function LateRefundsPrint(props: LateRefundPrintProps) {
   const { title, setShowSummary } = props

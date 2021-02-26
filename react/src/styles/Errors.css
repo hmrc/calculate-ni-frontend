@@ -1,9 +1,0 @@
-td.error-cell input {
-  outline: 2px solid var(--error);
-  outline-offset: -2px;
-}
-
-td.error-cell input:focus {
-  outline: 3px solid var(--focus-outline);
-  outline-offset: -3px;
-}

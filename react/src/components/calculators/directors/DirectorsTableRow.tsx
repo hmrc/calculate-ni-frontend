@@ -95,7 +95,6 @@ function DirectorsTableRow(props: TableRowProps) {
             labelText="Gross pay"
             inputClassName="gross-pay"
             inputValue={row.gross}
-            placeholderText="Enter the gross pay amount"
             onChangeCallback={(e) => handleGrossChange?.(row, e)}
             error={errors[`${row.id}-gross`]}
           />

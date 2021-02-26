@@ -92,7 +92,6 @@ function LateRefundsTableRow(props: {
             name={`${row.id}-refund`}
             inputClassName="number"
             inputValue={row.refund}
-            placeholderText="Enter the refund amount"
             onChangeCallback={(e) => handleChange?.(row, e)}
             error={errors[`${row.id}-refund`]}
           />

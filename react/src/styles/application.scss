@@ -3,38 +3,337 @@ $govuk-assets-path: "/calculate-ni/lib/govuk-frontend/govuk/assets/";
 $hmrc-assets-path: "/calculate-ni/lib/hmrc-frontend/hmrc/";
 @import "node_modules/hmrc-frontend/hmrc/all";
 
-#root .hmrc-internal-header__logo-link::before {
-  content: "";
-  display: table-cell;
-  background: url('../assets/hmrc-crown-logo_black.svg') no-repeat;
-  background-size: 100% 100%;
-  width: 52px;
-  height: 32px;
+@import "reset";
+@import "errors";
+@import "layout";
+@import "results";
+@import "saveprint";
+@import "tables";
+@import "typography";
+
+:root {
+  --border-divider: #B1B4B6;
+  --dark-grey: #0b0c0c;
+  --select-border: #0b0c0c;
+  --input-border: #0b0c0c;
+  --select-focus: blue;
+  --select-arrow: var(--select-border);
+  --table-head-border: #979797;
+  --table-head-fill: #DFE3E8;
+  --table-body-border: #DFE3E8;
+  --active-highlight-bg: #A5CFF1;
+  --active-highlight-border: #979797;
+  --error: #d4351c;
+  --focus-outline: #fd0;
+  --link: #1D70B8
 }
 
-#root .column-toggle {
-  cursor: pointer;
-  white-space: nowrap;
-  width: 110px;
-  img {
-    display: inline-block;
-    margin-left: 1.2ex;
-    margin-bottom: -2px;
+#root {
+  position: relative;
+  .hmrc-internal-header__logo-link::before {
+    content: "";
+    display: table-cell;
+    background: url('../assets/hmrc-crown-logo_black.svg') no-repeat;
+    background-size: 100% 100%;
+    width: 52px;
+    height: 32px;
   }
-}
-
-#root .field-row {
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 1em;
-  .field-col {
-    margin-right: 1em;
-    @media only screen and (max-width: 760px) {
-      margin-right: 0;
-      width: 100%;
+  .column-toggle {
+    cursor: pointer;
+    white-space: nowrap;
+    width: 110px;
+    img {
+      display: inline-block;
+      margin-left: 1.2ex;
+      margin-bottom: -2px;
+    }
+  }
+  .field-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
+    .field-col {
+      margin-right: 1em;
+      @media only screen and (max-width: 760px) {
+        margin-right: 0;
+        width: 100%;
+      }
     }
   }
 }
+
+/* TABLES */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+table thead th {
+  font-weight: 700;
+}
+@media (min-width: 641px) {
+  table th, table td {
+    font-size: 19px;
+    line-height: 1.31579;
+  }
+}
+table .numeric {
+  text-align: right;
+}
+table thead th {
+  font-weight: 700;
+}
+@media (min-width: 641px) {
+  table th, table td {
+    font-size: 19px;
+    line-height: 1.31579;
+  }
+}
+
+button {
+  &.toggle {
+    background: none;
+    border: none;
+    color: $govuk-link-colour;
+    cursor: pointer;
+    padding: 0 5px 0 0;
+    font-size: 18px;
+    margin-bottom: 2ex;
+    &:focus {
+      outline: 3px solid $govuk-focus-colour;
+    }
+  }
+}
+
+.section-heading {
+  color: #0B0C0C;
+  font-size: 21px;
+  margin-bottom: 15px;
+  @media screen and (min-width: 760px) {
+    margin-bottom: 0;
+  }
+}
+
+strong {
+  font-weight: 700;
+}
+
+.clear {
+  overflow: hidden;
+}
+
+// Forms
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: "nta",Arial,sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 16px;
+  line-height: 1.25;
+  width: 100%;
+  padding: 5px 4px 4px;
+  border: 2px solid #0b0c0c;
+
+  &-2-3 {
+    width: 100%;
+    @media (min-width: 641px) {
+      width: 66.66%;
+    }
+  }
+
+  &-1-8 {
+    @media (min-width: 641px) {
+      width: 12.5%;
+    }
+  }
+
+  &-1-3 {
+    @media (min-width: 641px) {
+      width: 33.33%;
+    }
+  }
+
+  &.full {
+    width: 100%;
+  }
+
+  &.half {
+    @media screen and (min-width: 760px) {
+      width: 50%;
+    }
+  }
+
+  .third {
+    @media screen and (min-width: 760px) {
+      width: 33%;
+    }
+  }
+}
+
+textarea {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: "nta",Arial,sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 16px;
+  line-height: 1.25;
+  width: 100%;
+  padding: 5px 4px 4px;
+  border: 2px solid #0b0c0c;
+  &.form-control-2-3 {
+    @media (min-width: 641px) {
+      width: 66.66%;
+    }
+  }
+}
+
+textarea.form-control-2-3, input.form-control-2-3[type="text"], input.form-control-2-3[type="password"] {
+  width: 100%;
+}
+
+fieldset {
+  legend {
+    font-size: 22px;
+    margin-bottom: 25px;
+  }
+}
+
+.form-label {
+  font-family: "nta",Arial,sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 16px;
+  line-height: 1.25;
+  padding-right: 4px;
+  @media (min-width: 641px) {
+    font-size: 19px;
+    line-height: 1.31579;
+  }
+}
+
+.form-label, .form-label-bold {
+  display: block;
+  color: #0b0c0c;
+  padding-bottom: 2px;
+}
+
+input {
+  .form-control {
+    -webkit-appearance: none;
+    border-radius: 0;
+    &-2-3[type="text"], &-2-3[type="password"] {
+      width: 66.66%;
+    }
+  }
+}
+
+.govuk-select {
+  font-family: "GDS Transport",arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  max-width: 100%;
+  height: 40px;
+  height: 2.5rem;
+  padding: 5px;
+  border: 2px solid #0b0c0c;
+  width: 100%;
+
+  &:focus {
+    outline: 3px solid #fd0;
+    outline-offset: 0;
+    -webkit-box-shadow: inset 0 0 0 2px;
+    box-shadow: inset 0 0 0 2px;
+  }
+
+  @media (min-width: 760px) {
+    font-size: 19px;
+    width: auto;
+  }
+}
+
+/* Select wrapping element */
+.select {
+  width: 100%;
+  background: url('../assets/select-dropdown-arrows.svg') no-repeat right 10px center;
+  border: 2px solid var(--select-border);
+  padding: 0 0.5em;
+  cursor: pointer;
+  line-height: 29px;
+}
+
+.select.tax-year {
+  width: 250px;
+}
+
+.govuk-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  -webkit-clip-path: inset(50%) !important;
+  clip-path: inset(50%) !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+/* Two Col */
+.two-col {
+  overflow: hidden;
+
+  .half {
+    @media screen and (min-width: 760px) {
+      float: left;
+      width: 50%;
+    }
+  }
+}
+
+/* Details */
+.details {
+  padding-bottom: 15px;
+}
+
+/* helpers */
+.float-left {
+  float: left
+}
+
+.nomar {
+  margin: 0 !important;
+}
+
+.clear-both {
+  clear: both;
+}
+
+.block {
+  display: block;
+}
+
+.details-heading {
+  display: inline-block;
+}
+
+/* Contribution Buttons */
+@media screen and (min-width: 760px) {
+  .repeat-button {
+    margin-right: 10px;
+  }
+}
+
 
 @media only screen and (min-width: 40em) {
   max-width: 40%;
@@ -53,6 +352,18 @@ $hmrc-assets-path: "/calculate-ni/lib/hmrc-frontend/hmrc/";
   }
 }
 
+body {
+  margin: 0;
+  font-family: "GDS Transport",arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
 // forms
 .govuk-hint {
   font-size: 16px;
@@ -63,6 +374,18 @@ $hmrc-assets-path: "/calculate-ni/lib/hmrc-frontend/hmrc/";
     font-size: 1.1875rem;
     line-height: 1.31579;
   }
+}
+
+.hint {
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  display: block;
+  margin-bottom: 15px;
+  color: #6f777b;
 }
 
 .govuk-label {
@@ -76,6 +399,19 @@ $hmrc-assets-path: "/calculate-ni/lib/hmrc-frontend/hmrc/";
     font-size: 1.1875rem;
     line-height: 1.31579;
   }
+}
+
+/* Warning button */
+.govuk-button--warning, .govuk-button--warning:link, .govuk-button--warning:visited, .govuk-button--warning:active, .govuk-button--warning:hover {
+  color: #fff;
+}
+.govuk-button--warning {
+  background-color: #d4351c;
+  -webkit-box-shadow: 0 2px 0 #55150b;
+  box-shadow: 0 2px 0 #55150b;
+}
+.govuk-button--warning:hover {
+  background-color: #aa2a16;
 }
 
 .app-related-items {
@@ -102,4 +438,409 @@ td.readonly > span,
   margin-top: 2em;
   padding-top: 2em;
   border-top: 2px solid #008670;
+}
+
+.custom-calculator {
+  .form-group {
+    margin-bottom: 30px;
+  }
+
+  input {
+    &[type="text"], &[type="password"], textarea.form-control, textarea {
+      -webkit-appearance: none;
+      border-radius: 0;
+    }
+  }
+
+  .govuk-heading {
+    color: #0b0c0c;
+    font-family: "GDS Transport",arial,sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 700;
+    display: block;
+    margin-top: 0;
+    &-xl {
+      font-size: 32px;
+      font-size: 2rem;
+      line-height: 1.09375;
+      margin-bottom: 30px;
+    }
+    &-l {
+      font-size: 24px;
+      font-size: 1.5rem;
+      line-height: 1.04167;
+      margin-bottom: 20px;
+    }
+    &-m {
+      font-size: 18px;
+      font-size: 1.125rem;
+      line-height: 1.11111;
+      margin-bottom: 15px;
+    }
+  }
+}
+
+/* Focus styles */
+.custom-calculator .govuk-link:focus, a:focus, .app-step-nav-header__title:focus, .app-step-nav-related__link:focus {
+  outline: 3px solid transparent;
+  color: #0b0c0c;
+  background-color: #ffdd00;
+  box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+  text-decoration: none;
+}
+
+.app-prose-scope {
+  color: #0b0c0c;
+  font-family: "GDS Transport",arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  display: block;
+  margin-top: 0;
+
+  h1 {
+    font-size: 32px;
+    font-size: 2rem;
+    line-height: 1.09375;
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-size: 1.5rem;
+    line-height: 1.04167;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-size: 1.125rem;
+    line-height: 1.11111;
+    margin-bottom: 15px;
+  }
+
+  h4 {
+    font-size: 16px;
+    font-size: 1rem;
+    line-height: 1.25;
+    margin-bottom: 15px;
+  }
+}
+
+.app-contact-panel__heading {
+  color: #0b0c0c;
+  font-family: "GDS Transport",arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 18px;
+  font-size: 1.125rem;
+  line-height: 1.11111;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.autocomplete__input:focus, .form-control:focus {
+  outline: 3px solid #fd0;
+  outline-offset: 0;
+  -webkit-box-shadow: inset 0 0 0 2px;
+  box-shadow: inset 0 0 0 2px;
+}
+/*------------------------------------*\
+    $HELPER
+\*------------------------------------*/
+/**
+ * A series of helper classes to use arbitrarily. Only use a helper class if an
+ * element/component doesn’t already have a class to which you could apply this
+ * styling, e.g. if you need to float `.main-nav` left then add `float:left;` to
+ * that ruleset as opposed to adding the `.float--left` class to the markup.
+ *
+ * A lot of these classes carry `!important` as you will always want them to win
+ * out over other selectors.
+ */
+
+.subsection {
+  margin: 1.5em 0;
+}
+
+.subsection--wide {
+  margin: 2.5em 0;
+}
+
+/**
+ * Add/remove floats
+ */
+.float--right {
+  float: right !important;
+}
+
+.float--left {
+  float: left !important;
+}
+
+.float--none {
+  float: none !important;
+}
+
+/**
+ * Text alignment
+ */
+.text--left {
+  text-align: left !important;
+}
+
+.text--center {
+  text-align: center !important;
+}
+
+.text--right {
+  text-align: right !important;
+}
+
+/**
+ * Add/remove margins
+ */
+.push {
+  margin: 0 !important;
+}
+
+.push--top {
+  margin-top: 0 !important;
+}
+
+.push--right {
+  margin-right: 0 !important;
+}
+
+.push--bottom {
+  margin-bottom: 0 !important;
+}
+
+.push--left {
+  margin-left: 0 !important;
+}
+
+.push--ends {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.push--sides {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+.push-half {
+  margin: 0 !important;
+}
+
+.push-half--top {
+  margin-top: 0 !important;
+}
+
+.push-half--right {
+  margin-right: 0 !important;
+}
+
+.push-half--bottom {
+  margin-bottom: 0 !important;
+}
+
+.push-half--left {
+  margin-left: 0 !important;
+}
+
+.push-half--ends {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.push-half--sides {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+.flush {
+  margin: 0 !important;
+}
+
+.flush--top {
+  margin-top: 0 !important;
+}
+
+.flush--right {
+  margin-right: 0 !important;
+}
+
+.flush--bottom {
+  margin-bottom: 0 !important;
+}
+
+.flush--left {
+  margin-left: 0 !important;
+}
+
+.flush--ends {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.flush--sides {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+/**
+ * Add/remove paddings
+ */
+.soft {
+  padding: 0 !important;
+}
+
+.soft--top {
+  padding-top: 0 !important;
+}
+
+.soft--right {
+  padding-right: 0 !important;
+}
+
+.soft--bottom {
+  padding-bottom: 0 !important;
+}
+
+.soft--left {
+  padding-left: 0 !important;
+}
+
+.soft--ends {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.soft--sides {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.soft-half {
+  padding: 0 !important;
+}
+
+.soft-half--top {
+  padding-top: 0 !important;
+}
+
+.soft-half--right {
+  padding-right: 0 !important;
+}
+
+.soft-half--bottom {
+  padding-bottom: 0 !important;
+}
+
+.soft-half--left {
+  padding-left: 0 !important;
+}
+
+.soft-half--ends {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.soft-half--sides {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.hard {
+  padding: 0 !important;
+}
+
+.hard--top {
+  padding-top: 0 !important;
+}
+
+.hard--right {
+  padding-right: 0 !important;
+}
+
+.hard--bottom {
+  padding-bottom: 0 !important;
+}
+
+.hard--left {
+  padding-left: 0 !important;
+}
+
+.hard--ends {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.hard--sides {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.align--middle {
+  vertical-align: middle !important;
+}
+
+.align--top {
+  vertical-align: top !important;
+}
+
+.inline-block {
+  display: inline-block !important;
+}
+
+.display-block {
+  display: block !important;
+}
+
+/**
+ * Add a help cursor to any element that gives the user extra information on
+ * `:hover`.
+ */
+.informative {
+  cursor: help !important;
+}
+
+/**
+ * Mute an object by reducing its opacity.
+ */
+.muted {
+  opacity: 0.5 !important;
+  filter: alpha(opacity=50) !important;
+}
+
+/**
+ * Align items to the right where they imply progression/movement forward, e.g.:
+ *
+   <p class=proceed><a href=#>Read more...</a></p>
+ *
+ */
+.proceed {
+  text-align: right !important;
+}
+
+
+
+/**
+ * Force no wrap on text
+ */
+.no-wrap {
+  white-space: nowrap !important;
+}
+
+/**
+* Force long character sequences to split over lines, e.g. email addresses
+*/
+.word-wrap {
+  white-space: pre-line;
+  word-wrap: break-word;
+  word-break: break-all;
 }

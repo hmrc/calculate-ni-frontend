@@ -6,16 +6,7 @@ import {
 } from "react-router-dom";
 
 // css
-import './styles/application.scss';
-import './styles/gov-polyfill.css';
-import './styles/App.css';
-import './styles/Layout.css';
-import './styles/Typography.css';
-import './styles/Forms.css';
-import './styles/Tables.css'
-import './styles/Errors.css';
-import './styles/SavePrint.css';
-import './styles/Results.css';
+import './styles/application.scss'
 
 // components
 import Home from './components/Home'

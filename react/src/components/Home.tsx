@@ -75,7 +75,7 @@ export default function Home() {
                 </div>
 
                 <div className="govuk-grid-column-one-third">
-                  <div className="app-related-items" role="complementary">
+                  <div className="app-related-items">
                     <h2 className="govuk-heading-m">Rates tables</h2>
                     <ul className="govuk-list">
                       <li><a href="/calculate-ni/tables/classOne" className="govuk-link">Class One</a></li>
