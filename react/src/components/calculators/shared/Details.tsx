@@ -14,13 +14,18 @@ function Details (props: DetailsForm) {
       <button
         id="details-control"
         type="button"
+        aria-expanded={showDetails}
         className={`toggle icon ${showDetails ? 'arrow-up' : 'arrow-right'}`}
         onClick={() => setShowDetails(!showDetails)}>
         {showDetails ? 'Close details' : 'Open details'}
         <span className="govuk-visually-hidden">about customer, date and operator for this calculation</span>
       </button>
-      <div aria-live="polite" aria-labelledby="details-control" id="calculation-meta" aria-expanded={showDetails}>
-        <fieldset className={`${showDetails ? `govuk-fieldset` : `govuk-visually-hidden`}`}>
+      <div
+        aria-labelledby="details-control"
+        id="calculation-meta"
+        className={`${showDetails ? `govuk-!-display-block` : `govuk-!-display-none`}`}
+      >
+        <fieldset className="govuk-fieldset">
           <legend className="govuk-fieldset__legend--m">Enter the details for this calculation</legend>
           <div className="container">
             <div className="container half">
