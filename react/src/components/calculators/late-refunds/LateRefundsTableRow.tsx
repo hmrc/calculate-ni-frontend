@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import * as thStyles from '../../../services/mobileHeadingStyles'
 
 import {extractFromDateString, extractToDateString, taxYearFromString, taxYearString} from '../../../config'
@@ -11,6 +11,7 @@ import {LateRefundsContext} from './LateRefundsContext'
 import SelectTaxYear from '../../helpers/formhelpers/SelectTaxYear'
 import TextInput from '../../helpers/formhelpers/TextInput'
 import MqTableCell from '../shared/MqTableCell'
+import TableRow from "../shared/TableRow";
 
 function LateRefundsTableRow(props: {
   row: LateRefundsTableRowProps,
@@ -24,8 +25,16 @@ function LateRefundsTableRow(props: {
     activeRowId,
     setActiveRowId,
     errors,
-    setResults
+    setResults,
+    results
   } = useContext(LateRefundsContext)
+  const [taxYear, setTaxYear] = useState<TaxYear | null>()
+
+  useEffect(() => {
+    if(taxYears) {
+      setTaxYear(taxYears[0])
+    }
+  }, [taxYears])
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     invalidateResults()
@@ -50,16 +59,17 @@ function LateRefundsTableRow(props: {
   }
 
   const invalidateResults = () => {
-    setResults(null)
+    results && setResults(null)
   }
 
   const { index, row, printView } = props
   return (
-    <tr
-      className={activeRowId === row.id ? "active" : ""}
-      id={row.id}
-      onClick={() => setActiveRowId(row.id)}
-      aria-selected={activeRowId === row.id}
+    <TableRow
+      row={row}
+      rows={rows}
+      index={index}
+      activeRowId={activeRowId}
+      setActiveRowId={setActiveRowId}
     >
       <MqTableCell cellStyle={thStyles.rowNumber}>{index + 1}</MqTableCell>
 
@@ -101,8 +111,7 @@ function LateRefundsTableRow(props: {
       <MqTableCell cellStyle={thStyles.payable}>
         {row.payable}
       </MqTableCell>
-    </tr>
-
+    </TableRow>
   )
 }
 

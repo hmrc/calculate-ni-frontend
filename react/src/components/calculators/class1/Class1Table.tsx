@@ -1,21 +1,11 @@
 import React, {useContext, useState} from 'react'
 import {ClassOneContext, Row} from "./ClassOneContext";
-
-// types
 import {TableProps} from '../../../interfaces'
-
-import numeral from 'numeral'
-import 'numeral/locales/en-gb';
 import Class1TableRow from "./Class1TableRow";
-
 import SortToggle from "../../../assets/select-dropdown-arrows.svg"
 import ExplainRow from "../shared/ExplainRow";
 
-numeral.locale('en-gb');
-
-
-
-function ClassOneEarningsTable(props: TableProps) {
+export default function Class1Table(props: TableProps) {
   const { showBands, printView } = props
   const [showExplanation, setShowExplanation] = useState<string>('')
   const {
@@ -108,11 +98,8 @@ function ClassOneEarningsTable(props: TableProps) {
               </tr>
             }
           </React.Fragment>
-
         ))}
       </tbody>
     </table>
   )
 }
-
-export default ClassOneEarningsTable

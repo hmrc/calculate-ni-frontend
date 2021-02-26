@@ -43,9 +43,16 @@ interface LateRefundsContext {
   setActiveRowId: Dispatch<string | null>
   errors: GenericErrors
   setErrors: Dispatch<GenericErrors>
-  defaultRows: LateRefundsTableRowProps[]
+  defaultRow: LateRefundsTableRowProps
   results: LateRefundsResults | null
   setResults: Dispatch<LateRefundsResults | null>
+}
+
+const initRow = {
+  id: uniqid(),
+  taxYear: null,
+  refund: '',
+  payable: ''
 }
 
 export const LateRefundsContext = React.createContext<LateRefundsContext>(
@@ -63,7 +70,7 @@ export const LateRefundsContext = React.createContext<LateRefundsContext>(
     setActiveRowId: () => {},
     errors: {},
     setErrors: () => {},
-    defaultRows: [],
+    defaultRow: initRow,
     results: null,
     setResults: () => {}
   }
@@ -82,19 +89,21 @@ export function useLateRefundsForm() {
   } = useContext(NiFrontendContext)
   const ClassOneCalculator = NiFrontendInterface.classOne
   const InterestOnLateRefundsCalculator = NiFrontendInterface.interestOnRefundsClassOne
-  const defaultRows = [{
-    id: uniqid(),
-    taxYear: taxYears[0],
-    refund: '',
-    payable: ''
-  }]
-  const [rows, setRows] = useState<Array<LateRefundsTableRowProps>>(defaultRows)
+  const [defaultRow, setDefaultRow] = useState<LateRefundsTableRowProps>(initRow)
+  const [rows, setRows] = useState<Array<LateRefundsTableRowProps>>([defaultRow])
   const [rates, setRates] = useState<Rate[] | null>([])
 
   useEffect(() => {
     const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
     setTaxYears(taxYearData)
+    setDefaultRow({...initRow, taxYear: taxYearData[0]})
   }, [ClassOneCalculator, NiFrontendInterface])
+
+  useEffect(() => {
+    if(defaultRow) {
+      setRows([defaultRow])
+    }
+  }, [defaultRow])
 
   useEffect(() => {
     const interestRates = InterestOnLateRefundsCalculator.getRates()
@@ -124,7 +133,7 @@ export function useLateRefundsForm() {
     setActiveRowId,
     errors,
     setErrors,
-    defaultRows,
+    defaultRow,
     results,
     setResults
   }

@@ -10,6 +10,7 @@ import {DirectorsContext, DirectorsUIRow} from './DirectorsContext'
 import {NiFrontendContext} from '../../../services/NiFrontendContext'
 import MqTableCell from '../shared/MqTableCell'
 import ExplainToggle from "../shared/ExplainToggle";
+import TableRow from "../shared/TableRow";
 
 interface TableRowProps {
   row: DirectorsUIRow
@@ -50,16 +51,18 @@ function DirectorsTableRow(props: TableRowProps) {
   }
 
   const invalidateResults = () => {
-    setResult(null)
+    result && setResult(null)
   }
 
   return (
-    <tr
-      id={row.id}
-      className={activeRowId === row.id ? "active" : ""}
-      onClick={() => setActiveRowId(row.id)}
-      aria-selected={activeRowId === row.id}
+    <TableRow
+      row={row}
+      rows={rows}
+      index={index}
+      activeRowId={activeRowId}
+      setActiveRowId={setActiveRowId}
     >
+
       <MqTableCell cellStyle={thStyles.rowNumber}>
         {index + 1}
       </MqTableCell>
@@ -69,7 +72,7 @@ function DirectorsTableRow(props: TableRowProps) {
           <div>{row.category}</div>
           :
           <>
-            <label className="govuk-visually-hidden" htmlFor={`row${index}-category`}>Category</label>
+            <label className="govuk-visually-hidden" htmlFor={`row${index}-category`}>Category for row number {index + 1}</label>
             <select name="category" value={row.category} onChange={(e) => handleSelectChange?.(row, e)} className="borderless" id={`row${index}-category`}>
               {categories.map((c: string, i: number) => (
                 <option key={i} value={c}>
@@ -92,7 +95,7 @@ function DirectorsTableRow(props: TableRowProps) {
           <TextInput
             hiddenLabel={true}
             name={`${row.id}-gross`}
-            labelText="Gross pay"
+            labelText={`Gross pay for row number ${index + 1}`}
             inputClassName="gross-pay"
             inputValue={row.gross}
             onChangeCallback={(e) => handleGrossChange?.(row, e)}
@@ -135,7 +138,7 @@ function DirectorsTableRow(props: TableRowProps) {
         />
       </td>
       }
-    </tr>
+    </TableRow>
   )
 }
 

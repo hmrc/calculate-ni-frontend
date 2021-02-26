@@ -5,7 +5,7 @@ import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
 // components
-import DirectorsEarningsTable from './DirectorsContributionsTable'
+import DirectorsTable from './DirectorsTable'
 import Radios from '../../helpers/formhelpers/Radios'
 import SelectTaxYear from '../../helpers/formhelpers/SelectTaxYear'
 import {DateRange} from "../shared/DateRange";
@@ -48,13 +48,15 @@ export default function DirectorsForm(props: DirectorsFormProps) {
   const handleAddRow = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     invalidateResults()
+    const newId = uniqid()
     setRows([...rows, {
-      id: uniqid(),
+      id: newId,
       category: categories[0],
       gross: '',
       ee: 0,
       er: 0
     }])
+    setActiveRowId(newId)
   }
 
   const handleDeleteRow = (e: React.MouseEvent) => {
@@ -149,7 +151,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
 
       <NiPaidInputs context={DirectorsContext} />
 
-      <DirectorsEarningsTable
+      <DirectorsTable
         showBands={false}
         printView={false}
       />

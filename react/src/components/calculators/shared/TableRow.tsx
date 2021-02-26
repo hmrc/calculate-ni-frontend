@@ -1,0 +1,63 @@
+import React, {Dispatch, useEffect, useRef, useState} from 'react'
+
+interface TableRowProps {
+  children: any
+  row: {id: string}
+  rows: {id: string}[]
+  index: number
+  activeRowId: string | null
+  setActiveRowId: Dispatch<string | null>
+}
+
+function TableRow(props: TableRowProps) {
+  const { children, row, index, rows, activeRowId, setActiveRowId } = props
+  const rowRef = useRef() as React.MutableRefObject<HTMLTableRowElement>
+  const [retainFocus, setRetainFocus] = useState<boolean>(false)
+
+  useEffect(() => {
+    if(!retainFocus && activeRowId === row.id && rowRef.current) {
+      rowRef.current.focus()
+    }
+  }, [activeRowId, row.id, rowRef, retainFocus])
+
+  const handleKeyDown = ( event: React.KeyboardEvent ) => {
+    if(!(event.target instanceof HTMLSelectElement)) {
+      event.stopPropagation()
+      switch (event.key) {
+        case "ArrowUp":
+          if(index > 0) {
+            setRetainFocus(false)
+            setActiveRowId(rows[index - 1].id)
+          }
+          break
+        case "ArrowDown":
+          if((index + 1) < rows.length) {
+            setRetainFocus(false)
+            const newId = rows[index + 1].id
+            setActiveRowId(newId)
+          }
+          break
+        default: break
+      }
+    }
+  }
+
+  return (
+    <tr
+      className={`no-focus-outline${activeRowId === row.id ? ` active` : ``}`}
+      id={row.id}
+      onClick={(event: React.MouseEvent): void => {
+        setRetainFocus(event.target instanceof HTMLInputElement || event.target instanceof HTMLSelectElement)
+        setActiveRowId(row.id)
+      }}
+      aria-selected={activeRowId === row.id}
+      tabIndex={-1}
+      ref={rowRef}
+      onKeyDown={handleKeyDown}
+    >
+      {children}
+    </tr>
+  )
+}
+
+export default TableRow

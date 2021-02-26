@@ -4,7 +4,7 @@ import uniqid from 'uniqid';
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
 
-import ClassOneEarningsTable from './Class1ContributionsTable'
+import Class1Table from './Class1Table'
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
 
@@ -83,7 +83,7 @@ function Class1Form(props: Class1FormProps) {
 
         <NiPaidInputs context={ClassOneContext} />
 
-        <ClassOneEarningsTable
+        <Class1Table
           showBands={false}
           printView={false}
         />

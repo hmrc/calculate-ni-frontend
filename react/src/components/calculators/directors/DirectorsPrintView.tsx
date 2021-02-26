@@ -3,7 +3,7 @@ import {DirectorsContext} from "./DirectorsContext";
 
 // components
 import CategoryTotals from '../shared/CategoryTotals'
-import DirectorsEarningsTable from './DirectorsContributionsTable'
+import DirectorsTable from './DirectorsTable'
 import DetailsPrint from "../shared/DetailsPrint";
 
 // types
@@ -63,7 +63,7 @@ function DirectorsPrintView(props: Class1DirectorsSavePrintProps) {
           </div>
         }
 
-        <DirectorsEarningsTable
+        <DirectorsTable
           showBands={true}
           printView={true}
         />
