@@ -40,6 +40,14 @@ class ClassTwoSpec extends SpreadsheetTest {
       ) map (result.totalDue equalOrExplain _)
 
       (
+        row.get("no conts due") >>= Int.unapply
+      ) map (result.numberOfContributions equalOrExplain _)
+
+      (
+        row.get("total amount") >>= Money.unapply
+      ) map (result.totalDue equalOrExplain _)
+
+      (
         row.get("date higher rate") >>= Date.unapply
       ) map (result.higherProvisionsApplyOn equalOrExplain _)
 
