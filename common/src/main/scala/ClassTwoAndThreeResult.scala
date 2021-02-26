@@ -45,12 +45,6 @@ case class ClassTwo(
   lel: BigDecimal
 ) extends ClassTwoOrThree {
   def rate = weeklyRate.default
-  // def lowerEarningLimit = lel match {
-  //   case Some(x) => x.pure[Explained]
-  //   case None =>
-  //     ((qualifyingRate + 50) / noOfWeeks).setScale(0, BigDecimal.RoundingMode.FLOOR) gives
-  //       s"lowerEarningLimit: (qualifyingRate) / noOfWeeks = ($qualifyingRate + 50) / $noOfWeeks"
-  // }
 
   def lowerEarningLimit = lel.pure[Explained]
   def qualifyingEarningsFactor: Explained[BigDecimal] = qualifyingRate.pure[Explained]
