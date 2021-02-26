@@ -41,12 +41,12 @@ case class ClassTwo(
   hrpDate: Option[LocalDate],
   finalDate: Option[LocalDate],
   noOfWeeks: Int = 52,
-  qualifyingRate: BigDecimal
+  qualifyingRate: BigDecimal,
+  lel: BigDecimal
 ) extends ClassTwoOrThree {
   def rate = weeklyRate.default
-  def lowerEarningLimit = ((qualifyingRate + 50) / noOfWeeks) gives
-    s"lowerEarningLimit: (qualifyingRate + 50) / noOfWeeks = ($qualifyingRate + 50) / $noOfWeeks"
 
+  def lowerEarningLimit = lel.pure[Explained]
   def qualifyingEarningsFactor: Explained[BigDecimal] = qualifyingRate.pure[Explained]
 }
 
