@@ -199,6 +199,9 @@ table {
         cursor: inherit;
         line-height: inherit;
         outline: none;
+        &:focus {
+          outline: 3px solid $govuk-focus-colour;
+        }
       }
     }
 
