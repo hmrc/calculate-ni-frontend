@@ -15,6 +15,7 @@ function Details (props: DetailsForm) {
         id="details-control"
         type="button"
         aria-expanded={showDetails}
+        aria-controls="calculation-meta"
         className={`toggle icon ${showDetails ? 'arrow-up' : 'arrow-right'}`}
         onClick={() => setShowDetails(!showDetails)}>
         {showDetails ? 'Close details' : 'Open details'}
