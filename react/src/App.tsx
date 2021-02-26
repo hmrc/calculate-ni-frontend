@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 
 // css
-// import './styles/gov-polyfill.css'
 import './styles/application.scss'
 
 // components
