@@ -4,14 +4,6 @@ table.contribution-details th.earnings-factor {
   width: 110px;
 }
 
-
-
-
-
-
-
-
-
 table thead th, table td, table tbody th {
   border: none;
   font-weight: 400;
@@ -416,13 +408,32 @@ and also iPads specifically.
   tr { border: 1px solid #ccc; }
 
   td,
-  table.contribution-details td.input {
+  table.contribution-details td.input{
     /* Behave  like a "row" */
     border: none;
     border-bottom: 1px solid #eee;
     position: relative;
     padding-left: 50%;
   }
+
+  .spaced-table td.readonly {
+    padding: 0 0 0 50%;
+  }
+
+  table.contribution-details {
+    caption {
+      display: block;
+      margin-bottom: 5px;
+    }
+  }
+
+  table.totals-table {
+    td {
+      margin-bottom: 2px;
+    }
+
+  }
+
 
   table.contribution-details td,
   .save-print-wrapper .category-totals td {
