@@ -89,7 +89,7 @@ export interface Class1DebtRow {
 
 export interface LateRefundsTableRowProps {
   id: string
-  taxYear: TaxYear
+  taxYear: TaxYear | null
   refund: string,
   payable: string | null
 }

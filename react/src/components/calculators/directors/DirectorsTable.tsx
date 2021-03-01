@@ -1,6 +1,4 @@
 import React, {useContext, useState} from 'react'
-import numeral from 'numeral'
-import 'numeral/locales/en-gb';
 
 // types
 import {DirectorsContext, DirectorsUIRow} from "./DirectorsContext";
@@ -10,9 +8,7 @@ import {TableProps} from '../../../interfaces'
 import DirectorsTableRow from './DirectorsTableRow'
 import ExplainRow from "../shared/ExplainRow";
 
-numeral.locale('en-gb');
-
-function DirectorsEarningsTable(props: TableProps) {
+function DirectorsTable(props: TableProps) {
   const { showBands, printView } = props
   const [showExplanation, setShowExplanation] = useState<string>('')
   const {
@@ -85,4 +81,4 @@ function DirectorsEarningsTable(props: TableProps) {
   )
 }
 
-export default DirectorsEarningsTable
+export default DirectorsTable

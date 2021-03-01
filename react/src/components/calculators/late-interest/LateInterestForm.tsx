@@ -33,12 +33,14 @@ function LateInterestForm(props: LateInterestFormProps) {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     invalidateResults()
+    const newId = uniqid()
     setRows([...rows, {
-      id: uniqid(),
+      id: newId,
       taxYears: taxYears,
       taxYear: taxYears[0],
       debt: ''
     }])
+    setActiveRowId(newId)
   }
 
   const handleDeleteRow = (e: React.MouseEvent) => {
@@ -74,7 +76,7 @@ function LateInterestForm(props: LateInterestFormProps) {
 
           <div className="form-group repeat-button">
             <SecondaryButton
-              label="Repeat row"
+              label="Add row"
               onClick={handleClick}
             />
           </div>

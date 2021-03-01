@@ -10,6 +10,7 @@ import {Class1DebtRow, TaxYear} from '../../../interfaces'
 import {LateInterestContext} from './LateInterestContext'
 import {extractFromDateString, extractToDateString, taxYearString} from '../../../config'
 import MqTableCell from '../shared/MqTableCell'
+import TableRow from "../shared/TableRow";
 
 function Class1DebtTableRow(props: {
   row: Class1DebtRow,
@@ -54,12 +55,12 @@ function Class1DebtTableRow(props: {
   }
 
   return (
-    <tr
-      key={row.id}
-      className={activeRowId === row.id ? "active" : ""}
-      id={row.id}
-      onClick={() => setActiveRowId(row.id)}
-      aria-selected={activeRowId === row.id}
+    <TableRow
+      row={row}
+      rows={rows}
+      index={index}
+      activeRowId={activeRowId}
+      setActiveRowId={setActiveRowId}
     >
       <MqTableCell cellStyle={thStyles.rowNumber}>
         {index + 1}
@@ -99,7 +100,7 @@ function Class1DebtTableRow(props: {
       <MqTableCell cellStyle={thStyles.interestDue}>
         {row.interestDue}
       </MqTableCell>
-    </tr>
+    </TableRow>
   )
 }
 

@@ -11,6 +11,7 @@ import {NiFrontendContext} from "../../../services/NiFrontendContext";
 import TextInput from "../../helpers/formhelpers/TextInput";
 import MqTableCell from '../shared/MqTableCell'
 import ExplainToggle from "../shared/ExplainToggle";
+import TableRow from "../shared/TableRow";
 
 interface TableRowProps {
   row: Row
@@ -39,7 +40,6 @@ export default function Class1TableRow(props: TableRowProps) {
 
   const handleChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
     invalidateResults()
-    setActiveRowId(r.id)
     setRows(rows.map((cur: Row) =>
       cur.id === r.id ?
         {...cur, [`${e.currentTarget.name.split('-')[1]}`]: e.currentTarget.value}
@@ -74,11 +74,12 @@ export default function Class1TableRow(props: TableRowProps) {
   }, [categories])
 
   return (
-    <tr
-      className={activeRowId === row.id ? "active" : ""}
-      id={row.id}
-      onClick={() => setActiveRowId(row.id)}
-      aria-selected={activeRowId === row.id}
+    <TableRow
+      row={row}
+      rows={rows}
+      index={index}
+      activeRowId={activeRowId}
+      setActiveRowId={setActiveRowId}
     >
 
       <MqTableCell cellStyle={thStyles.rowNumber}>
@@ -90,7 +91,7 @@ export default function Class1TableRow(props: TableRowProps) {
           <div>{periodValueToLabel(row.period)}</div>
           :
           <>
-            <label className="govuk-visually-hidden" htmlFor={`row${index}-period`}>Period</label>
+            <label className="govuk-visually-hidden" htmlFor={`row${index}-period`}>Period for row number {index + 1}</label>
             <select
               name="period"
               value={row.period}
@@ -117,7 +118,7 @@ export default function Class1TableRow(props: TableRowProps) {
           <div>{row.category}</div>
           :
           <>
-            <label className="govuk-visually-hidden" htmlFor={`row${index}-category`}>Category</label>
+            <label className="govuk-visually-hidden" htmlFor={`row${index}-category`}>NI category for row number {index + 1}</label>
             <select name="category" value={row.category} onChange={(e) => handleSelectChange?.(row, e)} className="borderless" id={`row${index}-category`}>
               {categories.map((c: string, i: number) => (
                 <option key={i} value={c}>
@@ -142,7 +143,7 @@ export default function Class1TableRow(props: TableRowProps) {
             <TextInput
               hiddenLabel={true}
               name={`${row.id}-gross`}
-              labelText="Gross pay"
+              labelText={`Gross pay for row number ${index + 1}`}
               inputClassName="gross-pay"
               inputValue={row.gross}
               onChangeCallback={(e) => handleChange?.(row, e)}
@@ -185,6 +186,6 @@ export default function Class1TableRow(props: TableRowProps) {
           />
         </td>
       }
-    </tr>
+    </TableRow>
   )
 }

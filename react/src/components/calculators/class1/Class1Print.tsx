@@ -3,7 +3,7 @@ import {ClassOneContext} from "./ClassOneContext";
 
 // components
 import CategoryTotals from '../shared/CategoryTotals'
-import ClassOneEarningsTable from './Class1ContributionsTable'
+import Class1Table from './Class1Table'
 import DetailsPrint from "../shared/DetailsPrint";
 
 // types
@@ -36,7 +36,7 @@ function Class1Print(props: Class1DirectorsSavePrintProps) {
           Tax year: {taxYear && taxYearShorthand(taxYear)}
         </h2>
 
-        <ClassOneEarningsTable
+        <Class1Table
           showBands={true}
           printView={true}
         />

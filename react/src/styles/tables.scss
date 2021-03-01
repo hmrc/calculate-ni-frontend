@@ -1,9 +1,3 @@
-//CHECK
-table.contributions-details,
-table.contribution-details th.earnings-factor {
-  width: 110px;
-}
-
 table thead th, table td, table tbody th {
   border: none;
   font-weight: 400;
@@ -143,9 +137,6 @@ table thead th, table td, table tbody th {
     &.input-cell {
       .govuk-input--error {
         border: 2px solid #d4351c;
-        &:focus {
-          border-color: #B1B4B6;
-        }
       }
     }
   }

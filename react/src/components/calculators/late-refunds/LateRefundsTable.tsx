@@ -17,24 +17,22 @@ function LateRefundsTable(props: LateRefundsTable) {
   const {printView} = props
   const {
     setBankHolidaysNo,
-    defaultRows,
+    defaultRow,
     rows,
     setRows,
     activeRowId,
     setActiveRowId,
     setErrors,
-    taxYears,
-    setResults
+    setResults,
+    results
   } = useContext(LateRefundsContext)
 
   const handleAddRow = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     invalidateResults()
-    setRows([...rows, {
-      id: uniqid(),
-      taxYear: taxYears[0],
-      debt: ''
-    }])
+    const newId = uniqid()
+    setRows([...rows, {...defaultRow, id: newId}])
+    setActiveRowId(newId)
   }
 
   const handleDeleteRow = (e: React.MouseEvent) => {
@@ -42,7 +40,6 @@ function LateRefundsTable(props: LateRefundsTable) {
     invalidateResults()
     if(activeRowId) {
       setRows(rows.filter((row: LateRefundsTableRowProps) => row.id !== activeRowId))
-      // errors are now stale
       setErrors({})
       setActiveRowId(null)
     }
@@ -50,13 +47,14 @@ function LateRefundsTable(props: LateRefundsTable) {
 
   const handleClearForm = () => {
     setBankHolidaysNo('')
-    setRows(defaultRows)
+    setRows([defaultRow])
     setResults(null)
+    setActiveRowId(null)
     setErrors({})
   }
 
   const invalidateResults = () => {
-    setResults(null)
+    results && setResults(null)
   }
 
   return (
