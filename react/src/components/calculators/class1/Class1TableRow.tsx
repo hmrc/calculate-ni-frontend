@@ -8,10 +8,10 @@ import {ClassOneContext, Row} from "./ClassOneContext";
 import {NiFrontendContext} from "../../../services/NiFrontendContext";
 
 // components
-import TextInput from "../../helpers/formhelpers/TextInput";
+import TextInput from "../../helpers/formhelpers/TextInput"
 import MqTableCell from '../shared/MqTableCell'
-import ExplainToggle from "../shared/ExplainToggle";
-import TableRow from "../shared/TableRow";
+import ExplainToggle from "../shared/ExplainToggle"
+import TableRow from "../shared/TableRow"
 
 interface TableRowProps {
   row: Row
