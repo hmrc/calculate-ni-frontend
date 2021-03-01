@@ -9,7 +9,7 @@ interface TableRowProps {
   setActiveRowId: Dispatch<string | null>
 }
 
-function TableRow(props: TableRowProps) {
+export default function TableRow(props: TableRowProps) {
   const { children, row, index, rows, activeRowId, setActiveRowId } = props
   const rowRef = useRef() as React.MutableRefObject<HTMLTableRowElement>
   const [retainFocus, setRetainFocus] = useState<boolean>(false)
@@ -17,8 +17,15 @@ function TableRow(props: TableRowProps) {
   useEffect(() => {
     if(!retainFocus && activeRowId === row.id && rowRef.current) {
       rowRef.current.focus()
+    } else {
+      setRetainFocus(false)
     }
-  }, [activeRowId, row.id, rowRef, retainFocus])
+  }, [activeRowId, row.id, rowRef]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleClickFocus = (event: React.MouseEvent): void => {
+    setRetainFocus(event.target instanceof HTMLInputElement || event.target instanceof HTMLSelectElement)
+    setActiveRowId(row.id)
+  }
 
   const handleKeyDown = ( event: React.KeyboardEvent ) => {
     if(!(event.target instanceof HTMLSelectElement)) {
@@ -26,15 +33,12 @@ function TableRow(props: TableRowProps) {
       switch (event.key) {
         case "ArrowUp":
           if(index > 0) {
-            setRetainFocus(false)
             setActiveRowId(rows[index - 1].id)
           }
           break
         case "ArrowDown":
           if((index + 1) < rows.length) {
-            setRetainFocus(false)
-            const newId = rows[index + 1].id
-            setActiveRowId(newId)
+            setActiveRowId(rows[index + 1].id)
           }
           break
         default: break
@@ -46,10 +50,7 @@ function TableRow(props: TableRowProps) {
     <tr
       className={`no-focus-outline${activeRowId === row.id ? ` active` : ``}`}
       id={row.id}
-      onClick={(event: React.MouseEvent): void => {
-        setRetainFocus(event.target instanceof HTMLInputElement || event.target instanceof HTMLSelectElement)
-        setActiveRowId(row.id)
-      }}
+      onClick={handleClickFocus}
       aria-selected={activeRowId === row.id}
       tabIndex={-1}
       ref={rowRef}
@@ -59,5 +60,3 @@ function TableRow(props: TableRowProps) {
     </tr>
   )
 }
-
-export default TableRow
