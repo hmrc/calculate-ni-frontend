@@ -3,7 +3,9 @@ package frontend
 
 import scala.scalajs.js.annotation._
 import scala.scalajs.js.Date
-import scala.scalajs.js
+import scala.scalajs.js, js.JSConverters._
+import JsObjectAdapter.ops._
+import scala.scalajs.js.annotation.JSExportTopLevel
 
 class UnofficialDeferment(
  config: Configuration
@@ -32,21 +34,27 @@ class UnofficialDeferment(
   }
 
   def getBandsForTaxYear(on: Date): js.Array[ApplicableBands] = {
-    val year: Int = on.getFullYear()
-    val applicableBands: List[Band] = year match {
-      case _ < 2009 => ApplicableBands.Pre2009.bands
-      case _ < 2016 => ApplicableBands.Pre2016.bands
-      case _ => ApplicableBands.Post2015.bands
-    }
+    val applicableBands: List[Band] =
+      if(on.getYear < 2009) ApplicableBands.Pre2009.bands
+      else if(on.getYear < 2016) ApplicableBands.Pre2016.bands
+      else ApplicableBands.Post2015.bands
 
     val interval = config.classOne.keys.find(_.contains(on)).getOrElse(
       throw new NoSuchElementException(s"Cannot find an interval for $on")
     )
 
     applicableBands.map { b: Band =>
-      val limit = config.classOne(interval)(b.configPath)
-      b.copy(limit = limit)
-    }
+
+      b.copy(limit = b.bound match {
+        case "lower" => config.classOne(interval)(b.band).week.map {
+          case v => v.lowerBound.toDouble
+        }
+        case _ => config.classOne(interval)(b.band).week.map {
+          case v => v.upperBound.toDouble
+        }
+      })
+
+    }.toJSArray
   }
 }
 
@@ -68,8 +76,9 @@ case class UnofficialDefermentResultRow(
 case class Band(
   name: String,
   label: String,
-  configPath: String,
-  limit: Double = 0
+  band: String,
+  bound: String,
+  limit: Option[Double] = None
 )
 
 sealed trait ApplicableBands extends Product with Serializable
@@ -77,26 +86,26 @@ sealed trait ApplicableBands extends Product with Serializable
 object ApplicableBands {
   final case object Pre2009 extends ApplicableBands {
     val bands: List[Band] = List(
-      Band("Lower earnings limit", "LEL", "lelToET.week.Bounded.lower"),
-      Band("Earnings threshold", "LEL - ET", "lelToET.week.Bounded.upper"),
-      Band("Upper earnings limit", "ET - UEL", "etToUel.week.Bounded.upper")
+      Band("Lower earnings limit", "LEL", "lelToET", "lower"),
+      Band("Earnings threshold", "LEL - ET", "lelToET", "upper"),
+      Band("Upper earnings limit", "ET - UEL", "etToUel", "upper")
     )
   }
 
   final case object Pre2016 extends ApplicableBands {
     val bands: List[Band] = List(
-      Band("Lower earnings limit", "LEL", "lelToStRebate.week.Bounded.lower"),
-      Band("Primary threshold", "LEL - PT", "lelToStRebate.week.Bounded.upper"),
-      Band("Upper accrual point", "PT - UAP", "ptToUap.week.Bounded.upper"),
-      Band("Upper earnings limit", "UAP - UEL", "aboveUel.week.Bounded.lower")
+      Band("Lower earnings limit", "LEL", "lelToStRebate", "lower"),
+      Band("Primary threshold", "LEL - PT", "lelToStRebate", "upper"),
+      Band("Upper accrual point", "PT - UAP", "ptToUap", "upper"),
+      Band("Upper earnings limit", "UAP - UEL", "aboveUel", "lower")
     )
   }
 
   final case object Post2015 extends ApplicableBands {
     val bands: List[Band] = List(
-      Band("Lower earnings limit", "LEL", "lelToStRebate.week.Bounded.lower"),
-      Band("Primary threshold", "LEL - PT", "lelToStRebate.week.Bounded.upper"),
-      Band("Upper earnings limit", "PT - UEL", "aboveUel.week.Bounded.lower")
+      Band("Lower earnings limit", "LEL", "lelToStRebate", "lowerBound"),
+      Band("Primary threshold", "LEL - PT", "lelToStRebate", "upperBound"),
+      Band("Upper earnings limit", "PT - UEL", "aboveUel", "lowerBound")
     )
   }
 }

@@ -2,7 +2,12 @@ import React, {Dispatch, useContext, useEffect, useState} from "react";
 import {Calculated, DetailsProps, GenericObject, TaxYear} from "../../../interfaces";
 import {buildTaxYears} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
-import {ClassOneCalculator, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
+import {
+  ClassOneCalculator,
+  initClassOneCalculator, initUnofficialDefermentCalculator,
+  NiFrontendContext,
+  UnofficialDefermentCalculator
+} from "../../../services/NiFrontendContext";
 
 const initRow = {
   id: 'default',
@@ -44,6 +49,7 @@ export interface UnofficialDefermentRow {
 
 interface UnofficialDefermentContext {
   ClassOneCalculator: ClassOneCalculator
+  UnofficialDefermentCalculator: UnofficialDefermentCalculator
   taxYears: TaxYear[]
   taxYear: TaxYear
   setTaxYear: Dispatch<TaxYear>
@@ -184,6 +190,7 @@ const getRequiredInputs = (taxYear: TaxYear) => {
 export const UnofficialDefermentContext = React.createContext<UnofficialDefermentContext>(
   {
     ClassOneCalculator: initClassOneCalculator,
+    UnofficialDefermentCalculator: initUnofficialDefermentCalculator,
     taxYears: [],
     taxYear: {
       id: '1',
@@ -216,6 +223,7 @@ export function useUnofficialDefermentForm() {
     NiFrontendInterface
   } = useContext(NiFrontendContext)
   const ClassOneCalculator = NiFrontendInterface.classOne
+  const UnofficialDefermentCalculator = NiFrontendInterface.unofficialDeferment
   const [taxYears, setTaxYears] = useState<TaxYear[]>([])
   const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
   const [defaultRow, setDefaultRow] = useState<UnofficialDefermentRow>(initRow)
@@ -232,6 +240,8 @@ export function useUnofficialDefermentForm() {
       if(categoriesForTaxYear) {
         setCategories(categoriesForTaxYear.split(''))
         setEarningsFields(getRequiredInputs(taxYear))
+        const bands = UnofficialDefermentCalculator.getApplicableBands(taxYear.from)
+        console.log('bands', bands)
         setDefaultRow(prevState => ({
           ...prevState,
           category: categoriesForTaxYear[0]
@@ -240,7 +250,7 @@ export function useUnofficialDefermentForm() {
         setRows([defaultRow])
       }
     }
-  }, [taxYear, ClassOneCalculator])
+  }, [taxYear, ClassOneCalculator, UnofficialDefermentCalculator])
 
   useEffect(() => {
     setRows([defaultRow])
@@ -259,6 +269,7 @@ export function useUnofficialDefermentForm() {
 
   return {
     ClassOneCalculator,
+    UnofficialDefermentCalculator,
     taxYears,
     taxYear,
     setTaxYear,
