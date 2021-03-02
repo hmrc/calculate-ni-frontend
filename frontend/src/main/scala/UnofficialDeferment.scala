@@ -43,10 +43,10 @@ class UnofficialDeferment(
       throw new NoSuchElementException(s"Cannot find an interval for $on")
     )
 
-    applicableBands.foreach(b: Band =>
-      config.classOne(interval).values.flatMap(x =>
-        b.copy(limit = x[f.configPath])
-    ).toJSArray
+    applicableBands.map { b: Band =>
+      val limit = config.classOne(interval)(b.configPath)
+      b.copy(limit = limit)
+    }
   }
 }
 
