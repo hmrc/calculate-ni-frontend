@@ -38,13 +38,15 @@ class UnofficialDeferment(
       case _ < 2016 => ApplicableBands.Pre2016.bands
       case _ => ApplicableBands.Post2015.bands
     }
+
     val interval = config.classOne.keys.find(_.contains(on)).getOrElse(
       throw new NoSuchElementException(s"Cannot find an interval for $on")
     )
+
     applicableBands.foreach(b: Band =>
       config.classOne(interval).values.flatMap(x =>
-        b.copy(limit = x[f.configMap])
-    ).toList.toJSArray
+        b.copy(limit = x[f.configPath])
+    ).toJSArray
   }
 }
 
@@ -66,7 +68,7 @@ case class UnofficialDefermentResultRow(
 case class Band(
   name: String,
   label: String,
-  configMap: String,
+  configPath: String,
   limit: Double = 0
 )
 
