@@ -55,7 +55,7 @@ case class UnofficialDefermentRow(
   id: String,
   employer: String,
   category: String,
-  bands: List[ApplicableBands],
+  bands: js.Array[ApplicableBands],
   employersNICs: Double
 )
 
