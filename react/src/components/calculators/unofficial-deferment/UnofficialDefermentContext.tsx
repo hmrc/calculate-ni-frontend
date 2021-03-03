@@ -72,6 +72,8 @@ interface UnofficialDefermentContext {
   setResults: Dispatch<GenericObject>,
   bands: UnofficialDefermentBand[],
   setBands: Dispatch<UnofficialDefermentBand[]>
+  userBands: UnofficialDefermentBand[],
+  setUserBands: Dispatch<UnofficialDefermentBand[]>
 }
 
 export const UnofficialDefermentContext = React.createContext<UnofficialDefermentContext>(
@@ -101,7 +103,9 @@ export const UnofficialDefermentContext = React.createContext<UnofficialDefermen
     results: {},
     setResults: () => {},
     bands: [],
-    setBands: () => {}
+    setBands: () => {},
+    userBands: [],
+    setUserBands: () => {}
   }
 )
 
@@ -121,6 +125,8 @@ export function useUnofficialDefermentForm() {
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   const [bands, setBands] = useState<Array<UnofficialDefermentBand>>([])
+  const [userBands, setUserBands] = useState<Array<UnofficialDefermentBand>>([])
+
   useEffect(() => {
     if(taxYear?.from) {
       const categoriesForTaxYear = ClassOneCalculator.getApplicableCategories(taxYear.from)
@@ -128,7 +134,6 @@ export function useUnofficialDefermentForm() {
         setCategories(categoriesForTaxYear.split(''))
         const bandsForTaxYear = UnofficialDefermentCalculator.getBandsForTaxYear(taxYear.from)
         setBands(bandsForTaxYear)
-        console.log('bands', bandsForTaxYear)
         setDefaultRow(prevState => ({
           ...prevState,
           category: categoriesForTaxYear[0],
@@ -143,6 +148,10 @@ export function useUnofficialDefermentForm() {
   useEffect(() => {
     setRows([defaultRow])
   }, [defaultRow])
+
+  useEffect(() => {
+    setUserBands([...bands])
+  }, [bands])
 
   useEffect(() => {
     setTaxYear(taxYears[0])
@@ -177,6 +186,8 @@ export function useUnofficialDefermentForm() {
     results,
     setResults,
     bands,
-    setBands
+    setBands,
+    userBands,
+    setUserBands
   }
 }

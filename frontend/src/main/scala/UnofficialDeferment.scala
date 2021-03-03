@@ -6,7 +6,6 @@ import scala.scalajs.js.{Date, UndefOr}
 import scala.scalajs.js
 import js.JSConverters._
 import JsObjectAdapter.ops._
-import spire.math.Interval.fromBounds
 import spire.implicits._
 import spire.math.Interval
 

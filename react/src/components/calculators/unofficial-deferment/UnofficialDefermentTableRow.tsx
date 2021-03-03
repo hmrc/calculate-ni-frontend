@@ -3,7 +3,11 @@ import * as thStyles from "../../../services/mobileHeadingStyles";
 import TextInput from "../../helpers/formhelpers/TextInput";
 import numeral from "numeral";
 import React, {useContext} from "react";
-import {UnofficialDefermentContext, UnofficialDefermentRow} from "./UnofficialDefermentContext";
+import {
+  UnofficialDefermentBand,
+  UnofficialDefermentContext,
+  UnofficialDefermentRow
+} from "./UnofficialDefermentContext";
 import TableRow from "../shared/TableRow";
 
 export default function UnofficialDefermentTableRow(props: {
@@ -19,6 +23,19 @@ export default function UnofficialDefermentTableRow(props: {
     rows,
     categories
   } = useContext(UnofficialDefermentContext)
+
+  const handleBandChange = (r: UnofficialDefermentRow, band: UnofficialDefermentBand) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setActiveRowId(r.id)
+    setRows(rows.map((row: UnofficialDefermentRow) =>
+      row.id === r.id ?
+        {
+          ...row,
+          bands: row.bands.map(b => b.name === band.name ? {...b, value: e.currentTarget.value} : b)
+        }
+        :
+        row
+    ))
+  }
 
   const handleChange = (r: UnofficialDefermentRow, e: React.ChangeEvent<HTMLInputElement>) => {
     setActiveRowId(r.id)
@@ -54,7 +71,7 @@ export default function UnofficialDefermentTableRow(props: {
             labelText="Name of employer"
             inputClassName="gross-pay"
             inputValue={row.nameOfEmployer}
-            onChangeCallback={(e) => handleChange?.(row, e)}
+            onChangeCallback={(e) => handleChange(row, e)}
           />
         }
       </MqTableCell>
@@ -90,13 +107,11 @@ export default function UnofficialDefermentTableRow(props: {
               inputClassName="gross-pay"
               inputValue={band.value || ''}
               placeholderText=""
-              onChangeCallback={(e) => handleChange?.(row, e)}
+              onChangeCallback={handleBandChange(row, band)}
             />
           }
         </MqTableCell>
       ))}
-
-
 
       <MqTableCell cellClassName="input" cellStyle={thStyles.employeeNics}>
         {printView ?
