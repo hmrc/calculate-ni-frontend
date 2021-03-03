@@ -2,9 +2,14 @@ package eoi
 package frontend
 
 import scala.scalajs.js.annotation._
-import scala.scalajs.js.Date
-import scala.scalajs.js, js.JSConverters._
+import scala.scalajs.js.{Date, UndefOr}
+import scala.scalajs.js
+import js.JSConverters._
 import JsObjectAdapter.ops._
+import spire.math.Interval.fromBounds
+import spire.implicits._
+import spire.math.Interval
+
 import scala.scalajs.js.annotation.JSExportTopLevel
 
 class UnofficialDeferment(
@@ -33,7 +38,7 @@ class UnofficialDeferment(
     i.toJSArray
   }
 
-  def getBandsForTaxYear(on: Date): js.Array[ApplicableBands] = {
+  def getBandsForTaxYear(on: Date): js.Array[_ <: scala.scalajs.js.Object] = {
     val applicableBands: List[Band] =
       if(on.getYear < 2009) ApplicableBands.Pre2009.bands
       else if(on.getYear < 2016) ApplicableBands.Pre2016.bands
@@ -44,17 +49,22 @@ class UnofficialDeferment(
     )
 
     applicableBands.map { b: Band =>
-
-      b.copy(limit = b.bound match {
-        case "lower" => config.classOne(interval)(b.band).week.map {
-          case v => v.lowerBound.toDouble
+      new js.Object {
+        val name: String = b.name
+        val label: String = b.label
+        val limit: String = b.bound match {
+          case "lower" => config.classOne(interval)(b.band).week match {
+            case Some(v) => v.lowerBound.toString
+            case _ => ""
+          }
+          case _ => config.classOne(interval)(b.band).week match {
+            case Some(v) => v.upperBound.toString
+            case _ => ""
+          }
         }
-        case _ => config.classOne(interval)(b.band).week.map {
-          case v => v.upperBound.toDouble
-        }
-      })
-
+      }
     }.toJSArray
+
   }
 }
 
@@ -63,7 +73,7 @@ case class UnofficialDefermentRow(
   id: String,
   employer: String,
   category: String,
-  bands: js.Array[ApplicableBands],
+  bands: js.Array[Band],
   employersNICs: Double
 )
 
@@ -78,7 +88,7 @@ case class Band(
   label: String,
   band: String,
   bound: String,
-  limit: Option[Double] = None
+  limit: Option[String] = None
 )
 
 sealed trait ApplicableBands extends Product with Serializable
@@ -86,8 +96,8 @@ sealed trait ApplicableBands extends Product with Serializable
 object ApplicableBands {
   final case object Pre2009 extends ApplicableBands {
     val bands: List[Band] = List(
-      Band("Lower earnings limit", "LEL", "lelToET", "lower"),
-      Band("Earnings threshold", "LEL - ET", "lelToET", "upper"),
+      Band("Lower earnings limit", "LEL", "lelTOEtRebate1", "lower"),
+      Band("Earnings threshold", "LEL - ET", "lelTOEtRebate1", "upper"),
       Band("Upper earnings limit", "ET - UEL", "etToUel", "upper")
     )
   }
@@ -103,9 +113,9 @@ object ApplicableBands {
 
   final case object Post2015 extends ApplicableBands {
     val bands: List[Band] = List(
-      Band("Lower earnings limit", "LEL", "lelToStRebate", "lowerBound"),
-      Band("Primary threshold", "LEL - PT", "lelToStRebate", "upperBound"),
-      Band("Upper earnings limit", "PT - UEL", "aboveUel", "lowerBound")
+      Band("Lower earnings limit", "LEL", "ptToUel", "lower"),
+      Band("Primary threshold", "LEL - PT", "ptToUel", "upper"),
+      Band("Upper earnings limit", "PT - UEL", "aboveUel", "lower")
     )
   }
 }

@@ -36,7 +36,7 @@ export interface WeeklyContributionsCalculator {
 
 export interface UnofficialDefermentCalculator {
   calculate: Function,
-  getApplicableBands: Function
+  getBandsForTaxYear: Function
 }
 
 export const initClass2Or3Calculator = {
@@ -51,7 +51,7 @@ export const initWeeklyContributionsCalculator = {
 
 export const initUnofficialDefermentCalculator = {
   calculate: () => {},
-  getApplicableBands: () => {}
+  getBandsForTaxYear: () => {}
 }
 
 export const initClassOneCalculator = {
