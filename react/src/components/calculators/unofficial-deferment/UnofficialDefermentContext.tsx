@@ -40,7 +40,10 @@ export interface UnofficialDefermentResults {
 
 export interface UnofficialDefermentResultRow {
   id: string
-  gross: number
+  gross: number,
+  overUel: number,
+  nicsNonCo: number,
+  ifNotUd : number
 }
 
 export interface UnofficialDefermentBand {
@@ -65,10 +68,10 @@ export interface UnofficialDefermentRowBase {
 
 export interface UnofficialDefermentInputRow extends UnofficialDefermentRowBase {
   bands: Array<UnofficialDefermentBand>
-  overUEL?: string
-  NICsDueNonCO?: string
-  IfNotUD?: string
-  grossPay?: string
+  overUel?: string
+  nicsNonCo?: string
+  ifNotUd?: string
+  gross?: string
 }
 
 export interface UnofficialDefermentRequestRow extends UnofficialDefermentRowBase {
@@ -189,6 +192,23 @@ export function useUnofficialDefermentForm() {
   }, [ClassOneCalculator])
 
   const [results, setResults] = useState<UnofficialDefermentResults | null>(null)
+
+  useEffect(() => {
+    if(results) {
+      setRows(rows.map((row: UnofficialDefermentInputRow) => {
+        const resultRow: UnofficialDefermentResultRow | undefined = results.resultRows.find(r => r.id === row.id)
+        return resultRow ? {...row, ...resultRow} as any : row
+      }))
+    } else {
+      setRows(rows.map((row: UnofficialDefermentInputRow) => {
+        delete row.ifNotUd
+        delete row.overUel
+        delete row.gross
+        delete row.nicsNonCo
+        return row
+      }))
+    }
+  }, [results])
 
   return {
     ClassOneCalculator,

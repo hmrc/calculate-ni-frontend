@@ -24,11 +24,14 @@ class UnofficialDeferment(
     val liability: Int = 2340
     val difference: Int = 8442
     val ifNotUD: Int = 0
-    val resultRows: js.Array[UnofficialDefermentResultRow] = rows.toList.map { r: UnofficialDefermentRow =>
-      UnofficialDefermentResultRow(
-        id = r.id,
-        gross = 100 // calculate from row contents
-      )
+    val resultRows: js.Array[_ <: scala.scalajs.js.Object] = rows.toList.map { r: UnofficialDefermentRow =>
+      new js.Object {
+        val id: String = r.id
+        val gross: Double = 100
+        val overUel: Double = 25
+        val nicsNonCo: Double = 35.32
+        val ifNotUd: Double = 23.11 // calculate from row contents
+      }
     }.toJSArray
   }
 
@@ -79,7 +82,10 @@ case class UnofficialDefermentRow(
 @JSExportTopLevel("UnofficialDefermentResultRow")
 case class UnofficialDefermentResultRow(
   id: String,
-  gross: Double
+  gross: Double,
+  overUel: Double,
+  nicsNonCo: Double,
+  ifNotUd: Double
 )
 
 case class Band(

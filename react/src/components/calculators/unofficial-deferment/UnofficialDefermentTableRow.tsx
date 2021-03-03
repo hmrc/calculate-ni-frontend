@@ -21,11 +21,13 @@ export default function UnofficialDefermentTableRow(props: {
     setActiveRowId,
     setRows,
     rows,
-    categories
+    categories,
+    setResults
   } = useContext(UnofficialDefermentContext)
 
   const handleBandChange = (r: UnofficialDefermentInputRow, band: UnofficialDefermentBand) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setActiveRowId(r.id)
+    setResults(null)
     setRows(rows.map((row: UnofficialDefermentInputRow) =>
       row.id === r.id ?
         {
@@ -39,6 +41,7 @@ export default function UnofficialDefermentTableRow(props: {
 
   const handleChange = (r: UnofficialDefermentInputRow, e: React.ChangeEvent<HTMLInputElement>) => {
     setActiveRowId(r.id)
+    setResults(null)
     setRows(rows.map((cur: UnofficialDefermentInputRow) =>
       cur.id === r.id ?
         {...cur, [`${e.currentTarget.name.split('-')[1]}`]: e.currentTarget.value}
@@ -76,7 +79,9 @@ export default function UnofficialDefermentTableRow(props: {
         }
       </MqTableCell>
 
-      <MqTableCell cellStyle={thStyles.grossPay}><div>{numeral(row.grossPay).format('$0,0.00')}</div></MqTableCell>
+      <MqTableCell cellStyle={thStyles.grossPay}>
+        <div>{numeral(row.gross).format('$0,0.00')}</div>
+      </MqTableCell>
 
       <MqTableCell cellClassName="input" cellStyle={thStyles.niCat}>
         {printView ?
@@ -128,9 +133,9 @@ export default function UnofficialDefermentTableRow(props: {
           />
         }
       </MqTableCell>
-      <MqTableCell cellStyle={thStyles.overUel}>{numeral(row.overUEL).format('$0,0.00')}</MqTableCell>
-      <MqTableCell cellStyle={thStyles.nicsNonCo}>{numeral(row.NICsDueNonCO).format('$0,0.00')}</MqTableCell>
-      <MqTableCell cellStyle={thStyles.ifNotUd}>{numeral(row.IfNotUD).format('$0,0.00')}</MqTableCell>
+      <MqTableCell cellStyle={thStyles.overUel}>{numeral(row.overUel).format('$0,0.00')}</MqTableCell>
+      <MqTableCell cellStyle={thStyles.nicsNonCo}>{numeral(row.nicsNonCo).format('$0,0.00')}</MqTableCell>
+      <MqTableCell cellStyle={thStyles.ifNotUd}>{numeral(row.ifNotUd).format('$0,0.00')}</MqTableCell>
     </TableRow>
   )
 }

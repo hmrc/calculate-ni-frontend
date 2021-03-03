@@ -23,11 +23,13 @@ export default function UnofficialDefermentForm(props: any) {
     defaultRow,
     taxYears,
     taxYear,
-    setTaxYear
+    setTaxYear,
+    setResults
   } = useContext(UnofficialDefermentContext)
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTaxYear(taxYears.find(ty => ty.id === e.target.value) || taxYears[0])
+    resetTotals()
   }
 
   const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
@@ -38,7 +40,8 @@ export default function UnofficialDefermentForm(props: any) {
   }
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+    e.preventDefault()
+    setResults(null)
     const newId = uniqid()
     setRows([...rows, {...defaultRow, id: newId}])
     setActiveRowId(newId)
@@ -50,6 +53,7 @@ export default function UnofficialDefermentForm(props: any) {
       setRows(rows.filter((row: UnofficialDefermentInputRow) => row.id !== activeRowId))
       // errors are now stale
       setErrors({})
+      setResults(null)
       setActiveRowId(null)
     }
   }
