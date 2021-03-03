@@ -3,7 +3,7 @@ import {PeriodLabel} from "../config";
 import {Dispatch} from "react";
 import {extractTaxYearFromDate, govDateFormat, hasKeys, isEmpty} from "../services/utils";
 import moment from "moment";
-import {UnofficialDefermentRow} from "../components/calculators/unofficial-deferment/UnofficialDefermentContext";
+import {UnofficialDefermentInputRow} from "../components/calculators/unofficial-deferment/UnofficialDefermentContext";
 import {DirectorsUIRow} from "../components/calculators/directors/DirectorsContext";
 import {Row} from "../components/calculators/class1/ClassOneContext";
 
@@ -25,7 +25,7 @@ interface DirectorsPayload {
 }
 
 interface UnofficialDefermentPayload {
-  rows: UnofficialDefermentRow[]
+  rows: UnofficialDefermentInputRow[]
   taxYear: TaxYear
 }
 

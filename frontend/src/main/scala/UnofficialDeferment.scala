@@ -18,18 +18,18 @@ class UnofficialDeferment(
   def calculate(
      taxYear: js.Date,
      rows: js.Array[UnofficialDefermentRow],
-     userDefinedBandLimits: js.Array[ApplicableBands]
+     userDefinedBandLimits: js.Array[UserDefinedBand]
   ) = new js.Object {
     val annualMax: Int = 15880
     val liability: Int = 2340
     val difference: Int = 8442
     val ifNotUD: Int = 0
-    val resultRows: List[UnofficialDefermentResultRow] = rows.toList.map { r: UnofficialDefermentRow =>
+    val resultRows: js.Array[UnofficialDefermentResultRow] = rows.toList.map { r: UnofficialDefermentRow =>
       UnofficialDefermentResultRow(
         id = r.id,
         gross = 100 // calculate from row contents
       )
-    }
+    }.toJSArray
   }
 
   def getTaxYears: js.Array[String] = {
@@ -72,7 +72,7 @@ case class UnofficialDefermentRow(
   id: String,
   employer: String,
   category: String,
-  bands: js.Array[Band],
+  bands: js.Array[RequestBand],
   employersNICs: Double
 )
 
@@ -88,6 +88,18 @@ case class Band(
   band: String,
   bound: String,
   limit: Option[String] = None
+)
+
+case class RequestBand(
+  name: String,
+  label: String,
+  value: Double
+)
+
+case class UserDefinedBand(
+  name: String,
+  label: String,
+  limit: Double
 )
 
 sealed trait ApplicableBands extends Product with Serializable

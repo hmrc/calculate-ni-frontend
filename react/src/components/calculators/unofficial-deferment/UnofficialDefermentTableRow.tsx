@@ -6,12 +6,12 @@ import React, {useContext} from "react";
 import {
   UnofficialDefermentBand,
   UnofficialDefermentContext,
-  UnofficialDefermentRow
+  UnofficialDefermentInputRow
 } from "./UnofficialDefermentContext";
 import TableRow from "../shared/TableRow";
 
 export default function UnofficialDefermentTableRow(props: {
-  row: UnofficialDefermentRow,
+  row: UnofficialDefermentInputRow,
   printView: boolean,
   i: number
 }) {
@@ -24,9 +24,9 @@ export default function UnofficialDefermentTableRow(props: {
     categories
   } = useContext(UnofficialDefermentContext)
 
-  const handleBandChange = (r: UnofficialDefermentRow, band: UnofficialDefermentBand) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBandChange = (r: UnofficialDefermentInputRow, band: UnofficialDefermentBand) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setActiveRowId(r.id)
-    setRows(rows.map((row: UnofficialDefermentRow) =>
+    setRows(rows.map((row: UnofficialDefermentInputRow) =>
       row.id === r.id ?
         {
           ...row,
@@ -37,9 +37,9 @@ export default function UnofficialDefermentTableRow(props: {
     ))
   }
 
-  const handleChange = (r: UnofficialDefermentRow, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (r: UnofficialDefermentInputRow, e: React.ChangeEvent<HTMLInputElement>) => {
     setActiveRowId(r.id)
-    setRows(rows.map((cur: UnofficialDefermentRow) =>
+    setRows(rows.map((cur: UnofficialDefermentInputRow) =>
       cur.id === r.id ?
         {...cur, [`${e.currentTarget.name.split('-')[1]}`]: e.currentTarget.value}
         :
@@ -47,8 +47,8 @@ export default function UnofficialDefermentTableRow(props: {
     ))
   }
 
-  const handleSelectChange = (r: UnofficialDefermentRow, e: React.ChangeEvent<HTMLSelectElement>) => {
-    setRows(rows.map((cur: UnofficialDefermentRow) =>
+  const handleSelectChange = (r: UnofficialDefermentInputRow, e: React.ChangeEvent<HTMLSelectElement>) => {
+    setRows(rows.map((cur: UnofficialDefermentInputRow) =>
       cur.id === r.id ? {...cur, [e.currentTarget.name]: e.currentTarget.value} : cur
     ))
   }
@@ -68,7 +68,7 @@ export default function UnofficialDefermentTableRow(props: {
           <TextInput
             hiddenLabel={true}
             name={`${row.id}-nameOfEmployer`}
-            labelText="Name of employer"
+            labelText={`Name of employer for row number ${i + 1}`}
             inputClassName="gross-pay"
             inputValue={row.nameOfEmployer}
             onChangeCallback={(e) => handleChange(row, e)}
@@ -83,7 +83,7 @@ export default function UnofficialDefermentTableRow(props: {
           <div>{row.category}</div>
           :
           <>
-            <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category</label>
+            <label className="govuk-visually-hidden" htmlFor={`row${i}-category`}>Category for row number {i + 1}</label>
             <select name="category" value={row.category} onChange={(e) => handleSelectChange?.(row, e)} className="borderless" id={`row${i}-category`}>
               {categories.map((c: string, i: number) => (
                 <option key={i} value={c}>
@@ -103,7 +103,7 @@ export default function UnofficialDefermentTableRow(props: {
             <TextInput
               hiddenLabel={true}
               name={`${row.id}-${band.label}`}
-              labelText={band.label}
+              labelText={`${band.label} for row number ${i + 1}`}
               inputClassName="gross-pay"
               inputValue={band.value || ''}
               placeholderText=""
@@ -120,7 +120,7 @@ export default function UnofficialDefermentTableRow(props: {
           <TextInput
             hiddenLabel={true}
             name={`${row.id}-employeeNICs`}
-            labelText="Employee NICS"
+            labelText={`Employee NICS for row number ${i + 1}`}
             inputClassName=""
             inputValue={row.employeeNICs ? row.employeeNICs : '0'}
             placeholderText=""

@@ -30,6 +30,19 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
   ...action,
 })
 
+export interface UnofficialDefermentResults {
+  annualMax: number
+  liability: number
+  difference: number
+  ifNotUD: number
+  resultRows: UnofficialDefermentResultRow[]
+}
+
+export interface UnofficialDefermentResultRow {
+  id: string
+  gross: number
+}
+
 export interface UnofficialDefermentBand {
   name: string
   label: string
@@ -37,16 +50,29 @@ export interface UnofficialDefermentBand {
   value?: string
 }
 
-export interface UnofficialDefermentRow {
+export interface UserDefinedRequestBand {
+  name: string,
+  label: string,
+  value: number
+}
+
+export interface UnofficialDefermentRowBase {
   id: string
   nameOfEmployer: string
   category: string
-  bands: Array<UnofficialDefermentBand>
   employeeNICs: string
+}
+
+export interface UnofficialDefermentInputRow extends UnofficialDefermentRowBase {
+  bands: Array<UnofficialDefermentBand>
   overUEL?: string
   NICsDueNonCO?: string
   IfNotUD?: string
   grossPay?: string
+}
+
+export interface UnofficialDefermentRequestRow extends UnofficialDefermentRowBase {
+  bands: Array<UserDefinedRequestBand>
 }
 
 interface UnofficialDefermentContext {
@@ -55,9 +81,9 @@ interface UnofficialDefermentContext {
   taxYears: TaxYear[]
   taxYear: TaxYear
   setTaxYear: Dispatch<TaxYear>
-  defaultRow: UnofficialDefermentRow,
-  rows: Array<UnofficialDefermentRow>
-  setRows: Dispatch<Array<UnofficialDefermentRow>>
+  defaultRow: UnofficialDefermentInputRow,
+  rows: Array<UnofficialDefermentInputRow>
+  setRows: Dispatch<Array<UnofficialDefermentInputRow>>
   details: DetailsProps
   setDetails: Function,
   errors: GenericErrors
@@ -68,8 +94,8 @@ interface UnofficialDefermentContext {
   setCategories: Dispatch<Array<string>>
   activeRowId: string | null
   setActiveRowId: Dispatch<string | null>,
-  results: GenericObject
-  setResults: Dispatch<GenericObject>,
+  results: UnofficialDefermentResults | null
+  setResults: Dispatch<UnofficialDefermentResults | null>,
   bands: UnofficialDefermentBand[],
   setBands: Dispatch<UnofficialDefermentBand[]>
   userBands: UnofficialDefermentBand[],
@@ -100,7 +126,7 @@ export const UnofficialDefermentContext = React.createContext<UnofficialDefermen
     setCategories: () => {},
     activeRowId: null,
     setActiveRowId: () => {},
-    results: {},
+    results: null,
     setResults: () => {},
     bands: [],
     setBands: () => {},
@@ -117,8 +143,8 @@ export function useUnofficialDefermentForm() {
   const UnofficialDefermentCalculator = NiFrontendInterface.unofficialDeferment
   const [taxYears, setTaxYears] = useState<TaxYear[]>([])
   const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
-  const [defaultRow, setDefaultRow] = useState<UnofficialDefermentRow>(initRow)
-  const [rows, setRows] = useState<Array<UnofficialDefermentRow>>([defaultRow])
+  const [defaultRow, setDefaultRow] = useState<UnofficialDefermentInputRow>(initRow)
+  const [rows, setRows] = useState<Array<UnofficialDefermentInputRow>>([defaultRow])
   const [categories, setCategories] = useState<Array<string>>([])
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [errors, setErrors] = useState<GenericErrors>({})
@@ -139,7 +165,7 @@ export function useUnofficialDefermentForm() {
           category: categoriesForTaxYear[0],
           bands: [...bandsForTaxYear]
         }))
-        setResults({})
+        setResults(null)
         setRows([defaultRow])
       }
     }
@@ -162,7 +188,7 @@ export function useUnofficialDefermentForm() {
     setTaxYears(taxYearData.filter(ty => ty.from.getFullYear() < 2017 && ty.from.getFullYear() > 2002))
   }, [ClassOneCalculator])
 
-  const [results, setResults] = useState({})
+  const [results, setResults] = useState<UnofficialDefermentResults | null>(null)
 
   return {
     ClassOneCalculator,

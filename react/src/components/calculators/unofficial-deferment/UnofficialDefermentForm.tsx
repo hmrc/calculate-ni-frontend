@@ -5,7 +5,7 @@ import 'numeral/locales/en-gb';
 // types
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import uniqid from "uniqid";
-import {UnofficialDefermentContext, UnofficialDefermentRow} from "./UnofficialDefermentContext";
+import {UnofficialDefermentContext, UnofficialDefermentInputRow} from "./UnofficialDefermentContext";
 import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
 import UnofficialDefermentTable from "./UnofficialDefermentTable";
 import UnofficialDefermentLimits from "./UnofficialDefermentLimits";
@@ -47,7 +47,7 @@ export default function UnofficialDefermentForm(props: any) {
   const handleDeleteRow = (e: React.MouseEvent) => {
     e.preventDefault()
     if(activeRowId) {
-      setRows(rows.filter((row: UnofficialDefermentRow) => row.id !== activeRowId))
+      setRows(rows.filter((row: UnofficialDefermentInputRow) => row.id !== activeRowId))
       // errors are now stale
       setErrors({})
       setActiveRowId(null)

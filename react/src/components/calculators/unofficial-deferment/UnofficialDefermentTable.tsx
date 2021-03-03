@@ -5,7 +5,7 @@ import * as thStyles from '../../../services/mobileHeadingStyles'
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
-import {UnofficialDefermentContext, UnofficialDefermentRow} from "./UnofficialDefermentContext";
+import {UnofficialDefermentContext, UnofficialDefermentInputRow} from "./UnofficialDefermentContext";
 import UnofficialDefermentTableRow from "./UnofficialDefermentTableRow";
 
 numeral.locale('en-gb');
@@ -35,7 +35,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
       </thead>
 
       <tbody>
-      {rows.map((r: UnofficialDefermentRow, i: number) => (
+      {rows.map((r: UnofficialDefermentInputRow, i: number) => (
         <UnofficialDefermentTableRow
           key={r.id}
           row={r}
