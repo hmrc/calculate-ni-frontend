@@ -13,6 +13,10 @@ import scala.scalajs.js.annotation.JSExportTopLevel
 
 class UnofficialDeferment() extends js.Object {
 
+  // TODO: read config in properly instead of using hard coded values below -
+  //       either read in new config bespoke for unofficial deferments or
+  //       somehow transform existing class 1 config and filter out
+  //       appropriate category letters
   val config: Map[Int, TaxYearBandLimits] =
     (2003 to 2020).toList.map{ year =>
       val bandLimits = if(year >= 2016)
