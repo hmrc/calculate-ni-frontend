@@ -26,7 +26,7 @@ interface DirectorsPayload {
 
 interface UnofficialDefermentPayload {
   rows: UnofficialDefermentInputRow[]
-  taxYear: TaxYear
+  taxYear: number
 }
 
 interface Class2Or3Payload {

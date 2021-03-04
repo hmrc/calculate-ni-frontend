@@ -9,11 +9,11 @@ export default function UnofficialDefermentLimits() {
     setUserBands
   } = useContext(UnofficialDefermentContext)
 
-  const handleLimitChange = (name: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLimitChange = (label: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserBands(
       userBands.map(b =>
-        b.name === name ?
-         {...b, limit: e.currentTarget.value}
+        b.label === label ?
+         {...b, amount: parseInt(e.currentTarget.value)}
         :
         b
       )
@@ -24,11 +24,11 @@ export default function UnofficialDefermentLimits() {
       {userBands.map(band => (
         <div className="field-col" key={`limit-field-${band.label}`}>
           <TextInput
-            labelText={band.name || ''}
+            labelText={band.label || ''}
             name={`limit-${band.label}`}
             inputClassName={'form-control full'}
-            inputValue={`${maybeFromBounds(band.limit)}`}
-            onChangeCallback={handleLimitChange(band.name)}
+            inputValue={band.amount}
+            onChangeCallback={handleLimitChange(band.label)}
           />
         </div>
       ))}

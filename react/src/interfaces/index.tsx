@@ -154,7 +154,7 @@ export interface TextInputProps {
   hiddenLabel?: boolean 
   name: string
   inputClassName: string
-  inputValue: string
+  inputValue: string | number | undefined
   placeholderText?: string
   pattern?: string
   inputMode?: "numeric"

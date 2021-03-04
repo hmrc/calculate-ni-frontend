@@ -4,17 +4,17 @@ import TextInput from "../../helpers/formhelpers/TextInput";
 import numeral from "numeral";
 import React, {useContext} from "react";
 import {
-  UnofficialDefermentBand,
+  BandAmount,
   UnofficialDefermentContext,
   UnofficialDefermentInputRow
 } from "./UnofficialDefermentContext";
 import TableRow from "../shared/TableRow";
 
-export default function UnofficialDefermentTableRow(props: {
+const UnofficialDefermentTableRow = (props: {
   row: UnofficialDefermentInputRow,
   printView: boolean,
   i: number
-}) {
+}) => {
   const { row, printView, i } = props
   const {
     activeRowId,
@@ -25,14 +25,14 @@ export default function UnofficialDefermentTableRow(props: {
     setResults
   } = useContext(UnofficialDefermentContext)
 
-  const handleBandChange = (r: UnofficialDefermentInputRow, band: UnofficialDefermentBand) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBandChange = (r: UnofficialDefermentInputRow, band: BandAmount) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setActiveRowId(r.id)
     setResults(null)
     setRows(rows.map((row: UnofficialDefermentInputRow) =>
       row.id === r.id ?
         {
           ...row,
-          bands: row.bands.map(b => b.name === band.name ? {...b, value: e.currentTarget.value} : b)
+          bands: row.bands.map(b => b.label === band.label ? {...b, amount: parseInt(e.currentTarget.value)} : b)
         }
         :
         row
@@ -103,14 +103,14 @@ export default function UnofficialDefermentTableRow(props: {
       {row.bands && row.bands.map(band => (
         <MqTableCell key={`band-cell-${band.label}`} cellClassName="input" cellStyle={thStyles.lel}>
           {printView ?
-            <div>{numeral(band.value).format('$0,0.00')}</div>
+            <div>{numeral(band.amount).format('$0,0.00')}</div>
             :
             <TextInput
               hiddenLabel={true}
               name={`${row.id}-${band.label}`}
               labelText={`${band.label} for row number ${i + 1}`}
               inputClassName="gross-pay"
-              inputValue={band.value || ''}
+              inputValue={band.amount}
               placeholderText=""
               onChangeCallback={handleBandChange(row, band)}
             />
@@ -127,7 +127,7 @@ export default function UnofficialDefermentTableRow(props: {
             name={`${row.id}-employeeNICs`}
             labelText={`Employee NICS for row number ${i + 1}`}
             inputClassName=""
-            inputValue={row.employeeNICs ? row.employeeNICs : '0'}
+            inputValue={row.employeeNICs}
             placeholderText=""
             onChangeCallback={(e) => handleChange?.(row, e)}
           />
@@ -139,3 +139,5 @@ export default function UnofficialDefermentTableRow(props: {
     </TableRow>
   )
 }
+
+export default UnofficialDefermentTableRow

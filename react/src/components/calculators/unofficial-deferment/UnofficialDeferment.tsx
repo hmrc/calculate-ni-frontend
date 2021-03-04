@@ -69,23 +69,16 @@ function UnofficialDefermentPage() {
                 row.id,
                 row.nameOfEmployer,
                 row.category,
-                row.bands.map(b => {
-                    return {
-                        name: b.name,
-                        label: b.label,
-                        value: parseFloat(b.value || '0')
-                    }
-                }),
+                row.bands,
                 parseFloat(row.employeeNICs)
               ))
 
             const userDefinedBands = userBands.map(b => ({
-                name: b.name,
                 label: b.label,
-                limit: b.limit
+                amount: b.amount
             }))
 
-            setResults(UnofficialDefermentCalculator.calculate(taxYear.from, requestRows, userDefinedBands))
+            setResults(UnofficialDefermentCalculator.calculate(taxYear, requestRows, userDefinedBands))
             if (showSummaryIfValid) {
                 setShowSummary(true)
             }

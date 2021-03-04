@@ -6,7 +6,6 @@ import 'numeral/locales/en-gb';
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import uniqid from "uniqid";
 import {UnofficialDefermentContext, UnofficialDefermentInputRow} from "./UnofficialDefermentContext";
-import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
 import UnofficialDefermentTable from "./UnofficialDefermentTable";
 import UnofficialDefermentLimits from "./UnofficialDefermentLimits";
 
@@ -28,7 +27,7 @@ export default function UnofficialDefermentForm(props: any) {
   } = useContext(UnofficialDefermentContext)
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTaxYear(taxYears.find(ty => ty.id === e.target.value) || taxYears[0])
+    setTaxYear(parseInt(e.currentTarget.value))
     resetTotals()
   }
 
@@ -61,11 +60,24 @@ export default function UnofficialDefermentForm(props: any) {
   return (
     <div className="form-group table-wrapper">
       <div className="container half">
-        <SelectTaxYear
-          taxYears={taxYears}
-          taxYear={taxYear}
-          handleTaxYearChange={handleTaxYearChange}
-        />
+        <div className="govuk-form-group">
+          <label
+            className="govuk-label"
+            htmlFor="taxYear"
+          >
+            Select a tax year
+          </label>
+          <select
+            id="taxYear"
+            className="govuk-select"
+            onChange={handleTaxYearChange}
+            value={taxYear}
+          >
+            {taxYears && taxYears.map(ty => (
+              <option key={`tax-year-${ty}`} value={ty}>{ty}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <UnofficialDefermentLimits />

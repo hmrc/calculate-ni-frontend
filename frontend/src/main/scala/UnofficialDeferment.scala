@@ -34,8 +34,8 @@ class UnofficialDeferment() extends js.Object {
             )
           )
         )
-      else if(year >= 2008)
-        AfterOrOn2008(LEL(95), PT(110), UAP(770), UEL(844),
+      else if(year >= 2009)
+        AfterOrOn2009(LEL(95), PT(110), UAP(770), UEL(844),
           Map(
             PTToUAP -> Map(
               "A" -> 0.11,
@@ -108,7 +108,7 @@ class UnofficialDeferment() extends js.Object {
     }.toMap
 
   def calculate(
-     taxYear: js.Date,
+     taxYear: Int,
      rows: js.Array[UnofficialDefermentRow],
      userDefinedBandLimits: js.Array[UserDefinedBand]
   ) = new js.Object {
@@ -127,12 +127,12 @@ class UnofficialDeferment() extends js.Object {
     }
   }
 
-  def getTaxYears: js.Array[String] =
-    config.keys.map(_.toString).toJSArray
+  def getTaxYears: js.Array[Int] =
+    config.keys.toJSArray
 
   def getCategories(taxYear: Int) =
     config.get(taxYear).fold(sys.error(s"Could not find config for tax year $taxYear")){
-      _.rates.values.flatMap(_.keys).toJSArray
+      _.rates.values.flatMap(_.keys).toSet.toJSArray
     }
 
   def getBandInputNames(taxYear: Int) = {
@@ -295,7 +295,7 @@ object TaxYearBandLimits {
   }
 
 
-  case class AfterOrOn2008(
+  case class AfterOrOn2009(
                              lel: LEL,
                              pt: PT,
                              uap: UAP,
