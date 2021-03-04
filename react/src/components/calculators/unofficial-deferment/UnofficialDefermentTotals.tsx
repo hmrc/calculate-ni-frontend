@@ -14,28 +14,28 @@ export default function UnofficialDefermentTotals() {
       <div className="container section--top column">
         <span className="label block">Annual max</span>
         <div className="value inline width-8">
-          {hasKeys(results) && sterlingStringValue(results?.annualMax)}
+          {results && sterlingStringValue(results.annualMax.toString())}
         </div>
       </div>
 
       <div className="container section--top column">
         <span className="label block">Liability</span>
         <div className="value inline width-8">
-          {hasKeys(results) && sterlingStringValue(results?.liability)}
+          {results && sterlingStringValue(results.liability.toString())}
         </div>
       </div>
 
       <div className="container section--top column">
         <span className="label block">Difference</span>
         <div className="value inline width-8">
-          {hasKeys(results) && sterlingStringValue(results?.difference)}
+          {results && sterlingStringValue(results.difference.toString())}
         </div>
       </div>
 
       <div className="container section--top column">
         <span className="label block">If not U/D</span>
         <div className="value inline width-8">
-          {hasKeys(results) && sterlingStringValue(results?.ifNotUD)}
+          {results && sterlingStringValue(results.ifNotUD.toString())}
         </div>
       </div>
 

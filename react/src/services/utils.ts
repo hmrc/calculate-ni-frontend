@@ -132,3 +132,9 @@ export const buildDescribedByKeys = (
 }
 
 export const sterlingStringValue = (value: string) => numeral(value).format('$0,0.00')
+
+export const maybeFromBounds = (value: string) => {
+  const amount = /\(([^)]+)\)/.exec(value)
+  return amount ? amount[1] : value
+}
+

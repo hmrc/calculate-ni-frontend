@@ -1,23 +1,29 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
-import {hasKeys, isEmpty} from "../../../services/utils";
+import {hasKeys} from "../../../services/utils";
 import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 import Details from "../shared/Details";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import {validateUnofficialDefermentPayload} from "../../../validation/validation";
-import {UnofficialDefermentContext, useUnofficialDefermentForm} from "./UnofficialDefermentContext";
+import {
+    UnofficialDefermentContext, UnofficialDefermentInputRow, UnofficialDefermentRequestRow,
+    useUnofficialDefermentForm
+} from "./UnofficialDefermentContext";
 import UnofficialDefermentForm from "./UnofficialDefermentForm";
 import UnofficialDefermentTotals from "./UnofficialDefermentTotals";
 import UnofficialDefermentPrint from "./UnofficialDefermentPrint";
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
 import {SuccessNotification} from "../shared/SuccessNotification";
 import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
+import {UnofficialDefermentRow} from "../../../calculation";
 
 const pageTitle = 'Class 1 NI contributions an employer owes due to unofficial deferment'
 
 function UnofficialDefermentPage() {
     const [showSummary, setShowSummary] = useState<boolean>(false)
     const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
+    const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>
     const {
+        UnofficialDefermentCalculator,
         taxYear,
         defaultRow,
         rows,
@@ -29,7 +35,8 @@ function UnofficialDefermentPage() {
         setCalculatedRows,
         setActiveRowId,
         setResults,
-        results
+        results,
+        userBands
     } = useContext(UnofficialDefermentContext)
 
     const { successNotificationsOn } = useContext(SuccessNotificationContext)
@@ -57,19 +64,26 @@ function UnofficialDefermentPage() {
         }
 
         if (validateUnofficialDefermentPayload(payload, setErrors)) {
-            setResults(calculateRows())
+            const requestRows: Array<UnofficialDefermentRequestRow> = rows
+              .map((row: UnofficialDefermentInputRow) => new (UnofficialDefermentRow as any)(
+                row.id,
+                row.nameOfEmployer,
+                row.category,
+                row.bands,
+                parseFloat(row.employeeNICs)
+              ))
+
+            const userDefinedBands = userBands.map(b => ({
+                label: b.label,
+                amount: b.amount
+            }))
+
+            setResults(UnofficialDefermentCalculator.calculate(taxYear, requestRows, userDefinedBands))
             if (showSummaryIfValid) {
                 setShowSummary(true)
             }
         }
     }
-
-    const calculateRows = () => ({
-        annualMax: '15880',
-        liability: '2340',
-        difference: '8442',
-        ifNotUD: '0'
-    })
 
     const handleShowSummary = (event: React.FormEvent) => {
         event.preventDefault()
@@ -82,19 +96,21 @@ function UnofficialDefermentPage() {
         setErrors({})
         setRows([defaultRow])
         setCalculatedRows([])
-        setResults({})
+        setResults(null)
     }
 
     useEffect(() => {
-        if(successNotificationsOn && !isEmpty(results)) {
+        if(successNotificationsOn && results) {
             resultRef.current.focus()
+        } else if (results) {
+            totalsRef.current.focus()
         }
-    }, [results, resultRef, successNotificationsOn])
+    }, [results, resultRef, totalsRef, successNotificationsOn])
 
     return (
       <div>
           <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
-              {successNotificationsOn && !isEmpty(results) && <SuccessNotification table={true} totals={true} />}
+              {successNotificationsOn && results && <SuccessNotification table={true} totals={true} />}
           </div>
           {showSummary ?
             <UnofficialDefermentPrint
@@ -120,7 +136,9 @@ function UnofficialDefermentPage() {
                     <UnofficialDefermentForm resetTotals={resetTotals} />
                 </form>
 
-                <UnofficialDefermentTotals />
+                <div tabIndex={-1} className="no-focus-outline" ref={totalsRef}>
+                    <UnofficialDefermentTotals />
+                </div>
 
                 <div className="container section--top">
                     <div className="form-group">

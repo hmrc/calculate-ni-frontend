@@ -24,5 +24,6 @@ class NiFrontend(json: String) extends js.Object {
   lazy val interestOnLateClassOne = new InterestOnUnpaidFrontend(config)
   lazy val interestOnRefundsClassOne = new InterestOnRefundsClassOne(config)
   lazy val directors = new Directors(config)
+  lazy val unofficialDeferment = new UnofficialDeferment()
 
 }

@@ -34,6 +34,14 @@ export interface WeeklyContributionsCalculator {
   calculate: Function
 }
 
+export interface UnofficialDefermentCalculator {
+  calculate: Function,
+  getBandsForTaxYear: Function
+  getTaxYears: number[]
+  getCategories: Function,
+  getBandInputNames: Function
+}
+
 export const initClass2Or3Calculator = {
   calculate: () => {},
   getTaxYears: [''],
@@ -42,6 +50,14 @@ export const initClass2Or3Calculator = {
 
 export const initWeeklyContributionsCalculator = {
   calculate: () => {}
+}
+
+export const initUnofficialDefermentCalculator = {
+  calculate: () => {},
+  getBandsForTaxYear: () => {},
+  getTaxYears: [],
+  getCategories: () => {},
+  getBandInputNames: () => {}
 }
 
 export const initClassOneCalculator = {
@@ -74,6 +90,7 @@ interface NiFrontendService {
   interestOnLateClassOne: InterestOnLateClassOne
   interestOnRefundsClassOne: InterestOnRefundsClassOne
   directors: DirectorsCalculator
+  unofficialDeferment: UnofficialDefermentCalculator
 }
 
 const initService: NiFrontendService = {
@@ -83,7 +100,8 @@ const initService: NiFrontendService = {
   weeklyContributions: initWeeklyContributionsCalculator,
   interestOnLateClassOne: initInterestOnLateClassOne,
   interestOnRefundsClassOne: initInterestOnRefundsClassOne,
-  directors: initDirectorsCalculator
+  directors: initDirectorsCalculator,
+  unofficialDeferment: initUnofficialDefermentCalculator
 }
 
 interface NiFrontendContext {

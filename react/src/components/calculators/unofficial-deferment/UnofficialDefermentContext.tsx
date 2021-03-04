@@ -1,16 +1,18 @@
 import React, {Dispatch, useContext, useEffect, useState} from "react";
-import {Calculated, DetailsProps, GenericObject, TaxYear} from "../../../interfaces";
-import {buildTaxYears} from "../../../config";
+import {Calculated, DetailsProps, TaxYear} from "../../../interfaces";
 import {GenericErrors} from "../../../validation/validation";
-import {ClassOneCalculator, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
+import {
+  initUnofficialDefermentCalculator,
+  NiFrontendContext,
+  UnofficialDefermentCalculator
+} from "../../../services/NiFrontendContext";
 
 const initRow = {
   id: 'default',
   category: '',
   nameOfEmployer: '',
-  earnings1a: '0',
-  earnings1b: '0',
-  earnings1c: '0'
+  bands: [],
+  employeeNICs: ''
 }
 
 const initialDetails = {
@@ -26,30 +28,54 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
   ...action,
 })
 
-export interface UnofficialDefermentRow {
+export interface UnofficialDefermentResults {
+  annualMax: number
+  liability: number
+  difference: number
+  ifNotUD: number
+  resultRows: UnofficialDefermentResultRow[]
+}
+
+export interface UnofficialDefermentResultRow {
+  id: string
+  gross: number,
+  overUel: number,
+  nicsNonCo: number,
+  ifNotUd : number
+}
+
+export interface BandAmount {
+  label: string,
+  amount?: number
+}
+
+export interface UnofficialDefermentRowBase {
   id: string
   nameOfEmployer: string
   category: string
-  earnings1a: string
-  earnings1b: string
-  earnings1c: string
-  earnings1d?: string
-  earnings1e?: string
-  earnings1f?: string
-  overUEL?: string
-  NICsDueNonCO?: string
-  IfNotUD?: string
-  grossPay?: string
+  employeeNICs: string
+  bands: Array<BandAmount>
+}
+
+export interface UnofficialDefermentInputRow extends UnofficialDefermentRowBase {
+  overUel?: string
+  nicsNonCo?: string
+  ifNotUd?: string
+  gross?: string
+}
+
+export interface UnofficialDefermentRequestRow extends UnofficialDefermentRowBase {
+  bands: Array<BandAmount>
 }
 
 interface UnofficialDefermentContext {
-  ClassOneCalculator: ClassOneCalculator
-  taxYears: TaxYear[]
-  taxYear: TaxYear
-  setTaxYear: Dispatch<TaxYear>
-  defaultRow: UnofficialDefermentRow,
-  rows: Array<UnofficialDefermentRow>
-  setRows: Dispatch<Array<UnofficialDefermentRow>>
+  UnofficialDefermentCalculator: UnofficialDefermentCalculator
+  taxYears: number[]
+  taxYear: number
+  setTaxYear: Dispatch<number>
+  defaultRow: UnofficialDefermentInputRow,
+  rows: Array<UnofficialDefermentInputRow>
+  setRows: Dispatch<Array<UnofficialDefermentInputRow>>
   details: DetailsProps
   setDetails: Function,
   errors: GenericErrors
@@ -60,136 +86,19 @@ interface UnofficialDefermentContext {
   setCategories: Dispatch<Array<string>>
   activeRowId: string | null
   setActiveRowId: Dispatch<string | null>,
-  earningsFields: Bands
-  setEarningsFields: Dispatch<Bands>
-  results: GenericObject
-  setResults: Dispatch<GenericObject>
-}
-
-interface EarningsBand {
-  limit?: number
-  field: string
-  label?: string
-}
-
-interface Bands {
-  [key: string]: EarningsBand
-}
-
-const defaultBands = {
-  a: {limit: 112, label: 'Lower earning limit', field: 'LEL'},
-  b: {limit: 155, label: 'Primary threshold', field:  'LEL - PT'},
-  c: {limit: 827, label: 'Upper earning limit', field: 'PT - UEL'},
-  f: {field: 'Employee NICS'}
-}
-
-const getRequiredInputs = (taxYear: TaxYear) => {
-  const yearString = taxYear.from.getFullYear().toString()
-  const fakeMap: { [key: string]: Bands } = {
-    '2003': {
-      a: {limit: 77, label: 'Lower earning limit', field: 'LEL'},
-      b: {limit: 89, label: 'Earning threshold', field: 'LEL - ET'},
-      c: {limit: 595, label: 'Upper earning limit', field: 'ET - UEL'},
-      e: {field: 'Employee NICS'}
-    },
-    '2004': {
-      a: {limit: 79, label: 'Lower earning limit', field: 'LEL'},
-      b: {limit: 91, label: 'Earning threshold', field: 'LEL - ET'},
-      c: {limit: 610, label: 'Upper earning limit', field: 'ET - UEL'},
-      e: {field: 'Employee NICS'}
-    },
-    '2005': {
-      a: {limit: 82, label: 'Lower earning limit', field: 'LEL'},
-      b: {limit: 94, label: 'Earning threshold', field: 'LEL - ET'},
-      c: {limit: 630, label: 'Upper earning limit', field: 'ET - UEL'},
-      e: {field: 'Employee NICS'}
-    },
-    '2006': {
-      a: {limit: 84, label: 'Lower earning limit', field: 'LEL'},
-      b: {limit: 97, label: 'Earning threshold', field: 'LEL - ET'},
-      c: {limit: 645, label: 'Upper earning limit', field: 'ET - UEL'},
-      e: {field: 'Employee NICS'}
-    },
-    '2007': {
-      a: {limit: 87, label: 'Lower earning limit', field: 'LEL'},
-      b: {limit: 100, label: 'Earning threshold', field: 'LEL - ET'},
-      c: {limit: 670, label: 'Upper earning limit', field: 'ET - UEL'},
-      e: {field: 'Employee NICS'}
-    },
-    '2008': {
-      a: {limit: 90, label: 'Lower earning limit', field: 'LEL'},
-      b: {limit: 105, label: 'Earning threshold', field: 'LEL - ET'},
-      c: {limit: 770, label: 'Upper earning limit', field: 'ET - UEL'},
-      e: {field: 'Employee NICS'}
-    },
-    '2009': {
-      a: {limit: 95, label: 'Lower earning limit', field: 'LEL'},
-      b: {limit: 110, label: 'Primary threshold', field: 'LEL - PT'},
-      c: {limit: 770, label: 'Upper accrual point', field: 'PT - UAP'},
-      d: {limit: 844, label: 'Upper earning limit', field: 'UAP - UEL'},
-      f: {field: 'Employee NICS'}
-    },
-    '2010': {
-      a: {limit: 97, label: 'Lower earning limit', field: 'LEL'},
-      b: {limit: 110, label: 'Primary threshold', field: 'LEL - PT'},
-      c: {limit: 770, label: 'Upper accrual point', field: 'PT - UAP'},
-      d: {limit: 844, label: 'Upper earning limit', field: 'UAP - UEL'},
-      f: {field: 'Employee NICS'}
-    },
-    '2011': {
-      a: {limit: 102, label: 'Lower earning limit', field: 'LEL'},
-      b: {limit: 139, label: 'Primary threshold', field: 'LEL - PT'},
-      c: {limit: 770, label: 'Upper accrual point', field: 'PT - UAP'},
-      d: {limit: 817, label: 'Upper earning limit', field: 'UAP - UEL'},
-      f: {field: 'Employee NICS'}
-    },
-    '2012': {
-      a: {limit: 107, label: 'Lower earning limit', field: 'LEL'},
-      b: {limit: 146, label: 'Primary threshold', field: 'LEL - PT'},
-      c: {limit: 770, label: 'Upper accrual point', field: 'PT - UAP'},
-      d: {limit: 817, label: 'Upper earning limit', field: 'UAP - UEL'},
-      f: {field: 'Employee NICS'}
-    },
-    '2013': {
-      a: {limit: 109, label: 'Lower earning limit', field: 'LEL'},
-      b: {limit: 149, label: 'Primary threshold', field: 'LEL - PT'},
-      c: {limit: 770, label: 'Upper accrual point', field: 'PT - UAP'},
-      d: {limit: 797, label: 'Upper earning limit', field: 'UAP - UEL'},
-      f: {field: 'Employee NICS'}
-    },
-    '2014': {
-      a: {limit: 111, label: 'Lower earning limit', field: 'LEL'},
-      b: {limit: 153, label: 'Primary threshold', field: 'LEL - PT'},
-      c: {limit: 770, label: 'Upper accrual point', field: 'PT - UAP'},
-      d: {limit: 805, label: 'Upper earning limit', field: 'UAP - UEL'},
-      f: {field: 'Employee NICS'}
-    },
-    '2015': {
-      a: {limit: 112, label: 'Lower earning limit', field: 'LEL'},
-      b: {limit: 155, label: 'Primary threshold', field: 'LEL - PT'},
-      c: {limit: 770, label: 'Upper accrual point', field: 'PT - UAP'},
-      d: {limit: 815, label: 'Upper earning limit', field: 'UAP - UEL'},
-      f: {field: 'Employee NICS'}
-    },
-    '2016': {
-      a: {limit: 112, label: 'Lower earning limit', field: 'LEL'},
-      b: {limit: 155, label: 'Primary threshold', field: 'LEL - PT'},
-      c: {limit: 827, label: 'Upper earning limit', field: 'PT - UEL'},
-      f: {field: 'Employee NICS'}
-    }
-  }
-  return fakeMap[yearString] || defaultBands
+  results: UnofficialDefermentResults | null
+  setResults: Dispatch<UnofficialDefermentResults | null>,
+  bands: BandAmount[],
+  setBands: Dispatch<BandAmount[]>
+  userBands: BandAmount[],
+  setUserBands: Dispatch<BandAmount[]>
 }
 
 export const UnofficialDefermentContext = React.createContext<UnofficialDefermentContext>(
   {
-    ClassOneCalculator: initClassOneCalculator,
+    UnofficialDefermentCalculator: initUnofficialDefermentCalculator,
     taxYears: [],
-    taxYear: {
-      id: '1',
-      from: new Date(),
-      to: new Date()
-    },
+    taxYear: 2016,
     setTaxYear: () => {},
     defaultRow: initRow,
     rows: [initRow],
@@ -204,10 +113,12 @@ export const UnofficialDefermentContext = React.createContext<UnofficialDefermen
     setCategories: () => {},
     activeRowId: null,
     setActiveRowId: () => {},
-    earningsFields: defaultBands,
-    setEarningsFields: () => {},
-    results: {},
-    setResults: () => {}
+    results: null,
+    setResults: () => {},
+    bands: [],
+    setBands: () => {},
+    userBands: [],
+    setUserBands: () => {}
   }
 )
 
@@ -215,50 +126,72 @@ export function useUnofficialDefermentForm() {
   const {
     NiFrontendInterface
   } = useContext(NiFrontendContext)
-  const ClassOneCalculator = NiFrontendInterface.classOne
-  const [taxYears, setTaxYears] = useState<TaxYear[]>([])
-  const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
-  const [defaultRow, setDefaultRow] = useState<UnofficialDefermentRow>(initRow)
-  const [rows, setRows] = useState<Array<UnofficialDefermentRow>>([defaultRow])
+  const UnofficialDefermentCalculator = NiFrontendInterface.unofficialDeferment
+  const [taxYears, setTaxYears] = useState<number[]>([])
+  const [taxYear, setTaxYear] = useState<number>(taxYears[0])
+  const [defaultRow, setDefaultRow] = useState<UnofficialDefermentInputRow>(initRow)
+  const [rows, setRows] = useState<Array<UnofficialDefermentInputRow>>([defaultRow])
   const [categories, setCategories] = useState<Array<string>>([])
-  const [earningsFields, setEarningsFields] = useState<Bands>(defaultBands)
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [calculatedRows, setCalculatedRows] = useState<Array<Calculated>>([])
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
+  const [bands, setBands] = useState<Array<BandAmount>>([])
+  const [userBands, setUserBands] = useState<Array<BandAmount>>([])
+
   useEffect(() => {
-    if(taxYear?.from) {
-      const categoriesForTaxYear = ClassOneCalculator.getApplicableCategories(taxYear.from)
+    if(taxYear) {
+      const categoriesForTaxYear = [...new Set<string>(UnofficialDefermentCalculator.getCategories(taxYear))]
       if(categoriesForTaxYear) {
-        setCategories(categoriesForTaxYear.split(''))
-        setEarningsFields(getRequiredInputs(taxYear))
+        setCategories(categoriesForTaxYear.sort())
+        const bandsForTaxYear = UnofficialDefermentCalculator.getBandsForTaxYear(taxYear)
+        setUserBands(bandsForTaxYear)
+        const bandLimits = UnofficialDefermentCalculator.getBandInputNames(taxYear)
+        setBands(bandLimits)
         setDefaultRow(prevState => ({
           ...prevState,
-          category: categoriesForTaxYear[0]
+          category: categoriesForTaxYear[0],
+          bands: [...bandLimits]
         }))
-        setResults({})
+        setResults(null)
         setRows([defaultRow])
       }
     }
-  }, [taxYear, ClassOneCalculator])
+  }, [taxYear, UnofficialDefermentCalculator])
 
   useEffect(() => {
     setRows([defaultRow])
-  }, [defaultRow, earningsFields])
+  }, [defaultRow])
 
   useEffect(() => {
     setTaxYear(taxYears[0])
   }, [taxYears])
 
   useEffect(() => {
-    const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
-    setTaxYears(taxYearData)
-  }, [ClassOneCalculator])
+    setTaxYears(UnofficialDefermentCalculator.getTaxYears.sort().reverse())
+  }, [UnofficialDefermentCalculator])
 
-  const [results, setResults] = useState({})
+  const [results, setResults] = useState<UnofficialDefermentResults | null>(null)
+
+  useEffect(() => {
+    if(results) {
+      setRows(rows.map((row: UnofficialDefermentInputRow) => {
+        const resultRow: UnofficialDefermentResultRow | undefined = results.resultRows.find(r => r.id === row.id)
+        return resultRow ? {...row, ...resultRow} as any : row
+      }))
+    } else {
+      setRows(rows.map((row: UnofficialDefermentInputRow) => {
+        delete row.ifNotUd
+        delete row.overUel
+        delete row.gross
+        delete row.nicsNonCo
+        return row
+      }))
+    }
+  }, [results])
 
   return {
-    ClassOneCalculator,
+    UnofficialDefermentCalculator,
     taxYears,
     taxYear,
     setTaxYear,
@@ -275,9 +208,11 @@ export function useUnofficialDefermentForm() {
     setCategories,
     activeRowId,
     setActiveRowId,
-    earningsFields,
-    setEarningsFields,
     results,
-    setResults
+    setResults,
+    bands,
+    setBands,
+    userBands,
+    setUserBands
   }
 }

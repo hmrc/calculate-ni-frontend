@@ -5,8 +5,7 @@ import 'numeral/locales/en-gb';
 // types
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import uniqid from "uniqid";
-import {UnofficialDefermentContext, UnofficialDefermentRow} from "./UnofficialDefermentContext";
-import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
+import {UnofficialDefermentContext, UnofficialDefermentInputRow} from "./UnofficialDefermentContext";
 import UnofficialDefermentTable from "./UnofficialDefermentTable";
 import UnofficialDefermentLimits from "./UnofficialDefermentLimits";
 
@@ -23,11 +22,13 @@ export default function UnofficialDefermentForm(props: any) {
     defaultRow,
     taxYears,
     taxYear,
-    setTaxYear
+    setTaxYear,
+    setResults
   } = useContext(UnofficialDefermentContext)
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTaxYear(taxYears.find(ty => ty.id === e.target.value) || taxYears[0])
+    setTaxYear(parseInt(e.currentTarget.value))
+    resetTotals()
   }
 
   const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
@@ -38,7 +39,8 @@ export default function UnofficialDefermentForm(props: any) {
   }
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+    e.preventDefault()
+    setResults(null)
     const newId = uniqid()
     setRows([...rows, {...defaultRow, id: newId}])
     setActiveRowId(newId)
@@ -47,9 +49,10 @@ export default function UnofficialDefermentForm(props: any) {
   const handleDeleteRow = (e: React.MouseEvent) => {
     e.preventDefault()
     if(activeRowId) {
-      setRows(rows.filter((row: UnofficialDefermentRow) => row.id !== activeRowId))
+      setRows(rows.filter((row: UnofficialDefermentInputRow) => row.id !== activeRowId))
       // errors are now stale
       setErrors({})
+      setResults(null)
       setActiveRowId(null)
     }
   }
@@ -57,11 +60,24 @@ export default function UnofficialDefermentForm(props: any) {
   return (
     <div className="form-group table-wrapper">
       <div className="container half">
-        <SelectTaxYear
-          taxYears={taxYears}
-          taxYear={taxYear}
-          handleTaxYearChange={handleTaxYearChange}
-        />
+        <div className="govuk-form-group">
+          <label
+            className="govuk-label"
+            htmlFor="taxYear"
+          >
+            Select a tax year
+          </label>
+          <select
+            id="taxYear"
+            className="govuk-select"
+            onChange={handleTaxYearChange}
+            value={taxYear}
+          >
+            {taxYears && taxYears.map(ty => (
+              <option key={`tax-year-${ty}`} value={ty}>{ty}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <UnofficialDefermentLimits />
