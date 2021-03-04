@@ -54,9 +54,7 @@ const Class3TableRow = (props: {
 
   const invalidateTotals = () => {
     setRows(prevState => prevState.map(row => {
-      delete row.maxWeeks
       delete row.actualWeeks
-      delete row.deficiency
       return row
     }))
   }
@@ -78,8 +76,6 @@ const Class3TableRow = (props: {
     }
 
   }, [dateRange, row.id, setRows])
-
-
 
   return (
     <tr
@@ -123,28 +119,7 @@ const Class3TableRow = (props: {
         }
       </MqTableCell>
 
-      <MqTableCell
-        cellStyle={thStyles.earningsFactor}
-        cellClassName={`input${errors[`${row.id}-earningsFactor`] ? ` error-cell` : ``}`}
-      >
-        {printView ?
-          <div>{row.earningsFactor}</div>
-          :
-          <TextInput
-            hiddenLabel={true}
-            name={`${row.id}-earningsFactor`}
-            labelText="earnings"
-            inputValue={row.earningsFactor}
-            inputClassName="number"
-            onChangeCallback={(e) => handleChange(row, e)}
-            error={errors[`${row.id}-earningsFactor`]}
-          />
-        }
-      </MqTableCell>
-
-      <MqTableCell cellStyle={thStyles.maxWeeks}>{row.maxWeeks}</MqTableCell>
       <MqTableCell cellStyle={thStyles.actualWeeks}>{row.actualWeeks}</MqTableCell>
-      <MqTableCell cellStyle={thStyles.deficient}>{row.deficiency}</MqTableCell>
     </tr>
   )
 }

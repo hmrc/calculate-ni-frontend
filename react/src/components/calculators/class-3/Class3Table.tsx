@@ -15,12 +15,12 @@ const Class3Table = (props: Class3TableProps) => {
   return (
     <table className="contribution-details">
       <caption>Periods of insurance</caption>
-      <colgroup span={4} />
       <colgroup span={3} />
+      <colgroup span={1} />
       <thead>
         <tr className="clear">
-          <td colSpan={4} />
-          <th scope="colgroup" className="border" colSpan={3}><span>Weeks</span></th>
+          <td colSpan={3} />
+          <th scope="colgroup" className="border" colSpan={1}><span>Weeks</span></th>
         </tr>
         <tr>
           <th scope="col">
@@ -41,10 +41,7 @@ const Class3Table = (props: Class3TableProps) => {
               </thead>
             </table>
           </th>
-          <th scope="col" className="earnings-factor">Earnings factor</th>
-          <th scope="col">Max weeks</th>
           <th scope="col">Actual weeks</th>
-          <th scope="col">Deficient</th>
         </tr>
       </thead>
       <tbody>
