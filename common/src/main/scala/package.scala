@@ -17,7 +17,7 @@
 import spire.math.Interval
 import spire.math.interval._
 import spire.implicits._
-import java.time.LocalDate
+import java.time.{LocalDate, DayOfWeek}
 
 package object eoi {
 
@@ -154,6 +154,34 @@ package object eoi {
 
     import cats.implicits._
 
+    def expandedToTaxWeeks: Option[Interval[LocalDate]] = 
+      (inner.lowerBound, inner.upperBound) match {
+        case (ValueBound(startRaw), ValueBound(endRaw)) =>
+
+          val start = startRaw.previousOrSame(DayOfWeek.SUNDAY)
+          val end = endRaw.nextOrSame(DayOfWeek.SATURDAY)
+          Some(Interval.closed(
+            start, 
+            end
+          ))
+        case _ => None
+      }
+
+    def taxWeekBreakdown: Seq[(TaxYear, Int)] = {
+      (inner.lowerBound, inner.upperBound, expandedToTaxWeeks) match {
+        case (ValueBound(start), ValueBound(end), Some(expanded)) =>
+          (start.getYear - 1 to end.getYear)
+            .map(TaxYear.apply)
+            .map { year =>
+              year -> (expanded intersect year.asIntervalWeeks).numberOfWeeks().getOrElse(0)
+            }.filter(_._2 != 0)
+        case _ => throw new IllegalArgumentException("Unbounded interval")
+      }
+    }
+
+    def numberOfTaxWeeks: Option[Int] =
+      expandedToTaxWeeks flatMap (_.numberOfWeeks())
+
     def numberOfWeeks(
       rounding: BigDecimal.RoundingMode.Value = BigDecimal.RoundingMode.UP
     ): Option[Int] = {
@@ -193,6 +221,20 @@ package object eoi {
 
   implicit class RichList[A](in: List[A]) {
     def dedupPreserveOrder: List[A] = collection.mutable.LinkedHashSet(in:_*).toList
+  }
+
+  implicit class RichLocalDate(val value: LocalDate) extends AnyVal {
+
+    // we can't use TemporalAdjusters here because it's not supported in scalajs 0.6
+    def previousOrSame(day: java.time.DayOfWeek): LocalDate = {
+      val diff = ((value.getDayOfWeek.getValue + 7) - day.getValue) % 7
+      value.minusDays(diff)
+    }
+
+    def nextOrSame(day: java.time.DayOfWeek): LocalDate = {
+      val diff = ((day.getValue + 7) - value.getDayOfWeek.getValue) % 7
+      value.plusDays(diff)
+    }
   }
 
 }
