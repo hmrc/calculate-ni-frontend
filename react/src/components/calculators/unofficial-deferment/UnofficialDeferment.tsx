@@ -1,12 +1,11 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
-import {hasKeys, isEmpty} from "../../../services/utils";
+import {hasKeys} from "../../../services/utils";
 import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 import Details from "../shared/Details";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import {validateUnofficialDefermentPayload} from "../../../validation/validation";
 import {
     UnofficialDefermentContext, UnofficialDefermentInputRow, UnofficialDefermentRequestRow,
-    UserDefinedRequestBand,
     useUnofficialDefermentForm
 } from "./UnofficialDefermentContext";
 import UnofficialDefermentForm from "./UnofficialDefermentForm";
