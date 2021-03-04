@@ -2,11 +2,11 @@ package eoi
 package frontend
 
 import scala.scalajs.js
-import eoi.frontend.Class1BandAmount._
+import eoi.frontend.Class1Band._
 import eoi.frontend.Class1BandLimit._
 import eoi.frontend.TaxYearBandLimits._
 
-
+import java.time.temporal.TemporalAdjusters
 import scala.scalajs.js
 import js.JSConverters._
 import scala.scalajs.js.annotation.JSExportTopLevel
@@ -16,11 +16,93 @@ class UnofficialDeferment() extends js.Object {
   val config: Map[Int, TaxYearBandLimits] =
     (2003 to 2020).toList.map{ year =>
       val bandLimits = if(year >= 2016)
-        AfterOrOn2016(LEL(112), PT(155), UEL(827))
+        AfterOrOn2016(LEL(112), PT(155), UEL(827),
+          Map(
+            PTToUEL -> Map(
+              "A" -> 0.12,
+              "H" -> 0.12,
+              "J" -> 0.02,
+              "M" -> 0.12,
+              "Z" -> 0.02
+            ),
+            AboveUEL -> Map(
+              "A" -> 0.02,
+              "H" -> 0.02,
+              "J" -> 0.02,
+              "M" -> 0.02,
+              "Z" -> 0.02
+            )
+          )
+        )
       else if(year >= 2008)
-        AfterOrOn2008(LEL(95), PT(110), UAP(770), UEL(844))
+        AfterOrOn2008(LEL(95), PT(110), UAP(770), UEL(844),
+          Map(
+            PTToUAP -> Map(
+              "A" -> 0.11,
+              "D" -> 0.094,
+              "F" -> 0.094,
+              "J" -> 0.01,
+              "L" -> 0.01,
+              "S" -> 0.01
+            ),
+            UAPToUEL -> Map(
+              "A" -> 0.11,
+              "D" -> 0.11,
+              "F" -> 0.11,
+              "J" -> 0.01,
+              "L" -> 0.01,
+              "S" -> 0.01
+            ),
+            AboveUEL -> Map(
+              "A" -> 0.01,
+              "D" -> 0.01,
+              "F" -> 0.01,
+              "J" -> 0.01,
+              "L" -> 0.01,
+              "S" -> 0.01
+            ),
+            LELToET -> Map(
+              "D" -> -0.016,
+              "F" -> -0.016,
+              "L" -> -0.016,
+              "S" -> -0.016
+            )
+          )
+        )
       else
-        AfterOrOn2003(LEL(87), ET(100), UEL(670))
+        AfterOrOn2003(LEL(87), ET(100), UEL(670),
+          Map(
+            PTToUAP -> Map(
+              "A" -> 0.11,
+              "D" -> 0.094,
+              "F" -> 0.094,
+              "J" -> 0.01,
+              "L" -> 0.01,
+              "S" -> 0.01
+            ),
+            UAPToUEL -> Map(
+              "A" -> 0.11,
+              "D" -> 0.11,
+              "F" -> 0.11,
+              "J" -> 0.01,
+              "L" -> 0.01,
+              "S" -> 0.01
+            ),
+            AboveUEL -> Map(
+              "A" -> 0.01,
+              "D" -> 0.01,
+              "F" -> 0.01,
+              "J" -> 0.01,
+              "L" -> 0.01,
+              "S" -> 0.01
+            ),
+            LELToET -> Map(
+              "D" -> -0.016,
+              "F" -> -0.016,
+              "L" -> -0.016,
+              "S" -> -0.016
+            )
+          ))
 
       year -> bandLimits
     }.toMap
@@ -48,12 +130,17 @@ class UnofficialDeferment() extends js.Object {
   def getTaxYears: js.Array[String] =
     config.keys.map(_.toString).toJSArray
 
+  def getCategories(taxYear: Int) =
+    config.get(taxYear).fold(sys.error(s"Could not find config for tax year $taxYear")){
+      _.rates.values.flatMap(_.keys).toJSArray
+    }
+
   def getBandInputNames(taxYear: Int) = {
     val taxYearBands =  config.get(taxYear).getOrElse(
       sys.error(s"Could not find config for tax year $taxYear")
     )
 
-    taxYearBands.bandAmounts.toJSArray.map{ band =>
+    taxYearBands.bands.toJSArray.map{ band =>
       new js.Object {
         val label = band.toLabel
       }
@@ -141,77 +228,66 @@ object Class1BandLimit {
 
 }
 
-sealed trait Class1BandAmount extends Product with Serializable {
+sealed trait Class1Band extends Product with Serializable {
 
   def toLabel: String = this match {
-    case _: BelowLEL => "LEL"
-    case _: LELToET =>  "LEL - ET"
-    case _: LELToPT =>  "LEL - PT"
-    case _: PTToUAP =>  "PT - UAP"
-    case _: PTToUEL =>  "PT - UEL"
-    case _: ETToUEL =>  "ET - UEL"
-    case _: UAPToUEL => "UAP - UEL"
-  }
-
-  def fromLabel(label: String, amount: Double) = label match {
-    case "LEL" => BelowLEL(amount)
-    case  "LEL - ET" => LELToET(amount)
-    case "LEL - PT" => LELToPT(amount)
-    case "PT - UAP" => PTToUAP(amount)
-    case "PT - UEL" => PTToUEL(amount)
-    case "ET - UEL" => ETToUEL(amount)
-    case "UAP - UEL" => UAPToUEL(amount)
-    case other       => sys.error(s"Could not understand label $other")
+    case BelowLEL => "LEL"
+    case LELToET =>  "LEL - ET"
+    case LELToPT =>  "LEL - PT"
+    case PTToUAP =>  "PT - UAP"
+    case PTToUEL =>  "PT - UEL"
+    case ETToUEL =>  "ET - UEL"
+    case UAPToUEL => "UAP - UEL"
+    case AboveUEL => "UEL"
   }
 
 }
 
-object Class1BandAmount {
+object Class1Band {
 
-  case class BelowLEL(amount: Double) extends Class1BandAmount
+  case object BelowLEL extends Class1Band
 
-  case class LELToET(amount: Double) extends Class1BandAmount
+  case object LELToET extends Class1Band
 
-  case class LELToPT(amount: Double) extends Class1BandAmount
+  case object LELToPT extends Class1Band
 
-  case class PTToUAP(amount: Double) extends Class1BandAmount
+  case object PTToUAP extends Class1Band
 
-  case class PTToUEL(amount: Double) extends Class1BandAmount
+  case object PTToUEL extends Class1Band
 
-  case class ETToUEL(amount: Double) extends Class1BandAmount
+  case object ETToUEL extends Class1Band
 
-  case class UAPToUEL(amount: Double) extends Class1BandAmount
+  case object UAPToUEL extends Class1Band
 
-
+  case object AboveUEL extends Class1Band
 
 }
 
 
 sealed trait TaxYearBandLimits {
 
-  val bandAmounts: List[Class1BandAmount]
+  val bands: List[Class1Band]
 
   val bandLimits: List[Class1BandLimit]
+
+  val rates: Map[Class1Band, Map[String, Double]]
 
 }
 
 object TaxYearBandLimits {
 
-  import Class1BandLimit._
-
-  import Class1BandAmount._
-
   case class AfterOrOn2003(
                              lel: LEL,
                              et: ET,
-                             uel: UEL
+                             uel: UEL,
+                             rates: Map[Class1Band, Map[String, Double]]
                            ) extends TaxYearBandLimits {
 
-    val bandAmounts: List[Class1BandAmount] =
+    val bands: List[Class1Band] =
       List(
-        BelowLEL(0),
-        LELToET(0),
-        ETToUEL(0)
+        BelowLEL,
+        LELToET,
+        ETToUEL
       )
 
     val bandLimits = List(lel, et, uel)
@@ -223,14 +299,15 @@ object TaxYearBandLimits {
                              lel: LEL,
                              pt: PT,
                              uap: UAP,
-                             uel: UEL
+                             uel: UEL,
+                             rates: Map[Class1Band, Map[String, Double]]
                            )  extends TaxYearBandLimits {
-    val bandAmounts: List[Class1BandAmount] =
+    val bands: List[Class1Band] =
       List(
-        BelowLEL(0),
-        LELToPT(0),
-        PTToUAP(0),
-        UAPToUEL(0)
+        BelowLEL,
+        LELToPT,
+        PTToUAP,
+        UAPToUEL
       )
 
     val bandLimits = List(lel, pt, uap, uel)
@@ -240,13 +317,14 @@ object TaxYearBandLimits {
   case class AfterOrOn2016(
                           lel: LEL,
                           pt: PT,
-                          uel: UEL
+                          uel: UEL,
+                          rates: Map[Class1Band, Map[String, Double]]
                           ) extends TaxYearBandLimits {
-    val bandAmounts: List[Class1BandAmount] =
+    val bands: List[Class1Band] =
       List(
-        BelowLEL(0),
-        LELToPT(0),
-        PTToUEL(0)
+        BelowLEL,
+        LELToPT,
+        PTToUEL
       )
 
     val bandLimits = List(lel, pt, uel)
