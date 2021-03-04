@@ -51,13 +51,9 @@ export interface Calculated {
 
 export interface Class3Row {
   id: string,
-  earningsFactor: string,
   dateRange: GovDateRange,
-  maxWeeks?: number
   actualWeeks?: number
-  deficiency?: number
 }
-
 
 // Table
 export interface TaxYear {

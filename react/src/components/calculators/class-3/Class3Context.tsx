@@ -21,15 +21,8 @@ const initialDetails = {
 
 export const class3DefaultRows = [{
   id: uniqid(),
-  earningsFactor: '',
   dateRange: {from: null, to: null}
 }]
-
-export interface Class3Result {
-  maxWeeks: number
-  actualWeeks: number
-  deficiency: number
-}
 
 interface Class3Context {
   taxYears: TaxYear[]
@@ -45,8 +38,6 @@ interface Class3Context {
   setYear: Dispatch<string>
   errors: GenericErrors
   setErrors: Dispatch<GenericErrors>
-  result: Class3Result | null
-  setResult: Dispatch<Class3Result | null>
   activeRowId: string | null
   setActiveRowId: Dispatch<string | null>,
   WeeklyContributionsCalculator: WeeklyContributionsCalculator
@@ -73,8 +64,6 @@ export const Class3Context = React.createContext<Class3Context>(
     setYear: () => {},
     errors: {},
     setErrors: () => {},
-    result: null,
-    setResult: () => {},
     activeRowId: null,
     setActiveRowId: () => {},
     WeeklyContributionsCalculator: initWeeklyContributionsCalculator
@@ -91,7 +80,6 @@ export function useClass3Form() {
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [rows, setRows] = useState<Array<Class3Row>>(class3DefaultRows)
   const [errors, setErrors] = useState<GenericErrors>({})
-  const [result, setResult] = useState<Class3Result | null>(null)
   const [day, setDay] = useState('')
   const [month, setMonth] = useState('')
   const [year, setYear] = useState('')
@@ -101,7 +89,6 @@ export function useClass3Form() {
     if(taxYears && taxYears.length > 0) {
       setRows([{
         id: uniqid(),
-        earningsFactor: '',
         dateRange: {from: taxYears[0].from, to: taxYears[0].to}
       }])
     }
@@ -127,8 +114,6 @@ export function useClass3Form() {
     setYear,
     errors,
     setErrors,
-    result,
-    setResult,
     activeRowId,
     setActiveRowId
   }

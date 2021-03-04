@@ -45,15 +45,11 @@ const Class3Page = () => {
 
         if(validateClass3Payload(payload, setErrors)) {
             rows.map(row => {
-                const result = WeeklyContributionsCalculator
+                row.actualWeeks = WeeklyContributionsCalculator
                   .calculate(
                     row.dateRange.from,
-                    row.dateRange.to,
-                    parseFloat(stripCommas(row.earningsFactor)) || 0
+                    row.dateRange.to
                   )
-                row.maxWeeks = result.maxPotentialWeeks
-                row.actualWeeks = result.actualWeeks
-                row.deficiency = result.deficient
                 return row
             })
             setShowSummary(showSummaryIfValid)

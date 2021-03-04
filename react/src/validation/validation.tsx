@@ -361,8 +361,6 @@ const validateClass3Rows = (
   rows.forEach((row: Class3Row, index: number) => {
     const fromId = `${row.id}FromDay`
     const toId = `${row.id}ToDay`
-    const earningsFactor = stripCommas(row.earningsFactor)
-    const earningsFactorId = `${row.id}-earningsFactor`
     const dateRange = row.dateRange
     if(!dateRange.from || !dateRange.to) {
       errors[fromId] = {
@@ -373,13 +371,6 @@ const validateClass3Rows = (
       errors[toId] = {
         ...coreMsg(toId),
         message: `End date for row #${index + 1} must be on or after ${moment(dateRange.from).format(govDateFormat)}`
-      }
-    }
-
-    if (earningsFactor && isNaN(+earningsFactor)) {
-      errors[earningsFactorId] = {
-        ...coreMsg(earningsFactorId),
-        message: `Earnings factor for row #${index + 1} must be an amount of money`
       }
     }
 

@@ -16,22 +16,34 @@
 
 package eoi
 
-import java.time.LocalDate
+import java.time.{LocalDate, DayOfWeek}
+import spire.math.Interval
+import spire.math.interval._
 
-case class TaxYear(startingYear: Int) {
+case class TaxYear(startingYear: Int) extends AnyVal {
   def endingYear: Int = startingYear + 1
   def start = LocalDate.of(startingYear, 4, 6)
   def end = LocalDate.of(endingYear, 4, 5)
-  def asInterval = {
-    import spire.math.Interval
-    Interval.openUpper(
-      LocalDate.of(startingYear, 4, 6),
-      LocalDate.of(endingYear, 4, 6)
-    )
-  }
-
+  def asInterval = spire.math.Interval.closed(start, end)
   def pred = TaxYear(startingYear - 1)  
   def succ = TaxYear(endingYear)
+
+  def numberOfTaxWeeks: Int = 
+    (succ.firstWeekOfTaxYear.toEpochDay - firstWeekOfTaxYear.toEpochDay).toInt / 7
+
+  private[eoi] def firstWeekOfTaxYear: LocalDate =
+    LocalDate.of(startingYear, 4, 6).nextOrSame(DayOfWeek.SUNDAY)
+
+  def week(no: Int): Interval[LocalDate] = Interval.closed(
+    firstWeekOfTaxYear.plusWeeks(no - 1),
+    firstWeekOfTaxYear.plusWeeks(no).minusDays(1),
+  )
+
+  def asIntervalWeeks = Interval.closed(
+    firstWeekOfTaxYear,
+    succ.firstWeekOfTaxYear.minusDays(1)
+  )
+
 }
 
 object TaxYear {
