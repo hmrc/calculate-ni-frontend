@@ -133,8 +133,27 @@ export const buildDescribedByKeys = (
 
 export const sterlingStringValue = (value: string) => numeral(value).format('$0,0.00')
 
-export const maybeFromBounds = (value: string) => {
-  const amount = /\(([^)]+)\)/.exec(value)
-  return amount ? amount[1] : value
+export enum DateParts {
+  DAY = 'day',
+  MONTH = 'month',
+  YEAR = 'year'
 }
+
+export const extractDatePartString = (part: DateParts, date: Date | null | undefined) => {
+  if(!date) {
+    return ''
+  }
+  if(part === DateParts.DAY) {
+    return date.getDate().toString()
+  }
+  if(part === DateParts.MONTH) {
+    return (date.getMonth() + 1).toString()
+  }
+  if(part === DateParts.YEAR) {
+    return date.getFullYear().toString()
+  }
+  return ''
+}
+
+
 

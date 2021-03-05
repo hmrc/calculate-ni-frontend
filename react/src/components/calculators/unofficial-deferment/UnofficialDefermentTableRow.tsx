@@ -134,7 +134,7 @@ const UnofficialDefermentTableRow = (props: {
           <TextInput
             hiddenLabel={true}
             name={`${row.id}-employeeNICs`}
-            labelText={`Employee NICS for row number ${i + 1}`}
+            labelText={`Employee NICs for row number ${i + 1}`}
             inputClassName=""
             inputValue={row.employeeNICs}
             placeholderText=""
