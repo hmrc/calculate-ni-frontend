@@ -1,7 +1,7 @@
 import React, {Dispatch, useContext, useEffect, useState} from 'react'
 
 // types
-import {DetailsProps, LateRefundsTableRowProps, Rate, TaxYear} from '../../../interfaces'
+import {DetailsProps, Rate, TaxYear} from '../../../interfaces'
 import uniqid from 'uniqid'
 import {buildTaxYears} from '../../../config'
 import {
@@ -9,6 +9,14 @@ import {
   NiFrontendContext
 } from '../../../services/NiFrontendContext'
 import {GenericErrors} from '../../../validation/validation'
+
+export interface LateRefundsTableRowProps {
+  id: string
+  taxYear: TaxYear | null
+  paymentDate: Date | null
+  refund: string,
+  payable: string | null
+}
 
 const detailsState = {
   fullName: '',
@@ -51,6 +59,7 @@ interface LateRefundsContext {
 const initRow = {
   id: uniqid(),
   taxYear: null,
+  paymentDate: null,
   refund: '',
   payable: ''
 }

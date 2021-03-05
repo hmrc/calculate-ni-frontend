@@ -4,8 +4,8 @@ import * as thStyles from '../../../services/mobileHeadingStyles'
 import {extractFromDateString, extractToDateString, taxYearFromString, taxYearString} from '../../../config'
 
 // types
-import {GovDateRange, LateRefundsTableRowProps, TaxYear} from '../../../interfaces'
-import {LateRefundsContext} from './LateRefundsContext'
+import {TaxYear} from '../../../interfaces'
+import {LateRefundsContext, LateRefundsTableRowProps} from './LateRefundsContext'
 
 // components
 import SelectTaxYear from '../../helpers/formhelpers/SelectTaxYear'
@@ -44,13 +44,13 @@ function LateRefundsTableRow(props: {
 
   useEffect(() => {
     setRows(rows.map((cur: LateRefundsTableRowProps) =>
-      cur.id === row.id ? {...cur, taxYear: taxYears[ty]} : cur
+      cur.id === row.id ? {...cur, taxYear: taxYear} : cur
     ))
   }, [taxYear, row.id])
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     invalidateResults()
-    setTaxYear(taxYears[e.currentTarget.value])
+    setTaxYear(taxYears.find(ty => ty.id === e.currentTarget.value))
   }
 
   const handleChange = (row: LateRefundsTableRowProps, e:  React.ChangeEvent<HTMLInputElement>) => {
@@ -99,7 +99,7 @@ function LateRefundsTableRow(props: {
 
       <MqTableCell cellStyle={thStyles.date}>
         <DateInputs
-          description="paymentDate"
+          description={`${row.id}-paymentDate`}
           legend="Payment date"
           day={day}
           month={month}
@@ -107,7 +107,7 @@ function LateRefundsTableRow(props: {
           setDay={setDay}
           setMonth={setMonth}
           setYear={setYear}
-          error={errors[`${row.id}-paymentDate`]}
+          error={errors[`${row.id}-paymentDateDay`]}
         />
       </MqTableCell>
 

@@ -83,14 +83,6 @@ export interface Class1DebtRow {
   interestDue: string | null
 }
 
-export interface LateRefundsTableRowProps {
-  id: string
-  taxYear: TaxYear | null
-  paymentDate: Date | null
-  refund: string,
-  payable: string | null
-}
-
 export interface TableProps {
   showBands: boolean;
   printView: boolean
