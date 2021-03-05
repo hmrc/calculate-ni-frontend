@@ -3,9 +3,12 @@ import {hasKeys} from "../../../services/utils";
 import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 import Details from "../shared/Details";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
-import {validateUnofficialDefermentPayload} from "../../../validation/validation";
+import {validateUnofficialDefermentPayload} from "./validation";
 import {
-    UnofficialDefermentContext, UnofficialDefermentInputRow, UnofficialDefermentRequestRow,
+    BandAmount,
+    RequestBand,
+    UnofficialDefermentContext,
+    UnofficialDefermentInputRow, UnofficialDefermentRequestRow,
     useUnofficialDefermentForm
 } from "./UnofficialDefermentContext";
 import UnofficialDefermentForm from "./UnofficialDefermentForm";
@@ -59,8 +62,9 @@ function UnofficialDefermentPage() {
     const submitForm = (showSummaryIfValid: boolean) => {
         setErrors({})
         const payload = {
-            rows: rows,
-            taxYear: taxYear
+            rows,
+            userBands,
+            taxYear
         }
 
         if (validateUnofficialDefermentPayload(payload, setErrors)) {
@@ -69,16 +73,17 @@ function UnofficialDefermentPage() {
                 row.id,
                 row.nameOfEmployer,
                 row.category,
-                row.bands,
+                row.bands.reduce((requestBands: RequestBand[], next: BandAmount) => {
+                    requestBands.push({
+                        label: next.label,
+                        amount: next.amount ? parseInt(next.amount) : 0
+                    })
+                    return requestBands
+                }, [] as RequestBand[]),
                 parseFloat(row.employeeNICs)
               ))
 
-            const userDefinedBands = userBands.map(b => ({
-                label: b.label,
-                amount: b.amount
-            }))
-
-            setResults(UnofficialDefermentCalculator.calculate(taxYear, requestRows, userDefinedBands))
+            setResults(UnofficialDefermentCalculator.calculate(taxYear, requestRows, userBands))
             if (showSummaryIfValid) {
                 setShowSummary(true)
             }

@@ -1,9 +1,8 @@
 import {Class1DebtRow, Class3Row, GovDateRange, LateRefundsTableRowProps, TaxYear} from '../interfaces'
 import {PeriodLabel} from "../config";
 import {Dispatch} from "react";
-import {extractTaxYearFromDate, govDateFormat, hasKeys, isEmpty} from "../services/utils";
+import {govDateFormat, hasKeys, isEmpty} from "../services/utils";
 import moment from "moment";
-import {UnofficialDefermentInputRow} from "../components/calculators/unofficial-deferment/UnofficialDefermentContext";
 import {DirectorsUIRow} from "../components/calculators/directors/DirectorsContext";
 import {Row} from "../components/calculators/class1/ClassOneContext";
 
@@ -22,11 +21,6 @@ interface DirectorsPayload {
   askApp: boolean | undefined
   app: string | null
   taxYear: TaxYear | null
-}
-
-interface UnofficialDefermentPayload {
-  rows: UnofficialDefermentInputRow[]
-  taxYear: number
 }
 
 interface Class2Or3Payload {
@@ -161,13 +155,6 @@ export const validateDirectorsPayload = (
     return false
   }
 
-  return true
-}
-
-export const validateUnofficialDefermentPayload = (
-  payload: UnofficialDefermentPayload,
-  setErrors: Dispatch<GenericErrors>
-) => {
   return true
 }
 

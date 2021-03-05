@@ -1,19 +1,19 @@
 import React, {useContext} from "react"
 import {UnofficialDefermentContext} from "./UnofficialDefermentContext";
 import TextInput from "../../helpers/formhelpers/TextInput";
-import {maybeFromBounds} from "../../../services/utils";
 
 export default function UnofficialDefermentLimits() {
   const {
     userBands,
-    setUserBands
+    setUserBands,
+    errors
   } = useContext(UnofficialDefermentContext)
 
   const handleLimitChange = (label: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserBands(
       userBands.map(b =>
         b.label === label ?
-         {...b, amount: parseInt(e.currentTarget.value)}
+         {...b, amount: e.currentTarget.value}
         :
         b
       )
@@ -29,6 +29,7 @@ export default function UnofficialDefermentLimits() {
             inputClassName={'form-control full'}
             inputValue={band.amount}
             onChangeCallback={handleLimitChange(band.label)}
+            error={errors[`limit-${band.label}`]}
           />
         </div>
       ))}
