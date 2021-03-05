@@ -22,7 +22,8 @@ const UnofficialDefermentTableRow = (props: {
     setRows,
     rows,
     categories,
-    setResults
+    setResults,
+    errors
   } = useContext(UnofficialDefermentContext)
 
   const handleBandChange = (r: UnofficialDefermentInputRow, band: BandAmount) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +33,7 @@ const UnofficialDefermentTableRow = (props: {
       row.id === r.id ?
         {
           ...row,
-          bands: row.bands.map(b => b.label === band.label ? {...b, amount: parseInt(e.currentTarget.value)} : b)
+          bands: row.bands.map(b => b.label === band.label ? {...b, amount: e.currentTarget.value} : b)
         }
         :
         row
@@ -64,6 +65,11 @@ const UnofficialDefermentTableRow = (props: {
       activeRowId={activeRowId}
       setActiveRowId={setActiveRowId}
     >
+
+      <MqTableCell cellStyle={thStyles.rowNumber}>
+        {i + 1}
+      </MqTableCell>
+
       <MqTableCell cellClassName="input" cellStyle={thStyles.nameEmployer}>
         {printView ?
           <div>{row.nameOfEmployer}</div>
@@ -101,7 +107,10 @@ const UnofficialDefermentTableRow = (props: {
       </MqTableCell>
 
       {row.bands && row.bands.map(band => (
-        <MqTableCell key={`band-cell-${band.label}`} cellClassName="input" cellStyle={thStyles.lel}>
+        <MqTableCell
+          key={`band-cell-${band.label}`}
+          cellClassName={`input ${errors?.[`${row.id}-${band.label}`] ? "error-cell" : ""}`}
+          cellStyle={thStyles.dynamicCellContentAttr(band.label)}>
           {printView ?
             <div>{numeral(band.amount).format('$0,0.00')}</div>
             :
@@ -110,7 +119,7 @@ const UnofficialDefermentTableRow = (props: {
               name={`${row.id}-${band.label}`}
               labelText={`${band.label} for row number ${i + 1}`}
               inputClassName="gross-pay"
-              inputValue={band.amount}
+              inputValue={band.amount ? band.amount : ''}
               placeholderText=""
               onChangeCallback={handleBandChange(row, band)}
             />
@@ -118,7 +127,7 @@ const UnofficialDefermentTableRow = (props: {
         </MqTableCell>
       ))}
 
-      <MqTableCell cellClassName="input" cellStyle={thStyles.employeeNics}>
+      <MqTableCell cellClassName={`input ${errors?.[`${row.id}-employeeNICs`] ? "error-cell" : ""}`} cellStyle={thStyles.employeeNics}>
         {printView ?
           <div>{numeral(row.employeeNICs).format('$0,0.00')}</div>
           :
@@ -130,6 +139,7 @@ const UnofficialDefermentTableRow = (props: {
             inputValue={row.employeeNICs}
             placeholderText=""
             onChangeCallback={(e) => handleChange?.(row, e)}
+            error={errors[`${row.id}-employeeNICs`]}
           />
         }
       </MqTableCell>

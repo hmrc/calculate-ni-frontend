@@ -1,5 +1,5 @@
 import React, {Dispatch, useContext, useEffect, useState} from "react";
-import {Calculated, DetailsProps, TaxYear} from "../../../interfaces";
+import {Calculated, DetailsProps} from "../../../interfaces";
 import {GenericErrors} from "../../../validation/validation";
 import {
   initUnofficialDefermentCalculator,
@@ -46,7 +46,12 @@ export interface UnofficialDefermentResultRow {
 
 export interface BandAmount {
   label: string,
-  amount?: number
+  amount?: string
+}
+
+export interface RequestBand {
+  label: string,
+  amount: number
 }
 
 export interface UnofficialDefermentRowBase {
@@ -54,10 +59,10 @@ export interface UnofficialDefermentRowBase {
   nameOfEmployer: string
   category: string
   employeeNICs: string
-  bands: Array<BandAmount>
 }
 
 export interface UnofficialDefermentInputRow extends UnofficialDefermentRowBase {
+  bands: Array<BandAmount>
   overUel?: string
   nicsNonCo?: string
   ifNotUd?: string
@@ -65,7 +70,7 @@ export interface UnofficialDefermentInputRow extends UnofficialDefermentRowBase 
 }
 
 export interface UnofficialDefermentRequestRow extends UnofficialDefermentRowBase {
-  bands: Array<BandAmount>
+  bands: Array<RequestBand>
 }
 
 interface UnofficialDefermentContext {
