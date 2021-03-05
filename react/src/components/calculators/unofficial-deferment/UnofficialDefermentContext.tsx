@@ -1,5 +1,5 @@
 import React, {Dispatch, useContext, useEffect, useState} from "react";
-import {Calculated, DetailsProps, TaxYear} from "../../../interfaces";
+import {Calculated, DetailsProps} from "../../../interfaces";
 import {GenericErrors} from "../../../validation/validation";
 import {
   initUnofficialDefermentCalculator,

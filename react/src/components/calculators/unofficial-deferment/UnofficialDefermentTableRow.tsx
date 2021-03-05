@@ -65,6 +65,11 @@ const UnofficialDefermentTableRow = (props: {
       activeRowId={activeRowId}
       setActiveRowId={setActiveRowId}
     >
+
+      <MqTableCell cellStyle={thStyles.rowNumber}>
+        {i + 1}
+      </MqTableCell>
+
       <MqTableCell cellClassName="input" cellStyle={thStyles.nameEmployer}>
         {printView ?
           <div>{row.nameOfEmployer}</div>

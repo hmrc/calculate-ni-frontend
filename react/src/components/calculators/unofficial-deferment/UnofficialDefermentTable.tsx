@@ -21,6 +21,7 @@ export default function UnofficialDefermentTable(props: {printView: boolean}) {
     <table className="contribution-details" id="results-table">
       <thead>
         <tr>
+          <th scope="col">#<span className="govuk-visually-hidden"> Row number</span></th>
           <th scope="col"><strong>Name of employer</strong></th>
           <th scope="col"><strong>Gross pay</strong></th>
           <th scope="col"><strong>NI category</strong></th>
