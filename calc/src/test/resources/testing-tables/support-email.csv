@@ -1,5 +1,4 @@
 tax year, period, period number, category, gross pay, employee ni, employers ni, message
-# These are all extracted from the documents at https://www.gov.uk/government/publications/payroll-technical-specifications-national-insurance
 
 2011,M,1,A,1256.29,78.51,92.09,			Row 1
 !2011,M,1,A,1083.33,57.92,68.22,			Row 2
