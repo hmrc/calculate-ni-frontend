@@ -2,7 +2,7 @@ import DateInputs from "../../helpers/formhelpers/DateInputs";
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {GovDateRange} from "../../../interfaces";
 import {GenericErrors} from "../../../validation/validation";
-import {getNumberOfWeeks, validDateParts} from '../../../services/utils'
+import {DateParts, extractDatePartString, getNumberOfWeeks, validDateParts} from '../../../services/utils'
 
 interface DateRangeProps {
   setDateRange: Dispatch<SetStateAction<GovDateRange>>
@@ -10,28 +10,6 @@ interface DateRangeProps {
   legends: {from: string, to: string}
   dateRange?: GovDateRange | null
   id: string
-}
-
-enum DateParts {
-  DAY = 'day',
-  MONTH = 'month',
-  YEAR = 'year'
-}
-
-const extractDatePartString = (part: DateParts, date: Date | null | undefined) => {
-  if(!date) {
-    return ''
-  }
-  if(part === DateParts.DAY) {
-    return date.getDate().toString()
-  }
-  if(part === DateParts.MONTH) {
-    return (date.getMonth() + 1).toString()
-  }
-  if(part === DateParts.YEAR) {
-    return date.getFullYear().toString()
-  }
-  return ''
 }
 
 export const DateRange = (props: DateRangeProps) => {

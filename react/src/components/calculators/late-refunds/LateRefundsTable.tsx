@@ -2,8 +2,7 @@ import React, {useContext} from 'react'
 import uniqid from 'uniqid'
 
 // types
-import {LateRefundsContext} from './LateRefundsContext'
-import {LateRefundsTableRowProps} from '../../../interfaces'
+import {LateRefundsContext, LateRefundsTableRowProps} from './LateRefundsContext'
 
 // components
 import LateRefundsTableRow from './LateRefundsTableRow'
@@ -66,9 +65,9 @@ function LateRefundsTable(props: LateRefundsTable) {
           <th scope="col">
             #<span className="govuk-visually-hidden"> Row number</span>
           </th>
-          <th scope="col">From</th>
-          <th scope="col">Date</th>
-          <th scope="col">Refund</th>
+          <th scope="col">Tax year</th>
+          <th scope="col">Payment Date</th>
+          <th scope="col">Refund amount</th>
           <th scope="col">Payable</th>
         </tr>
         </thead>

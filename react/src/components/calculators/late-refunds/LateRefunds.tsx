@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import {hasKeys} from '../../../services/utils'
-import {stripCommas, validateLateRefundsPayload} from '../../../validation/validation'
+import {stripCommas} from '../../../validation/validation'
 
 // components
 import Details from '../shared/Details'
@@ -11,11 +11,11 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 import {SuccessNotification} from "../shared/SuccessNotification";
 
 // types
-import {LateRefundsContext, useLateRefundsForm} from './LateRefundsContext'
-import {LateRefundsTableRowProps} from '../../../interfaces'
+import {LateRefundsContext, LateRefundsTableRowProps, useLateRefundsForm} from './LateRefundsContext'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
 import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
 import PrintButtons from "../shared/PrintButtons";
+import {validateLateRefundsPayload} from "./validation";
 
 const pageTitle = 'Interest on late-paid refunds from 1993 to 1994'
 
