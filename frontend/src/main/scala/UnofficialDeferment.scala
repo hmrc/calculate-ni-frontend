@@ -61,7 +61,7 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
 
   def getCategories(taxYear: Int) =
     config.unofficialDeferment.get(taxYear).fold(sys.error(s"Could not find config for tax year $taxYear")){
-      _.rates.values.flatMap(_.keys.toString).toSet.toJSArray
+      _.rates.values.flatMap(_.keySet.map(_.toString)).toJSArray
     }
 
   def getBandInputNames(taxYear: Int) = {
@@ -85,7 +85,7 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
     taxYearBands.bandLimits.toJSArray.map{ band =>
       new js.Object {
         val label = band.toLabel
-        val amount = band.value
+        val amount = band.value.doubleValue()
       }
     }
   }
@@ -175,13 +175,14 @@ case class UnofficialDefermentResultRow(
   ifNotUd: Double
 )
 
+@JSExportTopLevel("RequestBand")
 case class RequestBand(
   label: String,
   value: Double
 )
 
+@JSExportTopLevel("UserDefinedBand")
 case class UserDefinedBand(
-  name: String,
   label: String,
   limit: Double
 )

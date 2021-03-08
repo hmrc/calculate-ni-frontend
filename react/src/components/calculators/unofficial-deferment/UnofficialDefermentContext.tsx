@@ -150,7 +150,8 @@ export function useUnofficialDefermentForm() {
       if(categoriesForTaxYear) {
         setCategories(categoriesForTaxYear.sort())
         const bandsForTaxYear = UnofficialDefermentCalculator.getBandsForTaxYear(taxYear)
-        setUserBands(bandsForTaxYear)
+        const normalisedBands = bandsForTaxYear.map((b: BandAmount) => ({...b, amount: b.amount?.toString()}))
+        setUserBands(normalisedBands)
         const bandLimits = UnofficialDefermentCalculator.getBandInputNames(taxYear)
         setBands(bandLimits)
         setDefaultRow(prevState => ({
