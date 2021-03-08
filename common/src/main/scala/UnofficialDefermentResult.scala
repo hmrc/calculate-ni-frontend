@@ -170,7 +170,7 @@ case class UnofficialDefermentResult(taxYear: Int,
 
 
   def getBandRates(b: Class1Band) =
-    config.rates.get(b).getOrElse(sys.error(s"Could not find rates for band $b in tax year $taxYear"))
+    config.rates.getOrElse(b, Map.empty)
 
   val nonCOAdditionalRate =
     getBandRates(AboveUEL).getOrElse('A', sys.error("Could not find additional rate for category A"))
@@ -178,7 +178,7 @@ case class UnofficialDefermentResult(taxYear: Int,
   lazy val rowsOutput = rows.map{ row =>
     val earningsInMainContributionBand =
       row.bandAmounts.map{
-        case BandAmount(LELToET, _) | BandAmount(BelowLEL, _) => Zero
+        case BandAmount(LELToET, _) | BandAmount(BelowLEL, _) | BandAmount(LELToPT, _) => Zero
         case b => b.amount
       }.sum
 
@@ -204,14 +204,14 @@ case class UnofficialDefermentResult(taxYear: Int,
 
     val earningsAboveUEL =
       nicsBelowUel.flatMap{ n =>
-        ((row.employeeNICs - n)/rateAboveUel) gives
-          s"row ${row.id}: earnings above UEL = (employee NICS - NICs below UEL)/(rate above UEL) = " +
-            s"(${row.employeeNICs} - $n)/$rateAboveUel"
+        Zero.max(((row.employeeNICs - n)/rateAboveUel).roundNi) gives
+          s"row ${row.id}: earnings above UEL = max(0, (employee NICS - NICs below UEL)/(rate above UEL)) = " +
+            s"max(0, (${row.employeeNICs} - $n)/$rateAboveUel)"
       }
 
     UnofficialDefermentRowOutput(
       row.id,
-      nicsBelowUel.value + earningsAboveUEL.value,
+      row.bandAmounts.map(_.amount).sum + earningsAboveUEL.value,
       earningsInMainContributionBand,
       earningsAboveUEL.value,
       calculateNICSNonCo(row, earningsAboveUEL.value).value,
@@ -312,7 +312,7 @@ case class UnofficialDefermentResult(taxYear: Int,
 
     row.category match {
       case 'D' | 'F' =>
-        nicsOnMaxMainContributionEarnings
+        nonCONicsWithoutRebates(row, earningsAboveUEL)
 
       case 'L' | 'S' =>
         val lelToEtAmount = row.bandAmounts

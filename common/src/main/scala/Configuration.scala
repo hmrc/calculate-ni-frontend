@@ -290,7 +290,7 @@ case class Configuration(
             'L' -> 0.01,
             'S' -> 0.01
           ),
-          LELToET -> Map(
+          LELToPT -> Map(
             'D' -> -0.016,
             'F' -> -0.016,
             'L' -> -0.016,
