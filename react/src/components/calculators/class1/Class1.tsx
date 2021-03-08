@@ -81,8 +81,6 @@ const Class1Page = () => {
           false
         ))
 
-      console.log('class1 requestRows', requestRows)
-
       const netNi = stripCommas(payload.niPaidNet) || '0'
       const employeeNi = stripCommas(payload.niPaidEmployee) || '0'
 

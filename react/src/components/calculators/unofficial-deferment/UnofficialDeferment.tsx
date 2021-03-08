@@ -97,8 +97,6 @@ function UnofficialDefermentPage() {
                 return bands
             }, [] as RequestBand[])
 
-            console.log('requestRows', requestRows, 'userBands', userDefinedBands)
-
             setResults(UnofficialDefermentCalculator.calculate(taxYear, requestRows, userDefinedBands))
             if (showSummaryIfValid) {
                 setShowSummary(true)
