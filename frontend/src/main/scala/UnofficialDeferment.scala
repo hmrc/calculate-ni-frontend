@@ -3,139 +3,69 @@ package frontend
 
 import eoi.Class1Band._
 import eoi.Class1BandLimit._
-import eoi.TaxYearBandLimits._
-
-import scala.scalajs.js
-
-import java.time.temporal.TemporalAdjusters
 import scala.scalajs.js
 import js.JSConverters._
 import scala.scalajs.js.annotation.JSExportTopLevel
 
-class UnofficialDeferment() extends js.Object {
+class UnofficialDeferment(config: Configuration) extends js.Object {
 
   import UnofficialDeferment._
-
-  // TODO: read config in properly instead of using hard coded values below -
-  //       either read in new config bespoke for unofficial deferments or
-  //       somehow transform existing class 1 config and filter out
-  //       appropriate category letters
-  val config: Map[Int, TaxYearBandLimits] =
-    (2003 to 2020).toList.map{ year =>
-      val bandLimits = if(year >= 2016)
-        AfterOrOn2016(LEL(112), PT(155), UEL(827),
-          Map(
-            PTToUEL -> Map(
-              "A" -> 0.12,
-              "H" -> 0.12,
-              "J" -> 0.02,
-              "M" -> 0.12,
-              "Z" -> 0.02
-            ),
-            AboveUEL -> Map(
-              "A" -> 0.02,
-              "H" -> 0.02,
-              "J" -> 0.02,
-              "M" -> 0.02,
-              "Z" -> 0.02
-            )
-          )
-        )
-      else if(year >= 2009)
-        AfterOrOn2009(LEL(95), PT(110), UAP(770), UEL(844),
-          Map(
-            PTToUAP -> Map(
-              "A" -> 0.11,
-              "D" -> 0.094,
-              "F" -> 0.094,
-              "J" -> 0.01,
-              "L" -> 0.01,
-              "S" -> 0.01
-            ),
-            UAPToUEL -> Map(
-              "A" -> 0.11,
-              "D" -> 0.11,
-              "F" -> 0.11,
-              "J" -> 0.01,
-              "L" -> 0.01,
-              "S" -> 0.01
-            ),
-            AboveUEL -> Map(
-              "A" -> 0.01,
-              "D" -> 0.01,
-              "F" -> 0.01,
-              "J" -> 0.01,
-              "L" -> 0.01,
-              "S" -> 0.01
-            ),
-            LELToET -> Map(
-              "D" -> -0.016,
-              "F" -> -0.016,
-              "L" -> -0.016,
-              "S" -> -0.016
-            )
-          )
-        )
-      else
-        AfterOrOn2003(LEL(87), ET(100), UEL(670),
-          Map(
-            ETToUEL -> Map(
-              "A" -> 0.11,
-              "D" -> 0.094,
-              "F" -> 0.094,
-              "J" -> 0.01,
-              "L" -> 0.01,
-              "S" -> 0.01
-            ),
-            AboveUEL -> Map(
-              "A" -> 0.01,
-              "D" -> 0.01,
-              "F" -> 0.01,
-              "J" -> 0.01,
-              "L" -> 0.01,
-              "S" -> 0.01
-            ),
-            LELToET -> Map(
-              "D" -> -0.016,
-              "F" -> -0.016,
-              "L" -> -0.016,
-              "S" -> -0.016
-            )
-          ))
-
-      year -> bandLimits
-    }.toMap
 
   def calculate(
      taxYear: Int,
      rows: js.Array[UnofficialDefermentRow],
      userDefinedBandLimits: js.Array[UserDefinedBand]
-  ) = new js.Object {
-    val annualMax: Int = 15880
-    val liability: Int = 2340
-    val difference: Int = 8442
-    val ifNotUD: Int = 0
-    val resultRows: js.Array[scala.scalajs.js.Object] = rows.map { r: UnofficialDefermentRow =>
-      new js.Object {
-        val id: String = r.id
-        val gross: Double = 100
-        val overUel: Double = 25
-        val nicsNonCo: Double = 35.32
-        val ifNotUd: Double = 23.11 // calculate from row contents
+  ) = {
+    val result = UnofficialDefermentResult(
+      taxYear,
+      config.unofficialDeferment.getOrElse(taxYear, sys.error(s"Could not find unofficial deferment config for tax year $taxYear")),
+      rows.toList.map( r =>
+        UnofficialDefermentRowInput(
+          r.id,
+          r.employer,
+          r.category.head,
+          r.bands.toList.map( b =>
+            BandAmount(
+              labelToClass1Band(b.label).getOrElse(sys.error(s"Unknown class 1 band label: ${b.label}")),
+              b.value
+            )
+          ),
+          r.employeeNICs
+        )
+      ),
+      userDefinedBandLimits.toList.map( l =>
+        labelToClass1BandLimit(l.label, l.limit).getOrElse(sys.error(s"Unknown class 1 band limit: ${l.label}"))
+      )
+    )
+
+
+    new js.Object {
+      val annualMax: Double = result.annualMax.doubleValue()
+      val liability: Double = result.liability.doubleValue()
+      val difference: Double = result.difference.doubleValue()
+      val ifNotUD: Double = result.ifNotUD.doubleValue()
+      val resultRows: js.Array[scala.scalajs.js.Object] = result.rowsOutput.toJSArray.map { r =>
+        new js.Object {
+          val id: String = r.id
+          val gross: Double = r.grossPay.doubleValue()
+          val overUel: Double = r.earningsOverUEL.doubleValue()
+          val nicsNonCo: Double = r.nicsNonCO.doubleValue()
+          val ifNotUd: Double = r.ifNotUD.doubleValue()
+        }
       }
     }
   }
 
   def getTaxYears: js.Array[Int] =
-    config.keys.toJSArray
+    config.unofficialDeferment.keys.toJSArray
 
   def getCategories(taxYear: Int) =
-    config.get(taxYear).fold(sys.error(s"Could not find config for tax year $taxYear")){
+    config.unofficialDeferment.get(taxYear).fold(sys.error(s"Could not find config for tax year $taxYear")){
       _.rates.values.flatMap(_.keys.toString).toSet.toJSArray
     }
 
   def getBandInputNames(taxYear: Int) = {
-    val taxYearBands =  config.get(taxYear).getOrElse(
+    val taxYearBands =  config.unofficialDeferment.get(taxYear).getOrElse(
       sys.error(s"Could not find config for tax year $taxYear")
     )
 
@@ -148,7 +78,7 @@ class UnofficialDeferment() extends js.Object {
   }
 
   def getBandsForTaxYear(taxYear: Int): js.Array[scala.scalajs.js.Object] = {
-    val taxYearBands =  config.get(taxYear).getOrElse(
+    val taxYearBands =  config.unofficialDeferment.get(taxYear).getOrElse(
       sys.error(s"Could not find config for tax year $taxYear")
     )
 
@@ -177,6 +107,20 @@ object UnofficialDeferment {
 
   }
 
+  def labelToClass1Band(label: String): Option[Class1Band] = label match {
+    case "LEL"                => Some(BelowLEL)
+    case "LEL - ET"            => Some(LELToET)
+    case "LEL - PT"            => Some(LELToPT)
+    case "PT - UAP"            => Some(PTToUAP)
+    case "PT - UEL"            => Some(PTToUEL)
+    case "ET - UEL"            => Some(ETToUEL)
+    case "UAP - UEL"           => Some(UAPToUEL)
+    case  "UEL"                => Some(AboveUEL)
+    case _ => None
+
+
+  }
+
   implicit class Class1BandLimitOps(private val l: Class1BandLimit) extends AnyVal {
     def toLabel: String = l match {
       case _: LEL  => "Lower earning limit"
@@ -186,9 +130,18 @@ object UnofficialDeferment {
       case _: UEL  => "Upper earning limit"
     }
 
-
-
   }
+
+  def labelToClass1BandLimit(label: String, amount: Double): Option[Class1BandLimit] = label match {
+    case   "Lower earning limit"    => Some(LEL(amount))
+    case   "Primary threshold"      => Some(PT(amount))
+    case   "Earning threshold"      => Some(ET(amount))
+    case   "Upper accrual point"    => Some(UAP(amount))
+    case   "Upper earning limit"    => Some(UEL(amount))
+    case _ => None
+  }
+
+
 
   def class1bandLimitFromLabel(label: String, amount: Double) = label match {
     case "Lower earning limit"         => LEL(amount)

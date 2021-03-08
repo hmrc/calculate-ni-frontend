@@ -25,6 +25,8 @@ import cats.syntax.traverse._
 import eoi.Class1Band.{LELToET, _}
 import eoi.Class1BandLimit._
 
+import scala.reflect.{ClassTag, classTag}
+
 sealed trait Class1Band extends Product with Serializable
 
 object Class1Band {
@@ -162,63 +164,16 @@ case class UnofficialDefermentRowOutput(
                                       )
 
 case class UnofficialDefermentResult(taxYear: Int,
-                                     config: Map[Int, TaxYearBandLimits],
+                                     config: TaxYearBandLimits,
                                      rows: List[UnofficialDefermentRowInput],
                                      userDefinedBandLimits: List[Class1BandLimit]){
 
-  val taxYearConfig = config.get(taxYear).getOrElse(sys.error(s"Could not find config for tax year $taxYear"))
 
   def getBandRates(b: Class1Band) =
-    taxYearConfig.rates.get(b).getOrElse(sys.error(s"Could not find rates for band $b in tax year $taxYear"))
+    config.rates.get(b).getOrElse(sys.error(s"Could not find rates for band $b in tax year $taxYear"))
 
-  lazy val maxMainContributionEarnings: Explained[BigDecimal] = {
-    def findUserDefinedBandLimit[B <: Class1BandLimit] =
-      userDefinedBandLimits.collectFirst{ case b: B => b }.getOrElse(sys.error(s"Could not find ${classOf[B].getSimpleName}")).value
-
-    taxYearConfig match {
-      case _: TaxYearBandLimits.AfterOrOn2003 =>
-        val et = findUserDefinedBandLimit[ET]
-        val uel = findUserDefinedBandLimit[UEL]
-        53*(uel - et) gives
-          s"(UEL - ET) x 53 weeks = ($uel - $et) x 53"
-
-      case _ : TaxYearBandLimits.AfterOrOn2009 =>
-        val pt = findUserDefinedBandLimit[PT]
-        val uap = findUserDefinedBandLimit[UAP]
-        val uel = findUserDefinedBandLimit[UEL]
-        53*((uel - uap)+(uap-pt) ) gives
-          s"((UEL - UAP) + (UAP - PT)) x 53 weeks = (($uel - $uap) + ($uap - $pt)) x 53"
-
-      case _: TaxYearBandLimits.AfterOrOn2016 =>
-        val pt = findUserDefinedBandLimit[PT]
-        val uel = findUserDefinedBandLimit[UEL]
-        53*(uel - pt) gives
-          s"(UEL - PT) x 53 weeks  = ($uel - $pt) x 53"
-    }
-  }
-
-  lazy val rateOnMaxContributionEarnings = {
-        def getRate(rates: Map[Char, BigDecimal]) =
-      rates.get('A').getOrElse(sys.error(s"Could not find rate for category `A` for tax year $taxYear"))
-
-
-    taxYearConfig match {
-      case _: TaxYearBandLimits.AfterOrOn2003 =>
-        getRate(getBandRates(ETToUEL))
-
-      case _: TaxYearBandLimits.AfterOrOn2009 =>
-        getRate(getBandRates(PTToUAP))
-
-      case _: TaxYearBandLimits.AfterOrOn2016 =>
-        getRate(getBandRates(PTToUEL))
-    }
-  }
-
-  lazy val nicsOnMaxMainContributionEarnings: Explained[BigDecimal] =
-    maxMainContributionEarnings.flatMap( earnings =>
-      (rateOnMaxContributionEarnings * earnings) gives
-      s"$rateOnMaxContributionEarnings * $earnings"
-    )
+  val nonCOAdditionalRate =
+    getBandRates(AboveUEL).getOrElse('A', sys.error("Could not find additional rate for category A"))
 
   lazy val rowsOutput = rows.map{ row =>
     val earningsInMainContributionBand =
@@ -231,7 +186,7 @@ case class UnofficialDefermentResult(taxYear: Int,
     val nicsBelowUel: Explained[BigDecimal] =
       row.bandAmounts.map { case BandAmount(band, amount) =>
         val rate = getBandRates(band).getOrElse(row.category, Zero)
-        (rate * amount) gives
+        (rate * amount).roundNi gives
           s"row ${row.id} cat ${row.category}: NICs on band $band = rate x bandAmount = $rate x $amount"
       }
         .sequence
@@ -264,6 +219,72 @@ case class UnofficialDefermentResult(taxYear: Int,
     )
   }
 
+  lazy val maxMainContributionEarnings: Explained[BigDecimal] = {
+    def findUserDefinedBandLimit[B <: Class1BandLimit : ClassTag] =
+      userDefinedBandLimits.collectFirst{ case b: B => b }.getOrElse(sys.error(s"Could not find ${classTag[B].runtimeClass.getSimpleName}")).value
+
+    config match {
+      case _: TaxYearBandLimits.AfterOrOn2003 =>
+        val et = findUserDefinedBandLimit[ET]
+        val uel = findUserDefinedBandLimit[UEL]
+        53*(uel - et) gives
+          s"(UEL - ET) x 53 weeks = ($uel - $et) x 53"
+
+      case _ : TaxYearBandLimits.AfterOrOn2009 =>
+        val pt = findUserDefinedBandLimit[PT]
+        val uap = findUserDefinedBandLimit[UAP]
+        val uel = findUserDefinedBandLimit[UEL]
+        53*((uel - uap)+(uap-pt) ) gives
+          s"((UEL - UAP) + (UAP - PT)) x 53 weeks = (($uel - $uap) + ($uap - $pt)) x 53"
+
+      case _: TaxYearBandLimits.AfterOrOn2016 =>
+        val pt = findUserDefinedBandLimit[PT]
+        val uel = findUserDefinedBandLimit[UEL]
+        53*(uel - pt) gives
+          s"(UEL - PT) x 53 weeks  = ($uel - $pt) x 53"
+    }
+  }
+
+  lazy val rateOnMaxContributionEarnings = {
+    def getRate(rates: Map[Char, BigDecimal]) =
+      rates.get('A').getOrElse(sys.error(s"Could not find rate for category `A` for tax year $taxYear"))
+
+
+    config match {
+      case _: TaxYearBandLimits.AfterOrOn2003 =>
+        getRate(getBandRates(ETToUEL))
+
+      case _: TaxYearBandLimits.AfterOrOn2009 =>
+        getRate(getBandRates(PTToUAP))
+
+      case _: TaxYearBandLimits.AfterOrOn2016 =>
+        getRate(getBandRates(PTToUEL))
+    }
+  }
+
+  lazy val nicsOnMaxMainContributionEarnings: Explained[BigDecimal] =
+    maxMainContributionEarnings.flatMap( earnings =>
+      (rateOnMaxContributionEarnings * earnings).roundNi gives
+        s"$rateOnMaxContributionEarnings * $earnings"
+    )
+
+  lazy val actualEarningsInMainContributionBand = rowsOutput.map(_.earningsInMainContributionBand).sum
+
+  lazy val excessEarnings = Zero.max(actualEarningsInMainContributionBand - maxMainContributionEarnings.value)
+
+  lazy val nicsOnExcessEarnings = (nonCOAdditionalRate * excessEarnings).roundNi
+
+  lazy val totalEarningsAboveUel = rowsOutput.map(_.earningsOverUEL).sum
+
+  lazy val nicsOnTotalEarningsAboveUel = (nonCOAdditionalRate * totalEarningsAboveUel).roundNi
+
+  lazy val annualMax = nicsOnMaxMainContributionEarnings.value + nicsOnExcessEarnings + nicsOnTotalEarningsAboveUel
+
+  lazy val liability = rowsOutput.map(_.nicsNonCO).sum
+
+  lazy val difference = annualMax -liability
+
+  lazy val ifNotUD = rowsOutput.map(_.ifNotUD).sum
 
 
   private def nonCONicsWithoutRebates(row: UnofficialDefermentRowInput, earningsAboveUEL: BigDecimal) = {
@@ -271,18 +292,16 @@ case class UnofficialDefermentResult(taxYear: Int,
       // use the non-contracted out rates
       val nonCOMainRate = getBandRates(band).getOrElse('A', Zero)
 
-      (nonCOMainRate * amount) gives
+      (nonCOMainRate * amount).roundNi gives
         s"non-contracted out rate x earnings in $band = $nonCOMainRate x $amount"
     }
       .filterNot(_.value < Zero)
       .sequence
 
-    val nonCOAdditionalRate =
-      getBandRates(AboveUEL).getOrElse('A', sys.error("Could not find additional rate for category A"))
 
     for{
       belowUel <- nicsBelowUel
-      aboveUel <- (nonCOAdditionalRate * earningsAboveUEL) gives
+      aboveUel <- (nonCOAdditionalRate * earningsAboveUEL).roundNi gives
         s"non-contracted out rate x earnings above UEL = $nonCOAdditionalRate + $earningsAboveUEL"
       total <- (belowUel.sum + aboveUel) gives
         "NICs non-CO = sum of NICs using non-CO rate"
@@ -301,7 +320,7 @@ case class UnofficialDefermentResult(taxYear: Int,
           .getOrElse(sys.error("Could not find earnings between LEL and ET"))
         val lelToEtRate =
           getBandRates(LELToET).getOrElse(row.category, Zero)
-        (row.employeeNICs + lelToEtAmount * lelToEtRate) gives
+        (row.employeeNICs + lelToEtAmount * lelToEtRate).roundNi gives
           "NICs non-CO = employee NICS + earnings in ET-LEL x ET-LEL rebate rate =" +
             s"${row.employeeNICs} + $lelToEtAmount x $lelToEtRate"
 
