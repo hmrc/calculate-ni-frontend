@@ -16,12 +16,7 @@
 
 package eoi
 
-import cats.Id
-import cats.data.WriterT
 import cats.instances.vector._
-import cats.instances.list._
-import cats.syntax.applicative._
-import cats.syntax.traverse._
 import eoi.Class1Band.{LELToET, _}
 import eoi.Class1BandLimit._
 
@@ -183,17 +178,11 @@ case class UnofficialDefermentResult(taxYear: Int,
       }.sum
 
 
-    val nicsBelowUel: Explained[BigDecimal] =
+    val nicsBelowUel: BigDecimal =
       row.bandAmounts.map { case BandAmount(band, amount) =>
         val rate = getBandRates(band).getOrElse(row.category, Zero)
-        (rate * amount).roundNi gives
-          s"row ${row.id} cat ${row.category}: NICs on band $band = rate x bandAmount = $rate x $amount"
-      }
-        .sequence
-        .flatMap(
-          _.sum gives
-            s"row ${row.id}: total NICs below UEL"
-        )
+        (rate * amount).roundNi
+      }.sum
 
 
     val rateAboveUel =
@@ -203,19 +192,15 @@ case class UnofficialDefermentResult(taxYear: Int,
       )
 
     val earningsAboveUEL =
-      nicsBelowUel.flatMap{ n =>
-        Zero.max(((row.employeeNICs - n)/rateAboveUel).roundNi) gives
-          s"row ${row.id}: earnings above UEL = max(0, (employee NICS - NICs below UEL)/(rate above UEL)) = " +
-            s"max(0, (${row.employeeNICs} - $n)/$rateAboveUel)"
-      }
+      Zero.max(((row.employeeNICs - nicsBelowUel)/rateAboveUel).roundNi)
 
     UnofficialDefermentRowOutput(
       row.id,
-      row.bandAmounts.map(_.amount).sum + earningsAboveUEL.value,
+      row.bandAmounts.map(_.amount).sum + earningsAboveUEL,
       earningsInMainContributionBand,
-      earningsAboveUEL.value,
-      calculateNICSNonCo(row, earningsAboveUEL.value).value,
-      calculateIfNotUD(row, earningsAboveUEL.value).value
+      earningsAboveUEL,
+      calculateNICSNonCo(row, earningsAboveUEL),
+      calculateIfNotUD(row, earningsAboveUEL)
     )
   }
 
@@ -288,24 +273,16 @@ case class UnofficialDefermentResult(taxYear: Int,
 
 
   private def nonCONicsWithoutRebates(row: UnofficialDefermentRowInput, earningsAboveUEL: BigDecimal) = {
-    val nicsBelowUel: Explained[List[BigDecimal]] = row.bandAmounts.map { case BandAmount(band, amount) =>
+    val nicsBelowUel: List[BigDecimal] = row.bandAmounts.map { case BandAmount(band, amount) =>
       // use the non-contracted out rates
       val nonCOMainRate = getBandRates(band).getOrElse('A', Zero)
 
-      (nonCOMainRate * amount).roundNi gives
-        s"non-contracted out rate x earnings in $band = $nonCOMainRate x $amount"
+      (nonCOMainRate * amount).roundNi
     }
-      .filterNot(_.value < Zero)
-      .sequence
+      .filterNot(_ < Zero)
 
-
-    for{
-      belowUel <- nicsBelowUel
-      aboveUel <- (nonCOAdditionalRate * earningsAboveUEL).roundNi gives
-        s"non-contracted out rate x earnings above UEL = $nonCOAdditionalRate + $earningsAboveUEL"
-      total <- (belowUel.sum + aboveUel) gives
-        "NICs non-CO = sum of NICs using non-CO rate"
-    } yield total
+    val nicsAboveUel = (nonCOAdditionalRate * earningsAboveUEL).roundNi
+    nicsBelowUel.sum + nicsAboveUel
   }
 
   private def calculateNICSNonCo(row: UnofficialDefermentRowInput, earningsAboveUEL: BigDecimal) = {
@@ -320,24 +297,17 @@ case class UnofficialDefermentResult(taxYear: Int,
           .getOrElse(sys.error("Could not find earnings between LEL and ET"))
         val lelToEtRate =
           getBandRates(LELToET).getOrElse(row.category, Zero)
-        (row.employeeNICs + lelToEtAmount * lelToEtRate).roundNi gives
-          "NICs non-CO = employee NICS + earnings in ET-LEL x ET-LEL rebate rate =" +
-            s"${row.employeeNICs} + $lelToEtAmount x $lelToEtRate"
+        (row.employeeNICs + lelToEtAmount * lelToEtRate).roundNi
 
 
       case _ =>
-        row.employeeNICs.pure[Explained]
+        row.employeeNICs
     }
   }
 
   private def calculateIfNotUD(row: UnofficialDefermentRowInput, earningsAboveUEL: BigDecimal) = row.category match {
-    case 'J' | 'L' | 'S' | 'Z' =>
-      nonCONicsWithoutRebates(row, earningsAboveUEL).flatMap( n =>
-        (n - row.employeeNICs) gives s"$n - employee NICs = $n - ${row.employeeNICs}"
-      )
-
-    case _ =>
-      Zero.pure[Explained]
+    case 'J' | 'L' | 'S' | 'Z' => nonCONicsWithoutRebates(row, earningsAboveUEL) - row.employeeNICs
+    case _ => Zero
   }
 
 
