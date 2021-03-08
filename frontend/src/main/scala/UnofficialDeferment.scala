@@ -142,17 +142,6 @@ object UnofficialDeferment {
   }
 
 
-
-  def class1bandLimitFromLabel(label: String, amount: Double) = label match {
-    case "Lower earning limit"         => LEL(amount)
-    case "Primary threshold"           => PT(amount)
-    case "Earning threshold"           => ET(amount)
-    case "Upper accrual point"         => UAP(amount)
-    case "Upper earning limit"         => UEL(amount)
-    case other                         => sys.error(s"Could not understand label $other")
-  }
-
-
 }
 
 
