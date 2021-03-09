@@ -65,23 +65,7 @@ object Date{
 
 case class FileTracker(name: String, position: Int)
 
-trait SpreadsheetTest extends AnyFunSpec with Matchers {
-
-  val config: Configuration = eoi.ConfigLoader.default
-
-  def csvsInDir(dir: String): List[File] = csvsInDir(new File(dir))
-
-  def csvsInDir(dir: File): List[File] =
-    dir.listFiles().filter(_.getName().endsWith(".csv")).toList
-
-  def files: List[File]
-  def reportFileName: Option[String] = None
-
-  val reportDir = {
-    val d = new File("target/testing-reports")
-    if (!d.exists) d.mkdirs
-    d
-  }
+trait ExplainTestSupport extends Matchers {
 
   implicit class RichExplained[A](in: Explained[A]) {
     def equalOrExplain(expected: A): compatible.Assertion = {
@@ -97,6 +81,26 @@ trait SpreadsheetTest extends AnyFunSpec with Matchers {
         in.written.toList.dedupPreserveOrder.map("\n  " + _).mkString
       )
     }
+  }
+
+}
+
+trait SpreadsheetTest extends AnyFunSpec with Matchers with ExplainTestSupport {
+
+  val config: Configuration = eoi.ConfigLoader.default
+
+  def csvsInDir(dir: String): List[File] = csvsInDir(new File(dir))
+
+  def csvsInDir(dir: File): List[File] =
+    dir.listFiles().filter(_.getName().endsWith(".csv")).toList
+
+  def files: List[File]
+  def reportFileName: Option[String] = None
+
+  val reportDir = {
+    val d = new File("target/testing-reports")
+    if (!d.exists) d.mkdirs
+    d
   }
 
   def lineTest(in: Map[String, String]): Unit

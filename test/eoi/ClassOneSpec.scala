@@ -16,118 +16,77 @@
 
 package eoi
 
-import org.scalatest.matchers.should.Matchers
 import com.github.tototoshi.csv._
 import org.scalatest._
-import org.scalatest.funspec.AnyFunSpec
-
 import java.time.LocalDate
 import java.io._
 
-class ClassOneSpec extends AnyFunSpec with Matchers {
+class ClassOneSpec extends FunSpec with ExplainTestSupport {
 
   val config: Configuration = eoi.ConfigLoader.default
 
   val files = {
     val dir = new File("calc/src/test/resources/testing-tables")
     dir.listFiles().filter(_.getName().endsWith(".csv"))
-}
+  }
 
-  val reportDir = {
-    val d = new File("target/testing-reports")
-    if (!d.exists) d.mkdirs
-    d
+  def parsePeriod(in: String): Period.Period = in match {
+    case "M" => Period.Month
+    case "W" => Period.Week
+    case "4W" => Period.FourWeek
+    case "Y" => Period.Year
   }
 
   describe("Access Application compatibility") {
 
-    files.foreach { file =>
-      describe(file.getName()) {
+    files foreach { file =>
+      it(file.toString) {
         val reader = CSVReader.open(file)
-        val lines = reader.all.zipWithIndex.drop(1).filterNot(_._1.mkString.startsWith("#"))
+        val lines = reader.all.zipWithIndex
 
-        val reportFile = {
-          val f = new File(reportDir, file.getName)
-          if (f.exists) f.delete
-          f
-        }
-
-        val writer = new BufferedWriter(new FileWriter(reportFile))
-
-        def writeln(in: String = ""): Unit = {
-          writer.write(in)
-          writer.write(System.lineSeparator())
-        }
-
-        val (pass, fail) = lines.foldLeft((0,0)){ case ((passAcc,failAcc),(line, indexMinus)) =>
-
-          line.map(_.trim) match { 
-            case (Int(year)::PeriodParse(period)::Int(periodNumber)::categoryS::Money(grossPay)::Money(expectedEmployee)::Money(expectedEmployer)::xs) =>
-
-              // val statusString = s"${file.getName}:${indexMinus + 1}"
-
-              // val comments = xs.mkString(",")
-              val category = categoryS(0)
-              val res = config.calculateClassOne(
-                LocalDate.of(year, 10, 1),
-                ClassOneRowInput(
-                  "row1", 
-                  grossPay,
-                  category,
-                  period,
-                  periodNumber
-                ) :: Nil
-              )
-
-              val employee = res.employeeContributions.value
-              val employer = res.employerContributions.value              
-              if (employee != expectedEmployee || employer != expectedEmployer) {
-
-//                val director = comments.contains("director")
-//                writeln(statusString)
-//                writeln(statusString.map{_ => '='})
-//                writeln()
-//                writeln("  " + line.mkString(","))
-
-
-                if (expectedEmployee != employee) {
-                  val error = expectedEmployee - employee
-                  writeln(s"  Employee expected: $expectedEmployee, actual: $employee ($error)")
-                  writeln()
-                  writeln(res.employeeContributions.explain.map("  " + _).mkString("\n"))
-                  writeln()
-                }
-
-                if (expectedEmployer != employer) {
-                  val error = expectedEmployer - employer
-                  writeln(s"  Employer expected: $expectedEmployer, actual: $employer ($error)")
-                  writeln()                  
-                  writeln(res.employerContributions.explain.map("  " + _).mkString("\n"))
-                  writeln()
-                }
-                (passAcc, failAcc+1)
-              } else {
-                (passAcc+1, failAcc)
+        lines foreach { 
+          case (line, indexMinus) =>
+            val csvLine: String = {
+              val quoted = line map {
+                case x if x.contains(",") => s"""\"$x\""""
+                case y => y
               }
+              quoted.mkString(",")
+            }
 
-              // val director = comments.contains("director")
-              // val statusString = s"Year:$year,COSR:$cosr:Period:$periodS/$periodNumber,Director:$director"
-              // it(s"${file.getName}:${indexMinus + 1} employee's NI [$statusString]") {
-              //   employee should be (BigDecimal(expectedEmployeeS) /* +- 0.02 */)
-              // }
-              // it(s"${file.getName}:${indexMinus + 1} employer's NI [$statusString]") {
-              //   employer should be (BigDecimal(expectedEmployerS) /* +- 0.02 */)
-              // }
-            case _ => (passAcc, failAcc)
-          }
+            line.map(_.trim) match {
+              case (Int(year)::PeriodParse(period)::Int(periodNumber)::categoryS::Money(grossPay)::Money(expectedEmployee)::Money(expectedEmployer)::xs) =>
+                val statusString = s"${file.getName}:${indexMinus + 1}"
+                val comments = xs.mkString(",")
+                val cosr = comments.contains("COSR")
+                val category = categoryS(0)
+                val res = config.calculateClassOne(
+                  LocalDate.of(year, 10, 1),
+                  ClassOneRowInput(
+                    "row1",
+                    grossPay,
+                    category,
+                    period,
+                    periodNumber
+                  ) :: Nil
+                )
+
+                assert(
+                  res.employeeContributions.value === expectedEmployee +- 0.02,
+                  s"\n  $file:${indexMinus + 1}" +
+                    res.employeeContributions.written.toList.distinct.map("\n  " + _).mkString
+                )
+
+                assert(
+                  res.employerContributions.value === expectedEmployer +- 0.02,
+                  s"\n  $file:${indexMinus + 1}" +
+                    res.employerContributions.written.toList.distinct.map("\n  " + _).mkString
+                )
+                
+              case _ =>
+            }
         }
-
-        val total = pass + fail
-        writeln(f"pass: $pass (${pass * 100/ total}%%)")
-        writeln(f"fail: $fail (${fail * 100 / total}%%)")        
-
         reader.close()
-        writer.close()
       }
     }
   }  
