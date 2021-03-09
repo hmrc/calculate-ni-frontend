@@ -17,7 +17,11 @@ import UnofficialDefermentPrint from "./UnofficialDefermentPrint";
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
 import {SuccessNotification} from "../shared/SuccessNotification";
 import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
-import {UnofficialDefermentRow} from "../../../calculation";
+import {
+    RequestBand as RequestBandClass,
+    UserDefinedBand,
+    UnofficialDefermentRow
+} from "../../../calculation";
 
 const pageTitle = 'Class 1 NI contributions an employer owes due to unofficial deferment'
 
@@ -74,16 +78,26 @@ function UnofficialDefermentPage() {
                 row.nameOfEmployer,
                 row.category,
                 row.bands.reduce((requestBands: RequestBand[], next: BandAmount) => {
-                    requestBands.push({
-                        label: next.label,
-                        amount: next.amount ? parseInt(next.amount) : 0
-                    })
+                    const band = new (RequestBandClass as any)(
+                      next.label,
+                      next.amount ? parseFloat(next.amount) : 0
+                    )
+                    requestBands.push(band)
                     return requestBands
                 }, [] as RequestBand[]),
-                parseFloat(row.employeeNICs)
+                parseFloat(row.employeeNICs || '0')
               ))
 
-            setResults(UnofficialDefermentCalculator.calculate(taxYear, requestRows, userBands))
+            const userDefinedBands = userBands.reduce((bands: RequestBand[], next: BandAmount) => {
+                const userDefinedBand = new(UserDefinedBand as any)(
+                  next.label,
+                  next.amount ? parseFloat(next.amount) : 0
+                )
+                bands.push(userDefinedBand)
+                return bands
+            }, [] as RequestBand[])
+
+            setResults(UnofficialDefermentCalculator.calculate(taxYear, requestRows, userDefinedBands))
             if (showSummaryIfValid) {
                 setShowSummary(true)
             }
