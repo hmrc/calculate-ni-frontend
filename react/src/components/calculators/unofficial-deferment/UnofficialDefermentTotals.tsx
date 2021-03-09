@@ -3,12 +3,15 @@ import {UnofficialDefermentContext} from "./UnofficialDefermentContext";
 import {hasKeys, sterlingStringValue} from "../../../services/utils";
 
 
-export default function UnofficialDefermentTotals() {
+export default function UnofficialDefermentTotals(props: {isSaveAndPrint: boolean}) {
+  const { isSaveAndPrint } = props
   const {
     results
   } = useContext(UnofficialDefermentContext)
   return (
-    <div id="results-totals" className="section--top section-outer--top section--bottom section-outer--bottom divider--bottom results print-totals-inline">
+    <div id="results-totals"
+         className={`${isSaveAndPrint ? `save-print-wrapper ` : ``}section--top section-outer--top section--bottom section-outer--bottom divider--bottom results print-totals-inline`}
+    >
       <h2 className="section-heading">Totals</h2>
 
       <div className="container section--top column">
