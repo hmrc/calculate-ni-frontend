@@ -23,7 +23,6 @@ export default function UnofficialDefermentPrint(props: SavePrintBaseProps) {
             <UnofficialDefermentTable printView={true} />
           </div>
         </div>
-        <UnofficialDefermentTotals />
       </div>
     </div>
   )

@@ -22,6 +22,7 @@ import {
     UserDefinedBand,
     UnofficialDefermentRow
 } from "../../../calculation";
+import PrintButtons from "../shared/PrintButtons";
 
 const pageTitle = 'Class 1 NI contributions an employer owes due to unofficial deferment'
 
@@ -154,21 +155,17 @@ function UnofficialDefermentPage() {
                 <form onSubmit={handleSubmit} noValidate>
                     <UnofficialDefermentForm resetTotals={resetTotals} />
                 </form>
-
-                <div tabIndex={-1} className="no-focus-outline" ref={totalsRef}>
-                    <UnofficialDefermentTotals />
-                </div>
-
-                <div className="container section--top">
-                    <div className="form-group">
-                        <SecondaryButton
-                          label="Save and print"
-                          onClick={handleShowSummary}
-                        />
-                    </div>
-                </div>
             </>
           }
+
+          <div tabIndex={-1} className="no-focus-outline" ref={totalsRef}>
+              <UnofficialDefermentTotals isSaveAndPrint={showSummary} />
+          </div>
+
+          <PrintButtons
+            showSummary={showSummary}
+            handleShowSummary={handleShowSummary}
+          />
       </div>
     )
 }
