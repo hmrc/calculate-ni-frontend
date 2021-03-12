@@ -26,7 +26,7 @@ function CategoryTotals(props: {
     currencyAmount && numeral(currencyAmount.toString()).format('$0,0.00')
   return (
     <div className="category-totals">
-      <table>
+      <table className="contribution-details">
         <caption>Category Totals</caption>
         <thead>
           <tr className="clear">
@@ -85,7 +85,7 @@ function CategoryTotals(props: {
             </tr>
           ))}
           <tr className="total-row">
-            <th className="totals-row-header"><strong>Totals</strong></th>
+            <th scope="row" className="totals-row-header"><strong>Totals</strong></th>
             <MqTableCell cellStyle={thStyles.grossPay}>
               <strong>{formatCurrencyAmount(result?.totals.gross)}</strong>
             </MqTableCell>
