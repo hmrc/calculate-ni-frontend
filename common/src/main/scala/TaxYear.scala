@@ -48,6 +48,15 @@ case class TaxYear(startingYear: Int) extends AnyVal {
 
 object TaxYear {
 
+  // TODO Property test - ∀ d, apply(d).start ≤ d
+  // TODO Property test - ∀ d, apply(d).end ≥ d  
+  def apply(in: LocalDate): TaxYear = {
+    if (in.getMonthValue > 4 || (in.getMonthValue == 4 && in.getDayOfMonth >= 6))
+      TaxYear(in.getYear)
+    else
+      TaxYear(in.getYear - 1)
+  }
+
   def unapply(in: String): Option[TaxYear] = {
     import cats.implicits._
 

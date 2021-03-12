@@ -203,6 +203,24 @@ package object eoi {
           .setScale(0, rounding).toInt
       )
     }
+
+    def numberOfDays: Option[Int] = {
+      val startDate = inner.lowerBound match {
+        case Open(a) => a.plusDays(1).some
+        case Closed(a) => a.some
+        case _ => None
+      }
+
+      val endDate = inner.upperBound match {
+        case Open(a) => a.some
+        case Closed(a) => a.plusDays(1).some
+        case _ => None
+      }
+
+      (startDate, endDate) mapN ( (s,e) =>
+        (e.toEpochDay() - s.toEpochDay()).toInt
+      )
+    }
   }
 
   type Explained[A] = cats.data.Writer[Vector[String], A]

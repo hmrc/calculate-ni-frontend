@@ -118,7 +118,9 @@ case class Configuration(
   classOneAB: Map[Interval[LocalDate], BigDecimal],
   classTwo: Map[Interval[LocalDate], ClassTwo],
   classThree: Map[Interval[LocalDate], ClassThree],
-  classFour: Map[Interval[LocalDate], ClassFour]
+  classFour: Map[Interval[LocalDate], ClassFour],
+  interestOnLatePayment: Map[Interval[LocalDate], BigDecimal],
+  interestOnRepayment: Map[Interval[LocalDate], BigDecimal]
 ) {
 
   def proRataRatio(from: LocalDate, to: LocalDate): Option[BigDecimal] = {
@@ -327,5 +329,29 @@ case class Configuration(
 
     year -> bandLimits
   }.toMap
+
+  def calculateInterestOnLatePayment(
+    amount: BigDecimal,
+    taxYear: TaxYear,
+    to: LocalDate = LocalDate.now
+  ) = InterestResult(
+    interestOnLatePayment,
+    taxYear,
+    to,
+    amount,
+    366
+  )
+
+  def calculateInterestOnRepayment(
+    amount: BigDecimal,
+    taxYear: TaxYear,
+    to: LocalDate = LocalDate.now
+  ) = InterestResult(
+    interestOnRepayment,
+    taxYear,
+    to,
+    amount,
+    365
+  )
 
 }
