@@ -517,21 +517,36 @@ and also iPads specifically.
   }
 }
 
-
-
-.save-print-wrapper {
-  table {
-    &.contribution-details {
-      th {
-        &.category-col {
-          width: 125px;
+#root {
+  .save-print-wrapper {
+    table {
+      &.contribution-details {
+        tbody td:nth-of-type(odd),
+        thead th:nth-of-type(odd):not(.border){
+          background:rgba(230,230,230,0.2);
+        }
+        th {
+          max-width: 70px;
+          &.column-toggle {
+            width: 85px;
+          }
+          &.category-col {
+            width: 40px;
+          }
+          &.gross-pay {
+            width: 64px;
+          }
+          &.notes {
+            width: 50px;
+          }
         }
       }
     }
   }
+
+  #save-print-wrapper th {
+    height: 30px;
+    line-height: 30px;
+  }
 }
 
-#save-print-wrapper th {
-  height: 30px;
-  line-height: 30px;
-}

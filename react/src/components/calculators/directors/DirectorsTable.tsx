@@ -37,7 +37,7 @@ function DirectorsTable(props: TableProps) {
         </tr>
         <tr>
           <th scope="col">#<span className="govuk-visually-hidden"> Row number</span></th>
-          <th scope="col"><strong>{printView ? '' : 'Select '}NI category letter</strong></th>
+          <th scope="col" className="category-col"><strong>{printView ? 'Cat' : 'Select NI category'}</strong></th>
           <th scope="col"><strong>{printView ? 'Gross pay' : 'Enter gross pay'}</strong></th>
           {displayBands && firstBands.map(k =>
             <th key={k.name}>{k.name}</th>
