@@ -527,6 +527,8 @@ and also iPads specifically.
         }
         th {
           max-width: 70px;
+          text-overflow: ellipsis;
+          overflow: hidden;
           &.column-toggle {
             width: 85px;
           }
