@@ -13,8 +13,7 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
 
   def calculate(
      taxYear: Int,
-     rows: js.Array[UnofficialDefermentRow],
-     userDefinedBandLimits: js.Array[UserDefinedBand]
+     rows: js.Array[UnofficialDefermentRow]
   ) = {
     val result = UnofficialDefermentResult(
       taxYear,
@@ -32,9 +31,6 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
           ),
           r.employeeNICs
         )
-      ),
-      userDefinedBandLimits.toList.map( l =>
-        labelToClass1BandLimit(l.label, l.limit).getOrElse(sys.error(s"Unknown class 1 band limit: ${l.label}"))
       )
     )
 

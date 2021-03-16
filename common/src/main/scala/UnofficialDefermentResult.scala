@@ -160,8 +160,7 @@ case class UnofficialDefermentRowOutput(
 
 case class UnofficialDefermentResult(taxYear: Int,
                                      config: TaxYearBandLimits,
-                                     rows: List[UnofficialDefermentRowInput],
-                                     userDefinedBandLimits: List[Class1BandLimit]){
+                                     rows: List[UnofficialDefermentRowInput]){
 
 
   def getBandRates(b: Class1Band) =
@@ -205,26 +204,24 @@ case class UnofficialDefermentResult(taxYear: Int,
   }
 
   lazy val maxMainContributionEarnings: Explained[BigDecimal] = {
-    def findUserDefinedBandLimit[B <: Class1BandLimit : ClassTag] =
-      userDefinedBandLimits.collectFirst{ case b: B => b }.getOrElse(sys.error(s"Could not find ${classTag[B].runtimeClass.getSimpleName}")).value
 
     config match {
-      case _: TaxYearBandLimits.AfterOrOn2003 =>
-        val et = findUserDefinedBandLimit[ET]
-        val uel = findUserDefinedBandLimit[UEL]
+      case a03: TaxYearBandLimits.AfterOrOn2003 =>
+        val et = a03.bandLimits(1).value
+        val uel = a03.bandLimits(2).value
         53*(uel - et) gives
           s"(UEL - ET) x 53 weeks = ($uel - $et) x 53"
 
-      case _ : TaxYearBandLimits.AfterOrOn2009 =>
-        val pt = findUserDefinedBandLimit[PT]
-        val uap = findUserDefinedBandLimit[UAP]
-        val uel = findUserDefinedBandLimit[UEL]
+      case a09: TaxYearBandLimits.AfterOrOn2009 =>
+        val pt = a09.bandLimits(1).value
+        val uap = a09.bandLimits(2).value
+        val uel = a09.bandLimits(3).value
         53*((uel - uap)+(uap-pt) ) gives
           s"((UEL - UAP) + (UAP - PT)) x 53 weeks = (($uel - $uap) + ($uap - $pt)) x 53"
 
-      case _: TaxYearBandLimits.AfterOrOn2016 =>
-        val pt = findUserDefinedBandLimit[PT]
-        val uel = findUserDefinedBandLimit[UEL]
+      case a16: TaxYearBandLimits.AfterOrOn2016 =>
+        val pt = a16.bandLimits(1).value
+        val uel = a16.bandLimits(2).value
         53*(uel - pt) gives
           s"(UEL - PT) x 53 weeks  = ($uel - $pt) x 53"
     }
