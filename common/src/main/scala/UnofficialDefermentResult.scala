@@ -57,93 +57,33 @@ object Class1BandLimit {
   case class ET(value: BigDecimal) extends Class1BandLimit
   case class UAP(value: BigDecimal) extends Class1BandLimit
   case class UEL(value: BigDecimal) extends Class1BandLimit
+
+  def fromTuple(in: (String, BigDecimal)): Option[Class1BandLimit] = in match {
+    case ("LEL",v) => Some(LEL(v))
+    case ("PT",v) => Some(PT(v))
+    case ("ET",v) => Some(ET(v))
+    case ("UAP",v) => Some(UAP(v))
+    case ("UEL",v) => Some(UEL(v))
+    case (_, _) => None
+  }
 }
 
-
-sealed trait TaxYearBandLimits {
-  val bands: List[Class1Band]
-  val bandLimits: List[Class1BandLimit]
-  val rates: Map[Class1Band, Map[Char, BigDecimal]]
+case class TaxYearBandLimits(
+  limits: Map[String, BigDecimal],
+  rates: Map[Class1Band, Map[Char, BigDecimal]]
+)  {
+  val bandLimits: List[eoi.Class1BandLimit] = limits.toList map { 
+    case ("LEL",v) => LEL(v)
+    case ("PT",v) => PT(v)
+    case ("ET",v) => ET(v)
+    case ("UAP",v) => UAP(v)
+    case ("UEL",v) => UEL(v)
+    case (err, _) => sys.error(s"$err is not a known Class1BandLimit")
+  }
+  val bands: List[eoi.Class1Band] = rates.keys.toList
 }
-
-object TaxYearBandLimits {
-
-  case class AfterOrOn2003(
-    lel: LEL,
-    et: ET,
-    uel: UEL,
-    rates: Map[Class1Band, Map[Char, BigDecimal]]
-  ) extends TaxYearBandLimits {
-
-    val bands: List[Class1Band] =
-      List(
-        BelowLEL,
-        LELToET,
-        ETToUEL
-      )
-
-    val bandLimits = List(lel, et, uel)
-  }
-
-
-  case class AfterOrOn2009(
-    lel: LEL,
-    pt: PT,
-    uap: UAP,
-    uel: UEL,
-    rates: Map[Class1Band, Map[Char, BigDecimal]]
-  )  extends TaxYearBandLimits {
-    val bands: List[Class1Band] =
-      List(
-        BelowLEL,
-        LELToPT,
-        PTToUAP,
-        UAPToUEL
-      )
-
-    val bandLimits = List(lel, pt, uap, uel)
-  }
-
-  case class AfterOrOn2016(
-    lel: LEL,
-    pt: PT,
-    uel: UEL,
-    rates: Map[Class1Band, Map[Char, BigDecimal]]
-  ) extends TaxYearBandLimits {
-    val bands: List[Class1Band] =
-      List(
-        BelowLEL,
-        LELToPT,
-        PTToUEL
-      )
-
-    val bandLimits = List(lel, pt, uel)
-  }
-
-  case class GenericBandLimits(
-    limits: Map[String, BigDecimal],
-    rates: Map[Class1Band, Map[Char, BigDecimal]]
-  ) extends TaxYearBandLimits {
-
-    val bandLimits: List[eoi.Class1BandLimit] = limits.toList map {
-      case ("LEL",v) => LEL(v)
-      case ("PT",v) => PT(v)
-      case ("ET",v) => ET(v)
-      case ("UAP",v) => UAP(v)
-      case ("UEL",v) => UEL(v)
-      case (err, _) => sys.error(s"$err is not a known Class1BandLimit")
-    }
-    val bands: List[eoi.Class1Band] = rates.keys.toList
-
-  }
-
-}
-
 
 case class BandAmount(band: Class1Band, amount: BigDecimal)
-
-
-
 
 case class UnofficialDefermentRowInput(
   id: String,
@@ -212,45 +152,23 @@ case class UnofficialDefermentResult(
     def findUserDefinedBandLimit[B <: Class1BandLimit : ClassTag] =
       userDefinedBandLimits.collectFirst{ case b: B => b }.getOrElse(sys.error(s"Could not find ${classTag[B].runtimeClass.getSimpleName}")).value
 
-    config match {
-      case _: TaxYearBandLimits.AfterOrOn2003 =>
-        val et = findUserDefinedBandLimit[ET]
-        val uel = findUserDefinedBandLimit[UEL]
-        53*(uel - et) gives
-          s"(UEL - ET) x 53 weeks = ($uel - $et) x 53"
-
-      case _ : TaxYearBandLimits.AfterOrOn2009 =>
-        val pt = findUserDefinedBandLimit[PT]
-        val uap = findUserDefinedBandLimit[UAP]
-        val uel = findUserDefinedBandLimit[UEL]
-        53*((uel - uap)+(uap-pt) ) gives
-          s"((UEL - UAP) + (UAP - PT)) x 53 weeks = (($uel - $uap) + ($uap - $pt)) x 53"
-
-      case _: TaxYearBandLimits.AfterOrOn2016 =>
+    taxYear match {
+      case late if late >= 2016 =>
         val pt = findUserDefinedBandLimit[PT]
         val uel = findUserDefinedBandLimit[UEL]
         53*(uel - pt) gives
         s"(UEL - PT) x 53 weeks  = ($uel - $pt) x 53"
-
-      case _: TaxYearBandLimits.GenericBandLimits =>
-        taxYear match {
-          case late if late >= 2016 =>
-            val pt = findUserDefinedBandLimit[PT]
-            val uel = findUserDefinedBandLimit[UEL]
-            53*(uel - pt) gives
-            s"(UEL - PT) x 53 weeks  = ($uel - $pt) x 53"
-          case mid if mid >= 2009 =>
-            val pt = findUserDefinedBandLimit[PT]
-            val uap = findUserDefinedBandLimit[UAP]
-            val uel = findUserDefinedBandLimit[UEL]
-            53*((uel - uap)+(uap-pt) ) gives
-            s"((UEL - UAP) + (UAP - PT)) x 53 weeks = (($uel - $uap) + ($uap - $pt)) x 53"
-          case early =>
-            val et = findUserDefinedBandLimit[ET]
-            val uel = findUserDefinedBandLimit[UEL]
-            53*(uel - et) gives
-            s"(UEL - ET) x 53 weeks = ($uel - $et) x 53"
-        }
+      case mid if mid >= 2009 =>
+        val pt = findUserDefinedBandLimit[PT]
+        val uap = findUserDefinedBandLimit[UAP]
+        val uel = findUserDefinedBandLimit[UEL]
+        53*((uel - uap)+(uap-pt) ) gives
+        s"((UEL - UAP) + (UAP - PT)) x 53 weeks = (($uel - $uap) + ($uap - $pt)) x 53"
+      case early =>
+        val et = findUserDefinedBandLimit[ET]
+        val uel = findUserDefinedBandLimit[UEL]
+        53*(uel - et) gives
+        s"(UEL - ET) x 53 weeks = ($uel - $et) x 53"
     }
   }
 
@@ -258,26 +176,13 @@ case class UnofficialDefermentResult(
     def getRate(rates: Map[Char, BigDecimal]) =
       rates.get('A').getOrElse(sys.error(s"Could not find rate for category `A` for tax year $taxYear"))
 
-
-    config match {
-      case _: TaxYearBandLimits.AfterOrOn2003 =>
-        getRate(getBandRates(ETToUEL))
-
-      case _: TaxYearBandLimits.AfterOrOn2009 =>
-        getRate(getBandRates(PTToUAP))
-
-      case _: TaxYearBandLimits.AfterOrOn2016 =>
-        getRate(getBandRates(PTToUEL))
-
-      case _: TaxYearBandLimits.GenericBandLimits =>
-        getRate(getBandRates{
-          taxYear match {
-            case late if late >= 2016 => PTToUEL
-            case mid if mid >= 2009 => PTToUAP
-            case early => ETToUEL
-          }
-        })
-    }
+    getRate(getBandRates{
+      taxYear match {
+        case late if late >= 2016 => PTToUEL
+        case mid if mid >= 2009 => PTToUAP
+        case early => ETToUEL
+      }
+    })
   }
 
   lazy val nicsOnMaxMainContributionEarnings: Explained[BigDecimal] =

@@ -16,9 +16,6 @@
 
 package eoi
 
-import eoi.Class1Band._
-import eoi.Class1BandLimit._
-import eoi.TaxYearBandLimits._
 import main.scala.{DirectorsResult, DirectorsRowInput}
 
 import java.time.LocalDate
@@ -191,98 +188,5 @@ case class Configuration(
           rows,
           userDefinedBandLimits
         )
-
-}
-
-
-object Configuration {
-  // TODO: read config in properly instead of using hard coded values below -
-  //       either read in new config bespoke for unofficial deferments or
-  //       somehow transform existing class 1 config and filter out
-  //       appropriate category letters
-  val unofficialDefermentOld: Map[Int, TaxYearBandLimits] =
-  (2003 to 2020).toList.map{ year =>
-    val bandLimits = if(year >= 2016)     AfterOrOn2016(LEL(112), PT(155), UEL(827),
-        Map(
-          PTToUEL -> Map(
-            'A' -> 0.12,
-            'H' -> 0.12,
-            'J' -> 0.02,
-            'M' -> 0.12,
-            'Z' -> 0.02
-          ),
-          AboveUEL -> Map(
-            'A' -> 0.02,
-            'H' -> 0.02,
-            'J' -> 0.02,
-            'M' -> 0.02,
-            'Z' -> 0.02
-          )
-        )
-      )
-    else if(year >= 2009)
-      AfterOrOn2009(LEL(95), PT(110), UAP(770), UEL(844),
-        Map(
-          PTToUAP -> Map(
-            'A' -> 0.11,
-            'D' -> 0.094,
-            'F' -> 0.094,
-            'J' -> 0.01,
-            'L' -> 0.01,
-            'S' -> 0.01
-          ),
-          UAPToUEL -> Map(
-            'A' -> 0.11,
-            'D' -> 0.11,
-            'F' -> 0.11,
-            'J' -> 0.01,
-            'L' -> 0.01,
-            'S' -> 0.01
-          ),
-          AboveUEL -> Map(
-            'A' -> 0.01,
-            'D' -> 0.01,
-            'F' -> 0.01,
-            'J' -> 0.01,
-            'L' -> 0.01,
-            'S' -> 0.01
-          ),
-          LELToPT -> Map(
-            'D' -> -0.016,
-            'F' -> -0.016,
-            'L' -> -0.016,
-            'S' -> -0.016
-          )
-        )
-      )
-    else
-      AfterOrOn2003(LEL(87), ET(100), UEL(670),
-        Map(
-          ETToUEL -> Map(
-            'A' -> 0.11,
-            'D' -> 0.094,
-            'F' -> 0.094,
-            'J' -> 0.01,
-            'L' -> 0.01,
-            'S' -> 0.01
-          ),
-          AboveUEL -> Map(
-            'A' -> 0.01,
-            'D' -> 0.01,
-            'F' -> 0.01,
-            'J' -> 0.01,
-            'L' -> 0.01,
-            'S' -> 0.01
-          ),
-          LELToET -> Map(
-            'D' -> -0.016,
-            'F' -> -0.016,
-            'L' -> -0.016,
-            'S' -> -0.016
-          )
-        ))
-
-    year -> bandLimits
-  }.toMap
 
 }

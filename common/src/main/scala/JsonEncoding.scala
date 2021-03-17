@@ -40,30 +40,8 @@ object EoiJsonEncoding {
   }
 
   implicit def class1BandKeyDecoder = new KeyDecoder[Class1Band] {
-    import Class1Band._
-    def apply(in: String): Option[Class1Band] = in match {
-      case "BelowLEL" => Some(BelowLEL)
-      case "LELToET" => Some(LELToET)
-      case "LELToPT" => Some(LELToPT)
-      case "PTToUAP" => Some(PTToUAP)
-      case "PTToUEL" => Some(PTToUEL)
-      case "ETToUEL" => Some(ETToUEL)
-      case "UAPToUEL" => Some(UAPToUEL)
-      case "AboveUEL" => Some(AboveUEL)
-      case _ => None
-    }
+    def apply(in: String): Option[Class1Band] = Class1Band.fromString(in)
   }
-
-  implicit def class1BandLimitKeyEncoder = new KeyEncoder[Class1BandLimit] {
-    import Class1BandLimit._
-    def apply(in: Class1BandLimit): String = ???
-  }
-
-  implicit def class1BandLimitKeyDecoder = new KeyDecoder[Class1BandLimit] {
-    import Class1BandLimit._
-    def apply(in: String): Option[Class1BandLimit] = ???
-  }
-
 
   implicit def dateKeyEncoder = new KeyEncoder[LocalDate] {
     def apply(in: LocalDate): String = in.toString()

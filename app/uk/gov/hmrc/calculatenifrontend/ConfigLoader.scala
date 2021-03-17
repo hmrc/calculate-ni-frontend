@@ -94,23 +94,14 @@ object ConfigLoader {
   implicit val dateBDReader = anyMapReader[Interval[LocalDate], BigDecimal]  
   implicit val classFourReader = anyMapReader[Interval[LocalDate], ClassFour]
 
-  implicit val udTaxYearBand = new ConfigReader[TaxYearBandLimits] {
-    implicit val bandLimitBdReader = anyMapReader[Class1BandLimit, BigDecimal]
-
-    implicit val c1BandReader: ConfigReader[Class1Band] = ConfigReader[String].emap { str => 
-      Class1Band.fromString(str) match {
-        case Some(s) => Right(s)
-        case None => Left(CannotConvert(str, "Class1Band", s"$str is not a valid Class1Band"))
-      }
+  implicit val bandLimitBdReader = anyMapReader[Class1BandLimit, BigDecimal]
+  implicit val c1BandReader: ConfigReader[Class1Band] = ConfigReader[String].emap { str => 
+    Class1Band.fromString(str) match {
+      case Some(s) => Right(s)
+      case None => Left(CannotConvert(str, "Class1Band", s"$str is not a valid Class1Band"))
     }
-
-    implicit val ratesBandReader = anyMapReader[Class1Band, Map[Char, BigDecimal]]
-    val subReader = implicitly[ConfigReader[TaxYearBandLimits.GenericBandLimits]]
-
-    def from(cur: ConfigCursor): ConfigReader.Result[TaxYearBandLimits] =
-      subReader.from(cur)
-
   }
+  implicit val ratesBandReader = anyMapReader[Class1Band, Map[Char, BigDecimal]]
   implicit val udReader = anyMapReader[Int, TaxYearBandLimits]      
 
   lazy val get = ConfigSource.default.load[Map[Interval[LocalDate], Map[String, RateDefinition]]] match {
