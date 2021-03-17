@@ -59,7 +59,7 @@ object ConfigLoader {
       })
 
   implicit val taxPeriodReader: ConfigReader[Interval[LocalDate]] = {
-    implicitly[ConfigReader[Int]].map(yearToPeriod).orElse(intervalReader[LocalDate])
+    implicitly[ConfigReader[Int]].map(TaxYear(_).asInterval).orElse(intervalReader[LocalDate])
   }
 
   implicit def intervalReader[A](implicit i: ConfigReader[A], order: Order[A]): ConfigReader[Interval[A]] = {

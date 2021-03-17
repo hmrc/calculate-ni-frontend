@@ -130,11 +130,6 @@ package object eoi {
 
   val Zero = BigDecimal("0")
 
-  def yearToPeriod(in: Int): Interval[LocalDate] = {
-    val start = LocalDate.of(in, 4, 6)
-    Interval.openUpper(start, start plusYears 1 minusDays 1)
-  }
-
   implicit class RichInterval[A](in: Interval[A]) {
     def lowerValue: Option[A] = in.lowerBound match {
       case Open(a) => Some(a)
