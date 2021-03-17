@@ -115,55 +115,11 @@ case class Configuration(
    'X' -> "Exempt"
   ),
   classOne: Map[Interval[LocalDate], Map[String, RateDefinition]],
-  classOneAB: Map[Interval[LocalDate], BigDecimal],
   classTwo: Map[Interval[LocalDate], ClassTwo],
   classThree: Map[Interval[LocalDate], ClassThree],
-  classFour: Map[Interval[LocalDate], ClassFour]
+  classFour: Map[Interval[LocalDate], ClassFour],
+  unofficialDeferment: Map[Int, TaxYearBandLimits]
 ) {
-
-  def proRataRatio(from: LocalDate, to: LocalDate): Option[BigDecimal] = {
-    import spire.math.interval._
-
-    def fromBound[A](in: Bound[A]): Option[A] = in match {
-      case Open(a) => Some(a)
-      case Closed(a) => Some(a)
-      case _ => None
-    }
-
-    def intervalSizeDays(in: Interval[LocalDate]): Option[BigDecimal] = for {
-      l <- fromBound(in.lowerBound)
-      h <- fromBound(in.upperBound)
-    } yield BigDecimal(h.toEpochDay - l.toEpochDay)
-
-    for {
-      taxYear <- classOne.keys.find(_.contains(from))
-      total <- intervalSizeDays(taxYear)
-      partial <- intervalSizeDays(Interval.closed(from, to))
-    } yield (partial / total)
-  }
-
-  def calculateClassOneAAndB(
-    on: LocalDate,
-    amount: BigDecimal
-  ): Option[BigDecimal] = classOneAB.at(on).map(amount * _)
-
-  def calculateClassThree(
-    on: LocalDate,
-    numberOfWeeks: Int
-  ): Option[BigDecimal] = ??? // classThree.at(on).map(_ * numberOfWeeks)
-
-  def calculateClassFour(
-    on: LocalDate,
-    amount: BigDecimal
-  ): Option[(BigDecimal,BigDecimal)] =
-    classFour.at(on).map{ f =>
-      val lowerBand = Interval.closed(f.lowerLimit, f.upperLimit)
-      val upperBand = Interval.above(f.upperLimit)
-      (
-        amount.inBand(lowerBand) * f.mainRate,
-        amount.inBand(upperBand) * f.upperRate
-      )
-    }
 
   def calculateClassTwo(
     on: LocalDate,
@@ -236,16 +192,17 @@ case class Configuration(
           userDefinedBandLimits
         )
 
+}
 
 
+object Configuration {
   // TODO: read config in properly instead of using hard coded values below -
   //       either read in new config bespoke for unofficial deferments or
   //       somehow transform existing class 1 config and filter out
   //       appropriate category letters
-  val unofficialDeferment: Map[Int, TaxYearBandLimits] =
+  val unofficialDefermentOld: Map[Int, TaxYearBandLimits] =
   (2003 to 2020).toList.map{ year =>
-    val bandLimits = if(year >= 2016)
-      AfterOrOn2016(LEL(112), PT(155), UEL(827),
+    val bandLimits = if(year >= 2016)     AfterOrOn2016(LEL(112), PT(155), UEL(827),
         Map(
           PTToUEL -> Map(
             'A' -> 0.12,

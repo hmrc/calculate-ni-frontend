@@ -24,6 +24,47 @@ import cats.implicits._
 
 object EoiJsonEncoding {
 
+  // Todo enumeratum? Scala 3 enum backporting? 
+  implicit def class1BandKeyEncoder = new KeyEncoder[Class1Band] {
+    import Class1Band._
+    def apply(in: Class1Band): String = in match {
+      case BelowLEL => "BelowLEL"
+      case LELToET => "LELToET"
+      case LELToPT => "LELToPT"
+      case PTToUAP => "PTToUAP"
+      case PTToUEL => "PTToUEL"
+      case ETToUEL => "ETToUEL"
+      case UAPToUEL => "UAPToUEL"
+      case AboveUEL => "AboveUEL"
+    }
+  }
+
+  implicit def class1BandKeyDecoder = new KeyDecoder[Class1Band] {
+    import Class1Band._
+    def apply(in: String): Option[Class1Band] = in match {
+      case "BelowLEL" => Some(BelowLEL)
+      case "LELToET" => Some(LELToET)
+      case "LELToPT" => Some(LELToPT)
+      case "PTToUAP" => Some(PTToUAP)
+      case "PTToUEL" => Some(PTToUEL)
+      case "ETToUEL" => Some(ETToUEL)
+      case "UAPToUEL" => Some(UAPToUEL)
+      case "AboveUEL" => Some(AboveUEL)
+      case _ => None
+    }
+  }
+
+  implicit def class1BandLimitKeyEncoder = new KeyEncoder[Class1BandLimit] {
+    import Class1BandLimit._
+    def apply(in: Class1BandLimit): String = ???
+  }
+
+  implicit def class1BandLimitKeyDecoder = new KeyDecoder[Class1BandLimit] {
+    import Class1BandLimit._
+    def apply(in: String): Option[Class1BandLimit] = ???
+  }
+
+
   implicit def dateKeyEncoder = new KeyEncoder[LocalDate] {
     def apply(in: LocalDate): String = in.toString()
   }

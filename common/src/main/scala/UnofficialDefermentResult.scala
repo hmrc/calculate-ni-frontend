@@ -25,65 +25,55 @@ import scala.reflect.{ClassTag, classTag}
 sealed trait Class1Band extends Product with Serializable
 
 object Class1Band {
-
   case object BelowLEL extends Class1Band
-
   case object LELToET extends Class1Band
-
   case object LELToPT extends Class1Band
-
   case object PTToUAP extends Class1Band
-
   case object PTToUEL extends Class1Band
-
   case object ETToUEL extends Class1Band
-
   case object UAPToUEL extends Class1Band
-
   case object AboveUEL extends Class1Band
 
+  def fromString(in: String): Option[Class1Band] = in match {
+    case "BelowLEL" => Some(BelowLEL)
+    case "LELToET" => Some(LELToET) 
+    case "LELToPT" => Some(LELToPT) 
+    case "PTToUAP" => Some(PTToUAP) 
+    case "PTToUEL" => Some(PTToUEL) 
+    case "ETToUEL" => Some(ETToUEL) 
+    case "UAPToUEL" => Some(UAPToUEL)
+    case "AboveUEL" => Some(AboveUEL)
+    case _ => None
+  }
 }
 
 sealed trait Class1BandLimit extends Product with Serializable {
-
   val value: BigDecimal
-
 }
 
 object Class1BandLimit {
-
-
   case class LEL(value: BigDecimal) extends Class1BandLimit
-
   case class PT(value: BigDecimal) extends Class1BandLimit
-
   case class ET(value: BigDecimal) extends Class1BandLimit
-
   case class UAP(value: BigDecimal) extends Class1BandLimit
-
   case class UEL(value: BigDecimal) extends Class1BandLimit
-
 }
 
 
 sealed trait TaxYearBandLimits {
-
   val bands: List[Class1Band]
-
   val bandLimits: List[Class1BandLimit]
-
   val rates: Map[Class1Band, Map[Char, BigDecimal]]
-
 }
 
 object TaxYearBandLimits {
 
   case class AfterOrOn2003(
-                            lel: LEL,
-                            et: ET,
-                            uel: UEL,
-                            rates: Map[Class1Band, Map[Char, BigDecimal]]
-                          ) extends TaxYearBandLimits {
+    lel: LEL,
+    et: ET,
+    uel: UEL,
+    rates: Map[Class1Band, Map[Char, BigDecimal]]
+  ) extends TaxYearBandLimits {
 
     val bands: List[Class1Band] =
       List(
@@ -93,17 +83,16 @@ object TaxYearBandLimits {
       )
 
     val bandLimits = List(lel, et, uel)
-
   }
 
 
   case class AfterOrOn2009(
-                            lel: LEL,
-                            pt: PT,
-                            uap: UAP,
-                            uel: UEL,
-                            rates: Map[Class1Band, Map[Char, BigDecimal]]
-                          )  extends TaxYearBandLimits {
+    lel: LEL,
+    pt: PT,
+    uap: UAP,
+    uel: UEL,
+    rates: Map[Class1Band, Map[Char, BigDecimal]]
+  )  extends TaxYearBandLimits {
     val bands: List[Class1Band] =
       List(
         BelowLEL,
@@ -113,15 +102,14 @@ object TaxYearBandLimits {
       )
 
     val bandLimits = List(lel, pt, uap, uel)
-
   }
 
   case class AfterOrOn2016(
-                            lel: LEL,
-                            pt: PT,
-                            uel: UEL,
-                            rates: Map[Class1Band, Map[Char, BigDecimal]]
-                          ) extends TaxYearBandLimits {
+    lel: LEL,
+    pt: PT,
+    uel: UEL,
+    rates: Map[Class1Band, Map[Char, BigDecimal]]
+  ) extends TaxYearBandLimits {
     val bands: List[Class1Band] =
       List(
         BelowLEL,
@@ -130,6 +118,22 @@ object TaxYearBandLimits {
       )
 
     val bandLimits = List(lel, pt, uel)
+  }
+
+  case class GenericBandLimits(
+    limits: Map[String, BigDecimal],
+    rates: Map[Class1Band, Map[Char, BigDecimal]]
+  ) extends TaxYearBandLimits {
+
+    val bandLimits: List[eoi.Class1BandLimit] = limits.toList map {
+      case ("LEL",v) => LEL(v)
+      case ("PT",v) => PT(v)
+      case ("ET",v) => ET(v)
+      case ("UAP",v) => UAP(v)
+      case ("UEL",v) => UEL(v)
+      case (err, _) => sys.error(s"$err is not a known Class1BandLimit")
+    }
+    val bands: List[eoi.Class1Band] = rates.keys.toList
 
   }
 
@@ -142,28 +146,28 @@ case class BandAmount(band: Class1Band, amount: BigDecimal)
 
 
 case class UnofficialDefermentRowInput(
-                                      id: String,
-                                      employer: String,
-                                      category: Char,
-                                      bandAmounts: List[BandAmount],
-                                      employeeNICs: BigDecimal
-                                      )
+  id: String,
+  employer: String,
+  category: Char,
+  bandAmounts: List[BandAmount],
+  employeeNICs: BigDecimal
+)
 
 case class UnofficialDefermentRowOutput(
-                                        id: String,
-                                        grossPay: BigDecimal,
-                                        earningsInMainContributionBand: BigDecimal,
-                                        earningsOverUEL: BigDecimal,
-                                        nicsNonCO: BigDecimal,
-                                        ifNotUD: BigDecimal
-                                      )
+  id: String,
+  grossPay: BigDecimal,
+  earningsInMainContributionBand: BigDecimal,
+  earningsOverUEL: BigDecimal,
+  nicsNonCO: BigDecimal,
+  ifNotUD: BigDecimal
+)
 
-case class UnofficialDefermentResult(taxYear: Int,
-                                     config: TaxYearBandLimits,
-                                     rows: List[UnofficialDefermentRowInput],
-                                     userDefinedBandLimits: List[Class1BandLimit]){
-
-
+case class UnofficialDefermentResult(
+  taxYear: Int,
+  config: TaxYearBandLimits,
+  rows: List[UnofficialDefermentRowInput],
+  userDefinedBandLimits: List[Class1BandLimit]
+){
   def getBandRates(b: Class1Band) =
     config.rates.getOrElse(b, Map.empty)
 
@@ -226,7 +230,27 @@ case class UnofficialDefermentResult(taxYear: Int,
         val pt = findUserDefinedBandLimit[PT]
         val uel = findUserDefinedBandLimit[UEL]
         53*(uel - pt) gives
-          s"(UEL - PT) x 53 weeks  = ($uel - $pt) x 53"
+        s"(UEL - PT) x 53 weeks  = ($uel - $pt) x 53"
+
+      case _: TaxYearBandLimits.GenericBandLimits =>
+        taxYear match {
+          case late if late >= 2016 =>
+            val pt = findUserDefinedBandLimit[PT]
+            val uel = findUserDefinedBandLimit[UEL]
+            53*(uel - pt) gives
+            s"(UEL - PT) x 53 weeks  = ($uel - $pt) x 53"
+          case mid if mid >= 2009 =>
+            val pt = findUserDefinedBandLimit[PT]
+            val uap = findUserDefinedBandLimit[UAP]
+            val uel = findUserDefinedBandLimit[UEL]
+            53*((uel - uap)+(uap-pt) ) gives
+            s"((UEL - UAP) + (UAP - PT)) x 53 weeks = (($uel - $uap) + ($uap - $pt)) x 53"
+          case early =>
+            val et = findUserDefinedBandLimit[ET]
+            val uel = findUserDefinedBandLimit[UEL]
+            53*(uel - et) gives
+            s"(UEL - ET) x 53 weeks = ($uel - $et) x 53"
+        }
     }
   }
 
@@ -244,6 +268,15 @@ case class UnofficialDefermentResult(taxYear: Int,
 
       case _: TaxYearBandLimits.AfterOrOn2016 =>
         getRate(getBandRates(PTToUEL))
+
+      case _: TaxYearBandLimits.GenericBandLimits =>
+        getRate(getBandRates{
+          taxYear match {
+            case late if late >= 2016 => PTToUEL
+            case mid if mid >= 2009 => PTToUAP
+            case early => ETToUEL
+          }
+        })
     }
   }
 
