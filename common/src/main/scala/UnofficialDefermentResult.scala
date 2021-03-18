@@ -18,7 +18,6 @@ package eoi
 
 import cats.instances.vector._
 import eoi.Class1Band.{LELToET, _}
-import eoi.Class1BandLimit._
 
 import scala.reflect.{ClassTag, classTag}
 
@@ -47,39 +46,10 @@ object Class1Band {
   }
 }
 
-sealed trait Class1BandLimit extends Product with Serializable {
-  val value: BigDecimal
-}
-
-object Class1BandLimit {
-  case class LEL(value: BigDecimal) extends Class1BandLimit
-  case class PT(value: BigDecimal) extends Class1BandLimit
-  case class ET(value: BigDecimal) extends Class1BandLimit
-  case class UAP(value: BigDecimal) extends Class1BandLimit
-  case class UEL(value: BigDecimal) extends Class1BandLimit
-
-  def fromTuple(in: (String, BigDecimal)): Option[Class1BandLimit] = in match {
-    case ("LEL",v) => Some(LEL(v))
-    case ("PT",v) => Some(PT(v))
-    case ("ET",v) => Some(ET(v))
-    case ("UAP",v) => Some(UAP(v))
-    case ("UEL",v) => Some(UEL(v))
-    case (_, _) => None
-  }
-}
-
 case class TaxYearBandLimits(
   limits: Map[String, BigDecimal],
   rates: Map[Class1Band, Map[Char, BigDecimal]]
-)  {
-  val bandLimits: List[eoi.Class1BandLimit] = limits.toList map { 
-    case ("LEL",v) => LEL(v)
-    case ("PT",v) => PT(v)
-    case ("ET",v) => ET(v)
-    case ("UAP",v) => UAP(v)
-    case ("UEL",v) => UEL(v)
-    case (err, _) => sys.error(s"$err is not a known Class1BandLimit")
-  }
+) {
   val bands: List[eoi.Class1Band] = rates.keys.toList
 }
 
@@ -152,19 +122,19 @@ case class UnofficialDefermentResult(
   lazy val maxMainContributionEarnings: Explained[BigDecimal] = {
     taxYear match {
       case late if late >= 2016 =>
-        val pt = config.bandLimits(1).value
-        val uel = config.bandLimits(2).value
+        val pt = config.limits("PT")
+        val uel = config.limits("UEL")
         53*(uel - pt) gives
         s"(UEL - PT) x 53 weeks  = ($uel - $pt) x 53"
       case mid if mid >= 2009 =>
-        val pt = config.bandLimits(1).value
-        val uap = config.bandLimits(2).value
-        val uel = config.bandLimits(3).value
+        val pt = config.limits("PT")
+        val uap = config.limits("UAP")
+        val uel = config.limits("UEL")
         53*((uel - uap)+(uap-pt) ) gives
         s"((UEL - UAP) + (UAP - PT)) x 53 weeks = (($uel - $uap) + ($uap - $pt)) x 53"
       case early =>
-        val et = config.bandLimits(1).value
-        val uel = config.bandLimits(2).value
+        val et = config.limits("ET")
+        val uel = config.limits("UEL")
         53*(uel - et) gives
         s"(UEL - ET) x 53 weeks = ($uel - $et) x 53"
     }
