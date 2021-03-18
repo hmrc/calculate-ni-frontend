@@ -64,7 +64,7 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
       sys.error(s"Could not find config for tax year $taxYear")
     )
 
-    taxYearBands.bands.toJSArray.map{ band =>
+    taxYearBands.bands.toList.sorted.init.toJSArray.map{ band =>
       new js.Object {
         val label = band.toLabel
       }

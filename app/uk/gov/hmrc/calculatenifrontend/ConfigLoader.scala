@@ -94,7 +94,6 @@ object ConfigLoader {
   implicit val dateBDReader = anyMapReader[Interval[LocalDate], BigDecimal]  
   implicit val classFourReader = anyMapReader[Interval[LocalDate], ClassFour]
 
-  implicit val bandLimitBdReader = anyMapReader[Class1BandLimit, BigDecimal]
   implicit val c1BandReader: ConfigReader[Class1Band] = ConfigReader[String].emap { str => 
     Class1Band.fromString(str) match {
       case Some(s) => Right(s)

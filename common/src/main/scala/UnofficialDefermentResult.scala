@@ -33,6 +33,22 @@ object Class1Band {
   case object UAPToUEL extends Class1Band
   case object AboveUEL extends Class1Band
 
+  val entries = Vector(
+    BelowLEL,
+    LELToET,
+    LELToPT,
+    PTToUAP,
+    PTToUEL,
+    ETToUEL,
+    UAPToUEL,
+    AboveUEL
+  )
+
+  implicit val c1bandOrder = new Ordering[Class1Band] {
+    def compare(x: Class1Band, y: Class1Band): Int =
+      entries.indexOf(x) compare entries.indexOf(y)
+  }
+
   def fromString(in: String): Option[Class1Band] = in match {
     case "BelowLEL" => Some(BelowLEL)
     case "LELToET" => Some(LELToET) 
