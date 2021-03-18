@@ -179,14 +179,21 @@ case class Configuration(
       def calculateUnofficialDeferment(
                                         taxYear: Int,
                                         config: TaxYearBandLimits,
-                                        rows: List[UnofficialDefermentRowInput],
-                                        userDefinedBandLimits: List[Class1BandLimit]
+                                        rows: List[UnofficialDefermentRowInput]
                                       ) =
         UnofficialDefermentResult(
           taxYear,
           config,
-          rows,
-          userDefinedBandLimits
+          rows
         )
+
+      def calculateUnofficialDeferment(
+        taxYear: Int,
+        rows: List[UnofficialDefermentRowInput]
+      ) = UnofficialDefermentResult(
+        taxYear,
+        unofficialDeferment(taxYear),
+        rows
+      )
 
 }

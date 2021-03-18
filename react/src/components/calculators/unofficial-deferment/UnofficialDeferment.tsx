@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useRef, useState} from 'react'
 import {hasKeys} from "../../../services/utils";
 import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 import Details from "../shared/Details";
-import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import {validateUnofficialDefermentPayload} from "./validation";
 import {
     BandAmount,
@@ -19,7 +18,6 @@ import {SuccessNotification} from "../shared/SuccessNotification";
 import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
 import {
     RequestBand as RequestBandClass,
-    UserDefinedBand,
     UnofficialDefermentRow
 } from "../../../calculation";
 import PrintButtons from "../shared/PrintButtons";
@@ -43,8 +41,7 @@ function UnofficialDefermentPage() {
         setCalculatedRows,
         setActiveRowId,
         setResults,
-        results,
-        userBands
+        results
     } = useContext(UnofficialDefermentContext)
 
     const { successNotificationsOn } = useContext(SuccessNotificationContext)
@@ -68,7 +65,6 @@ function UnofficialDefermentPage() {
         setErrors({})
         const payload = {
             rows,
-            userBands,
             taxYear
         }
 
@@ -89,16 +85,7 @@ function UnofficialDefermentPage() {
                 parseFloat(row.employeeNICs || '0')
               ))
 
-            const userDefinedBands = userBands.reduce((bands: RequestBand[], next: BandAmount) => {
-                const userDefinedBand = new(UserDefinedBand as any)(
-                  next.label,
-                  next.amount ? parseFloat(next.amount) : 0
-                )
-                bands.push(userDefinedBand)
-                return bands
-            }, [] as RequestBand[])
-
-            setResults(UnofficialDefermentCalculator.calculate(taxYear, requestRows, userDefinedBands))
+            setResults(UnofficialDefermentCalculator.calculate(taxYear, requestRows))
             if (showSummaryIfValid) {
                 setShowSummary(true)
             }

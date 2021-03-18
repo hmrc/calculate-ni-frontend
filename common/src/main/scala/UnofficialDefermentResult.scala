@@ -94,6 +94,7 @@ case class UnofficialDefermentRowInput(
 )
 
 case class UnofficialDefermentRowOutput(
+
   id: String,
   grossPay: BigDecimal,
   earningsInMainContributionBand: BigDecimal,
@@ -105,9 +106,9 @@ case class UnofficialDefermentRowOutput(
 case class UnofficialDefermentResult(
   taxYear: Int,
   config: TaxYearBandLimits,
-  rows: List[UnofficialDefermentRowInput],
-  userDefinedBandLimits: List[Class1BandLimit]
+  rows: List[UnofficialDefermentRowInput]
 ){
+
   def getBandRates(b: Class1Band) =
     config.rates.getOrElse(b, Map.empty)
 
@@ -149,24 +150,21 @@ case class UnofficialDefermentResult(
   }
 
   lazy val maxMainContributionEarnings: Explained[BigDecimal] = {
-    def findUserDefinedBandLimit[B <: Class1BandLimit : ClassTag] =
-      userDefinedBandLimits.collectFirst{ case b: B => b }.getOrElse(sys.error(s"Could not find ${classTag[B].runtimeClass.getSimpleName}")).value
-
     taxYear match {
       case late if late >= 2016 =>
-        val pt = findUserDefinedBandLimit[PT]
-        val uel = findUserDefinedBandLimit[UEL]
+        val pt = config.bandLimits(1).value
+        val uel = config.bandLimits(2).value
         53*(uel - pt) gives
         s"(UEL - PT) x 53 weeks  = ($uel - $pt) x 53"
       case mid if mid >= 2009 =>
-        val pt = findUserDefinedBandLimit[PT]
-        val uap = findUserDefinedBandLimit[UAP]
-        val uel = findUserDefinedBandLimit[UEL]
+        val pt = config.bandLimits(1).value
+        val uap = config.bandLimits(2).value
+        val uel = config.bandLimits(3).value
         53*((uel - uap)+(uap-pt) ) gives
         s"((UEL - UAP) + (UAP - PT)) x 53 weeks = (($uel - $uap) + ($uap - $pt)) x 53"
       case early =>
-        val et = findUserDefinedBandLimit[ET]
-        val uel = findUserDefinedBandLimit[UEL]
+        val et = config.bandLimits(1).value
+        val uel = config.bandLimits(2).value
         53*(uel - et) gives
         s"(UEL - ET) x 53 weeks = ($uel - $et) x 53"
     }
