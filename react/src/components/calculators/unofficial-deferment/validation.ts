@@ -5,7 +5,6 @@ import {hasKeys} from "../../../services/utils";
 
 interface UnofficialDefermentPayload {
   rows: UnofficialDefermentInputRow[]
-  userBands: BandAmount[]
   taxYear: number
 }
 
@@ -14,22 +13,6 @@ export const validateUnofficialDefermentPayload = (
   setErrors: Dispatch<GenericErrors>
 ) => {
   const errors: GenericErrors = {}
-  payload.userBands.forEach(ub => {
-    const id = `limit-${ub.label}`
-    if(ub.amount === '') {
-      errors[id] = {
-        name: id,
-        link: id,
-        message:`${ub.label} amount must be entered`
-      }
-    } else if (ub.amount && isNaN(+ub.amount)) {
-      errors[id] = {
-        name: id,
-        link: id,
-        message:`${ub.label} amount must be an amount of money`
-      }
-    }
-  })
   payload.rows.forEach((row: UnofficialDefermentInputRow, index: number) => {
     const id = `${row.id}-employeeNICs`
     if(row.employeeNICs && isNaN(+row.employeeNICs)) {

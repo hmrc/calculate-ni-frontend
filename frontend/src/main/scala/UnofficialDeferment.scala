@@ -2,7 +2,6 @@ package eoi
 package frontend
 
 import eoi.Class1Band._
-import eoi.Class1BandLimit._
 import scala.scalajs.js
 import js.JSConverters._
 import scala.scalajs.js.annotation.JSExportTopLevel
@@ -13,8 +12,7 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
 
   def calculate(
      taxYear: Int,
-     rows: js.Array[UnofficialDefermentRow],
-     userDefinedBandLimits: js.Array[UserDefinedBand]
+     rows: js.Array[UnofficialDefermentRow]
   ) = {
     val result = UnofficialDefermentResult(
       taxYear,
@@ -32,9 +30,6 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
           ),
           r.employeeNICs
         )
-      ),
-      userDefinedBandLimits.toList.map( l =>
-        labelToClass1BandLimit(l.label, l.limit).getOrElse(sys.error(s"Unknown class 1 band limit: ${l.label}"))
       )
     )
 
@@ -69,7 +64,7 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
       sys.error(s"Could not find config for tax year $taxYear")
     )
 
-    taxYearBands.bands.toJSArray.map{ band =>
+    taxYearBands.bands.toList.sorted.init.toJSArray.map{ band =>
       new js.Object {
         val label = band.toLabel
       }
@@ -82,10 +77,16 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
       sys.error(s"Could not find config for tax year $taxYear")
     )
 
-    taxYearBands.bandLimits.toJSArray.map{ band =>
+    taxYearBands.limits.toList.sortBy(_._2).toJSArray.map{ case (l,amt) =>
       new js.Object {
-        val label = band.toLabel
-        val amount = band.value.doubleValue()
+        val label = l match {
+          case "LEL"  => "Lower earning limit"
+          case "PT"   => "Primary threshold"
+          case "ET"   => "Earning threshold"
+          case "UAP"  => "Upper accrual point"
+          case "UEL"  => "Upper earning limit"
+        }
+        val amount = amt.doubleValue()
       }
     }
   }
@@ -104,7 +105,6 @@ object UnofficialDeferment {
       case UAPToUEL => "UAP - UEL"
       case AboveUEL => "UEL"
     }
-
   }
 
   def labelToClass1Band(label: String): Option[Class1Band] = label match {
@@ -117,30 +117,7 @@ object UnofficialDeferment {
     case "UAP - UEL"           => Some(UAPToUEL)
     case  "UEL"                => Some(AboveUEL)
     case _ => None
-
-
   }
-
-  implicit class Class1BandLimitOps(private val l: Class1BandLimit) extends AnyVal {
-    def toLabel: String = l match {
-      case _: LEL  => "Lower earning limit"
-      case _: PT =>   "Primary threshold"
-      case _: ET =>   "Earning threshold"
-      case _: UAP  => "Upper accrual point"
-      case _: UEL  => "Upper earning limit"
-    }
-
-  }
-
-  def labelToClass1BandLimit(label: String, amount: Double): Option[Class1BandLimit] = label match {
-    case   "Lower earning limit"    => Some(LEL(amount))
-    case   "Primary threshold"      => Some(PT(amount))
-    case   "Earning threshold"      => Some(ET(amount))
-    case   "Upper accrual point"    => Some(UAP(amount))
-    case   "Upper earning limit"    => Some(UEL(amount))
-    case _ => None
-  }
-
 
 }
 

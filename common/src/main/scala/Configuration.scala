@@ -16,9 +16,6 @@
 
 package eoi
 
-import eoi.Class1Band._
-import eoi.Class1BandLimit._
-import eoi.TaxYearBandLimits._
 import main.scala.{DirectorsResult, DirectorsRowInput}
 
 import java.time.LocalDate
@@ -115,57 +112,13 @@ case class Configuration(
    'X' -> "Exempt"
   ),
   classOne: Map[Interval[LocalDate], Map[String, RateDefinition]],
-  classOneAB: Map[Interval[LocalDate], BigDecimal],
   classTwo: Map[Interval[LocalDate], ClassTwo],
   classThree: Map[Interval[LocalDate], ClassThree],
   classFour: Map[Interval[LocalDate], ClassFour],
   interestOnLatePayment: Map[Interval[LocalDate], BigDecimal],
-  interestOnRepayment: Map[Interval[LocalDate], BigDecimal]
+  interestOnRepayment: Map[Interval[LocalDate], BigDecimal],
+  unofficialDeferment: Map[Int, TaxYearBandLimits]
 ) {
-
-  def proRataRatio(from: LocalDate, to: LocalDate): Option[BigDecimal] = {
-    import spire.math.interval._
-
-    def fromBound[A](in: Bound[A]): Option[A] = in match {
-      case Open(a) => Some(a)
-      case Closed(a) => Some(a)
-      case _ => None
-    }
-
-    def intervalSizeDays(in: Interval[LocalDate]): Option[BigDecimal] = for {
-      l <- fromBound(in.lowerBound)
-      h <- fromBound(in.upperBound)
-    } yield BigDecimal(h.toEpochDay - l.toEpochDay)
-
-    for {
-      taxYear <- classOne.keys.find(_.contains(from))
-      total <- intervalSizeDays(taxYear)
-      partial <- intervalSizeDays(Interval.closed(from, to))
-    } yield (partial / total)
-  }
-
-  def calculateClassOneAAndB(
-    on: LocalDate,
-    amount: BigDecimal
-  ): Option[BigDecimal] = classOneAB.at(on).map(amount * _)
-
-  def calculateClassThree(
-    on: LocalDate,
-    numberOfWeeks: Int
-  ): Option[BigDecimal] = ??? // classThree.at(on).map(_ * numberOfWeeks)
-
-  def calculateClassFour(
-    on: LocalDate,
-    amount: BigDecimal
-  ): Option[(BigDecimal,BigDecimal)] =
-    classFour.at(on).map{ f =>
-      val lowerBand = Interval.closed(f.lowerLimit, f.upperLimit)
-      val upperBand = Interval.above(f.upperLimit)
-      (
-        amount.inBand(lowerBand) * f.mainRate,
-        amount.inBand(upperBand) * f.upperRate
-      )
-    }
 
   def calculateClassTwo(
     on: LocalDate,
@@ -228,107 +181,22 @@ case class Configuration(
       def calculateUnofficialDeferment(
                                         taxYear: Int,
                                         config: TaxYearBandLimits,
-                                        rows: List[UnofficialDefermentRowInput],
-                                        userDefinedBandLimits: List[Class1BandLimit]
+                                        rows: List[UnofficialDefermentRowInput]
                                       ) =
         UnofficialDefermentResult(
           taxYear,
           config,
-          rows,
-          userDefinedBandLimits
+          rows
         )
 
-
-
-  // TODO: read config in properly instead of using hard coded values below -
-  //       either read in new config bespoke for unofficial deferments or
-  //       somehow transform existing class 1 config and filter out
-  //       appropriate category letters
-  val unofficialDeferment: Map[Int, TaxYearBandLimits] =
-  (2003 to 2020).toList.map{ year =>
-    val bandLimits = if(year >= 2016)
-      AfterOrOn2016(LEL(112), PT(155), UEL(827),
-        Map(
-          PTToUEL -> Map(
-            'A' -> 0.12,
-            'H' -> 0.12,
-            'J' -> 0.02,
-            'M' -> 0.12,
-            'Z' -> 0.02
-          ),
-          AboveUEL -> Map(
-            'A' -> 0.02,
-            'H' -> 0.02,
-            'J' -> 0.02,
-            'M' -> 0.02,
-            'Z' -> 0.02
-          )
-        )
+      def calculateUnofficialDeferment(
+        taxYear: Int,
+        rows: List[UnofficialDefermentRowInput]
+      ) = UnofficialDefermentResult(
+        taxYear,
+        unofficialDeferment(taxYear),
+        rows
       )
-    else if(year >= 2009)
-      AfterOrOn2009(LEL(95), PT(110), UAP(770), UEL(844),
-        Map(
-          PTToUAP -> Map(
-            'A' -> 0.11,
-            'D' -> 0.094,
-            'F' -> 0.094,
-            'J' -> 0.01,
-            'L' -> 0.01,
-            'S' -> 0.01
-          ),
-          UAPToUEL -> Map(
-            'A' -> 0.11,
-            'D' -> 0.11,
-            'F' -> 0.11,
-            'J' -> 0.01,
-            'L' -> 0.01,
-            'S' -> 0.01
-          ),
-          AboveUEL -> Map(
-            'A' -> 0.01,
-            'D' -> 0.01,
-            'F' -> 0.01,
-            'J' -> 0.01,
-            'L' -> 0.01,
-            'S' -> 0.01
-          ),
-          LELToPT -> Map(
-            'D' -> -0.016,
-            'F' -> -0.016,
-            'L' -> -0.016,
-            'S' -> -0.016
-          )
-        )
-      )
-    else
-      AfterOrOn2003(LEL(87), ET(100), UEL(670),
-        Map(
-          ETToUEL -> Map(
-            'A' -> 0.11,
-            'D' -> 0.094,
-            'F' -> 0.094,
-            'J' -> 0.01,
-            'L' -> 0.01,
-            'S' -> 0.01
-          ),
-          AboveUEL -> Map(
-            'A' -> 0.01,
-            'D' -> 0.01,
-            'F' -> 0.01,
-            'J' -> 0.01,
-            'L' -> 0.01,
-            'S' -> 0.01
-          ),
-          LELToET -> Map(
-            'D' -> -0.016,
-            'F' -> -0.016,
-            'L' -> -0.016,
-            'S' -> -0.016
-          )
-        ))
-
-    year -> bandLimits
-  }.toMap
 
   def calculateInterestOnLatePayment(
     amount: BigDecimal,

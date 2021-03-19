@@ -59,13 +59,6 @@ class ClassOneFrontend(
     ).toList.sorted.distinct.map{ch => s"$ch"}.mkString
     }
 
-  def calculateClassOneAAndB(
-    on: Date,
-    amount: Double
-  ): String = config.calculateClassOneAAndB(on, amount).getOrElse(
-    throw new NoSuchElementException(s"Class One A and B undefined for $on")
-  ).toString
-
 }
 
 object ClassOneFrontend {

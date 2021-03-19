@@ -41,7 +41,7 @@ object ConfigLoader {
 
     ConfigReader[String].emap{
       case string if string.endsWith("%") => underlying(string.init).map(_ / 100)
-      case other  => underlying(other)
+      case other  => underlying(other.replace("£",""))
     }
 
   }
@@ -92,7 +92,16 @@ object ConfigLoader {
   implicit val classThreeReader = anyMapReader[Interval[LocalDate], ClassThree]  
   implicit val catReader = anyMapReader[Char, String]
   implicit val dateBDReader = anyMapReader[Interval[LocalDate], BigDecimal]  
-  implicit val classFourReader = anyMapReader[Interval[LocalDate], ClassFour]    
+  implicit val classFourReader = anyMapReader[Interval[LocalDate], ClassFour]
+
+  implicit val c1BandReader: ConfigReader[Class1Band] = ConfigReader[String].emap { str => 
+    Class1Band.fromString(str) match {
+      case Some(s) => Right(s)
+      case None => Left(CannotConvert(str, "Class1Band", s"$str is not a valid Class1Band"))
+    }
+  }
+  implicit val ratesBandReader = anyMapReader[Class1Band, Map[Char, BigDecimal]]
+  implicit val udReader = anyMapReader[Int, TaxYearBandLimits]      
 
   lazy val get = ConfigSource.default.load[Map[Interval[LocalDate], Map[String, RateDefinition]]] match {
     case Right(conf) => conf

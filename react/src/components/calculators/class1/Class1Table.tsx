@@ -61,8 +61,8 @@ export default function Class1Table(props: TableProps) {
             </strong>
           </th>
           <th scope="col" className="notes"><strong>Period No.</strong></th>
-          <th scope="col" className="category-col"><strong>{printView ? '' : 'Select '}NI category letter</strong></th>
-          <th scope="col" className="gross-pay"><strong>{printView ? 'Gross pay' : 'Enter gross pay'}</strong></th>
+          <th scope="col" className="category-col"><strong>{printView ? 'Cat' : 'Select NI category'}</strong></th>
+          <th scope="col" className="gross-pay"><strong>{printView ? 'Gross' : 'Enter gross pay'}</strong></th>
           {displayBands && firstBands.map(k =>
             <th scope="col" key={k.name}>{k.name}</th>
           )}
