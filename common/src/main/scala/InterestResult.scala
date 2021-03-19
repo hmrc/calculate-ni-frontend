@@ -41,6 +41,8 @@ case class InterestResult(
   val interest = interestUnrounded.setScale(2, BigDecimal.RoundingMode.HALF_UP)
 
   val total = amount + interest
-  val dailyInterest = (interestUnrounded / dateRange.numberOfDays.get).
-    setScale(2, BigDecimal.RoundingMode.HALF_UP)
+
+  val dailyInterestUnrounded = (interestUnrounded / dateRange.numberOfDays.get)
+
+  val dailyInterest = dailyInterestUnrounded.setScale(2, BigDecimal.RoundingMode.HALF_UP)
 }

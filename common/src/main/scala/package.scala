@@ -99,7 +99,13 @@ package object eoi {
       value.find{case (k,v) => k.contains(in)}
   }
 
-  implicit def localDateOrder = new spire.algebra.Order[LocalDate] {
+  implicit val localDateOrdering = new Ordering[LocalDate] {
+    def compare(x: LocalDate, y: LocalDate): Int = x.toEpochDay compare y.toEpochDay
+  }
+
+  implicit val localDateSpireOrdering = new spire.algebra.Order[LocalDate] {
+    // for some reason fromOrdered doesn't resolve when using >= for example
+    // probably something to do with cats/spire interop
     def compare(x: LocalDate, y: LocalDate): Int = x.toEpochDay compare y.toEpochDay
   }
 
