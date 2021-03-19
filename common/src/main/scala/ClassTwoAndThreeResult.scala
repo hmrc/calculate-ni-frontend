@@ -28,11 +28,7 @@ trait ClassTwoOrThree {
   def lowerEarningLimit: Explained[BigDecimal]
   def qualifyingEarningsFactor: Explained[BigDecimal]
   def finalDate: Option[LocalDate]
-
-  protected[eoi] def getFinalDate(start: LocalDate): Explained[LocalDate] = finalDate match {
-    case Some(date) => date gives "finalDate: from config"
-    case None => start.plusYears(7).minusDays(1) gives s"finalDate: start date ($start) + 7 years - 1 day"
-  }  
+  def hrpDate: Option[LocalDate]
 }
 
 case class ClassTwo(
@@ -53,6 +49,7 @@ case class ClassTwo(
 case class ClassThree(
   finalDate: Option[LocalDate],
   weekRate: BigDecimal,
+  hrpDate: Option[LocalDate],  
   noOfWeeks: Int = 52,
   lel: BigDecimal,
   qualifyingRate: Option[BigDecimal]
@@ -91,23 +88,13 @@ case class ClassTwoAndThreeResult[A <: ClassTwoOrThree] protected[eoi] (
       s"noContributions: ⌈shortfall / lel⌉ = ⌈$sf / $lel⌉ = ⌈$unrounded⌉"
   } yield r
 
-  def higherProvisionsApplyOn: Explained[LocalDate] = {
-    val startOpt: Option[LocalDate] = year match {
-      case c2: ClassTwo => c2.hrpDate
-      case _ => None
-    }
+  def finalDate: Explained[LocalDate] = (on, year).getFinalDate
 
-    startOpt match {
-      case Some(hrp) => hrp gives "higherRateDate: from config"
-      case None => on.plusYears(3) gives s"higherRateDate: start date ($on) + 3 years"
-    }
-  }
-
-  def finalDate: Explained[LocalDate] = year.getFinalDate(on)
+  def higherProvisionsApplyOn: Explained[LocalDate] = (on, year).getHigherRateDate
 
   def higherRateApplies: Explained[Boolean] = 
     higherProvisionsApplyOn.flatMap { hrpDate => 
-      (paymentDate >= hrpDate) gives s"higherRateApplies: $paymentDate >= $hrpDate"
+      (paymentDate >= hrpDate) gives s"higherRateApplies: $paymentDate ≥ $hrpDate"
     }
 
   def rate: Explained[BigDecimal] = higherRateApplies flatMap {
@@ -129,3 +116,4 @@ case class ClassTwoAndThreeResult[A <: ClassTwoOrThree] protected[eoi] (
   }
 
 }
+

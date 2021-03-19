@@ -61,22 +61,4 @@ class ClassTwoSpec extends SpreadsheetTest {
 
   runFiles()
 
-  it("Class Two") {
-    val reader = CSVReader.open("calc/src/test/resources/testing-tables/unofficial-deferment/latest-rates.csv")
-
-    reader.all.tail.foreach {
-      case Int(year) :: c2HrpOpt :: Date(c2Final) :: c3HrpOpt :: Date(c3Final) :: _ =>
-        val interval = TaxYear(year).asInterval
-
-        val c2 = config.classTwo(interval)
-        assert(c2.finalDate == Some(c2Final), year.toString + " C2 final date")
-        assert(c2.hrpDate == Date.unapply(c2HrpOpt), year.toString + " C2 HRP date")
-
-        val c3 = config.classThree(interval)
-        assert(c3.finalDate == Some(c3Final), year.toString + " C3 final date")
-//        assert(c3.hrpDate == Date.unapply(c3HrpOpt), year.toString)
-      case _ => 
-    }
-  }
-
 }

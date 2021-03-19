@@ -232,4 +232,19 @@ package object eoi {
     }
   }
 
+
+  implicit class RichC23DateTuple[A <: ClassTwoOrThree](val value: (LocalDate, A)) extends AnyVal {
+    private def intervalStart = value._1
+
+    def getFinalDate: Explained[LocalDate] = value._2.finalDate match {
+      case Some(date) => date gives "finalDate: from config"
+      case None => intervalStart.plusYears(7).minusDays(1) gives s"finalDate: start date ($intervalStart) + 7 years - 1 day"
+    }
+
+    def getHigherRateDate: Explained[LocalDate] = value._2.hrpDate match {
+      case Some(hrp) => hrp gives "higherRateDate: from config"
+      case None => intervalStart.plusYears(3) gives s"higherRateDate: start date ($intervalStart) + 3 years"
+    }
+  }
+
 }
