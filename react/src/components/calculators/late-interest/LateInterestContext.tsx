@@ -85,16 +85,15 @@ export function useLateInterestForm() {
   const [errors, setErrors] = useState<GenericErrors>({})
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   const [results, setResults] = useState<LateInterestResults | null>(null)
+  const [taxYears, setTaxYears] = useState<TaxYear[]>([])
   const {
     NiFrontendInterface
   } = useContext(NiFrontendContext)
   const ClassOneCalculator = NiFrontendInterface.classOne
-  const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears)
   const InterestOnLateClassOneCalculator = NiFrontendInterface.interestOnLateClassOne
   const [rates, setRates] = useState<Rate[] | null>([])
   const defaultRows = [{
     id: uniqid(),
-    taxYears: taxYears,
     taxYear: taxYears[0],
     debt: '',
     interestDue: null
@@ -106,6 +105,11 @@ export function useLateInterestForm() {
     const interestRates = InterestOnLateClassOneCalculator.getRates()
     setRates(interestRates)
   }, [InterestOnLateClassOneCalculator])
+
+  useEffect(() => {
+    const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
+    setTaxYears(taxYearData)
+  }, [ClassOneCalculator])
 
   useEffect(() => {
     if(!results) {

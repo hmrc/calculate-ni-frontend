@@ -35,7 +35,6 @@ function LateInterestDebtTable(props: LateInterestDebtTable) {
         <tbody>
         {rows.map((r: Class1DebtRow, index: number) => (
           <Class1DebtTableRow
-            taxYears={taxYears}
             row={r}
             key={r.id}
             index={index}

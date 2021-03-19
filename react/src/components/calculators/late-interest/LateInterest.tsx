@@ -1,5 +1,5 @@
 import React, {useState, useContext, useRef, useEffect} from 'react'
-import { RemissionPeriod } from '../../../calculation'
+import { RemissionPeriod, InterestRow } from '../../../calculation'
 
 // components
 import Details from "../shared/Details"
@@ -68,39 +68,42 @@ const LateInterestPage = () => {
     }
 
     if(validateLateInterestPayload(payload, setErrors)) {
-      const transformedRows = rows.map((row: Class1DebtRow) => {
-        return {
-          periodStart: row.taxYear?.from,
-          debt: stripCommas(row.debt)
-        }
-      })
-      const remission = payload.hasRemissionPeriod ? new (RemissionPeriod as any)(dateRange.from, dateRange.to) : null
+      console.log('valid payload', payload)
 
-      let resultFromCalculator: any;
-      if (payload.hasRemissionPeriod) {
-        resultFromCalculator = InterestOnLateClassOneCalculator.calculate(transformedRows, remission)
-      } else {
-        resultFromCalculator = InterestOnLateClassOneCalculator.calculate(transformedRows)
+      const transformedRows = rows.map((row: Class1DebtRow) => new (InterestRow as any)(
+        row.taxYear?.from,
+        parseFloat(stripCommas(row.debt))
+      ))
+
+      console.log('transformed rows', transformedRows)
+      try {
+        const resultFromCalculator = payload.hasRemissionPeriod
+          ? InterestOnLateClassOneCalculator.calculate(transformedRows, new (RemissionPeriod as any)(dateRange.from, dateRange.to))
+          :
+          InterestOnLateClassOneCalculator.calculate(transformedRows)
+
+        const newRows = rows.map((row: Class1DebtRow, i: number) => {
+          return {
+            ...row,
+            interestDue: resultFromCalculator.rows[i].interestDue
+          }
+        })
+        setRows(newRows)
+        setResults(resultFromCalculator)
+
+        if(showSummaryIfValid) {
+          setShowSummary(true)
+        }
+      } catch (e) {
+        console.log('error during calculation', e)
+        console.error(e)
       }
 
-
-
-      const newRows = rows.map((row: Class1DebtRow, i: number) => {
-        return {
-          ...row,
-          interestDue: resultFromCalculator.rows[i].interestDue
-        }
-      })
-      setRows(newRows)
-      setResults(resultFromCalculator)
-
-      if(showSummaryIfValid) {
-        setShowSummary(true)
-      }
     }
   }
 
   const handleSubmit = (event: React.FormEvent) => {
+    console.log('handling submit')
     event.preventDefault()
     submitForm(false)
   }
