@@ -40,10 +40,10 @@ function LateRefundsForm() {
       </div>
 
       <div className="container">
-        <div className="container container-block two-thirds">
+        <div className="container container-block eight-tenths">
           <LateRefundsTable printView={false} />
         </div>
-        <div className="container third">
+        <div className="container two-tenths">
           {rates &&
             <InterestRatesTable rates={rates} />
           }

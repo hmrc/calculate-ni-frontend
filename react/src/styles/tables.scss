@@ -517,6 +517,14 @@ and also iPads specifically.
   }
 }
 
+.late-refunds-table {
+  td {
+    &.refund, &.payable {
+      width: 125px;
+    }
+  }
+}
+
 #root {
   .save-print-wrapper {
     table {
