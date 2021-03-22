@@ -95,13 +95,6 @@ trait SpreadsheetTest extends AnyFunSpec with Matchers with ExplainTestSupport {
     dir.listFiles().filter(_.getName().endsWith(".csv")).toList
 
   def files: List[File]
-  def reportFileName: Option[String] = None
-
-  val reportDir = {
-    val d = new File("target/testing-reports")
-    if (!d.exists) d.mkdirs
-    d
-  }
 
   def lineTest(in: Map[String, String]): Unit
 

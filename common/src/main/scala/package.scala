@@ -130,11 +130,6 @@ package object eoi {
 
   val Zero = BigDecimal("0")
 
-  def yearToPeriod(in: Int): Interval[LocalDate] = {
-    val start = LocalDate.of(in, 4, 6)
-    Interval.openUpper(start, start plusYears 1 minusDays 1)
-  }
-
   implicit class RichInterval[A](in: Interval[A]) {
     def lowerValue: Option[A] = in.lowerBound match {
       case Open(a) => Some(a)
@@ -234,6 +229,21 @@ package object eoi {
     def nextOrSame(day: java.time.DayOfWeek): LocalDate = {
       val diff = ((day.getValue + 7) - value.getDayOfWeek.getValue) % 7
       value.plusDays(diff)
+    }
+  }
+
+
+  implicit class RichC23DateTuple[A <: ClassTwoOrThree](val value: (LocalDate, A)) extends AnyVal {
+    private def intervalStart = value._1
+
+    def getFinalDate: Explained[LocalDate] = value._2.finalDate match {
+      case Some(date) => date gives "finalDate: from config"
+      case None => intervalStart.plusYears(7).minusDays(1) gives s"finalDate: start date ($intervalStart) + 7 years - 1 day"
+    }
+
+    def getHigherRateDate: Explained[LocalDate] = value._2.hrpDate match {
+      case Some(hrp) => hrp gives "higherRateDate: from config"
+      case None => intervalStart.plusYears(3) gives s"higherRateDate: start date ($intervalStart) + 3 years"
     }
   }
 

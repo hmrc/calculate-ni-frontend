@@ -17,11 +17,11 @@
 package eoi
 
 import cats.implicits._
+import com.github.tototoshi.csv._
 
 class ClassTwoSpec extends SpreadsheetTest {
 
   val files = csvsInDir("calc/src/test/resources/testing-tables/class2")
-
 
   def lineTest(row: Map[String, String]): Unit = {
     // data
@@ -60,4 +60,5 @@ class ClassTwoSpec extends SpreadsheetTest {
   }
 
   runFiles()
+
 }

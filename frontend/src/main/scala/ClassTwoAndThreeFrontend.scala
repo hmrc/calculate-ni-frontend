@@ -35,7 +35,7 @@ class ClassTwoAndThreeFrontend[A <: ClassTwoOrThree](
       throw new IllegalStateException(s"No band defined for $on")
     )
     
-    taxYear.getFinalDate(interval.lowerValue.get).value
+    (interval.lowerValue.get, taxYear).getFinalDate.value
   }
 
   def getQualifyingEarningsFactor(
