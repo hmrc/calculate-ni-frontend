@@ -9,6 +9,7 @@ import {
   initInterestOnLateClassOne, InterestOnLateClassOne,
   NiFrontendContext
 } from "../../../services/NiFrontendContext";
+import {LateRefundsTableRowProps} from "../late-refunds/LateRefundsContext";
 
 
 const detailsState = {
@@ -25,6 +26,7 @@ const stateReducer = (state: DetailsProps, action: { [x: string]: string }) => (
 })
 
 interface LateInterestResults {
+  rows: Class1DebtRow[]
   totalDebt: string | null
   totalInterest: string | null
   grandTotal: string | null
@@ -116,6 +118,11 @@ export function useLateInterestForm() {
       setRows((prevState: Class1DebtRow[]) => prevState.map(row => ({
         ...row,
         interestDue: null
+      })))
+    } else {
+      setRows((prevState: Class1DebtRow[]) => prevState.map((row, i) => ({
+        ...row,
+        interestDue: results.rows[i].interestDue
       })))
     }
   }, [results])

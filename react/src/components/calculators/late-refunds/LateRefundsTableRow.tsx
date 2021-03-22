@@ -13,7 +13,7 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 import MqTableCell from '../shared/MqTableCell'
 import TableRow from "../shared/TableRow";
 import DateInputs from "../../helpers/formhelpers/DateInputs";
-import {DateParts, extractDatePartString, getNumberOfWeeks, validDateParts} from "../../../services/utils";
+import {DateParts, extractDatePartString, validDateParts} from "../../../services/utils";
 
 function LateRefundsTableRow(props: {
   row: LateRefundsTableRowProps,

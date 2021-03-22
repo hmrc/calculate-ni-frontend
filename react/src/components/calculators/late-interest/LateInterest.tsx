@@ -29,7 +29,6 @@ const LateInterestPage = () => {
     InterestOnLateClassOneCalculator,
     details,
     rows,
-    setRows,
     rates,
     dateRange,
     setDetails,

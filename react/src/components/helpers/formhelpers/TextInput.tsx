@@ -46,7 +46,7 @@ function TextInput(props: TextInputProps) {
       }
       {error &&
       <InlineError
-        id={`${name}`}
+        id={`${name}-error`}
         errorMessage={error?.message}
       />
       }
