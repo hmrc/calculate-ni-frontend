@@ -24,7 +24,8 @@ case class InterestResult(
   from: TaxYear,
   to: LocalDate, 
   amount: BigDecimal,
-  daysInYear: Int
+  daysInYear: Int,
+  remissionPeriod: Option[Interval[LocalDate]]
 ) {
 
   val dateRange: Interval[LocalDate] = {
@@ -35,7 +36,11 @@ case class InterestResult(
   val dailyArrears = amount / daysInYear
 
   val interestUnrounded = ratesSequence.foldLeft(Zero){ case (acc,(band,rate)) =>
-    acc + (band intersect dateRange).numberOfDays.getOrElse(0) * dailyArrears * rate
+    val overlap = band intersect dateRange
+    val overlapDays = overlap.numberOfDays.getOrElse(0)
+    val remissionDays = remissionPeriod.fold(0)(r => (overlap intersect r).numberOfDays.getOrElse(0) )
+    val effectiveDays = overlapDays - remissionDays
+    acc + effectiveDays * dailyArrears * rate
   }
 
   val interest = interestUnrounded.setScale(2, BigDecimal.RoundingMode.HALF_UP)
