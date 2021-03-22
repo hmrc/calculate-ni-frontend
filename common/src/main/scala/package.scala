@@ -99,7 +99,13 @@ package object eoi {
       value.find{case (k,v) => k.contains(in)}
   }
 
-  implicit def localDateOrder = new spire.algebra.Order[LocalDate] {
+  implicit val localDateOrdering = new Ordering[LocalDate] {
+    def compare(x: LocalDate, y: LocalDate): Int = x.toEpochDay compare y.toEpochDay
+  }
+
+  implicit val localDateSpireOrdering = new spire.algebra.Order[LocalDate] {
+    // for some reason fromOrdered doesn't resolve when using >= for example
+    // probably something to do with cats/spire interop
     def compare(x: LocalDate, y: LocalDate): Int = x.toEpochDay compare y.toEpochDay
   }
 
@@ -196,6 +202,24 @@ package object eoi {
       (startDate, endDate) mapN ( (s,e) =>
         (BigDecimal(e.toEpochDay() - s.toEpochDay()) / 7)
           .setScale(0, rounding).toInt
+      )
+    }
+
+    def numberOfDays: Option[Int] = {
+      val startDate = inner.lowerBound match {
+        case Open(a) => a.plusDays(1).some
+        case Closed(a) => a.some
+        case _ => None
+      }
+
+      val endDate = inner.upperBound match {
+        case Open(a) => a.some
+        case Closed(a) => a.plusDays(1).some
+        case _ => None
+      }
+
+      (startDate, endDate) mapN ( (s,e) =>
+        (e.toEpochDay() - s.toEpochDay()).toInt
       )
     }
   }

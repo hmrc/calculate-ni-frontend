@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // components
@@ -14,13 +14,14 @@ import TableRow from "../shared/TableRow";
 
 function Class1DebtTableRow(props: {
   row: Class1DebtRow,
-  taxYears: TaxYear[]
   index: number,
   printView: boolean
 }) {
-  const {row, taxYears, index, printView} = props
+  const {row, index, printView} = props
+  const [taxYear, setTaxYear] = useState<TaxYear | undefined>(row.taxYear)
   const {
     rows,
+    taxYears,
     setRows,
     errors,
     activeRowId,
@@ -30,18 +31,18 @@ function Class1DebtTableRow(props: {
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     invalidateResults()
-    const ty = e.currentTarget.value
-
-    const tYObject: TaxYear = {
-      id: ty,
-      from: new Date(extractFromDateString(ty)),
-      to: new Date(extractToDateString(ty))
-    }
-
-    setRows(rows.map((cur: Class1DebtRow) =>
-      cur.id === row.id ? {...cur, taxYear: tYObject} : cur
-    ))
+    setTaxYear(taxYears.find(ty => ty.id === e.currentTarget.value))
   }
+
+  useEffect(() => {
+    setRows(rows.map((cur: Class1DebtRow) =>
+      cur.id === row.id ? {...cur, taxYear: taxYear} : cur
+    ))
+  }, [taxYear])
+
+  useEffect(() => {
+    setTaxYear(taxYears[0])
+  }, [taxYears])
 
   const handleChange = (row: Class1DebtRow, e:  React.ChangeEvent<HTMLInputElement>) => {
     invalidateResults()

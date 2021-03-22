@@ -77,7 +77,6 @@ export interface DirectorsFormProps {
 
 export interface Class1DebtRow {
   id: string
-  taxYears: TaxYear[]
   taxYear: TaxYear
   debt: string
   interestDue: string | null

@@ -9,6 +9,7 @@ import {
   initInterestOnLateClassOne, InterestOnLateClassOne,
   NiFrontendContext
 } from "../../../services/NiFrontendContext";
+import {LateRefundsTableRowProps} from "../late-refunds/LateRefundsContext";
 
 
 const detailsState = {
@@ -25,6 +26,7 @@ const stateReducer = (state: DetailsProps, action: { [x: string]: string }) => (
 })
 
 interface LateInterestResults {
+  rows: Class1DebtRow[]
   totalDebt: string | null
   totalInterest: string | null
   grandTotal: string | null
@@ -85,16 +87,15 @@ export function useLateInterestForm() {
   const [errors, setErrors] = useState<GenericErrors>({})
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   const [results, setResults] = useState<LateInterestResults | null>(null)
+  const [taxYears, setTaxYears] = useState<TaxYear[]>([])
   const {
     NiFrontendInterface
   } = useContext(NiFrontendContext)
   const ClassOneCalculator = NiFrontendInterface.classOne
-  const taxYears: TaxYear[] = buildTaxYears(ClassOneCalculator.getTaxYears)
   const InterestOnLateClassOneCalculator = NiFrontendInterface.interestOnLateClassOne
   const [rates, setRates] = useState<Rate[] | null>([])
   const defaultRows = [{
     id: uniqid(),
-    taxYears: taxYears,
     taxYear: taxYears[0],
     debt: '',
     interestDue: null
@@ -108,10 +109,20 @@ export function useLateInterestForm() {
   }, [InterestOnLateClassOneCalculator])
 
   useEffect(() => {
+    const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
+    setTaxYears(taxYearData)
+  }, [ClassOneCalculator])
+
+  useEffect(() => {
     if(!results) {
       setRows((prevState: Class1DebtRow[]) => prevState.map(row => ({
         ...row,
         interestDue: null
+      })))
+    } else {
+      setRows((prevState: Class1DebtRow[]) => prevState.map((row, i) => ({
+        ...row,
+        interestDue: results.rows[i].interestDue
       })))
     }
   }, [results])

@@ -16,6 +16,7 @@ import {useDocumentTitle} from "../../../services/useDocumentTitle";
 import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
 import PrintButtons from "../shared/PrintButtons";
 import {validateLateRefundsPayload} from "./validation";
+import {InterestRow} from "../../../calculation";
 
 const pageTitle = 'Interest on late-paid refunds from 1993 to 1994'
 
@@ -63,21 +64,13 @@ const LateRefundsPage = () => {
     }
 
     if(validateLateRefundsPayload(payload, setErrors)) {
-      const transformedRows = rows.map((row: LateRefundsTableRowProps) => {
-        return {
-          periodStart: row.taxYear?.from,
-          refund: stripCommas(row.refund)
-        }
-      })
+      const interestRows = rows.map((row: LateRefundsTableRowProps) =>
+        new (InterestRow as any)(
+          row.taxYear?.from,
+          parseFloat(stripCommas(row.refund))
+        ))
 
-      const resultFromCalculator = InterestOnLateRefundsCalculator.calculate(transformedRows)
-
-      const newRows = rows.map((row: LateRefundsTableRowProps, i: number) => ({
-        ...row,
-        payable: resultFromCalculator.rows[i].payable
-      }))
-      setRows(newRows)
-      setResults(resultFromCalculator)
+      setResults(InterestOnLateRefundsCalculator.calculate(interestRows))
 
       if(showSummaryIfValid) {
         setShowSummary(true)

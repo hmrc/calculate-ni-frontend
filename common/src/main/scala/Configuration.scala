@@ -115,6 +115,8 @@ case class Configuration(
   classTwo: Map[Interval[LocalDate], ClassTwo],
   classThree: Map[Interval[LocalDate], ClassThree],
   classFour: Map[Interval[LocalDate], ClassFour],
+  interestOnLatePayment: Map[Interval[LocalDate], BigDecimal],
+  interestOnRepayment: Map[Interval[LocalDate], BigDecimal],
   unofficialDeferment: Map[Int, TaxYearBandLimits]
 ) {
 
@@ -195,5 +197,29 @@ case class Configuration(
         unofficialDeferment(taxYear),
         rows
       )
+
+  def calculateInterestOnLatePayment(
+    amount: BigDecimal,
+    taxYear: TaxYear,
+    to: LocalDate = LocalDate.now
+  ) = InterestResult(
+    interestOnLatePayment,
+    taxYear,
+    to,
+    amount,
+    366
+  )
+
+  def calculateInterestOnRepayment(
+    amount: BigDecimal,
+    taxYear: TaxYear,
+    to: LocalDate = LocalDate.now
+  ) = InterestResult(
+    interestOnRepayment,
+    taxYear,
+    to,
+    amount,
+    365
+  )
 
 }

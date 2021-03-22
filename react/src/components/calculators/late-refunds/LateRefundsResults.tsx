@@ -12,7 +12,7 @@ function LateRefundsResults(props: {printView: boolean}) {
         <div className="container third section--top column">
           <span className="label block" id="total-refund-label">Total amount for refund</span>
           <div className="value full inline" aria-describedby="total-refund-label">
-            {results?.totalRefund}
+            {results?.totalDebt}
           </div>
         </div>
 

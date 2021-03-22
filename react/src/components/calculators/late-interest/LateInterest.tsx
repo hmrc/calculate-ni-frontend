@@ -1,5 +1,5 @@
 import React, {useState, useContext, useRef, useEffect} from 'react'
-import { RemissionPeriod } from '../../../calculation'
+import { RemissionPeriod, InterestRow } from '../../../calculation'
 
 // components
 import Details from "../shared/Details"
@@ -29,7 +29,6 @@ const LateInterestPage = () => {
     InterestOnLateClassOneCalculator,
     details,
     rows,
-    setRows,
     rates,
     dateRange,
     setDetails,
@@ -60,7 +59,6 @@ const LateInterestPage = () => {
 
   const submitForm = (showSummaryIfValid: boolean) => {
     setErrors({})
-
     const payload = {
       rows,
       dateRange,
@@ -68,35 +66,36 @@ const LateInterestPage = () => {
     }
 
     if(validateLateInterestPayload(payload, setErrors)) {
-      const transformedRows = rows.map((row: Class1DebtRow) => {
-        return {
-          periodStart: row.taxYear?.from,
-          debt: stripCommas(row.debt)
-        }
-      })
-      const remission = payload.hasRemissionPeriod ? new (RemissionPeriod as any)(dateRange.from, dateRange.to) : null
 
-      let resultFromCalculator: any;
-      if (payload.hasRemissionPeriod) {
-        resultFromCalculator = InterestOnLateClassOneCalculator.calculate(transformedRows, remission)
-      } else {
-        resultFromCalculator = InterestOnLateClassOneCalculator.calculate(transformedRows)
+      const interestRows = rows.map((row: Class1DebtRow) =>
+        new (InterestRow as any)(
+          row.taxYear?.from,
+          parseFloat(stripCommas(row.debt))
+        ))
+
+      try {
+        if(payload.hasRemissionPeriod) {
+          setResults(InterestOnLateClassOneCalculator
+            .calculate(
+              interestRows,
+              new (RemissionPeriod as any)(
+                dateRange.from,
+                dateRange.to
+              )
+            ))
+        } else {
+          setResults(InterestOnLateClassOneCalculator
+            .calculate(interestRows))
+        }
+
+        if(showSummaryIfValid) {
+          setShowSummary(true)
+        }
+      } catch (e) {
+        console.log('error during calculation', e)
+        console.error(e)
       }
 
-
-
-      const newRows = rows.map((row: Class1DebtRow, i: number) => {
-        return {
-          ...row,
-          interestDue: resultFromCalculator.rows[i].interestDue
-        }
-      })
-      setRows(newRows)
-      setResults(resultFromCalculator)
-
-      if(showSummaryIfValid) {
-        setShowSummary(true)
-      }
     }
   }
 
@@ -115,8 +114,20 @@ const LateInterestPage = () => {
 
   return (
     <div>
-      <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
-        {successNotificationsOn && results && <SuccessNotification table={true} totals={true} />}
+      <div
+        className="result-announcement"
+        aria-live="polite"
+        ref={resultRef}
+        tabIndex={-1}
+      >
+        {
+          successNotificationsOn &&
+          results &&
+          <SuccessNotification
+            table={true}
+            totals={true}
+          />
+        }
       </div>
       {showSummary ?
         <LateInterestPrint
@@ -127,9 +138,9 @@ const LateInterestPage = () => {
         <>
 
           {(hasKeys(errors)) &&
-          <ErrorSummary
-              errors={errors}
-          />
+            <ErrorSummary
+                errors={errors}
+            />
           }
 
           <h1>{pageTitle}</h1>

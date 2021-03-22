@@ -227,6 +227,7 @@ export const validateLateInterestPayload  = (
   setErrors: Dispatch<GenericErrors>
 ) => {
   const errors: GenericErrors = {}
+  console.log('validating payload', payload)
 
   if(payload.hasRemissionPeriod !== true && payload.hasRemissionPeriod !== false) {
     errors.hasRemissionPeriod = {
