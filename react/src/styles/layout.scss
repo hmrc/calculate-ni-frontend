@@ -87,6 +87,16 @@
         margin-left: 4%;
       }
     }
+    &.eight-tenths {
+      flex-grow: 1;
+      width: 80%;
+    }
+    &.eight-tenths + .container {
+      margin-left: 4%;
+    }
+    &.two-tenths {
+      width: 20%;
+    }
   }
 
   .item {

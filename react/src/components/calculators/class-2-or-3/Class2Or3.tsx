@@ -15,6 +15,7 @@ import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 import {Class2Or3Context, useClass2Or3Form} from './Class2Or3Context'
 import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
 import PrintButtons from "../shared/PrintButtons";
+import {NiClassName} from '../../../config'
 
 const pageTitle = 'Class 2 or 3 NI contributions needed for a qualifying year'
 
@@ -70,7 +71,7 @@ const Class2Or3Page = () => {
     }
 
     if(validateClass2Or3Payload(payload, setErrors)) {
-      const resultFromCalculator = payload.activeClass === 'Class 2' ?
+      const resultFromCalculator = payload.activeClass === NiClassName.CLASS_TWO ?
         ClassTwoCalculator.calculate(
           payload.taxYear?.from,
           payload.paymentEnquiryDate,

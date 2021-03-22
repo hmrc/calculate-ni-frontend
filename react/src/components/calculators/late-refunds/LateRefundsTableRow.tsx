@@ -92,7 +92,6 @@ function LateRefundsTableRow(props: {
             taxYears={taxYears}
             taxYear={row.taxYear}
             handleTaxYearChange={handleTaxYearChange}
-            onlyStartYear={true}
           />
         }
       </MqTableCell>
@@ -111,7 +110,7 @@ function LateRefundsTableRow(props: {
         />
       </MqTableCell>
 
-      <MqTableCell cellClassName={`input${errors[`${row.id}-refund`] ? ` error-cell` : ``}`} cellStyle={thStyles.refund}>
+      <MqTableCell cellClassName={`input${errors[`${row.id}-refund`] ? ` error-cell` : ``} refund`} cellStyle={thStyles.refund}>
         {printView ?
           <div>{row.refund}</div>
           :
@@ -127,7 +126,7 @@ function LateRefundsTableRow(props: {
         }
       </MqTableCell>
 
-      <MqTableCell cellStyle={thStyles.payable}>
+      <MqTableCell cellStyle={thStyles.payable} cellClassName="payable">
         {row.totalDue}
       </MqTableCell>
     </TableRow>
