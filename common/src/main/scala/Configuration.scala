@@ -201,13 +201,15 @@ case class Configuration(
   def calculateInterestOnLatePayment(
     amount: BigDecimal,
     taxYear: TaxYear,
+    remission: Option[Interval[LocalDate]],
     to: LocalDate = LocalDate.now
   ) = InterestResult(
     interestOnLatePayment,
     taxYear,
     to,
     amount,
-    366
+    366,
+    remission
   )
 
   def calculateInterestOnRepayment(
@@ -219,7 +221,8 @@ case class Configuration(
     taxYear,
     to,
     amount,
-    365
+    365,
+    None
   )
 
 }
