@@ -60,7 +60,6 @@ const LateInterestPage = () => {
 
   const submitForm = (showSummaryIfValid: boolean) => {
     setErrors({})
-
     const payload = {
       rows,
       dateRange,
@@ -68,28 +67,27 @@ const LateInterestPage = () => {
     }
 
     if(validateLateInterestPayload(payload, setErrors)) {
-      console.log('valid payload', payload)
 
-      const transformedRows = rows.map((row: Class1DebtRow) => new (InterestRow as any)(
-        row.taxYear?.from,
-        parseFloat(stripCommas(row.debt))
-      ))
+      const interestRows = rows.map((row: Class1DebtRow) =>
+        new (InterestRow as any)(
+          row.taxYear?.from,
+          parseFloat(stripCommas(row.debt))
+        ))
 
-      console.log('transformed rows', transformedRows)
       try {
-        const resultFromCalculator = payload.hasRemissionPeriod
-          ? InterestOnLateClassOneCalculator.calculate(transformedRows, new (RemissionPeriod as any)(dateRange.from, dateRange.to))
-          :
-          InterestOnLateClassOneCalculator.calculate(transformedRows)
-
-        const newRows = rows.map((row: Class1DebtRow, i: number) => {
-          return {
-            ...row,
-            interestDue: resultFromCalculator.rows[i].interestDue
-          }
-        })
-        setRows(newRows)
-        setResults(resultFromCalculator)
+        if(payload.hasRemissionPeriod) {
+          setResults(InterestOnLateClassOneCalculator
+            .calculate(
+              interestRows,
+              new (RemissionPeriod as any)(
+                dateRange.from,
+                dateRange.to
+              )
+            ))
+        } else {
+          setResults(InterestOnLateClassOneCalculator
+            .calculate(interestRows))
+        }
 
         if(showSummaryIfValid) {
           setShowSummary(true)
@@ -103,7 +101,6 @@ const LateInterestPage = () => {
   }
 
   const handleSubmit = (event: React.FormEvent) => {
-    console.log('handling submit')
     event.preventDefault()
     submitForm(false)
   }
@@ -118,8 +115,20 @@ const LateInterestPage = () => {
 
   return (
     <div>
-      <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
-        {successNotificationsOn && results && <SuccessNotification table={true} totals={true} />}
+      <div
+        className="result-announcement"
+        aria-live="polite"
+        ref={resultRef}
+        tabIndex={-1}
+      >
+        {
+          successNotificationsOn &&
+          results &&
+          <SuccessNotification
+            table={true}
+            totals={true}
+          />
+        }
       </div>
       {showSummary ?
         <LateInterestPrint
@@ -130,9 +139,9 @@ const LateInterestPage = () => {
         <>
 
           {(hasKeys(errors)) &&
-          <ErrorSummary
-              errors={errors}
-          />
+            <ErrorSummary
+                errors={errors}
+            />
           }
 
           <h1>{pageTitle}</h1>

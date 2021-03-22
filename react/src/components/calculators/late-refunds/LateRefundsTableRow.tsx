@@ -128,7 +128,7 @@ function LateRefundsTableRow(props: {
       </MqTableCell>
 
       <MqTableCell cellStyle={thStyles.payable}>
-        {row.payable}
+        {row.totalDue}
       </MqTableCell>
     </TableRow>
   )
