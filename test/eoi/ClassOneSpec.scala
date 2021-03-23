@@ -17,11 +17,11 @@
 package eoi
 
 import com.github.tototoshi.csv._
-import org.scalatest._
+import org.scalatest._, funspec._
 import java.time.LocalDate
 import java.io._
 
-class ClassOneSpec extends FunSpec with ExplainTestSupport {
+class ClassOneSpec extends AnyFunSpec with ExplainTestSupport {
 
   val config: Configuration = eoi.ConfigLoader.default
 

@@ -11,7 +11,7 @@ val build                    = taskKey[Unit]("Copy JS and Config to react app")
 
 val appName = "calculate-ni-frontend"
 
-val silencerVersion = "1.7.0"
+val silencerVersion = "1.7.3"
 
 installReactDependencies := {
   val result = JavaScriptBuild.npmProcess(reactDirectory.value, "install").run().exitValue()
@@ -54,14 +54,14 @@ lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin)
   .settings(
     majorVersion                     := 0,
-    scalaVersion                     := "2.12.11",
+    scalaVersion                     := "2.12.13",
     libraryDependencies              ++= Seq(
-      "uk.gov.hmrc"             %% "bootstrap-frontend-play-27" % "3.0.0",
-      "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "0.21.0-play-27",
-      "uk.gov.hmrc"             %% "play-frontend-govuk"        % "0.53.0-play-27",
-      "com.github.pureconfig"   %% "pureconfig"                 % "0.13.0",
+      "uk.gov.hmrc"             %% "bootstrap-frontend-play-28" % "4.1.0",
+      "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "0.54.0-play-28",
+      "uk.gov.hmrc"             %% "play-frontend-govuk"        % "0.67.0-play-28",
+      "com.github.pureconfig"   %% "pureconfig"                 % "0.14.1",
       "org.typelevel"           %% "cats-core"                  % "2.1.1",
-      "org.typelevel"           %% "spire"                      % "0.16.2"
+      "org.typelevel"           %% "spire"                      % "0.17.0"
     ),
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core",
@@ -69,20 +69,15 @@ lazy val microservice = Project(appName, file("."))
       "io.circe" %%% "circe-parser"
     ).map(_ % circeVersion),
     libraryDependencies              ++= Seq(
-      "uk.gov.hmrc"             %% "bootstrap-test-play-27"   % "3.0.0",
-      "org.scalatest"           %% "scalatest"                % "3.1.2",
-      "org.jsoup"               %  "jsoup"                    % "1.10.2",
-      "com.typesafe.play"       %% "play-test"                % play.core.PlayVersion.current,
+      "org.scalatest"           %% "scalatest"                % "3.2.6",
       "com.vladsch.flexmark"    %  "flexmark-all"             % "0.35.10",
-      "org.scalatestplus.play"  %% "scalatestplus-play"       % "4.0.3",
-      "org.scalacheck"          %% "scalacheck"               % "1.14.1",
-      "com.github.tototoshi"    %% "scala-csv"                % "1.3.6"
+      "com.typesafe.play"       %% "play-test"                % play.core.PlayVersion.current,
+      "com.github.tototoshi"    %% "scala-csv"                % "1.3.7"
     ).map(_ % Test),
     TwirlKeys.templateImports ++= Seq(
       "uk.gov.hmrc.calculatenifrontend.config.AppConfig",
       "uk.gov.hmrc.govukfrontend.views.html.components._",
-      "uk.gov.hmrc.govukfrontend.views.html.helpers._",
-      "uk.gov.hmrc.hmrcfrontend.views.html.components._"
+      "uk.gov.hmrc.govukfrontend.views.html.helpers._"
     ),
     play.sbt.routes.RoutesKeys.routesImport += "uk.gov.hmrc.calculatenifrontend.controllers.Binders._",
     scalacOptions += "-P:silencer:pathFilters=routes",
@@ -110,7 +105,7 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
   .withoutSuffixFor(JVMPlatform)
   .crossType(sbtcrossproject.CrossPlugin.autoImport.CrossType.Pure)
   .settings(
-    scalaVersion := "2.12.12",
+    scalaVersion := "2.12.13",
     majorVersion := 0,    
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core",
@@ -119,7 +114,7 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
     ).map(_ % circeVersion),
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % "2.1.1",
-      "org.typelevel" %%% "spire" % "0.16.2"
+      "org.typelevel" %%% "spire" % "0.17.0-RC1"
     ),
     scalacOptions -= "-Xfatal-warnings",
     addCompilerPlugin(
@@ -133,7 +128,7 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
 lazy val `frontend` = project
   .enablePlugins(ScalaJSPlugin)
   .settings(
-    scalaVersion := "2.12.12",
+    scalaVersion := "2.12.13",
     majorVersion := 0,        
     scalacOptions -= "-Xfatal-warnings",
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
