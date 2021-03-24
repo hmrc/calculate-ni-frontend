@@ -26,9 +26,7 @@ const LateRefundsPage = () => {
   const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const {
     InterestOnLateRefundsCalculator,
-    bankHolidaysNo,
     rows,
-    setRows,
     errors,
     setErrors,
     details,
@@ -58,10 +56,7 @@ const LateRefundsPage = () => {
   const submitForm = (showSummaryIfValid: boolean) => {
     setErrors({})
 
-    const payload = {
-      rows,
-      bankHolidaysNo
-    }
+    const payload = { rows }
 
     if(validateLateRefundsPayload(payload, setErrors)) {
       const interestRows = rows.map((row: LateRefundsTableRowProps) =>

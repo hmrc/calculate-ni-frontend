@@ -12,8 +12,7 @@ import LateRefundsTable from './LateRefundsTable'
 function LateRefundsPrint(props: LateRefundPrintProps) {
   const { title, setShowSummary } = props
   const {
-    details,
-    bankHolidaysNo
+    details
   } = useContext(LateRefundsContext)
   return (
     <div className="save-print-wrapper">
@@ -26,11 +25,6 @@ function LateRefundsPrint(props: LateRefundPrintProps) {
 
         <div className="divider--bottom">
           <div className="section--top">
-
-            <div className="divider--bottom section--bottom section-outer--bottom">
-              <p><strong>Number of bank holidays:</strong> {bankHolidaysNo ? bankHolidaysNo : 'Not entered'}</p>
-            </div>
-
             <LateRefundsTable printView={true} />
           </div>
         </div>

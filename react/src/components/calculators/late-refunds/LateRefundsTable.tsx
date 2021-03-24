@@ -15,7 +15,6 @@ interface LateRefundsTable {
 function LateRefundsTable(props: LateRefundsTable) {
   const {printView} = props
   const {
-    setBankHolidaysNo,
     defaultRow,
     rows,
     setRows,
@@ -45,7 +44,6 @@ function LateRefundsTable(props: LateRefundsTable) {
   }
 
   const handleClearForm = () => {
-    setBankHolidaysNo('')
     setRows([defaultRow])
     setResults(null)
     setActiveRowId(null)

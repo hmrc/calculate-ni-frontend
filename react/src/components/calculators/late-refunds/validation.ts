@@ -5,7 +5,6 @@ import {GenericErrors, stripCommas} from "../../../validation/validation"
 
 interface LateRefundsPayload {
   rows: Array<LateRefundsTableRowProps>
-  bankHolidaysNo: string
 }
 
 export const validateLateRefundsPayload = (
@@ -13,23 +12,7 @@ export const validateLateRefundsPayload = (
   setErrors: Dispatch<GenericErrors>
 ) => {
   const errors: GenericErrors = {}
-
-  if (isNaN(+payload.bankHolidaysNo)) {
-    errors[`bankHolidays`] = {
-      name: `bankHolidays`,
-      link: `bankHolidays`,
-      message: `Number of bank holidays must be a number between 1 and 4`
-    }
-  } else if (parseInt(payload.bankHolidaysNo) > 4) {
-    errors[`bankHolidays`] = {
-      name: `bankHolidays`,
-      link: `bankHolidays`,
-      message: `Number of bank holidays must be a number between 1 and 4`
-    }
-  }
-
   validateLateRefundsRows(payload.rows, errors)
-
   if (hasKeys(errors)) {
     setErrors(errors)
     return false
