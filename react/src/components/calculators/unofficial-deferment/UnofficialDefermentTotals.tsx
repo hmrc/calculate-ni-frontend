@@ -14,6 +14,16 @@ export default function UnofficialDefermentTotals(props: {isSaveAndPrint: boolea
     >
       <h2 className="section-heading">Totals</h2>
 
+      {isSaveAndPrint && (
+        <ul className="govuk-list">
+          {results?.report.map((r, i) => (
+            <li key={`step-${i}`}>
+              {r.label}
+            </li>
+          ))}
+        </ul>
+      )}
+
       <div className="container section--top column">
         <span className="label block">Annual max</span>
         <div className="value inline width-8">
