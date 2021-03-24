@@ -182,7 +182,7 @@ case class UnofficialDefermentResult(
 
   lazy val nicsOnMaxMainContributionEarnings: Explained[BigDecimal] =
     (rateOnMaxContributionEarnings * maxMainContributionEarnings.value).roundNi gives
-      s"Step 2: $rateOnMaxContributionEarnings% of Step 1"
+      s"Step 2: ${rateOnMaxContributionEarnings * 100}% of Step 1"
 
   lazy val actualEarningsInMainContributionBand: Explained[BigDecimal] =
     rowsOutput.map(_.earningsInMainContributionBand).sum gives
@@ -195,7 +195,7 @@ case class UnofficialDefermentResult(
 
   lazy val nicsOnExcessEarnings: Explained[BigDecimal] =
     (nonCOAdditionalRate * excessEarnings.value).roundNi gives
-      s"Step 5: Multiply Step 4 by $nonCOAdditionalRate% if positive (disregard if negative)"
+      s"Step 5: Multiply Step 4 by ${nonCOAdditionalRate * 100}% if positive (disregard if negative)"
 
   lazy val totalEarningsAboveUel: Explained[BigDecimal] =
     rowsOutput.map(_.earningsOverUEL).sum gives
@@ -203,7 +203,7 @@ case class UnofficialDefermentResult(
 
   lazy val nicsOnTotalEarningsAboveUel =
     (nonCOAdditionalRate * totalEarningsAboveUel.value).roundNi gives
-      s"Step 7: Multiple Step 6 by $nonCOAdditionalRate%"
+      s"Step 7: Multiply Step 6 by ${nonCOAdditionalRate * 100}%"
 
   lazy val annualMax =
     nicsOnMaxMainContributionEarnings.value + nicsOnExcessEarnings.value + nicsOnTotalEarningsAboveUel.value gives
