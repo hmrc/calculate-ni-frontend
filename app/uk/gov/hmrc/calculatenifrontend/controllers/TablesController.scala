@@ -92,18 +92,17 @@ class TablesController @Inject()(
         }) ++ (data.weeklyRate.fishermen match {
           case None => Nil
           case Some(vdw) => List (
-            "Share Fishing Weekly Rate" -> vdw,
-            "Share Fishing Total" -> vdw * noOfWeeks
+            "Share Fishing Weekly Rate" -> vdw.formatSterling,
+            "Share Fishing Total" -> (vdw * noOfWeeks).formatSterling
           )
         }) ++ List (
-          "Date Late For Short Term Benefits (STB)" -> "???",
-          "Final Date For Payment" -> lowerBound.plusYears(if (lowerBound.getYear < 1983) 3 else 7),
+//          "Date Late For Short Term Benefits (STB)" -> "???",
+          "Final Date For Payment" -> (lowerBound, data).getFinalDate.value,
           "Small Profits Threshold/Small Earnings Exemption (SPT/SEE)" ->
-            data.smallEarningsException.fold("???")(_.formatSterling), // below which paying is optional
-          "Date High Rate Provision (HRP) Applies" ->
-            (if (lowerBound.getYear < 1983) "" else lowerBound.plusYears(2).plusDays(1).toString),
+            data.smallEarningsException.fold("N/A")(_.formatSterling), // below which paying is optional
+          "Date High Rate Provision (HRP) Applies" -> (lowerBound, data).getHigherRateDate.value, 
           "No of Wks" -> noOfWeeks.toString,
-          "Earnings Factor (includes enhance)" -> "???",
+//          "Earnings Factor (includes enhance)" -> "???",
         )
         Ok(genericPage(dateP, intervals, "Class 2", response.map{case (k,v) => (k,Html(v.toString))}))
       case None => NotFound("")
@@ -124,11 +123,10 @@ class TablesController @Inject()(
         val response = List (
           "Weekly Rate" -> data.weekRate.formatSterling,
           "Rate Total" -> (data.weekRate * data.noOfWeeks).formatSterling,
-          "Date High Rate Provision (HRP) Applies" ->
-            (if (lowerBound.getYear < 1983) "" else lowerBound.plusYears(2).plusDays(1).toString),
-          "Final Date For Payment" -> lowerBound.plusYears(if (lowerBound.getYear < 1982) 3 else 7),
-          "Earnings Factor Qualifying Year" -> "???",
-          "Lower Earning Limit" -> "???" // for C1
+          "Date High Rate Provision (HRP) Applies" -> (lowerBound, data).getHigherRateDate.value, 
+          "Final Date For Payment" -> (lowerBound, data).getFinalDate.value, 
+//          "Earnings Factor Qualifying Year" -> "???",
+          "Lower Earning Limit" -> data.lel.formatSterling
         )
 
         Ok(genericPage(dateP, intervals, "Class 3", response.map{case (k,v) => (k,Html(v.toString))}))
