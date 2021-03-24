@@ -35,17 +35,23 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
 
 
     new js.Object {
-      val annualMax: Double = result.annualMax.doubleValue()
+      val annualMax: Double = result.annualMax.value.doubleValue()
       val liability: Double = result.liability.doubleValue()
       val difference: Double = result.difference.doubleValue()
       val ifNotUD: Double = result.ifNotUD.doubleValue()
-      val resultRows: js.Array[scala.scalajs.js.Object] = result.rowsOutput.toJSArray.map { r =>
+      val resultRows: js.Array[js.Object] = result.rowsOutput.toJSArray.map { r =>
         new js.Object {
           val id: String = r.id
           val gross: Double = r.grossPay.doubleValue()
           val overUel: Double = r.earningsOverUEL.doubleValue()
           val nicsNonCo: Double = r.nicsNonCO.doubleValue()
           val ifNotUd: Double = r.ifNotUD.doubleValue()
+        }
+      }
+      val report: js.Array[js.Object] = result.report.toJSArray.map{ r =>
+        new js.Object {
+          val label: String = r._1
+          val value: Double = r._2.doubleValue()
         }
       }
     }
