@@ -181,10 +181,8 @@ case class UnofficialDefermentResult(
   }
 
   lazy val nicsOnMaxMainContributionEarnings: Explained[BigDecimal] =
-    maxMainContributionEarnings.flatMap( earnings =>
-      (rateOnMaxContributionEarnings * earnings).roundNi gives
-        s"Step 2: $rateOnMaxContributionEarnings% of Step 1"
-    )
+    (rateOnMaxContributionEarnings * maxMainContributionEarnings.value).roundNi gives
+      s"Step 2: $rateOnMaxContributionEarnings% of Step 1"
 
   lazy val actualEarningsInMainContributionBand: Explained[BigDecimal] =
     rowsOutput.map(_.earningsInMainContributionBand).sum gives
@@ -227,7 +225,7 @@ case class UnofficialDefermentResult(
       totalEarningsAboveUel,
       nicsOnTotalEarningsAboveUel,
       annualMax,
-  ).map(v => v.explain.headOption.getOrElse("") -> v.value)
+  ).map(v => v.written.headOption.getOrElse("") -> v.value)
 
 
   private def nonCONicsWithoutRebates(row: UnofficialDefermentRowInput, earningsAboveUEL: BigDecimal) = {
