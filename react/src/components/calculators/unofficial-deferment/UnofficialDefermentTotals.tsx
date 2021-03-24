@@ -15,16 +15,20 @@ export default function UnofficialDefermentTotals(props: {isSaveAndPrint: boolea
       <h2 className="section-heading">Totals</h2>
 
       {isSaveAndPrint && (
-        <ul className="govuk-list">
-          {results?.report.map((r, i) => (
-            <li key={`step-${i}`}>
-              {r.label}
-            </li>
-          ))}
-        </ul>
+        <div className="container">
+          <div className="container container-block two-thirds">
+            <ul className="govuk-list save-print-wrapper">
+              {results?.report.map((r, i) => (
+                <li key={`step-${i}`}>
+                  {r.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       )}
 
-      <div className="container section--top column">
+      <div className="container container-block">
         <span className="label block">Annual max</span>
         <div className="value inline width-8">
           {results && sterlingStringValue(results.annualMax.toString())}
