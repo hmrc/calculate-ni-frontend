@@ -106,12 +106,11 @@ case class UnofficialDefermentResult(
     val (earningsInMainContributionBand, mainContributionBandLabels)  =
        row.bandAmounts.foldLeft(Zero -> List.empty[String]) { case (acc @ (sumAcc, labelAcc), curr) =>
         val bandLabel = curr.band match {
-          case BelowLEL |  LELToET | LELToPT => None
+          case BelowLEL |  LELToET | LELToPT | AboveUEL => None
           case PTToUAP => Some("PT - UAP")
           case PTToUEL => Some("PT - UEL")
           case ETToUEL => Some("ET - UEL")
           case UAPToUEL => Some("UAP - UEL")
-          case AboveUEL => None
         }
 
         bandLabel.fold(acc){ label =>
