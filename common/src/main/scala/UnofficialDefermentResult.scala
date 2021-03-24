@@ -197,7 +197,7 @@ case class UnofficialDefermentResult(
 
   lazy val nicsOnExcessEarnings: Explained[BigDecimal] =
     (nonCOAdditionalRate * excessEarnings.value).roundNi gives
-      s"Step 5: Multiple Step 4 by $nonCOAdditionalRate% if positive (disregard if negative)"
+      s"Step 5: Multiply Step 4 by $nonCOAdditionalRate% if positive (disregard if negative)"
 
   lazy val totalEarningsAboveUel: Explained[BigDecimal] =
     rowsOutput.map(_.earningsOverUEL).sum gives
