@@ -4,6 +4,7 @@ import * as thStyles from '../../../services/mobileHeadingStyles'
 // types
 import {Rate} from '../../../interfaces'
 import MqTableCell from './MqTableCell'
+import {decimalToPercent} from '../../../services/utils'
 
 interface InterestRatesTableProps {
   rates: Rate[] | null
@@ -25,7 +26,7 @@ function LateInterestRatesTable(props: InterestRatesTableProps) {
         {rates && rates.map((r: Rate, index: number) => (
           <tr key={index}>
             <MqTableCell cellStyle={thStyles.from}>{r.year}</MqTableCell>
-            <MqTableCell cellStyle={thStyles.rate}>{r.rate}</MqTableCell>
+            <MqTableCell cellStyle={thStyles.rate}>{decimalToPercent(r.rate)}%</MqTableCell>
           </tr>
         ))}
         </tbody>

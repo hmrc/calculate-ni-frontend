@@ -77,7 +77,6 @@ function Class1DebtTableRow(props: {
             taxYears={taxYears}
             taxYear={row.taxYear}
             handleTaxYearChange={handleTaxYearChange}
-            onlyStartYear={true}
           />
         }
       </MqTableCell>

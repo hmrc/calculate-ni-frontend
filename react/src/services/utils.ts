@@ -155,5 +155,7 @@ export const extractDatePartString = (part: DateParts, date: Date | null | undef
   return ''
 }
 
+export const decimalToPercent = (decimal: number) => parseFloat((decimal * 1000 / 10).toString())
+
 
 

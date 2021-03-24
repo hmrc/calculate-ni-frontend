@@ -151,7 +151,7 @@ const LateInterestPage = () => {
           />
 
           <div className="container">
-            <div className="container container-block two-thirds">
+            <div className="container container-block eight-tenths">
               <form onSubmit={handleSubmit} noValidate>
                 <div className="form-group table-wrapper nomar">
                   <LateInterestForm
@@ -160,7 +160,7 @@ const LateInterestPage = () => {
                 </div>
               </form>
             </div>
-            <div className="table-wrapper container third">
+            <div className="table-wrapper container two-tenths">
               <InterestRatesTable rates={rates} />
             </div>
           </div>
