@@ -20,7 +20,7 @@ export default function UnofficialDefermentTotals(props: {isSaveAndPrint: boolea
             <ul className="govuk-list save-print-wrapper">
               {results?.report.map((r, i) => (
                 <li key={`step-${i}`}>
-                  {r.label}
+                  {`${r.label} = ${r.value}`}
                 </li>
               ))}
             </ul>
