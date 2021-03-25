@@ -19,7 +19,7 @@ const Class3Table = (props: Class3TableProps) => {
       <colgroup span={1} />
       <thead>
         <tr className="clear">
-          <td colSpan={3} />
+          <td colSpan={printView ? 2 : 3} />
           <th scope="colgroup" className="border" colSpan={1}><span>Weeks</span></th>
         </tr>
         <tr>
