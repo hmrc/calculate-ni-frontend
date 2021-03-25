@@ -20,6 +20,8 @@ import cats.instances.vector._
 import eoi.Class1Band.{LELToET, _}
 
 import scala.reflect.{ClassTag, classTag}
+import scala.util.Try
+import scala.util.control.NonFatal
 
 sealed trait Class1Band extends Product with Serializable
 
@@ -51,11 +53,11 @@ object Class1Band {
 
   def fromString(in: String): Option[Class1Band] = in match {
     case "BelowLEL" => Some(BelowLEL)
-    case "LELToET" => Some(LELToET) 
-    case "LELToPT" => Some(LELToPT) 
-    case "PTToUAP" => Some(PTToUAP) 
-    case "PTToUEL" => Some(PTToUEL) 
-    case "ETToUEL" => Some(ETToUEL) 
+    case "LELToET" => Some(LELToET)
+    case "LELToPT" => Some(LELToPT)
+    case "PTToUAP" => Some(PTToUAP)
+    case "PTToUEL" => Some(PTToUEL)
+    case "ETToUEL" => Some(ETToUEL)
     case "UAPToUEL" => Some(UAPToUEL)
     case "AboveUEL" => Some(AboveUEL)
     case _ => None
@@ -96,10 +98,12 @@ case class UnofficialDefermentResult(
   rows: List[UnofficialDefermentRowInput]
 ){
 
+  import UnofficialDefermentResult._
+
   def getBandRates(b: Class1Band) =
     config.rates.getOrElse(b, Map.empty)
 
-  val nonCOAdditionalRate =
+  lazy val nonCOAdditionalRate =
     getBandRates(AboveUEL).getOrElse('A', sys.error("Could not find additional rate for category A"))
 
   lazy val rowsOutput = rows.map{ row =>
@@ -146,28 +150,28 @@ case class UnofficialDefermentResult(
     )
   }
 
-  lazy val maxMainContributionEarnings: Explained[BigDecimal] = {
-    taxYear match {
+  lazy val maxMainContributionEarnings: ReportStep = {
+    val (value, msg) = taxYear match {
       case late if late >= 2016 =>
         val pt = config.limits("PT")
         val uel = config.limits("UEL")
-        53*(uel - pt) gives
-        "Step 1: (UEL - PT) x 53 weeks"
+        53*(uel - pt) -> "Step 1: (UEL - PT) x 53 weeks"
+
       case mid if mid >= 2009 =>
         val pt = config.limits("PT")
         val uap = config.limits("UAP")
         val uel = config.limits("UEL")
-        53*((uel - uap)+(uap-pt) ) gives
-        "Step 1: ((UEL - UAP) + (UAP - PT)) x 53 weeks"
+        53*((uel - uap)+(uap-pt) ) -> "Step 1: ((UEL - UAP) + (UAP - PT)) x 53 weeks"
+
       case early =>
         val et = config.limits("ET")
         val uel = config.limits("UEL")
-        53*(uel - et) gives
-        "Step 1: (UEL - ET) x 53 weeks"
+        53*(uel - et) -> "Step 1: (UEL - ET) x 53 weeks"
     }
+    ReportStep(value, msg)
   }
 
-  lazy val rateOnMaxContributionEarnings: BigDecimal = {
+  val rateOnMaxContributionEarnings: BigDecimal = {
     def getRate(rates: Map[Char, BigDecimal]) =
       rates.get('A').getOrElse(sys.error(s"Could not find rate for category `A` for tax year $taxYear"))
 
@@ -180,34 +184,48 @@ case class UnofficialDefermentResult(
     })
   }
 
-  lazy val nicsOnMaxMainContributionEarnings: Explained[BigDecimal] =
-    (rateOnMaxContributionEarnings * maxMainContributionEarnings.value).roundNi gives
-      s"Step 2: ${rateOnMaxContributionEarnings.formatPercentage}% of Step 1"
+  lazy val nicsOnMaxMainContributionEarnings: ReportStep =
+    ReportStep(
+      (rateOnMaxContributionEarnings * maxMainContributionEarnings.value).roundNi,
+      s"Step 2: ${rateOnMaxContributionEarnings.formatPercentage} of Step 1"
+  )
 
-  lazy val actualEarningsInMainContributionBand: Explained[BigDecimal] =
-    rowsOutput.map(_.earningsInMainContributionBand).sum gives
+  lazy val actualEarningsInMainContributionBand: ReportStep =
+    ReportStep(
+      rowsOutput.map(_.earningsInMainContributionBand).sum,
       rowsOutput.headOption.map(r => s"Step 3: Sum of earnings ${r.mainContributionBandLabels.mkString(" and ")}")
         .getOrElse("")
+    )
 
-  lazy val excessEarnings: Explained[BigDecimal] =
-    Zero.max(actualEarningsInMainContributionBand.value - maxMainContributionEarnings.value) gives
+  lazy val excessEarnings: ReportStep =
+    ReportStep(
+    Zero.max(actualEarningsInMainContributionBand.value - maxMainContributionEarnings.value),
       "Step 4: Subtract Step 3 - Step 1"
+    )
 
-  lazy val nicsOnExcessEarnings: Explained[BigDecimal] =
-    (nonCOAdditionalRate * excessEarnings.value).roundNi gives
-      s"Step 5: Multiply Step 4 by ${nonCOAdditionalRate.formatPercentage}% if positive (disregard if negative)"
+  lazy val nicsOnExcessEarnings: ReportStep =
+    ReportStep(
+      (nonCOAdditionalRate * excessEarnings.value).roundNi,
+      s"Step 5: Multiply Step 4 by ${nonCOAdditionalRate.formatPercentage} if positive (disregard if negative)"
+    )
 
-  lazy val totalEarningsAboveUel: Explained[BigDecimal] =
-    rowsOutput.map(_.earningsOverUEL).sum gives
+  lazy val totalEarningsAboveUel: ReportStep =
+    ReportStep(
+      rowsOutput.map(_.earningsOverUEL).sum,
       "Step 6: Total earnings above UEL"
+    )
 
-  lazy val nicsOnTotalEarningsAboveUel =
-    (nonCOAdditionalRate * totalEarningsAboveUel.value).roundNi gives
-      s"Step 7: Multiply Step 6 by ${nonCOAdditionalRate.formatPercentage}%"
+  lazy val nicsOnTotalEarningsAboveUel: ReportStep =
+    ReportStep(
+    (nonCOAdditionalRate * totalEarningsAboveUel.value).roundNi,
+      s"Step 7: Multiply Step 6 by ${nonCOAdditionalRate.formatPercentage}"
+    )
 
-  lazy val annualMax =
-    nicsOnMaxMainContributionEarnings.value + nicsOnExcessEarnings.value + nicsOnTotalEarningsAboveUel.value gives
+  lazy val annualMax: ReportStep =
+    ReportStep(
+    nicsOnTotalEarningsAboveUel.value + nicsOnExcessEarnings.value + nicsOnMaxMainContributionEarnings.value,
       "Step 8: Add Step 2, Step 5 and Step 7"
+    )
 
   lazy val liability = rowsOutput.map(_.nicsNonCO).sum
 
@@ -225,7 +243,7 @@ case class UnofficialDefermentResult(
       totalEarningsAboveUel,
       nicsOnTotalEarningsAboveUel,
       annualMax,
-  ).map(v => v.written.headOption.getOrElse("") -> v.value)
+  ).map(r => r.msg -> r.value)
 
 
   private def nonCONicsWithoutRebates(row: UnofficialDefermentRowInput, earningsAboveUEL: BigDecimal) = {
@@ -268,5 +286,12 @@ case class UnofficialDefermentResult(
 
 
 
+
+}
+
+
+object UnofficialDefermentResult {
+
+  case class ReportStep(val value: BigDecimal, msg: String)
 
 }
