@@ -43,8 +43,6 @@ interface LateRefundsContext {
   details: DetailsProps
   setDetails: Function
   taxYears: TaxYear[]
-  bankHolidaysNo: string
-  setBankHolidaysNo: Function
   rates: Rate[] | null
   rows: LateRefundsTableRowProps[]
   setRows: Function
@@ -71,8 +69,6 @@ export const LateRefundsContext = React.createContext<LateRefundsContext>(
     details: detailsState,
     setDetails: () => {},
     taxYears: [],
-    bankHolidaysNo: '',
-    setBankHolidaysNo: () => {},
     rates: null,
     rows: [],
     setRows: () => {},
@@ -89,7 +85,6 @@ export const LateRefundsContext = React.createContext<LateRefundsContext>(
 export function useLateRefundsForm() {
   const [taxYears, setTaxYears] = useState<TaxYear[]>([])
   const [details, setDetails] = React.useReducer(stateReducer, detailsState)
-  const [bankHolidaysNo, setBankHolidaysNo] = React.useState('')
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [results, setResults] = useState<LateRefundsResults | null>(null)
@@ -139,8 +134,6 @@ export function useLateRefundsForm() {
     InterestOnLateRefundsCalculator,
     details,
     setDetails,
-    bankHolidaysNo,
-    setBankHolidaysNo,
     rates,
     rows,
     setRows,
