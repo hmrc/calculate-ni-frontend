@@ -26,25 +26,28 @@ import java.math.BigInteger
 
 @Singleton
 class NiConfigController @Inject()(
-  mcc: MessagesControllerComponents,
+  mcc: MessagesControllerComponents
 ) extends FrontendController(mcc) {
 
   private val ni = ConfigLoader.default
   
-  val configJson: Action[AnyContent] = Action ( jsonResult )
+  val configJson: Action[AnyContent] = Action { r =>
+    val hashCorrect = r.headers.get("If-None-Match").exists(_ == hash)
+    if (hashCorrect) NotModified else jsonResult
+  }
 
-  val jsonResult = {
-    val jsonString = toJson(ni).toString
-    val md = MessageDigest.getInstance("MD5")
-    val hash = new BigInteger(1,md.digest(jsonString.getBytes)).toString(16)
-    val lastModified = format.DateTimeFormatter.RFC_1123_DATE_TIME.format(
-      ZonedDateTime.now(ZoneOffset.UTC)
-    )
+  private val jsonString = toJson(ni).toString
+  private val md = MessageDigest.getInstance("MD5")
+  private val (hash, lastModified) = (
+    new BigInteger(1,md.digest(jsonString.getBytes)).toString(16), 
+    ZonedDateTime.now(ZoneOffset.UTC)
+  )
 
+  private val jsonResult = {
     Ok(jsonString)
       .as("application/json")
       .withHeaders(
-        LAST_MODIFIED -> lastModified,
+        LAST_MODIFIED -> format.DateTimeFormatter.RFC_1123_DATE_TIME.format(lastModified),
         ETAG -> hash,
         CACHE_CONTROL -> "public, max-age=3600"
       )
