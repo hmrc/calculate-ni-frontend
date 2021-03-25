@@ -106,7 +106,7 @@ const Class3Page = () => {
 
           {showSummary && (
             <div className="govuk-!-padding-bottom-9 section--top">
-                <button className="button" onClick={() => window.print()}>
+                <button className="govuk-button" onClick={() => window.print()}>
                     Save and print
                 </button>
             </div>
