@@ -215,8 +215,11 @@ case class UnofficialDefermentResult(
 
       case 'L' | 'S' =>
         val lelToEtAmount = row.bandAmounts
-          .collectFirst{ case BandAmount(LELToET, amount) => amount }
-          .getOrElse(sys.error("Could not find earnings between LEL and ET"))
+          .collectFirst{
+            case BandAmount(LELToET, amount) => amount
+            case BandAmount(LELToPT, amount) => amount
+          }
+          .getOrElse(sys.error("Could not find earnings between LEL and ET or PT"))
         val lelToEtRate =
           getBandRates(LELToET).getOrElse(row.category, Zero).abs
         (row.employeeNICs + lelToEtAmount * lelToEtRate).roundNi
