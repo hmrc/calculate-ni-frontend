@@ -63,14 +63,14 @@ abstract class InterestFrontend extends js.Object {
         case Some(upper) =>
           new js.Object {
             val year = lower.getYear
-            val start = lower
+            val start: js.Date = lower
             val end = upper
             val rate = rateBD.toDouble
           }: js.Object
         case None =>
           new js.Object {
             val year = lower.getYear
-            val start = lower
+            val start: js.Date = lower
             val rate = rateBD.toDouble
           }: js.Object
       }

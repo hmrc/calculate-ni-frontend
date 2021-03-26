@@ -5,7 +5,7 @@ import Details from "../shared/Details";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import {Class3Context, class3DefaultRows, useClass3Form} from "./Class3Context";
 import Class3Form from "./Class3Form";
-import {stripCommas, validateClass3Payload} from "../../../validation/validation";
+import {validateClass3Payload} from "../../../validation/validation";
 import Class3Print from './Class3Print'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
 
@@ -14,7 +14,6 @@ const pageTitle = 'Weekly contribution conversion'
 const Class3Page = () => {
     const [showSummary, setShowSummary] = useState<boolean>(false)
     const {
-        taxYears,
         rows,
         setRows,
         details,

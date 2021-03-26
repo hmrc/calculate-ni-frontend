@@ -2,15 +2,13 @@ import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from '
 import uniqid from 'uniqid';
 
 // types
-import {Class1DebtRow, DetailsProps, GovDateRange, TaxYear} from '../../../interfaces'
+import {Class1DebtRow, DetailsProps, GovDateRange, TaxYear, Rate} from '../../../interfaces'
 import {buildTaxYears} from "../../../config";
 import {GenericErrors} from '../../../validation/validation'
 import {
   initInterestOnLateClassOne, InterestOnLateClassOne,
   NiFrontendContext
 } from "../../../services/NiFrontendContext";
-import {LateRefundsTableRowProps} from "../late-refunds/LateRefundsContext";
-
 
 const detailsState = {
   fullName: '',
@@ -31,11 +29,6 @@ interface LateInterestResults {
   totalInterest: string | null
   grandTotal: string | null
   totalDailyInterest: string | null
-}
-
-export interface Rate {
-  year: number
-  rate: number
 }
 
 interface LateInterestContext {
@@ -106,6 +99,7 @@ export function useLateInterestForm() {
 
   useEffect(() => {
     const interestRates = InterestOnLateClassOneCalculator.getRates()
+    console.log('interestRates', interestRates)
     setRates(interestRates)
   }, [InterestOnLateClassOneCalculator])
 
