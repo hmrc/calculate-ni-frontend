@@ -9,6 +9,7 @@ import {
   initInterestOnLateClassOne, InterestOnLateClassOne,
   NiFrontendContext
 } from "../../../services/NiFrontendContext";
+import {isBeforeToday} from "../../../services/utils";
 
 const detailsState = {
   fullName: '',
@@ -104,6 +105,7 @@ export function useLateInterestForm() {
 
   useEffect(() => {
     const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
+      .filter((ty: TaxYear) => isBeforeToday(ty.to))
     setTaxYears(taxYearData)
   }, [ClassOneCalculator])
 

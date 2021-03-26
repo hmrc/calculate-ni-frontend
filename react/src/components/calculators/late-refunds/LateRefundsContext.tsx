@@ -9,6 +9,7 @@ import {
   NiFrontendContext
 } from '../../../services/NiFrontendContext'
 import {GenericErrors} from '../../../validation/validation'
+import {isBeforeToday} from "../../../services/utils";
 
 export interface LateRefundsTableRowProps {
   id: string
@@ -100,6 +101,7 @@ export function useLateRefundsForm() {
 
   useEffect(() => {
     const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
+      .filter((ty: TaxYear) => isBeforeToday(ty.to))
     setTaxYears(taxYearData)
     setDefaultRow({...initRow, taxYear: taxYearData[0]})
   }, [ClassOneCalculator, NiFrontendInterface])
