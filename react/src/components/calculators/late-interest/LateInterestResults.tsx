@@ -36,7 +36,7 @@ function LateInterestResults(props: {printView: boolean}) {
         <div className="container quarter section--top column">
           <span className="label block" id="daily-interest-label">Daily interest rate</span>
           <div className="value inline full" aria-describedby="daily-interest-label">
-            [todo]
+            {results?.totalDailyInterest}
           </div>
         </div>
       </div>

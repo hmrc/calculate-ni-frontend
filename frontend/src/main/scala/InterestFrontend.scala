@@ -38,6 +38,11 @@ abstract class InterestFrontend extends js.Object {
       val totalDebt = rowCalcs.map(_.amount).sum.toDouble
       val totalInterest = rowCalcs.map(_.interest).sum.toDouble
       val grandTotal = rowCalcs.map(_.total).sum.toDouble
+      val totalDailyInterest = rowCalcs
+        .map(_.dailyInterestUnrounded)
+        .sum
+        .setScale(2, BigDecimal.RoundingMode.HALF_UP)
+        .toDouble
     }
   }
 

@@ -30,6 +30,7 @@ interface LateInterestResults {
   totalDebt: string | null
   totalInterest: string | null
   grandTotal: string | null
+  totalDailyInterest: string | null
 }
 
 export interface Rate {
