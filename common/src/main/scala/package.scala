@@ -17,7 +17,8 @@
 import spire.math.Interval
 import spire.math.interval._
 import spire.implicits._
-import java.time.{LocalDate, DayOfWeek}
+
+import java.time.{DayOfWeek, LocalDate}
 
 package object eoi {
 
@@ -66,14 +67,10 @@ package object eoi {
 
     def formatPercentage: String = {
       val p = in * 100
-      if (p.isWhole) {
-        f"${p}%.0f%%"
-      } else {
-        f"${p}%.20f".
-          reverse.
-          dropWhile(_ == '0').
-          reverse + "%"
-      }
+      if (p.isWhole)
+        s"${p.toBigInt()}%"
+      else
+        s"${p.setScale(20).toString.reverse.dropWhile(_ == '0').reverse}%"
     }
 
     /** Round half-up to the nearest penny if the midpoint is 0.6 for
@@ -231,6 +228,7 @@ package object eoi {
       import cats.data.Writer._
       tell(Vector(msg + " = " + in.toString)) flatMap {_ => value[Vector[String], A](in)}
     }
+
   }
 
   implicit class RichExplained[A](in: Explained[A]) {

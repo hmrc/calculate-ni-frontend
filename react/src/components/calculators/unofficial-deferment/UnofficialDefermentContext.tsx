@@ -28,12 +28,18 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
   ...action,
 })
 
+export interface ReportItem {
+  label: string
+  value: number
+}
+
 export interface UnofficialDefermentResults {
   annualMax: number
   liability: number
   difference: number
   ifNotUD: number
   resultRows: UnofficialDefermentResultRow[]
+  report: ReportItem[]
 }
 
 export interface UnofficialDefermentResultRow {

@@ -10,7 +10,8 @@ import UnofficialDefermentTotals from "./UnofficialDefermentTotals";
 export default function UnofficialDefermentPrint(props: SavePrintBaseProps) {
   const { title, setShowSummary } = props
   const {
-    details
+    details,
+    results
   } = useContext(UnofficialDefermentContext)
   return (
     <div className="save-print-wrapper">
