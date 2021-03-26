@@ -39,6 +39,7 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
       val liability: Double = result.liability.doubleValue()
       val difference: Double = result.difference.doubleValue()
       val ifNotUD: Double = result.ifNotUD.doubleValue()
+      val ifNotUdIsDue: Boolean = difference == 0 || ifNotUD < difference
       val resultRows: js.Array[js.Object] = result.rowsOutput.toJSArray.map { r =>
         new js.Object {
           val id: String = r.id
