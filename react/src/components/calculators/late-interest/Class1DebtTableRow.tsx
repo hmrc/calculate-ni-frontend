@@ -8,9 +8,10 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 // types
 import {Class1DebtRow, TaxYear} from '../../../interfaces'
 import {LateInterestContext} from './LateInterestContext'
-import {extractFromDateString, extractToDateString, taxYearString} from '../../../config'
+import {taxYearString} from '../../../config'
 import MqTableCell from '../shared/MqTableCell'
 import TableRow from "../shared/TableRow";
+import {sterlingStringValue} from "../../../services/utils";
 
 function Class1DebtTableRow(props: {
   row: Class1DebtRow,
@@ -98,7 +99,7 @@ function Class1DebtTableRow(props: {
       </MqTableCell>
 
       <MqTableCell cellStyle={thStyles.interestDue}>
-        {row.interestDue}
+        {row.interestDue ? sterlingStringValue(row.interestDue) : ''}
       </MqTableCell>
     </TableRow>
   )

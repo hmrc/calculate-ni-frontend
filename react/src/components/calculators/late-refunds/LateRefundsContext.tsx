@@ -116,7 +116,6 @@ export function useLateRefundsForm() {
   }, [InterestOnLateRefundsCalculator])
 
   useEffect(() => {
-    console.log('results changed to', results)
     if(!results) {
       setRows((prevState: LateRefundsTableRowProps[]) => prevState.map(row => ({
         ...row,
