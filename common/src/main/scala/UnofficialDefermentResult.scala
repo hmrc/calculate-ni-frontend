@@ -16,12 +16,7 @@
 
 package eoi
 
-import cats.instances.vector._
 import eoi.Class1Band.{LELToET, _}
-
-import scala.reflect.{ClassTag, classTag}
-import scala.util.Try
-import scala.util.control.NonFatal
 
 sealed trait Class1Band extends Product with Serializable
 

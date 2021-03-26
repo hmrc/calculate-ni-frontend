@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import cats.data.Writer
 import spire.math.Interval
 import spire.math.interval._
 import spire.implicits._
