@@ -5,7 +5,6 @@ import {govDateFormat, hasKeys, isEmpty} from "../services/utils";
 import moment from "moment";
 import {DirectorsUIRow} from "../components/calculators/directors/DirectorsContext";
 import {Row} from "../components/calculators/class1/ClassOneContext";
-import {LateRefundsTableRowProps} from "../components/calculators/late-refunds/LateRefundsContext";
 
 interface ClassOnePayload {
   rows: Array<Row>

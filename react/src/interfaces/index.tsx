@@ -180,5 +180,7 @@ export enum TotalType {
 
 export interface Rate {
   year: number
+  start: Date
+  end: Date
   rate: number
 }

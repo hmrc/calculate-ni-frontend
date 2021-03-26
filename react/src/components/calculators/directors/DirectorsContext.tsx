@@ -158,7 +158,7 @@ export function useDirectorsForm() {
         setRows([defaultRow])
       }
     }
-  }, [taxYear, ClassOneCalculator])
+  }, [taxYear, ClassOneCalculator, DirectorsCalculator])
   const [rows, setRows] = useState<Array<DirectorsUIRow>>([defaultRow])
 
   useEffect(() => {

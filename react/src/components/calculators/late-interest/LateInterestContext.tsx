@@ -2,15 +2,13 @@ import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from '
 import uniqid from 'uniqid';
 
 // types
-import {Class1DebtRow, DetailsProps, GovDateRange, TaxYear} from '../../../interfaces'
+import {Class1DebtRow, DetailsProps, GovDateRange, TaxYear, Rate} from '../../../interfaces'
 import {buildTaxYears} from "../../../config";
 import {GenericErrors} from '../../../validation/validation'
 import {
   initInterestOnLateClassOne, InterestOnLateClassOne,
   NiFrontendContext
 } from "../../../services/NiFrontendContext";
-import {LateRefundsTableRowProps} from "../late-refunds/LateRefundsContext";
-
 
 const detailsState = {
   fullName: '',
@@ -30,11 +28,7 @@ interface LateInterestResults {
   totalDebt: string | null
   totalInterest: string | null
   grandTotal: string | null
-}
-
-export interface Rate {
-  year: number
-  rate: number
+  totalDailyInterest: string | null
 }
 
 interface LateInterestContext {

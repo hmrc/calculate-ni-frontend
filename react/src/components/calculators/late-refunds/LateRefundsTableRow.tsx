@@ -13,7 +13,7 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 import MqTableCell from '../shared/MqTableCell'
 import TableRow from "../shared/TableRow";
 import DateInputs from "../../helpers/formhelpers/DateInputs";
-import {DateParts, extractDatePartString, validDateParts} from "../../../services/utils";
+import {DateParts, extractDatePartString, sterlingStringValue, validDateParts} from "../../../services/utils";
 
 function LateRefundsTableRow(props: {
   row: LateRefundsTableRowProps,
@@ -127,7 +127,7 @@ function LateRefundsTableRow(props: {
       </MqTableCell>
 
       <MqTableCell cellStyle={thStyles.payable} cellClassName="payable">
-        {row.totalDue}
+        {row.totalDue ? sterlingStringValue(row.totalDue) : ''}
       </MqTableCell>
     </TableRow>
   )

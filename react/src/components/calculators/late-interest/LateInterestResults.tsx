@@ -2,6 +2,7 @@ import React, {useContext} from 'react'
 
 // types
 import {LateInterestContext} from './LateInterestContext'
+import {sterlingStringValue} from "../../../services/utils";
 
 
 function LateInterestResults(props: {printView: boolean}) {
@@ -15,28 +16,28 @@ function LateInterestResults(props: {printView: boolean}) {
         <div className="container quarter section--top column">
           <span className="label block" id="total-debt-label">Class 1 debt</span>
           <div className="value inline full" aria-describedby="total-debt-label">
-            {results?.totalDebt}
+            {results?.totalDebt ? sterlingStringValue(results.totalDebt.toString()) : ''}
           </div>
         </div>
 
         <div className="container quarter section--top column">
           <span className="label block" id="total-interest-label">Interest due</span>
           <div className="value inline full" aria-describedby="total-interest-label">
-            {results?.totalInterest}
+            {results?.totalInterest ? sterlingStringValue(results.totalInterest.toString()) : ''}
           </div>
         </div>
 
         <div className="container quarter section--top column">
           <span className="label block" id="debt-plus-interest-label">Class1 debt and interest due</span>
           <div className="value inline full" aria-describedby="debt-plus-interest-label">
-            {results?.grandTotal}
+            {results?.grandTotal ? sterlingStringValue(results.grandTotal.toString()) : ''}
           </div>
         </div>
 
         <div className="container quarter section--top column">
           <span className="label block" id="daily-interest-label">Daily interest rate</span>
           <div className="value inline full" aria-describedby="daily-interest-label">
-            [todo]
+            {results?.totalDailyInterest ? sterlingStringValue(results.totalDailyInterest.toString()) : ''}
           </div>
         </div>
       </div>

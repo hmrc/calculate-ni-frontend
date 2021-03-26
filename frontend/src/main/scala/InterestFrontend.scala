@@ -38,6 +38,11 @@ abstract class InterestFrontend extends js.Object {
       val totalDebt = rowCalcs.map(_.amount).sum.toDouble
       val totalInterest = rowCalcs.map(_.interest).sum.toDouble
       val grandTotal = rowCalcs.map(_.total).sum.toDouble
+      val totalDailyInterest = rowCalcs
+        .map(_.dailyInterestUnrounded)
+        .sum
+        .setScale(2, BigDecimal.RoundingMode.HALF_UP)
+        .toDouble
     }
   }
 
@@ -58,14 +63,14 @@ abstract class InterestFrontend extends js.Object {
         case Some(upper) =>
           new js.Object {
             val year = lower.getYear
-            val start = lower
+            val start: js.Date = lower
             val end = upper
             val rate = rateBD.toDouble
           }: js.Object
         case None =>
           new js.Object {
             val year = lower.getYear
-            val start = lower
+            val start: js.Date = lower
             val rate = rateBD.toDouble
           }: js.Object
       }

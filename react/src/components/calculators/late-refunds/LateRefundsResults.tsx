@@ -1,5 +1,6 @@
 import React, {useContext} from 'react'
 import {LateRefundsContext} from './LateRefundsContext'
+import {sterlingStringValue} from "../../../services/utils";
 
 function LateRefundsResults(props: {printView: boolean}) {
   const { printView } = props
@@ -12,21 +13,21 @@ function LateRefundsResults(props: {printView: boolean}) {
         <div className="container third section--top column">
           <span className="label block" id="total-refund-label">Total amount for refund</span>
           <div className="value full inline" aria-describedby="total-refund-label">
-            {results?.totalDebt}
+            {results?.totalDebt ? sterlingStringValue(results.totalDebt) : ''}
           </div>
         </div>
 
         <div className="container third section--top column">
           <span className="label block" id="total-interest-label">Total interest payable</span>
           <div className="value full inline" aria-describedby="total-interest-label">
-            {results?.totalInterest}
+            {results?.totalInterest ? sterlingStringValue(results.totalInterest) : ''}
           </div>
         </div>
 
         <div className="container third section--top column">
           <span className="label block" id="refund-plus-interest-label">Total amount for refund and interest payable</span>
           <div className="value full inline" aria-describedby="refund-plus-interest-label">
-            {results?.grandTotal}
+            {results?.grandTotal ? sterlingStringValue(results.grandTotal) : ''}
           </div>
         </div>
       </div>
