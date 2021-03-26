@@ -99,7 +99,6 @@ export function useLateInterestForm() {
 
   useEffect(() => {
     const interestRates = InterestOnLateClassOneCalculator.getRates()
-    console.log('interestRates', interestRates)
     setRates(interestRates)
   }, [InterestOnLateClassOneCalculator])
 
