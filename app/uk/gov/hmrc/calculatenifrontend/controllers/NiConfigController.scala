@@ -20,18 +20,37 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import eoi._, EoiJsonEncoding._
+import java.time._
+import java.security.MessageDigest
+import java.math.BigInteger
 
 @Singleton
 class NiConfigController @Inject()(
-  mcc: MessagesControllerComponents,
+  mcc: MessagesControllerComponents
 ) extends FrontendController(mcc) {
 
   private val ni = ConfigLoader.default
-  private val jsonString: String = toJson(ni).toString
   
-  val configJson: Action[AnyContent] = Action {
+  val configJson: Action[AnyContent] = Action { r =>
+    val hashCorrect = r.headers.get("If-None-Match").exists(_ == hash)
+    if (hashCorrect) NotModified else jsonResult
+  }
 
-    Ok(jsonString).as("application/json")
+  private val jsonString = toJson(ni).toString
+  private val md = MessageDigest.getInstance("MD5")
+  private val (hash, lastModified) = (
+    new BigInteger(1,md.digest(jsonString.getBytes)).toString(16), 
+    ZonedDateTime.now(ZoneOffset.UTC)
+  )
+
+  private val jsonResult = {
+    Ok(jsonString)
+      .as("application/json")
+      .withHeaders(
+        LAST_MODIFIED -> format.DateTimeFormatter.RFC_1123_DATE_TIME.format(lastModified),
+        ETAG -> hash,
+        CACHE_CONTROL -> "public, max-age=3600"
+      )
   }
 
 }
