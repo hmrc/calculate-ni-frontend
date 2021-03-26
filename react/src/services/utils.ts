@@ -157,5 +157,7 @@ export const extractDatePartString = (part: DateParts, date: Date | null | undef
 
 export const decimalToPercent = (decimal: number) => parseFloat((decimal * 1000 / 10).toString())
 
+export const isBeforeToday = (d: Date) => moment(d).isBefore(moment())
+
 
 
