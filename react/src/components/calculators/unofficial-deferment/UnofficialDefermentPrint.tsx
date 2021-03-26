@@ -4,8 +4,6 @@ import {SavePrintBaseProps} from "../../../interfaces";
 import DetailsPrint from "../shared/DetailsPrint";
 import {UnofficialDefermentContext} from "./UnofficialDefermentContext";
 import UnofficialDefermentTable from "./UnofficialDefermentTable";
-import UnofficialDefermentTotals from "./UnofficialDefermentTotals";
-
 
 export default function UnofficialDefermentPrint(props: SavePrintBaseProps) {
   const { title, setShowSummary } = props

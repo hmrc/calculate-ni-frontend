@@ -40,6 +40,7 @@ export interface UnofficialDefermentResults {
   ifNotUD: number
   resultRows: UnofficialDefermentResultRow[]
   report: ReportItem[]
+  ifNotUdIsDue: boolean
 }
 
 export interface UnofficialDefermentResultRow {

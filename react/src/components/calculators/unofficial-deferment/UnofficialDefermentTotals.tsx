@@ -46,6 +46,7 @@ export default function UnofficialDefermentTotals(props: {isSaveAndPrint: boolea
         <span className="label block">Difference</span>
         <div className="value inline width-8">
           {results && sterlingStringValue(results.difference.toString())}
+          {results && !results.ifNotUdIsDue ? <strong> Due</strong> : ''}
         </div>
       </div>
 
@@ -53,6 +54,7 @@ export default function UnofficialDefermentTotals(props: {isSaveAndPrint: boolea
         <span className="label block">If not U/D</span>
         <div className="value inline width-8">
           {results && sterlingStringValue(results.ifNotUD.toString())}
+          {results && results.ifNotUdIsDue ? <strong> Due</strong> : ''}
         </div>
       </div>
 
