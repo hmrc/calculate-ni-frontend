@@ -127,7 +127,7 @@ function LateRefundsTableRow(props: {
       </MqTableCell>
 
       <MqTableCell cellStyle={thStyles.payable} cellClassName="payable">
-        {row.totalDue ? sterlingStringValue(row.totalDue) : ''}
+        {row.interestDue ? sterlingStringValue(row.interestDue) : ''}
       </MqTableCell>
     </TableRow>
   )
