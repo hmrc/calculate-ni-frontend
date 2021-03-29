@@ -124,7 +124,6 @@ export function useLateRefundsForm() {
         payable: null
       })))
     } else {
-      console.log('results', results)
       setRows((prevState: LateRefundsTableRowProps[]) => prevState.map((row, i) => ({
         ...row,
         interestDue: results.rows[i].interestDue
