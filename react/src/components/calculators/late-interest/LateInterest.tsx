@@ -70,7 +70,8 @@ const LateInterestPage = () => {
       const interestRows = rows.map((row: Class1DebtRow) =>
         new (InterestRow as any)(
           row.taxYear?.from,
-          parseFloat(stripCommas(row.debt))
+          parseFloat(stripCommas(row.debt)),
+          undefined
         ))
 
       try {
