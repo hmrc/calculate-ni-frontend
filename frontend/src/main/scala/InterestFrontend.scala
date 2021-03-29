@@ -2,7 +2,6 @@ package eoi
 package frontend
 
 import scala.scalajs.js.annotation._
-import scala.scalajs.js.Date
 import scala.scalajs.js, js.JSConverters._
 import java.time.LocalDate
 import io.circe.generic.auto._, io.circe.syntax._
@@ -81,7 +80,8 @@ abstract class InterestFrontend extends js.Object {
 @JSExportTopLevel("InterestRow")
 class InterestRow(
   val periodStart: js.Date,
-  val debt: Double
+  val debt: Double,
+  val paymentDate: js.UndefOr[js.Date]
 )
 
 @JSExportTopLevel("RemissionPeriod")

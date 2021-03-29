@@ -62,7 +62,8 @@ const LateRefundsPage = () => {
       const interestRows = rows.map((row: LateRefundsTableRowProps) =>
         new (InterestRow as any)(
           row.taxYear?.from,
-          parseFloat(stripCommas(row.refund))
+          parseFloat(stripCommas(row.refund)),
+          row.paymentDate
         ))
 
       setResults(InterestOnLateRefundsCalculator.calculate(interestRows))
