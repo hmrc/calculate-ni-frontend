@@ -66,7 +66,7 @@ function LateRefundsTable(props: LateRefundsTable) {
           <th scope="col">Tax year</th>
           <th scope="col">Payment Date</th>
           <th scope="col">Refund amount</th>
-          <th scope="col">Payable</th>
+          <th scope="col">Interest</th>
         </tr>
         </thead>
         <tbody>

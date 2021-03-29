@@ -16,7 +16,7 @@ export interface LateRefundsTableRowProps {
   taxYear: TaxYear | null
   paymentDate: Date | null
   refund: string,
-  totalDue: string | null
+  interestDue: string | null
 }
 
 const detailsState = {
@@ -61,7 +61,7 @@ const initRow = {
   taxYear: null,
   paymentDate: null,
   refund: '',
-  totalDue: ''
+  interestDue: ''
 }
 
 export const LateRefundsContext = React.createContext<LateRefundsContext>(
@@ -126,7 +126,7 @@ export function useLateRefundsForm() {
     } else {
       setRows((prevState: LateRefundsTableRowProps[]) => prevState.map((row, i) => ({
         ...row,
-        totalDue: results.rows[i].totalDue
+        interestDue: results.rows[i].interestDue
       })))
     }
   }, [results])
