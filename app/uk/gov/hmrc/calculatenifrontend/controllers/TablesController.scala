@@ -38,8 +38,17 @@ class TablesController @Inject()(
 
   private val ni = ConfigLoader.default
 
+  val dateFormat = java.time.format.DateTimeFormatter.ofPattern("dd/MM/YYYY")
+
+  implicit class RichDate(in: LocalDate) {
+    def ukFormat: String = dateFormat.format(in)
+  }
+
   private def intervalDropdown[A](in: Map[Interval[LocalDate], A]): List[(LocalDate, String)] = in.keySet.toList.map {
-    case i => i.lowerValue.get -> s"${i.lowerValue.get} - ${i.upperValue.get.minusDays(1)}"
+    case i =>
+      val l = i.lowerValue.get.ukFormat
+      val u = i.upperValue.get.ukFormat
+      i.lowerValue.get -> s"$l - $u"
   }.sortBy(_._1.toEpochDay).reverse
 
   def classOne(
@@ -97,10 +106,10 @@ class TablesController @Inject()(
           )
         }) ++ List (
 //          "Date Late For Short Term Benefits (STB)" -> "???",
-          "Final Date For Payment" -> (lowerBound, data).getFinalDate.value,
+          "Final Date For Payment" -> (lowerBound, data).getFinalDate.value.ukFormat,
           "Small Profits Threshold/Small Earnings Exemption (SPT/SEE)" ->
             data.smallEarningsException.fold("N/A")(_.formatSterling), // below which paying is optional
-          "Date High Rate Provision (HRP) Applies" -> (lowerBound, data).getHigherRateDate.value, 
+          "Date High Rate Provision (HRP) Applies" -> (lowerBound, data).getHigherRateDate.value.ukFormat, 
           "No of Wks" -> noOfWeeks.toString,
 //          "Earnings Factor (includes enhance)" -> "???",
         )
@@ -123,8 +132,8 @@ class TablesController @Inject()(
         val response = List (
           "Weekly Rate" -> data.weekRate.formatSterling,
           "Rate Total" -> (data.weekRate * data.noOfWeeks).formatSterling,
-          "Date High Rate Provision (HRP) Applies" -> (lowerBound, data).getHigherRateDate.value, 
-          "Final Date For Payment" -> (lowerBound, data).getFinalDate.value, 
+          "Date High Rate Provision (HRP) Applies" -> (lowerBound, data).getHigherRateDate.value.ukFormat, 
+          "Final Date For Payment" -> (lowerBound, data).getFinalDate.value.ukFormat, 
 //          "Earnings Factor Qualifying Year" -> "???",
           "Lower Earning Limit" -> data.lel.formatSterling
         )
