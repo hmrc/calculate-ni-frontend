@@ -84,7 +84,8 @@ case class UnofficialDefermentRowOutput(
   mainContributionBandLabels: List[String],
   earningsOverUEL: BigDecimal,
   nicsNonCO: BigDecimal,
-  ifNotUD: BigDecimal
+  ifNotUD: BigDecimal,
+  employeeNICs: BigDecimal
 )
 
 case class UnofficialDefermentResult(
@@ -141,7 +142,8 @@ case class UnofficialDefermentResult(
       mainContributionBandLabels,
       earningsAboveUEL,
       calculateNICSNonCo(row, earningsAboveUEL),
-      calculateIfNotUD(row, earningsAboveUEL)
+      calculateIfNotUD(row, earningsAboveUEL),
+      row.employeeNICs
     )
   }
 
@@ -224,7 +226,7 @@ case class UnofficialDefermentResult(
 
   lazy val liability = rowsOutput.map(_.nicsNonCO).sum
 
-  lazy val difference = annualMax.value -liability
+  lazy val difference = if(rowsOutput.map(_.employeeNICs).sum == Zero) Zero else annualMax.value -liability
 
   lazy val ifNotUD = rowsOutput.map(_.ifNotUD).sum
 
