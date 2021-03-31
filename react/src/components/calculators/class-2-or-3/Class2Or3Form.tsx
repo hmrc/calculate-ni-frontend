@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from 'react'
-import {validDateParts} from '../../../services/utils'
+import {validDateParts, zeroPad} from '../../../services/utils'
 
 // components
 import SelectTaxYear from '../../helpers/formhelpers/SelectTaxYear'
@@ -45,7 +45,7 @@ function Class2Or3Form() {
   useEffect(() => {
     invalidateResult()
     const paymentEnquiryDate = validDateParts(day, month, year) ?
-      new Date(`${year}-${month}-${day}`) : null
+      new Date(`${year}-${zeroPad(month)}-${zeroPad(day)}`) : null
       setPaymentEnquiryDate(paymentEnquiryDate)
   }, [day, month, year, setPaymentEnquiryDate])
 

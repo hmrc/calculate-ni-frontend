@@ -13,7 +13,7 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 import MqTableCell from '../shared/MqTableCell'
 import TableRow from "../shared/TableRow";
 import DateInputs from "../../helpers/formhelpers/DateInputs";
-import {DateParts, extractDatePartString, sterlingStringValue, validDateParts} from "../../../services/utils";
+import {DateParts, extractDatePartString, sterlingStringValue, validDateParts, zeroPad} from "../../../services/utils";
 
 function LateRefundsTableRow(props: {
   row: LateRefundsTableRowProps,
@@ -66,7 +66,8 @@ function LateRefundsTableRow(props: {
 
   useEffect(() => {
     const newDate = validDateParts(day, month, year) ?
-      new Date(`${year}-${month}-${day}`) : null
+      new Date(`${year}-${zeroPad(month)}-${zeroPad(day)}`) : null
+    console.log('newDate', newDate)
     setRows(rows.map((cur: LateRefundsTableRowProps) =>
       cur.id === row.id ? {...cur, paymentDate: newDate} : cur
     ))
