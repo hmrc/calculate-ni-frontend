@@ -219,12 +219,12 @@ case class Configuration(
   ) = {
     val point = LocalDate.of(taxYear.succ.start.getYear, 4, 19)
     InterestResult(
-    interestOnRepayment,
-    if (paymentDate > point) paymentDate.plusDays(1) else point,
-    LocalDate.now,
-    amount,
-    365,
-    None
+      interestOnRepayment,
+      if (paymentDate > point) paymentDate.plusDays(1) else point,
+      LocalDate.now,
+      amount,
+      365,
+      None
     )
   }
 
