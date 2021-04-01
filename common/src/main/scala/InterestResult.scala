@@ -21,17 +21,14 @@ import java.time.LocalDate
 
 case class InterestResult(
   ratesSequence: Map[Interval[LocalDate], BigDecimal],
-  from: TaxYear,
+  from: LocalDate,
   to: LocalDate, 
   amount: BigDecimal,
   daysInYear: Int,
   remissionPeriod: Option[Interval[LocalDate]]
 ) {
 
-  val dateRange: Interval[LocalDate] = {
-    val start = LocalDate.of(from.succ.start.getYear, 4, 19)
-    Interval.closed(start, to)
-  }
+  val dateRange = Interval.closed(from, to)
 
   val dailyArrears = amount / daysInYear
 
@@ -47,7 +44,7 @@ case class InterestResult(
 
   val total = amount + interest
 
-  val dailyInterestUnrounded = (interestUnrounded / dateRange.numberOfDays.get)
+  val dailyInterestUnrounded = dateRange.numberOfDays.fold(Zero)(d => interestUnrounded / d)
 
   val dailyInterest = dailyInterestUnrounded.setScale(2, BigDecimal.RoundingMode.HALF_UP)
 }
