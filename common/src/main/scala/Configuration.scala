@@ -205,7 +205,7 @@ case class Configuration(
     to: LocalDate = LocalDate.now
   ) = InterestResult(
     interestOnLatePayment,
-    taxYear,
+    LocalDate.of(taxYear.succ.start.getYear, 4, 19),
     to,
     amount,
     366,
@@ -215,14 +215,17 @@ case class Configuration(
   def calculateInterestOnRepayment(
     amount: BigDecimal,
     taxYear: TaxYear,
-    to: LocalDate = LocalDate.now
-  ) = InterestResult(
+    paymentDate: LocalDate = LocalDate.now
+  ) = {
+    val point = LocalDate.of(taxYear.succ.start.getYear, 4, 19)
+    InterestResult(
     interestOnRepayment,
-    taxYear,
-    to,
+    if (paymentDate > point) paymentDate.plusDays(1) else point,
+    LocalDate.now,
     amount,
     365,
     None
-  )
+    )
+  }
 
 }
