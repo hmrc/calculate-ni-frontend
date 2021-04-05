@@ -31,7 +31,7 @@ function LateRefundsTableRow(props: {
     setResults,
     results
   } = useContext(LateRefundsContext)
-  const [taxYear, setTaxYear] = useState<TaxYear | null>()
+  const [taxYear, setTaxYear] = useState<TaxYear | null>(null)
   const [day, setDay] = useState(extractDatePartString(DateParts.DAY, row.paymentDate))
   const [month, setMonth] = useState(extractDatePartString(DateParts.MONTH, row.paymentDate))
   const [year, setYear] = useState(extractDatePartString(DateParts.YEAR, row.paymentDate))
@@ -50,7 +50,7 @@ function LateRefundsTableRow(props: {
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     invalidateResults()
-    setTaxYear(taxYears.find(ty => ty.id === e.currentTarget.value))
+    setTaxYear(taxYears.find(ty => ty.id === e.currentTarget.value) || null)
   }
 
   const handleChange = (row: LateRefundsTableRowProps, e:  React.ChangeEvent<HTMLInputElement>) => {

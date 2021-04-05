@@ -1,5 +1,5 @@
 import {Dispatch} from "react"
-import {hasKeys} from "../../../services/utils"
+import {govDateString, hasKeys} from "../../../services/utils"
 import {LateRefundsTableRowProps} from "./LateRefundsContext"
 import {GenericErrors, stripCommas} from "../../../validation/validation"
 
@@ -34,7 +34,16 @@ const validateLateRefundsRows = (
         link: paymentDateId,
         message: `Payment date for row #${index + 1} must be entered as a real date`
       }
+    } else {
+      if(row.taxYear && row.paymentDate <= row.taxYear.to) {
+        errors[paymentDateId] = {
+          name: paymentDateId,
+          link: paymentDateId,
+          message: `The payment date on row #${index + 1} must be after the end of the tax year, ${govDateString(row!.taxYear!.to)}, in order to have accrued interest`
+        }
+      }
     }
+
     if(!refund) {
       errors[refundId] = {
         name: refundId,
