@@ -263,15 +263,15 @@ case class UnofficialDefermentResult(
         nonCONicsWithoutRebates(row, earningsAboveUEL)
 
       case 'L' | 'S' =>
-        val (band, lelToEtAmount) = row.bandAmounts
+        val (band, rebateableAmount) = row.bandAmounts
           .collectFirst{
             case BandAmount(LELToET, amount) => LELToET -> amount
             case BandAmount(LELToPT, amount) => LELToPT -> amount
           }
-          .getOrElse(sys.error("Could not find earnings between LEL and ET or PT"))
-        val lelToEtRate =
+          .getOrElse(sys.error("Could not find earnings in rebate band"))
+        val rebateRate =
           getBandRates(band).getOrElse(row.category, Zero).abs
-        (row.employeeNICs + lelToEtAmount * lelToEtRate).roundNi
+        (row.employeeNICs + rebateableAmount * rebateRate).roundNi
 
 
       case _ =>
