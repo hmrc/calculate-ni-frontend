@@ -141,7 +141,7 @@ case class Configuration (
     ),
     paymentDate,
     earningsFactor,
-    data.mapValues(_.classTwo).collect{ case (k,Some(v)) => (k,v) }
+    classTwo
   )
 
   def calculateClassThree(

@@ -101,8 +101,7 @@ object ConfigLoader {
     }
   }
   implicit val ratesBandReader = anyMapReader[Class1Band, Map[Char, BigDecimal]]
-  implicit val udReader = anyMapReader[Int, TaxYearBandLimits]
-  implicit val udReader2 = anyMapReader[Interval[LocalDate], TaxYearBandLimits]       
+  implicit val udReader = anyMapReader[Interval[LocalDate], TaxYearBandLimits]       
 
   lazy val get = ConfigSource.default.load[Map[Interval[LocalDate], Map[String, RateDefinition]]] match {
     case Right(conf) => conf
