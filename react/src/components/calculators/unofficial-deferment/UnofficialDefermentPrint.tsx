@@ -4,7 +4,6 @@ import {SavePrintBaseProps} from "../../../interfaces";
 import DetailsPrint from "../shared/DetailsPrint";
 import {UnofficialDefermentContext} from "./UnofficialDefermentContext";
 import UnofficialDefermentTable from "./UnofficialDefermentTable";
-import {taxYearShorthand} from "../../../services/utils";
 import UnofficialDefermentLimits from "./UnofficialDefermentLimits";
 
 export default function UnofficialDefermentPrint(props: SavePrintBaseProps) {
