@@ -89,7 +89,7 @@ class TablesController @Inject()(
         
         val noOfWeeks = selectedInterval.numberOfWeeks().get
         val response = List (
-          "Term Date" -> LocalDate.of(lowerBound.getYear, 4, 9), // unknown... but always the 9th of april
+          "Term Date" -> LocalDate.of(lowerBound.getYear, 4, 9).ukFormat, // unknown... but always the 9th of april
           "Weekly Rate" -> data.weeklyRate.default.formatSterling,
           "Rate Total" -> (data.weeklyRate.default * noOfWeeks).formatSterling
         ) ++ (data.weeklyRate.voluntary match {
