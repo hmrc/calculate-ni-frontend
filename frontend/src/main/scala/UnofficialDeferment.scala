@@ -16,7 +16,10 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
   ) = {
     val result = UnofficialDefermentResult(
       taxYear,
-      config.unofficialDeferment.getOrElse(taxYear, sys.error(s"Could not find unofficial deferment config for tax year $taxYear")),
+      config.unofficialDeferment.getOrElse(
+        TaxYear(taxYear).asInterval,
+        sys.error(s"Could not find unofficial deferment config for tax year $taxYear")
+      ),
       rows.toList.map( r =>
         UnofficialDefermentRowInput(
           r.id,
@@ -59,15 +62,18 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
   }
 
   def getTaxYears: js.Array[Int] =
-    config.unofficialDeferment.keys.toJSArray
+    config.unofficialDeferment.keys.map(_.lowerValue.get.getYear)toJSArray
 
-  def getCategories(taxYear: Int) =
-    config.unofficialDeferment.get(taxYear).fold(sys.error(s"Could not find config for tax year $taxYear")){
-      _.rates.values.flatMap(_.keySet.map(_.toString)).toJSArray
-    }
+  def getCategories(taxYear: Int) = config.unofficialDeferment.get(
+    TaxYear(taxYear).asInterval
+  ).fold(sys.error(s"Could not find config for tax year $taxYear")){
+    _.rates.values.flatMap(_.keySet.map(_.toString)).toJSArray
+  }
 
   def getBandInputNames(taxYear: Int) = {
-    val taxYearBands =  config.unofficialDeferment.get(taxYear).getOrElse(
+    val taxYearBands =  config.unofficialDeferment.get(
+      TaxYear(taxYear).asInterval
+    ).getOrElse(
       sys.error(s"Could not find config for tax year $taxYear")
     )
 
@@ -80,7 +86,9 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
   }
 
   def getBandsForTaxYear(taxYear: Int): js.Array[scala.scalajs.js.Object] = {
-    val taxYearBands =  config.unofficialDeferment.get(taxYear).getOrElse(
+    val taxYearBands =  config.unofficialDeferment.get(
+      TaxYear(taxYear).asInterval
+    ).getOrElse(
       sys.error(s"Could not find config for tax year $taxYear")
     )
 

@@ -101,7 +101,8 @@ object ConfigLoader {
     }
   }
   implicit val ratesBandReader = anyMapReader[Class1Band, Map[Char, BigDecimal]]
-  implicit val udReader = anyMapReader[Int, TaxYearBandLimits]      
+  implicit val udReader = anyMapReader[Int, TaxYearBandLimits]
+  implicit val udReader2 = anyMapReader[Interval[LocalDate], TaxYearBandLimits]       
 
   lazy val get = ConfigSource.default.load[Map[Interval[LocalDate], Map[String, RateDefinition]]] match {
     case Right(conf) => conf
@@ -113,8 +114,26 @@ object ConfigLoader {
     case Left(err) => throw new IllegalArgumentException(err.prettyPrint())
   }
 
+  implicit val confPeriodReader = anyMapReader[Interval[LocalDate], ConfigurationPeriod]
+
+  implicit val topLevelReader: ConfigReader[Configuration] = new ConfigReader[Configuration] {
+    def from(cur: ConfigCursor): ConfigReader.Result[Configuration] = for {
+      objCur <- cur.asObjectCursor
+      interestLateObj <- objCur.atKey("interest-on-late-payment")
+      interestLate <- dateBDReader.from(interestLateObj)
+      interestRepayObj <- objCur.atKey("interest-on-repayment")
+      interestRepay <- dateBDReader.from(interestRepayObj)
+      yearsObj = objCur.withoutKey("interest-on-late-payment").withoutKey("interest-on-repayment")
+      years <- confPeriodReader.from(yearsObj)
+    } yield Configuration(years, interestLate, interestRepay)
+  }
+
+
   lazy val default: Configuration = {
-    ConfigSource.resources("national-insurance.conf").load[Configuration] match {
+    val o = ConfigSource.resources("national-insurance.conf")
+      .load[Configuration]
+
+    o match {
       case Left(err) =>
         throw new IllegalStateException(s"Unable to read configuration: $err")
       case Right(c) => c
