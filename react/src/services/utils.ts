@@ -159,7 +159,7 @@ export const decimalToPercent = (decimal: number) => parseFloat((decimal * 1000 
 
 export const isBeforeToday = (d: Date) => moment(d).isBefore(moment())
 
-export const zeroPad = (int: string) => parseInt(int) < 10 ? `0${int}` : int
+export const zeroPad = (int: string) => int.length === 1 ? `0${int}` : int
 
 
 
