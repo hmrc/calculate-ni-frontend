@@ -132,8 +132,13 @@ case class UnofficialDefermentResult(
         sys.error(s"Could not find rate above UEL for category ${row.category}")
       )
 
-    val earningsAboveUEL =
-      Zero.max(((row.employeeNICs - nicsBelowUel)/rateAboveUel).roundNi)
+    val earningsAboveUEL = {
+      val earnings = ((row.employeeNICs - nicsBelowUel)/rateAboveUel).roundNi
+      row.category match {
+        case 'A' | 'H' | 'M' => Zero.max(earnings)
+        case _ => earnings
+      }
+    }
 
     UnofficialDefermentRowOutput(
       row.id,
