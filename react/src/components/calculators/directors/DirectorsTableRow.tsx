@@ -7,7 +7,6 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 
 // types
 import {DirectorsContext, DirectorsUIRow} from './DirectorsContext'
-import {NiFrontendContext} from '../../../services/NiFrontendContext'
 import MqTableCell from '../shared/MqTableCell'
 import ExplainToggle from "../shared/ExplainToggle";
 import TableRow from "../shared/TableRow";
@@ -34,8 +33,6 @@ function DirectorsTableRow(props: TableRowProps) {
     result,
     categoryNames
   } = useContext(DirectorsContext)
-
-  const { config } = useContext(NiFrontendContext)
 
   const handleGrossChange = (r: DirectorsUIRow, e: React.ChangeEvent<HTMLInputElement>) => {
     invalidateResults()

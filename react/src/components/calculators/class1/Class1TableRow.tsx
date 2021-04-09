@@ -5,7 +5,6 @@ import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // types
 import {ClassOneContext, Row} from "./ClassOneContext";
-import {NiFrontendContext} from "../../../services/NiFrontendContext";
 
 // components
 import TextInput from "../../helpers/formhelpers/TextInput"
