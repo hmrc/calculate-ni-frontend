@@ -48,7 +48,7 @@ class UnofficialDefermentSpec extends AnyWordSpec with Matchers {
       val results: List[(Option[String], ValidatedNel[String, Unit])] = tests.map{ test =>
         val result = config.calculateUnofficialDeferment(
           test.taxYear,
-          config.unofficialDeferment.getOrElse(test.taxYear, sys.error(s"Could not find unofficial deferment config for tax year ${test.taxYear}")),
+          config.unofficialDeferment.getOrElse(TaxYear(test.taxYear).asInterval, sys.error(s"Could not find unofficial deferment config for tax year ${test.taxYear}")),
           test.rows.map{ row =>
             UnofficialDefermentRowInput(
               row.id,

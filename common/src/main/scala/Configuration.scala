@@ -17,7 +17,6 @@
 package eoi
 
 import main.scala.{DirectorsResult, DirectorsRowInput}
-
 import java.time.LocalDate
 import spire.implicits._
 import spire.math.Interval
@@ -50,7 +49,6 @@ case class ClassFour(
   mainRate: BigDecimal,
   upperRate: BigDecimal = 0
 )
-
 
 /** Class 1 NICs are earnings related contributions paid by employed
   * earners and their employers. Liability starts at age 16 and ends
@@ -100,25 +98,38 @@ case class ClassFour(
   *
   * Source: https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/882271/Table-a4.pdf
   * */
-case class Configuration(
-  categoryNames: Map[Char, String] = Map(
-   'A' -> "Regular",
-   'B' -> "Married women and widows",
-   'C' -> "Pension age",
-   'J' -> "Deferred",
-   'H' -> "Apprentice under 25",
-   'M' -> "Under 21",
-   'Z' -> "Deferred and under 21",
-   'X' -> "Exempt"
-  ),
-  classOne: Map[Interval[LocalDate], Map[String, RateDefinition]],
-  classTwo: Map[Interval[LocalDate], ClassTwo],
-  classThree: Map[Interval[LocalDate], ClassThree],
-  classFour: Map[Interval[LocalDate], ClassFour],
+case class ConfigurationPeriod(
+  classOne: Option[Map[String, RateDefinition]],
+  classTwo: Option[ClassTwo],
+  classThree: Option[ClassThree],
+  classFour: Option[ClassFour],
+  unofficialDeferment: Option[TaxYearBandLimits]
+)
+
+case class Configuration (
+  categoryNames: Map[Char, String],
+  data: Map[Interval[LocalDate], ConfigurationPeriod],
   interestOnLatePayment: Map[Interval[LocalDate], BigDecimal],
-  interestOnRepayment: Map[Interval[LocalDate], BigDecimal],
-  unofficialDeferment: Map[Int, TaxYearBandLimits]
-) {
+  interestOnRepayment: Map[Interval[LocalDate], BigDecimal]
+){
+
+  def mapValuesOpt[A](f: ConfigurationPeriod => Option[A]): Map[Interval[LocalDate], A] =
+    data.mapValues(f).collect{ case (k,Some(v)) => (k,v) }
+
+  lazy val classOne: Map[Interval[LocalDate], Map[String, RateDefinition]] =
+    mapValuesOpt(_.classOne)
+
+  lazy val classTwo: Map[Interval[LocalDate], ClassTwo] =
+    mapValuesOpt(_.classTwo)    
+
+  lazy val classThree: Map[Interval[LocalDate], ClassThree] =
+    mapValuesOpt(_.classThree)
+
+  lazy val classFour: Map[Interval[LocalDate], ClassFour] =
+    mapValuesOpt(_.classFour)
+
+  lazy val unofficialDeferment: Map[Interval[LocalDate], TaxYearBandLimits] =
+    mapValuesOpt(_.unofficialDeferment)
 
   def calculateClassTwo(
     on: LocalDate,
@@ -178,25 +189,24 @@ case class Configuration(
       employeePaid
     )
 
-      def calculateUnofficialDeferment(
-                                        taxYear: Int,
-                                        config: TaxYearBandLimits,
-                                        rows: List[UnofficialDefermentRowInput]
-                                      ) =
-        UnofficialDefermentResult(
-          taxYear,
-          config,
-          rows
-        )
+  def calculateUnofficialDeferment(
+    taxYear: Int,
+    config: TaxYearBandLimits,
+    rows: List[UnofficialDefermentRowInput]
+  ) = UnofficialDefermentResult(
+    taxYear,
+    config,
+    rows
+  )
 
-      def calculateUnofficialDeferment(
-        taxYear: Int,
-        rows: List[UnofficialDefermentRowInput]
-      ) = UnofficialDefermentResult(
-        taxYear,
-        unofficialDeferment(taxYear),
-        rows
-      )
+  def calculateUnofficialDeferment(
+    taxYear: Int,
+    rows: List[UnofficialDefermentRowInput]
+  ) = UnofficialDefermentResult(
+    taxYear,
+    unofficialDeferment(TaxYear(taxYear).asInterval),
+    rows
+  )
 
   def calculateInterestOnLatePayment(
     amount: BigDecimal,
