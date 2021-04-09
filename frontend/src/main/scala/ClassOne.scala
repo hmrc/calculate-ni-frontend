@@ -20,7 +20,7 @@ class ClassOneFrontend(
         val letter = k.toString
         val name = v
       }
-    }.toJsArray
+    }.toJSArray
   }
 
   def calculate(
