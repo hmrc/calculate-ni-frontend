@@ -33,10 +33,9 @@ export default function Class1TableRow(props: TableRowProps) {
     categories,
     setPeriodNumbers,
     result,
-    setResult
+    setResult,
+    categoryNames
   } = useContext(ClassOneContext)
-
-  const { config } = useContext(NiFrontendContext)
 
   const handleChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
     invalidateResults()
@@ -122,7 +121,7 @@ export default function Class1TableRow(props: TableRowProps) {
             <select name="category" value={row.category} onChange={(e) => handleSelectChange?.(row, e)} className="borderless" id={`row${index}-category`}>
               {categories.map((c: string, i: number) => (
                 <option key={i} value={c}>
-                  {`${c}${config.categoryNames[c] ? ` - ${config.categoryNames[c]}` : ``}`}
+                  {`${c}${categoryNames[c] ? ` - ${categoryNames[c]}` : ``}`}
                 </option>
               ))}
             </select>
