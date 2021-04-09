@@ -14,6 +14,15 @@ class ClassOneFrontend(
 
   import ClassOneFrontend.c1ResultLikeAdapter
 
+  def getCategoryNames = {
+    config.categoryNames.map { case (k,v) =>
+      new js.Object {
+        val letter = k.toString
+        val name = v
+      }
+    }.toJsArray
+  }
+
   def calculate(
     on: js.Date,
     rows: js.Array[ClassOneRow],

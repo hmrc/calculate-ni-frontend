@@ -118,13 +118,15 @@ object ConfigLoader {
   implicit val topLevelReader: ConfigReader[Configuration] = new ConfigReader[Configuration] {
     def from(cur: ConfigCursor): ConfigReader.Result[Configuration] = for {
       objCur <- cur.asObjectCursor
+      catNamesObj <- objCur.atKey("category-names")
+      categoryNames <- catReader.from(catNamesObj)
       interestLateObj <- objCur.atKey("interest-on-late-payment")
       interestLate <- dateBDReader.from(interestLateObj)
       interestRepayObj <- objCur.atKey("interest-on-repayment")
       interestRepay <- dateBDReader.from(interestRepayObj)
-      yearsObj = objCur.withoutKey("interest-on-late-payment").withoutKey("interest-on-repayment")
+      yearsObj = objCur.withoutKey("interest-on-late-payment").withoutKey("interest-on-repayment").withoutKey("category-names")
       years <- confPeriodReader.from(yearsObj)
-    } yield Configuration(years, interestLate, interestRepay)
+    } yield Configuration(categoryNames, years, interestLate, interestRepay)
   }
 
 
