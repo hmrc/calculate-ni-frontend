@@ -1,6 +1,6 @@
 import {NiFrontend} from '../calculation'
 import React, {useEffect, useState} from "react";
-
+import {GenericObject} from "../interfaces";
 
 export interface InterestOnLateClassOne {
   calculate: Function
@@ -12,10 +12,16 @@ export interface InterestOnRefundsClassOne {
   getRates: Function
 }
 
+export interface CategoryName {
+  letter: string
+  name: string
+}
+
 export interface ClassOneCalculator {
   calculate: Function
   getApplicableCategories: Function
   getTaxYears: Array<string>
+  getCategoryNames: Array<CategoryName>
 }
 
 export interface DirectorsCalculator {
@@ -63,7 +69,8 @@ export const initUnofficialDefermentCalculator = {
 export const initClassOneCalculator = {
   calculate: () => {},
   getApplicableCategories: () => {},
-  getTaxYears: ['']
+  getTaxYears: [''],
+  getCategoryNames: [{letter: '', name: ''}]
 }
 
 export const initDirectorsCalculator = {
@@ -81,6 +88,12 @@ export const initInterestOnRefundsClassOne = {
   calculate: () => {},
   getRates: () => {}
 }
+
+export const categoryNamesToObject = (arr: Array<CategoryName>) =>
+  arr.reduce((list, next) => {
+    list[next.letter] = next.name
+    return list
+  }, {} as GenericObject)
 
 interface NiFrontendService {
   classOne: ClassOneCalculator
