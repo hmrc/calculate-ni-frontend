@@ -117,16 +117,16 @@ object ConfigLoader {
 
   implicit val topLevelReader: ConfigReader[Configuration] = new ConfigReader[Configuration] {
     def from(cur: ConfigCursor): ConfigReader.Result[Configuration] = for {
-      objCur <- cur.asObjectCursor
-      interestLateObj <- objCur.atKey("interest-on-late-payment")
-      interestLate <- dateBDReader.from(interestLateObj)
-      interestRepayObj <- objCur.atKey("interest-on-repayment")
-      interestRepay <- dateBDReader.from(interestRepayObj)
-      yearsObj = objCur.withoutKey("interest-on-late-payment").withoutKey("interest-on-repayment")
-      years <- confPeriodReader.from(yearsObj)
-    } yield Configuration(years, interestLate, interestRepay)
+      objCur        <- cur.asObjectCursor
+      categoryNames <- objCur.atKey("category-names") flatMap catReader.from
+      interestLate  <- objCur.atKey("interest-on-late-payment") flatMap dateBDReader.from
+      interestRepay <- objCur.atKey("interest-on-repayment") flatMap dateBDReader.from
+      yearsObj      =  objCur.withoutKey("interest-on-late-payment")
+                             .withoutKey("interest-on-repayment")
+                             .withoutKey("category-names")
+      years         <- confPeriodReader.from(yearsObj)
+    } yield Configuration(categoryNames, years, interestLate, interestRepay)
   }
-
 
   lazy val default: Configuration = {
     val o = ConfigSource.resources("national-insurance.conf")

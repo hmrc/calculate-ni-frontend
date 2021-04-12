@@ -21,15 +21,12 @@ import java.time.LocalDate
 import spire.implicits._
 import spire.math.Interval
 
-case class RateDefinition(
-  year: Interval[BigDecimal],
-  month: Option[Interval[BigDecimal]],
-  week: Option[Interval[BigDecimal]],
-  fourWeek: Option[Interval[BigDecimal]],
-  employee: Map[Char, BigDecimal] = Map.empty,
-  employer: Map[Char, BigDecimal] = Map.empty,
-  contractedOutStandardRate: Option[Boolean] = None,
-  trigger: Bands = Bands.all
+case class Limit(
+  fullName: Option[String], 
+  year: BigDecimal,
+  month: Option[BigDecimal],
+  week: Option[BigDecimal],
+  fourWeek: Option[BigDecimal],
 ) {
   def effectiveYear = year
   def effectiveMonth = month.getOrElse(year / 12)
@@ -99,14 +96,16 @@ case class ClassFour(
   * Source: https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/882271/Table-a4.pdf
   * */
 case class ConfigurationPeriod(
-  classOne: Option[Map[String, RateDefinition]],
-  classTwo: Option[ClassTwo],
-  classThree: Option[ClassThree],
+  limits: Map[String, Limit] = Map.empty, 
+  classOne: Option[Map[String, RateDefinition.VagueRateDefinition]],
+  classTwo: Option[ClassTwo.ClassTwoVague],
+  classThree: Option[ClassThree.ClassThreeVague],
   classFour: Option[ClassFour],
   unofficialDeferment: Option[TaxYearBandLimits]
 )
 
 case class Configuration (
+  categoryNames: Map[Char, String],  
   data: Map[Interval[LocalDate], ConfigurationPeriod],
   interestOnLatePayment: Map[Interval[LocalDate], BigDecimal],
   interestOnRepayment: Map[Interval[LocalDate], BigDecimal]
@@ -116,13 +115,27 @@ case class Configuration (
     data.mapValues(f).collect{ case (k,Some(v)) => (k,v) }
 
   lazy val classOne: Map[Interval[LocalDate], Map[String, RateDefinition]] =
-    mapValuesOpt(_.classOne)
+    data.collect{
+      case (y,ConfigurationPeriod(l,Some(c1bands),_,_,_,_)) =>
+        y -> c1bands.map {case (k,v) =>
+          val lowerCaseLimits = l.map {case (lk,lv) => lk.toLowerCase -> lv} 
+          k -> v.confirmWith(k, lowerCaseLimits)
+        }
+    }
 
   lazy val classTwo: Map[Interval[LocalDate], ClassTwo] =
-    mapValuesOpt(_.classTwo)    
+    data.collect{
+      case (y,ConfigurationPeriod(l,_,Some(c2),_,_,_)) =>
+        val lowerCaseLimits = l.map {case (lk,lv) => lk.toLowerCase -> lv} 
+        y -> c2.confirm(y, lowerCaseLimits.get("lel").flatMap(_.week))
+    }
 
   lazy val classThree: Map[Interval[LocalDate], ClassThree] =
-    mapValuesOpt(_.classThree)
+    data.collect{
+      case (y,ConfigurationPeriod(l,_,_,Some(c3),_,_)) =>
+        val lowerCaseLimits = l.map {case (lk,lv) => lk.toLowerCase -> lv} 
+        y -> c3.confirm(y, lowerCaseLimits.get("lel").flatMap(_.week))
+    }
 
   lazy val classFour: Map[Interval[LocalDate], ClassFour] =
     mapValuesOpt(_.classFour)
