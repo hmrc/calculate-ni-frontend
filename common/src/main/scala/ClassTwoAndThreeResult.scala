@@ -41,9 +41,34 @@ case class ClassTwo(
   lel: BigDecimal
 ) extends ClassTwoOrThree {
   def rate = weeklyRate.default
-
   def lowerEarningLimit = lel.pure[Explained]
   def qualifyingEarningsFactor: Explained[BigDecimal] = qualifyingRate.pure[Explained]
+}
+
+object ClassTwo {
+
+  case class ClassTwoVague(
+    weeklyRate: ClassTwoRates,
+    smallEarningsException: Option[BigDecimal],
+    hrpDate: Option[LocalDate],
+    finalDate: Option[LocalDate],
+    noOfWeeks: Int = 52,
+    qualifyingRate: BigDecimal,
+    lel: Option[BigDecimal]
+  ) {
+    def confirm(year: Interval[LocalDate], fallbackLEL: Option[BigDecimal]) = ClassTwo(
+      weeklyRate,
+      smallEarningsException,
+      hrpDate,
+      finalDate, 
+      noOfWeeks,
+      qualifyingRate,
+      (lel orElse fallbackLEL) getOrElse {
+        throw new IllegalStateException(s"No LEL defined for $year")
+      }
+    )
+  }
+
 }
 
 case class ClassThree(
@@ -62,6 +87,30 @@ case class ClassThree(
   }
     
   def lowerEarningLimit = lel.pure[Explained]
+}
+
+object ClassThree {
+
+    case class ClassThreeVague(
+      finalDate: Option[LocalDate],
+      weekRate: BigDecimal,
+      hrpDate: Option[LocalDate],
+      noOfWeeks: Int = 52,
+      lel: Option[BigDecimal],
+      qualifyingRate: Option[BigDecimal]
+    ) {
+      def confirm(year: Interval[LocalDate], fallbackLEL: Option[BigDecimal]) = ClassThree(
+        finalDate,
+        weekRate,
+        hrpDate,
+        noOfWeeks,
+        (lel orElse fallbackLEL).getOrElse {
+          throw new IllegalStateException(s"No LEL defined for $year")
+        },
+        qualifyingRate
+      )
+    }
+
 }
 
 
