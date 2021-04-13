@@ -7,7 +7,6 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 
 // types
 import {DirectorsContext, DirectorsUIRow} from './DirectorsContext'
-import {NiFrontendContext} from '../../../services/NiFrontendContext'
 import MqTableCell from '../shared/MqTableCell'
 import ExplainToggle from "../shared/ExplainToggle";
 import TableRow from "../shared/TableRow";
@@ -31,10 +30,9 @@ function DirectorsTableRow(props: TableRowProps) {
     activeRowId,
     setActiveRowId,
     setResult,
-    result
+    result,
+    categoryNames
   } = useContext(DirectorsContext)
-
-  const { config } = useContext(NiFrontendContext)
 
   const handleGrossChange = (r: DirectorsUIRow, e: React.ChangeEvent<HTMLInputElement>) => {
     invalidateResults()
@@ -76,7 +74,7 @@ function DirectorsTableRow(props: TableRowProps) {
             <select name="category" value={row.category} onChange={(e) => handleSelectChange?.(row, e)} className="borderless" id={`row${index}-category`}>
               {categories.map((c: string, i: number) => (
                 <option key={i} value={c}>
-                  {`${c}${config.categoryNames[c] ? ` - ${config.categoryNames[c]}` : ``}`}
+                  {`${c}${categoryNames[c] ? ` - ${categoryNames[c]}` : ``}`}
                 </option>
               ))}
             </select>

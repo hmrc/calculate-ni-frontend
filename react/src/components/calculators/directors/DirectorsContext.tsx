@@ -1,9 +1,10 @@
 import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from "react";
-import {DetailsProps, GovDateRange, TaxYear, TotalsInCategories} from "../../../interfaces";
+import {DetailsProps, GenericObject, GovDateRange, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {PeriodLabel, buildTaxYears} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
 import {
+  categoryNamesToObject,
   ClassOneCalculator,
   DirectorsCalculator, initClassOneCalculator,
   initDirectorsCalculator,
@@ -82,6 +83,7 @@ interface DirectorsContext {
   setApp: Dispatch<string | null>,
   dateRange: GovDateRange,
   setDateRange: Dispatch<SetStateAction<GovDateRange>>
+  categoryNames: GenericObject
 }
 
 export const DirectorsContext = React.createContext<DirectorsContext>(
@@ -117,7 +119,8 @@ export const DirectorsContext = React.createContext<DirectorsContext>(
     app: '',
     setApp: () => {},
     dateRange: {from: null, to: null},
-    setDateRange: () => {}
+    setDateRange: () => {},
+    categoryNames: {}
   }
 )
 
@@ -130,6 +133,7 @@ export function useDirectorsForm() {
   const [taxYear, setTaxYear] = useState<TaxYear | null>(null)
   const [taxYears, setTaxYears] = useState<TaxYear[]>([])
   const [categories, setCategories] = useState<Array<string>>([])
+  const [categoryNames, setCategoryNames] = useState<GenericObject>({})
   const [defaultRow, setDefaultRow] = useState<DirectorsUIRow>(initRow)
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [errors, setErrors] = useState<GenericErrors>({})
@@ -148,6 +152,7 @@ export function useDirectorsForm() {
       setApp(null)
       setEarningsPeriod(null)
       setAskApp(isAppApplicable || undefined)
+      setCategoryNames(categoryNamesToObject(ClassOneCalculator.getCategoryNames))
       const categories = ClassOneCalculator.getApplicableCategories(taxYear.from)
       if(categories) {
         setCategories(categories.split(''))
@@ -248,6 +253,7 @@ export function useDirectorsForm() {
     app,
     setApp,
     dateRange,
-    setDateRange
+    setDateRange,
+    categoryNames
   }
 }

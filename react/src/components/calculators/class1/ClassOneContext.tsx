@@ -1,9 +1,9 @@
 import React, {Dispatch, useContext, useEffect, useState} from "react";
-import {DetailsProps, TaxYear, TotalsInCategories} from "../../../interfaces";
+import {DetailsProps, GenericObject, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {buildTaxYears, periods, PeriodValue} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
 import {getTotalsInCategories} from "../../../services/utils";
-import {initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
+import {categoryNamesToObject, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
 import uniqid from "uniqid";
 
 const initRow = {
@@ -116,6 +116,7 @@ interface ClassOneContext {
   setPeriodNumbers: Function
   result: Class1Result | null
   setResult: Dispatch<Class1Result | null>
+  categoryNames: GenericObject
 }
 
 export const ClassOneContext = React.createContext<ClassOneContext>(
@@ -143,7 +144,8 @@ export const ClassOneContext = React.createContext<ClassOneContext>(
     setActiveRowId: () => {},
     setPeriodNumbers: () => {},
     result: null,
-    setResult: () => {}
+    setResult: () => {},
+    categoryNames: {}
   }
 )
 
@@ -155,6 +157,7 @@ export function useClassOneForm() {
   const [taxYears, setTaxYears] = useState<TaxYear[]>([])
   const [taxYear, setTaxYear] = useState<TaxYear | null>(null)
   const [defaultRow, setDefaultRow] = useState<Row>(initRow)
+  const [categoryNames, setCategoryNames] = useState<GenericObject>({})
   const [categories, setCategories] = useState<Array<string>>([])
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [errors, setErrors] = useState<GenericErrors>({})
@@ -222,6 +225,7 @@ export function useClassOneForm() {
   useEffect(() => {
     const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
     setTaxYears(taxYearData)
+    setCategoryNames(categoryNamesToObject(ClassOneCalculator.getCategoryNames))
   }, [ClassOneCalculator])
 
   const setPeriodNumbers = (deletedRow: string | undefined) => {
@@ -265,6 +269,7 @@ export function useClassOneForm() {
     setActiveRowId,
     setPeriodNumbers,
     result,
-    setResult
+    setResult,
+    categoryNames
   }
 }

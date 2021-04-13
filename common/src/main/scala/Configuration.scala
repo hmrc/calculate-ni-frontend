@@ -105,7 +105,7 @@ case class ConfigurationPeriod(
 )
 
 case class Configuration (
-  categoryNames: Map[Char, String],  
+  categoryNames: Map[Char, String],
   data: Map[Interval[LocalDate], ConfigurationPeriod],
   interestOnLatePayment: Map[Interval[LocalDate], BigDecimal],
   interestOnRepayment: Map[Interval[LocalDate], BigDecimal]
