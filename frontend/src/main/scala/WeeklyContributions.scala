@@ -28,7 +28,8 @@ class WeeklyContributions(
           val startDate: js.Date = y.start
           val endDate: js.Date = y.end
         }
-    }
+    }.toJSArray
+
     val total = r.map(_._2).sum
 
     new js.Object {
