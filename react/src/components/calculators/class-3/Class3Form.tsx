@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 
 // types
 import {Class3Context} from "./Class3Context";
@@ -17,18 +17,18 @@ export default function Class3Form(props: any) {
   } = useContext(Class3Context)
   const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
 
+  useEffect(() => {
+    {taxYear &&
+      setDateRange(() => ({
+        from: taxYear.from,
+        to: taxYear.to
+      }))
+    }
+  }, [taxYear])
+
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newTaxYear = taxYears.find(ty => ty.id === e.target.value) || taxYears[0]
     setTaxYear(newTaxYear)
-
-    if (taxYear) {
-      const newDateRange = {
-        from: taxYear.from,
-        to: taxYear.to
-      }
-      setDateRange(() => (newDateRange))
-    }
-
   }
 
   return (
