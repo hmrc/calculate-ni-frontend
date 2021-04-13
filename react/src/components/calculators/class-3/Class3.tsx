@@ -14,14 +14,14 @@ const pageTitle = 'Weekly contribution conversion'
 const Class3Page = () => {
     const [showSummary, setShowSummary] = useState<boolean>(false)
     const {
-        rows,
-        setRows,
         details,
         setDetails,
         errors,
         setErrors,
         setActiveRowId,
-        WeeklyContributionsCalculator
+        WeeklyContributionsCalculator,
+        dateRange,
+        setResults
     } = useContext(Class3Context)
     const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
     useDocumentTitle(titleWithPrefix)
@@ -39,19 +39,13 @@ const Class3Page = () => {
     const submitForm = (showSummaryIfValid: boolean) => {
         setErrors({})
         const payload = {
-            rows
+            dateRange
         }
 
         if(validateClass3Payload(payload, setErrors)) {
-            rows.map(row => {
-                row.actualWeeks = WeeklyContributionsCalculator
-                  .calculate(
-                    row.dateRange.from,
-                    row.dateRange.to
-                  )
-                return row
-            })
-            setShowSummary(showSummaryIfValid)
+          const result = WeeklyContributionsCalculator.breakdown(dateRange.from, dateRange.to)
+          setResults(result)
+          setShowSummary(showSummaryIfValid)
         }
     }
 
@@ -59,10 +53,6 @@ const Class3Page = () => {
           currentTarget: { name, value },
       }: React.ChangeEvent<HTMLInputElement>) => {
         setDetails({ [name]: value })
-    }
-
-    const resetTotals = () => {
-        setRows(class3DefaultRows)
     }
 
     return (
@@ -87,9 +77,7 @@ const Class3Page = () => {
                 />
 
                 <form onSubmit={handleSubmit} noValidate>
-                    <Class3Form
-                      resetTotals={resetTotals}
-                    />
+                    <Class3Form />
                 </form>
 
                 <div className="container section--top">

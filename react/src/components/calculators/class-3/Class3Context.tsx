@@ -2,7 +2,7 @@ import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from '
 import {buildTaxYears} from "../../../config";
 
 // types
-import {Class3Row, DetailsProps, TaxYear} from '../../../interfaces'
+import {Class3Results, DetailsProps, GovDateRange, TaxYear} from '../../../interfaces'
 import {GenericErrors} from "../../../validation/validation";
 import uniqid from "uniqid";
 import {
@@ -28,8 +28,6 @@ interface Class3Context {
   taxYears: TaxYear[]
   details: DetailsProps
   setDetails: Function
-  rows: Array<Class3Row>
-  setRows: Dispatch<SetStateAction<Array<Class3Row>>>
   day: string,
   setDay: Dispatch<string>
   month: string,
@@ -41,6 +39,10 @@ interface Class3Context {
   activeRowId: string | null
   setActiveRowId: Dispatch<string | null>,
   WeeklyContributionsCalculator: WeeklyContributionsCalculator
+  dateRange: GovDateRange,
+  setDateRange: Dispatch<SetStateAction<GovDateRange>>
+  results: Class3Results | null
+  setResults: Function
 }
 
 const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) => ({
@@ -54,8 +56,6 @@ export const Class3Context = React.createContext<Class3Context>(
     taxYears: [],
     details: initialDetails,
     setDetails: () => {},
-    rows: class3DefaultRows,
-    setRows: () => {},
     day: '',
     setDay: () => {},
     month: '',
@@ -66,7 +66,11 @@ export const Class3Context = React.createContext<Class3Context>(
     setErrors: () => {},
     activeRowId: null,
     setActiveRowId: () => {},
-    WeeklyContributionsCalculator: initWeeklyContributionsCalculator
+    WeeklyContributionsCalculator: initWeeklyContributionsCalculator,
+    dateRange: {from: null, to: null},
+    setDateRange: () => {},
+    results: null,
+    setResults: () => {}
   }
 )
 
@@ -78,21 +82,13 @@ export function useClass3Form() {
   const WeeklyContributionsCalculator = NiFrontendInterface.weeklyContributions
   const [taxYears, setTaxYears] = useState<TaxYear[]>([])
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
-  const [rows, setRows] = useState<Array<Class3Row>>(class3DefaultRows)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [day, setDay] = useState('')
   const [month, setMonth] = useState('')
   const [year, setYear] = useState('')
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
-
-  useEffect(() => {
-    if(taxYears && taxYears.length > 0) {
-      setRows([{
-        id: uniqid(),
-        dateRange: {from: taxYears[0].from, to: taxYears[0].to}
-      }])
-    }
-  }, [taxYears])
+  const [dateRange, setDateRange] = useState<GovDateRange>((() => ({from: null, to: null})))
+  const [results, setResults] = useState<Class3Results | null>(null)
 
   useEffect(() => {
     const taxYearData = buildTaxYears(ClassThreeCalculator.getTaxYears)
@@ -104,8 +100,6 @@ export function useClass3Form() {
     taxYears,
     details,
     setDetails,
-    rows,
-    setRows,
     day,
     setDay,
     month,
@@ -115,6 +109,10 @@ export function useClass3Form() {
     errors,
     setErrors,
     activeRowId,
-    setActiveRowId
+    setActiveRowId,
+    dateRange,
+    setDateRange,
+    results,
+    setResults
   }
 }

@@ -49,10 +49,16 @@ export interface Calculated {
   [key: string]: number[]
 }
 
-export interface Class3Row {
-  id: string,
-  dateRange: GovDateRange,
-  actualWeeks?: number
+export interface Class3Results {
+  totalWeeks: number
+  years: Class3YearBreakdown[]
+}
+
+export interface Class3YearBreakdown {
+  endDate: Date
+  startDate: Date
+  weeks: number
+  year: number
 }
 
 // Table

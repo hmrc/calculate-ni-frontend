@@ -1,4 +1,4 @@
-import {Class1DebtRow, Class3Row, GovDateRange, TaxYear} from '../interfaces'
+import {Class1DebtRow, GovDateRange, TaxYear} from '../interfaces'
 import {PeriodLabel} from "../config";
 import {Dispatch} from "react";
 import {govDateFormat, hasKeys, isEmpty} from "../services/utils";
@@ -32,7 +32,7 @@ interface Class2Or3Payload {
 }
 
 interface Class3Payload {
-  rows: Array<Class3Row>
+  dateRange: GovDateRange
 }
 
 export interface ErrorMessage {
@@ -213,7 +213,24 @@ export const validateClass3Payload = (
   setErrors: Dispatch<GenericErrors>
 ) => {
   const errors: GenericErrors = {}
-  validateClass3Rows(payload.rows, setErrors, errors)
+  const dateRange = payload.dateRange
+
+  if (!dateRange.from) {
+    errors.wccFromDay = {
+      link: 'wccFromDay',
+      name: 'Start date',
+      message: 'Start date must be entered as a real date'
+    }
+  }
+
+  if (!dateRange.to) {
+    errors.wccToDay = {
+      link: 'wccToDay',
+      name: 'End date',
+      message: 'End date must be entered as a real date'
+    }
+  }
+
   if (hasKeys(errors)) {
     setErrors(errors)
     return false
@@ -280,31 +297,6 @@ const validateLateInterestRows = (
         message: `Class 1 debt for row #${index + 1} must be an amount of money`
       }
     }
-  })
-}
-
-const validateClass3Rows = (
-  rows: Array<Class3Row>,
-  setErrors: Dispatch<GenericErrors>,
-  errors: GenericErrors
-) => {
-  const coreMsg = (id: string) => ({name: id, link: id})
-  rows.forEach((row: Class3Row, index: number) => {
-    const fromId = `${row.id}FromDay`
-    const toId = `${row.id}ToDay`
-    const dateRange = row.dateRange
-    if(!dateRange.from || !dateRange.to) {
-      errors[fromId] = {
-        ...coreMsg(fromId),
-        message: `Both start and end dates must be entered for row #${index + 1}`
-      }
-    } else if(beforeMinimumDate(dateRange.to, dateRange.from)) {
-      errors[toId] = {
-        ...coreMsg(toId),
-        message: `End date for row #${index + 1} must be on or after ${moment(dateRange.from).format(govDateFormat)}`
-      }
-    }
-
   })
 }
 
