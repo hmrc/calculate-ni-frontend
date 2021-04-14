@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 
 // types
 import {Class3Context} from "./Class3Context";
@@ -11,22 +11,15 @@ export default function Class3Form(props: any) {
   const {
     errors,
     taxYears,
+    taxYear,
+    setTaxYear,
     dateRange,
     setDateRange,
     results
   } = useContext(Class3Context)
-  const [taxYear, setTaxYear] = useState<TaxYear>(taxYears[0])
-
-  useEffect(() => {
-    {taxYear &&
-      setDateRange(() => ({
-        from: taxYear.from,
-        to: taxYear.to
-      }))
-    }
-  }, [taxYear])
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setDateRange({from: null, to: null})
     const newTaxYear = taxYears.find(ty => ty.id === e.target.value) || taxYears[0]
     setTaxYear(newTaxYear)
   }
@@ -39,7 +32,7 @@ export default function Class3Form(props: any) {
         handleTaxYearChange={handleTaxYearChange}
       />
 
-      <DateRange
+      {dateRange && dateRange.from && <DateRange
         id="wcc"
         setDateRange={setDateRange}
         dateRange={dateRange}
@@ -49,6 +42,7 @@ export default function Class3Form(props: any) {
           to: "To"
         }}
       />
+      }
 
       {results &&
         <Class3Breakdown results={results} />
