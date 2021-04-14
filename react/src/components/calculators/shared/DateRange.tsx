@@ -2,7 +2,7 @@ import DateInputs from "../../helpers/formhelpers/DateInputs";
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {GovDateRange} from "../../../interfaces";
 import {GenericErrors} from "../../../validation/validation";
-import {DateParts, extractDatePartString, validDateParts, zeroPad} from '../../../services/utils'
+import {DatePartsNames, extractDatePartString, validDateParts, zeroPad} from '../../../services/utils'
 
 interface DateRangeProps {
   setDateRange: Dispatch<SetStateAction<GovDateRange>>
@@ -14,12 +14,12 @@ interface DateRangeProps {
 
 export const DateRange = (props: DateRangeProps) => {
   const { setDateRange, errors, legends, id, dateRange } = props
-  const [fromDay, setFromDay] = useState(extractDatePartString(DateParts.DAY, dateRange?.from))
-  const [fromMonth, setFromMonth] = useState(extractDatePartString(DateParts.MONTH, dateRange?.from))
-  const [fromYear, setFromYear] = useState(extractDatePartString(DateParts.YEAR, dateRange?.from))
-  const [toDay, setToDay] = useState(extractDatePartString(DateParts.DAY, dateRange?.to))
-  const [toMonth, setToMonth] = useState(extractDatePartString(DateParts.MONTH, dateRange?.to))
-  const [toYear, setToYear] = useState(extractDatePartString(DateParts.YEAR, dateRange?.to))
+  const [fromDay, setFromDay] = useState(extractDatePartString(DatePartsNames.DAY, dateRange?.from))
+  const [fromMonth, setFromMonth] = useState(extractDatePartString(DatePartsNames.MONTH, dateRange?.from))
+  const [fromYear, setFromYear] = useState(extractDatePartString(DatePartsNames.YEAR, dateRange?.from))
+  const [toDay, setToDay] = useState(extractDatePartString(DatePartsNames.DAY, dateRange?.to))
+  const [toMonth, setToMonth] = useState(extractDatePartString(DatePartsNames.MONTH, dateRange?.to))
+  const [toYear, setToYear] = useState(extractDatePartString(DatePartsNames.YEAR, dateRange?.to))
 
   useEffect(() => {
     const fromDate = validDateParts(fromDay, fromMonth, fromYear) ?
