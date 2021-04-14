@@ -50,7 +50,7 @@ function DirectorsPrintView(props: Class1DirectorsSavePrintProps) {
             <h3 className="govuk-heading-s">Pro rata dates</h3>
             <p>
               From <strong>{govDateString(dateRange.from)}</strong> to <strong>{govDateString(dateRange.to)}</strong>
-              {' '}({dateRange.numberOfWeeks} weeks)
+              {' '}
             </p>
           </div>
           :

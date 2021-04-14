@@ -1,7 +1,7 @@
 import {Class1DebtRow, GovDateRange, TaxYear} from '../interfaces'
 import {PeriodLabel} from "../config";
 import {Dispatch} from "react";
-import {govDateFormat, hasKeys, isEmpty} from "../services/utils";
+import {govDateFormat, hasKeys, isEmpty, validDateParts} from "../services/utils";
 import moment from "moment";
 import {DirectorsUIRow} from "../components/calculators/directors/DirectorsContext";
 import {Row} from "../components/calculators/class1/ClassOneContext";
@@ -215,7 +215,7 @@ export const validateClass3Payload = (
   const errors: GenericErrors = {}
   const dateRange = payload.dateRange
 
-  if (!dateRange.from) {
+  if (!validDateParts(dateRange.fromParts?.day, dateRange.fromParts?.month, dateRange.fromParts?.year)) {
     errors.wccFromDay = {
       link: 'wccFromDay',
       name: 'Start date',
@@ -223,7 +223,7 @@ export const validateClass3Payload = (
     }
   }
 
-  if (!dateRange.to) {
+  if (!validDateParts(dateRange.toParts?.day, dateRange.toParts?.month, dateRange.toParts?.year)) {
     errors.wccToDay = {
       link: 'wccToDay',
       name: 'End date',

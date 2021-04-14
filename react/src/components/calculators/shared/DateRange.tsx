@@ -28,8 +28,16 @@ export const DateRange = (props: DateRangeProps) => {
     if(fromDate) {
       setDateRange((prevState: GovDateRange) => {
         return {
+          ...prevState,
           from: fromDate,
-          to: prevState.to
+          fromParts: {day: fromDay, month: fromMonth, year: fromYear}
+        }
+      })
+    } else {
+      setDateRange((prevState: GovDateRange) => {
+        return {
+          ...prevState,
+          fromParts: {day: fromDay, month: fromMonth, year: fromYear}
         }
       })
     }
@@ -42,8 +50,16 @@ export const DateRange = (props: DateRangeProps) => {
     if(toDate) {
       setDateRange((prevState: GovDateRange) => {
         return {
-          from: prevState.from,
-          to: toDate
+          ...prevState,
+          to: toDate,
+          toParts: {day: toDay, month: toMonth, year: toYear}
+        }
+      })
+    } else {
+      setDateRange((prevState: GovDateRange) => {
+        return {
+          ...prevState,
+          toParts: {day: toDay, month: toMonth, year: toYear}
         }
       })
     }

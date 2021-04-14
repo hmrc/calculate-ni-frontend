@@ -157,10 +157,17 @@ export interface TextInputProps {
   error?: any // todo
 }
 
+export interface DateParts {
+  day: string
+  month: string
+  year: string
+}
+
 export interface GovDateRange {
   from: Date | null;
   to: Date | null;
-  numberOfWeeks?: number
+  fromParts?: DateParts
+  toParts?: DateParts
 }
 
 export type NiCategory =
