@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {hasKeys} from "../../../services/utils";
 import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 import Details from "../shared/Details";
@@ -25,6 +25,10 @@ const Class3Page = () => {
     } = useContext(Class3Context)
     const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
     useDocumentTitle(titleWithPrefix)
+
+    useEffect(() => {
+      setResults(null)
+    }, [dateRange.fromParts, dateRange.toParts])
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()

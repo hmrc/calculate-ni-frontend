@@ -15,10 +15,12 @@ export default function Class3Form(props: any) {
     setTaxYear,
     dateRange,
     setDateRange,
-    results
+    results,
+    setResults
   } = useContext(Class3Context)
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setResults(null)
     setDateRange({from: null, to: null})
     const newTaxYear = taxYears.find(ty => ty.id === e.target.value) || taxYears[0]
     setTaxYear(newTaxYear)
