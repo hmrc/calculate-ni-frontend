@@ -13,7 +13,7 @@ import TextInput from '../../helpers/formhelpers/TextInput'
 import MqTableCell from '../shared/MqTableCell'
 import TableRow from "../shared/TableRow";
 import DateInputs from "../../helpers/formhelpers/DateInputs";
-import {DateParts, extractDatePartString, sterlingStringValue, validDateParts, zeroPad} from "../../../services/utils";
+import {DatePartsNames, extractDatePartString, sterlingStringValue, validDateParts, zeroPad} from "../../../services/utils";
 
 function LateRefundsTableRow(props: {
   row: LateRefundsTableRowProps,
@@ -32,9 +32,9 @@ function LateRefundsTableRow(props: {
     results
   } = useContext(LateRefundsContext)
   const [taxYear, setTaxYear] = useState<TaxYear | null>(null)
-  const [day, setDay] = useState(extractDatePartString(DateParts.DAY, row.paymentDate))
-  const [month, setMonth] = useState(extractDatePartString(DateParts.MONTH, row.paymentDate))
-  const [year, setYear] = useState(extractDatePartString(DateParts.YEAR, row.paymentDate))
+  const [day, setDay] = useState(extractDatePartString(DatePartsNames.DAY, row.paymentDate))
+  const [month, setMonth] = useState(extractDatePartString(DatePartsNames.MONTH, row.paymentDate))
+  const [year, setYear] = useState(extractDatePartString(DatePartsNames.YEAR, row.paymentDate))
 
   useEffect(() => {
     if(taxYears) {

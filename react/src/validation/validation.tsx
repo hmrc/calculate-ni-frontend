@@ -1,7 +1,7 @@
-import {Class1DebtRow, Class3Row, GovDateRange, TaxYear} from '../interfaces'
+import {Class1DebtRow, GovDateRange, TaxYear} from '../interfaces'
 import {PeriodLabel} from "../config";
 import {Dispatch} from "react";
-import {govDateFormat, hasKeys, isEmpty} from "../services/utils";
+import {govDateFormat, hasKeys, isEmpty, validDateParts, validDateRange} from "../services/utils";
 import moment from "moment";
 import {DirectorsUIRow} from "../components/calculators/directors/DirectorsContext";
 import {Row} from "../components/calculators/class1/ClassOneContext";
@@ -32,7 +32,7 @@ interface Class2Or3Payload {
 }
 
 interface Class3Payload {
-  rows: Array<Class3Row>
+  dateRange: GovDateRange
 }
 
 export interface ErrorMessage {
@@ -213,7 +213,24 @@ export const validateClass3Payload = (
   setErrors: Dispatch<GenericErrors>
 ) => {
   const errors: GenericErrors = {}
-  validateClass3Rows(payload.rows, setErrors, errors)
+  const dateRange = payload.dateRange
+
+  if (dateRange.fromParts && !validDateRange(dateRange.fromParts)) {
+    errors.wccFromDay = {
+      link: 'wccFromDay',
+      name: 'Start date',
+      message: 'Start date must be entered as a real date'
+    }
+  }
+
+  if (dateRange.toParts && !validDateRange(dateRange.toParts)) {
+    errors.wccToDay = {
+      link: 'wccToDay',
+      name: 'End date',
+      message: 'End date must be entered as a real date'
+    }
+  }
+
   if (hasKeys(errors)) {
     setErrors(errors)
     return false
@@ -236,7 +253,9 @@ export const validateLateInterestPayload  = (
     }
   }
 
-  if(payload.hasRemissionPeriod === true && !payload.dateRange.from) {
+  const dateRange = payload.dateRange
+
+  if(payload.hasRemissionPeriod === true && dateRange.fromParts && !validDateRange(dateRange.fromParts)) {
     errors.remissionPeriodFromDay = {
       name: 'remissionPeriod',
       link: 'remissionPeriodFromDay',
@@ -244,7 +263,7 @@ export const validateLateInterestPayload  = (
     }
   }
 
-  if(payload.hasRemissionPeriod === true  && !payload.dateRange.to) {
+  if(payload.hasRemissionPeriod === true  && dateRange.toParts && !validDateRange(dateRange.toParts)) {
     errors.remissionPeriodToDay = {
       name: 'remissionPeriod',
       link: 'remissionPeriodToDay',
@@ -283,31 +302,6 @@ const validateLateInterestRows = (
   })
 }
 
-const validateClass3Rows = (
-  rows: Array<Class3Row>,
-  setErrors: Dispatch<GenericErrors>,
-  errors: GenericErrors
-) => {
-  const coreMsg = (id: string) => ({name: id, link: id})
-  rows.forEach((row: Class3Row, index: number) => {
-    const fromId = `${row.id}FromDay`
-    const toId = `${row.id}ToDay`
-    const dateRange = row.dateRange
-    if(!dateRange.from || !dateRange.to) {
-      errors[fromId] = {
-        ...coreMsg(fromId),
-        message: `Both start and end dates must be entered for row #${index + 1}`
-      }
-    } else if(beforeMinimumDate(dateRange.to, dateRange.from)) {
-      errors[toId] = {
-        ...coreMsg(toId),
-        message: `End date for row #${index + 1} must be on or after ${moment(dateRange.from).format(govDateFormat)}`
-      }
-    }
-
-  })
-}
-
 const validateClass1Rows = (rows: Array<Row | DirectorsUIRow>, errors: GenericErrors) => {
   const manyRows = rows.length > 1
   rows.forEach((r: Row | DirectorsUIRow, index: number) => {
@@ -338,19 +332,19 @@ const validateDirectorshipDates = (taxYear: TaxYear | null, dateRange: GovDateRa
   if(taxYear) {
     const minDate = taxYear?.from
     const maxDate = taxYear?.to
-    if (!dateRange.from) {
+    if (dateRange.fromParts && !validDateRange(dateRange.fromParts)) {
       errors.directorshipFromDay = {
         link: 'directorshipFromDay',
         name: 'Start date of directorship',
         message: 'Start date of directorship must be entered as a real date'
       }
-    } else if(beforeMinimumDate(dateRange.from, minDate)) {
+    } else if(dateRange.from && beforeMinimumDate(dateRange.from, minDate)) {
       errors.directorshipFromDay = {
         link: 'directorshipFromDay',
         name: 'Start date of directorship',
         message: `Start date of directorship must be on or after ${moment(minDate).format(govDateFormat)}`
       }
-    } else if (afterMaximumDate(dateRange.from, maxDate)) {
+    } else if (dateRange.from && afterMaximumDate(dateRange.from, maxDate)) {
       errors.directorshipFromDay = {
         link: 'directorshipFromDay',
         name: 'Start date of directorship',
@@ -358,19 +352,19 @@ const validateDirectorshipDates = (taxYear: TaxYear | null, dateRange: GovDateRa
       }
     }
 
-    if (!dateRange.to) {
+    if (dateRange.toParts && !validDateRange(dateRange.toParts)) {
       errors.directorshipToDay = {
         link: 'directorshipToDay',
         name: 'End date of directorship',
         message: 'End date of directorship must be entered as a real date'
       }
-    } else if (beforeMinimumDate(dateRange.to, minDate)) {
+    } else if (dateRange.to && beforeMinimumDate(dateRange.to, minDate)) {
       errors.directorshipToDay = {
         link: 'directorshipToDay',
         name: 'End date of directorship',
         message: `End date of directorship must be on or after ${moment(minDate).format(govDateFormat)}`
       }
-    } else if (afterMaximumDate(dateRange.to, maxDate)) {
+    } else if (dateRange.to && afterMaximumDate(dateRange.to, maxDate)) {
       errors.directorshipToDay = {
         link: 'directorshipToDay',
         name: 'End date of directorship',

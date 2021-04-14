@@ -551,6 +551,12 @@ and also iPads specifically.
           }
         }
       }
+
+      &.shade-rows {
+        tr:nth-of-type(odd) td {
+          background:rgba(220,220,220,0.3);
+        }
+      }
     }
   }
 

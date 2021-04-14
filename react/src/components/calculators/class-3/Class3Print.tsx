@@ -7,12 +7,15 @@ import {Class3Context} from './Class3Context'
 // components
 import BackLink from '../../helpers/gov-design-system/BackLink'
 import DetailsPrint from '../shared/DetailsPrint'
-import Class3Table from './Class3Table'
+import Class3Breakdown from "./Class3Breakdown";
+import {govDateString} from "../../../services/utils";
 
 function Class3Print(props: LateRefundPrintProps) {
   const { title, setShowSummary } = props
   const {
-    details
+    details,
+    dateRange,
+    results
   } = useContext(Class3Context)
   return (
     <div className="save-print-wrapper">
@@ -23,7 +26,16 @@ function Class3Print(props: LateRefundPrintProps) {
 
         <DetailsPrint details={details} />
 
-        <Class3Table printView={true} />
+        {dateRange.from && dateRange.to &&
+        <div className="divider--bottom section--bottom section-outer--bottom">
+          <h3 className="govuk-heading-s">Dates from and to</h3>
+          <p>
+            From <strong>{govDateString(dateRange.from)}</strong> to <strong>{govDateString(dateRange.to)}</strong>
+          </p>
+        </div>
+        }
+
+        {results && <Class3Breakdown results={results} />}
       </div>
     </div>
   )

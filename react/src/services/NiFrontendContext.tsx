@@ -37,7 +37,7 @@ export interface Class2Or3Calculator {
 }
 
 export interface WeeklyContributionsCalculator {
-  calculate: Function
+  breakdown: Function
 }
 
 export interface UnofficialDefermentCalculator {
@@ -55,7 +55,7 @@ export const initClass2Or3Calculator = {
 }
 
 export const initWeeklyContributionsCalculator = {
-  calculate: () => {}
+  breakdown: () => {}
 }
 
 export const initUnofficialDefermentCalculator = {

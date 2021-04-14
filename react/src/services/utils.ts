@@ -4,7 +4,7 @@ import 'numeral/locales/en-gb';
 import {
   TotalsInCategories,
   TotalType,
-  TaxYear
+  TaxYear, GovDateRange, DateParts
 } from "../interfaces";
 import {ErrorMessage, stripCommas} from "../validation/validation";
 import {Band, Row} from "../components/calculators/class1/ClassOneContext";
@@ -87,11 +87,16 @@ export const extractTaxYearFromDate = (date: Date, taxYears: TaxYear[]) => {
   return match || null
 }
 
-export function validDateParts(day: string, month: string, year: string) {
+export function validDateParts(day: string | undefined, month: string | undefined, year: string | undefined) {
   return day && month && year && moment(`${year}-${month}-${day}`, 'YYYY-M-D').isValid()
 }
 
+export function validDateRange(parts: DateParts) {
+  return validDateParts(parts.day, parts.month, parts.year)
+}
+
 export const govDateString = (date: Date) => moment(date).format(govDateFormat)
+export const taxYearForBreakdown = (from: Date, to: Date) => `${from.getFullYear()} - ${to.getFullYear().toString().substr(-2)}`
 export const taxYearShorthand = (taxYear: TaxYear) => `${taxYear.from.getFullYear()}/${taxYear.to.getFullYear()}`
 export const dateStringSlashSeparated = (date: Date) => moment(date).format('DD/MM/YYYY')
 
@@ -133,23 +138,23 @@ export const buildDescribedByKeys = (
 
 export const sterlingStringValue = (value: string) => numeral(value).format('$0,0.00')
 
-export enum DateParts {
+export enum DatePartsNames {
   DAY = 'day',
   MONTH = 'month',
   YEAR = 'year'
 }
 
-export const extractDatePartString = (part: DateParts, date: Date | null | undefined) => {
+export const extractDatePartString = (part: DatePartsNames, date: Date | null | undefined) => {
   if(!date) {
     return ''
   }
-  if(part === DateParts.DAY) {
+  if(part === DatePartsNames.DAY) {
     return date.getDate().toString()
   }
-  if(part === DateParts.MONTH) {
+  if(part === DatePartsNames.MONTH) {
     return (date.getMonth() + 1).toString()
   }
-  if(part === DateParts.YEAR) {
+  if(part === DatePartsNames.YEAR) {
     return date.getFullYear().toString()
   }
   return ''
