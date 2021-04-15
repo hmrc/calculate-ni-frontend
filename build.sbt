@@ -21,7 +21,7 @@ installReactDependencies := {
 
 copyInJS := {
   // generate the Javascript logic
-  val Attributed(outFiles) = (frontend / Compile / fastOptJS).value
+  val Attributed(outFiles) = (frontend / Compile / fullOptJS).value
   val dest = reactDirectory.value / "src" / "calculation.js"
   println(s"copying $outFiles to $dest")
 
@@ -29,7 +29,8 @@ copyInJS := {
   // be replaced with IO.copyFile(outFiles, dest)
 //  IO.copyFile(outFiles, dest)
   (Process("sed" ::
-    """s/(typeof __ScalaJSEnv === "object" && __ScalaJSEnv) ? __ScalaJSEnv ://""" ::
+    "-e" :: """1 i/* eslint-disable no-unused-expressions */""" ::
+    "-e" :: """s/"object"===typeof __ScalaJSEnv&&__ScalaJSEnv?__ScalaJSEnv://""" ::
     outFiles.getAbsolutePath :: Nil,
     baseDirectory.value) #> dest).run()
   dest
