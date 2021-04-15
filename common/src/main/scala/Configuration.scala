@@ -29,9 +29,12 @@ case class Limit(
   fourWeek: Option[BigDecimal],
 ) {
   def effectiveYear = year
-  def effectiveMonth = month.getOrElse(year / 12)
-  def effectiveWeek = week.getOrElse(year / 52)
-  def effectiveFourWeek = fourWeek.getOrElse(year / 13)
+  def effectiveMonth =
+    month.getOrElse((year / 12).setScale(0, BigDecimal.RoundingMode.HALF_UP))
+  def effectiveWeek =
+    week.getOrElse((year / 52).setScale(0, BigDecimal.RoundingMode.HALF_UP))
+  def effectiveFourWeek =
+    fourWeek.getOrElse((year / 13).setScale(0, BigDecimal.RoundingMode.HALF_UP))
 }
 
 case class ClassTwoRates(
@@ -127,14 +130,14 @@ case class Configuration (
     data.collect{
       case (y,ConfigurationPeriod(l,_,Some(c2),_,_,_)) =>
         val lowerCaseLimits = l.map {case (lk,lv) => lk.toLowerCase -> lv} 
-        y -> c2.confirm(y, lowerCaseLimits.get("lel").flatMap(_.week))
+        y -> c2.confirm(y, lowerCaseLimits.get("lel").map(_.effectiveWeek))
     }
 
   lazy val classThree: Map[Interval[LocalDate], ClassThree] =
     data.collect{
       case (y,ConfigurationPeriod(l,_,_,Some(c3),_,_)) =>
         val lowerCaseLimits = l.map {case (lk,lv) => lk.toLowerCase -> lv} 
-        y -> c3.confirm(y, lowerCaseLimits.get("lel").flatMap(_.week))
+        y -> c3.confirm(y, lowerCaseLimits.get("lel").map(_.effectiveWeek))
     }
 
   lazy val classFour: Map[Interval[LocalDate], ClassFour] =
