@@ -1,5 +1,4 @@
-import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from 'react'
-import {buildTaxYears} from "../../../config";
+import React, {Dispatch, SetStateAction, useContext, useState} from 'react'
 
 // types
 import {Class3Results, DetailsProps, GovDateRange, TaxYear} from '../../../interfaces'
@@ -25,9 +24,6 @@ export const class3DefaultRows = [{
 }]
 
 interface Class3Context {
-  taxYear: TaxYear | null
-  setTaxYear: Dispatch<TaxYear | null>
-  taxYears: TaxYear[]
   details: DetailsProps
   setDetails: Function
   day: string,
@@ -55,9 +51,6 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
 
 export const Class3Context = React.createContext<Class3Context>(
   {
-    taxYear: null,
-    taxYears: [],
-    setTaxYear: () => {},
     details: initialDetails,
     setDetails: () => {},
     day: '',
@@ -82,10 +75,7 @@ export function useClass3Form() {
   const {
     NiFrontendInterface
   } = useContext(NiFrontendContext)
-  const ClassThreeCalculator = NiFrontendInterface.classThree
   const WeeklyContributionsCalculator = NiFrontendInterface.weeklyContributions
-  const [taxYears, setTaxYears] = useState<TaxYear[]>([])
-  const [taxYear, setTaxYear] = useState<TaxYear | null>(null)
   const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
   const [errors, setErrors] = useState<GenericErrors>({})
   const [day, setDay] = useState('')
@@ -95,28 +85,8 @@ export function useClass3Form() {
   const [dateRange, setDateRange] = useState<GovDateRange>((() => ({from: null, to: null})))
   const [results, setResults] = useState<Class3Results | null>(null)
 
-  useEffect(() => {
-    if(taxYear) {
-      setDateRange({from: taxYear.from, to: taxYear.to})
-    }
-  }, [taxYear])
-
-  useEffect(() => {
-    if(taxYears.length) {
-      setTaxYear(taxYears[0])
-    }
-  }, [taxYears])
-
-  useEffect(() => {
-    const taxYearData = buildTaxYears(ClassThreeCalculator.getTaxYears)
-    setTaxYears(taxYearData)
-  }, [ClassThreeCalculator, NiFrontendInterface])
-
   return {
     WeeklyContributionsCalculator,
-    taxYear,
-    setTaxYear,
-    taxYears,
     details,
     setDetails,
     day,

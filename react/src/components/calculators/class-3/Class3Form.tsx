@@ -10,31 +10,14 @@ import Class3Breakdown from "./Class3Breakdown";
 export default function Class3Form(props: any) {
   const {
     errors,
-    taxYears,
-    taxYear,
-    setTaxYear,
     dateRange,
     setDateRange,
-    results,
-    setResults
+    results
   } = useContext(Class3Context)
-
-  const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setResults(null)
-    setDateRange({from: null, to: null})
-    const newTaxYear = taxYears.find(ty => ty.id === e.target.value) || taxYears[0]
-    setTaxYear(newTaxYear)
-  }
 
   return (
     <div className="form-group table-wrapper">
-      <SelectTaxYear
-        taxYears={taxYears}
-        taxYear={taxYear}
-        handleTaxYearChange={handleTaxYearChange}
-      />
-
-      {dateRange && dateRange.from && <DateRange
+      <DateRange
         id="wcc"
         setDateRange={setDateRange}
         dateRange={dateRange}
@@ -44,7 +27,6 @@ export default function Class3Form(props: any) {
           to: "To"
         }}
       />
-      }
 
       {results &&
         <Class3Breakdown results={results} />
