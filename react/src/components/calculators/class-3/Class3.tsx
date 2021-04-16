@@ -11,6 +11,7 @@ import Class3Breakdown from "./Class3Breakdown";
 import PrintButtons from "../shared/PrintButtons";
 import {SuccessNotificationContext} from "../../../services/SuccessNotificationContext";
 import {SuccessNotification} from "../shared/SuccessNotification";
+import {DateRange} from "../shared/DateRange";
 
 const pageTitle = 'Weekly contribution conversion'
 
@@ -26,6 +27,7 @@ const Class3Page = () => {
     setActiveRowId,
     WeeklyContributionsCalculator,
     dateRange,
+    setDateRange,
     results,
     setResults
   } = useContext(Class3Context)
@@ -96,15 +98,36 @@ const Class3Page = () => {
           details={details}
           handleChange={handleChange}
           />
-          <form onSubmit={handleSubmit} noValidate>
-            <Class3Form />
-          </form>
         </>
       }
+      <form onSubmit={handleSubmit} noValidate>
+        <div className="form-group">
+          <DateRange
+            isSaveAndPrint={showSummary}
+            id="wcc"
+            setDateRange={setDateRange}
+            dateRange={dateRange}
+            errors={errors}
+            legends={{
+              from: "From",
+              to: "To"
+            }}
+          />
+
+          {!showSummary &&
+            <div className="form-group divider--top section--top">
+              <button className="govuk-button nomar" type="submit">
+                Calculate
+              </button>
+            </div>
+          }
+
+        </div>
+      </form>
+
+
       <div ref={breakdownRef} className="no-focus-outline" tabIndex={-1}>
-        {results &&
         <Class3Breakdown isSaveAndPrint={showSummary} results={results} />
-        }
       </div>
       <PrintButtons
         showSummary={showSummary}

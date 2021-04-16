@@ -12,8 +12,7 @@ import {govDateString} from "../../../services/utils";
 function Class3Print(props: LateRefundPrintProps) {
   const { title, setShowSummary } = props
   const {
-    details,
-    dateRange
+    details
   } = useContext(Class3Context)
   return (
     <div className="save-print-wrapper">
@@ -24,14 +23,6 @@ function Class3Print(props: LateRefundPrintProps) {
 
         <DetailsPrint details={details} />
 
-        {dateRange.from && dateRange.to &&
-        <div className="divider--bottom section--bottom section-outer--bottom">
-          <h3 className="govuk-heading-s">Dates from and to</h3>
-          <p>
-            From <strong>{govDateString(dateRange.from)}</strong> to <strong>{govDateString(dateRange.to)}</strong>
-          </p>
-        </div>
-        }
       </div>
     </div>
   )
