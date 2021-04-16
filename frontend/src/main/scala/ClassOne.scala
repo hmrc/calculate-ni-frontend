@@ -85,7 +85,7 @@ object ClassOneFrontend {
         val name = row.rowId
 
         // the bands within a row
-        val resultBands = row.bands.map { band => new js.Object {
+        val resultBands = row.displaySummaryBands.map { band => new js.Object {
           val name = band.bandId
 
           // anywhere where we have an 'Explained' datatype we can call 'value' to get
