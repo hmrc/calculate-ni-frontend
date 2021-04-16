@@ -30,7 +30,7 @@ function Class1Form(props: Class1FormProps) {
     setPeriodNumbers,
     setResult
   } = useContext(ClassOneContext)
-  const [qtyValue, setQtyValue] = useState<number>(1)
+  const [repeatQty, setRepeatQty] = useState<number>(1)
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTaxYear(taxYears.find(ty => ty.id === e.target.value) || taxYears[0])
@@ -40,17 +40,14 @@ function Class1Form(props: Class1FormProps) {
   const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
     e.preventDefault()
     resetTotals()
-    setQtyValue(1)
+    setRepeatQty(1)
   }
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setResult(null)
-
-    // create empty array to map over with the new items
-    let arrayItemsToAdd = Array.from(Array(qtyValue).keys())
-
-    // map over the items to create the new array
+    const repeatTimes = repeatQty > 0 ? repeatQty : 1
+    let arrayItemsToAdd = Array.from(Array(repeatTimes).keys())
     const newRows = arrayItemsToAdd.map(r => {
       const lastRow = rows[rows.length - 1]
       const periodNumber = rows.filter(row => row.period === lastRow.period).length + 1
@@ -65,8 +62,6 @@ function Class1Form(props: Class1FormProps) {
         er: 0
       }
     })
-
-    // set the rows
     setRows([...rows, ...newRows])
     setActiveRowId(newRows[newRows.length - 1].id)
   }
@@ -82,7 +77,7 @@ function Class1Form(props: Class1FormProps) {
   }
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQtyValue(parseInt(e.currentTarget.value))
+    setRepeatQty(parseInt(e.currentTarget.value))
   }
 
   return (
@@ -123,7 +118,7 @@ function Class1Form(props: Class1FormProps) {
                 labelText="Enter the quantity of repeated rows"
                 name="repeatRowQty"
                 inputClassName="govuk-input govuk-input--width-2 light-border"
-                inputValue={qtyValue}
+                inputValue={repeatQty}
                 onChangeCallback={(e) => handleQuantityChange?.(e)}
                 />
               </div>
