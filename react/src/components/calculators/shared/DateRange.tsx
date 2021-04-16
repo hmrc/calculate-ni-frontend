@@ -2,9 +2,10 @@ import DateInputs from "../../helpers/formhelpers/DateInputs";
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {GovDateRange} from "../../../interfaces";
 import {GenericErrors} from "../../../validation/validation";
-import {DatePartsNames, extractDatePartString, validDateParts, zeroPad} from '../../../services/utils'
+import {DatePartsNames, extractDatePartString, govDateString, validDateParts, zeroPad} from '../../../services/utils'
 
 interface DateRangeProps {
+  isSaveAndPrint?: boolean
   setDateRange: Dispatch<SetStateAction<GovDateRange>>
   errors: GenericErrors
   legends: {from: string, to: string}
@@ -13,7 +14,7 @@ interface DateRangeProps {
 }
 
 export const DateRange = (props: DateRangeProps) => {
-  const { setDateRange, errors, legends, id, dateRange } = props
+  const { setDateRange, errors, legends, id, dateRange, isSaveAndPrint} = props
   const [fromDay, setFromDay] = useState(extractDatePartString(DatePartsNames.DAY, dateRange?.from))
   const [fromMonth, setFromMonth] = useState(extractDatePartString(DatePartsNames.MONTH, dateRange?.from))
   const [fromYear, setFromYear] = useState(extractDatePartString(DatePartsNames.YEAR, dateRange?.from))
@@ -66,33 +67,49 @@ export const DateRange = (props: DateRangeProps) => {
   }, [toDay, toMonth, toYear, setDateRange])
 
   return (
-    <div className="container">
-      <div className="container third">
-        <DateInputs
-          description={`${id}From`}
-          legend={legends.from}
-          day={fromDay}
-          month={fromMonth}
-          year={fromYear}
-          setDay={setFromDay}
-          setMonth={setFromMonth}
-          setYear={setFromYear}
-          error={errors[`${id}FromDay`]}
-        />
-      </div>
-      <div className="container third">
-        <DateInputs
-          description={`${id}To`}
-          legend={legends.to}
-          day={toDay}
-          month={toMonth}
-          year={toYear}
-          setDay={setToDay}
-          setMonth={setToMonth}
-          setYear={setToYear}
-          error={errors[`${id}ToDay`]}
-        />
-      </div>
-    </div>
+    <>
+      {isSaveAndPrint ?
+        <div className="save-print-wrapper">
+          <div className="divider--bottom section--bottom section-outer--bottom">
+            <h3 className="govuk-heading-s">Dates from and to</h3>
+            {dateRange && dateRange.from && dateRange.to &&
+            <p>
+              From <strong>{govDateString(dateRange.from)}</strong> to <strong>{govDateString(dateRange.to)}</strong>
+            </p>
+            }
+          </div>
+        </div>
+        :
+        <div className="container">
+          <div className="container third">
+            <DateInputs
+              description={`${id}From`}
+              legend={legends.from}
+              day={fromDay}
+              month={fromMonth}
+              year={fromYear}
+              setDay={setFromDay}
+              setMonth={setFromMonth}
+              setYear={setFromYear}
+              error={errors[`${id}FromDay`]}
+            />
+          </div>
+          <div className="container third">
+            <DateInputs
+              description={`${id}To`}
+              legend={legends.to}
+              day={toDay}
+              month={toMonth}
+              year={toYear}
+              setDay={setToDay}
+              setMonth={setToMonth}
+              setYear={setToYear}
+              error={errors[`${id}ToDay`]}
+            />
+          </div>
+        </div>
+      }
+    </>
+
   )
 }
