@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useContext, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import uniqid from 'uniqid';
 
 import numeral from 'numeral'
@@ -7,11 +7,10 @@ import 'numeral/locales/en-gb';
 import Class1Table from './Class1Table'
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
-import TextInput from "../../helpers/formhelpers/TextInput";
 
 // types
 import { Class1FormProps } from '../../../interfaces';
-import {ClassOneContext} from "./ClassOneContext";
+import {ClassOneContext, Row} from "./ClassOneContext";
 import NiPaidInputs from "../shared/NiPaidInputs";
 
 numeral.locale('en-gb');
@@ -43,20 +42,26 @@ function Class1Form(props: Class1FormProps) {
     setRepeatQty(1)
   }
 
+  const getRowByActiveId = () => {
+    return rows.filter(r => (r.id === activeRowId))[0]
+  }
+
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setResult(null)
+    console.log(activeRowId)
+    console.log(getRowByActiveId())
     const repeatTimes = repeatQty > 0 ? repeatQty : 1
     let arrayItemsToAdd = Array.from(Array(repeatTimes).keys())
     const newRows = arrayItemsToAdd.map(r => {
-      const lastRow = rows[rows.length - 1]
-      const periodNumber = rows.filter(row => row.period === lastRow.period).length + 1
+      const rowToDuplicate: Row = activeRowId ? getRowByActiveId() : rows[rows.length - 1]
+      const periodNumber = rows.filter(row => row.period === rowToDuplicate.period).length + 1
       const id = uniqid()
       return {
         id: id,
-        category: lastRow.category,
-        period: lastRow.period,
-        gross: lastRow.gross,
+        category: rowToDuplicate.category,
+        period: rowToDuplicate.period,
+        gross: rowToDuplicate.gross,
         number: periodNumber,
         ee: 0,
         er: 0
@@ -74,10 +79,6 @@ function Class1Form(props: Class1FormProps) {
       setResult(null)
       setActiveRowId(null)
     }
-  }
-
-  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRepeatQty(parseInt(e.currentTarget.value))
   }
 
   return (
@@ -112,19 +113,19 @@ function Class1Form(props: Class1FormProps) {
             </div>
 
             <div className="form-group repeat-button">
-              <div style={{float: "left", marginRight: "3px"}}>
-                <TextInput
-                hiddenLabel={true}
-                labelText="Enter the quantity of repeated rows"
-                name="repeatRowQty"
-                inputClassName="govuk-input govuk-input--width-2 light-border"
-                inputValue={repeatQty}
-                onChangeCallback={(e) => handleQuantityChange?.(e)}
-                />
-              </div>
               <SecondaryButton
                 label="Repeat row"
                 onClick={handleClick}
+              />
+              {` x `}
+              <input
+                className="govuk-input govuk-input--width-2 borderless"
+                type="number"
+                name="repeatQty"
+                value={repeatQty}
+                onChange={(e) => {
+                  setRepeatQty(parseInt(e.currentTarget.value))
+                }}
               />
             </div>
 
