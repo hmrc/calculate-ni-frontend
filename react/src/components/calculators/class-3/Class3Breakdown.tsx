@@ -4,15 +4,17 @@ import {taxYearForBreakdown} from "../../../services/utils";
 
 interface Class3BreakdownProps {
   results: Class3Results
+  isSaveAndPrint: boolean
 }
 
 export default function Class3Breakdown(props: Class3BreakdownProps) {
-  const { results } = props
+  const { results, isSaveAndPrint } = props
   return (
-    <div className="section--bottom section-outer--bottom">
+  <div className={`${isSaveAndPrint ? `save-print-wrapper ` : ``}section--bottom section-outer--bottom`}>
+    <div className="table-wrapper">
       <h2 className="section-heading">Results breakdown</h2>
 
-      <table className="shade-rows section-outer--top">
+      <table className="shade-rows section-outer--top" id="results-table">
         <thead>
           <tr>
             <th scope="col"><strong>Year</strong></th>
@@ -20,14 +22,15 @@ export default function Class3Breakdown(props: Class3BreakdownProps) {
           </tr>
         </thead>
         <tbody>
-          {results.years.map(r => (
-            <tr>
+          {results.years.map((r, i) => (
+            <tr key={i}>
               <td>{taxYearForBreakdown(r.startDate, r.endDate)}</td>
               <td>{r.weeks}</td>
             </tr>
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   )
 }

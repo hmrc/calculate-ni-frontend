@@ -1,109 +1,117 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import {hasKeys} from "../../../services/utils";
 import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 import Details from "../shared/Details";
-import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
-import {Class3Context, class3DefaultRows, useClass3Form} from "./Class3Context";
+import {Class3Context, useClass3Form} from "./Class3Context";
 import Class3Form from "./Class3Form";
 import {validateClass3Payload} from "../../../validation/validation";
 import Class3Print from './Class3Print'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
+import Class3Breakdown from "./Class3Breakdown";
+import PrintButtons from "../shared/PrintButtons";
+import {SuccessNotificationContext} from "../../../services/SuccessNotificationContext";
+import {SuccessNotification} from "../shared/SuccessNotification";
 
 const pageTitle = 'Weekly contribution conversion'
 
 const Class3Page = () => {
-    const [showSummary, setShowSummary] = useState<boolean>(false)
-    const {
-        details,
-        setDetails,
-        errors,
-        setErrors,
-        setActiveRowId,
-        WeeklyContributionsCalculator,
-        dateRange,
-        setResults
-    } = useContext(Class3Context)
-    const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
-    useDocumentTitle(titleWithPrefix)
+  const breakdownRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const [showSummary, setShowSummary] = useState<boolean>(false)
+  const {
+    details,
+    setDetails,
+    errors,
+    setErrors,
+    setActiveRowId,
+    WeeklyContributionsCalculator,
+    dateRange,
+    results,
+    setResults
+  } = useContext(Class3Context)
+  const { successNotificationsOn } = useContext(SuccessNotificationContext)
+  const titleWithPrefix = hasKeys(errors) ? 'Error: ' + pageTitle : pageTitle
+  useDocumentTitle(titleWithPrefix)
 
-    useEffect(() => {
-      setResults(null)
-    }, [dateRange.fromParts, dateRange.toParts])
+  useEffect(() => {
+    setResults(null)
+  }, [dateRange.fromParts, dateRange.toParts])
 
-    const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault()
-        setActiveRowId(null)
-        submitForm(false)
-    }
-    const handleShowSummary = (event: React.FormEvent) => {
-        event.preventDefault()
-        submitForm(true)
-    }
+  const handleSubmit = (event: React.FormEvent) => {
+      event.preventDefault()
+      setActiveRowId(null)
+      submitForm(false)
+  }
+  const handleShowSummary = (event: React.FormEvent) => {
+      event.preventDefault()
+      submitForm(true)
+  }
 
-    const submitForm = (showSummaryIfValid: boolean) => {
-        setErrors({})
-        const payload = {
-            dateRange
-        }
-
-        if(validateClass3Payload(payload, setErrors)) {
-          const result = WeeklyContributionsCalculator.breakdown(dateRange.from, dateRange.to)
-          setResults(result)
-          setShowSummary(showSummaryIfValid)
-        }
+  const submitForm = (showSummaryIfValid: boolean) => {
+    setErrors({})
+    const payload = {
+        dateRange
     }
 
-    const handleChange = ({
-          currentTarget: { name, value },
-      }: React.ChangeEvent<HTMLInputElement>) => {
-        setDetails({ [name]: value })
+    if(validateClass3Payload(payload, setErrors)) {
+      const result = WeeklyContributionsCalculator.breakdown(dateRange.from, dateRange.to)
+      setResults(result)
+      setShowSummary(showSummaryIfValid)
     }
+  }
 
-    return (
-      <div>
-          {showSummary ?
-            <Class3Print
-                title={pageTitle}
-                setShowSummary={setShowSummary}
-            />
-            :
-            <>
-                {hasKeys(errors) &&
-                    <ErrorSummary
-                      errors={errors}
-                    />
-                }
-                <h1>{pageTitle}</h1>
+  const handleChange = ({
+    currentTarget: { name, value },
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    setDetails({ [name]: value })
+  }
 
-                <Details
-                  details={details}
-                  handleChange={handleChange}
-                />
+  useEffect(() => {
+    if(successNotificationsOn && results) {
+      resultRef.current.focus()
+    } else if (results) {
+      breakdownRef.current.focus()
+    }
+  }, [results, resultRef, breakdownRef, successNotificationsOn])
 
-                <form onSubmit={handleSubmit} noValidate>
-                    <Class3Form />
-                </form>
-
-                <div className="container section--top">
-                    <div className="form-group">
-                        <SecondaryButton
-                          label="Save and print"
-                          onClick={handleShowSummary}
-                        />
-                    </div>
-                </div>
-            </>
-          }
-
-          {showSummary && (
-            <div className="govuk-!-padding-bottom-9 section--top">
-                <button className="govuk-button" onClick={() => window.print()}>
-                    Save and print
-                </button>
-            </div>
-          )}
+  return (
+    <div>
+      <div className="result-announcement" aria-live="polite" ref={resultRef} tabIndex={-1}>
+        {successNotificationsOn && results && <SuccessNotification table={true} totals={false} />}
       </div>
-    )
+      {showSummary ?
+        <Class3Print
+          title={pageTitle}
+          setShowSummary={setShowSummary}
+        />
+      :
+        <>
+          {hasKeys(errors) &&
+            <ErrorSummary
+              errors={errors}
+            />
+          }
+          <h1>{pageTitle}</h1>
+          <Details
+          details={details}
+          handleChange={handleChange}
+          />
+          <form onSubmit={handleSubmit} noValidate>
+            <Class3Form />
+          </form>
+        </>
+      }
+      <div ref={breakdownRef} className="no-focus-outline" tabIndex={-1}>
+        {results &&
+        <Class3Breakdown isSaveAndPrint={showSummary} results={results} />
+        }
+      </div>
+      <PrintButtons
+        showSummary={showSummary}
+        handleShowSummary={handleShowSummary}
+      />
+    </div>
+  )
 }
 
 const Class3 = () => {

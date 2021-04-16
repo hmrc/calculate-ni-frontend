@@ -7,15 +7,13 @@ import {Class3Context} from './Class3Context'
 // components
 import BackLink from '../../helpers/gov-design-system/BackLink'
 import DetailsPrint from '../shared/DetailsPrint'
-import Class3Breakdown from "./Class3Breakdown";
 import {govDateString} from "../../../services/utils";
 
 function Class3Print(props: LateRefundPrintProps) {
   const { title, setShowSummary } = props
   const {
     details,
-    dateRange,
-    results
+    dateRange
   } = useContext(Class3Context)
   return (
     <div className="save-print-wrapper">
@@ -34,8 +32,6 @@ function Class3Print(props: LateRefundPrintProps) {
           </p>
         </div>
         }
-
-        {results && <Class3Breakdown results={results} />}
       </div>
     </div>
   )
