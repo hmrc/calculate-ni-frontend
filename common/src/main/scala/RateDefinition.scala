@@ -27,7 +27,8 @@ case class RateDefinition(
   employee: Map[Char, BigDecimal] = Map.empty,
   employer: Map[Char, BigDecimal] = Map.empty,
   contractedOutStandardRate: Option[Boolean] = None,
-  trigger: Bands = Bands.all
+  trigger: Bands = Bands.all,
+  hideOnSummary: Boolean = true
 ) {
   def effectiveYear = year
   def effectiveMonth = month.getOrElse(year / 12)
@@ -45,7 +46,8 @@ object RateDefinition {
     employee: Map[Char, BigDecimal] = Map.empty,
     employer: Map[Char, BigDecimal] = Map.empty,
     contractedOutStandardRate: Option[Boolean] = None,
-    trigger: Bands = Bands.all
+    trigger: Bands = Bands.all,
+    hideOnSummary: Boolean = true
   ) {
 
     import VagueRateDefinition._
@@ -100,7 +102,8 @@ object RateDefinition {
         employee,
         employer,
         contractedOutStandardRate,
-        trigger
+        trigger,
+        hideOnSummary
       )
     }
   }

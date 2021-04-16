@@ -28,7 +28,7 @@ export default function Class1Table(props: TableProps) {
   }
 
   const firstBands = rows[0].bands ? rows[0].bands : []
-  const displayBands = showBands && firstBands.length
+  const displayBands: boolean = showBands && firstBands.length > 0
 
   return (
     <table className="contribution-details" id="results-table" tabIndex={-1}>

@@ -194,6 +194,12 @@ case class ClassOneRowOutput(
       ClassOneRowOutputBand(bandId, bandDefinition)
   }
 
+  lazy val displaySummaryBands = {
+    config.toList.filterNot(_._2.hideOnSummary).sortBy(_._2.year.lowerValue.getOrElse(Zero)).map{
+      case (bandId, bandDefinition) => ClassOneRowOutputBand(bandId, bandDefinition)
+    }
+  }
+
   def employeeContributions: Explained[BigDecimal] = {
     bands.map(b => b.employeeContributions.map(b.bandId -> _): Explained[(String, BigDecimal)])
       .sequence
