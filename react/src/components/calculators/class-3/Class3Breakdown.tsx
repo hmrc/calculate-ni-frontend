@@ -17,7 +17,7 @@ export default function Class3Breakdown(props: Class3BreakdownProps) {
   <div className={`${isSaveAndPrint ? `save-print-wrapper ` : ``}section--bottom section-outer--bottom`}>
     <div className={`${isSaveAndPrint ? `contributions-details` : `table-wrapper`}`}>
       <table className="shade-rows section-outer--top">
-        <caption>Results breakdown</caption>
+        <caption className="section--bottom">Results breakdown</caption>
         <thead>
           <tr>
             <th scope="col"><strong>Year</strong></th>
