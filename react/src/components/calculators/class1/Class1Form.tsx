@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {ChangeEvent, useContext, useState} from 'react';
 import uniqid from 'uniqid';
 
 import numeral from 'numeral'
@@ -79,6 +79,10 @@ function Class1Form(props: Class1FormProps) {
       setResult(null)
       setActiveRowId(null)
     }
+  }
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRepeatQty(parseInt(e.currentTarget.value))
   }
 
   return (
