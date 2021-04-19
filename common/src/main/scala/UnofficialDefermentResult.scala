@@ -16,7 +16,7 @@
 
 package eoi
 
-import eoi.Class1Band.{LELToET, _}
+import eoi.Class1Band._
 
 sealed trait Class1Band extends Product with Serializable
 
@@ -46,24 +46,23 @@ object Class1Band {
       entries.indexOf(x) compare entries.indexOf(y)
   }
 
-  def fromString(in: String): Option[Class1Band] = in match {
-    case "BelowLEL" => Some(BelowLEL)
-    case "LELToET" => Some(LELToET)
-    case "LELToPT" => Some(LELToPT)
-    case "PTToUAP" => Some(PTToUAP)
-    case "PTToUEL" => Some(PTToUEL)
-    case "ETToUEL" => Some(ETToUEL)
-    case "UAPToUEL" => Some(UAPToUEL)
-    case "AboveUEL" => Some(AboveUEL)
-    case _ => None
-  }
+  def fromString(in: String): Option[Class1Band] =
+    entries.collectFirst{
+      case x if x.toString == in => x
+    }
 }
 
 case class TaxYearBandLimits(
-  limits: Map[String, BigDecimal],
+  limits: Map[String, BigDecimal] = Map.empty,
   rates: Map[Class1Band, Map[Char, BigDecimal]]
 ) {
   val bands: List[eoi.Class1Band] = rates.keys.toList
+
+  def withFallbackLimits(fb: Map[String, Limit]): TaxYearBandLimits = {
+    if (limits.nonEmpty) this
+    else this.copy(limits = fb.mapValues(_.effectiveWeek))
+  }
+
 }
 
 case class BandAmount(band: Class1Band, amount: BigDecimal)
@@ -77,7 +76,6 @@ case class UnofficialDefermentRowInput(
 )
 
 case class UnofficialDefermentRowOutput(
-
   id: String,
   grossPay: BigDecimal,
   earningsInMainContributionBand: BigDecimal,

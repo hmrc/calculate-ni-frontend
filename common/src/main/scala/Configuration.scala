@@ -144,7 +144,7 @@ case class Configuration (
     mapValuesOpt(_.classFour)
 
   lazy val unofficialDeferment: Map[Interval[LocalDate], TaxYearBandLimits] =
-    mapValuesOpt(_.unofficialDeferment)
+    mapValuesOpt{x => x.unofficialDeferment.map(_.withFallbackLimits(x.limits)) }
 
   def calculateClassTwo(
     on: LocalDate,
