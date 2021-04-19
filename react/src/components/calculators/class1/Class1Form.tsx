@@ -49,8 +49,6 @@ function Class1Form(props: Class1FormProps) {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setResult(null)
-    console.log(activeRowId)
-    console.log(getRowByActiveId())
     const repeatTimes = repeatQty > 0 ? repeatQty : 1
     let arrayItemsToAdd = Array.from(Array(repeatTimes).keys())
     const newRows = arrayItemsToAdd.map(r => {
@@ -122,10 +120,12 @@ function Class1Form(props: Class1FormProps) {
                 onClick={handleClick}
               />
               {` x `}
+              <label htmlFor="repeatQty" className="govuk-visually-hidden">Repeat quantity</label>
               <input
                 className="govuk-input govuk-input--width-2 borderless"
                 type="number"
                 name="repeatQty"
+                id="repeatQty"
                 value={repeatQty}
                 onChange={(e) => {
                   setRepeatQty(parseInt(e.currentTarget.value))
