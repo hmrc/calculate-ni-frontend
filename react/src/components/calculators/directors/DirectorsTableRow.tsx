@@ -114,13 +114,13 @@ function DirectorsTableRow(props: TableRowProps) {
       )}
 
       {/* Total */}
-      {showBands && row.bands &&
-      // Total (if calculate has run)
-      <MqTableCell cellStyle={thStyles.total}>
-        {numeral(
-          (row.ee + row.er).toString()
-        ).format('$0,0.00')}
-      </MqTableCell>
+      {printView &&
+        // Total (if calculate has run)
+        <MqTableCell cellStyle={thStyles.total}>
+          {numeral(
+            (row.ee + row.er).toString()
+          ).format('$0,0.00')}
+        </MqTableCell>
       }
 
       {/* EE */}

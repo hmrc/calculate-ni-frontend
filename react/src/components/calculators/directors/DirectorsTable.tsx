@@ -43,7 +43,7 @@ function DirectorsTable(props: TableProps) {
             <th key={k.name}>{k.name}</th>
           )}
 
-          {displayBands &&
+          {printView &&
             <th scope="col"><strong>Total</strong></th>
           }
           <th scope="col"><strong><abbr title="Employee">EE</abbr></strong></th>
