@@ -162,7 +162,7 @@ export default function Class1TableRow(props: TableRowProps) {
       )}
 
       {/* Total */}
-      {showBands && row.bands &&
+      {printView &&
         // Total (if calculate has run)
         <MqTableCell cellStyle={thStyles.total}>
           {numeral(
