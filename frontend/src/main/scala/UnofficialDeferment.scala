@@ -10,6 +10,14 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
 
   import UnofficialDeferment._
 
+  val displayedLimits = Map(
+     "LEL" -> "Lower earning limit",
+     "PT"  -> "Primary threshold",
+     "ET"  -> "Earning threshold",
+     "UAP" -> "Upper accrual point",
+     "UEL" -> "Upper earning limit"
+  )
+
   def calculate(
      taxYear: Int,
      rows: js.Array[UnofficialDefermentRow]
@@ -92,17 +100,13 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
       sys.error(s"Could not find config for tax year $taxYear")
     )
 
-    taxYearBands.limits.toList.sortBy(_._2).toJSArray.map{ case (l,amt) =>
-      new js.Object {
-        val label = l match {
-          case "LEL"  => "Lower earning limit"
-          case "PT"   => "Primary threshold"
-          case "ET"   => "Earning threshold"
-          case "UAP"  => "Upper accrual point"
-          case "UEL"  => "Upper earning limit"
+    taxYearBands.limits.toList.sortBy(_._2).toJSArray.map{
+      case (k,v) => displayedLimits.get(k) -> v
+    }.collect { case (Some(l),amt) =>
+        new js.Object {
+          val label = l
+          val amount = amt.doubleValue()
         }
-        val amount = amt.doubleValue()
-      }
     }
   }
 }
