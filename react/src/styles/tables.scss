@@ -379,11 +379,6 @@ table {
 }
 
 /* Responsive Tables */
-/*
-Max width before this PARTICULAR table gets nasty
-This query will take effect for any screen smaller than 760px
-and also iPads specifically.
-*/
 @media only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px)  {
 
@@ -407,11 +402,6 @@ and also iPads specifically.
     border: none;
     border-bottom: 1px solid #eee;
     position: relative;
-    padding-left: 50%;
-  }
-
-  .spaced-table td.readonly {
-    padding: 0 0 0 50%;
   }
 
   table.contribution-details {
@@ -453,8 +443,6 @@ and also iPads specifically.
     /* Top/left values mimic padding */
     top: 0;
     left: 6px;
-    width: 45%;
-    padding-right: 10px;
     white-space: nowrap;
 
     height: 100%;
@@ -462,6 +450,10 @@ and also iPads specifically.
 
   td.input:before {
     top: 5px;
+  }
+
+  .spaced-table td.readonly.last-cell {
+    padding-right: 20px;
   }
 
   .save-print-wrapper .contribution-details td:before,
@@ -499,7 +491,6 @@ and also iPads specifically.
     height: 40px;
     line-height: 40px;
     text-align: left;
-    padding-left: 50%;
   }
 
   #save-print-wrapper table td {
@@ -515,6 +506,46 @@ and also iPads specifically.
   #save-print-wrapper td:before {
     top: 0;
   }
+
+  #root .save-print-wrapper .spaced-table-wrapper .spaced-table th {
+    padding-left: 6px;
+  }
+}
+
+@media only screen and (min-width: 460px) and (max-width: 760px) {
+  td:before, .totals-table tbody th.right {
+    padding-right: 10px;
+    width: 45%;
+  }
+  td, table.contribution-details td.input, .spaced-table td.readonly{
+    padding-left: 50%;
+  }
+}
+
+@media only screen and (max-width: 459px) {
+  td {
+    input {
+      position: relative;
+      z-index: 2;
+    }
+  }
+
+  td:before, .totals-table tbody th.right {
+    padding: 0;
+    width: calc(100% - 6px);
+  }
+
+  .totals-table tbody th.right {
+    padding-left: 6px;
+  }
+
+  td, table.contribution-details td.input, .spaced-table td.readonly, .save-print-wrapper table.contribution-details td, .save-print-wrapper .category-totals td, .save-print-wrapper .totals-table td{
+    padding: 40px 6px 6px;
+  }
+  .spaced-table td.readonly.last-cell {
+    padding-right: 6px;
+  }
+
 }
 
 .late-refunds-table {

@@ -114,7 +114,7 @@ function Class1Form(props: Class1FormProps) {
               />
             </div>
 
-            <div className="form-group repeat-button">
+            <div className="form-group repeat-button repeat-row">
               <SecondaryButton
                 label="Repeat row"
                 onClick={handleClick}
