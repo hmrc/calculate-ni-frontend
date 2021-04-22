@@ -48,8 +48,7 @@ case class TaxYear(startingYear: Int) extends AnyVal {
 
 object TaxYear {
 
-  // TODO Property test - ∀ d, apply(d).start ≤ d
-  // TODO Property test - ∀ d, apply(d).end ≥ d  
+  // TODO Property test - ∀ d, apply(d).start ≤ d ≤ apply(d).end
   def apply(in: LocalDate): TaxYear = {
     if (in.getMonthValue > 4 || (in.getMonthValue == 4 && in.getDayOfMonth >= 6))
       TaxYear(in.getYear)
@@ -66,6 +65,14 @@ object TaxYear {
         Either.catchNonFatal((st.toInt,en.toInt)).flatMap
           {x => Either.catchNonFatal(apply(x._1,x._2))}
       ).toOption
+      case _ => None
+    }
+  }
+
+  def unapply(in: Interval[LocalDate]): Option[Int] = {
+    (in.lowerBound, in.upperBound) match {
+      case (Closed(Date(y,4,6)), Closed(Date(yPlus,4,5))) if yPlus == y + 1 => Some(y)
+      case (Closed(Date(y,4,6)), Open(Date(yPlus,4,6))) if yPlus == y + 1 => Some(y)
       case _ => None
     }
   }

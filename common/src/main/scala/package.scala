@@ -96,10 +96,6 @@ package object eoi {
       value.find{case (k,v) => k.contains(in)}
   }
 
-  implicit val localDateOrdering = new Ordering[LocalDate] {
-    def compare(x: LocalDate, y: LocalDate): Int = x.toEpochDay compare y.toEpochDay
-  }
-
   implicit val localDateSpireOrdering = new spire.algebra.Order[LocalDate] {
     // for some reason fromOrdered doesn't resolve when using >= for example
     // probably something to do with cats/spire interop
@@ -239,6 +235,38 @@ package object eoi {
   implicit class RichList[A](in: List[A]) {
     def dedupPreserveOrder: List[A] = collection.mutable.LinkedHashSet(in:_*).toList
   }
+
+  implicit val orderLocalDate: Ordering[LocalDate] = Ordering.by(_.toEpochDay)
+
+  implicit def orderInterval[A](implicit suborder: Ordering[A]): Ordering[Interval[A]] =
+    new Ordering[Interval[A]] {
+      import spire.math.interval._
+
+      def compareBound(a: Bound[A], b: Bound[A])(right: Boolean): Int = (a,b) match {
+        case (ValueBound(x), ValueBound(y)) => suborder.compare(x,y)
+        case (_, ValueBound(_)) => if (right) 1 else -1
+        case (ValueBound(_), _) => if (right) -1 else 1
+        case (_, _) => 0
+      }
+
+      def compare(a: Interval[A], b: Interval[A]): Int = {
+        compareBound(a.lowerBound, b.lowerBound)(false) match {
+          case 0 => compareBound(a.upperBound, b.upperBound)(true) match {
+            case 0 => (a.lowerBound, b.lowerBound) match {
+              // if both band values are equal then we care what type the bounds are
+              case (Open(_), Closed(_)) => 1
+              case (Closed(_), Open(_)) => -1
+              case _ => 0
+            }
+            case y => y
+          }
+          case x => x
+        }
+      }
+    }
+
+  implicit val catsOrderDateInterval =
+    cats.Order.fromOrdering(orderInterval[LocalDate](orderLocalDate))
 
   implicit class RichLocalDate(val value: LocalDate) extends AnyVal {
 

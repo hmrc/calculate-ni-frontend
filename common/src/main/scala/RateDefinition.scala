@@ -19,6 +19,32 @@ package eoi
 import spire.math.Interval
 import spire.implicits._
 
+trait EffectiveRate {
+  def year: Interval[BigDecimal]
+  def month: Option[Interval[BigDecimal]]
+  def week: Option[Interval[BigDecimal]]
+  def fourWeek: Option[Interval[BigDecimal]]
+  def employee: Map[Char, BigDecimal]
+  def employer: Map[Char, BigDecimal]
+
+  def effectiveYear = year
+  def effectiveMonth =
+    month.getOrElse((year / 12).mapBounds(_.setScale(0, BigDecimal.RoundingMode.HALF_UP)))
+  def effectiveWeek =
+    week.getOrElse((year / 52).mapBounds(_.setScale(0, BigDecimal.RoundingMode.HALF_UP)))
+  def effectiveFourWeek =
+    fourWeek.getOrElse((year / 13).mapBounds(_.setScale(0, BigDecimal.RoundingMode.HALF_UP)))
+}
+
+case class GrossPayException(
+  year: Interval[BigDecimal],
+  month: Option[Interval[BigDecimal]],
+  week: Option[Interval[BigDecimal]],
+  fourWeek: Option[Interval[BigDecimal]],
+  employee: Map[Char, BigDecimal] = Map.empty,
+  employer: Map[Char, BigDecimal] = Map.empty  
+) extends EffectiveRate
+
 case class RateDefinition(
   year: Interval[BigDecimal],
   month: Option[Interval[BigDecimal]],
@@ -27,16 +53,30 @@ case class RateDefinition(
   employee: Map[Char, BigDecimal] = Map.empty,
   employer: Map[Char, BigDecimal] = Map.empty,
   contractedOutStandardRate: Option[Boolean] = None,
-  trigger: Bands = Bands.all,
-  hideOnSummary: Boolean = true
-) {
-  def effectiveYear = year
-  def effectiveMonth =
-    month.getOrElse((year / 12).mapBounds(_.setScale(0, BigDecimal.RoundingMode.HALF_UP)))
-  def effectiveWeek =
-    week.getOrElse((year / 52).mapBounds(_.setScale(0, BigDecimal.RoundingMode.HALF_UP)))
-  def effectiveFourWeek =
-    fourWeek.getOrElse((year / 13).mapBounds(_.setScale(0, BigDecimal.RoundingMode.HALF_UP)))
+  trigger: Bands = Bands.all, //TODO deprecated in favour of grossPayExceptions
+  hideOnSummary: Boolean = true,
+  grossPayExceptions: List[GrossPayException] = Nil
+) extends EffectiveRate {
+  def withGrossPayExceptions(grossPay: BigDecimal, period: Period.Period): EffectiveRate = {
+    grossPayExceptions.find{ ex =>
+      import Period._
+
+      period match {
+        case Year => ex.effectiveYear.contains(grossPay)
+        case Month => ex.effectiveMonth.contains(grossPay)
+        case FourWeek => ex.effectiveFourWeek.contains(grossPay)
+        case Week => ex.effectiveWeek.contains(grossPay)
+        case _ => false
+      }
+    } getOrElse this
+  }
+
+  def employeeWithGrossPayExceptions(grossPay: BigDecimal, period: Period.Period, category: Char): BigDecimal =
+    (withGrossPayExceptions(grossPay, period).employee.get(category) orElse employee.get(category)) getOrElse Zero
+
+  def employerWithGrossPayExceptions(grossPay: BigDecimal, period: Period.Period, category: Char): BigDecimal =
+    (withGrossPayExceptions(grossPay, period).employer.get(category) orElse employer.get(category)) getOrElse Zero
+  
 }
 
 object RateDefinition {
@@ -49,8 +89,9 @@ object RateDefinition {
     employee: Map[Char, BigDecimal] = Map.empty,
     employer: Map[Char, BigDecimal] = Map.empty,
     contractedOutStandardRate: Option[Boolean] = None,
-    trigger: Bands = Bands.all,
-    hideOnSummary: Boolean = true
+    trigger: Bands = Bands.all, //TODO deprecated in favour of grossPayExceptions
+    hideOnSummary: Boolean = true,
+    grossPayExceptions: List[GrossPayException] = Nil
   ) {
 
     import VagueRateDefinition._
@@ -60,12 +101,14 @@ object RateDefinition {
       import cats.syntax.apply._
       import cats.instances.option._
 
+      def lookupLimit(in: String): Option[Limit] = limits.get(in.replaceAll("[Rr]ebate","").trim)
+
       val trimmedName = name.toLowerCase.trim.replaceAll("[-._]"," ")
 
       lazy val fallbackLimits = trimmedName match {
 
         case lowerBounded(l) =>
-          limits.get(l).map{ ll =>
+          lookupLimit(l).map{ ll =>
             (
               Interval.atOrAbove(ll.effectiveYear),
               Interval.atOrAbove(ll.effectiveMonth),
@@ -75,7 +118,7 @@ object RateDefinition {
           }
 
         case upperBounded(u) =>
-          limits.get(u).map{ ul =>
+          lookupLimit(u).map{ ul =>
             (
               Interval.openUpper(Zero, ul.effectiveYear),
               Interval.openUpper(Zero, ul.effectiveMonth),
@@ -84,7 +127,7 @@ object RateDefinition {
             )
         }
 
-        case bothBounded(l,u) => (limits.get(l), limits.get(u)).mapN{ case (ll, ul) =>
+        case bothBounded(l,u) => (lookupLimit(l), lookupLimit(u)).mapN{ case (ll, ul) =>
           (
             Interval.openUpper(ll.effectiveYear, ul.effectiveYear),
             Interval.openUpper(ll.effectiveMonth, ul.effectiveMonth),
@@ -106,15 +149,16 @@ object RateDefinition {
         employer,
         contractedOutStandardRate,
         trigger,
-        hideOnSummary
+        hideOnSummary,
+        grossPayExceptions
       )
     }
   }
 
   object VagueRateDefinition {
-    val bothBounded = "([a-zA-Z0-9]*) to ([a-z0-9]*)".r
-    val lowerBounded = "above ([a-z0-9]*)".r
-    val upperBounded = "up to ([a-z0-9]*)".r
+    val bothBounded = "([a-zA-Z0-9 ]*) to ([a-z0-9 ]*)".r
+    val lowerBounded = "above ([a-z0-9 ]*)".r
+    val upperBounded = "up to ([a-z0-9 ]*)".r
   }
 
 }

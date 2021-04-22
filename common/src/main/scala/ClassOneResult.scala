@@ -47,9 +47,9 @@ case class ClassOneRowOutput(
                             ) {
 
   case class ClassOneRowOutputBand(
-                                    bandId: String,
-                                    definition: RateDefinition
-                                  ) {
+    bandId: String,
+    definition: RateDefinition
+  ) {
 
     def moneyInterval: Explained[Interval[BigDecimal]] = {
       val id = s"$rowId.$bandId.band"
@@ -58,6 +58,7 @@ case class ClassOneRowOutput(
         moneyIntervalProRata(id)
       else {
         import Period._
+
         val baseInterval = period match {
           case Year => definition.year.pure[Explained]
           case Month => definition.month.fold {
@@ -151,8 +152,8 @@ case class ClassOneRowOutput(
       }
     )
 
-    def employerRate: BigDecimal = definition.employer.getOrElse(category, Zero)
-    def employeeRate: BigDecimal = definition.employee.getOrElse(category, Zero)
+    def employerRate: BigDecimal = definition.employerWithGrossPayExceptions(money, period, category)
+    def employeeRate: BigDecimal = definition.employeeWithGrossPayExceptions(money, period, category)
     def employerContributions: Explained[BigDecimal] = if (employerRate != 0) {
       amountInBand.flatMap{
         case Zero => Zero.pure[Explained]
