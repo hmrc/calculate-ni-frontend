@@ -121,31 +121,32 @@ object Tester {
     }
   }
 
+  // we only match against the first 10 characters to get around the date mismatch
   def findOldBlock(key: String): Option[String] = oldBlocks.collectFirst{
-    case (k,v) if key.take(10) == k.take(10) => v
+    case (k,v) if key.take(10) == k.take(10) => v 
   }
 
-def summary(failures: List[(List[ClassOneRowInput], ClassOneResult, ClassOneResult)]): Tag = {
-      val soloRows: List[ClassOneRowInput] = failures.flatMap(_._1)
+  def summary(failures: List[(List[ClassOneRowInput], ClassOneResult, ClassOneResult)]): Tag = {
+    val soloRows: List[ClassOneRowInput] = failures.flatMap(_._1)
 
-      def breakdown[A](label: String)(f: ClassOneRowInput => A): Tag = {
-        table(
-          (tr(th(label), th("Errors")) ::
-            soloRows.groupBy(f).map{case (k,v) => tr(td(k.toString),td(v.size))}.toList):_*
-        )
-      }
+      // def breakdown[A](label: String)(f: ClassOneRowInput => A): Tag = {
+      //   table(
+      //     (tr(th(label), th("Errors")) ::
+      //       soloRows.groupBy(f).map{case (k,v) => tr(td(k.toString),td(v.size))}.toList):_*
+      //   )
+      // }
 
-      def pie[A](label: String, data: Map[A, Int]): Tag = {
-        val idLabel = label.filter(_.isLetterOrDigit)
+    def pie[A](label: String, data: Map[A, Int]): Tag = {
+      val idLabel = label.filter(_.isLetterOrDigit)
 
-        val values = data.map{
-          case (k,v) => s"""{ y: $v, indexLabel: "${k.toString}" }"""
-        }.mkString(",")
+      val values = data.map{
+        case (k,v) => s"""{ y: $v, indexLabel: "${k.toString}" }"""
+      }.mkString(",")
 
-        div(
-          div(id := idLabel, style :="height: 300px; width: 100%;")(),
-          script(tpe:= "text/javascript")(
-            raw(s"""
+      div(
+        div(id := idLabel, style :="height: 300px; width: 30%;")(),
+        script(tpe:= "text/javascript")(
+          raw(s"""
 	var chart = new CanvasJS.Chart("$idLabel",
 	{
 		title:{
@@ -166,26 +167,26 @@ def summary(failures: List[(List[ClassOneRowInput], ClassOneResult, ClassOneResu
 	});
 	chart.render();
 """)))
-      }
-
-      def inputPie[A](label: String)(f: ClassOneRowInput => A): Tag = {
-        val values = soloRows.groupBy(f).mapValues(_.size).toMap;
-        pie[A](label, values)
-      }
-
-      div(
-        inputPie("Category")(_.category),
-        inputPie("Period")(_.period), 
-        pie(
-          "Type",
-          failures.map {
-            case (_, a, b) if a.employeeContributions.value == b.employeeContributions.value => "Employer"
-            case (_, a, b) if a.employerContributions.value == b.employerContributions.value => "Employer"
-            case _ => "Both"
-          }.groupBy(identity).mapValues(_.size)
-        )
-      )
     }
+
+    def inputPie[A](label: String)(f: ClassOneRowInput => A): Tag = {
+      val values = soloRows.groupBy(f).mapValues(_.size).toMap;
+      pie[A](label, values)
+    }
+
+    div(
+      inputPie("Category")(_.category),
+      inputPie("Period")(_.period),
+      pie(
+        "Type",
+        failures.map {
+          case (_, a, b) if a.employeeContributions.value == b.employeeContributions.value => "Employer"
+          case (_, a, b) if a.employerContributions.value == b.employerContributions.value => "Employee"
+          case _ => "Both"
+        }.groupBy(identity).mapValues(_.size)
+      )
+    )
+  }
 
   def buildReport(configA: String, configB: String, report: Option[ExhaustiveDifferencesReport]): String = {
 
@@ -200,14 +201,25 @@ def summary(failures: List[(List[ClassOneRowInput], ClassOneResult, ClassOneResu
             )
         }:_*)
 
+        def explainCell(res: ClassOneResult): Tag = 
+          td(colspan := 2)(pre(style:="border: 1px solid grey;")(raw{
+            res.rowsOutput match {
+              case r :: Nil => r.totalContributions.explain.mkString("\n")
+              case _ => res.totalContributions.explain.mkString("\n")
+            }
+          }))
+
         val comparisonTable = table(
+          tr(th(colspan:= 2)("Old Calculation"), th(colspan:= 2)("New Calculation")), 
           tr(
-            td(pre(style:="border: 1px solid grey;")(raw(
-              a.totalContributions.explain.mkString("\n")
-            ))),
-            td(pre(style:="border: 1px solid grey;")(raw(
-              b.totalContributions.explain.mkString("\n")
-            )))
+            explainCell(a),
+            explainCell(b),
+          ),
+          tr(
+            td(strong("Employee: "), span(a.employeeContributions.value.formatMoney)),
+            td(strong("Employer: "), span(a.employerContributions.value.formatMoney)),
+            td(strong("Employee: "), span(b.employeeContributions.value.formatMoney)),
+            td(strong("Employer: "), span(b.employerContributions.value.formatMoney))
           )
         )
 
