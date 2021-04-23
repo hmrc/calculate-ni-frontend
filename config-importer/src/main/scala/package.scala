@@ -6,6 +6,7 @@ import java.text.NumberFormat
 import scala.collection.immutable.ListMap
 import java.time.LocalDate
 import spire.math.Interval
+import java.io._
 
 package object importer extends Configurable.ToConfigurableOps { 
 
@@ -127,6 +128,12 @@ package object importer extends Configurable.ToConfigurableOps {
   def formatPeriod(on: Interval[LocalDate]): String = TaxYear.unapply(on) match {
     case Some(taxYear) => taxYear.toString
     case None => s"""\"${on.toString.replace(" ", "")}\""""
+  }
+
+  def writeToFile(file: File, str: String): Unit = {
+    val pr = new PrintWriter(file)
+    pr.write(str)
+    pr.close
   }
 
 }

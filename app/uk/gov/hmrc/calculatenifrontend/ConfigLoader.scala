@@ -139,4 +139,15 @@ object ConfigLoader {
     }
   }
 
+  def fromString(str: String): Configuration = {
+    val o = ConfigSource.string(str)
+      .load[Configuration]
+
+    o match {
+      case Left(err) =>
+        throw new IllegalStateException(s"Unable to read configuration: $err")
+      case Right(c) => c
+    }
+  }
+
 }

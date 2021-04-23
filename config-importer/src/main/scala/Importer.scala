@@ -96,6 +96,12 @@ object Importer {
     }.mkString("\n")
   }
 
+  def correctLimitNames(in: String): String = in match {
+    case "EE_ET" => "PT"
+    case "ER_ET" => "ST"      
+    case x => x
+  }
+
   def limitsNew(dataRaw: Map[String, String]): String = "limits" is {
     val data = dataRaw
       .filter{case (k,v) => v != "0" && !k.startsWith("Tax")}
@@ -110,9 +116,9 @@ object Importer {
         val week = m.get("Wk").filter(_ != (year / 52).setScale(0, HALF_UP))
 
         if(month.isEmpty && week.isEmpty) {
-          s"$k.year: ${year.formatMoney}"
+          s"${correctLimitNames(k)}.year: ${year.formatMoney}"
         } else {
-          k is {List(
+          correctLimitNames(k) is {List(
             Some(s"year: ${year.formatMoney}"),
             month.map(x => s"month: ${x.formatMoney}"),
             week.map(x => s"week: ${x.formatMoney}")
@@ -138,9 +144,9 @@ object Importer {
       .sliding(2)
       .collect { case ((aw::am::ay::Nil)::(bw::bm::by::Nil)::Nil) => 
         List(
-          Some(s"year: [$ay,$by)"),
-          Some(s"month: [$am,$bm)").filter(_ => am != (ay / 12).setScale(0, HALF_UP) || bm != (by / 12).setScale(0, HALF_UP)),
-          Some(s"week: [$aw,$bw)").filter(_ => aw != (ay / 52).setScale(0, HALF_UP) || bw != (by / 52).setScale(0, HALF_UP))
+          Some(s"""year: "[$ay,$by)""""),
+          Some(s"""month: "[$am,$bm)"""").filter(_ => am != (ay / 12).setScale(0, HALF_UP) || bm != (by / 12).setScale(0, HALF_UP)),
+          Some(s"""week: "[$aw,$bw)"""").filter(_ => aw != (ay / 52).setScale(0, HALF_UP) || bw != (by / 52).setScale(0, HALF_UP))
         ).flatten.mkString("\n").stripMargin
       }.toList
 
@@ -302,7 +308,7 @@ object Importer {
         |upper-rate: ${c.getOrElse("RateAboveUEL", "0").formatPercent}""".stripMargin
   }
 
-  def main(args: Array[String]): Unit = {
+  def getNewConfig(): Iterable[(Interval[LocalDate], String)] = {
 
     /** Some of the tables have multiple rows per year and need to be subgrouped by category */
     val subCatGrouping = (_: List[Map[String, String]]).collect {
@@ -331,9 +337,6 @@ object Importer {
       class4.keys
     ).flatten.sorted.distinct
 
-    val file = new File("national-insurance-new.conf")
-    val writer = new BufferedWriter(new FileWriter(file))
-
     allTimePeriods.map{ on =>
 
       val allSections = List(
@@ -344,16 +347,12 @@ object Importer {
         class4.get(on) map c4
       ).flatten
 
-      val contents = s"""|${formatPeriod(on)} {
-                         |${allSections.map(_.indent(1)).mkString("\n")}
-                         |}
-                         |""".stripMargin
-
-      writer.write(contents)
-
-      import sys.process._
-//      "mv --backup=numbered national-insurance-new.conf national-insurance.conf".!!
+      (on, formatPeriod(on) is (allSections.map(_.indent(1)).mkString("\n")))
     }
-    writer.close()
   }
+
+  def main(args: Array[String]): Unit = writeToFile(
+    new File("national-insurance-new.conf"),
+    getNewConfig.map(_._2).mkString("\n\n")
+  )
 }
