@@ -7,6 +7,7 @@ import spire.math.Interval
 import cats.data.Chain
 import cats.implicits._
 import scalatags.Text.all._
+import BigDecimal.RoundingMode.HALF_UP
 
 case class ExhaustiveDifferencesReport(failures: List[(List[ClassOneRowInput], ClassOneResult, ClassOneResult)])
 
@@ -33,7 +34,7 @@ object Tester {
         money <- Gen.choose(0, Math.sqrt(maxMoneyTest))
         cat   <- Gen.oneOf(cats)
         period <- Gen.oneOf(List("Wk", "Mnth", "4Wk").map(Period.apply))
-      } yield ClassOneRowInput(id.toString, money * money, cat, period)
+      } yield ClassOneRowInput(id.toString, BigDecimal(money * money).setScale(0, HALF_UP), cat, period)
 
       ExhaustiveDifferencesReport(      
         (1 to exhaustiveTestNum).toList.flatMap { i =>
@@ -194,7 +195,7 @@ def summary(failures: List[(List[ClassOneRowInput], ClassOneResult, ClassOneResu
         val rowsDetail = div(rows.zipWithIndex.map { case (ClassOneRowInput(rowId, money, cat, period, periodQty), i) =>
             dl(
               dt("Gross Pay"), dd(money.formatMoney),
-              dt("Category"), dd(money.formatMoney),
+              dt("Category"), dd(cat.toString),
               dt("Period"), dd(s"$periodQty × $period")
             )
         }:_*)
