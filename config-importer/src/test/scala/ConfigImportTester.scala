@@ -56,26 +56,6 @@ object Tester {
     }
   }
 
-  def compareAndReport(a: Configuration, b: Configuration): String = {
-    val res = exhaustiveTest(a, b)
-    res match {
-      case None =>
-        s"C1 Not defined / unable to process"
-      case Some(ExhaustiveDifferencesReport(Nil)) =>
-        s"All $exhaustiveTestNum calculations gave identical results"
-      case Some(ExhaustiveDifferencesReport(x)) =>
-        s"${x.size} of $exhaustiveTestNum calculations gave differing results" ++
-        "\n\n-------------\n\n" ++
-        x.take(100).map { case (rows, a,b) =>
-          rows.zipWithIndex.map { case (ClassOneRowInput(rowId, money, cat, period, periodQty), i) =>
-            s"row $i. ${money.formatMoney}, Cat $cat, $periodQty × $period"
-          }.mkString("\n") ++ "\n\n" + 
-          a.totalContributions.explain.mkString("\n") + "\n\n" + 
-          b.totalContributions.explain.mkString("\n")
-        }.map(_.indent(1)).mkString("\n\n-------------\n\n")
-    }
-  }
-
   def cleanBlockName(in: String): String = in.replaceAll("""[:" ]""","")
 
   private val blockRegex = """([^ ].*) [{].*""".r
@@ -258,31 +238,52 @@ object Tester {
     tag.toString
   }
 
+  def indexPage(in: List[(String, String)]): String = html (
+    head(),
+    body(
+      table(
+        tr(th("Tax Year"), th("Discrepancies")) ::
+          in.map { case (k, v) => 
+            tr(td(a(href:=k)(k.replace(".html", ""))), td(v))
+          }
+      )
+    )
+  ).toString
+
   def main(args: Array[String]): Unit = {
 
     val reportDir = new File("target/config-reports")
 
-    Importer.getNewConfig().par.foreach { case (period, newString) =>
+    val testResultsByYear: List[(String, String)] =
+      Importer.getNewConfig().par.map { case (period, newString) =>
 
-      val blockId = formatPeriod(period).replaceAll("\"", "")
+        val blockId = formatPeriod(period).replaceAll("\"", "")
 
-      findOldBlock(blockId) match {
-        case Some(oldString) => 
-          val oldConfig = loadConfig(oldString, s"old $blockId")
-          val newConfig = loadConfig(newString, s"new $blockId")
+        findOldBlock(blockId) match {
+          case Some(oldString) =>
+            val oldConfig = loadConfig(oldString, s"old $blockId")
+            val newConfig = loadConfig(newString, s"new $blockId")
 
-          val filename = formatPeriod(period)
-            .replaceAll("""["()\[\]]""", "")
-            .replaceAll(",","_") + ".html"
+            val filename = formatPeriod(period)
+              .replaceAll("""["()\[\]]""", "")
+              .replaceAll(",","_") + ".html"
+            val testResults = exhaustiveTest(oldConfig, newConfig)
+            writeToFile(
+              new File(reportDir, filename),
+              buildReport(oldString, newString, testResults)
+            )
+            (filename, testResults.fold("n/a")(_.failures.size.toString + "/" + exhaustiveTestNum))
+          case None =>
+            throw new Exception(s"Cannot find block called '$blockId' in old config")
+        }
+      }.toList
 
-          writeToFile(
-            new File(new File("target/config-reports"), filename),
-            buildReport(oldString, newString, exhaustiveTest(oldConfig, newConfig))
-          )
-        case None =>
-          System.err.println(s"Cannot find block called '$blockId' in old config")
-      }
 
-    }
+    writeToFile(
+      new File(reportDir, "index.html"),
+      indexPage(testResultsByYear)
+    )
+
+    testResultsByYear.foreach(println)
   }
 }
