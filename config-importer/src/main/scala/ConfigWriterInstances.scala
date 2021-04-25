@@ -41,12 +41,21 @@ object ConfigWriterInstances {
     }
   }
 
+
+  implicit def moneyWriter[A]: ConfigWriter[Money] =
+    ConfigWriter[String].contramap{ _.toString.filterNot(_ == ',') }
+
+  implicit def percentageWriter[A]: ConfigWriter[Percentage] =
+    ConfigWriter[String].contramap{ _.toString.filterNot(_ == ',') }
+
+
+
   val defaultRenderer =
     defaults.setJson(false).setOriginComments(false).setComments(false)    
 
   implicit def charBdWriter[A](implicit vr: ConfigWriter[A]): ConfigWriter[Map[Char, A]] = 
     ConfigWriter[Map[String, A]].contramap{ x => 
-      x.groupBy(_._2).mapValues(_.map(_._1).mkString).map(_.swap)
+      x.groupBy(_._2).mapValues(_.map(_._1).toList.sorted.mkString).map(_.swap)
     }
 
   implicit val localDateWriter: ConfigWriter[LocalDate] =
@@ -74,7 +83,7 @@ object ConfigWriterInstances {
     }
   }
 
-  implicit val moneyIntervalWriter = intervalWriter[BigDecimal](_.toString)
+  implicit val moneyIntervalWriter = intervalWriter[Money](_.toString)
 
   implicit val vagueRateDefinitionWriter =
     ConfigWriter[Map[String, ConfigValue]].contramap[RateDefinition.VagueRateDefinition] {
@@ -95,14 +104,14 @@ object ConfigWriterInstances {
       m.flatten.toMap
     }
 
-  implicit val confwriter_unofficialDeferment: ConfigWriter[Map[Class1Band, Map[Char, BigDecimal]]] = 
-    ConfigWriter[Map[String, Map[Char, BigDecimal]]].contramap { data =>
+  implicit val confwriter_unofficialDeferment: ConfigWriter[Map[Class1Band, Map[Char, Percentage]]] = 
+    ConfigWriter[Map[String, Map[Char, Percentage]]].contramap { data =>
       data.map{case (k,v) => (k.toString,v)}
     }
 
-  implicit val winterestOnLatePayment: ConfigWriter[Map[Interval[LocalDate], BigDecimal]] = 
-    ConfigWriter[Map[String, BigDecimal]].contramap { data =>
-      data.map{case (k,v) => (k.toString.filterNot(_ == ' '),v)}
+  implicit val winterestOnLatePayment: ConfigWriter[Map[Interval[LocalDate], Percentage]] = 
+    ConfigWriter[Map[String, Percentage]].contramap { data =>
+      data.map{ case (k,v) => (k.toString.filterNot(_ == ' '),v) }
     }
 
   implicit val confPeriod = ConfigWriter[ConfigurationPeriod] // not sure why this is needed

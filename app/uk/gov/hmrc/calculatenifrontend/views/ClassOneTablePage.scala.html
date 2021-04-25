@@ -78,9 +78,9 @@
             </tr>
             <tr class="govuk-table__row">
               <th scope="col" class="govuk-table__header">Employee Rate</th>
-              <td class="govuk-table__cell">@{band.employee.getOrElse(selectedCategory, BigDecimal(0)) * 100}%</td>
+              <td class="govuk-table__cell">@{band.employee.getOrElse(selectedCategory, BigDecimal(0))}%</td>
               <th scope="col" class="govuk-table__header">Employer Rate</th>
-              <td class="govuk-table__cell">@{band.employer.getOrElse(selectedCategory, BigDecimal(0)) * 100}%</td>
+              <td class="govuk-table__cell">@{band.employer.getOrElse(selectedCategory, BigDecimal(0))}%</td>
             </tr>
           </tbody>
         </table>

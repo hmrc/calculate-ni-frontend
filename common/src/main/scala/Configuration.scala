@@ -23,10 +23,10 @@ import spire.math.Interval
 
 case class Limit(
   fullName: Option[String], 
-  year: BigDecimal,
-  month: Option[BigDecimal],
-  week: Option[BigDecimal],
-  fourWeek: Option[BigDecimal],
+  year: Money,
+  month: Option[Money],
+  week: Option[Money],
+  fourWeek: Option[Money],
 ) {
   def effectiveYear = year
   def effectiveMonth =
@@ -38,16 +38,16 @@ case class Limit(
 }
 
 case class ClassTwoRates(
-  default: BigDecimal,
-  fishermen: Option[BigDecimal],
-  voluntary: Option[BigDecimal]
+  default: Money,
+  fishermen: Option[Money],
+  voluntary: Option[Money]
 )
 
 case class ClassFour(
-  lowerLimit: BigDecimal,
-  upperLimit: BigDecimal,
-  mainRate: BigDecimal,
-  upperRate: BigDecimal = 0
+  lowerLimit: Money,
+  upperLimit: Money,
+  mainRate: Percentage,
+  upperRate: Percentage = Percentage.Zero
 )
 
 /** Class 1 NICs are earnings related contributions paid by employed
@@ -110,8 +110,8 @@ case class ConfigurationPeriod(
 case class Configuration (
   categoryNames: Map[Char, String],
   data: Map[Interval[LocalDate], ConfigurationPeriod],
-  interestOnLatePayment: Map[Interval[LocalDate], BigDecimal],
-  interestOnRepayment: Map[Interval[LocalDate], BigDecimal]
+  interestOnLatePayment: Map[Interval[LocalDate], Percentage],
+  interestOnRepayment: Map[Interval[LocalDate], Percentage]
 ){
 
   def mapValuesOpt[A](f: ConfigurationPeriod => Option[A]): Map[Interval[LocalDate], A] =
@@ -149,7 +149,7 @@ case class Configuration (
   def calculateClassTwo(
     on: LocalDate,
     paymentDate: LocalDate,
-    earningsFactor: BigDecimal
+    earningsFactor: Money
   ) = ClassTwoAndThreeResult[ClassTwo](
     on,
     classTwo.at(on).getOrElse(
@@ -163,7 +163,7 @@ case class Configuration (
   def calculateClassThree(
     on: LocalDate,
     paymentDate: LocalDate,
-    earningsFactor: BigDecimal
+    earningsFactor: Money
   ) = {
     val (interval, c3taxYear) = classThree.findAt(on).getOrElse(
       throw new IllegalStateException(s"No C3 band defined for $on")
@@ -182,8 +182,8 @@ case class Configuration (
   def calculateClassOne(
     on: LocalDate,
     rows: List[ClassOneRowInput],
-    netPaid: BigDecimal = Zero,
-    employeePaid: BigDecimal = Zero
+    netPaid: Money = Money.Zero,
+    employeePaid: Money = Money.Zero
   ) = ClassOneResult(on, classOne.at(on).getOrElse(Map.empty), rows, netPaid, employeePaid)
 
   def calculateDirectors(
@@ -191,8 +191,8 @@ case class Configuration (
                         to: LocalDate,
                         rows: List[DirectorsRowInput],
                         appropriatePersonalPensionScheme: Option[Boolean],
-                        netPaid: BigDecimal = Zero,
-                        employeePaid: BigDecimal = Zero
+                        netPaid: Money = Money.Zero,
+                        employeePaid: Money = Money.Zero
                         ) =
     DirectorsResult(
       from,
@@ -224,7 +224,7 @@ case class Configuration (
   )
 
   def calculateInterestOnLatePayment(
-    amount: BigDecimal,
+    amount: Money,
     taxYear: TaxYear,
     remission: Option[Interval[LocalDate]],
     to: LocalDate = LocalDate.now
@@ -238,7 +238,7 @@ case class Configuration (
   )
 
   def calculateInterestOnRepayment(
-    amount: BigDecimal,
+    amount: Money,
     taxYear: TaxYear,
     paymentDate: LocalDate = LocalDate.now
   ) = {

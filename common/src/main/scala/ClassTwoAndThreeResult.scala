@@ -17,6 +17,7 @@
 package eoi
 
 import spire.math.Interval
+import spire.syntax.field._
 import cats.syntax.applicative._
 import cats.syntax.apply._
 import spire.implicits._
@@ -24,39 +25,39 @@ import java.time.LocalDate
 
 trait ClassTwoOrThree {
   def noOfWeeks: Int
-  def rate: BigDecimal
-  def lowerEarningLimit: Explained[BigDecimal]
-  def qualifyingEarningsFactor: Explained[BigDecimal]
+  def rate: Money
+  def lowerEarningLimit: Explained[Money]
+  def qualifyingEarningsFactor: Explained[Money]
   def finalDate: Option[LocalDate]
   def hrpDate: Option[LocalDate]
 }
 
 case class ClassTwo(
   weeklyRate: ClassTwoRates,
-  smallEarningsException: Option[BigDecimal],
+  smallEarningsException: Option[Money],
   hrpDate: Option[LocalDate],
   finalDate: Option[LocalDate],
   noOfWeeks: Int = 52,
-  qualifyingRate: BigDecimal,
-  lel: BigDecimal
+  qualifyingRate: Money,
+  lel: Money
 ) extends ClassTwoOrThree {
   def rate = weeklyRate.default
   def lowerEarningLimit = lel.pure[Explained]
-  def qualifyingEarningsFactor: Explained[BigDecimal] = qualifyingRate.pure[Explained]
+  def qualifyingEarningsFactor: Explained[Money] = qualifyingRate.pure[Explained]
 }
 
 object ClassTwo {
 
   case class ClassTwoVague(
     weeklyRate: ClassTwoRates,
-    smallEarningsException: Option[BigDecimal],
+    smallEarningsException: Option[Money],
     hrpDate: Option[LocalDate],
     finalDate: Option[LocalDate],
     noOfWeeks: Int = 52,
-    qualifyingRate: BigDecimal,
-    lel: Option[BigDecimal]
+    qualifyingRate: Money,
+    lel: Option[Money]
   ) {
-    def confirm(year: Interval[LocalDate], fallbackLEL: Option[BigDecimal]) = ClassTwo(
+    def confirm(year: Interval[LocalDate], fallbackLEL: Option[Money]) = ClassTwo(
       weeklyRate,
       smallEarningsException,
       hrpDate,
@@ -73,17 +74,17 @@ object ClassTwo {
 
 case class ClassThree(
   finalDate: Option[LocalDate],
-  weekRate: BigDecimal,
+  weekRate: Money,
   hrpDate: Option[LocalDate],  
   noOfWeeks: Int = 52,
-  lel: BigDecimal,
-  qualifyingRate: Option[BigDecimal]
+  lel: Money,
+  qualifyingRate: Option[Money]
 ) extends ClassTwoOrThree {
   def rate = weekRate
-  def qualifyingEarningsFactor: Explained[BigDecimal] = qualifyingRate match {
+  def qualifyingEarningsFactor: Explained[Money] = qualifyingRate match {
     case Some(r) => r.pure[Explained]
     case None =>
-      (lel * noOfWeeks - 50) gives s"qualifyingRate: lel * noOfWeeks - 50 = $lel * $noOfWeeks - 50"
+      ((lel * noOfWeeks) - Money(50)) gives s"qualifyingRate: lel * noOfWeeks - 50 = $lel * $noOfWeeks - 50"
   }
     
   def lowerEarningLimit = lel.pure[Explained]
@@ -93,13 +94,13 @@ object ClassThree {
 
     case class ClassThreeVague(
       finalDate: Option[LocalDate],
-      weekRate: BigDecimal,
+      weekRate: Money,
       hrpDate: Option[LocalDate],
       noOfWeeks: Int = 52,
-      lel: Option[BigDecimal],
-      qualifyingRate: Option[BigDecimal]
+      lel: Option[Money],
+      qualifyingRate: Option[Money]
     ) {
-      def confirm(year: Interval[LocalDate], fallbackLEL: Option[BigDecimal]) = ClassThree(
+      def confirm(year: Interval[LocalDate], fallbackLEL: Option[Money]) = ClassThree(
         finalDate,
         weekRate,
         hrpDate,
@@ -118,13 +119,13 @@ case class ClassTwoAndThreeResult[A <: ClassTwoOrThree] protected[eoi] (
   on: LocalDate,
   year: A,
   paymentDate: LocalDate,
-  earningsFactor: BigDecimal,
+  earningsFactor: Money,
   otherRates: Map[Interval[LocalDate], A]
 ) {
 
   import year._
 
-  def shortfall: Explained[BigDecimal] =  qualifyingEarningsFactor.flatMap { qr => 
+  def shortfall: Explained[Money] =  qualifyingEarningsFactor.flatMap { qr => 
     (qr - earningsFactor) gives s"shortfall = qualifyingRate - earningsFactor = $qr - $earningsFactor"
   }
 
@@ -146,7 +147,7 @@ case class ClassTwoAndThreeResult[A <: ClassTwoOrThree] protected[eoi] (
       (paymentDate >= hrpDate) gives s"higherRateApplies: $paymentDate ≥ $hrpDate"
     }
 
-  def rate: Explained[BigDecimal] = higherRateApplies flatMap {
+  def rate: Explained[Money] = higherRateApplies flatMap {
     case true =>
       val range = Interval.openLower(on, paymentDate)
       val (when, highest) = otherRates.toList
@@ -157,11 +158,11 @@ case class ClassTwoAndThreeResult[A <: ClassTwoOrThree] protected[eoi] (
     case false => year.rate gives s"rate: normal (non-HRP)"
   }
 
-  def totalDue: Explained[BigDecimal] = (
+  def totalDue: Explained[Money] = (
     numberOfContributions,
     rate
   ).tupled.flatMap{ case (n,r) =>
-      (n * r) gives s"totalDue: noContributions * rate = $n * $r"
+      (r * n) gives s"totalDue: noContributions * rate = $n * $r"
   }
 
 }

@@ -31,12 +31,6 @@ object Int {
   }
 }
 
-object Money {
-  def unapply(in: String): Option[BigDecimal] = {
-    Either.catchOnly[NumberFormatException](BigDecimal(in)).toOption
-  }
-}
-
 object PeriodParse {
   def unapply(in: String): Option[Period.Period] = Some(in) collect {
     case "M" => Period.Month

@@ -20,44 +20,44 @@ import spire.math.Interval
 import spire.implicits._
 
 trait EffectiveRate {
-  def year: Interval[BigDecimal]
-  def month: Option[Interval[BigDecimal]]
-  def week: Option[Interval[BigDecimal]]
-  def fourWeek: Option[Interval[BigDecimal]]
-  def employee: Map[Char, BigDecimal]
-  def employer: Map[Char, BigDecimal]
+  def year: Interval[Money]
+  def month: Option[Interval[Money]]
+  def week: Option[Interval[Money]]
+  def fourWeek: Option[Interval[Money]]
+  def employee: Map[Char, Percentage]
+  def employer: Map[Char, Percentage]
 
   def effectiveYear = year
   def effectiveMonth =
-    month.getOrElse((year / 12).mapBounds(_.setScale(0, BigDecimal.RoundingMode.HALF_UP)))
+    month.getOrElse(year.mapBounds(x => (x / 12).setScale(0, BigDecimal.RoundingMode.HALF_UP)))
   def effectiveWeek =
-    week.getOrElse((year / 52).mapBounds(_.setScale(0, BigDecimal.RoundingMode.HALF_UP)))
+    week.getOrElse(year.mapBounds(x => (x / 52).setScale(0, BigDecimal.RoundingMode.HALF_UP)))
   def effectiveFourWeek =
-    fourWeek.getOrElse((year / 13).mapBounds(_.setScale(0, BigDecimal.RoundingMode.HALF_UP)))
+    fourWeek.getOrElse(year.mapBounds(x => (x / 13).setScale(0, BigDecimal.RoundingMode.HALF_UP)))
 }
 
 case class GrossPayException(
-  year: Interval[BigDecimal],
-  month: Option[Interval[BigDecimal]],
-  week: Option[Interval[BigDecimal]],
-  fourWeek: Option[Interval[BigDecimal]],
-  employee: Map[Char, BigDecimal] = Map.empty,
-  employer: Map[Char, BigDecimal] = Map.empty  
+  year: Interval[Money],
+  month: Option[Interval[Money]],
+  week: Option[Interval[Money]],
+  fourWeek: Option[Interval[Money]],
+  employee: Map[Char, Percentage] = Map.empty,
+  employer: Map[Char, Percentage] = Map.empty  
 ) extends EffectiveRate
 
 case class RateDefinition(
-  year: Interval[BigDecimal],
-  month: Option[Interval[BigDecimal]],
-  week: Option[Interval[BigDecimal]],
-  fourWeek: Option[Interval[BigDecimal]],
-  employee: Map[Char, BigDecimal] = Map.empty,
-  employer: Map[Char, BigDecimal] = Map.empty,
+  year: Interval[Money],
+  month: Option[Interval[Money]],
+  week: Option[Interval[Money]],
+  fourWeek: Option[Interval[Money]],
+  employee: Map[Char, Percentage] = Map.empty,
+  employer: Map[Char, Percentage] = Map.empty,
   contractedOutStandardRate: Option[Boolean] = None,
   trigger: Bands = Bands.all, //TODO deprecated in favour of grossPayExceptions
   hideOnSummary: Boolean = true,
   grossPayExceptions: List[GrossPayException] = Nil
 ) extends EffectiveRate {
-  def withGrossPayExceptions(grossPay: BigDecimal, period: Period.Period): EffectiveRate = {
+  def withGrossPayExceptions(grossPay: Money, period: Period.Period): EffectiveRate = {
     grossPayExceptions.find{ ex =>
       import Period._
 
@@ -71,23 +71,23 @@ case class RateDefinition(
     } getOrElse this
   }
 
-  def employeeWithGrossPayExceptions(grossPay: BigDecimal, period: Period.Period, category: Char): BigDecimal =
-    (withGrossPayExceptions(grossPay, period).employee.get(category) orElse employee.get(category)) getOrElse Zero
+  def employeeWithGrossPayExceptions(grossPay: Money, period: Period.Period, category: Char): Percentage =
+    (withGrossPayExceptions(grossPay, period).employee.get(category) orElse employee.get(category)) getOrElse Percentage.Zero
 
-  def employerWithGrossPayExceptions(grossPay: BigDecimal, period: Period.Period, category: Char): BigDecimal =
-    (withGrossPayExceptions(grossPay, period).employer.get(category) orElse employer.get(category)) getOrElse Zero
+  def employerWithGrossPayExceptions(grossPay: Money, period: Period.Period, category: Char): Percentage =
+    (withGrossPayExceptions(grossPay, period).employer.get(category) orElse employer.get(category)) getOrElse Percentage.Zero
   
 }
 
 object RateDefinition {
 
   case class VagueRateDefinition(
-    year: Option[Interval[BigDecimal]],
-    month: Option[Interval[BigDecimal]],
-    week: Option[Interval[BigDecimal]],
-    fourWeek: Option[Interval[BigDecimal]],
-    employee: Map[Char, BigDecimal] = Map.empty,
-    employer: Map[Char, BigDecimal] = Map.empty,
+    year: Option[Interval[Money]],
+    month: Option[Interval[Money]],
+    week: Option[Interval[Money]],
+    fourWeek: Option[Interval[Money]],
+    employee: Map[Char, Percentage] = Map.empty,
+    employer: Map[Char, Percentage] = Map.empty,
     contractedOutStandardRate: Option[Boolean] = None,
     trigger: Bands = Bands.all, //TODO deprecated in favour of grossPayExceptions
     hideOnSummary: Boolean = true,
@@ -120,10 +120,10 @@ object RateDefinition {
         case upperBounded(u) =>
           lookupLimit(u).map{ ul =>
             (
-              Interval.openUpper(Zero, ul.effectiveYear),
-              Interval.openUpper(Zero, ul.effectiveMonth),
-              Interval.openUpper(Zero, ul.effectiveWeek),
-              Interval.openUpper(Zero, ul.effectiveFourWeek)
+              Interval.openUpper(Money.Zero, ul.effectiveYear),
+              Interval.openUpper(Money.Zero, ul.effectiveMonth),
+              Interval.openUpper(Money.Zero, ul.effectiveWeek),
+              Interval.openUpper(Money.Zero, ul.effectiveFourWeek)
             )
         }
 

@@ -8,6 +8,8 @@ import cats.data.Chain
 import cats.implicits._
 import scalatags.Text.all._
 import BigDecimal.RoundingMode.HALF_UP
+import pureconfig._, syntax._
+import ConfigWriterInstances._
 
 case class ExhaustiveDifferencesReport(failures: List[(List[ClassOneRowInput], ClassOneResult, ClassOneResult)])
 
@@ -16,31 +18,29 @@ object Tester {
   val exhaustiveTestNum = 10000
   val maxMoneyTest = 1000000
 
-  def exhaustiveTest(a: Configuration, b: Configuration): Option[ExhaustiveDifferencesReport] = {
+  def exhaustiveTest(onDate: LocalDate, a: Configuration, b: Configuration): Option[ExhaustiveDifferencesReport] = {
     import org.scalacheck._
 
-    val c1Opt: Option[(LocalDate, List[Char])] = a.classOne.headOption.map{
-      case (date, c1) =>
+    val c1Opt: Option[List[Char]] = a.classOne.at(onDate).map{ c1 => 
         (
-          date.lowerValue.get,
           c1.values.flatMap( x =>
             x.employee.keys ++ x.employer.keys
           ).toList.sorted.distinct
         )
     }
 
-    c1Opt.map { case (onDate, cats) =>
+    c1Opt.map { case cats =>
       def genInput(id: Int) : Gen[ClassOneRowInput] = for {
-        money <- Gen.choose(0, Math.sqrt(maxMoneyTest))
+        money <- Gen.choose(0, Math.sqrt(maxMoneyTest)).map(x => Money.apply(BigDecimal(x)))
         cat   <- Gen.oneOf(cats)
         period <- Gen.oneOf(List("Wk", "Mnth", "4Wk").map(Period.apply))
-      } yield ClassOneRowInput(id.toString, BigDecimal(money * money).setScale(0, HALF_UP), cat, period)
+      } yield ClassOneRowInput(id.toString, (money * money).setScale(0, HALF_UP), cat, period)
 
       ExhaustiveDifferencesReport(      
         (1 to exhaustiveTestNum).toList.flatMap { i =>
           val rows = genInput(i).sample.get :: Nil
-          val resA = a.calculateClassOne(onDate.plusMonths(1), rows) // add 1 month to get around misalignment issue
-          val resB = b.calculateClassOne(onDate.plusMonths(1), rows)
+          val resA = a.calculateClassOne(onDate, rows) // add 1 month to get around misalignment issue
+          val resB = b.calculateClassOne(onDate, rows)
           val resAee = resA.rowsOutput.head.employeeContributions
           val resAer = resA.rowsOutput.head.employerContributions
           val resBee = resB.rowsOutput.head.employeeContributions
@@ -175,7 +175,7 @@ object Tester {
 
         val rowsDetail = div(rows.zipWithIndex.map { case (ClassOneRowInput(rowId, money, cat, period, periodQty), i) =>
             dl(
-              dt("Gross Pay"), dd(money.formatMoney),
+              dt("Gross Pay"), dd(money.toString),
               dt("Category"), dd(cat.toString),
               dt("Period"), dd(s"$periodQty × $period")
             )
@@ -196,10 +196,10 @@ object Tester {
             explainCell(b),
           ),
           tr(
-            td(strong("Employee: "), span(a.employeeContributions.value.formatMoney)),
-            td(strong("Employer: "), span(a.employerContributions.value.formatMoney)),
-            td(strong("Employee: "), span(b.employeeContributions.value.formatMoney)),
-            td(strong("Employer: "), span(b.employerContributions.value.formatMoney))
+            td(strong("Employee: "), span(a.employeeContributions.value.toString)),
+            td(strong("Employer: "), span(a.employerContributions.value.toString)),
+            td(strong("Employee: "), span(b.employeeContributions.value.toString)),
+            td(strong("Employer: "), span(b.employerContributions.value.toString))
           )
         )
 
@@ -253,21 +253,24 @@ object Tester {
   def main(args: Array[String]): Unit = {
 
     val reportDir = new File("target/config-reports")
+    if (!reportDir.exists) reportDir.mkdir()
+
+    val newConfig = Importer2.getNewConfig()
+    val oldConfig = ConfigLoader.default
 
     val testResultsByYear: List[(String, String)] =
-      Importer.getNewConfig().par.map { case (period, newString) =>
-
+      newConfig.data.collect{
+        case (k,v) if v.classOne.isDefined => k
+      }.toList.sorted.par.map { period =>
+        val newString = writeConfig(newConfig.data(period).toConfig)
         val blockId = formatPeriod(period).replaceAll("\"", "")
 
         findOldBlock(blockId) match {
           case Some(oldString) =>
-            val oldConfig = loadConfig(oldString, s"old $blockId")
-            val newConfig = loadConfig(newString, s"new $blockId")
-
             val filename = formatPeriod(period)
               .replaceAll("""["()\[\]]""", "")
               .replaceAll(",","_") + ".html"
-            val testResults = exhaustiveTest(oldConfig, newConfig)
+            val testResults = exhaustiveTest(period.lowerValue.get.plusMonths(1), oldConfig, newConfig)
             writeToFile(
               new File(reportDir, filename),
               buildReport(oldString, newString, testResults)

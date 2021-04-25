@@ -17,10 +17,51 @@
 import spire.math.Interval
 import spire.math.interval._
 import spire.implicits._
-
+import spire.algebra.{Eq, Field}
 import java.time.{DayOfWeek, LocalDate}
 
-package object eoi {
+package object eoi extends spire.syntax.FieldSyntax {
+
+  implicit class RichSpireField[A](val u: spire.algebra.Field[A]) extends AnyVal {
+    def imap[B](f: A => B)(g: B => A): Field[B] = new Field[B] {
+
+      override def minus(a: B, b: B): B = f(u.minus(g(a),g(b)))
+      def negate(a: B): B = f(u.negate(g(a)))
+      val one: B = f(u.zero)
+      def plus(a: B, b: B): B = f(u.plus(g(a),g(b)))
+      override def pow(a: B, b: Int): B = f(u.pow(g(a),b))
+      override def times(a: B, b: B): B = f(u.times(g(a),g(b)))
+      val zero: B = f(u.zero)
+      override def fromInt(n: Int): B = f(u.fromInt(n))
+      override def fromDouble(n: Double): B = f(u.fromDouble(n))
+      def div(a: B, b: B): B = f(u.div(g(a),g(b)))
+
+      def gcd(a: B,b: B)(implicit ev: Eq[B]): B = f(u.gcd(g(a), g(b))(ev.contramap(f)))
+      def lcm(a: B,b: B)(implicit ev: Eq[B]): B = f(u.lcm(g(a), g(b))(ev.contramap(f)))
+    }
+  }
+
+  implicit class RichSpireEq[A](u: spire.algebra.Eq[A]) {
+    def contramap[B](f: B => A): Eq[B] = new Eq[B] {
+      def eqv(x: B, y: B): Boolean = u.eqv(f(x), f(y))
+    }
+  }
+
+  implicit class RichNumeric[A](u: Numeric[A]) {
+    def imap[B](f: A => B)(g: B => A) = new Numeric[B] {
+      def minus(a: B, b: B): B = f(u.minus(g(a),g(b)))
+      def negate(a: B): B = f(u.negate(g(a)))
+      def plus(a: B, b: B): B = f(u.plus(g(a),g(b)))
+      def times(a: B, b: B): B = f(u.times(g(a),g(b)))
+      def fromInt(x: Int): B = f(u.fromInt(x))
+      def toDouble(x: B): Double = u.toDouble(g(x))
+      def toFloat(x: B): Float = u.toFloat(g(x))
+      def toInt(x: B): Int = u.toInt(g(x))
+      def toLong(x: B): Long = u.toLong(g(x))
+      def compare(x: B,y: B): Int = u.compare(g(x),g(y))
+    }
+  }
+
 
   implicit class RichBD(val in: BigDecimal) extends AnyVal {
     def roundHalfDown: BigDecimal =

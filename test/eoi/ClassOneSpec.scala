@@ -72,13 +72,13 @@ class ClassOneSpec extends AnyFunSpec with ExplainTestSupport {
                 )
 
                 assert(
-                  res.employeeContributions.value === expectedEmployee +- 0.03,
+                  res.employeeContributions.value.value === expectedEmployee.value +- 0.03,
                   s"\n  $file:${indexMinus + 1}" +
                     res.employeeContributions.written.toList.distinct.map("\n  " + _).mkString
                 )
 
                 assert(
-                  res.employerContributions.value === expectedEmployer +- 0.03,
+                  res.employerContributions.value.value === expectedEmployer.value +- 0.03,
                   s"\n  $file:${indexMinus + 1}" +
                     res.employerContributions.written.toList.distinct.map("\n  " + _).mkString
                 )

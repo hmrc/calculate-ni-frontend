@@ -26,7 +26,7 @@ import main.scala.{DirectorsResult, DirectorsRowInput}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import pureconfig.{ConfigReader, ConfigSource}
-
+import ConfigLoader.moneyReader
 import java.time.LocalDate
 import scala.util.Try
 
@@ -64,8 +64,8 @@ class DirectorsSpec extends AnyWordSpec with Matchers {
             )
           ),
           test.app,
-          test.paid.map(_.net).getOrElse(0),
-          test.paid.map(_.ee).getOrElse(0)
+          test.paid.map(_.net).getOrElse(Money.Zero),
+          test.paid.map(_.ee).getOrElse(Money.Zero)
         )
 
         test.description -> validateResult(result, test)
@@ -133,13 +133,13 @@ class DirectorsSpec extends AnyWordSpec with Matchers {
       validated(result.underpayment.employer, test.underpayment.map(_.er).getOrElse(test.total.er), "ER underpayments")
 
     val overPaymentTotalCheck =
-      validated(result.overpayment.total, test.overpayment.map(_.net).getOrElse(Zero), "total overpayments")
+      validated(result.overpayment.total, test.overpayment.map(_.net).getOrElse(Money.Zero), "total overpayments")
 
     val overPaymentEECheck =
-      validated(result.overpayment.employee, test.overpayment.map(_.ee).getOrElse(Zero), "EE overpayments")
+      validated(result.overpayment.employee, test.overpayment.map(_.ee).getOrElse(Money.Zero), "EE overpayments")
 
     val overPaymentERCheck =
-      validated(result.overpayment.employer, test.overpayment.map(_.er).getOrElse(Zero), "ER overpayments")
+      validated(result.overpayment.employer, test.overpayment.map(_.er).getOrElse(Money.Zero), "ER overpayments")
 
 
     (
@@ -165,15 +165,15 @@ class DirectorsSpec extends AnyWordSpec with Matchers {
 
 object DirectorsSpec {
 
-  case class Row(category: Char, grossPay: BigDecimal, id: String, total: BigDecimal, ee: BigDecimal)
+  case class Row(category: Char, grossPay: Money, id: String, total: Money, ee: Money)
 
-  case class Total(net: BigDecimal, ee: BigDecimal, er: BigDecimal)
+  case class Total(net: Money, ee: Money, er: Money)
 
-  case class Paid(net: BigDecimal, ee: BigDecimal)
+  case class Paid(net: Money, ee: Money)
 
-  case class UnderPayment(net: BigDecimal, ee: BigDecimal, er: BigDecimal)
+  case class UnderPayment(net: Money, ee: Money, er: Money)
 
-  case class OverPayment(net: BigDecimal, ee: BigDecimal, er: BigDecimal)
+  case class OverPayment(net: Money, ee: Money, er: Money)
 
   case class ProRata(from: LocalDate, to: LocalDate)
 

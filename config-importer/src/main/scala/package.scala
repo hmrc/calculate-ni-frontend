@@ -8,7 +8,7 @@ import java.time.LocalDate
 import spire.math.Interval
 import java.io._
 
-package object importer extends Configurable.ToConfigurableOps { 
+package object importer { 
 
   implicit class RichTupleIterable[A,B](value: Iterable[(A,B)]) {
     def toGrouping: Map[A, List[B]] =
