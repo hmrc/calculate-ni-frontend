@@ -55,7 +55,7 @@ class ClassOneSpec extends AnyFunSpec with ExplainTestSupport {
             }
 
             line.map(_.trim) match {
-              case (Int(year)::PeriodParse(period)::Int(periodNumber)::categoryS::Money(grossPay)::Money(expectedEmployee)::Money(expectedEmployer)::xs) =>
+              case (Int(year)::PeriodParse(period)::Int(periodNumber)::categoryS::MoneyStr(grossPay)::MoneyStr(expectedEmployee)::MoneyStr(expectedEmployer)::xs) =>
                 val statusString = s"${file.getName}:${indexMinus + 1}"
                 val comments = xs.mkString(",")
                 val cosr = comments.contains("COSR")
