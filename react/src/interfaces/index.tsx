@@ -155,7 +155,7 @@ export interface TextInputProps {
   onChangeCallback: React.ChangeEventHandler<HTMLInputElement>
   onBlurCallback?: React.ChangeEventHandler<HTMLInputElement>
   error?: any // todo
-  onPaste?: any // todo
+  onPaste?: React.ClipboardEventHandler<HTMLInputElement>
 }
 
 export interface DateParts {
