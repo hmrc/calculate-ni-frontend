@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {ClassOneContext, Row} from "./ClassOneContext";
 import {TableProps} from '../../../interfaces'
 import Class1TableRow from "./Class1TableRow";
