@@ -41,10 +41,10 @@ class ClassOneFrontend(
             case _ => throw new IllegalStateException("Unknown Period")
           }
 
-          ClassOneRowInput(id, grossPay, category.head, p, if (period == "2W") 2 else 1 )
+          ClassOneRowInput(id, Money(grossPay), category.head, p, if (period == "2W") 2 else 1 )
       },
-      BigDecimal(netPaid),
-      BigDecimal(employeePaid)
+      Money(netPaid),
+      Money(employeePaid)
     ).toJSObject
 
   def isCosrApplicable(on: Date): Boolean = {

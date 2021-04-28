@@ -12,12 +12,12 @@ class InterestOnRefundsClassOne (
     row: InterestRow,
     remissionPeriod: Option[RemissionPeriod]
   ): InterestResult = config.calculateInterestOnRepayment(
-    row.debt,
+    Money(row.debt),
     TaxYear(row.periodStart),
     row.paymentDate.map(x => x: LocalDate).toOption.getOrElse(LocalDate.now)
   )
 
-  protected def rates: Map[Interval[LocalDate], BigDecimal] =
+  protected def rates: Map[Interval[LocalDate], Percentage] =
     config.interestOnRepayment
 
 }

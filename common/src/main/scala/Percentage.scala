@@ -29,6 +29,8 @@ case class Percentage(value: BigDecimal) extends AnyVal {
   def formatPercentage: String = toString
 
   def abs: Percentage = Percentage(value.abs)
+
+  def toDouble: Double = value.toDouble  
 }
 
 object Percentage {
@@ -42,7 +44,7 @@ object Percentage {
     u.imap(Percentage.apply)(_.value)
   implicit val percentageCatsOrder: cats.Order[Percentage] = cats.Order.fromOrdering(percentageNumeric)
 
-  def apply(in: String): Money = Money(in)  
+  def apply(in: String): Percentage = Percentage(in)  
 }
 
 object PercentageStr {

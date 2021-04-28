@@ -12,12 +12,12 @@ class InterestOnUnpaidFrontend(
     row: InterestRow,
     remissionPeriod: Option[RemissionPeriod]
   ): InterestResult = config.calculateInterestOnLatePayment(
-    row.debt,
+    Money(row.debt),
     TaxYear(row.periodStart),
     remissionPeriod.map { p => Interval.closed(p.start, p.end) }
   )
 
-  protected def rates: Map[Interval[LocalDate], BigDecimal] =
+  protected def rates: Map[Interval[LocalDate], Percentage] =
     config.interestOnLatePayment
 
 }

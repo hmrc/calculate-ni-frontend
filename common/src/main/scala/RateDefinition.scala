@@ -96,6 +96,26 @@ object RateDefinition {
 
     import VagueRateDefinition._
 
+    def simplify: VagueRateDefinition = {
+      val that = this
+      year.fold(this) { y =>
+        val eff = new EffectiveRate {
+          val year = y
+          val month = that.month
+          val week = that.week
+          val fourWeek = that.fourWeek
+          val employee = that.employee
+          val employer = that.employer
+        }
+
+        this.copy(
+          month = this.month.filter(_ => eff.effectiveMonth != eff.month),
+          week = this.week.filter(_ => eff.effectiveWeek != eff.week),
+          fourWeek = this.fourWeek.filter(_ => eff.effectiveFourWeek != eff.fourWeek)          
+        )
+      }
+    }
+
     def confirmWith(name: String, limits: Map[String, Limit]): RateDefinition = {
 
       import cats.syntax.apply._

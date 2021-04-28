@@ -54,7 +54,7 @@ class ClassTwoAndThreeFrontend[A <: ClassTwoOrThree](
       throw new IllegalStateException(s"No band defined for $taxYear")
     ),
     paymentDate,
-    earningsFactor,
+    Money(earningsFactor),
     rates
   ).toJSObject
 }

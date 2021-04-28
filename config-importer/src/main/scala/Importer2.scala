@@ -77,6 +77,10 @@ object Importer2 {
         }
     }.toGrouping.mapValues(_.toMap)
 
+  def hasCombinedEe(dataRaw: Map[String,String]): Boolean = ( 
+    dataRaw.get("AnnEE_ET"),
+    dataRaw.get("AnnER_ET")
+  ).mapN(_ == _).getOrElse(false)
 
   def limitsNew(
     on: Interval[LocalDate],
@@ -86,6 +90,7 @@ object Importer2 {
 
     val year = on.lowerValue.get.getYear
     def convertName(in: String): String = in match {
+//      case "EE_ET" | "ER_ET" if hasCombinedEe(dataRaw) => "ET"
       case "EE_ET" => "PT"
       case "ER_ET" => "ST"
       case x => x
@@ -220,13 +225,15 @@ object Importer2 {
           rates.getOrElse("ER NIC Rebate", Map.empty)
         ))        
       case Split(_, "Rate") =>
+        val highPoint = if (limits.keys.toList.contains("UAP")) "UAP" else "UEL"
+
         List(
-          "PT to UEL" -> RateDefinition.VagueRateDefinition(
+          s"PT to $highPoint" -> RateDefinition.VagueRateDefinition(
             None, None, None, None,
             rates.getOrElse("EE_Rate", Map.empty),
             Map.empty
           ),
-          "ST to UEL" -> RateDefinition.VagueRateDefinition(
+          s"ST to $highPoint" -> RateDefinition.VagueRateDefinition(
             None, None, None, None,
             Map.empty,
             rates.getOrElse("ER_Rate", Map.empty)

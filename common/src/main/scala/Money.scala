@@ -57,6 +57,8 @@ case class Money(value: BigDecimal) extends AnyVal {
   override def toString: String = s"£$value"
 
   def toInt: Int = value.toInt
+
+  def toDouble: Double = value.toDouble
 }
 
 object Money {
