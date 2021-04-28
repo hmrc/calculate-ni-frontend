@@ -199,11 +199,9 @@ object Importer2 {
     object BandName{
       def unapply(name: String) = name match {
         case "AboveUEL" => Some("Above UEL")
-        case "AboveAUST" => Some("Above AUST")
-        case "AboveUST" => Some("Above UST")
         case "AboveUAP" => Some("UAP to UEL")
         case "RebateToST" => Some("LEL to ST Rebate")
-        case "NICRebate" => Some("LEL to ST Rebate")                    
+        case "NICRebate" => Some("LEL to PT Rebate")                    
         case x => Some(x)
       }
     }
@@ -218,12 +216,29 @@ object Importer2 {
 
     rates.keys.map(_.replace(" ", "_")).flatMap {
       case Split(_, "NIC Rebate") =>
-        val title = if (year == 1999) "PT to ST Rebate" else "LEL to ST Rebate"
+        val title = if (year == 1999) "PT to ST Rebate" else "LEL to PT Rebate"
         List(title -> RateDefinition.VagueRateDefinition(
           None, None, None, None,
           rates.getOrElse("EE NIC Rebate", Map.empty),
           rates.getOrElse("ER NIC Rebate", Map.empty)
         ))        
+      case Split(_, "RebateToST") =>
+        val ikRebateRates = rates.map {
+          case (k,v) => (k, v.filter(x => x._1 == 'I' || x._1 == 'K'))
+        }.filter(_._2.nonEmpty)
+
+        List (
+          Some("LEL to ST Rebate" -> RateDefinition.VagueRateDefinition(
+            None, None, None, None,
+            rates.getOrElse("EE_RebateToST", Map.empty),
+            rates.getOrElse("ER_RebateToST", Map.empty)
+          )),
+          Some("ST to UAP Rebate" -> RateDefinition.VagueRateDefinition(
+            None, None, None, None,
+            ikRebateRates.getOrElse("EE_RebateToST", Map.empty),
+            ikRebateRates.getOrElse("ER_RebateToST", Map.empty)
+          )).filter(_ => ikRebateRates.nonEmpty)
+        ).flatten
       case Split(_, "Rate") =>
         val highPoint = if (limits.keys.toList.contains("UAP")) "UAP" else "UEL"
 

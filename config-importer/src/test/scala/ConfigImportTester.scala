@@ -15,7 +15,7 @@ case class ExhaustiveDifferencesReport(failures: List[(List[ClassOneRowInput], C
 
 object Tester {
 
-  val exhaustiveTestNum = 10000
+  val exhaustiveTestNum = 1000
   val maxMoneyTest = 1000000
 
   def exhaustiveTest(onDate: LocalDate, a: Configuration, b: Configuration): Option[ExhaustiveDifferencesReport] = {
@@ -46,7 +46,7 @@ object Tester {
           val resBee = resB.rowsOutput.head.employeeContributions
           val resBer = resB.rowsOutput.head.employerContributions
 
-          if (resAee.value != resBee.value || resAer.value != resBer.value) {
+          if ((resAee.value - resBee.value).abs > Money(0.01) || (resAer.value - resBer.value).abs > Money(0.01)) {
             (rows, resA, resB) :: Nil
           } else {
             Nil
