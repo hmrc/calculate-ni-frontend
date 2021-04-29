@@ -107,7 +107,11 @@ object Importer2 {
           m("Ann"),
           m.get("Mnth"),
           m.get("Wk"),
-          if (year == 1999) m.get("Wk").map(_ * 4) else m.get("Ann").map(x => (x / 13).setScale(0, CEILING))
+          year match {
+            case 1999 => m.get("Wk").map(_ * 4)
+            case 2019 | 2020 => m.get("Ann").map(x => (x / 13).setScale(2, CEILING))
+            case _ => m.get("Ann").map(x => (x / 13).setScale(0, CEILING))
+          }
         )
       }
   }
@@ -199,6 +203,8 @@ object Importer2 {
     object BandName{
       def unapply(name: String) = name match {
         case "AboveUEL" => Some("Above UEL")
+        case "AboveAUST" => None
+        case "AboveUST" => None
         case "AboveUAP" => Some("UAP to UEL")
         case "RebateToST" => Some("LEL to ST Rebate")
         case "NICRebate" => Some("LEL to PT Rebate")                    
@@ -216,12 +222,36 @@ object Importer2 {
 
     rates.keys.map(_.replace(" ", "_")).flatMap {
       case Split(_, "NIC Rebate") =>
-        val title = if (year == 1999) "PT to ST Rebate" else "LEL to PT Rebate"
-        List(title -> RateDefinition.VagueRateDefinition(
-          None, None, None, None,
-          rates.getOrElse("EE NIC Rebate", Map.empty),
-          rates.getOrElse("ER NIC Rebate", Map.empty)
-        ))        
+        year match {
+          case 1999 => "PT to ST Rebate"
+            List("PT to ST Rebate" -> RateDefinition.VagueRateDefinition(
+              None, None, None, None,
+              rates.getOrElse("EE NIC Rebate", Map.empty),
+              rates.getOrElse("ER NIC Rebate", Map.empty)
+            ))
+          case 2000 =>
+            List(
+              "Employee Rebate" -> RateDefinition.VagueRateDefinition(
+                Some(Interval.openUpper(Money(3952), Money(4385))),
+                Some(Interval.openUpper(Money(309), Money(347))),
+                Some(Interval.openUpper(Money(69), Money(78))),
+                Some(Interval.openUpper(Money(275), Money(311))),
+                rates.getOrElse("EE NIC Rebate", Map.empty),                
+                Map.empty
+              ),
+              "LEL to ST Rebate" -> RateDefinition.VagueRateDefinition(
+                None, None, None, None,
+                Map.empty,
+                rates.getOrElse("ER NIC Rebate", Map.empty)
+              )
+            )
+          case _ => "LEL to PT Rebate"
+            List("LEL to PT Rebate" -> RateDefinition.VagueRateDefinition(
+              None, None, None, None,
+              rates.getOrElse("EE NIC Rebate", Map.empty),
+              rates.getOrElse("ER NIC Rebate", Map.empty)
+            ))            
+        }
       case Split(_, "RebateToST") =>
         val ikRebateRates = rates.map {
           case (k,v) => (k, v.filter(x => x._1 == 'I' || x._1 == 'K'))
