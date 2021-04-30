@@ -200,7 +200,7 @@ case class ClassOneRowOutput(
     }
   }
 
-  def employeeContributions: Explained[Money] = {
+  def employeeContributionsPreRebateTransfer: Explained[Money] = {
     bands.map(b => b.employeeContributions.map(b.bandId -> _): Explained[(String, Money)])
       .sequence
       .flatMap{ e =>
@@ -210,7 +210,7 @@ case class ClassOneRowOutput(
       }
   }
 
-  def employerContributions: Explained[Money] = {
+  def employerContributionsPreRebateTransfer: Explained[Money] = {
     bands.map(b => b.employerContributions.map(b.bandId -> _): Explained[(String, Money)])
       .sequence
       .flatMap{ e =>
@@ -218,6 +218,24 @@ case class ClassOneRowOutput(
         amts.sum gives
           s"$rowId.employer: ${ids.mkString(" + ")} = ${amts.mkString(" + ")}"
       }
+  }
+
+  def employeeContributions: Explained[Money] =
+    employeeContributionsPreRebateTransfer flatMap { base =>
+      if (base < Money.Zero)
+        Money.Zero gives s"$rowId.employee: Transfer of rebate from employee to employer"
+      else
+        base.pure[Explained]
+    }
+
+  def employerContributions: Explained[Money] = (
+    employeeContributionsPreRebateTransfer,
+    employerContributionsPreRebateTransfer
+  ).tupled.flatMap { case (ee, er) =>
+    if (ee < Money.Zero)
+      (er + ee) gives s"$rowId.employer: Transfer of rebate from employee to employer = $er + $ee"
+    else
+      er.pure[Explained]
   }
 
   def totalContributions: Explained[Money] = (
