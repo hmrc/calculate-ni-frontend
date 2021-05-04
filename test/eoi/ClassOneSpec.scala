@@ -40,51 +40,49 @@ class ClassOneSpec extends AnyFunSpec with ExplainTestSupport {
   describe("Access Application compatibility") {
 
     files foreach { file =>
-      it(file.toString) {
-        val reader = CSVReader.open(file)
-        val lines = reader.all.zipWithIndex
+      val reader = CSVReader.open(file)
+      val lines = reader.all.zipWithIndex
 
-        lines foreach { 
-          case (line, indexMinus) =>
-            val csvLine: String = {
-              val quoted = line map {
-                case x if x.contains(",") => s"""\"$x\""""
-                case y => y
-              }
-              quoted.mkString(",")
+      lines foreach { case (line, indexMinus) =>
+        val csvLine: String = {
+          val quoted = line map {
+            case x if x.contains(",") => s"""\"$x\""""
+            case y => y
+          }
+          quoted.mkString(",")
+        }
+
+        line.map(_.trim) match {
+          case (Int(year)::PeriodParse(period)::Int(periodNumber)::categoryS::MoneyStr(grossPay)::MoneyStr(expectedEmployee)::MoneyStr(expectedEmployer)::xs) =>
+            val comments = xs.mkString(",")
+            val cosr = comments.contains("COSR")
+            val category = categoryS(0)
+            val res = config.calculateClassOne(
+              LocalDate.of(year, 10, 1),
+              ClassOneRowInput(
+                "row1",
+                grossPay,
+                category,
+                period,
+                periodNumber
+              ) :: Nil
+            )
+            it(s"${file.getName}:L${indexMinus + 1}:Employee") {
+              assert(
+                res.employeeContributions.value.value === expectedEmployee.value +- 0.03,
+                s"\n  $year $period $categoryS $grossPay" +
+                  res.employeeContributions.written.toList.distinct.map("\n  " + _).mkString
+              )
             }
-
-            line.map(_.trim) match {
-              case (Int(year)::PeriodParse(period)::Int(periodNumber)::categoryS::MoneyStr(grossPay)::MoneyStr(expectedEmployee)::MoneyStr(expectedEmployer)::xs) =>
-                val statusString = s"${file.getName}:${indexMinus + 1}"
-                val comments = xs.mkString(",")
-                val cosr = comments.contains("COSR")
-                val category = categoryS(0)
-                val res = config.calculateClassOne(
-                  LocalDate.of(year, 10, 1),
-                  ClassOneRowInput(
-                    "row1",
-                    grossPay,
-                    category,
-                    period,
-                    periodNumber
-                  ) :: Nil
-                )
-
-                assert(
-                  res.employeeContributions.value.value === expectedEmployee.value +- 0.03,
-                  s"\n  $file:${indexMinus + 1}" +
-                    res.employeeContributions.written.toList.distinct.map("\n  " + _).mkString
-                )
-
-                assert(
-                  res.employerContributions.value.value === expectedEmployer.value +- 0.03,
-                  s"\n  $file:${indexMinus + 1}" +
-                    res.employerContributions.written.toList.distinct.map("\n  " + _).mkString
-                )
-                
-              case _ =>
+            it(s"${file.getName}:L${indexMinus + 1}:Employer") {
+              assert(
+                res.employerContributions.value.value === expectedEmployer.value +- 0.03,
+                s"\n  $year $period $categoryS $grossPay" +
+                  res.employerContributions.written.toList.distinct.map("\n  " + _).mkString
+              )
             }
+          case _ =>
+            
         }
         reader.close()
       }

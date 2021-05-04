@@ -129,10 +129,10 @@ object Importer2 {
           None, None, None, None,
           grossPayExceptions = List(
             GrossPayException(
-              year = Interval.above(limits("LEL").year),
-              month = limits("LEL").month.map{m => Interval.above(m)},
-              week = limits("LEL").week.map{w => Interval.above(w)},
-              fourWeek = limits("LEL").fourWeek.map{f => Interval.above(f)},
+              year = Interval.atOrAbove(limits("LEL").year),
+              month = limits("LEL").month.map{m => Interval.atOrAbove(m)},
+              week = limits("LEL").week.map{w => Interval.atOrAbove(w)},
+              fourWeek = limits("LEL").fourWeek.map{f => Interval.atOrAbove(f)},
               employee = rates("Up to LEL1 (employee)"),
               employer = rates("Up to LEL1 (employer)")
             )
@@ -157,9 +157,9 @@ object Importer2 {
 
       def exceptionBand(eeRate: String, erRate: String, from: String, to: Option[String]) =
         GrossPayException(
-          year = to.fold(Interval.above(moneyBands("Ann " + from)))(t => Interval.openLower(moneyBands("Ann " + from), moneyBands("Ann " + t))),
-          month = Some(to.fold(Interval.above(moneyBands("Mnth " + from)))(t => Interval.openLower(moneyBands("Mnth " + from), moneyBands("Mnth " + t)))),
-          week = Some(to.fold(Interval.above(moneyBands("Wk " + from)))(t => Interval.openLower(moneyBands("Wk " + from), moneyBands("Wk " + t)))),
+          year = to.fold(Interval.atOrAbove(moneyBands("Ann " + from)))(t => Interval.openUpper(moneyBands("Ann " + from), moneyBands("Ann " + t))),
+          month = Some(to.fold(Interval.atOrAbove(moneyBands("Mnth " + from)))(t => Interval.openUpper(moneyBands("Mnth " + from), moneyBands("Mnth " + t)))),
+          week = Some(to.fold(Interval.atOrAbove(moneyBands("Wk " + from)))(t => Interval.openUpper(moneyBands("Wk " + from), moneyBands("Wk " + t)))),
           fourWeek = None,
           employee = rates.getOrElse(eeRate, Map.empty),
           employer = rates.getOrElse(erRate, Map.empty),
@@ -400,13 +400,13 @@ object Importer2 {
     )
   }
 
-  def main(args: Array[String]): Unit = println(
-    writeConfig(getNewConfig.toConfig)
-  )
-
-
-  // def main(args: Array[String]): Unit = writeToFile(
-  //   new File("national-insurance-new.conf"),
+  // def main(args: Array[String]): Unit = println(
   //   writeConfig(getNewConfig.toConfig)
   // )
+
+
+  def main(args: Array[String]): Unit = writeToFile(
+    new File("national-insurance-new.conf"),
+    writeConfig(getNewConfig.toConfig)
+  )
 }

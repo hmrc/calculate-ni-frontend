@@ -206,7 +206,7 @@ case class ClassOneRowOutput(
       .flatMap{ e =>
         val (ids, amts) = e.filter(_._2 != Money.Zero).unzip
         amts.sum gives
-          s"$rowId.employee: ${ids.mkString(" + ")} = ${amts.mkString(" + ")}"
+          s"$rowId.employee: 𝚺(${ids.mkString(", ")}) = 𝚺(${amts.mkString(", ")})"
       }
   }
 
@@ -216,7 +216,7 @@ case class ClassOneRowOutput(
       .flatMap{ e =>
         val (ids, amts) = e.filter(_._2 != Money.Zero).unzip
         amts.sum gives
-          s"$rowId.employer: ${ids.mkString(" + ")} = ${amts.mkString(" + ")}"
+          s"$rowId.employer: 𝚺(${ids.mkString(", ")}) = 𝚺(${amts.mkString(", ")})"
       }
   }
 
@@ -268,7 +268,7 @@ trait ClassOneResultLike {
       .flatMap{ e =>
         val (ids, amts) = e.filter(_._2 != Money.Zero).unzip
         amts.sum gives
-          s"employee: ${ids.mkString(" + ")} = ${amts.mkString(" + ")}"
+          s"employee: 𝚺(${ids.mkString(", ")}) = 𝚺(${amts.mkString(", ")})"
       }
   }
 
@@ -278,7 +278,7 @@ trait ClassOneResultLike {
       .flatMap{ e =>
         val (ids, amts) = e.filter(_._2 != Money.Zero).unzip
         amts.sum gives
-          s"employer: ${ids.mkString(" + ")} = ${amts.mkString(" + ")}"
+          s"employer: 𝚺(${ids.mkString(", ")}) = 𝚺(${amts.mkString(", ")})"
       }
   }
 
@@ -349,6 +349,6 @@ case class ClassOneResult(
   }
 
   def grossPay: Explained[Money] = rowsInput.map{_.money}.sum gives
-    s"grossPay: ${rowsInput.map(_.money).mkString(" + ")}"
+    s"grossPay: 𝚺(${rowsInput.map(_.money).mkString(", ")})"
 
 }
