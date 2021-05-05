@@ -33,7 +33,7 @@ object Importer2 {
 
   def limitsOld(
     bands: Map[String,String],
-  ): Map[String, Limit] =  {
+  ): Map[String, Limit] = {
     // up to 5 'bands' - Wk, Mnth and Ann values, e.g. - 'Ann Band 4'
     // 'bands' 1 and 5 always present
     // 'bands' 2-4 present when year > 1984
@@ -231,12 +231,9 @@ object Importer2 {
             ))
           case 2000 =>
             List(
-              "Employee Rebate" -> RateDefinition.VagueRateDefinition(
-                Some(Interval.openUpper(Money(3952), Money(4385))),
-                Some(Interval.openUpper(Money(309), Money(347))),
-                Some(Interval.openUpper(Money(69), Money(78))),
-                Some(Interval.openUpper(Money(275), Money(311))),
-                rates.getOrElse("EE NIC Rebate", Map.empty),                
+              "LEL to PT Rebate" -> RateDefinition.VagueRateDefinition(
+                None, None, None, None,
+                rates.getOrElse("EE NIC Rebate", Map.empty),
                 Map.empty
               ),
               "LEL to ST Rebate" -> RateDefinition.VagueRateDefinition(
@@ -276,19 +273,22 @@ object Importer2 {
           s"PT to $highPoint" -> RateDefinition.VagueRateDefinition(
             None, None, None, None,
             rates.getOrElse("EE_Rate", Map.empty),
-            Map.empty
+            Map.empty,
+            hideOnSummary = false
           ),
           s"ST to $highPoint" -> RateDefinition.VagueRateDefinition(
             None, None, None, None,
             Map.empty,
-            rates.getOrElse("ER_Rate", Map.empty)
+            rates.getOrElse("ER_Rate", Map.empty),
+            hideOnSummary = false
           )
         )
       case Split(_, key@BandName(bandName)) =>      
         List(bandName -> RateDefinition.VagueRateDefinition(
           None, None, None, None,
           rates.getOrElse("EE_" + key, Map.empty),
-          rates.getOrElse("ER_" + key, Map.empty)
+          rates.getOrElse("ER_" + key, Map.empty),
+          hideOnSummary = bandName.contains("Above")
         ))
       case _ => Nil
     }.toMap
@@ -344,9 +344,11 @@ object Importer2 {
       class2.map(getClassTwo),
       class3.map(getClassThree),
       class4.map(getClassFour),
-      None
+      getOldConfig.data.at(on.lowerValue.get.plusMonths(1)).flatMap(_.unofficialDeferment)
     )
   }
+
+  def getOldConfig(): Configuration = ConfigLoader.default
 
   def getNewConfig(): Configuration = {
 
@@ -377,7 +379,7 @@ object Importer2 {
       class4.keys
     ).flatten.sorted.distinct
 
-    val data: Map[Interval[LocalDate], ConfigurationPeriod] =
+    val newData: Map[Interval[LocalDate], ConfigurationPeriod] =
       allTimePeriods.map{ on =>
 
         on -> getConfigurationPeriod(
@@ -392,21 +394,11 @@ object Importer2 {
         )
       }.toMap
 
-    Configuration(
-      Map.empty,
-      data,
-      Map.empty,
-      Map.empty
-    )
+    getOldConfig.copy(data = newData)
   }
-
-  // def main(args: Array[String]): Unit = println(
-  //   writeConfig(getNewConfig.toConfig)
-  // )
-
 
   def main(args: Array[String]): Unit = writeToFile(
     new File("national-insurance-new.conf"),
-    writeConfig(getNewConfig.toConfig)
+    writeConfig(getNewConfig.toConfig).lines.map(_.drop(2)).filter(_.nonEmpty).mkString("\n")
   )
 }

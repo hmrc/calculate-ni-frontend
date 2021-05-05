@@ -14,6 +14,15 @@ import pureconfig.generic.auto._
 
 object ConfigWriterInstances {
 
+  def orderingBias(fieldName: String): Int = fieldName match {
+    case "limits" => 0
+    case "class-one" => 1
+    case "class-two" => 2
+    case "class-three" => 3
+    case "class-four" => 4
+    case _ => 999
+  }
+
   def writeConfig(in: ConfigValue, keys: String*): String = {
 
     val prefixNoColon = if (keys.isEmpty) "" else keys.map(_.optQuoted).mkString(".") + " "
@@ -25,8 +34,9 @@ object ConfigWriterInstances {
           case (subkey,singleton) :: Nil => writeConfig(singleton, (keys :+ subkey):_*)
           case Nil => prefix + "{}"
           case xs =>
+            val sorted = xs.toList.sortBy(_._1.dropWhile(_ == '[')).sortBy(x => orderingBias(x._1))
             s"""|${prefixNoColon}{
-                |${xs.map{case (k,v) => writeConfig(v,k)}.mkString("\n").indent(1)}
+                |${sorted.map{case (k,v) => writeConfig(v,k)}.mkString("\n").indent(1)}
                 |}""".stripMargin
         }
       case javaList: ConfigList =>
@@ -61,12 +71,12 @@ object ConfigWriterInstances {
   implicit val localDateWriter: ConfigWriter[LocalDate] =
     localDateConfigConvert(DateTimeFormatter.ISO_DATE)
 
-  implicit val taxPeriodWriter = new ConfigWriter[Interval[LocalDate]] {
-    def to(in: Interval[LocalDate]): ConfigValue = in match {
-      case TaxYear(y) => ConfigWriter[Int].to(y)
-      case x => intervalWriter[LocalDate](_.toString).to(x)
-    }
-  }
+  // implicit val taxPeriodWriter = new ConfigWriter[Interval[LocalDate]] {
+  //   def to(in: Interval[LocalDate]): ConfigValue = in match {
+  //     case TaxYear(y) => ConfigWriter[Int].to(y)
+  //     case x => intervalWriter[LocalDate](_.toString).to(x)
+  //   }
+  // }
 
   def intervalWriter[A](formatter: A => String): ConfigWriter[Interval[A]] = {
     import spire.math.interval._
@@ -114,7 +124,16 @@ object ConfigWriterInstances {
       data.map{ case (k,v) => (k.toString.filterNot(_ == ' '),v) }
     }
 
-  implicit val confPeriod = ConfigWriter[ConfigurationPeriod] // not sure why this is needed
+  val confPeriodUnordered = ConfigWriter[ConfigurationPeriod]
+  implicit val confPeriod = new ConfigWriter[ConfigurationPeriod] {
+    def to(a: ConfigurationPeriod): ConfigValue = {
+      confPeriodUnordered.to(a) match {
+        case obj: ConfigObject => obj
+        case other => other
+      }
+    }
+
+  }
 
   // implicit val wdata : ConfigWriter[Map[Interval[LocalDate], ConfigurationPeriod]] = 
   //   ConfigWriter[Map[String, ConfigurationPeriod]].contramap { data =>
@@ -126,7 +145,10 @@ object ConfigWriterInstances {
       conf =>
       val m: List[(String,ConfigValue)] = (
         ("category-names" -> conf.categoryNames.toConfig) ::
-          conf.data.toList.map{case (k,v) => k.toString.replace(" ","") -> v.toConfig}
+          conf.data.toList.map{
+            case (TaxYear(k),v) => k.toString -> v.toConfig            
+            case (k,v) => k.toString.replace(" ","") -> v.toConfig
+          }
       ) ++ List (
         "interest-on-late-payment" -> conf.interestOnLatePayment.toConfig,
         "interest-on-repayment" -> conf.interestOnRepayment.toConfig,         
