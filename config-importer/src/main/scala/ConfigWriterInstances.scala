@@ -71,13 +71,6 @@ object ConfigWriterInstances {
   implicit val localDateWriter: ConfigWriter[LocalDate] =
     localDateConfigConvert(DateTimeFormatter.ISO_DATE)
 
-  // implicit val taxPeriodWriter = new ConfigWriter[Interval[LocalDate]] {
-  //   def to(in: Interval[LocalDate]): ConfigValue = in match {
-  //     case TaxYear(y) => ConfigWriter[Int].to(y)
-  //     case x => intervalWriter[LocalDate](_.toString).to(x)
-  //   }
-  // }
-
   def intervalWriter[A](formatter: A => String): ConfigWriter[Interval[A]] = {
     import spire.math.interval._
     ConfigWriter[String].contramap{ x => 
