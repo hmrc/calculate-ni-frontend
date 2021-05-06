@@ -54,20 +54,6 @@ object ConfigLoader {
     }.map(Percentage.apply)
   }
 
-  // implicit def bigDecimalReader: ConfigReader[BigDecimal] = {
-
-  //   val ct = implicitly[reflect.ClassTag[BigDecimal]]
-  //   def underlying(string: String) = try Right(BigDecimal(string)) catch {
-  //     case NonFatal(ex) => Left(CannotConvert(string, ct.toString, ex.toString))
-  //   }
-
-  //   ConfigReader[String].emap{
-  //     case string if string.endsWith("%") => underlying(string.init).map(_ / 100)
-  //     case other  => underlying(other.replace("£",""))
-  //   }
-
-  // }
-
   implicit val localDateConvert: ConfigReader[LocalDate] = localDateConfigConvert(DateTimeFormatter.ISO_DATE)
   def anyMapReader[K,V](implicit kr: pureconfig.ConfigReader[K], vr: pureconfig.ConfigReader[V], ct: reflect.ClassTag[K]): ConfigReader[Map[K, V]] =
     genericMapReader[K,V](k => failuresToReason(kr.from(ConfigValueFactory.fromAnyRef(k, "")), ct))
