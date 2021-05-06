@@ -1,0 +1,19 @@
+@media only screen and (max-width: 760px) {
+  .repeat-row {
+    display: flex;
+    line-height: 40px;
+
+    button {
+      &.nomar {
+        margin-right: 5px !important;
+      }
+    }
+
+    input {
+      &#repeatQty {
+        margin-left: 5px;
+        margin-right: 0;
+      }
+    }
+  }
+}

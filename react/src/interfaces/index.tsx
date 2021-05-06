@@ -89,7 +89,7 @@ export interface Class1DebtRow {
 }
 
 export interface TableProps {
-  showBands: boolean;
+  showBands: boolean
   printView: boolean
 }
 
@@ -155,6 +155,7 @@ export interface TextInputProps {
   onChangeCallback: React.ChangeEventHandler<HTMLInputElement>
   onBlurCallback?: React.ChangeEventHandler<HTMLInputElement>
   error?: any // todo
+  onPaste?: React.ClipboardEventHandler<HTMLInputElement>
 }
 
 export interface DateParts {

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useContext, useState} from 'react';
+import React, {ChangeEvent, useContext, useEffect, useState} from 'react';
 import uniqid from 'uniqid';
 
 import numeral from 'numeral'
@@ -114,7 +114,7 @@ function Class1Form(props: Class1FormProps) {
               />
             </div>
 
-            <div className="form-group repeat-button">
+            <div className="form-group repeat-button repeat-row">
               <SecondaryButton
                 label="Repeat row"
                 onClick={handleClick}
