@@ -28,13 +28,23 @@ case class Limit(
   week: Option[Money],
   fourWeek: Option[Money],
 ) {
+
+  private def calculatedMonth = (year / 12).setScale(0, BigDecimal.RoundingMode.HALF_UP)
+  private def calculatedWeek = (year / 52).setScale(0, BigDecimal.RoundingMode.HALF_UP)
+  private def calculatedFourWeek = (year / 13).setScale(0, BigDecimal.RoundingMode.HALF_UP)  
+
   def effectiveYear = year
-  def effectiveMonth =
-    month.getOrElse((year / 12).setScale(0, BigDecimal.RoundingMode.HALF_UP))
-  def effectiveWeek =
-    week.getOrElse((year / 52).setScale(0, BigDecimal.RoundingMode.HALF_UP))
-  def effectiveFourWeek =
-    fourWeek.getOrElse((year / 13).setScale(0, BigDecimal.RoundingMode.HALF_UP))
+  def effectiveMonth = month getOrElse calculatedMonth
+  def effectiveWeek = week getOrElse calculatedWeek
+  def effectiveFourWeek = fourWeek getOrElse calculatedFourWeek
+
+  def simplify = Limit(
+    fullName,
+    year,
+    month.filter(_ != calculatedMonth),
+    week.filter(_ != calculatedWeek),
+    fourWeek.filter(_ != calculatedFourWeek)
+  )
 }
 
 case class ClassTwoRates(

@@ -220,7 +220,14 @@ object Importer2 {
       }
     }
 
-    rates.keys.map(_.replace(" ", "_")).flatMap {
+    val upToLel = RateDefinition.VagueRateDefinition(
+      None, None, None, None,
+      Map.empty,
+      Map.empty,
+      hideOnSummary = false
+    )
+
+    Map("Up to LEL" -> upToLel) ++ rates.keys.map(_.replace(" ", "_")).flatMap {
       case Split(_, "NIC Rebate") =>
         year match {
           case 1999 => "PT to ST Rebate"
@@ -335,7 +342,7 @@ object Importer2 {
     class3: Option[Map[String,String]],
     class4: Option[Map[String,String]]
   ) = {
-    val limits = limitsOld(c1BandsPre1999) ++ limitsNew(on, c1BandsPost1999)
+    val limits = (limitsOld(c1BandsPre1999) ++ limitsNew(on, c1BandsPost1999)).mapValues(_.simplify)
     val pre1999Rates: Option[Map[String,RateDefinition.VagueRateDefinition]] = c1RatesPre1999.map{c1r => classOneOld(on, limits, restructureRates(c1r), c1BandsPre1999)}
     val post1999Rates: Option[Map[String,RateDefinition.VagueRateDefinition]] = c1RatesPost1999.map{c1r => classOneNew(on, limits, restructureRates(c1r), c1BandsPost1999)}
     ConfigurationPeriod(
