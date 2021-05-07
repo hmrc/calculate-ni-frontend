@@ -21,7 +21,8 @@ function TextInput(props: TextInputProps) {
     pattern,
     inputMode,
     onBlurCallback,
-    error
+    error,
+    onPaste
   } = props
   const describedby = buildDescribedByKeys(name,{
     hint,
@@ -62,6 +63,7 @@ function TextInput(props: TextInputProps) {
         inputMode={inputMode}
         onBlur={onBlurCallback}
         aria-describedby={describedby}
+        onPaste={onPaste}
       />
     </div>
   )

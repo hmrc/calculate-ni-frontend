@@ -252,8 +252,7 @@ The Javascript interface consumes the frontend library and reads the configurati
 
 This enables the business logic, written and tested in Scala, to be utilised on the user agent. 
 
-Once the configuration is loaded the JS interface is no longer dependent on the microservice and will continue to run inside the
-users browser should the microservice be shut down.
+Once the configuration is loaded the JS interface is no longer dependent on the microservice and will continue to run inside the users browser should the microservice be shut down.
 
 ### License
  

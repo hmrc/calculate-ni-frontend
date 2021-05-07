@@ -36,7 +36,7 @@ class Directors (
     config.classOne.keys.map(_.toString).toJSArray
 
   def isAppropriatePersonalPensionSchemeApplicable(on: Date) =
-    on.getYear < 2016
+    on.getYear < 2012
 
 
 }

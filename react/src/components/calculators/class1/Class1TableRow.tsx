@@ -4,13 +4,14 @@ import numeral from "numeral";
 import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // types
-import {ClassOneContext, Row} from "./ClassOneContext";
+import {Band, ClassOneContext, Row} from "./ClassOneContext";
 
 // components
 import TextInput from "../../helpers/formhelpers/TextInput"
 import MqTableCell from '../shared/MqTableCell'
 import ExplainToggle from "../shared/ExplainToggle"
 import TableRow from "../shared/TableRow"
+import uniqid from "uniqid";
 
 interface TableRowProps {
   row: Row
@@ -58,6 +59,45 @@ export default function Class1TableRow(props: TableRowProps) {
 
   const invalidateResults = () => {
     setResult(null)
+  }
+
+  const createPastedRow = (val: string) => {
+    return {
+      id: uniqid(),
+      category: row.category,
+      number: row.number,
+      period: row.period,
+      gross: val,
+      ee: row.ee,
+      er: row.er
+    }
+  }
+
+  const splitPastedCellsToArray = (pastedText: string) => {
+    return pastedText.replace(/"((?:[^"]*(?:\r\n|\n\r|\n|\r))+[^"]+)"/mg, function (match, p1) {
+      return p1
+        .replace(/""/g, '"')
+        .replace(/\r\n|\n\r|\n|\r/g, ' ')
+    })
+    .split(/\r\n|\n\r|\n|\r/g)
+    .filter(l => l.length > 0)
+  }
+
+  const handlePaste = (e: React.ClipboardEvent, r: Row) => {
+    const clipboardData = e.clipboardData
+    const pastedText = clipboardData.getData("Text") || clipboardData.getData("text/plain");
+    if (!pastedText && pastedText.length) {
+      return;
+    }
+    const cellValues = splitPastedCellsToArray((pastedText))
+    const activeRowIndex = rows.findIndex((r: Row) => r.id === row.id)
+    const remainingPastedRows = cellValues.map(val => (createPastedRow(val)))
+    setRows([
+      ...rows.slice(0, activeRowIndex),
+      ...remainingPastedRows,
+      ...rows.slice(activeRowIndex + 1)
+    ])
+    setActiveRowId(remainingPastedRows[0].id)
   }
 
   useEffect(periodCallBack, [row.period])
@@ -146,6 +186,7 @@ export default function Class1TableRow(props: TableRowProps) {
               inputValue={row.gross}
               onChangeCallback={(e) => handleChange?.(row, e)}
               error={errors[`${row.id}-gross`]}
+              onPaste={(e: React.ClipboardEvent) => handlePaste(e, row)}
             />
           </React.Fragment>
         }
