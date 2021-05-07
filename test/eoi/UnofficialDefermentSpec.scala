@@ -26,6 +26,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import pureconfig.{ConfigReader, ConfigSource}
 import eoi.Class1Band._
+import ConfigLoader.moneyReader
 
 class UnofficialDefermentSpec extends AnyWordSpec with Matchers {
 
@@ -91,9 +92,9 @@ class UnofficialDefermentSpec extends AnyWordSpec with Matchers {
 
       val tolerance: BigDecimal = 1
 
-      def validated(calculatedValue: BigDecimal, expectedValue: BigDecimal, description: String): ValidationResult[Unit] =
+      def validated(calculatedValue: Money, expectedValue: Money, description: String): ValidationResult[Unit] =
         Validated.condNel(
-          (expectedValue - calculatedValue).abs <= tolerance,
+          (expectedValue.value - calculatedValue.value).abs <= tolerance,
           (),
           s"calculated $description '$calculatedValue' was not within $tolerance of expected value '$expectedValue'"
         )
@@ -164,33 +165,33 @@ object UnofficialDefermentSpec {
   case class Row(
                   id: String,
                   category: Char,
-                  earningsAtLEL: BigDecimal,
-                  earningsLelToPt: Option[BigDecimal],
-                  earningsLelToEt: Option[BigDecimal],
-                  earningsPtToUap: Option[BigDecimal],
-                  earningsUapToUel: Option[BigDecimal],
-                  earningsPtToUel: Option[BigDecimal],
-                  earningsEtToUel: Option[BigDecimal],
-                  employeeNics: BigDecimal,
-                  earningsOverUel: BigDecimal,
-                  grossPay: BigDecimal,
-                  nicsDueNonCo: BigDecimal,
-                  ifNotUD: BigDecimal
+                  earningsAtLEL: Money,
+                  earningsLelToPt: Option[Money],
+                  earningsLelToEt: Option[Money],
+                  earningsPtToUap: Option[Money],
+                  earningsUapToUel: Option[Money],
+                  earningsPtToUel: Option[Money],
+                  earningsEtToUel: Option[Money],
+                  employeeNics: Money,
+                  earningsOverUel: Money,
+                  grossPay: Money,
+                  nicsDueNonCo: Money,
+                  ifNotUD: Money
                 )
 
   case class Test(
                    description: Option[String],
                    taxYear: Int,
-                   lel: BigDecimal,
-                   et: Option[BigDecimal],
-                   pt: Option[BigDecimal],
-                   uap: Option[BigDecimal],
-                   uel: BigDecimal,
+                   lel: Money,
+                   et: Option[Money],
+                   pt: Option[Money],
+                   uap: Option[Money],
+                   uel: Money,
                    rows: List[Row],
-                   annualMax: BigDecimal,
-                   liability: BigDecimal,
-                   difference: BigDecimal,
-                   ifNotUD: BigDecimal
+                   annualMax: Money,
+                   liability: Money,
+                   difference: Money,
+                   ifNotUD: Money
                  )
 
   case class Tests(tests: List[Test])

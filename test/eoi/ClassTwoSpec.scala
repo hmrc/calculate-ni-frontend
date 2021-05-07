@@ -28,7 +28,7 @@ class ClassTwoSpec extends SpreadsheetTest {
     (
       (row.get("year") >>= TaxYear.unapply).map(_.start),
       row.get("payment / enquiry date") >>= Date.unapply,
-      row.get("total earnings factor") >>= Money.unapply
+      row.get("total earnings factor") >>= MoneyStr.unapply
     ).mapN(config.calculateClassTwo) map { result =>
 
       (
@@ -36,7 +36,7 @@ class ClassTwoSpec extends SpreadsheetTest {
       ) map (result.numberOfContributions equalOrExplain _)
 
       (
-        row.get("total amount") >>= Money.unapply
+        row.get("total amount") >>= MoneyStr.unapply
       ) map (result.totalDue equalOrExplain _)
 
       (
@@ -44,7 +44,7 @@ class ClassTwoSpec extends SpreadsheetTest {
       ) map (result.numberOfContributions equalOrExplain _)
 
       (
-        row.get("total amount") >>= Money.unapply
+        row.get("total amount") >>= MoneyStr.unapply
       ) map (result.totalDue equalOrExplain _)
 
       (

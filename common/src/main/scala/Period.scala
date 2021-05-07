@@ -27,6 +27,6 @@ object Period extends Enumeration {
   val Year = Vala("Ann", 1)
 
   def apply(in: String): Period = values.find(_.asInstanceOf[Vala].string.equalsIgnoreCase(in)).fold(
-    throw new NoSuchElementException()
+    throw new NoSuchElementException(s"No Period called $in")
   )(_.asInstanceOf[Vala])
 }

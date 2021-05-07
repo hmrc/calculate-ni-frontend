@@ -22,13 +22,12 @@ import eoi.{Period, RateDefinition}
 import cats.instances.char._
 import spire.math.Interval
 import eoi._
-
 import java.time.LocalDate
 import scala.math.BigDecimal.RoundingMode
 
 case class DirectorsRowInput(
                               category: Char,
-                              grossPay: BigDecimal,
+                              grossPay: Money,
                               rowId: String)
 
 case class DirectorsResult(
@@ -37,8 +36,8 @@ case class DirectorsResult(
                             config: Map[String, RateDefinition],
                             rowsInput: List[DirectorsRowInput],
                             appropriatePersonalPensionScheme: Option[Boolean],
-                            netPaid: BigDecimal = Zero,
-                            employeePaid: BigDecimal = Zero
+                            netPaid: Money = Money.Zero,
+                            employeePaid: Money = Money.Zero
                           ) extends ClassOneResultLike {
 
   import DirectorsResult._
@@ -74,7 +73,7 @@ case class DirectorsResult(
       else categoryOrderPre2016(appropriatePersonalPensionScheme.exists(identity))
 
     val sortedRows = rowsInput.sortWithOrder(categoryOrder)(_.category)
-    sortedRows.foldLeft(List.empty[ClassOneRowOutput] -> Zero){ case ((acc, precededAmount), directorsRowInput) =>
+    sortedRows.foldLeft(List.empty[ClassOneRowOutput] -> Money.Zero){ case ((acc, precededAmount), directorsRowInput) =>
       val rowOutput =
         ClassOneRowOutput(
           from,
@@ -87,11 +86,11 @@ case class DirectorsResult(
           precededAmount,
           proRata = proRata
         )
-      (rowOutput :: acc) -> (precededAmount + directorsRowInput.grossPay)
+      (rowOutput :: acc) -> ((precededAmount: Money) + (directorsRowInput.grossPay: Money))
     }._1.reverse
   }
 
-  def grossPay: Explained[BigDecimal] = rowsInput.map{_.grossPay}.sum gives
+  def grossPay: Explained[Money] = rowsInput.map{_.grossPay}.sum gives
     s"grossPay: ${rowsInput.map(_.grossPay).mkString(" + ")}"
 
 

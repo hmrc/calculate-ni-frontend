@@ -17,6 +17,8 @@
 package eoi
 
 import eoi.Class1Band._
+import cats.syntax.order._
+import spire.syntax.field._
 
 sealed trait Class1Band extends Product with Serializable
 
@@ -53,8 +55,8 @@ object Class1Band {
 }
 
 case class TaxYearBandLimits(
-  limits: Map[String, BigDecimal] = Map.empty,
-  rates: Map[Class1Band, Map[Char, BigDecimal]]
+  limits: Map[String, Money] = Map.empty,
+  rates: Map[Class1Band, Map[Char, Percentage]]
 ) {
   val bands: List[eoi.Class1Band] = rates.keys.toList
 
@@ -65,25 +67,25 @@ case class TaxYearBandLimits(
 
 }
 
-case class BandAmount(band: Class1Band, amount: BigDecimal)
+case class BandAmount(band: Class1Band, amount: Money)
 
 case class UnofficialDefermentRowInput(
   id: String,
   employer: String,
   category: Char,
   bandAmounts: List[BandAmount],
-  employeeNICs: BigDecimal
+  employeeNICs: Money
 )
 
 case class UnofficialDefermentRowOutput(
   id: String,
-  grossPay: BigDecimal,
-  earningsInMainContributionBand: BigDecimal,
+  grossPay: Money,
+  earningsInMainContributionBand: Money,
   mainContributionBandLabels: List[String],
-  earningsOverUEL: BigDecimal,
-  nicsNonCO: BigDecimal,
-  ifNotUD: BigDecimal,
-  employeeNICs: BigDecimal
+  earningsOverUEL: Money,
+  nicsNonCO: Money,
+  ifNotUD: Money,
+  employeeNICs: Money
 )
 
 case class UnofficialDefermentResult(
@@ -102,7 +104,7 @@ case class UnofficialDefermentResult(
 
   lazy val rowsOutput = rows.map{ row =>
     val (earningsInMainContributionBand, mainContributionBandLabels)  =
-       row.bandAmounts.foldLeft(Zero -> List.empty[String]) { case (acc @ (sumAcc, labelAcc), curr) =>
+       row.bandAmounts.foldLeft(Money.Zero -> List.empty[String]) { case (acc @ (sumAcc, labelAcc), curr) =>
         val bandLabel = curr.band match {
           case BelowLEL |  LELToET | LELToPT | AboveUEL => None
           case PTToUAP => Some("PT - UAP")
@@ -117,9 +119,9 @@ case class UnofficialDefermentResult(
       }
 
 
-    val nicsBelowUel: BigDecimal =
+    val nicsBelowUel: Money =
       row.bandAmounts.map { case BandAmount(band, amount) =>
-        val rate = getBandRates(band).getOrElse(row.category, Zero)
+        val rate = getBandRates(band).getOrElse(row.category, Percentage.Zero)
         (rate * amount).roundNi
       }.sum
 
@@ -131,7 +133,7 @@ case class UnofficialDefermentResult(
       )
 
     val earningsAboveUEL =
-      Zero.max(((row.employeeNICs - nicsBelowUel)/rateAboveUel).roundNi)
+      Money.Zero.max(((row.employeeNICs - nicsBelowUel)/rateAboveUel).roundNi)
 
     UnofficialDefermentRowOutput(
       row.id,
@@ -150,24 +152,24 @@ case class UnofficialDefermentResult(
       case late if late >= 2016 =>
         val pt = config.limits("PT")
         val uel = config.limits("UEL")
-        53*(uel - pt) -> "Step 1: (UEL - PT) x 53 weeks"
+        (uel - pt)*53 -> "Step 1: (UEL - PT) x 53 weeks"
 
       case mid if mid >= 2009 =>
         val pt = config.limits("PT")
         val uap = config.limits("UAP")
         val uel = config.limits("UEL")
-        53*((uel - uap)+(uap-pt) ) -> "Step 1: ((UEL - UAP) + (UAP - PT)) x 53 weeks"
+        ((uel - uap)+(uap-pt) )*53 -> "Step 1: ((UEL - UAP) + (UAP - PT)) x 53 weeks"
 
       case early =>
         val et = config.limits("ET")
         val uel = config.limits("UEL")
-        53*(uel - et) -> "Step 1: (UEL - ET) x 53 weeks"
+        (uel - et)*53 -> "Step 1: (UEL - ET) x 53 weeks"
     }
     ReportStep(value, msg)
   }
 
-  val rateOnMaxContributionEarnings: BigDecimal = {
-    def getRate(rates: Map[Char, BigDecimal]) =
+  val rateOnMaxContributionEarnings: Percentage = {
+    def getRate(rates: Map[Char, Percentage]) =
       rates.get('A').getOrElse(sys.error(s"Could not find rate for category `A` for tax year $taxYear"))
 
     getRate(getBandRates{
@@ -194,7 +196,7 @@ case class UnofficialDefermentResult(
 
   lazy val excessEarnings: ReportStep =
     ReportStep(
-    Zero.max(actualEarningsInMainContributionBand.value - maxMainContributionEarnings.value),
+    Money.Zero.max(actualEarningsInMainContributionBand.value - maxMainContributionEarnings.value),
       "Step 4: Subtract Step 3 - Step 1"
     )
 
@@ -224,11 +226,11 @@ case class UnofficialDefermentResult(
 
   lazy val liability = rowsOutput.map(_.nicsNonCO).sum
 
-  lazy val difference = if(rowsOutput.map(_.employeeNICs).sum == Zero) Zero else annualMax.value -liability
+  lazy val difference = if(rowsOutput.map(_.employeeNICs).sum == Money.Zero) Money.Zero else annualMax.value -liability
 
   lazy val ifNotUD = rowsOutput.map(_.ifNotUD).sum
 
-  lazy val report: List[(String, BigDecimal)] =
+  lazy val report: List[(String, Money)] =
     List(
       maxMainContributionEarnings,
       nicsOnMaxMainContributionEarnings,
@@ -241,20 +243,20 @@ case class UnofficialDefermentResult(
   ).map(r => r.msg -> r.value)
 
 
-  private def nonCONicsWithoutRebates(row: UnofficialDefermentRowInput, earningsAboveUEL: BigDecimal) = {
-    val nicsBelowUel: List[BigDecimal] = row.bandAmounts.map { case BandAmount(band, amount) =>
+  private def nonCONicsWithoutRebates(row: UnofficialDefermentRowInput, earningsAboveUEL: Money) = {
+    val nicsBelowUel: List[Money] = row.bandAmounts.map { case BandAmount(band, amount) =>
       // use the non-contracted out rates
-      val nonCOMainRate = getBandRates(band).getOrElse('A', Zero)
+      val nonCOMainRate = getBandRates(band).getOrElse('A', Percentage.Zero)
 
       (nonCOMainRate * amount).roundNi
     }
-      .filterNot(_ < Zero)
+      .filterNot(_ < Money.Zero)
 
     val nicsAboveUel = (nonCOAdditionalRate * earningsAboveUEL).roundNi
     nicsBelowUel.sum + nicsAboveUel
   }
 
-  private def calculateNICSNonCo(row: UnofficialDefermentRowInput, earningsAboveUEL: BigDecimal) = {
+  private def calculateNICSNonCo(row: UnofficialDefermentRowInput, earningsAboveUEL: Money) = {
 
     row.category match {
       case 'D' | 'F' =>
@@ -268,7 +270,7 @@ case class UnofficialDefermentResult(
           }
           .getOrElse(sys.error("Could not find earnings in rebate band"))
         val rebateRate =
-          getBandRates(band).getOrElse(row.category, Zero).abs
+          getBandRates(band).getOrElse(row.category, Percentage.Zero).abs
         (row.employeeNICs + rebateableAmount * rebateRate).roundNi
 
 
@@ -277,9 +279,9 @@ case class UnofficialDefermentResult(
     }
   }
 
-  private def calculateIfNotUD(row: UnofficialDefermentRowInput, earningsAboveUEL: BigDecimal) = row.category match {
+  private def calculateIfNotUD(row: UnofficialDefermentRowInput, earningsAboveUEL: Money) = row.category match {
     case 'J' | 'L' | 'S' | 'Z' => nonCONicsWithoutRebates(row, earningsAboveUEL) - row.employeeNICs
-    case _ => Zero
+    case _ => Money.Zero
   }
 
 
@@ -290,6 +292,6 @@ case class UnofficialDefermentResult(
 
 object UnofficialDefermentResult {
 
-  case class ReportStep(val value: BigDecimal, msg: String)
+  case class ReportStep(val value: Money, msg: String)
 
 }

@@ -15,7 +15,7 @@ abstract class InterestFrontend extends js.Object {
     remissionPeriod: Option[RemissionPeriod]
   ): InterestResult
 
-  protected def rates: Map[Interval[LocalDate], BigDecimal]
+  protected def rates: Map[Interval[LocalDate], Percentage]
 
   protected def calculateInner(
     rows: js.Array[InterestRow],

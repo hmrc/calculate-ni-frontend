@@ -32,18 +32,26 @@ import spire.math.interval._
 
 object ConfigLoader {
 
-  implicit def bigDecimalReader: ConfigReader[BigDecimal] = {
-
-    val ct = implicitly[reflect.ClassTag[BigDecimal]]
+  implicit def moneyReader: ConfigReader[Money] = {
+    val ct = implicitly[reflect.ClassTag[Money]]    
     def underlying(string: String) = try Right(BigDecimal(string)) catch {
       case NonFatal(ex) => Left(CannotConvert(string, ct.toString, ex.toString))
     }
 
+    ConfigReader[String].emap{ s => 
+      underlying(s.replace("£","")).map(Money.apply)
+    }
+  }
+
+  implicit def percentageReader: ConfigReader[Percentage] = {
+    val ct = implicitly[reflect.ClassTag[Percentage]]
+    def underlying(string: String) = try Right(BigDecimal(string)) catch {
+      case NonFatal(ex) => Left(CannotConvert(string, ct.toString, ex.toString))
+    }
     ConfigReader[String].emap{
       case string if string.endsWith("%") => underlying(string.init).map(_ / 100)
-      case other  => underlying(other.replace("£",""))
-    }
-
+      case other  => underlying(other)
+    }.map(Percentage.apply)
   }
 
   implicit val localDateConvert: ConfigReader[LocalDate] = localDateConfigConvert(DateTimeFormatter.ISO_DATE)
@@ -91,7 +99,8 @@ object ConfigLoader {
   implicit val classTwoReader = anyMapReader[Interval[LocalDate], ClassTwo]
   implicit val classThreeReader = anyMapReader[Interval[LocalDate], ClassThree]  
   implicit val catReader = anyMapReader[Char, String]
-  implicit val dateBDReader = anyMapReader[Interval[LocalDate], BigDecimal]  
+  implicit val dateMoneyReader = anyMapReader[Interval[LocalDate], Money]
+  implicit val datePercentReader = anyMapReader[Interval[LocalDate], Percentage]    
   implicit val classFourReader = anyMapReader[Interval[LocalDate], ClassFour]
 
   implicit val c1BandReader: ConfigReader[Class1Band] = ConfigReader[String].emap { str => 
@@ -100,7 +109,7 @@ object ConfigLoader {
       case None => Left(CannotConvert(str, "Class1Band", s"$str is not a valid Class1Band"))
     }
   }
-  implicit val ratesBandReader = anyMapReader[Class1Band, Map[Char, BigDecimal]]
+  implicit val ratesBandReader = anyMapReader[Class1Band, Map[Char, Percentage]]
   implicit val udReader = anyMapReader[Interval[LocalDate], TaxYearBandLimits]       
 
   lazy val get = ConfigSource.default.load[Map[Interval[LocalDate], Map[String, RateDefinition]]] match {
@@ -119,8 +128,8 @@ object ConfigLoader {
     def from(cur: ConfigCursor): ConfigReader.Result[Configuration] = for {
       objCur        <- cur.asObjectCursor
       categoryNames <- objCur.atKey("category-names") flatMap catReader.from
-      interestLate  <- objCur.atKey("interest-on-late-payment") flatMap dateBDReader.from
-      interestRepay <- objCur.atKey("interest-on-repayment") flatMap dateBDReader.from
+      interestLate  <- objCur.atKey("interest-on-late-payment") flatMap datePercentReader.from
+      interestRepay <- objCur.atKey("interest-on-repayment") flatMap datePercentReader.from
       yearsObj      =  objCur.withoutKey("interest-on-late-payment")
                              .withoutKey("interest-on-repayment")
                              .withoutKey("category-names")
@@ -130,6 +139,17 @@ object ConfigLoader {
 
   lazy val default: Configuration = {
     val o = ConfigSource.resources("national-insurance.conf")
+      .load[Configuration]
+
+    o match {
+      case Left(err) =>
+        throw new IllegalStateException(s"Unable to read configuration: $err")
+      case Right(c) => c
+    }
+  }
+
+  def fromString(str: String): Configuration = {
+    val o = ConfigSource.string(str)
       .load[Configuration]
 
     o match {

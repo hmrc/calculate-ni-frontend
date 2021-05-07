@@ -145,3 +145,21 @@ lazy val `frontend` = project
     publishLocal := {}
   )
   .dependsOn(common.js)
+
+lazy val `config-importer` = project
+  .dependsOn(microservice) // to check we can parse the new configuration
+  .settings(
+    majorVersion := 0,            
+    publish := {},
+    publishLocal := {},
+    libraryDependencies ++= Seq(
+      "com.github.tototoshi" %% "scala-csv" % "1.3.6", 
+      "org.typelevel" %% "simulacrum" % "1.0.0",
+      "com.lihaoyi" %% "scalatags" % "0.8.2",
+      "org.scalacheck" %% "scalacheck" % "1.14.1"
+    ),
+    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
+    publish := {},
+    publishLocal := {}    
+  )
+

@@ -36,34 +36,34 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
           r.bands.toList.map( b =>
             BandAmount(
               labelToClass1Band(b.label).getOrElse(sys.error(s"Unknown class 1 band label: ${b.label}")),
-              b.value
+              Money(b.value)
             )
           ),
-          r.employeeNICs
+          Money(r.employeeNICs)
         )
       )
     )
 
 
     new js.Object {
-      val annualMax: Double = result.annualMax.value.doubleValue()
-      val liability: Double = result.liability.doubleValue()
-      val difference: Double = result.difference.doubleValue()
-      val ifNotUD: Double = result.ifNotUD.doubleValue()
+      val annualMax: Double = result.annualMax.value.toDouble
+      val liability: Double = result.liability.toDouble
+      val difference: Double = result.difference.toDouble
+      val ifNotUD: Double = result.ifNotUD.toDouble
       val ifNotUdIsDue: Boolean = difference == 0 || ifNotUD < difference
       val resultRows: js.Array[js.Object] = result.rowsOutput.toJSArray.map { r =>
         new js.Object {
           val id: String = r.id
-          val gross: Double = r.grossPay.doubleValue()
-          val overUel: Double = r.earningsOverUEL.doubleValue()
-          val nicsNonCo: Double = r.nicsNonCO.doubleValue()
-          val ifNotUd: Double = r.ifNotUD.doubleValue()
+          val gross: Double = r.grossPay.toDouble
+          val overUel: Double = r.earningsOverUEL.toDouble
+          val nicsNonCo: Double = r.nicsNonCO.toDouble
+          val ifNotUd: Double = r.ifNotUD.toDouble
         }
       }
       val report: js.Array[js.Object] = result.report.toJSArray.map{ r =>
         new js.Object {
           val label: String = r._1
-          val value: Double = r._2.doubleValue()
+          val value: Double = r._2.toDouble
         }
       }
     }
@@ -105,7 +105,7 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
     }.collect { case (Some(l),amt) =>
         new js.Object {
           val label = l
-          val amount = amt.doubleValue()
+          val amount = amt.toDouble
         }
     }
   }

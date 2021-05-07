@@ -20,31 +20,31 @@ import spire.math.Interval
 import java.time.LocalDate
 
 case class InterestResult(
-  ratesSequence: Map[Interval[LocalDate], BigDecimal],
+  ratesSequence: Map[Interval[LocalDate], Percentage],
   from: LocalDate,
   to: LocalDate, 
-  amount: BigDecimal,
+  amount: Money,
   daysInYear: Int,
   remissionPeriod: Option[Interval[LocalDate]]
 ) {
 
   val dateRange = Interval.closed(from, to)
 
-  val dailyArrears = amount / daysInYear
+  val dailyArrears: Money = amount / daysInYear
 
-  val interestUnrounded = ratesSequence.foldLeft(Zero){ case (acc,(band,rate)) =>
+  val interestUnrounded = ratesSequence.foldLeft(Money.Zero){ case (acc,(band,rate)) =>
     val overlap = band intersect dateRange
     val overlapDays = overlap.numberOfDays.getOrElse(0)
     val remissionDays = remissionPeriod.fold(0)(r => (overlap intersect r).numberOfDays.getOrElse(0) )
     val effectiveDays = overlapDays - remissionDays
-    acc + effectiveDays * dailyArrears * rate
+    acc + dailyArrears * rate * effectiveDays
   }
 
   val interest = interestUnrounded.setScale(2, BigDecimal.RoundingMode.HALF_UP)
 
   val total = amount + interest
 
-  val dailyInterestUnrounded = dateRange.numberOfDays.fold(Zero)(d => interestUnrounded / d)
+  val dailyInterestUnrounded = dateRange.numberOfDays.fold(Money.Zero)(d => interestUnrounded / d)
 
   val dailyInterest = dailyInterestUnrounded.setScale(2, BigDecimal.RoundingMode.HALF_UP)
 }
