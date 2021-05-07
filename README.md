@@ -2,10 +2,19 @@
 
 # Table of Contents
 
-* [Class 1 contributions](#class-1-contributions)
-* [Directors](#directors)
-* [Unofficial Deferment](#unofficial-deferment)
+* Calculations 
+  * [Class 1 contributions](#class-1-contributions)
+  * [Directors](#directors)
+  * [Unofficial Deferment](#unofficial-deferment)
+* Project Structure
+  * [SBT Setup](#sbt-setup)
+  * [Common](#common)
+  * [Microservice](#microservice)
+  * [React](#react)
+  * [Frontend](#frontend)
 * [Licence](#license)
+
+# Calculations
 
 ## Class 1 contributions
 
@@ -123,7 +132,127 @@ Applications to defer class 1 NICs are submitted to HRMC and are due on 14th Feb
 is desired. If deferment is granted, a deferment certificate is issued. There are some employers who defer class 1 NICs
 without authority from Deferment Services in HMRC. This is known as unofficial deferment. 
 
+# Project Structure
 
+## Policy Configuration
+
+`national-insurance.conf` is a [HOCON]("https://github.com/lightbend/config/blob/master/HOCON.md") file containing the definitions for the policy. It is designed to be comprehensible by a
+non-programmer subject matter expert. Adding a new tax year would consist of copy-pasting the previous tax year and changing the
+values. 
+
+Limits and Bands are not hard-coded so adding new rules, rebates or even radically changing the policy should be viable in many
+cases without code changes. More commentary is provided inside the file itself. 
+
+## SBT Setup
+
+The project is frontend-only as it has no transactions, state, or service dependencies. It is composed of several SBT subprojects.
+
+## Common Code
+
+The common code subproject contains some shared datatypes used in the project via both the play microservice and the react interface. It
+also houses the actual business logic and the object which the policy configuration HOCON file is parsed into.
+
+Due to limitations with the build pipeline the source directories are included in the play microservice via the SBT configuration
+rather than added as an actual library dependency. 
+
+### Money and Percentage 
+
+The Money and Percentage datatypes are value classes both wrapping BigDecimal. This enables strong typing both in the code and in
+the configuration file, and prevents operations that do not make sense from a business logic perspective (for example adding a
+percentage to an amount of money). 
+
+```scala
+import eoi._
+
+Money(100) + Money(200) // £300
+Money(5000) * Percentage(0.01) // £50.00
+Money(50) + Percentage(0.01) // compile error!
+```
+
+The arithmetic operations are made possible by use of the spire library's `Field` typeclass.
+
+### Intervals
+
+This service uses [intervals]("https://en.wikipedia.org/wiki/Interval_(mathematics)") to represent both ranges of dates and
+amounts of money. 
+
+For example, the rates and bands for NI change at certain points of time, typically new rates and bands are given at the start of
+a new tax year, but in some cases they have changed during a tax year. 
+
+Likewise the bands themselves represent an interval (e.g. 2% against the gross pay for earnings between £10,000 and £20,000) and
+these bands can overlap with one another. 
+
+```scala
+import eoi._
+import spire.math.Interval
+
+val grossPay = Money(10000) // £10000
+val taxBand = Interval.atOrAbove(Money(1400)) // [£1400, ∞)
+val customerPaysTax: Boolean = Interval(Money.Zero, grossPay) intersects taxBand // true
+
+import java.time.LocalDate
+
+val taxYear = Interval.openUpper(
+  LocalDate.of(2021, 4, 6), 
+  LocalDate.of(2022, 4, 6)
+) // [2021-04-06, 2022-04-06)
+
+val isInTaxYear: Boolean = taxYear contains LocalDate.now
+```
+
+### Explained
+
+The `Explained` type allows working to be recorded alongside steps in a calculation, this was deemed necessary as in many cases we
+didn't have any authorative source of truth regarding some of the business logic as the access calculator upon which service was
+based would sometimes give the wrong answers. As such we needed a way to communicate how the system had arrived at certain figures
+back to stakeholders so they could tell us if it was correct or not. 
+
+```scala
+import eoi._
+import cats.implicits._ 
+
+def pythagorus(a: Int, b: Int): Explained[Double] = for {
+  sa <- (a * a) gives "square of side a"
+  sb <- (b * b) gives "square of side b"
+  sh <- (sa + sb) gives "square of hypotenuse"
+  h  <- Math.sqrt(sh) gives "hypotenuse"
+} yield h
+
+pythagorus(3,4).value // 5.0
+pythagorus(3,4).explain.foreach(println)
+//  square of side a = 9
+//  square of side b = 16
+//  square of hyponeuse = 25
+//  hypontenuse = 5.0
+```
+
+Internally this is implemented as a `Writer[Vector[String],*]`.
+
+## Microservice
+
+The microservice is quite simple and unremarkable, its main responsibilities are the conversion of the configuration from HOCON
+(which is easy to maintain) into JSON (which the react interface can consume) and providing the simple pages for the table views. 
+
+The compiled react interface is copied into the project as part of the build process and effectively served as static content. 
+
+## Frontend Library
+
+The calculations are carried out in javascript on the user-agent, but the logic that performs the calculations are written in
+Scala and transpiled via [Scala.js]("https://www.scala-js.org/"). 
+
+The frontend subproject exists as a façade to the common library, mapping some datatypes and providing a more idiomatic JS
+interface. 
+
+The `copyInJS` task runs `fullOptJS`, performs some replacements (using `sed`) to the resultant JS allowing it to be consumed by the
+react frontend and finally copies it into the react folder. 
+
+## React
+
+The Javascript interface consumes the frontend library and reads the configuration as a JSON object from the microservice. 
+
+This enables the business logic, written and tested in Scala, to be utilised on the user agent. 
+
+Once the configuration is loaded the JS interface is no longer dependent on the microservice and will continue to run inside the users browser should the microservice be shut down.
 
 ### License
  
