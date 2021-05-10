@@ -14,31 +14,24 @@
  * limitations under the License.
  */
 
-package main.scala
+package eoi
 
-import cats.{Eq, Order}
+import cats.Eq
 import cats.syntax.order._
-import eoi.{Period, RateDefinition}
 import cats.instances.char._
 import spire.math.Interval
-import eoi._
 import java.time.LocalDate
 import scala.math.BigDecimal.RoundingMode
 
-case class DirectorsRowInput(
-                              category: Char,
-                              grossPay: Money,
-                              rowId: String)
-
 case class DirectorsResult(
-                            from: LocalDate,
-                            to: LocalDate,
-                            config: Map[String, RateDefinition],
-                            rowsInput: List[DirectorsRowInput],
-                            appropriatePersonalPensionScheme: Option[Boolean],
-                            netPaid: Money = Money.Zero,
-                            employeePaid: Money = Money.Zero
-                          ) extends ClassOneResultLike {
+  from: LocalDate,
+  to: LocalDate,
+  config: Map[String, RateDefinition],
+  rowsInput: List[DirectorsRowInput],
+  appropriatePersonalPensionScheme: Option[Boolean],
+  netPaid: Money = Money.Zero,
+  employeePaid: Money = Money.Zero
+) extends ClassOneResultLike {
 
   import DirectorsResult._
 
@@ -93,15 +86,15 @@ case class DirectorsResult(
   def grossPay: Explained[Money] = rowsInput.map{_.grossPay}.sum gives
     s"grossPay: ${rowsInput.map(_.grossPay).mkString(" + ")}"
 
-
 }
 
 object DirectorsResult {
 
-  implicit class ListOps[A](private val l: List[A]){
+  implicit class ListOps[A](private val l: List[A]) {
 
     def sortWithOrder[B](order: List[B])(f: A => B)(implicit eq: Eq[B]): List[A] = {
 
+      @annotation.tailrec
       def loop(toSort: List[(A, B)], order: List[B], acc: List[A]): List[A]  =
         if(toSort.isEmpty) acc
         else order match {
@@ -123,16 +116,11 @@ object DirectorsResult {
 
   }
 
-  val categoryOrder2016Onwards: List[Char] =
-    List('B', 'M', 'A', 'Z', 'J', 'C', 'H')
+  // Where did these come from? Should they be in the configuration file?
+  val categoryOrder2016Onwards: List[Char] = "BMAZJCH".toList
 
+  // Where did these come from? Should they be in the configuration file?  
   def categoryOrderPre2016(app: Boolean): List[Char] =
-    if(app)
-      List('G','E', 'B', 'F', 'I', 'D', 'M', 'A', 'S', 'K', 'L', 'Z', 'J', 'C')
-    else
-      List('G','E', 'B', 'M', 'A', 'F', 'I', 'D', 'Z', 'J', 'S', 'K', 'L', 'C')
-
-
-  implicit val localDateOrder: Order[LocalDate] = Order.from(_ compareTo _)
+    (if(app) "LGEBFIDMASKLZJC" else "LGEBMAFIDZJSKLC").toList
 
 }
