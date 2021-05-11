@@ -69,9 +69,7 @@ class TablesController @Inject()(
 
     val selectedCategory = category.filter(categories.contains).getOrElse(categories.head)
 
-    val filteredBand: List[(String, RateDefinition)] = band.filter{
-      case (_, v) => (v.employee.keySet ++ v.employer.keySet).contains(selectedCategory)
-    }.toList.sortBy(_._2.year.lowerValue.get)
+    val filteredBand: List[(String, RateDefinition)] = band.toList.sortBy(_._2.year.lowerValue.get)
 
     Ok(classOnePage(selectedInterval, intervals, selectedCategory, categories, filteredBand))
   }
