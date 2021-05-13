@@ -37,10 +37,10 @@ function LateRefundsTableRow(props: {
   const [year, setYear] = useState(extractDatePartString(DatePartsNames.YEAR, row.paymentDate))
 
   useEffect(() => {
-    if(taxYears) {
+    if(taxYears && !row.taxYear) {
       setTaxYear(taxYears[0])
     }
-  }, [taxYears])
+  }, [taxYears, row.taxYear])
 
   useEffect(() => {
     setRows(rows.map((cur: LateRefundsTableRowProps) =>

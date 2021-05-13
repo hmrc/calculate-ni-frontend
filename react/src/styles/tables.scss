@@ -379,179 +379,187 @@ table {
 }
 
 /* Responsive Tables */
-@media only screen and (max-width: 760px),
-(min-device-width: 768px) and (max-device-width: 1024px)  {
+@media not print {
+  @media only screen and (max-width: 760px),
+  (min-device-width: 768px) and (max-device-width: 1024px) {
 
-  /* Force table to not be like tables anymore */
-  table, thead, tbody, th, td, tr {
-    display: block;
-  }
-
-  /* Hide table headers (but not display: none;, for accessibility) */
-  thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
-
-  tr { border: 1px solid #ccc; }
-
-  td,
-  table.contribution-details td.input{
-    /* Behave  like a "row" */
-    border: none;
-    border-bottom: 1px solid #eee;
-    position: relative;
-  }
-
-  table.contribution-details {
-    caption {
+    /* Force table to not be like tables anymore */
+    table, thead, tbody, th, td, tr {
       display: block;
-      margin-bottom: 5px;
-    }
-  }
-
-  table.totals-table {
-    td {
-      margin-bottom: 2px;
     }
 
-  }
-
-
-  table.contribution-details td,
-  .save-print-wrapper .category-totals td {
-    border-bottom: 1px solid #eee;
-  }
-
-  .save-print-wrapper table.contribution-details td,
-  .save-print-wrapper .category-totals td,
-  .save-print-wrapper .totals-table td {
-    border-bottom: 1px solid #eee;
-    padding-top: 7px;
-    padding-bottom: 7px;
-  }
-
-  .save-print-wrapper .totals-row-header {
-    padding: 7px 0 7px 6px;
-  }
-
-  td:before {
-    /* Now like a table header */
-    color: #505a5f;
-    position: absolute;
-    /* Top/left values mimic padding */
-    top: 0;
-    left: 6px;
-    white-space: nowrap;
-
-    height: 100%;
-  }
-
-  td.input:before {
-    top: 5px;
-  }
-
-  .spaced-table td.readonly.last-cell {
-    padding-right: 20px;
-  }
-
-  .save-print-wrapper .contribution-details td:before,
-  .save-print-wrapper .category-totals td:before,
-  .save-print-wrapper .totals-table td:before {
-    top: 8px;
-  }
-
-  table.totals td:before {
-    top: 0px;
-    line-height: 40px;
-  }
-
-  .contribution-details .explanation-row td {
-    height: auto;
-    padding-left: 0;
-  }
-
-  .contribution-details .explanation-row td .explanation {
-    padding: 0 5px;
-  }
-
-  .contribution-details .explanation-row td:before { content: ""; }
-
-  @media only screen and (max-width: 760px){
-    .contribution-details .date-toggles.date-inputs {
-      height: auto;
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
     }
-  }
 
+    tr {
+      border: 1px solid #ccc;
+    }
 
-  /* Totals */
-  /* - tbody th */
-  .totals-table tbody th.right {
-    height: 40px;
-    line-height: 40px;
-    text-align: left;
-  }
-
-  #save-print-wrapper table td {
-    height: 30px;
-    line-height: 30px;
-  }
-
-  /* Overwrite margins for standard contribution table on non .input cells */
-  #save-print-wrapper .contribution-details td {
-    padding-left: 50%;
-  }
-
-  #save-print-wrapper td:before {
-    top: 0;
-  }
-
-  #root .save-print-wrapper .spaced-table-wrapper .spaced-table th {
-    padding-left: 6px;
-  }
-}
-
-@media only screen and (min-width: 460px) and (max-width: 760px) {
-  td:before, .totals-table tbody th.right {
-    padding-right: 10px;
-    width: 45%;
-  }
-  td, table.contribution-details td.input, .spaced-table td.readonly{
-    padding-left: 50%;
-  }
-}
-
-@media only screen and (max-width: 459px) {
-  td {
-    input {
+    td,
+    table.contribution-details td.input {
+      /* Behave  like a "row" */
+      border: none;
+      border-bottom: 1px solid #eee;
       position: relative;
-      z-index: 2;
+    }
+
+    table.contribution-details {
+      caption {
+        display: block;
+        margin-bottom: 5px;
+      }
+    }
+
+    table.totals-table {
+      td {
+        margin-bottom: 2px;
+      }
+
+    }
+
+
+    table.contribution-details td,
+    .save-print-wrapper .category-totals td {
+      border-bottom: 1px solid #eee;
+    }
+
+    .save-print-wrapper table.contribution-details td,
+    .save-print-wrapper .category-totals td,
+    .save-print-wrapper .totals-table td {
+      border-bottom: 1px solid #eee;
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+
+    .save-print-wrapper .totals-row-header {
+      padding: 7px 0 7px 6px;
+    }
+
+    td:before {
+      /* Now like a table header */
+      color: #505a5f;
+      position: absolute;
+      /* Top/left values mimic padding */
+      top: 0;
+      left: 6px;
+      white-space: nowrap;
+
+      height: 100%;
+    }
+
+    td.input:before {
+      top: 5px;
+    }
+
+    .spaced-table td.readonly.last-cell {
+      padding-right: 20px;
+    }
+
+    .save-print-wrapper .contribution-details td:before,
+    .save-print-wrapper .category-totals td:before,
+    .save-print-wrapper .totals-table td:before {
+      top: 8px;
+    }
+
+    table.totals td:before {
+      top: 0px;
+      line-height: 40px;
+    }
+
+    .contribution-details .explanation-row td {
+      height: auto;
+      padding-left: 0;
+    }
+
+    .contribution-details .explanation-row td .explanation {
+      padding: 0 5px;
+    }
+
+    .contribution-details .explanation-row td:before {
+      content: "";
+    }
+
+    @media only screen and (max-width: 760px) {
+      .contribution-details .date-toggles.date-inputs {
+        height: auto;
+      }
+    }
+
+
+    /* Totals */
+    /* - tbody th */
+    .totals-table tbody th.right {
+      height: 40px;
+      line-height: 40px;
+      text-align: left;
+    }
+
+    #save-print-wrapper table td {
+      height: 30px;
+      line-height: 30px;
+    }
+
+    /* Overwrite margins for standard contribution table on non .input cells */
+    #save-print-wrapper .contribution-details td {
+      padding-left: 50%;
+    }
+
+    #save-print-wrapper td:before {
+      top: 0;
+    }
+
+    #root .save-print-wrapper .spaced-table-wrapper .spaced-table th {
+      padding-left: 6px;
     }
   }
 
-  td:before, .totals-table tbody th.right {
-    padding: 0;
-    width: calc(100% - 6px);
+  @media only screen and (min-width: 460px) and (max-width: 760px) {
+    td:before, .totals-table tbody th.right {
+      padding-right: 10px;
+      width: 45%;
+    }
+    td, table.contribution-details td.input, .spaced-table td.readonly {
+      padding-left: 50%;
+    }
   }
 
-  .totals-table tbody th.right {
-    padding-left: 6px;
-  }
+  @media only screen and (max-width: 459px) {
+    td {
+      input {
+        position: relative;
+        z-index: 2;
+      }
+    }
 
-  td, table.contribution-details td.input, .spaced-table td.readonly, .save-print-wrapper table.contribution-details td, .save-print-wrapper .category-totals td, .save-print-wrapper .totals-table td{
-    padding: 40px 6px 6px;
-  }
-  .spaced-table td.readonly.last-cell {
-    padding-right: 6px;
-  }
+    td:before, .totals-table tbody th.right {
+      padding: 0;
+      width: calc(100% - 6px);
+    }
 
+    .totals-table tbody th.right {
+      padding-left: 6px;
+    }
+
+    td, table.contribution-details td.input, .spaced-table td.readonly, .save-print-wrapper table.contribution-details td, .save-print-wrapper .category-totals td, .save-print-wrapper .totals-table td {
+      padding: 40px 6px 6px;
+    }
+    .spaced-table td.readonly.last-cell {
+      padding-right: 6px;
+    }
+
+  }
 }
 
 .late-refunds-table {
   td {
     &.refund, &.payable {
-      width: 125px;
+      @media only screen and (min-width: 760px) {
+        width: 125px;
+      }
     }
   }
 }

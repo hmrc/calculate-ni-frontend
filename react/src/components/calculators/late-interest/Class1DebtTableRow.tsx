@@ -42,8 +42,10 @@ function Class1DebtTableRow(props: {
   }, [taxYear])
 
   useEffect(() => {
-    setTaxYear(taxYears[0])
-  }, [taxYears])
+    if(taxYears && !row.taxYear) {
+      setTaxYear(taxYears[0])
+    }
+  }, [taxYears, row.taxYear])
 
   const handleChange = (row: Class1DebtRow, e:  React.ChangeEvent<HTMLInputElement>) => {
     invalidateResults()
