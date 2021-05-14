@@ -123,7 +123,7 @@ object RateDefinition {
 
       def lookupLimit(in: String): Option[Limit] = limits.get(in.replaceAll("[Rr]ebate","").trim)
 
-      val trimmedName = name.toLowerCase.trim.replaceAll("[-._]"," ")
+      val trimmedName = name.toLowerCase.trim.replaceAll("[-.]"," ")
 
       lazy val fallbackLimits = trimmedName match {
 
@@ -176,9 +176,9 @@ object RateDefinition {
   }
 
   object VagueRateDefinition {
-    val bothBounded = "([a-zA-Z0-9 ]*) to ([a-z0-9 ]*)".r
-    val lowerBounded = "above ([a-z0-9 ]*)".r
-    val upperBounded = "up to ([a-z0-9 ]*)".r
+    val bothBounded = "([a-zA-Z0-9_ ]*) to ([a-z0-9_ ]*)".r
+    val lowerBounded = "above ([a-z0-9_ ]*)".r
+    val upperBounded = "up to ([a-z0-9_ ]*)".r
   }
 
 }
