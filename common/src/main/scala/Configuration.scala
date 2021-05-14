@@ -16,49 +16,9 @@
 
 package eoi
 
-import main.scala.{DirectorsResult, DirectorsRowInput}
 import java.time.LocalDate
 import spire.implicits._
 import spire.math.Interval
-
-case class Limit(
-  fullName: Option[String], 
-  year: Money,
-  month: Option[Money],
-  week: Option[Money],
-  fourWeek: Option[Money],
-) {
-
-  private def calculatedMonth = (year / 12).setScale(0, BigDecimal.RoundingMode.HALF_UP)
-  private def calculatedWeek = (year / 52).setScale(0, BigDecimal.RoundingMode.HALF_UP)
-  private def calculatedFourWeek = (year / 13).setScale(0, BigDecimal.RoundingMode.HALF_UP)  
-
-  def effectiveYear = year
-  def effectiveMonth = month getOrElse calculatedMonth
-  def effectiveWeek = week getOrElse calculatedWeek
-  def effectiveFourWeek = fourWeek getOrElse calculatedFourWeek
-
-  def simplify = Limit(
-    fullName,
-    year,
-    month.filter(_ != calculatedMonth),
-    week.filter(_ != calculatedWeek),
-    fourWeek.filter(_ != calculatedFourWeek)
-  )
-}
-
-case class ClassTwoRates(
-  default: Money,
-  fishermen: Option[Money],
-  voluntary: Option[Money]
-)
-
-case class ClassFour(
-  lowerLimit: Money,
-  upperLimit: Money,
-  mainRate: Percentage,
-  upperRate: Percentage = Percentage.Zero
-)
 
 /** Class 1 NICs are earnings related contributions paid by employed
   * earners and their employers. Liability starts at age 16 and ends
@@ -102,21 +62,8 @@ case class ClassFour(
   * sufficient.  Contributions are flat rate and can be paid up to six
   * years after the year in which they are due.
   *
-  * Class 4 NICS are paid by the self-employed whose profits are above
-  * the lower profits limit.  They are profit related and do not count
-  * for any benefits themselves.
-  *
   * Source: https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/882271/Table-a4.pdf
   * */
-case class ConfigurationPeriod(
-  limits: Map[String, Limit] = Map.empty, 
-  classOne: Option[Map[String, RateDefinition.VagueRateDefinition]],
-  classTwo: Option[ClassTwo.ClassTwoVague],
-  classThree: Option[ClassThree.ClassThreeVague],
-  classFour: Option[ClassFour],
-  unofficialDeferment: Option[TaxYearBandLimits]
-)
-
 case class Configuration (
   categoryNames: Map[Char, String],
   data: Map[Interval[LocalDate], ConfigurationPeriod],
