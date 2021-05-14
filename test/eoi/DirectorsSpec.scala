@@ -22,7 +22,6 @@ import cats.kernel.Semigroup
 import cats.instances.list._
 import cats.syntax.traverse._
 import cats.syntax.apply._
-import main.scala.{DirectorsResult, DirectorsRowInput}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import pureconfig.{ConfigReader, ConfigSource}
