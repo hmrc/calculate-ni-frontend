@@ -1,8 +1,6 @@
 package eoi
 package frontend
 
-import main.scala.DirectorsRowInput
-
 import scala.scalajs.js.{Date, UndefOr}
 import scala.scalajs.js
 import JsObjectAdapter.ops._
