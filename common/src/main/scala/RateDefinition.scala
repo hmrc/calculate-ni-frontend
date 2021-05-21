@@ -53,7 +53,6 @@ case class RateDefinition(
   employee: Map[Char, Percentage] = Map.empty,
   employer: Map[Char, Percentage] = Map.empty,
   contractedOutStandardRate: Option[Boolean] = None,
-  trigger: Bands = Bands.all, //TODO deprecated in favour of grossPayExceptions
   hideOnSummary: Boolean = true,
   grossPayExceptions: List[GrossPayException] = Nil
 ) extends EffectiveRate {
@@ -89,7 +88,6 @@ object RateDefinition {
     employee: Map[Char, Percentage] = Map.empty,
     employer: Map[Char, Percentage] = Map.empty,
     contractedOutStandardRate: Option[Boolean] = None,
-    trigger: Bands = Bands.all, //TODO deprecated in favour of grossPayExceptions
     hideOnSummary: Boolean = true,
     grossPayExceptions: List[GrossPayException] = Nil
   ) {
@@ -168,7 +166,6 @@ object RateDefinition {
         employee,
         employer,
         contractedOutStandardRate,
-        trigger,
         hideOnSummary,
         grossPayExceptions
       )
