@@ -17,6 +17,6 @@ addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.8.7")
 
 addSbtPlugin("org.irundaia.sbt" % "sbt-sassify" % "1.4.11")
 
-addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.33")
+addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.6.0")
 
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.0.0")

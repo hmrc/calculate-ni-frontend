@@ -132,7 +132,6 @@ lazy val `frontend` = project
     scalaVersion := "2.12.13",
     majorVersion := 0,        
     scalacOptions -= "-Xfatal-warnings",
-    scalacOptions += "-P:scalajs:sjsDefinedByDefault",
     scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "1.1.0",
