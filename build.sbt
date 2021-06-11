@@ -139,7 +139,7 @@ lazy val `frontend` = project
       "org.typelevel" %%% "simulacrum" % "1.0.0"
     ),
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
-    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
+    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
     publish := {},
     publishLocal := {}
   )
