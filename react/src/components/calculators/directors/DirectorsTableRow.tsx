@@ -88,7 +88,7 @@ function DirectorsTableRow(props: TableRowProps) {
         cellStyle={thStyles.enterGrossPay}
       >
         {printView ?
-          <div>{row.gross}</div>
+          <div>£{row.gross}</div>
           :
           <TextInput
             hiddenLabel={true}
