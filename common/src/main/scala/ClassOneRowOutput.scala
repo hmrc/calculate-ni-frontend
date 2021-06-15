@@ -180,9 +180,8 @@ case class ClassOneRowOutput(
   }
 
 
-  lazy val bands: List[ClassOneRowOutputBand] = config.toList.sortBy(_._2.year.lowerValue.getOrElse(Money.Zero)).collect {
-    case (bandId, bandDefinition) if bandDefinition.trigger.interval(period, periodQty).contains(money + precededAmount) =>
-      ClassOneRowOutputBand(bandId, bandDefinition)
+  lazy val bands: List[ClassOneRowOutputBand] = config.toList.sortBy(_._2.year.lowerValue.getOrElse(Money.Zero)) map {
+    case (bandId, bandDefinition) => ClassOneRowOutputBand(bandId, bandDefinition)
   }
 
   lazy val displaySummaryBands = {
