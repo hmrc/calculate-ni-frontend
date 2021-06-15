@@ -175,7 +175,7 @@ export default function Class1TableRow(props: TableRowProps) {
         cellClassName={`input ${errors?.[`${row.id}-gross`] ? "error-cell" : ""}`}
       >
         {printView ?
-          <div>{row.gross}</div>
+          <div>£{row.gross}</div>
           :
           <React.Fragment>
             <TextInput
