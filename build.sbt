@@ -25,11 +25,9 @@ copyInJS := {
   val dest = reactDirectory.value / "src" / "calculation.js"
   println(s"copying $outFiles to $dest")
 
-  // this is a hack for scalajs 0.6, if we can upgrade to 1 this can
-  // be replaced with IO.copyFile(outFiles, dest)
-//  IO.copyFile(outFiles, dest)
+  // get around BigInt compatibility issues with IE11/scalajs1
   (Process("sed" ::
-    "-e" :: """1 i/* eslint-disable no-unused-expressions */""" ::
+    "-e" :: """1 i/* eslint-disable no-unused-expressions */ var BigInt = function(n) { return n; };""" ::
     "-e" :: """s/"object"===typeof __ScalaJSEnv&&__ScalaJSEnv?__ScalaJSEnv://""" ::
     outFiles.getAbsolutePath :: Nil,
     baseDirectory.value) #> dest).run()
@@ -132,7 +130,6 @@ lazy val `frontend` = project
     scalaVersion := "2.12.13",
     majorVersion := 0,        
     scalacOptions -= "-Xfatal-warnings",
-    scalacOptions += "-P:scalajs:sjsDefinedByDefault",
     scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "1.1.0",
@@ -140,7 +137,7 @@ lazy val `frontend` = project
       "org.typelevel" %%% "simulacrum" % "1.0.0"
     ),
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
-    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
+    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
     publish := {},
     publishLocal := {}
   )
