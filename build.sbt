@@ -25,11 +25,9 @@ copyInJS := {
   val dest = reactDirectory.value / "src" / "calculation.js"
   println(s"copying $outFiles to $dest")
 
-  // this is a hack for scalajs 0.6, if we can upgrade to 1 this can
-  // be replaced with IO.copyFile(outFiles, dest)
-//  IO.copyFile(outFiles, dest)
+  // get around BigInt compatibility issues with IE11/scalajs1
   (Process("sed" ::
-    "-e" :: """1 i/* eslint-disable no-unused-expressions */""" ::
+    "-e" :: """1 i/* eslint-disable no-unused-expressions */ var BigInt = function(n) { return n; };""" ::
     "-e" :: """s/"object"===typeof __ScalaJSEnv&&__ScalaJSEnv?__ScalaJSEnv://""" ::
     outFiles.getAbsolutePath :: Nil,
     baseDirectory.value) #> dest).run()
