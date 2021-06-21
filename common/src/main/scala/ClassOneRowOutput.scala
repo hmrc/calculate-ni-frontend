@@ -50,16 +50,17 @@ case class ClassOneRowOutput(
       else {
         import Period._
 
+
         val baseInterval = period match {
           case Year => definition.year.pure[Explained]
           case Month => definition.month.fold {
-            (definition.year.mapBounds(_ / 12)).gives(s"$id: year / 12 = ${definition.year} / 12")
+            definition.effectiveMonth.gives(s"$id: year / 12 = ${definition.year} / 12")
           }(_.pure[Explained])
           case FourWeek => definition.fourWeek.fold {
-            (definition.year.mapBounds(_ / 13)).gives(s"$id: year / 13 = ${definition.year} / 13")
+            definition.effectiveFourWeek.gives(s"$id: year / 13 = ${definition.year} / 13")
           }(_.pure[Explained])
           case Week => definition.week.fold {
-            (definition.year.mapBounds(_ / 52)).gives(s"$id: year / 52 = ${definition.year} / 52")
+            definition.effectiveWeek.gives(s"$id: year / 52 = ${definition.year} / 52")
           }(_.pure[Explained])
         }
 
@@ -68,6 +69,9 @@ case class ClassOneRowOutput(
           b <- if (periodQty == 1) a.pure[Explained] else {
             (a.mapBounds(_ * Money(periodQty))) gives s"$id: $a * $periodQty"
           }
+          // note that effectiveN above, ALSO rounds (albeit to the nearest £1), it is assumed that if
+          // the user wants exact pence they will input that in the config, otherwise they want the values
+          // rounded to the nearest pound
           rounded = b.mapBounds(_.roundNi)
           c <- if (rounded == b) {
             b.pure[Explained]
