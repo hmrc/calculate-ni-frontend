@@ -40,6 +40,7 @@ export interface Row {
   bands?: Array<Band>
   explain?: Array<string>
   totalContributions?: number
+  contributionBands?: Array<ContributionBand>
 }
 
 export interface ClassOneRowInterface {
@@ -68,9 +69,15 @@ export interface Band {
   amountInBand: number
 }
 
+export interface ContributionBand {
+  name: string
+  amountInBand: number
+}
+
 export interface CalculatedRow {
   name: string
   resultBands: Array<Band>
+  resultContibutionBands: Array<ContributionBand>
   employee: number
   employer: number
   totalContributions: number
@@ -198,7 +205,8 @@ export function useClassOneForm() {
             er: matchingRow.employer,
             totalContributions: matchingRow.totalContributions,
             bands: matchingRow.resultBands,
-            explain: matchingRow.explain
+            explain: matchingRow.explain,
+            contributionBands: matchingRow.resultContibutionBands
           }
         }
         return row

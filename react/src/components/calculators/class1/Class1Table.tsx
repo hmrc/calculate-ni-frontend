@@ -73,6 +73,10 @@ export default function Class1Table(props: TableProps) {
           <th scope="col"><strong><abbr title="Employee">EE</abbr></strong></th>
           <th scope="col"><strong><abbr title="Employer">ER</abbr></strong></th>
           {!printView && result && <th scope="col"><span className="govuk-visually-hidden">Explain results</span></th>}
+
+          {printView &&
+            <th scope="col"><strong>C/O NI</strong></th>
+          }
         </tr>
       </thead>
       

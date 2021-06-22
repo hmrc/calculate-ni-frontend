@@ -4,7 +4,7 @@ import numeral from "numeral";
 import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // types
-import {Band, ClassOneContext, Row} from "./ClassOneContext";
+import {Band, ClassOneContext, ContributionBand, Row} from "./ClassOneContext";
 
 // components
 import TextInput from "../../helpers/formhelpers/TextInput"
@@ -215,6 +215,10 @@ export default function Class1TableRow(props: TableRowProps) {
 
       <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employee}>{numeral(row.ee).format('$0,0.00')}</MqTableCell>
       <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employer}>{numeral(row.er).format('$0,0.00')}</MqTableCell>
+
+      {printView && row.contributionBands &&
+        <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employer}>{numeral(row.contributionBands[0].amountInBand).format('$0,0.00')}</MqTableCell>
+      }
 
       {!printView && result && row.explain && row.explain.length > 0 &&
         <td>
