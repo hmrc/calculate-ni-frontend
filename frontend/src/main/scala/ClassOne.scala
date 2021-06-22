@@ -84,8 +84,20 @@ object ClassOneFrontend {
       val resultRows: js.Array[js.Object] = in.rowsOutput.map { row => new js.Object {
         val name = row.rowId
 
-        // the bands within a row
+        // the bands for which the user should see the earnings
         val resultBands = row.displaySummaryBands.map { band => new js.Object {
+          val name = band.bandId
+
+          // anywhere where we have an 'Explained' datatype we can call 'value' to get
+          // the Scala value (normally a BigDecimal) -
+          val amountInBand = band.amountInBand.value.toDouble
+
+          // or call 'explain' to get a List[String] trace -
+          val amountInBandExplain: js.Array[String] = band.amountInBand.explain.toJSArray
+        }: js.Object }.toJSArray
+
+        // the bands for which the user should see the contributions
+        val resultContibutionBands = row.displaySummaryContributionBands.map { band => new js.Object {
           val name = band.bandId
 
           // anywhere where we have an 'Explained' datatype we can call 'value' to get

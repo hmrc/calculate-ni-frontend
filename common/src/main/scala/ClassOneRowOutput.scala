@@ -189,8 +189,22 @@ case class ClassOneRowOutput(
   }
 
   lazy val displaySummaryBands = {
-    config.toList.filterNot(_._2.hideOnSummary).sortBy(_._2.year.lowerValue.getOrElse(Money.Zero)).map{
-      case (bandId, bandDefinition) => ClassOneRowOutputBand(bandId, bandDefinition)
+    config.toList.sortBy(_._2.year.lowerValue.getOrElse(Money.Zero)).flatMap{
+      case (bandId, bandDefinition) =>
+        bandDefinition.summaryName match { 
+          case Some(sn) => List(ClassOneRowOutputBand(sn, bandDefinition))
+          case _        => Nil
+        }
+    }
+  }
+
+  lazy val displaySummaryContributionBands = {
+    config.toList.sortBy(_._2.year.lowerValue.getOrElse(Money.Zero)).flatMap{
+      case (bandId, bandDefinition) =>
+        bandDefinition.summaryContributionsName match { 
+          case Some(sn) => List(ClassOneRowOutputBand(sn, bandDefinition))
+          case _        => Nil
+        }
     }
   }
 
