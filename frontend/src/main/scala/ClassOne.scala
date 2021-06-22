@@ -97,7 +97,7 @@ object ClassOneFrontend {
         }: js.Object }.toJSArray
 
         // the bands for which the user should see the contributions
-        val resultContibutionBands = row.displaySummaryContributionBands.map { band => new js.Object {
+        val resultContributionBands = row.displaySummaryContributionBands.map { band => new js.Object {
           val name = band.bandId
           val employeeContributions = band.employeeContributions.value.toDouble
         }: js.Object }.toJSArray
