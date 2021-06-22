@@ -99,13 +99,7 @@ object ClassOneFrontend {
         // the bands for which the user should see the contributions
         val resultContibutionBands = row.displaySummaryContributionBands.map { band => new js.Object {
           val name = band.bandId
-
-          // anywhere where we have an 'Explained' datatype we can call 'value' to get
-          // the Scala value (normally a BigDecimal) -
-          val amountInBand = band.amountInBand.value.toDouble
-
-          // or call 'explain' to get a List[String] trace -
-          val amountInBandExplain: js.Array[String] = band.amountInBand.explain.toJSArray
+          val employeeContributions = band.employeeContributions.value.toDouble
         }: js.Object }.toJSArray
 
         val employer = row.employerContributions.value.toDouble
