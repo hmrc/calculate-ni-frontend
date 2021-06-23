@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {ClassOneContext, Row} from "./ClassOneContext";
+import {CalculatedRow, ClassOneContext, ContributionBand, Row} from "./ClassOneContext";
 import {TableProps} from '../../../interfaces'
 import Class1TableRow from "./Class1TableRow";
 import SortToggle from "../../../assets/select-dropdown-arrows.svg"
@@ -28,6 +28,7 @@ export default function Class1Table(props: TableProps) {
   }
 
   const firstBands = rows[0].bands ? rows[0].bands : []
+  const rowWithContributionBands = rows.find((r: Row) => r.contributionBands && r.contributionBands.length > 0)
   const displayBands: boolean = showBands && firstBands.length > 0
 
   return (
@@ -74,9 +75,7 @@ export default function Class1Table(props: TableProps) {
           <th scope="col"><strong><abbr title="Employer">ER</abbr></strong></th>
           {!printView && result && <th scope="col"><span className="govuk-visually-hidden">Explain results</span></th>}
 
-          {printView &&
-            <th scope="col"><strong>C/O NI</strong></th>
-          }
+          {printView && rowWithContributionBands && rowWithContributionBands?.contributionBands?.map((cB: ContributionBand) => (<th scope="col" key={cB.name}>{cB.name}</th>))}
         </tr>
       </thead>
       
@@ -90,6 +89,7 @@ export default function Class1Table(props: TableProps) {
               printView={printView}
               setShowExplanation={setShowExplanation}
               showExplanation={showExplanation}
+              rowWithContributionBands={rowWithContributionBands}
             />
             {!printView && result && showExplanation === r.id &&
               <tr aria-live="polite" className="explanation-row">

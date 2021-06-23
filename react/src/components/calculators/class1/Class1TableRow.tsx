@@ -20,10 +20,11 @@ interface TableRowProps {
   printView: boolean
   setShowExplanation: Dispatch<string>
   showExplanation?: string
+  rowWithContributionBands: Row | undefined
 }
 
 export default function Class1TableRow(props: TableRowProps) {
-  const { row, index, showBands, printView, setShowExplanation, showExplanation } = props
+  const { row, index, showBands, printView, setShowExplanation, showExplanation, rowWithContributionBands } = props
   const {
     activeRowId,
     setActiveRowId,
@@ -216,9 +217,17 @@ export default function Class1TableRow(props: TableRowProps) {
       <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employee}>{numeral(row.ee).format('$0,0.00')}</MqTableCell>
       <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employer}>{numeral(row.er).format('$0,0.00')}</MqTableCell>
 
-      {printView && row.contributionBands &&
-        <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employer}>{numeral(row.contributionBands[0].amountInBand).format('$0,0.00')}</MqTableCell>
-      }
+      {printView && rowWithContributionBands && rowWithContributionBands?.contributionBands?.map(
+          (cB: ContributionBand, index: number) =>
+              <MqTableCell
+                  cellStyle={thStyles.dynamicCellContentAttr(cB.name)}
+                  key={`${cB.name}-val`}
+              >
+                {
+                  numeral(row.contributionBands?[index] && row.contributionBands?[index]?.amountInBand ? row.contributionBands?[index]?.amountInBand : 0).format('$0,0.00')
+                }
+              </MqTableCell>
+      )}
 
       {!printView && result && row.explain && row.explain.length > 0 &&
         <td>
