@@ -77,7 +77,7 @@ export interface ContributionBand {
 export interface CalculatedRow {
   name: string
   resultBands: Array<Band>
-  resultContibutionBands: Array<ContributionBand>
+  resultContributionBands: Array<ContributionBand>
   employee: number
   employer: number
   totalContributions: number
@@ -206,7 +206,7 @@ export function useClassOneForm() {
             totalContributions: matchingRow.totalContributions,
             bands: matchingRow.resultBands,
             explain: matchingRow.explain,
-            contributionBands: matchingRow.resultContibutionBands
+            contributionBands: matchingRow.resultContributionBands
           }
         }
         return row

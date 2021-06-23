@@ -54,7 +54,9 @@ case class RateDefinition(
   employer: Map[Char, Percentage] = Map.empty,
   contractedOutStandardRate: Option[Boolean] = None,
   summaryName: Option[String],
-  summaryContributionsName: Option[String],  
+  summaryCategories: String = "*",
+  summaryContributionsName: Option[String],
+  summaryContributionsCategories: String = "*",
   grossPayExceptions: List[GrossPayException] = Nil
 ) extends EffectiveRate {
   def withGrossPayExceptions(grossPay: Money, period: Period.Period): EffectiveRate = {
@@ -91,8 +93,10 @@ object RateDefinition {
     contractedOutStandardRate: Option[Boolean] = None,
     hideOnSummary: Option[Boolean],
     summaryName: Option[String],
-    hideContributonsOnSummary: Option[Boolean],    
-    summaryContributionsName: Option[String],    
+    summaryCategories: String = "*",
+    hideContributonsOnSummary: Option[Boolean],
+    summaryContributionsName: Option[String],
+    summaryContributionsCategories: String = "*",
     grossPayExceptions: List[GrossPayException] = Nil
   ) {
 
@@ -175,11 +179,13 @@ object RateDefinition {
           case (_, Some(false)) => Some(name)
           case _ => None
         },
+        summaryCategories,
         (summaryContributionsName, hideContributonsOnSummary) match {
           case (Some(sn), _) => Some(sn)
           case (_, Some(false)) => Some(name)
           case _ => None
         },
+        summaryContributionsCategories,
         grossPayExceptions
       )
     }

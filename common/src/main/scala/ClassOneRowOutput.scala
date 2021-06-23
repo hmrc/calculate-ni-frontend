@@ -188,12 +188,20 @@ case class ClassOneRowOutput(
     case (bandId, bandDefinition) => ClassOneRowOutputBand(bandId, bandDefinition)
   }
 
+  def matchCategory(cat: Char, opts: List[Char]): Boolean = opts match {
+    case '*' :: _ => true
+    case Nil => false
+    case `cat` :: _ => true
+    case _ :: xs => matchCategory(cat, xs)
+  }
+
   lazy val displaySummaryBands = {
     config.toList.sortBy(_._2.year.lowerValue.getOrElse(Money.Zero)).flatMap{
       case (bandId, bandDefinition) =>
         bandDefinition.summaryName match { 
-          case Some(sn) => List(ClassOneRowOutputBand(sn, bandDefinition))
-          case _        => Nil
+          case Some(sn) if matchCategory(category, bandDefinition.summaryCategories.toList) =>
+            List(ClassOneRowOutputBand(sn, bandDefinition))
+          case _ => Nil
         }
     }
   }
@@ -202,7 +210,8 @@ case class ClassOneRowOutput(
     config.toList.sortBy(_._2.year.lowerValue.getOrElse(Money.Zero)).flatMap{
       case (bandId, bandDefinition) =>
         bandDefinition.summaryContributionsName match { 
-          case Some(sn) => List(ClassOneRowOutputBand(sn, bandDefinition))
+          case Some(sn) if matchCategory(category, bandDefinition.summaryContributionsCategories.toList) =>
+            List(ClassOneRowOutputBand(sn, bandDefinition))
           case _        => Nil
         }
     }
