@@ -122,6 +122,14 @@ function CategoryTotals(props: {
             <MqTableCell cellStyle={thStyles.employer}>
               <strong>{formatCurrencyAmount(result?.totals.employer)}</strong>
             </MqTableCell>
+
+            <MqTableCell
+                cellStyle={thStyles.coNI}
+            >
+              <strong>{numeral(rows.reduce((prev: number, next: Row | DirectorsUIRow, i: number) => {
+                return rows[i].contributionBands && rows[i].contributionBands!.length > 0 ? prev += next.contributionBands![0].employeeContributions : prev
+              }, 0)).format('$0,0.00')}</strong>
+            </MqTableCell>
           </tr>
         </tbody>
       </table>
