@@ -11,7 +11,7 @@ import {
   NiFrontendContext
 } from "../../../services/NiFrontendContext";
 import uniqid from 'uniqid'
-import {Band, CalculatedRow, Class1Result} from "../class1/ClassOneContext";
+import {Band, CalculatedRow, Class1Result, ContributionBand} from "../class1/ClassOneContext";
 
 export interface DirectorsUIRow {
   id: string
@@ -21,6 +21,7 @@ export interface DirectorsUIRow {
   er: number
   bands?: Band[],
   explain?: string[]
+  contributionBands?: Array<ContributionBand>
 }
 
 export interface DirectorsRowInterface {

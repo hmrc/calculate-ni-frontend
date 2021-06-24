@@ -71,7 +71,7 @@ export interface Band {
 
 export interface ContributionBand {
   name: string
-  amountInBand: number
+  employeeContributions: number
 }
 
 export interface CalculatedRow {

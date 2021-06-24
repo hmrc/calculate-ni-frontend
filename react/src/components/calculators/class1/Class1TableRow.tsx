@@ -224,7 +224,7 @@ export default function Class1TableRow(props: TableRowProps) {
                   key={`${cB.name}-val`}
               >
                 {
-                  numeral(row.contributionBands && row.contributionBands[index] ? row.contributionBands[index].amountInBand : 0).format('$0,0.00')
+                  numeral(row.contributionBands && row.contributionBands[index] ? row.contributionBands[index].employeeContributions : 0).format('$0,0.00')
                 }
               </MqTableCell>
       )}

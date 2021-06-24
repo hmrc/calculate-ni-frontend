@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // components
@@ -10,7 +10,7 @@ import {getTotalsInBand, uniqueCategories} from "../../../services/utils";
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
-import {Class1Result, Row} from "../class1/ClassOneContext";
+import {Class1Result, ClassOneContext, ContributionBand, Row} from "../class1/ClassOneContext";
 import {DirectorsUIRow} from "../directors/DirectorsContext";
 
 numeral.locale('en-gb');
@@ -19,11 +19,14 @@ function CategoryTotals(props: {
   rows: Array<Row | DirectorsUIRow>,
   categoryTotals: TotalsInCategories
   result: Class1Result | null
+  printView?: boolean
 }) {
-  const { rows, categoryTotals, result } = props
+  const { rows, categoryTotals, result, printView } = props
   const categoriesList = uniqueCategories(rows)
   const formatCurrencyAmount = (currencyAmount: string | number | Number | undefined | null) =>
     currencyAmount && numeral(currencyAmount.toString()).format('$0,0.00')
+
+  const rowWithContributionBands = rows.find((r: Row | DirectorsUIRow) => r.contributionBands && r.contributionBands.length > 0)
   return (
     <div className="category-totals">
       <table className="contribution-details">
@@ -52,6 +55,7 @@ function CategoryTotals(props: {
             <th>Total</th>
             <th>EE</th>
             <th>ER</th>
+            {printView && rowWithContributionBands && rowWithContributionBands?.contributionBands?.map((cB: ContributionBand) => (<th scope="col" key={cB.name}>{cB.name}</th>))}
           </tr>
         </thead>
         <tbody>
@@ -82,6 +86,15 @@ function CategoryTotals(props: {
               <MqTableCell cellStyle={thStyles.employer}>
                 {formatCurrencyAmount(categoryTotals[c]?.er)}
               </MqTableCell>
+
+              <MqTableCell
+                  cellStyle={thStyles.coNI}
+              >
+              {numeral(rows.reduce((prev: number, next: Row | DirectorsUIRow, i: number) => {
+                return rows[i].category === c && rows[i].contributionBands && rows[i].contributionBands!.length > 0 ? prev += next.contributionBands![0].employeeContributions : prev
+              }, 0)).format('$0,0.00')}
+              </MqTableCell>
+
             </tr>
           ))}
           <tr className="total-row">
