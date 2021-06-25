@@ -219,7 +219,7 @@ export default function Class1TableRow(props: TableRowProps) {
       <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employee}>{numeral(row.ee).format('$0,0.00')}</MqTableCell>
       <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employer}>{numeral(row.er).format('$0,0.00')}</MqTableCell>
 
-      {printView && contributionNames && contributionNames?.map((cB: string, index: number) =>
+      {printView && contributionNames && contributionNames?.map((cB: string) =>
         <MqTableCell
           cellStyle={thStyles.dynamicCellContentAttr(cB)}
           key={`${cB}-val`}

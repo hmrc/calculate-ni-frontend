@@ -6,7 +6,13 @@ import {TotalsInCategories} from '../../../interfaces'
 import MqTableCell from './MqTableCell'
 
 // services
-import {getTotalsInBand, uniqueCategories} from "../../../services/utils";
+import {
+  getBandNames,
+  getContributionBandNames,
+  getContributionBandValue,
+  getTotalsInBand,
+  uniqueCategories
+} from "../../../services/utils";
 
 import numeral from 'numeral'
 import 'numeral/locales/en-gb';
@@ -26,7 +32,9 @@ function CategoryTotals(props: {
   const formatCurrencyAmount = (currencyAmount: string | number | Number | undefined | null) =>
     currencyAmount && numeral(currencyAmount.toString()).format('$0,0.00')
 
-  const rowWithContributionBands = rows.find((r: Row | DirectorsUIRow) => r.contributionBands && r.contributionBands.length > 0)
+  // const rowWithContributionBands = rows.find((r: Row | DirectorsUIRow) => r.contributionBands && r.contributionBands.length > 0)
+  const bandNames = getBandNames(rows)
+  const contributionNames = getContributionBandNames(rows)
   return (
     <div className="category-totals">
       <table className="contribution-details">
@@ -49,13 +57,13 @@ function CategoryTotals(props: {
             <th>Category</th>
             <th>Gross Pay</th>
             {/* Bands (by tax year), so we can just take the first band to map the rows */}
-            {rows[0].bands && rows[0].bands.map(k =>
-              <th key={`${k.name}-cat-band-header`}>{k.name}</th>
+            {bandNames && bandNames.map(k =>
+              <th key={`${k}-cat-band-header`}>{k}</th>
             )}
             <th>Total</th>
             <th>EE</th>
             <th>ER</th>
-            {printView && rowWithContributionBands && rowWithContributionBands?.contributionBands?.map((cB: ContributionBand) => (<th scope="col" key={cB.name}>{cB.name}</th>))}
+            {printView && contributionNames && contributionNames?.map((cB: string) => (<th scope="col" key={cB}>{cB}</th>))}
           </tr>
         </thead>
         <tbody>
@@ -87,13 +95,17 @@ function CategoryTotals(props: {
                 {formatCurrencyAmount(categoryTotals[c]?.er)}
               </MqTableCell>
 
-              <MqTableCell
-                  cellStyle={thStyles.coNI}
-              >
-              {numeral(rows.reduce((prev: number, next: Row | DirectorsUIRow, i: number) => {
-                return rows[i].category === c && rows[i].contributionBands && rows[i].contributionBands!.length > 0 ? prev += next.contributionBands![0].employeeContributions : prev
-              }, 0)).format('$0,0.00')}
-              </MqTableCell>
+
+              {printView && contributionNames && contributionNames?.map((cB: string) =>
+                  <MqTableCell
+                      cellStyle={thStyles.dynamicCellContentAttr(cB)}
+                      key={`${cB}-val`}
+                  >
+                    {numeral(rows.reduce((prev: number, next: Row | DirectorsUIRow, i: number) => {
+                      return rows[i].category === c && rows[i].contributionBands && rows[i].contributionBands!.length > 0 ? prev += next.contributionBands![0].employeeContributions : prev
+                    }, 0)).format('$0,0.00')}
+                  </MqTableCell>
+              )}
 
             </tr>
           ))}
