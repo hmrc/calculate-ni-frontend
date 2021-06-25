@@ -41,6 +41,12 @@ const addBandToTotal = (band: string) =>
     return matchingBand ? total + matchingBand.amountInBand : total
   }
 
+const addContributionBandToTotal = (band: string) =>
+  (total: number, row: Row | DirectorsUIRow) => {
+    const matchingBand = row.contributionBands?.find(b => b.name === band)
+    return matchingBand ? total + matchingBand.employeeContributions : total
+  }
+
 const getBandTotalsInCategory = (
   band: string,
   rows: Array<Row | DirectorsUIRow>,
@@ -49,11 +55,27 @@ const getBandTotalsInCategory = (
     .filter(row => row.category === category)
     .reduce(addBandToTotal(band), 0)
 
+const getContributionBandTotalsInCategory = (
+  band: string,
+  rows: Array<Row | DirectorsUIRow>,
+  category: string
+) => rows
+  .filter(row => row.category === category)
+  .reduce(addContributionBandToTotal(band), 0)
+
 export const getTotalsInBand = (
   band: string,
   rows: Array<Row | DirectorsUIRow>
 ) =>
-  rows.reduce(addBandToTotal(band), 0)
+  rows
+    .reduce(addBandToTotal(band), 0)
+
+export const getTotalsInContributionBand = (
+  band: string,
+  rows: Array<Row | DirectorsUIRow>
+) =>
+  rows
+    .reduce(addContributionBandToTotal(band), 0)
 
 export const uniqueCategories = (rows: Array<Row | DirectorsUIRow>) => rows
     .map(r => r.category)
@@ -61,6 +83,8 @@ export const uniqueCategories = (rows: Array<Row | DirectorsUIRow>) => rows
 
 export const getTotalsInCategories = (rows: Array<Row | DirectorsUIRow>) => uniqueCategories(rows)
   .reduce((list: TotalsInCategories, category: string) => {
+    const bandNames = getBandNames(rows)
+    const contributionBandNames = getContributionBandNames(rows)
     const eeTotal = getTotalsInCategory(TotalType.EE, rows, category)
     const erTotal = getTotalsInCategory(TotalType.ER, rows, category)
     list[category] = {
@@ -68,13 +92,20 @@ export const getTotalsInCategories = (rows: Array<Row | DirectorsUIRow>) => uniq
       ee: eeTotal,
       er: erTotal,
       contributionsTotal: eeTotal + erTotal,
-      bands: rows[0].bands?.reduce((bands: Band[], nextBand: Band) => {
+      bands: bandNames.reduce((bands: Band[], nextBand: string) => {
         bands.push({
-          name: nextBand.name,
-          amountInBand: getBandTotalsInCategory(nextBand.name, rows, category)
+          name: nextBand,
+          amountInBand: getBandTotalsInCategory(nextBand, rows, category)
         })
         return bands
-      }, [] as Band[])
+      }, [] as Band[]),
+      contributionBands: contributionBandNames.reduce((bands: ContributionBand[], nextBand: string) => {
+        bands.push({
+          name: nextBand,
+          employeeContributions: getContributionBandTotalsInCategory(nextBand, rows, category)
+        })
+        return bands
+      }, [] as ContributionBand[])
     }
     return list
   }, {} as TotalsInCategories)

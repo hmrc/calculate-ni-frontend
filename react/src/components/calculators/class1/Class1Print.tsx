@@ -49,7 +49,6 @@ function Class1Print(props: Class1DirectorsSavePrintProps) {
           rows={rows}
           categoryTotals={categoryTotals}
           result={result}
-          printView={true}
         />
 
       </div>
