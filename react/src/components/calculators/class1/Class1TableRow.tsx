@@ -20,7 +20,7 @@ interface TableRowProps {
   printView: boolean
   setShowExplanation: Dispatch<string>
   showExplanation?: string
-  rowWithContributionBands: Row | undefined
+  rowWithContributionBands: string[]
 }
 
 export default function Class1TableRow(props: TableRowProps) {
@@ -217,11 +217,11 @@ export default function Class1TableRow(props: TableRowProps) {
       <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employee}>{numeral(row.ee).format('$0,0.00')}</MqTableCell>
       <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employer}>{numeral(row.er).format('$0,0.00')}</MqTableCell>
 
-      {printView && rowWithContributionBands && rowWithContributionBands?.contributionBands?.map(
-          (cB: ContributionBand, index: number) =>
+      {printView && rowWithContributionBands && rowWithContributionBands?.map(
+          (cB: string, index: number) =>
               <MqTableCell
-                  cellStyle={thStyles.dynamicCellContentAttr(cB.name)}
-                  key={`${cB.name}-val`}
+                  cellStyle={thStyles.dynamicCellContentAttr(cB)}
+                  key={`${cB}-val`}
               >
                 {
                   numeral(row.contributionBands && row.contributionBands[index] ? row.contributionBands[index].employeeContributions : 0).format('$0,0.00')

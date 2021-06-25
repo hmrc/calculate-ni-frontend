@@ -4,6 +4,8 @@ import {TableProps} from '../../../interfaces'
 import Class1TableRow from "./Class1TableRow";
 import SortToggle from "../../../assets/select-dropdown-arrows.svg"
 import ExplainRow from "../shared/ExplainRow";
+import {DirectorsUIRow} from "../directors/DirectorsContext";
+import {getBandNames, getContributionBandNames} from "../../../services/utils";
 
 export default function Class1Table(props: TableProps) {
   const { showBands, printView } = props
@@ -27,8 +29,10 @@ export default function Class1Table(props: TableProps) {
     setPeriodSortDirection('descending')
   }
 
-  const firstBands = rows[0].bands ? rows[0].bands : []
-  const rowWithContributionBands = rows.find((r: Row) => r.contributionBands && r.contributionBands.length > 0)
+  // const firstBands = rows[0].bands ? rows[0].bands : []
+  const firstBands = getBandNames(rows)
+  // const rowWithContributionBands = rows.find((r: Row) => r.contributionBands && r.contributionBands.length > 0)
+  const rowWithContributionBands = getContributionBandNames(rows)
   const displayBands: boolean = showBands && firstBands.length > 0
 
   return (
@@ -64,8 +68,8 @@ export default function Class1Table(props: TableProps) {
           <th scope="col" className="notes"><strong>Period No.</strong></th>
           <th scope="col" className="category-col"><strong>{printView ? 'Cat' : 'Select NI category'}</strong></th>
           <th scope="col" className="gross-pay"><strong>{printView ? 'Gross' : 'Enter gross pay'}</strong></th>
-          {displayBands && firstBands.map(k =>
-            <th scope="col" key={k.name}>{k.name}</th>
+          {displayBands && firstBands.map(name =>
+            <th scope="col" key={name}>{name}</th>
           )}
 
           {printView &&
@@ -75,7 +79,7 @@ export default function Class1Table(props: TableProps) {
           <th scope="col"><strong><abbr title="Employer">ER</abbr></strong></th>
           {!printView && result && <th scope="col"><span className="govuk-visually-hidden">Explain results</span></th>}
 
-          {printView && rowWithContributionBands && rowWithContributionBands?.contributionBands?.map((cB: ContributionBand) => (<th scope="col" key={cB.name}>{cB.name}</th>))}
+          {printView && rowWithContributionBands && rowWithContributionBands.map((cB: string) => (<th scope="col" key={cB}>{cB}</th>))}
         </tr>
       </thead>
       

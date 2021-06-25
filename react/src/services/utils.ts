@@ -7,7 +7,7 @@ import {
   TaxYear, GovDateRange, DateParts
 } from "../interfaces";
 import {ErrorMessage, stripCommas} from "../validation/validation";
-import {Band, Row} from "../components/calculators/class1/ClassOneContext";
+import {Band, ContributionBand, Row} from "../components/calculators/class1/ClassOneContext";
 import {DirectorsUIRow} from "../components/calculators/directors/DirectorsContext";
 
 export const emptyStringToZero = (input: string) => input === '' ? 0 : parseFloat(input)
@@ -165,6 +165,22 @@ export const decimalToPercent = (decimal: number) => parseFloat((decimal * 1000 
 export const isBeforeToday = (d: Date) => moment(d).isBefore(moment())
 
 export const zeroPad = (int: string) => int.length === 1 ? `0${int}` : int
+
+const reduceBandNames = (rows: Row[] | DirectorsUIRow[]) => rows
+    .filter((r: Row | DirectorsUIRow) => r.bands && r.bands.length > 0)
+    .reduce(
+        (list: string[], next: Row | DirectorsUIRow) =>
+            [...list, ...next.bands?.map((n: Band) => n.name)], [] as string[]
+    )
+const reduceContributionBandNames = (rows: Row[] | DirectorsUIRow[]) => rows
+    .filter((r: Row | DirectorsUIRow) => r.contributionBands && r.contributionBands.length > 0)
+    .reduce(
+        (list: string[], next: Row | DirectorsUIRow) =>
+            [...list, ...next.contributionBands?.map((n: ContributionBand) => n.name)], [] as string[]
+    )
+
+export const getContributionBandNames = (rows: Row[] | DirectorsUIRow[]) => [...new Set<string>(reduceContributionBandNames(rows))]
+export const getBandNames = (rows: Row[] | DirectorsUIRow[]) => [...new Set<string>(reduceBandNames(rows))]
 
 
 
