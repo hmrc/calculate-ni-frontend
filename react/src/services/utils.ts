@@ -182,5 +182,14 @@ const reduceContributionBandNames = (rows: Row[] | DirectorsUIRow[]) => rows
 export const getContributionBandNames = (rows: Row[] | DirectorsUIRow[]) => [...new Set<string>(reduceContributionBandNames(rows))]
 export const getBandNames = (rows: Row[] | DirectorsUIRow[]) => [...new Set<string>(reduceBandNames(rows))]
 
+export const getBandValue = (bands: Band[] | undefined, name: string) => {
+  const matchingBand = bands?.find((b: Band) => b.name === name)
+  return matchingBand ? numeral(matchingBand.amountInBand).format('$0,0.00') : '£0.00'
+}
+export const getContributionBandValue = (bands: ContributionBand[] | undefined, name: string) => {
+  const matchingBand = bands?.find((b: ContributionBand) => b.name === name)
+  return matchingBand ? numeral(matchingBand.employeeContributions).format('$0,0.00') : '£0.00'
+}
+
 
 

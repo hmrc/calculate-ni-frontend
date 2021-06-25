@@ -12,6 +12,7 @@ import MqTableCell from '../shared/MqTableCell'
 import ExplainToggle from "../shared/ExplainToggle"
 import TableRow from "../shared/TableRow"
 import uniqid from "uniqid";
+import {getBandValue, getContributionBandValue} from "../../../services/utils";
 
 interface TableRowProps {
   row: Row
@@ -21,10 +22,11 @@ interface TableRowProps {
   setShowExplanation: Dispatch<string>
   showExplanation?: string
   contributionNames: string[]
+  bandNames?: string[]
 }
 
 export default function Class1TableRow(props: TableRowProps) {
-  const { row, index, showBands, printView, setShowExplanation, showExplanation, contributionNames } = props
+  const { row, index, showBands, printView, setShowExplanation, showExplanation, bandNames, contributionNames } = props
   const {
     activeRowId,
     setActiveRowId,
@@ -194,12 +196,12 @@ export default function Class1TableRow(props: TableRowProps) {
       </MqTableCell>
 
       {/* Bands */}
-      {showBands && row.bands && row.bands.map(k =>
+      {showBands && bandNames?.map(k =>
         <MqTableCell
-          cellStyle={thStyles.dynamicCellContentAttr(k.name)}
-          key={`${k.name}-val`}
+          cellStyle={thStyles.dynamicCellContentAttr(k)}
+          key={`${k}-val`}
         >
-          {numeral(k.amountInBand).format('$0,0.00')}
+          {getBandValue(row.bands, k)}
         </MqTableCell>
       )}
 
@@ -217,16 +219,13 @@ export default function Class1TableRow(props: TableRowProps) {
       <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employee}>{numeral(row.ee).format('$0,0.00')}</MqTableCell>
       <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employer}>{numeral(row.er).format('$0,0.00')}</MqTableCell>
 
-      {printView && contributionNames && contributionNames?.map(
-          (cB: string, index: number) =>
-              <MqTableCell
-                  cellStyle={thStyles.dynamicCellContentAttr(cB)}
-                  key={`${cB}-val`}
-              >
-                {
-                  numeral(row.contributionBands && row.contributionBands[index] ? row.contributionBands[index].employeeContributions : 0).format('$0,0.00')
-                }
-              </MqTableCell>
+      {printView && contributionNames && contributionNames?.map((cB: string, index: number) =>
+        <MqTableCell
+          cellStyle={thStyles.dynamicCellContentAttr(cB)}
+          key={`${cB}-val`}
+        >
+          {getContributionBandValue(row.contributionBands, cB)}
+        </MqTableCell>
       )}
 
       {!printView && result && row.explain && row.explain.length > 0 &&

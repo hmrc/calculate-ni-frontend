@@ -92,6 +92,7 @@ export default function Class1Table(props: TableProps) {
               setShowExplanation={setShowExplanation}
               showExplanation={showExplanation}
               contributionNames={contributionNames}
+              bandNames={bandNames}
             />
             {!printView && result && showExplanation === r.id &&
               <tr aria-live="polite" className="explanation-row">
