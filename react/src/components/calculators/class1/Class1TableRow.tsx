@@ -4,7 +4,7 @@ import numeral from "numeral";
 import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // types
-import {Band, ClassOneContext, ContributionBand, Row} from "./ClassOneContext";
+import {ClassOneContext, Row} from "./ClassOneContext";
 
 // components
 import TextInput from "../../helpers/formhelpers/TextInput"

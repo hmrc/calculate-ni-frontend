@@ -191,7 +191,8 @@ export function useDirectorsForm() {
             er: matchingRow.employer,
             totalContributions: matchingRow.totalContributions,
             bands: matchingRow.resultBands,
-            explain: matchingRow.explain
+            explain: matchingRow.explain,
+            contributionBands: matchingRow.resultContributionBands
           }
         }
         return row

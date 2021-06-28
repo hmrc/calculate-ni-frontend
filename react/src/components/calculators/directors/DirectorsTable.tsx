@@ -7,6 +7,7 @@ import {TableProps} from '../../../interfaces'
 // components
 import DirectorsTableRow from './DirectorsTableRow'
 import ExplainRow from "../shared/ExplainRow";
+import {getBandNames, getContributionBandNames} from "../../../services/utils";
 
 function DirectorsTable(props: TableProps) {
   const { showBands, printView } = props
@@ -16,22 +17,23 @@ function DirectorsTable(props: TableProps) {
     result
   } = useContext(DirectorsContext)
 
-  const firstBands = rows[0].bands ? rows[0].bands : []
-  const displayBands = showBands && firstBands.length
+  const bandNames = getBandNames(rows)
+  const contributionNames = getContributionBandNames(rows)
+  const displayBands = showBands && bandNames.length
 
   return (
     <table className="contribution-details" id="results-table" tabIndex={-1}>
       <caption>Contribution payment details</caption>
       <colgroup>
         <col span={2} />
-        <col span={displayBands ? firstBands.length + 1 : 1} />
+        <col span={displayBands ? bandNames.length + 1 : 1} />
         <col span={printView && result ? 3 : 2} />
         {!printView && result && <col />}
       </colgroup>
       <thead>
         <tr className="clear">
           <td colSpan={2} />
-          <th scope="colgroup" className="border" colSpan={printView && displayBands ? firstBands.length + 1 : 1}><span>Earnings</span></th>
+          <th scope="colgroup" className="border" colSpan={printView && displayBands ? bandNames.length + 1 : 1}><span>Earnings</span></th>
           <th scope="colgroup" className="border" colSpan={!printView && result ? 3 : 2}><span>Net contributions</span></th>
           {!printView && result && <td />}
         </tr>
@@ -39,8 +41,8 @@ function DirectorsTable(props: TableProps) {
           <th scope="col">#<span className="govuk-visually-hidden"> Row number</span></th>
           <th scope="col" className="category-col"><strong>{printView ? 'Cat' : 'Select NI category'}</strong></th>
           <th scope="col"><strong>{printView ? 'Gross pay' : 'Enter gross pay'}</strong></th>
-          {displayBands && firstBands.map(k =>
-            <th key={k.name}>{k.name}</th>
+          {displayBands && bandNames.map(name =>
+            <th key={name}>{name}</th>
           )}
 
           {printView &&
@@ -48,7 +50,10 @@ function DirectorsTable(props: TableProps) {
           }
           <th scope="col"><strong><abbr title="Employee">EE</abbr></strong></th>
           <th scope="col"><strong><abbr title="Employer">ER</abbr></strong></th>
+
           {!printView && result && <th scope="col"><span className="govuk-visually-hidden">Explain results</span></th>}
+
+          {printView && contributionNames && contributionNames.map((cB: string) => (<th scope="col" key={cB}>{cB}</th>))}
         </tr>
       </thead>
       
@@ -62,6 +67,8 @@ function DirectorsTable(props: TableProps) {
               showBands={showBands}
               setShowExplanation={setShowExplanation}
               showExplanation={showExplanation}
+              contributionNames={contributionNames}
+              bandNames={bandNames}
             />
             {!printView && result && showExplanation === r.id &&
             <tr className="explanation-row">

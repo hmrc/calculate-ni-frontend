@@ -10,6 +10,7 @@ import {DirectorsContext, DirectorsUIRow} from './DirectorsContext'
 import MqTableCell from '../shared/MqTableCell'
 import ExplainToggle from "../shared/ExplainToggle";
 import TableRow from "../shared/TableRow";
+import {getBandValue, getContributionBandValue} from "../../../services/utils";
 
 interface TableRowProps {
   row: DirectorsUIRow
@@ -18,10 +19,12 @@ interface TableRowProps {
   showBands: boolean
   setShowExplanation: Dispatch<string>
   showExplanation?: string
+  contributionNames: string[]
+  bandNames?: string[]
 }
 
 function DirectorsTableRow(props: TableRowProps) {
-  const { row, index, printView, showBands, showExplanation, setShowExplanation } = props
+  const { row, index, printView, showBands, showExplanation, setShowExplanation, bandNames, contributionNames } = props
   const {
     categories,
     errors,
@@ -104,14 +107,15 @@ function DirectorsTableRow(props: TableRowProps) {
 
 
       {/* Bands */}
-      {showBands && row.bands && row.bands.map(k =>
+      {showBands && bandNames?.map(k =>
         <MqTableCell
-          key={`${k.name}-val`}
-          cellStyle={thStyles.dynamicCellContentAttr(k.name)}
+          cellStyle={thStyles.dynamicCellContentAttr(k)}
+          key={`${k}-val`}
         >
-          {numeral(k.amountInBand).format('$0,0.00')}
+          {getBandValue(row.bands, k)}
         </MqTableCell>
       )}
+
 
       {/* Total */}
       {printView &&
@@ -127,6 +131,16 @@ function DirectorsTableRow(props: TableRowProps) {
       <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employee}>{numeral(row.ee).format('$0,0.00')}</MqTableCell>
       {/* ER */}
       <MqTableCell cellClassName="result-cell" cellStyle={thStyles.employer}>{numeral(row.er).format('$0,0.00')}</MqTableCell>
+
+      {printView && contributionNames && contributionNames?.map((cB: string) =>
+        <MqTableCell
+          cellStyle={thStyles.dynamicCellContentAttr(cB)}
+          key={`${cB}-val`}
+        >
+          {getContributionBandValue(row.contributionBands, cB)}
+        </MqTableCell>
+      )}
+
       {!printView && result && row.explain && row.explain.length > 0 &&
       <td>
         <ExplainToggle
