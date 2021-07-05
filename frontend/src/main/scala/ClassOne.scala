@@ -132,6 +132,29 @@ object ClassOneFrontend {
 
       val employerContributions = in.employerPaid.value.toDouble
 
+      val categoryTotals: js.Object = {
+        val valueMap = in.rowsOutput.groupBy(_.category).map {
+          case (cat, matchingRows) =>
+
+            cat.toString -> new js.Object {
+              val gross = matchingRows.map(_.money).sum.toDouble
+              val employee = matchingRows.map(_.employeeContributions.value).sum.toDouble
+              val employer = matchingRows.map(_.employerContributions.value).sum.toDouble
+              val net = matchingRows.map(_.totalContributions.value).sum.toDouble
+
+              val bands: js.Map[String, Double] = matchingRows
+                .flatMap(_.bands)
+                .groupBy(_.bandId)
+                .mapValues(
+                  _.map(_.amountInBand.value).sum.toDouble
+                ).toJSMap
+            }
+
+        }
+
+        valueMap.toJSMap
+      }
+
     }
   }
 
