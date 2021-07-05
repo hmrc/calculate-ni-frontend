@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // components
@@ -32,6 +32,50 @@ function CategoryTotals(props: {
 
   const bandNames = getBandNames(rows)
   const contributionNames = getContributionBandNames(rows)
+
+  useEffect(() => {
+    console.log(result?.categoryTotals)
+    // result?.categoryTotals.forEach((value: any, key: any) => {
+      // Object.keys(key).map((k) => {
+      //   console.log(k)
+      //   console.log(`key: ${k}, value: ${result?.categoryTotals[key][k]}`)
+      // })
+      // console.log(key)
+
+      // key A
+      // value Object
+    // })
+
+    for (const [k, v] of result?.categoryTotals.entries()) {
+      console.log(k, v.gross)
+    }
+  }, [])
+
+  const categoryTotalRows = []
+
+  for (const [k, v] of result?.categoryTotals.entries()) {
+    const bands: any = []
+    for (const bV of v.resultBands.values()) {
+      bands.push(<td>{numeral(bV.gross).format('$0,0.00')}</td>)
+    }
+
+    const contributionBands: any = []
+    for (const cBV of v.resultContributionBands.values()) {
+      bands.push(<td>{numeral(cBV.gross).format('$0,0.00')}</td>)
+    }
+
+    categoryTotalRows.push(<tr>
+      <td>{k}</td>
+      <td>{numeral(v.gross).format('$0,0.00')}</td>
+      {bands}
+      <td>{numeral(v.net).format('$0,0.00')}</td>
+      <td>{numeral(v.employee).format('$0,0.00')}</td>
+      <td>{numeral(v.employer).format('$0,0.00')}</td>
+      {contributionBands}
+    </tr>)
+  }
+
+
   return (
     <div className="category-totals">
       <table className="contribution-details">
@@ -133,6 +177,9 @@ function CategoryTotals(props: {
             )}
 
           </tr>
+
+          {categoryTotalRows}
+
         </tbody>
       </table>
     </div>

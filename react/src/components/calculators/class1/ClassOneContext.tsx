@@ -95,7 +95,8 @@ export interface Class1Result {
   totals: CalculatedTotals
   overpayment: TotalRow
   underpayment: TotalRow
-  employerContributions: number
+  employerContributions: number,
+  categoryTotals: any // todo
 }
 
 interface ClassOneContext {
