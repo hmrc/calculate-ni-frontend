@@ -2,7 +2,7 @@ import React, {Dispatch, useContext, useEffect, useState} from "react";
 import {DetailsProps, GenericObject, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {buildTaxYears, periods, PeriodValue} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
-import {getTotalsInCategories} from "../../../services/utils";
+import {getTotalsInCategories, mapCategoryTotalsResponse} from "../../../services/utils";
 import {categoryNamesToObject, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
 import uniqid from "uniqid";
 
@@ -90,13 +90,18 @@ interface TotalRow {
   total: number
 }
 
+export interface CategoryTotalsResponse {
+
+}
+
 export interface Class1Result {
   resultRows: CalculatedRow[]
   totals: CalculatedTotals
   overpayment: TotalRow
   underpayment: TotalRow
   employerContributions: number,
-  categoryTotals: any // todo
+  // categoryTotals: CategoryTotalsResponse
+  categoryTotals: any //todo
 }
 
 interface ClassOneContext {
@@ -224,8 +229,10 @@ export function useClassOneForm() {
   }, [result])
 
   useEffect(() => {
-    setCategoryTotals(getTotalsInCategories(rows as Row[]))
-  }, [rows])
+    if(result) {
+      setCategoryTotals(mapCategoryTotalsResponse(result.categoryTotals, rows))
+    }
+  }, [result, rows])
 
   useEffect(() => {
     setTaxYear(taxYears[0])

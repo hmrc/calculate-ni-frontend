@@ -110,6 +110,36 @@ export const getTotalsInCategories = (rows: Array<Row | DirectorsUIRow>) => uniq
     return list
   }, {} as TotalsInCategories)
 
+export const mapCategoryTotalsResponse = (categoryTotals: any, rows: Array<Row | DirectorsUIRow>) => {
+  const bandNames = getBandNames(rows)
+  const contributionBandNames = getContributionBandNames(rows)
+  const result: TotalsInCategories = {}
+
+  categoryTotals.forEach((category: string, value: any) => {
+    result[category] = {
+      gross: value.gross,
+      ee: value.employee,
+      er: value.employer,
+      contributionsTotal: value.net,
+      bands: bandNames.reduce((bands: Band[], nextBand: string) => {
+        bands.push({
+          name: nextBand,
+          amountInBand: value.resultBands?.get(nextBand) ? value.resultBands?.get(nextBand).gross : '£0.00'
+        })
+        return bands
+      }, [] as Band[]),
+      contributionBands: contributionBandNames.reduce((bands: ContributionBand[], nextBand: string) => {
+        bands.push({
+          name: nextBand,
+          employeeContributions: value.resultContributionBands?.get(nextBand) ? value.resultContributionBands?.get(nextBand).employee : '£0.00'
+        })
+        return bands
+      }, [] as ContributionBand[])
+    }
+  })
+  return result
+}
+
 export const extractTaxYearFromDate = (date: Date, taxYears: TaxYear[]) => {
   const dateMoment = moment(date).utc(true)
   const match = [...taxYears]
