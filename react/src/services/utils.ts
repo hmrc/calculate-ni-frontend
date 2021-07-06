@@ -115,7 +115,7 @@ export const mapCategoryTotalsResponse = (categoryTotals: any, rows: Array<Row |
   const contributionBandNames = getContributionBandNames(rows)
   const result: TotalsInCategories = {}
 
-  categoryTotals.forEach((category: string, value: any) => {
+  categoryTotals.forEach((value: any, category: string) => {
     result[category] = {
       gross: value.gross,
       ee: value.employee,

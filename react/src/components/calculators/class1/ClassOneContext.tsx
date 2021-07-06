@@ -229,7 +229,7 @@ export function useClassOneForm() {
   }, [result])
 
   useEffect(() => {
-    if(result) {
+    if(result && result.categoryTotals) {
       setCategoryTotals(mapCategoryTotalsResponse(result.categoryTotals, rows))
     }
   }, [result, rows])
