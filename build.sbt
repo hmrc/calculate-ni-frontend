@@ -11,7 +11,7 @@ val build                    = taskKey[Unit]("Copy JS and Config to react app")
 
 val appName = "calculate-ni-frontend"
 
-val silencerVersion = "1.7.3"
+val silencerVersion = "1.7.5"
 
 installReactDependencies := {
   val result = JavaScriptBuild.npmProcess(reactDirectory.value, "install").run().exitValue()
@@ -50,16 +50,16 @@ moveReact := {
 }
 
 lazy val microservice = Project(appName, file("."))
-  .enablePlugins(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin)
+  .enablePlugins(play.sbt.PlayScala, SbtGitVersioning, SbtDistributablesPlugin)
   .settings(
     majorVersion                     := 0,
-    scalaVersion                     := "2.12.13",
+    scalaVersion                     := "2.12.14",
     libraryDependencies              ++= Seq(
-      "uk.gov.hmrc"             %% "bootstrap-frontend-play-28" % "4.1.0",
-      "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "0.54.0-play-28",
-      "uk.gov.hmrc"             %% "play-frontend-govuk"        % "0.67.0-play-28",
-      "com.github.pureconfig"   %% "pureconfig"                 % "0.14.1",
-      "org.typelevel"           %% "cats-core"                  % "2.1.1",
+      "uk.gov.hmrc"             %% "bootstrap-frontend-play-28" % "5.6.0",
+      "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "0.81.0-play-28",
+      "uk.gov.hmrc"             %% "play-frontend-govuk"        % "0.80.0-play-28",
+      "com.github.pureconfig"   %% "pureconfig"                 % "0.16.0",
+      "org.typelevel"           %% "cats-core"                  % "2.6.1",
       "org.typelevel"           %% "spire"                      % "0.17.0"
     ),
     libraryDependencies ++= Seq(
@@ -68,10 +68,10 @@ lazy val microservice = Project(appName, file("."))
       "io.circe" %%% "circe-parser"
     ).map(_ % circeVersion),
     libraryDependencies              ++= Seq(
-      "org.scalatest"           %% "scalatest"                % "3.2.6",
-      "com.vladsch.flexmark"    %  "flexmark-all"             % "0.35.10",
+      "org.scalatest"           %% "scalatest"                % "3.2.9",
+      "com.vladsch.flexmark"    %  "flexmark-all"             % "0.62.2",
       "com.typesafe.play"       %% "play-test"                % play.core.PlayVersion.current,
-      "com.github.tototoshi"    %% "scala-csv"                % "1.3.7"
+      "com.github.tototoshi"    %% "scala-csv"                % "1.3.8"
     ).map(_ % Test),
     TwirlKeys.templateImports ++= Seq(
       "uk.gov.hmrc.calculatenifrontend.config.AppConfig",
@@ -86,9 +86,9 @@ lazy val microservice = Project(appName, file("."))
       "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
     ),
     PlayKeys.playDefaultPort := 8668,
-    reactDirectory := (baseDirectory in Compile) { _ /"react" }.value,
-    unmanagedSourceDirectories in Compile ++= ((unmanagedSourceDirectories in Compile) in common.jvm).value,
-    unmanagedResources in Compile += file("national-insurance.conf"),
+    reactDirectory := (Compile / baseDirectory) { _ /"react" }.value,
+    Compile / unmanagedSourceDirectories ++= (common.jvm / (Compile / unmanagedSourceDirectories)).value,
+    Compile / unmanagedResources += file("national-insurance.conf"),
     dist := (dist dependsOn moveReact).value // ,
     // (Test / test) := ((Test / test) dependsOn (calc / Test / test)).value
   )
@@ -97,14 +97,14 @@ lazy val microservice = Project(appName, file("."))
   .settings(integrationTestSettings(): _*)
   .settings(resolvers += Resolver.jcenterRepo)
 
-val circeVersion = "0.13.0"
+val circeVersion = "0.14.1"
 
 /** common components holding the logic of the calculation */ 
 lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform, JVMPlatform)
   .withoutSuffixFor(JVMPlatform)
   .crossType(sbtcrossproject.CrossPlugin.autoImport.CrossType.Pure)
   .settings(
-    scalaVersion := "2.12.13",
+    scalaVersion := "2.12.14",
     majorVersion := 0,    
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core",
@@ -127,7 +127,7 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
 lazy val `frontend` = project
   .enablePlugins(ScalaJSPlugin)
   .settings(
-    scalaVersion := "2.12.13",
+    scalaVersion := "2.12.14",
     majorVersion := 0,        
     scalacOptions -= "-Xfatal-warnings",
     scalaJSUseMainModuleInitializer := false,
@@ -150,7 +150,7 @@ lazy val `config-importer` = project
     publish := {},
     publishLocal := {},
     libraryDependencies ++= Seq(
-      "com.github.tototoshi" %% "scala-csv" % "1.3.6", 
+      "com.github.tototoshi" %% "scala-csv" % "1.3.8", 
       "org.typelevel" %% "simulacrum" % "1.0.0",
       "com.lihaoyi" %% "scalatags" % "0.8.2",
       "org.scalacheck" %% "scalacheck" % "1.14.1"
