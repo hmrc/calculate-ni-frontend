@@ -84,7 +84,7 @@ object ClassOneFrontend {
       val resultRows: js.Array[js.Object] = in.rowsOutput.map { row => new js.Object {
         val name = row.rowId
 
-        // the bands within a row
+        // the bands for which the user should see the earnings
         val resultBands = row.displaySummaryBands.map { band => new js.Object {
           val name = band.bandId
 
@@ -94,6 +94,12 @@ object ClassOneFrontend {
 
           // or call 'explain' to get a List[String] trace -
           val amountInBandExplain: js.Array[String] = band.amountInBand.explain.toJSArray
+        }: js.Object }.toJSArray
+
+        // the bands for which the user should see the contributions
+        val resultContributionBands = row.displaySummaryContributionBands.map { band => new js.Object {
+          val name = band.bandId
+          val employeeContributions = band.employeeContributions.value.toDouble
         }: js.Object }.toJSArray
 
         val employer = row.employerContributions.value.toDouble
@@ -126,14 +132,44 @@ object ClassOneFrontend {
 
       val employerContributions = in.employerPaid.value.toDouble
 
-    }
-  }
-
-}
-
-
-@JSExportTopLevel("ClassOneRow")
-case class ClassOneRow(
+      val categoryTotals = {
+              in.rowsOutput.groupBy(_.category).map {
+                case (cat, matchingRows) =>
+                  cat.toString -> new js.Object {
+                    val gross = matchingRows.map(_.money).sum.toDouble
+                    val employee = matchingRows.map(_.employeeContributions.value).sum.toDouble
+                    val employer = matchingRows.map(_.employerContributions.value).sum.toDouble
+                    val net = matchingRows.map(_.totalContributions.value).sum.toDouble
+                    val resultBands = matchingRows
+                      .flatMap(_.displaySummaryBands)
+                      .groupBy(_.bandId)
+                      .mapValues( x =>
+                        new js.Object {
+                          val gross = x.map(_.amountInBand.value).sum.toDouble
+                          val employee = x.map(_.employeeContributions.value).sum.toDouble
+                          val employer = x.map(_.employerContributions.value).sum.toDouble
+                          val net = x.map(_.employerContributions.value).sum.toDouble
+                        }
+                      ).toJSMap
+                    val resultContributionBands = matchingRows
+                      .flatMap(_.displaySummaryContributionBands)
+                      .groupBy(_.bandId)
+                      .mapValues(x =>
+                        new js.Object {
+                          val gross = x.map(_.amountInBand.value).sum.toDouble
+                          val employee = x.map(_.employeeContributions.value).sum.toDouble
+                          val employer = x.map(_.employerContributions.value).sum.toDouble
+                          val net = x.map(_.employerContributions.value).sum.toDouble
+                        }
+                      ).toJSMap
+                  }
+              }
+            }.toJSMap
+          }
+        }
+      }
+      @JSExportTopLevel("ClassOneRow")
+  case class ClassOneRow(
   id: String,
   period: String, // "M", "W" or "4W"
   category: String,

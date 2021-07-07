@@ -7,7 +7,7 @@ import {
   TaxYear, GovDateRange, DateParts
 } from "../interfaces";
 import {ErrorMessage, stripCommas} from "../validation/validation";
-import {Band, Row} from "../components/calculators/class1/ClassOneContext";
+import {Band, ContributionBand, Row} from "../components/calculators/class1/ClassOneContext";
 import {DirectorsUIRow} from "../components/calculators/directors/DirectorsContext";
 
 export const emptyStringToZero = (input: string) => input === '' ? 0 : parseFloat(input)
@@ -41,6 +41,12 @@ const addBandToTotal = (band: string) =>
     return matchingBand ? total + matchingBand.amountInBand : total
   }
 
+const addContributionBandToTotal = (band: string) =>
+  (total: number, row: Row | DirectorsUIRow) => {
+    const matchingBand = row.contributionBands?.find(b => b.name === band)
+    return matchingBand ? total + matchingBand.employeeContributions : total
+  }
+
 const getBandTotalsInCategory = (
   band: string,
   rows: Array<Row | DirectorsUIRow>,
@@ -49,11 +55,27 @@ const getBandTotalsInCategory = (
     .filter(row => row.category === category)
     .reduce(addBandToTotal(band), 0)
 
+const getContributionBandTotalsInCategory = (
+  band: string,
+  rows: Array<Row | DirectorsUIRow>,
+  category: string
+) => rows
+  .filter(row => row.category === category)
+  .reduce(addContributionBandToTotal(band), 0)
+
 export const getTotalsInBand = (
   band: string,
   rows: Array<Row | DirectorsUIRow>
 ) =>
-  rows.reduce(addBandToTotal(band), 0)
+  rows
+    .reduce(addBandToTotal(band), 0)
+
+export const getTotalsInContributionBand = (
+  band: string,
+  rows: Array<Row | DirectorsUIRow>
+) =>
+  rows
+    .reduce(addContributionBandToTotal(band), 0)
 
 export const uniqueCategories = (rows: Array<Row | DirectorsUIRow>) => rows
     .map(r => r.category)
@@ -61,6 +83,8 @@ export const uniqueCategories = (rows: Array<Row | DirectorsUIRow>) => rows
 
 export const getTotalsInCategories = (rows: Array<Row | DirectorsUIRow>) => uniqueCategories(rows)
   .reduce((list: TotalsInCategories, category: string) => {
+    const bandNames = getBandNames(rows)
+    const contributionBandNames = getContributionBandNames(rows)
     const eeTotal = getTotalsInCategory(TotalType.EE, rows, category)
     const erTotal = getTotalsInCategory(TotalType.ER, rows, category)
     list[category] = {
@@ -68,16 +92,53 @@ export const getTotalsInCategories = (rows: Array<Row | DirectorsUIRow>) => uniq
       ee: eeTotal,
       er: erTotal,
       contributionsTotal: eeTotal + erTotal,
-      bands: rows[0].bands?.reduce((bands: Band[], nextBand: Band) => {
+      bands: bandNames.reduce((bands: Band[], nextBand: string) => {
         bands.push({
-          name: nextBand.name,
-          amountInBand: getBandTotalsInCategory(nextBand.name, rows, category)
+          name: nextBand,
+          amountInBand: getBandTotalsInCategory(nextBand, rows, category)
         })
         return bands
-      }, [] as Band[])
+      }, [] as Band[]),
+      contributionBands: contributionBandNames.reduce((bands: ContributionBand[], nextBand: string) => {
+        bands.push({
+          name: nextBand,
+          employeeContributions: getContributionBandTotalsInCategory(nextBand, rows, category)
+        })
+        return bands
+      }, [] as ContributionBand[])
     }
     return list
   }, {} as TotalsInCategories)
+
+export const mapCategoryTotalsResponse = (categoryTotals: any, rows: Array<Row | DirectorsUIRow>) => {
+  const bandNames = getBandNames(rows)
+  const contributionBandNames = getContributionBandNames(rows)
+  const result: TotalsInCategories = {}
+
+  categoryTotals.forEach((value: any, category: string) => {
+    result[category] = {
+      gross: value.gross,
+      ee: value.employee,
+      er: value.employer,
+      contributionsTotal: value.net,
+      bands: bandNames.reduce((bands: Band[], nextBand: string) => {
+        bands.push({
+          name: nextBand,
+          amountInBand: value.resultBands?.get(nextBand) ? value.resultBands?.get(nextBand).gross : '£0.00'
+        })
+        return bands
+      }, [] as Band[]),
+      contributionBands: contributionBandNames.reduce((bands: ContributionBand[], nextBand: string) => {
+        bands.push({
+          name: nextBand,
+          employeeContributions: value.resultContributionBands?.get(nextBand) ? value.resultContributionBands?.get(nextBand).employee : '£0.00'
+        })
+        return bands
+      }, [] as ContributionBand[])
+    }
+  })
+  return result
+}
 
 export const extractTaxYearFromDate = (date: Date, taxYears: TaxYear[]) => {
   const dateMoment = moment(date).utc(true)
@@ -165,6 +226,31 @@ export const decimalToPercent = (decimal: number) => parseFloat((decimal * 1000 
 export const isBeforeToday = (d: Date) => moment(d).isBefore(moment())
 
 export const zeroPad = (int: string) => int.length === 1 ? `0${int}` : int
+
+const reduceBandNames = (rows: Row[] | DirectorsUIRow[]) => rows
+    .filter((r: Row | DirectorsUIRow) => r.bands && r.bands.length > 0)
+    .reduce(
+        (list: string[], next: Row | DirectorsUIRow) =>
+            [...list, ...next.bands?.map((n: Band) => n.name)], [] as string[]
+    )
+const reduceContributionBandNames = (rows: Row[] | DirectorsUIRow[]) => rows
+    .filter((r: Row | DirectorsUIRow) => r.contributionBands && r.contributionBands.length > 0)
+    .reduce(
+        (list: string[], next: Row | DirectorsUIRow) =>
+            [...list, ...next.contributionBands?.map((n: ContributionBand) => n.name)], [] as string[]
+    )
+
+export const getContributionBandNames = (rows: Row[] | DirectorsUIRow[]) => [...new Set<string>(reduceContributionBandNames(rows))]
+export const getBandNames = (rows: Row[] | DirectorsUIRow[]) => [...new Set<string>(reduceBandNames(rows))]
+
+export const getBandValue = (bands: Band[] | undefined, name: string) => {
+  const matchingBand = bands?.find((b: Band) => b.name === name)
+  return matchingBand ? numeral(matchingBand.amountInBand).format('$0,0.00') : '£0.00'
+}
+export const getContributionBandValue = (bands: ContributionBand[] | undefined, name: string) => {
+  const matchingBand = bands?.find((b: ContributionBand) => b.name === name)
+  return matchingBand ? numeral(matchingBand.employeeContributions).format('$0,0.00') : '£0.00'
+}
 
 
 

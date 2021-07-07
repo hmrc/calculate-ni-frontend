@@ -2,7 +2,7 @@ import React, {Dispatch, useContext, useEffect, useState} from "react";
 import {DetailsProps, GenericObject, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {buildTaxYears, periods, PeriodValue} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
-import {getTotalsInCategories} from "../../../services/utils";
+import {getTotalsInCategories, mapCategoryTotalsResponse} from "../../../services/utils";
 import {categoryNamesToObject, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
 import uniqid from "uniqid";
 
@@ -40,6 +40,7 @@ export interface Row {
   bands?: Array<Band>
   explain?: Array<string>
   totalContributions?: number
+  contributionBands?: Array<ContributionBand>
 }
 
 export interface ClassOneRowInterface {
@@ -68,9 +69,15 @@ export interface Band {
   amountInBand: number
 }
 
+export interface ContributionBand {
+  name: string
+  employeeContributions: number
+}
+
 export interface CalculatedRow {
   name: string
   resultBands: Array<Band>
+  resultContributionBands: Array<ContributionBand>
   employee: number
   employer: number
   totalContributions: number
@@ -83,12 +90,18 @@ interface TotalRow {
   total: number
 }
 
+export interface CategoryTotalsResponse {
+
+}
+
 export interface Class1Result {
   resultRows: CalculatedRow[]
   totals: CalculatedTotals
   overpayment: TotalRow
   underpayment: TotalRow
-  employerContributions: number
+  employerContributions: number,
+  // categoryTotals: CategoryTotalsResponse
+  categoryTotals: any //todo
 }
 
 interface ClassOneContext {
@@ -198,7 +211,8 @@ export function useClassOneForm() {
             er: matchingRow.employer,
             totalContributions: matchingRow.totalContributions,
             bands: matchingRow.resultBands,
-            explain: matchingRow.explain
+            explain: matchingRow.explain,
+            contributionBands: matchingRow.resultContributionBands
           }
         }
         return row
@@ -215,8 +229,10 @@ export function useClassOneForm() {
   }, [result])
 
   useEffect(() => {
-    setCategoryTotals(getTotalsInCategories(rows as Row[]))
-  }, [rows])
+    if(result && result.categoryTotals) {
+      setCategoryTotals(mapCategoryTotalsResponse(result.categoryTotals, rows))
+    }
+  }, [result, rows])
 
   useEffect(() => {
     setTaxYear(taxYears[0])

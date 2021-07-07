@@ -37,3 +37,4 @@ export const netConts = css({[excludePrint[0]]: { [mq[0]]: {':before': { content
 export const employeeConts = css({[excludePrint[0]]: { [mq[0]]: {':before': { content: `"Employee contributions"` }}}})
 export const employerConts = css({[excludePrint[0]]: { [mq[0]]: {':before': { content: `"Employer contributions"` }}}})
 export const category = css({[excludePrint[0]]: { [mq[0]]: {':before': { content: `"Category"` }}}})
+export const coNI = css({[excludePrint[0]]: { [mq[0]]: {':before': { content: `"C/O NI"` }}}})

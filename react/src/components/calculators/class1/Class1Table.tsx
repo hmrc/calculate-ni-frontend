@@ -1,9 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {ClassOneContext, Row} from "./ClassOneContext";
+import {CalculatedRow, ClassOneContext, ContributionBand, Row} from "./ClassOneContext";
 import {TableProps} from '../../../interfaces'
 import Class1TableRow from "./Class1TableRow";
 import SortToggle from "../../../assets/select-dropdown-arrows.svg"
 import ExplainRow from "../shared/ExplainRow";
+import {DirectorsUIRow} from "../directors/DirectorsContext";
+import {getBandNames, getContributionBandNames} from "../../../services/utils";
 
 export default function Class1Table(props: TableProps) {
   const { showBands, printView } = props
@@ -27,22 +29,23 @@ export default function Class1Table(props: TableProps) {
     setPeriodSortDirection('descending')
   }
 
-  const firstBands = rows[0].bands ? rows[0].bands : []
-  const displayBands: boolean = showBands && firstBands.length > 0
+  const bandNames = getBandNames(rows)
+  const contributionNames = getContributionBandNames(rows)
+  const displayBands: boolean = showBands && bandNames.length > 0
 
   return (
     <table className="contribution-details" id="results-table" tabIndex={-1}>
       <caption>Contribution payment details</caption>
       <colgroup>
         <col span={4} />
-        <col span={displayBands ? firstBands.length + 1 : 1} />
+        <col span={displayBands ? bandNames.length + 1 : 1} />
         <col span={printView && result ? 3 : 2} />
         {!printView && result && <col />}
       </colgroup>
       <thead>
         <tr className="clear">
           <td colSpan={4} />
-          <th scope="colgroup" className="border" colSpan={displayBands ? firstBands.length + 1 : 1}><span>Earnings</span></th>
+          <th scope="colgroup" className="border" colSpan={displayBands ? bandNames.length + 1 : 1}><span>Earnings</span></th>
           <th scope="colgroup" className="border" colSpan={printView ? 3 : 2}><span>Net contributions</span></th>
           {!printView && result && <td />}
         </tr>
@@ -63,8 +66,8 @@ export default function Class1Table(props: TableProps) {
           <th scope="col" className="notes"><strong>Period No.</strong></th>
           <th scope="col" className="category-col"><strong>{printView ? 'Cat' : 'Select NI category'}</strong></th>
           <th scope="col" className="gross-pay"><strong>{printView ? 'Gross' : 'Enter gross pay'}</strong></th>
-          {displayBands && firstBands.map(k =>
-            <th scope="col" key={k.name}>{k.name}</th>
+          {displayBands && bandNames.map(name =>
+            <th scope="col" key={name}>{name}</th>
           )}
 
           {printView &&
@@ -73,6 +76,8 @@ export default function Class1Table(props: TableProps) {
           <th scope="col"><strong><abbr title="Employee">EE</abbr></strong></th>
           <th scope="col"><strong><abbr title="Employer">ER</abbr></strong></th>
           {!printView && result && <th scope="col"><span className="govuk-visually-hidden">Explain results</span></th>}
+
+          {printView && contributionNames && contributionNames.map((cB: string) => (<th scope="col" key={cB}>{cB}</th>))}
         </tr>
       </thead>
       
@@ -86,6 +91,8 @@ export default function Class1Table(props: TableProps) {
               printView={printView}
               setShowExplanation={setShowExplanation}
               showExplanation={showExplanation}
+              contributionNames={contributionNames}
+              bandNames={bandNames}
             />
             {!printView && result && showExplanation === r.id &&
               <tr aria-live="polite" className="explanation-row">
