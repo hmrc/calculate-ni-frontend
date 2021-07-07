@@ -11,9 +11,9 @@ object JavaScriptBuild {
 
   def npmProcess(base: File, args: String*): ProcessBuilder = {
     if (sys.props("os.name").toLowerCase contains "windows") {
-      Process("cmd" :: "/c" :: "npm" :: args.toList, base)
+      Process("cmd" :: "/c" :: "npm" :: args.toList, base, "CI" -> "false")
     } else {
-      Process("npm" :: args.toList, base)
+      Process("npm" :: args.toList, base, "CI" -> "false")
     }
   }
 
