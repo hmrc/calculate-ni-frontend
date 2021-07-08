@@ -102,13 +102,22 @@ export interface v {
   net: number
 }
 
+export interface CategoryTotals {
+  gross: number
+  employee: number
+  employer: number
+  net: number
+  resultBands: Map<string, v>
+  resultContributionBands: Map<string, v>
+}
+
 export interface Class1Result {
   resultRows: CalculatedRow[]
   totals: CalculatedTotals
   overpayment: TotalRow
   underpayment: TotalRow
   employerContributions: number
-  categoryTotals: Map<string, v>
+  categoryTotals: Map<string, CategoryTotals>
   bandTotals: BandTotals
 }
 
