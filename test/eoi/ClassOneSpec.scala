@@ -44,18 +44,9 @@ class ClassOneSpec extends AnyFunSpec with ExplainTestSupport {
       val lines = reader.all.zipWithIndex
 
       lines foreach { case (line, indexMinus) =>
-        val csvLine: String = {
-          val quoted = line map {
-            case x if x.contains(",") => s"""\"$x\""""
-            case y => y
-          }
-          quoted.mkString(",")
-        }
-
         line.map(_.trim) match {
-          case (Int(year)::PeriodParse(period)::Int(periodNumber)::categoryS::MoneyStr(grossPay)::MoneyStr(expectedEmployee)::MoneyStr(expectedEmployer)::xs) =>
-            val comments = xs.mkString(",")
-            val cosr = comments.contains("COSR")
+          case (Int(year)::PeriodParse(period)::Int(periodNumber)::categoryS::MoneyStr(grossPay)::MoneyStr(expectedEmployee)::MoneyStr(expectedEmployer)::_) =>
+            
             val category = categoryS(0)
             val res = config.calculateClassOne(
               LocalDate.of(year, 10, 1),

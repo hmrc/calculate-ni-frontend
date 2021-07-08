@@ -16,8 +16,8 @@
 
 package eoi
 
-import cats.implicits._
-import com.github.tototoshi.csv._
+import cats.syntax.apply._
+import cats.instances.option._
 
 class ClassTwoSpec extends SpreadsheetTest {
 
@@ -26,33 +26,33 @@ class ClassTwoSpec extends SpreadsheetTest {
   def lineTest(row: Map[String, String]): Unit = {
     // data
     (
-      (row.get("year") >>= TaxYear.unapply).map(_.start),
-      row.get("payment / enquiry date") >>= Date.unapply,
-      row.get("total earnings factor") >>= MoneyStr.unapply
+      (row.get("year") flatMap TaxYear.unapply).map(_.start),
+      row.get("payment / enquiry date") flatMap Date.unapply,
+      row.get("total earnings factor") flatMap MoneyStr.unapply
     ).mapN(config.calculateClassTwo) map { result =>
 
       (
-        row.get("no conts due") >>= Int.unapply
+        row.get("no conts due") flatMap Int.unapply
       ) map (result.numberOfContributions equalOrExplain _)
 
       (
-        row.get("total amount") >>= MoneyStr.unapply
+        row.get("total amount") flatMap MoneyStr.unapply
       ) map (result.totalDue equalOrExplain _)
 
       (
-        row.get("no conts due") >>= Int.unapply
+        row.get("no conts due") flatMap Int.unapply
       ) map (result.numberOfContributions equalOrExplain _)
 
       (
-        row.get("total amount") >>= MoneyStr.unapply
+        row.get("total amount") flatMap MoneyStr.unapply
       ) map (result.totalDue equalOrExplain _)
 
       (
-        row.get("date higher rate") >>= Date.unapply
+        row.get("date higher rate") flatMap Date.unapply
       ) map (result.higherProvisionsApplyOn equalOrExplain _)
 
       (
-        row.get("final payment date") >>= Date.unapply
+        row.get("final payment date") flatMap Date.unapply
       ) map (result.finalDate equalOrExplain _)
       
     }

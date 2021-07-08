@@ -18,7 +18,6 @@ package eoi
 
 import eoi.Class1Band._
 import cats.syntax.order._
-import spire.syntax.field._
 
 sealed trait Class1Band extends Product with Serializable
 
@@ -184,7 +183,7 @@ case class UnofficialDefermentResult(
   lazy val nicsOnMaxMainContributionEarnings: ReportStep =
     ReportStep(
       (rateOnMaxContributionEarnings * maxMainContributionEarnings.value).roundNi,
-      s"Step 2: ${rateOnMaxContributionEarnings.formatPercentage} of Step 1"
+      s"Step 2: ${rateOnMaxContributionEarnings} of Step 1"
   )
 
   lazy val actualEarningsInMainContributionBand: ReportStep =
@@ -203,7 +202,7 @@ case class UnofficialDefermentResult(
   lazy val nicsOnExcessEarnings: ReportStep =
     ReportStep(
       (nonCOAdditionalRate * excessEarnings.value).roundNi,
-      s"Step 5: Multiply Step 4 by ${nonCOAdditionalRate.formatPercentage} if positive (disregard if negative)"
+      s"Step 5: Multiply Step 4 by ${nonCOAdditionalRate} if positive (disregard if negative)"
     )
 
   lazy val totalEarningsAboveUel: ReportStep =
@@ -215,7 +214,7 @@ case class UnofficialDefermentResult(
   lazy val nicsOnTotalEarningsAboveUel: ReportStep =
     ReportStep(
     (nonCOAdditionalRate * totalEarningsAboveUel.value).roundNi,
-      s"Step 7: Multiply Step 6 by ${nonCOAdditionalRate.formatPercentage}"
+      s"Step 7: Multiply Step 6 by ${nonCOAdditionalRate}"
     )
 
   lazy val annualMax: ReportStep =

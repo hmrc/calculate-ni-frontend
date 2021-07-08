@@ -1,11 +1,27 @@
+/*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package eoi
 package frontend
 
 import scala.scalajs.js.annotation._
 import scala.scalajs.js.Date
 import scala.scalajs.js, js.JSConverters._
-import cats.implicits._
 import JsObjectAdapter.ops._
+import com.github.ghik.silencer.silent
 
 @JSExportTopLevel("ClassOneFrontend")
 class ClassOneFrontend(
@@ -76,6 +92,7 @@ object ClassOneFrontend {
    * Any of the elements of ClassOneResult can be made accessible to the
    * JS frontend from here.
    */
+  @silent("never used") // the compiler seems to think everything is private
   implicit def c1ResultLikeAdapter[A <: ClassOneResultLike]: JsObjectAdapter[A] = new JsObjectAdapter[A] {
     def toJSObject(in: A): js.Object = new js.Object {
 

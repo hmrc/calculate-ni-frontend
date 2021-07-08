@@ -80,6 +80,7 @@ lazy val microservice = Project(appName, file("."))
     ),
     play.sbt.routes.RoutesKeys.routesImport += "uk.gov.hmrc.calculatenifrontend.controllers.Binders._",
     scalacOptions += "-P:silencer:pathFilters=routes",
+    scalacOptions += "-P:silencer:pathFilters=target/.*",
     scalacOptions += "-Ypartial-unification",
     libraryDependencies ++= Seq(
       compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
@@ -115,6 +116,10 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
       "org.typelevel" %%% "cats-core" % "2.1.1",
       "org.typelevel" %%% "spire" % "0.17.0-RC1"
     ),
+    libraryDependencies ++= Seq(
+      compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
+      "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
+    ),
     scalacOptions -= "-Xfatal-warnings",
     addCompilerPlugin(
       "org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full
@@ -135,6 +140,10 @@ lazy val `frontend` = project
       "org.scala-js" %%% "scalajs-dom" % "1.1.0",
       "org.scala-js" %%% "scalajs-java-time" % "1.0.0", 
       "org.typelevel" %%% "simulacrum" % "1.0.0"
+    ),
+    libraryDependencies ++= Seq(
+      compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
+      "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
     ),
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },

@@ -32,6 +32,7 @@ case class Bands(
       case Period.Month => month.getOrElse(year.mapBounds(_ / 12 * qtyM))
       case Period.Week => week.getOrElse(year.mapBounds(_ / 52 * qtyM))
       case Period.FourWeek => fourWeek.getOrElse(year.mapBounds(_ / 13 * qtyM))
+      case bad => sys.error(s"Unknown period - $bad")
     }
     raw.mapBounds(_.setScale(2, BigDecimal.RoundingMode.HALF_UP))
   }

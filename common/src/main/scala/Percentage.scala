@@ -25,9 +25,6 @@ case class Percentage(value: BigDecimal) extends AnyVal {
   override def toString: String =
     (value * 100).underlying.stripTrailingZeros.toPlainString + "%"
 
-  @deprecated("use toString", since = "0.178")
-  def formatPercentage: String = toString
-
   def abs: Percentage = Percentage(value.abs)
 
   def toDouble: Double = value.toDouble  
