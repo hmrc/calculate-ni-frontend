@@ -66,17 +66,16 @@ class ClassOneFrontend(
     config.classOne(interval).values.flatMap( x =>
       x.employee.keys ++ x.employer.keys
     ).toList.sorted.distinct.map{ch => s"$ch"}.mkString
-    }
-
+  }
 }
 
 object ClassOneFrontend {
 
   /* this defines the structure of the JS object that is derived from
- * the Scala output.
- * Any of the elements of ClassOneResult can be made accessible to the
- * JS frontend from here.
- */
+   * the Scala output.
+   * Any of the elements of ClassOneResult can be made accessible to the
+   * JS frontend from here.
+   */
   implicit def c1ResultLikeAdapter[A <: ClassOneResultLike]: JsObjectAdapter[A] = new JsObjectAdapter[A] {
     def toJSObject(in: A): js.Object = new js.Object {
 
@@ -132,44 +131,56 @@ object ClassOneFrontend {
 
       val employerContributions = in.employerPaid.value.toDouble
 
-      val categoryTotals = {
-              in.rowsOutput.groupBy(_.category).map {
-                case (cat, matchingRows) =>
-                  cat.toString -> new js.Object {
-                    val gross = matchingRows.map(_.money).sum.toDouble
-                    val employee = matchingRows.map(_.employeeContributions.value).sum.toDouble
-                    val employer = matchingRows.map(_.employerContributions.value).sum.toDouble
-                    val net = matchingRows.map(_.totalContributions.value).sum.toDouble
-                    val resultBands = matchingRows
-                      .flatMap(_.displaySummaryBands)
-                      .groupBy(_.bandId)
-                      .mapValues( x =>
-                        new js.Object {
-                          val gross = x.map(_.amountInBand.value).sum.toDouble
-                          val employee = x.map(_.employeeContributions.value).sum.toDouble
-                          val employer = x.map(_.employerContributions.value).sum.toDouble
-                          val net = x.map(_.employerContributions.value).sum.toDouble
-                        }
-                      ).toJSMap
-                    val resultContributionBands = matchingRows
-                      .flatMap(_.displaySummaryContributionBands)
-                      .groupBy(_.bandId)
-                      .mapValues(x =>
-                        new js.Object {
-                          val gross = x.map(_.amountInBand.value).sum.toDouble
-                          val employee = x.map(_.employeeContributions.value).sum.toDouble
-                          val employer = x.map(_.employerContributions.value).sum.toDouble
-                          val net = x.map(_.employerContributions.value).sum.toDouble
-                        }
-                      ).toJSMap
-                  }
-              }
-            }.toJSMap
-          }
-        }
+      def calcTotals(x: List[ClassOneRowOutput#ClassOneRowOutputBand]): js.Object = new js.Object {
+        val gross = x.map(_.amountInBand.value).sum.toDouble
+        val employee = x.map(_.employeeContributions.value).sum.toDouble
+        val employer = x.map(_.employerContributions.value).sum.toDouble
+        val net = x.map(_.employerContributions.value).sum.toDouble
       }
-      @JSExportTopLevel("ClassOneRow")
-  case class ClassOneRow(
+
+      val categoryTotals = {
+        in.rowsOutput.groupBy(_.category).map {
+          case (cat, matchingRows) =>
+            cat.toString -> new js.Object {
+              val gross = matchingRows.map(_.money).sum.toDouble
+              val employee = matchingRows.map(_.employeeContributions.value).sum.toDouble
+              val employer = matchingRows.map(_.employerContributions.value).sum.toDouble
+              val net = matchingRows.map(_.totalContributions.value).sum.toDouble
+              val resultBands = matchingRows
+                .flatMap(_.displaySummaryBands)
+                .groupBy(_.bandId)
+                .mapValues(calcTotals)
+                .toJSMap
+              val resultContributionBands = matchingRows
+                .flatMap(_.displaySummaryContributionBands)
+                .groupBy(_.bandId)
+                .mapValues(calcTotals)
+                .toJSMap
+            }
+        }
+      }.toJSMap
+
+      val bandTotals = new js.Object {
+
+        val resultBands = in.rowsOutput
+          .flatMap(_.displaySummaryBands)
+          .groupBy(_.bandId)
+          .mapValues(calcTotals)
+          .toJSMap
+
+        val resultContributionBands = in.rowsOutput
+          .flatMap(_.displaySummaryContributionBands)
+          .groupBy(_.bandId)
+          .mapValues(calcTotals)
+          .toJSMap
+
+      }
+    }
+  }
+}
+
+@JSExportTopLevel("ClassOneRow")
+case class ClassOneRow(
   id: String,
   period: String, // "M", "W" or "4W"
   category: String,
