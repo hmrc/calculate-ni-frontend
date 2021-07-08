@@ -108,7 +108,7 @@ export interface Class1Result {
   overpayment: TotalRow
   underpayment: TotalRow
   employerContributions: number
-  categoryTotals: BandTotals
+  categoryTotals: Map<string, v>
   bandTotals: BandTotals
 }
 
