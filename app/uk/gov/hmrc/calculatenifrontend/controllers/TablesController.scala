@@ -88,8 +88,8 @@ class TablesController @Inject()(
         val noOfWeeks = selectedInterval.numberOfWeeks().get
         val response = List (
           "Term Date" -> LocalDate.of(lowerBound.getYear, 4, 9).ukFormat, // unknown... but always the 9th of april
-          "Weekly Rate" -> data.weeklyRate.default.formatSterling,
-          "Rate Total" -> (data.weeklyRate.default * noOfWeeks).formatSterling
+          "Weekly Rate" -> data.weeklyRate.default.toString,
+          "Rate Total" -> (data.weeklyRate.default * noOfWeeks).toString
         ) ++ (data.weeklyRate.voluntary match {
           case None => Nil
           case Some(vdw) => List (
@@ -99,14 +99,14 @@ class TablesController @Inject()(
         }) ++ (data.weeklyRate.fishermen match {
           case None => Nil
           case Some(vdw) => List (
-            "Share Fishing Weekly Rate" -> vdw.formatSterling,
-            "Share Fishing Total" -> (vdw * noOfWeeks).formatSterling
+            "Share Fishing Weekly Rate" -> vdw.toString,
+            "Share Fishing Total" -> (vdw * noOfWeeks).toString
           )
         }) ++ List (
 //          "Date Late For Short Term Benefits (STB)" -> "???",
           "Final Date For Payment" -> (lowerBound, data).getFinalDate.value.ukFormat,
           "Small Profits Threshold/Small Earnings Exemption (SPT/SEE)" ->
-            data.smallEarningsException.fold("N/A")(_.formatSterling), // below which paying is optional
+            data.smallEarningsException.fold("N/A")(_.toString), // below which paying is optional
           "Date High Rate Provision (HRP) Applies" -> (lowerBound, data).getHigherRateDate.value.ukFormat, 
           "No of Wks" -> noOfWeeks.toString,
 //          "Earnings Factor (includes enhance)" -> "???",
@@ -128,12 +128,12 @@ class TablesController @Inject()(
         val selectedInterval = ni.classThree.keySet.find(_.contains(dateP)).get
         val lowerBound = selectedInterval.lowerValue.get        
         val response = List (
-          "Weekly Rate" -> data.weekRate.formatSterling,
-          "Rate Total" -> (data.weekRate * data.noOfWeeks).formatSterling,
+          "Weekly Rate" -> data.weekRate.toString,
+          "Rate Total" -> (data.weekRate * data.noOfWeeks).toString,
           "Date High Rate Provision (HRP) Applies" -> (lowerBound, data).getHigherRateDate.value.ukFormat, 
           "Final Date For Payment" -> (lowerBound, data).getFinalDate.value.ukFormat, 
 //          "Earnings Factor Qualifying Year" -> "???",
-          "Lower Earning Limit" -> data.lel.formatSterling
+          "Lower Earning Limit" -> data.lel.toString
         )
 
         Ok(genericPage(dateP, intervals, "Class 3", response.map{case (k,v) => (k,Html(v.toString))}))
@@ -150,10 +150,10 @@ class TablesController @Inject()(
     ni.classFour.at(dateP) match {
       case Some(data) =>
         val response = List (
-          "Rate (between lower and upper profit limits)" -> data.mainRate.formatPercentage,
-          "Rate (above upper profit limits))" -> data.upperRate.formatPercentage,
-          "Annual Lower Profit Limit (LPL)" -> data.lowerLimit.formatSterling,
-          "Annual Upper Profit Limit (UPL)" -> data.upperLimit.formatSterling
+          "Rate (between lower and upper profit limits)" -> data.mainRate.toString,
+          "Rate (above upper profit limits))" -> data.upperRate.toString,
+          "Annual Lower Profit Limit (LPL)" -> data.lowerLimit.toString,
+          "Annual Upper Profit Limit (UPL)" -> data.upperLimit.toString
         )
 
         Ok(genericPage(dateP, intervals, "Class 4", response.map{case (k,v) => (k,Html(v.toString))}))

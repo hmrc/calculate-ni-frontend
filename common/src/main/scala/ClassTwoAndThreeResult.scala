@@ -17,8 +17,6 @@
 package eoi
 
 import spire.math.Interval
-import spire.syntax.field._
-import cats.syntax.applicative._
 import cats.syntax.apply._
 import spire.implicits._
 import java.time.LocalDate
