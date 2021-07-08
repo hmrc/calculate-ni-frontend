@@ -90,8 +90,16 @@ interface TotalRow {
   total: number
 }
 
-export interface CategoryTotalsResponse {
+export interface BandTotals {
+  resultBands: Map<string, v>
+  resultContributionBands: Map<string, v>
+}
 
+export interface v {
+  gross: number
+  employee: number
+  employer: number
+  net: number
 }
 
 export interface Class1Result {
@@ -99,9 +107,9 @@ export interface Class1Result {
   totals: CalculatedTotals
   overpayment: TotalRow
   underpayment: TotalRow
-  employerContributions: number,
-  // categoryTotals: CategoryTotalsResponse
-  categoryTotals: any //todo
+  employerContributions: number
+  categoryTotals: BandTotals
+  bandTotals: BandTotals
 }
 
 interface ClassOneContext {
