@@ -69,7 +69,7 @@ lazy val microservice = Project(appName, file("."))
     ).map(_ % circeVersion),
     libraryDependencies              ++= Seq(
       "org.scalatest"           %% "scalatest"                % "3.2.9",
-      "com.vladsch.flexmark"    %  "flexmark-all"             % "0.62.2",
+      "com.vladsch.flexmark"    %  "flexmark-all"             % "0.35.10",
       "com.typesafe.play"       %% "play-test"                % play.core.PlayVersion.current,
       "com.github.tototoshi"    %% "scala-csv"                % "1.3.8"
     ).map(_ % Test),
