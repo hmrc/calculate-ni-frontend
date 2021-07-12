@@ -1,3 +1,19 @@
+/*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package eoi
 package frontend
 
@@ -89,7 +105,13 @@ object ClassOneFrontend {
 
           // anywhere where we have an 'Explained' datatype we can call 'value' to get
           // the Scala value (normally a BigDecimal) -
-          val amountInBand = band.amountInBand.value.toDouble
+          val amountInBand = if (name == "Up to LEL")
+            if (band.amountInBand.value == band.moneyInterval.value.upperValue.get)
+              band.amountInBand.value.toDouble
+            else
+              0.0
+          else 
+            band.amountInBand.value.toDouble
 
           // or call 'explain' to get a List[String] trace -
           val amountInBandExplain: js.Array[String] = band.amountInBand.explain.toJSArray
@@ -131,11 +153,28 @@ object ClassOneFrontend {
 
       val employerContributions = in.employerPaid.value.toDouble
 
-      def calcTotals(x: List[ClassOneRowOutput#ClassOneRowOutputBand]): js.Object = new js.Object {
-        val gross = x.map(_.amountInBand.value).sum.toDouble
-        val employee = x.map(_.employeeContributions.value).sum.toDouble
-        val employer = x.map(_.employerContributions.value).sum.toDouble
-        val net = x.map(_.employerContributions.value).sum.toDouble
+      def calcTotals(key: String, x: List[ClassOneRowOutput#ClassOneRowOutputBand]): (String, js.Object) = {
+        key match {
+          case "Up to LEL" =>
+            key -> new js.Object {
+              val gross = x.flatMap{ b => 
+                if (b.amountInBand.value == b.moneyInterval.value.upperValue.get)
+                  Some(b.amountInBand.value)
+                else
+                  None
+              }.sum.toDouble
+              val employee = x.map(_.employeeContributions.value).sum.toDouble
+              val employer = x.map(_.employerContributions.value).sum.toDouble
+              val net = x.map(_.employerContributions.value).sum.toDouble
+            }
+          case _ =>
+            key -> new js.Object {
+              val gross = x.map(_.amountInBand.value).sum.toDouble
+              val employee = x.map(_.employeeContributions.value).sum.toDouble
+              val employer = x.map(_.employerContributions.value).sum.toDouble
+              val net = x.map(_.employerContributions.value).sum.toDouble
+            }
+        }
       }
 
       val categoryTotals = {
@@ -149,12 +188,12 @@ object ClassOneFrontend {
               val resultBands = matchingRows
                 .flatMap(_.displaySummaryBands)
                 .groupBy(_.bandId)
-                .mapValues(calcTotals)
+                .map(Function.tupled(calcTotals))
                 .toJSMap
               val resultContributionBands = matchingRows
                 .flatMap(_.displaySummaryContributionBands)
                 .groupBy(_.bandId)
-                .mapValues(calcTotals)
+                .map(Function.tupled(calcTotals))
                 .toJSMap
             }
         }
@@ -165,13 +204,13 @@ object ClassOneFrontend {
         val resultBands = in.rowsOutput
           .flatMap(_.displaySummaryBands)
           .groupBy(_.bandId)
-          .mapValues(calcTotals)
+          .map(Function.tupled(calcTotals))
           .toJSMap
 
         val resultContributionBands = in.rowsOutput
           .flatMap(_.displaySummaryContributionBands)
           .groupBy(_.bandId)
-          .mapValues(calcTotals)
+          .map(Function.tupled(calcTotals))
           .toJSMap
 
       }
