@@ -1,3 +1,19 @@
+/*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package eoi
 package frontend
 
@@ -6,6 +22,7 @@ import scala.scalajs.js.Date
 import scala.scalajs.js, js.JSConverters._
 import cats.implicits._
 import JsObjectAdapter.ops._
+import collection.immutable.ListMap
 
 @JSExportTopLevel("ClassOneFrontend")
 class ClassOneFrontend(
@@ -66,6 +83,83 @@ class ClassOneFrontend(
     config.classOne(interval).values.flatMap( x =>
       x.employee.keys ++ x.employer.keys
     ).toList.sorted.distinct.map{ch => s"$ch"}.mkString
+  }
+
+  def printPreview(
+    on: js.Date,
+    rows: js.Array[ClassOneRow],
+    netPaid: String,
+    employeePaid: String
+  ): js.Object = new js.Object {
+
+    val contributionDetails: js.Array[js.Object] = 
+      List(
+        new js.Object {
+          val rowNo = 1
+          val period = "Weekly"
+          val periodNo = "1"
+          val category = "A"
+          val earnings: js.Map[String, String] = ListMap(
+	    "Gross" -> "£12.34", 
+	    "Up to LEL" -> "£23.45",
+	    "LEL to PT" -> "£34.56",
+	    "PT to UEL" -> "£45.67"             
+          ).toJSMap
+          val netContributions: js.Map[String, String] = ListMap(
+	    "Total" -> "£12.34", 
+	    "EE" -> "£23.45",
+	    "ER" -> "£34.56"
+          ).toJSMap
+        } : js.Object
+      ).toJSArray
+    
+
+    val categoryTotals: js.Array[js.Object] =
+      List(
+        new js.Object {
+          val category = "A"
+          val earnings: js.Map[String, String] = ListMap(
+	    "Gross" -> "£12.34", 
+	    "Up to LEL" -> "£23.45",
+	    "LEL to PT" -> "£34.56",
+	    "PT to UEL" -> "£45.67"             
+          ).toJSMap
+          val netContributions: js.Map[String, String] = ListMap(
+	    "Total" -> "£12.34", 
+	    "EE" -> "£23.45",
+	    "ER" -> "£34.56"
+          ).toJSMap
+        } : js.Object
+      ).toJSArray
+
+    val categoryGrandTotals: js.Object = new js.Object {
+      val earnings: js.Map[String, String] = ListMap(
+	"Gross" -> "£12.34",
+	"Up to LEL" -> "£23.45",
+	"LEL to PT" -> "£34.56",
+	"PT to UEL" -> "£45.67"
+      ).toJSMap
+      val netContributions: js.Map[String, String] = ListMap(
+	"Total" -> "£12.34",
+	"EE" -> "£23.45",
+	"ER" -> "£34.56"
+      ).toJSMap
+    }
+
+    val totals: js.Object = new js.Object {
+      val grossPay = "£1,234"
+
+      val net: js.Object = new js.Object {
+        val total = "£529.13"
+        val niPaid = "£0.00"
+        val underpayment = "£529.13"
+        val overpayment = "£0.00"
+      }
+
+      val employeeContributions = net
+      val employerContributions = net
+    }
+
   }
 }
 
