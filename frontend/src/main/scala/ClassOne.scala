@@ -84,83 +84,6 @@ class ClassOneFrontend(
       x.employee.keys ++ x.employer.keys
     ).toList.sorted.distinct.map{ch => s"$ch"}.mkString
   }
-
-  def printPreview(
-    on: js.Date,
-    rows: js.Array[ClassOneRow],
-    netPaid: String,
-    employeePaid: String
-  ): js.Object = new js.Object {
-
-    val contributionDetails: js.Array[js.Object] = 
-      List(
-        new js.Object {
-          val rowNo = 1
-          val period = "Weekly"
-          val periodNo = "1"
-          val category = "A"
-          val earnings: js.Map[String, String] = ListMap(
-	    "Gross" -> "£12.34", 
-	    "Up to LEL" -> "£23.45",
-	    "LEL to PT" -> "£34.56",
-	    "PT to UEL" -> "£45.67"             
-          ).toJSMap
-          val netContributions: js.Map[String, String] = ListMap(
-	    "Total" -> "£12.34", 
-	    "EE" -> "£23.45",
-	    "ER" -> "£34.56"
-          ).toJSMap
-        } : js.Object
-      ).toJSArray
-    
-
-    val categoryTotals: js.Array[js.Object] =
-      List(
-        new js.Object {
-          val category = "A"
-          val earnings: js.Map[String, String] = ListMap(
-	    "Gross" -> "£12.34", 
-	    "Up to LEL" -> "£23.45",
-	    "LEL to PT" -> "£34.56",
-	    "PT to UEL" -> "£45.67"             
-          ).toJSMap
-          val netContributions: js.Map[String, String] = ListMap(
-	    "Total" -> "£12.34", 
-	    "EE" -> "£23.45",
-	    "ER" -> "£34.56"
-          ).toJSMap
-        } : js.Object
-      ).toJSArray
-
-    val categoryGrandTotals: js.Object = new js.Object {
-      val earnings: js.Map[String, String] = ListMap(
-	"Gross" -> "£12.34",
-	"Up to LEL" -> "£23.45",
-	"LEL to PT" -> "£34.56",
-	"PT to UEL" -> "£45.67"
-      ).toJSMap
-      val netContributions: js.Map[String, String] = ListMap(
-	"Total" -> "£12.34",
-	"EE" -> "£23.45",
-	"ER" -> "£34.56"
-      ).toJSMap
-    }
-
-    val totals: js.Object = new js.Object {
-      val grossPay = "£1,234"
-
-      val net: js.Object = new js.Object {
-        val total = "£529.13"
-        val niPaid = "£0.00"
-        val underpayment = "£529.13"
-        val overpayment = "£0.00"
-      }
-
-      val employeeContributions = net
-      val employerContributions = net
-    }
-
-  }
 }
 
 object ClassOneFrontend {
@@ -269,6 +192,88 @@ object ClassOneFrontend {
           .toJSMap
 
       }
+
+      implicit class RichListMap[K,V](m: ListMap[K,V]) {
+        def toJSArrayOfObjects: js.Array[js.Object] =
+          m.map{ case (k,v) =>
+            new js.Object {
+              val key = k
+              val value = v
+            }: js.Object
+          }.toJSArray
+      }
+
+      def printPreview: js.Object = new js.Object {
+
+        val contributionDetails: js.Array[js.Object] =
+          List(
+            new js.Object {
+              val rowNo = 1
+              val period = "Weekly"
+              val periodNo = "1"
+              val category = "A"
+              val earnings: js.Array[js.Object] = ListMap(
+	        "Gross" -> "£12.34",
+	        "Up to LEL" -> "£23.45",
+	        "LEL to PT" -> "£34.56",
+	        "PT to UEL" -> "£45.67"
+              ).toJSArrayOfObjects
+              val netContributions = ListMap(
+	        "Total" -> "£12.34",
+	        "EE" -> "£23.45",
+	        "ER" -> "£34.56"
+              ).toJSArrayOfObjects
+            } : js.Object
+          ).toJSArray
+
+
+        val categoryTotals: js.Array[js.Object] =
+          List(
+            new js.Object {
+              val category = "A"
+              val earnings = ListMap(
+	        "Gross" -> "£12.34",
+	        "Up to LEL" -> "£23.45",
+	        "LEL to PT" -> "£34.56",
+	        "PT to UEL" -> "£45.67"
+              ).toJSArrayOfObjects
+              val netContributions = ListMap(
+	        "Total" -> "£12.34",
+	        "EE" -> "£23.45",
+	        "ER" -> "£34.56"
+              ).toJSArrayOfObjects
+            } : js.Object
+          ).toJSArray
+
+        val categoryGrandTotals: js.Object = new js.Object {
+          val earnings = ListMap(
+	    "Gross" -> "£12.34",
+	    "Up to LEL" -> "£23.45",
+	    "LEL to PT" -> "£34.56",
+	    "PT to UEL" -> "£45.67"
+          ).toJSArrayOfObjects
+          val netContributions = ListMap(
+	    "Total" -> "£12.34",
+	    "EE" -> "£23.45",
+	    "ER" -> "£34.56"
+          ).toJSArrayOfObjects
+        }
+
+        val totals: js.Object = new js.Object {
+          val grossPay = "£1,234"
+
+          val net: js.Object = new js.Object {
+            val total = "£529.13"
+            val niPaid = "£0.00"
+            val underpayment = "£529.13"
+            val overpayment = "£0.00"
+          }
+
+          val employeeContributions = net
+          val employerContributions = net
+        }
+      }
+
     }
   }
 }
