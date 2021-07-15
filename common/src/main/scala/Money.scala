@@ -51,9 +51,6 @@ case class Money(value: BigDecimal) extends AnyVal {
 
   def abs: Money = Money(value.abs)
 
-  @deprecated("use toString", since = "0.178")
-  def formatSterling: String = toString
-
   override def toString: String = value.scale match {
     case 1 => s"£${value.setScale(2)}"
     case _ => s"£$value"
