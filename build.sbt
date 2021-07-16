@@ -71,7 +71,10 @@ lazy val microservice = Project(appName, file("."))
       "org.scalatest"           %% "scalatest"                % "3.2.9",
       "com.vladsch.flexmark"    %  "flexmark-all"             % "0.35.10",
       "com.typesafe.play"       %% "play-test"                % play.core.PlayVersion.current,
-      "com.github.tototoshi"    %% "scala-csv"                % "1.3.8"
+      "com.github.tototoshi"    %% "scala-csv"                % "1.3.8",
+      "org.scalatestplus"       %% "scalacheck-1-15"          % "3.2.9.0",
+      "com.propensive"          %% "magnolia"                 % "0.7.1",
+      "io.chrisdavenport"       %% "cats-scalacheck"          % "0.3.0"
     ).map(_ % Test),
     TwirlKeys.templateImports ++= Seq(
       "uk.gov.hmrc.calculatenifrontend.config.AppConfig",
@@ -90,8 +93,7 @@ lazy val microservice = Project(appName, file("."))
     reactDirectory := (Compile / baseDirectory) { _ /"react" }.value,
     Compile / unmanagedSourceDirectories ++= (common.jvm / (Compile / unmanagedSourceDirectories)).value,
     Compile / unmanagedResources += file("national-insurance.conf"),
-    dist := (dist dependsOn moveReact).value // ,
-    // (Test / test) := ((Test / test) dependsOn (calc / Test / test)).value
+    dist := (dist dependsOn moveReact).value
   )
   .settings(publishingSettings: _*)
   .configs(IntegrationTest)
@@ -100,13 +102,13 @@ lazy val microservice = Project(appName, file("."))
 
 val circeVersion = "0.14.1"
 
-/** common components holding the logic of the calculation */ 
+/** common components holding the logic of the calculation */
 lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform, JVMPlatform)
   .withoutSuffixFor(JVMPlatform)
   .crossType(sbtcrossproject.CrossPlugin.autoImport.CrossType.Pure)
   .settings(
     scalaVersion := "2.12.14",
-    majorVersion := 0,    
+    majorVersion := 0,
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core",
       "io.circe" %%% "circe-generic",
@@ -133,12 +135,12 @@ lazy val `frontend` = project
   .enablePlugins(ScalaJSPlugin)
   .settings(
     scalaVersion := "2.12.14",
-    majorVersion := 0,        
+    majorVersion := 0,
     scalacOptions -= "-Xfatal-warnings",
     scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "1.1.0",
-      "org.scala-js" %%% "scalajs-java-time" % "1.0.0", 
+      "org.scala-js" %%% "scalajs-java-time" % "1.0.0",
       "org.typelevel" %%% "simulacrum" % "1.0.0"
     ),
     libraryDependencies ++= Seq(
@@ -151,21 +153,3 @@ lazy val `frontend` = project
     publishLocal := {}
   )
   .dependsOn(common.js)
-
-lazy val `config-importer` = project
-  .dependsOn(microservice) // to check we can parse the new configuration
-  .settings(
-    majorVersion := 0,            
-    publish := {},
-    publishLocal := {},
-    libraryDependencies ++= Seq(
-      "com.github.tototoshi" %% "scala-csv" % "1.3.8", 
-      "org.typelevel" %% "simulacrum" % "1.0.0",
-      "com.lihaoyi" %% "scalatags" % "0.8.2",
-      "org.scalacheck" %% "scalacheck" % "1.14.1"
-    ),
-    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
-    publish := {},
-    publishLocal := {}    
-  )
-
