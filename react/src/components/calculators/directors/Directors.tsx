@@ -11,14 +11,13 @@ import ErrorSummary from '../../helpers/gov-design-system/ErrorSummary'
 import DirectorsPrintView from "./DirectorsPrintView";
 
 // types
-import {DirectorsContext, DirectorsUIRow, DirectorsRowInterface, useDirectorsForm} from "./DirectorsContext";
+import {DirectorsContext, DirectorsUIRow, DirectorsRowInterface, useDirectorsForm} from "./DirectorsContext"
 import {SuccessNotificationContext} from '../../../services/SuccessNotificationContext'
 
 // services
 import {hasKeys} from "../../../services/utils";
 import {SuccessNotification} from "../shared/SuccessNotification";
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
-import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 import PrintButtons from "../shared/PrintButtons";
 
 const pageTitle = 'Directors’ contributions'
@@ -55,8 +54,8 @@ const DirectorsPage = () => {
   useDocumentTitle(titleWithPrefix)
 
   useEffect(() => {
-    invalidateResults()
-  }, [dateRange])
+    setResult(null)
+  }, [dateRange, setResult])
 
   const handleChange = ({
     currentTarget: { name, value },
@@ -125,10 +124,6 @@ const DirectorsPage = () => {
     setResult(null)
     setNiPaidEmployee('')
     setNiPaidNet('')
-  }
-
-  const invalidateResults = () => {
-    setResult(null)
   }
 
   useEffect(() => {

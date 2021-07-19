@@ -4,7 +4,7 @@ import 'numeral/locales/en-gb';
 import {
   TotalsInCategories,
   TotalType,
-  TaxYear, GovDateRange, DateParts
+  TaxYear, DateParts
 } from "../interfaces";
 import {ErrorMessage, stripCommas} from "../validation/validation";
 import {Band, ContributionBand, Row} from "../components/calculators/class1/ClassOneContext";

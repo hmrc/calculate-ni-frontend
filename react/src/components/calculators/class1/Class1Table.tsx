@@ -1,10 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react'
-import {CalculatedRow, ClassOneContext, ContributionBand, Row} from "./ClassOneContext";
+import React, {useContext, useState} from 'react'
+import {ClassOneContext, Row} from "./ClassOneContext";
 import {TableProps} from '../../../interfaces'
 import Class1TableRow from "./Class1TableRow";
 import SortToggle from "../../../assets/select-dropdown-arrows.svg"
 import ExplainRow from "../shared/ExplainRow";
-import {DirectorsUIRow} from "../directors/DirectorsContext";
 import {getBandNames, getContributionBandNames} from "../../../services/utils";
 
 export default function Class1Table(props: TableProps) {

@@ -1,4 +1,4 @@
-import React, {Dispatch, useContext, useEffect, useState} from 'react'
+import React, {Dispatch, useContext, useEffect, useState, SetStateAction} from 'react'
 
 // types
 import {DetailsProps, Rate, TaxYear} from '../../../interfaces'
@@ -46,7 +46,7 @@ interface LateRefundsContext {
   taxYears: TaxYear[]
   rates: Rate[] | null
   rows: LateRefundsTableRowProps[]
-  setRows: Function
+  setRows: Dispatch<SetStateAction<Array<LateRefundsTableRowProps>>>
   activeRowId: string | null
   setActiveRowId: Dispatch<string | null>
   errors: GenericErrors

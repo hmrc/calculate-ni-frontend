@@ -43,11 +43,11 @@ function Class2Or3Form() {
   }
 
   useEffect(() => {
-    invalidateResult()
+    setResult(null)
     const paymentEnquiryDate = validDateParts(day, month, year) ?
       new Date(`${year}-${zeroPad(month)}-${zeroPad(day)}`) : null
       setPaymentEnquiryDate(paymentEnquiryDate)
-  }, [day, month, year, setPaymentEnquiryDate])
+  }, [day, month, year, setPaymentEnquiryDate, setResult])
 
   const handleClassChange = (value: NiClassName) => {
     invalidateResult()

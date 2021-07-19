@@ -3,7 +3,6 @@ import {hasKeys} from "../../../services/utils";
 import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
 import Details from "../shared/Details";
 import {Class3Context, useClass3Form} from "./Class3Context";
-import Class3Form from "./Class3Form";
 import {validateClass3Payload} from "../../../validation/validation";
 import Class3Print from './Class3Print'
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
@@ -37,7 +36,7 @@ const Class3Page = () => {
 
   useEffect(() => {
     setResults(null)
-  }, [dateRange.fromParts, dateRange.toParts])
+  }, [dateRange.fromParts, dateRange.toParts, setResults])
 
   const handleSubmit = (event: React.FormEvent) => {
       event.preventDefault()

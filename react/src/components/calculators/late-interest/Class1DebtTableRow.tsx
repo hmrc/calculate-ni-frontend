@@ -32,14 +32,17 @@ function Class1DebtTableRow(props: {
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     invalidateResults()
-    setTaxYear(taxYears.find(ty => ty.id === e.currentTarget.value))
+    const selectedTaxYear = taxYears.find((ty:TaxYear) => ty.id === e.currentTarget.value)
+    if(selectedTaxYear) {
+      setTaxYear(selectedTaxYear)
+    }
   }
 
   useEffect(() => {
-    setRows(rows.map((cur: Class1DebtRow) =>
+    setRows((prevState: Class1DebtRow[]) => prevState.map((cur: Class1DebtRow) =>
       cur.id === row.id ? {...cur, taxYear: taxYear} : cur
     ))
-  }, [taxYear])
+  }, [taxYear, setRows, row.id])
 
   useEffect(() => {
     if(taxYears && !row.taxYear) {

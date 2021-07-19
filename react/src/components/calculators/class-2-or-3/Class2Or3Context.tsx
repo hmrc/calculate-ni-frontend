@@ -120,7 +120,7 @@ export function useClass2Or3Form() {
   useEffect(() => {
     const taxYears = activeClass === NiClassName.CLASS_TWO ? class2TaxYears : class3TaxYears
     setTaxYear(taxYears[0])
-  }, [activeClass])
+  }, [activeClass, class2TaxYears, class3TaxYears])
 
   useEffect(() => {
     if(taxYear) {

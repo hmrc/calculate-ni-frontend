@@ -14,8 +14,7 @@ interface LateInterestDebtTable {
 function LateInterestDebtTable(props: LateInterestDebtTable) {
   const { printView } = props
   const {
-    rows,
-    taxYears
+    rows
   } = useContext(LateInterestContext)
 
   return (

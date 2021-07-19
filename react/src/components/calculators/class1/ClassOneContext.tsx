@@ -1,8 +1,8 @@
-import React, {Dispatch, useContext, useEffect, useState} from "react";
+import React, {Dispatch, useContext, useEffect, useState, SetStateAction} from "react";
 import {DetailsProps, GenericObject, TaxYear, TotalsInCategories} from "../../../interfaces";
 import {buildTaxYears, periods, PeriodValue} from "../../../config";
 import {GenericErrors} from "../../../validation/validation";
-import {getTotalsInCategories, mapCategoryTotalsResponse} from "../../../services/utils";
+import {mapCategoryTotalsResponse} from "../../../services/utils";
 import {categoryNamesToObject, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
 import uniqid from "uniqid";
 
@@ -128,7 +128,7 @@ interface ClassOneContext {
   setTaxYear: Dispatch<TaxYear | null>
   defaultRow: Row,
   rows: Array<Row>
-  setRows: Dispatch<Array<Row>>
+  setRows: Dispatch<SetStateAction<Array<Row>>>
   details: DetailsProps
   setDetails: Function,
   niPaidNet: string
@@ -206,10 +206,15 @@ export function useClassOneForm() {
           ...prevState,
           category: categoriesForTaxYear[0]
         }))
-        setRows([defaultRow])
       }
     }
   }, [taxYear, ClassOneCalculator])
+
+  useEffect(() => {
+    if(defaultRow) {
+      setRows([defaultRow])
+     }
+   }, [defaultRow])
 
   const [rows, setRows] = useState<Array<Row>>([defaultRow])
 
