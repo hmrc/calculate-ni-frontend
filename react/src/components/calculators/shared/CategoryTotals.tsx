@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React from 'react'
 import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // components
@@ -9,7 +9,6 @@ import MqTableCell from './MqTableCell'
 import {
   getBandNames,
   getContributionBandNames,
-  getTotalsInBand, getTotalsInContributionBand,
   uniqueCategories
 } from "../../../services/utils";
 

@@ -1,5 +1,4 @@
 import React, {useContext} from 'react'
-import * as thStyles from '../../../services/mobileHeadingStyles'
 
 // components
 

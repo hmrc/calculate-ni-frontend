@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import * as thStyles from '../../../services/mobileHeadingStyles'
 
-import {extractFromDateString, extractToDateString, taxYearFromString, taxYearString} from '../../../config'
+import {taxYearString} from '../../../config'
 
 // types
 import {TaxYear} from '../../../interfaces'
@@ -43,10 +43,10 @@ function LateRefundsTableRow(props: {
   }, [taxYears, row.taxYear])
 
   useEffect(() => {
-    setRows(rows.map((cur: LateRefundsTableRowProps) =>
+    setRows(prevState => prevState.map((cur: LateRefundsTableRowProps) =>
       cur.id === row.id ? {...cur, taxYear: taxYear} : cur
     ))
-  }, [taxYear, row.id])
+  }, [taxYear, row.id, setRows])
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     invalidateResults()
@@ -67,11 +67,10 @@ function LateRefundsTableRow(props: {
   useEffect(() => {
     const newDate = validDateParts(day, month, year) ?
       new Date(`${year}-${zeroPad(month)}-${zeroPad(day)}`) : null
-    console.log('newDate', newDate)
-    setRows(rows.map((cur: LateRefundsTableRowProps) =>
+    setRows(prevState => prevState.map((cur: LateRefundsTableRowProps) =>
       cur.id === row.id ? {...cur, paymentDate: newDate} : cur
     ))
-  }, [day, month, year, setRows])
+  }, [day, month, year, setRows, row.id])
 
   return (
     <TableRow
@@ -108,6 +107,7 @@ function LateRefundsTableRow(props: {
           setMonth={setMonth}
           setYear={setYear}
           error={errors[`${row.id}-paymentDateDay`]}
+          printView={printView}
         />
       </MqTableCell>
 

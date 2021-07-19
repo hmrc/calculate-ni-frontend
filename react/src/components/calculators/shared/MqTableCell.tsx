@@ -1,6 +1,5 @@
 /** @jsx jsx */
-import React from 'react'
-import { css, jsx } from '@emotion/react'
+import { jsx } from '@emotion/react'
 
 interface MqTableCellProps {
   children: any,

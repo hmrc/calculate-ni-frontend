@@ -161,10 +161,16 @@ export function useDirectorsForm() {
           ...prevState,
           category: categories[0]
         }))
-        setRows([defaultRow])
       }
     }
   }, [taxYear, ClassOneCalculator, DirectorsCalculator])
+
+  useEffect(() => {
+    if(defaultRow) {
+      setRows([defaultRow])
+     }
+   }, [defaultRow])
+
   const [rows, setRows] = useState<Array<DirectorsUIRow>>([defaultRow])
 
   useEffect(() => {
@@ -197,7 +203,6 @@ export function useDirectorsForm() {
         }
         return row
       }))
-      setCategoryTotals(getTotalsInCategories(rows as DirectorsUIRow[]))
     } else {
       setRows((prevState: DirectorsUIRow[]) => prevState.map(row => {
         row.ee = 0
@@ -207,6 +212,12 @@ export function useDirectorsForm() {
     }
 
   }, [result])
+
+  useEffect(() => {
+    if(result && result.resultRows) {
+      setCategoryTotals(getTotalsInCategories(rows as DirectorsUIRow[]))
+    }
+  }, [rows, result])
 
   useEffect(() => {
     if(taxYears.length > 0) {

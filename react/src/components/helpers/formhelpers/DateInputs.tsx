@@ -18,10 +18,11 @@ interface DateProps {
   setMonth: Function
   setYear: Function
   error: ErrorMessage
+  printView?: boolean
 }
 
 export default function DateInputs(props: DateProps) {
-  const { error, hint, description } = props
+  const { error, hint, description, printView } = props
   const describedby = buildDescribedByKeys(description,{
       hint,
       error
@@ -57,46 +58,61 @@ export default function DateInputs(props: DateProps) {
 
           <div className="govuk-date-input__item">
             <div className="govuk-form-group">
-              <TextInput
-                labelText="Day"
-                labelClass="govuk-label govuk-date-input__label"
-                name={`${description}Day`}
-                inputClassName={`govuk-input govuk-date-input__input govuk-input--width-2${error ? ` govuk-input--error`: ``}`}
-                inputValue={props.day}
-                onChangeCallback={(e) => props.setDay(e.target.value)}
-                pattern="[0-9]*"
-                inputMode="numeric"
-              />
+              {printView ? 
+                <span className="date-input-readonly">{props.day}</span> 
+              :
+                <TextInput
+                  labelText="Day"
+                  labelClass="govuk-label govuk-date-input__label"
+                  name={`${description}Day`}
+                  inputClassName={`govuk-input govuk-date-input__input govuk-input--width-2${error ? ` govuk-input--error`: ``}`}
+                  inputValue={props.day}
+                  onChangeCallback={(e) => props.setDay(e.target.value)}
+                  pattern="[0-9]*"
+                  inputMode="numeric"
+                />
+              }
+              
             </div>
           </div>
 
           <div className="govuk-date-input__item">
             <div className="govuk-form-group">
-              <TextInput 
-                labelText="Month"
-                labelClass="govuk-label govuk-date-input__label"
-                name={`${description}Month`}
-                inputClassName={`govuk-input govuk-date-input__input govuk-input--width-2${error ? ` govuk-input--error`: ``}`}
-                inputValue={props.month}
-                onChangeCallback={(e) => props.setMonth(e.target.value)}
-                pattern="[0-9]*"
-                inputMode="numeric"
-              />
+              {printView ?
+                <span className="date-input-readonly">{props.month}</span> 
+              :
+                <TextInput 
+                  labelText="Month"
+                  labelClass="govuk-label govuk-date-input__label"
+                  name={`${description}Month`}
+                  inputClassName={`govuk-input govuk-date-input__input govuk-input--width-2${error ? ` govuk-input--error`: ``}`}
+                  inputValue={props.month}
+                  onChangeCallback={(e) => props.setMonth(e.target.value)}
+                  pattern="[0-9]*"
+                  inputMode="numeric"
+                />
+              }
+              
             </div>
           </div>
 
           <div className="govuk-date-input__item">
             <div className="govuk-form-group">
-              <TextInput 
-                labelText="Year"
-                labelClass="govuk-label govuk-date-input__label"
-                name={`${description}Year`}
-                inputClassName={`govuk-input govuk-date-input__input govuk-input--width-4${error ? ` govuk-input--error`: ``}`}
-                inputValue={props.year}
-                onChangeCallback={(e) => props.setYear(e.target.value)}
-                pattern="[0-9]*"
-                inputMode="numeric"
-              />
+              {printView ?
+                <span className="date-input-readonly">{props.year}</span> 
+              :
+                <TextInput 
+                  labelText="Year"
+                  labelClass="govuk-label govuk-date-input__label"
+                  name={`${description}Year`}
+                  inputClassName={`govuk-input govuk-date-input__input govuk-input--width-4${error ? ` govuk-input--error`: ``}`}
+                  inputValue={props.year}
+                  onChangeCallback={(e) => props.setYear(e.target.value)}
+                  pattern="[0-9]*"
+                  inputMode="numeric"
+                />
+              }
+              
             </div>
           </div>
         </div>

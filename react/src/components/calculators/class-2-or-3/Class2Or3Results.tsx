@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import {sterlingStringValue, dateStringSlashSeparated} from '../../../services/utils'
 
 // types
-import {Class2Or3Context, Class2Or3Result} from "./Class2Or3Context";
+import {Class2Or3Context} from "./Class2Or3Context";
 import {NiClassNameLabels} from "../../../interfaces";
 
 function Class2Or3Results(props: {printView: boolean}) {

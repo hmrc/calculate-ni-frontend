@@ -1,7 +1,7 @@
 import React, {Dispatch, SetStateAction, useContext, useState} from 'react'
 
 // types
-import {Class3Results, DetailsProps, GovDateRange, TaxYear} from '../../../interfaces'
+import {Class3Results, DetailsProps, GovDateRange} from '../../../interfaces'
 import {GenericErrors} from "../../../validation/validation";
 import uniqid from "uniqid";
 import {

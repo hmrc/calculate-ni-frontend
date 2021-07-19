@@ -7,7 +7,6 @@ import {Class3Context} from './Class3Context'
 // components
 import BackLink from '../../helpers/gov-design-system/BackLink'
 import DetailsPrint from '../shared/DetailsPrint'
-import {govDateString} from "../../../services/utils";
 
 function Class3Print(props: LateRefundPrintProps) {
   const { title, setShowSummary } = props

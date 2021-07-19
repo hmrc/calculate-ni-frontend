@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect, useRef} from 'react'
 import {stripCommas, validateClass2Or3Payload} from '../../../validation/validation'
-import {hasKeys, isEmpty} from "../../../services/utils";
+import {hasKeys} from "../../../services/utils";
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
 
 // components

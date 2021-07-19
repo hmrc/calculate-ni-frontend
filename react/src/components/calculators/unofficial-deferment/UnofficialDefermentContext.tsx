@@ -167,14 +167,15 @@ export function useUnofficialDefermentForm() {
           bands: [...bandLimits]
         }))
         setResults(null)
-        setRows([defaultRow])
       }
     }
   }, [taxYear, UnofficialDefermentCalculator])
 
   useEffect(() => {
-    setRows([defaultRow])
-  }, [defaultRow])
+    if(defaultRow) {
+      setRows([defaultRow])
+     }
+   }, [defaultRow])
 
   useEffect(() => {
     setTaxYear(taxYears[0])
@@ -188,12 +189,12 @@ export function useUnofficialDefermentForm() {
 
   useEffect(() => {
     if(results) {
-      setRows(rows.map((row: UnofficialDefermentInputRow) => {
+      setRows(prevState => prevState.map((row: UnofficialDefermentInputRow) => {
         const resultRow: UnofficialDefermentResultRow | undefined = results.resultRows.find(r => r.id === row.id)
         return resultRow ? {...row, ...resultRow} as any : row
       }))
     } else {
-      setRows(rows.map((row: UnofficialDefermentInputRow) => {
+      setRows(prevState => prevState.map((row: UnofficialDefermentInputRow) => {
         delete row.ifNotUd
         delete row.overUel
         delete row.gross

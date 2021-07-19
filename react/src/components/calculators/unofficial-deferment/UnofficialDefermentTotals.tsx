@@ -1,6 +1,6 @@
 import React, {useContext} from "react"
 import {UnofficialDefermentContext} from "./UnofficialDefermentContext";
-import {hasKeys, sterlingStringValue} from "../../../services/utils";
+import {sterlingStringValue} from "../../../services/utils";
 
 
 export default function UnofficialDefermentTotals(props: {isSaveAndPrint: boolean}) {
