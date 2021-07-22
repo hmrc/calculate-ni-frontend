@@ -17,11 +17,12 @@
 package eoi
 
 import cats.implicits._
-import org.scalatest._, funspec._, matchers.should.Matchers._
+import org.scalatest._, funspec._
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import org.scalacheck._
 import org.scalacheck.cats.implicits._
 import spire.math.Interval
+import java.time.LocalDate
 
 class ConfigurationSpec extends AnyFunSpec with ScalaCheckPropertyChecks with DeriveArbitrary {
 
@@ -42,13 +43,29 @@ class ConfigurationSpec extends AnyFunSpec with ScalaCheckPropertyChecks with De
   implicit val arbPercent: Arbitrary[Percentage] =
     Arbitrary(Gen.choose(0.0, 100.0).map(Percentage(_)))
 
-  describe("A Configuration") {
-    it("should be convertible into JSON or HOCON and back without loss") {
-      forAll { c: Configuration =>
-        // circe encoding
 
-        // pureconfig encoding
+  implicit val arbLocalDate: Arbitrary[LocalDate] = Arbitrary{
+    Gen.choose(1L,20000L).map(LocalDate.ofEpochDay)
+  }
 
+
+  describe("The default configuration") {
+    val c1 = ConfigLoader.default
+    it("should be convertible into JSON and back without loss") {
+      val json = EoiJsonEncoding.toJson(c1).toString
+      val Right(c2) = EoiJsonEncoding.fromJson(json)
+      assert(c1 === c2, "JSON Encoding roundtrip")
+    }
+  }
+
+  describe("A random configuration") {
+    it("should be convertible into JSON and back without loss") {
+      forAll { c1: Configuration =>
+        {
+          val json = EoiJsonEncoding.toJson(c1).toString
+          val Right(c2) = EoiJsonEncoding.fromJson(json)
+          assert(c1 === c2, "JSON Encoding roundtrip")
+        }
       }
     }
   }

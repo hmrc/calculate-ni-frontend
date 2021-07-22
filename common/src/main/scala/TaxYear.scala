@@ -48,6 +48,12 @@ case class TaxYear(startingYear: Int) extends AnyVal {
 
 object TaxYear {
 
+  object Date {
+    def unapply(in: LocalDate): Option[(Int, Int, Int)] = {
+      Some((in.getYear, in.getMonthValue, in.getDayOfMonth))
+    }
+  }
+
   // TODO Property test - ∀ d, apply(d).start ≤ d ≤ apply(d).end
   def apply(in: LocalDate): TaxYear = {
     if (in.getMonthValue > 4 || (in.getMonthValue == 4 && in.getDayOfMonth >= 6))

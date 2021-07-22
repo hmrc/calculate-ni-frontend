@@ -15,7 +15,6 @@
  */
 
 package eoi
-package importer
 
 import pureconfig._
 import pureconfig.syntax._
