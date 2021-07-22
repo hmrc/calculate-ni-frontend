@@ -195,18 +195,11 @@ case class ClassOneRowOutput(
     case _ :: xs => matchCategory(cat, xs)
   }
 
-  // SIMON: Remove this when done
-  def matchCategoryP(cat: Char, opts: List[Char]): Boolean = {
-    val ret = matchCategory(cat, opts)
-    println(s"$cat in ${opts.mkString}: $ret")
-    ret
-  }
-
   lazy val displaySummaryBands = {
     config.toList.sortBy(_._2.year.lowerValue.getOrElse(Money.Zero)).flatMap{
       case (bandId, bandDefinition) =>
         bandDefinition.summaryName match { 
-          case Some(sn) if matchCategoryP(category, bandDefinition.summaryCategories.toList) =>
+          case Some(sn) if matchCategory(category, bandDefinition.summaryCategories.toList) =>
             List(ClassOneRowOutputBand(sn, bandDefinition))
           case _ => Nil
         }
