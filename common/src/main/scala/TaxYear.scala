@@ -54,7 +54,6 @@ object TaxYear {
     }
   }
 
-  // TODO Property test - ∀ d, apply(d).start ≤ d ≤ apply(d).end
   def apply(in: LocalDate): TaxYear = {
     if (in.getMonthValue > 4 || (in.getMonthValue == 4 && in.getDayOfMonth >= 6))
       TaxYear(in.getYear)

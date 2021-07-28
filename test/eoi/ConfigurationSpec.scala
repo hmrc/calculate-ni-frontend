@@ -20,34 +20,10 @@ import cats.implicits._
 import org.scalatest._, funspec._
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import org.scalacheck._
-import org.scalacheck.cats.implicits._
-import spire.math.Interval
-import java.time.LocalDate
 
-class ConfigurationSpec extends AnyFunSpec with ScalaCheckPropertyChecks with DeriveArbitrary {
+class ConfigurationSpec extends AnyFunSpec with ScalaCheckPropertyChecks with ArbitraryInstances {
 
   def parameters: Gen.Parameters = Gen.Parameters.default.withSize(20)
-
-  implicit def arbInterval[T](
-    implicit arbT: Arbitrary[T],
-    order: _root_.cats.Order[T]
-  ): Arbitrary[Interval[T]] = Arbitrary{
-    val gen = arbT.arbitrary;
-    (gen, gen).tupled.map { case (a,b) =>
-      val lower = order.min(a,b)
-      val upper = order.max(a,b)
-      Interval.closed(lower, upper)
-    }
-  }
-
-  implicit val arbPercent: Arbitrary[Percentage] =
-    Arbitrary(Gen.choose(0.0, 100.0).map(Percentage(_)))
-
-
-  implicit val arbLocalDate: Arbitrary[LocalDate] = Arbitrary{
-    Gen.choose(1L,20000L).map(LocalDate.ofEpochDay)
-  }
-
 
   describe("The default configuration") {
     val c1 = ConfigLoader.default
