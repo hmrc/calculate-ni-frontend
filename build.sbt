@@ -27,7 +27,7 @@ copyInJS := {
 
   // get around BigInt compatibility issues with IE11/scalajs1
   (Process("sed" ::
-    "-e" :: """1 i/* eslint-disable no-unused-expressions */ var BigInt = function(n) { return n; };""" ::
+    "-e" :: """1 i\\$'\n'/* eslint-disable no-unused-expressions */ var BigInt = function(n) { return n; };""" ::
     "-e" :: """s/"object"===typeof __ScalaJSEnv&&__ScalaJSEnv?__ScalaJSEnv://""" ::
     outFiles.getAbsolutePath :: Nil,
     baseDirectory.value) #> dest).run()
