@@ -27,7 +27,8 @@ copyInJS := {
 
   // suppress warnings in generated code
   (Process("echo" ::
-    """/* eslint-disable no-unused-expressions */ var BigInt = function(n) { return n; };""" :: Nil)
+    """|/* eslint-disable */
+       |var BigInt = function(n) { return n; };""".stripMargin :: Nil)
     #> dest
   ).run().exitValue()
 
