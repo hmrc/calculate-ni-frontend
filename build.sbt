@@ -25,12 +25,17 @@ copyInJS := {
   val dest = reactDirectory.value / "src" / "calculation.js"
   println(s"copying $outFiles to $dest")
 
+  // suppress warnings in generated code
+  (Process("echo" ::
+    """/* eslint-disable no-unused-expressions */ var BigInt = function(n) { return n; };""" :: Nil)
+    #> dest
+  ).run().exitValue()
+
   // get around BigInt compatibility issues with IE11/scalajs1
   (Process("sed" ::
-    "-e" :: """1 i/* eslint-disable no-unused-expressions */ var BigInt = function(n) { return n; };""" ::
     "-e" :: """s/"object"===typeof __ScalaJSEnv&&__ScalaJSEnv?__ScalaJSEnv://""" ::
     outFiles.getAbsolutePath :: Nil,
-    baseDirectory.value) #> dest).run()
+    baseDirectory.value) #>> dest).run().exitValue()
   dest
 }
 
