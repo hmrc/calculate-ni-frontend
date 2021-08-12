@@ -108,6 +108,7 @@ function LateRefundsTableRow(props: {
           setYear={setYear}
           error={errors[`${row.id}-paymentDateDay`]}
           printView={printView}
+          hideLabels={true}
         />
       </MqTableCell>
 

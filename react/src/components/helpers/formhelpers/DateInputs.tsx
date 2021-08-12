@@ -19,10 +19,11 @@ interface DateProps {
   setYear: Function
   error: ErrorMessage
   printView?: boolean
+  hideLabels: boolean
 }
 
 export default function DateInputs(props: DateProps) {
-  const { error, hint, description, printView } = props
+  const { error, hint, description, printView, hideLabels } = props
   const describedby = buildDescribedByKeys(description,{
       hint,
       error
@@ -70,6 +71,7 @@ export default function DateInputs(props: DateProps) {
                   onChangeCallback={(e) => props.setDay(e.target.value)}
                   pattern="[0-9]*"
                   inputMode="numeric"
+                  hiddenLabel={hideLabels}
                 />
               }
               
@@ -90,6 +92,7 @@ export default function DateInputs(props: DateProps) {
                   onChangeCallback={(e) => props.setMonth(e.target.value)}
                   pattern="[0-9]*"
                   inputMode="numeric"
+                  hiddenLabel={hideLabels}
                 />
               }
               
@@ -110,6 +113,7 @@ export default function DateInputs(props: DateProps) {
                   onChangeCallback={(e) => props.setYear(e.target.value)}
                   pattern="[0-9]*"
                   inputMode="numeric"
+                  hiddenLabel={hideLabels}
                 />
               }
               

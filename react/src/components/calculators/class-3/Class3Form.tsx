@@ -22,6 +22,7 @@ export default function Class3Form(props: any) {
           from: "From",
           to: "To"
         }}
+        hideLabels={false}
       />
 
       <div className="form-group divider--top section--top">

@@ -111,6 +111,7 @@ const Class3Page = () => {
               from: "From",
               to: "To"
             }}
+            hideLabels={false}
           />
 
           {!showSummary &&

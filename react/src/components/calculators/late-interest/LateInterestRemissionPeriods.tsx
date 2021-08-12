@@ -39,6 +39,7 @@ function LateInterestRemissionPeridos() {
             }}
             setDateRange={setDateRange}
             errors={errors}
+            hideLabels={false}
           />
         }, {
           label: 'No',

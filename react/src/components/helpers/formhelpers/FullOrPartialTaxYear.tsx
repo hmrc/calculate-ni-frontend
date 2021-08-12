@@ -73,6 +73,7 @@ function FullOrPartialTaxYear(props: FullOrPartialTaxYearProps) {
             legends={{from: 'From', to: 'To'}}
             id={id}
             dateRange={dateRange}
+            hideLabels={false}
           />
         </div>
       }

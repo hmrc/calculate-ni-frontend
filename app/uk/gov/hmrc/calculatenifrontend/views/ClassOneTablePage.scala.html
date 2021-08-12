@@ -37,17 +37,24 @@
 
       <form method="GET">
         <div class="govuk-form-group">
-          <select name="date" class="govuk-select">
-            @intervals.map { case (k,v) =>
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="date">Select a date</label>
+            <select name="date" id="date" class="govuk-select">
+              @intervals.map { case (k,v) =>
               <option value="@{k.toString}" @if(k == selectedInterval){selected}>@v</option>
-            }
-          </select>
+              }
+            </select>
+          </div>
 
-          <select name="category" class="govuk-select">
-            @categories.map { k =>
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="category">Select a category</label>
+            <select name="category" id="category" class="govuk-select">
+              @categories.map { k =>
               <option value="@{k.toString}" @if(k == selectedCategory){selected}>@k</option>
-            }
-          </select>
+              }
+            </select>
+          </div>
+
         </div>
 
         <button class="govuk-button" data-module="govuk-button">
