@@ -121,6 +121,7 @@ export default function DirectorsForm(props: DirectorsFormProps) {
                 from: "Directorship from",
                 to: "Directorship to"
               }}
+              hideLabels={false}
             />
           }
         ]}

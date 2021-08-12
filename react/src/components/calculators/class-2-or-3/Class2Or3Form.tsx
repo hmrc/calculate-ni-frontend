@@ -114,6 +114,7 @@ function Class2Or3Form() {
         setMonth={setMonth}
         setYear={setYear}
         error={errors.paymentEnquiryDate}
+        hideLabels={false}
       />
 
       <CurrencyInput

@@ -32,11 +32,7 @@ function TextInput(props: TextInputProps) {
   return (
     <div className={`govuk-form-group${error ? ` govuk-form-group--error`: ``}`}>
       <label 
-        className={
-          `form-label 
-          ${hiddenLabel && 'govuk-visually-hidden'} 
-          ${labelClass && labelClass}`
-        }
+        className={`form-label ${hiddenLabel === true ? 'govuk-visually-hidden' : ''} ${labelClass && labelClass}`}
         htmlFor={name}>
           {labelText}
       </label>

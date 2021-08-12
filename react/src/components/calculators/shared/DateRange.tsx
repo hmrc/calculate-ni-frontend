@@ -11,10 +11,11 @@ interface DateRangeProps {
   legends: {from: string, to: string}
   dateRange?: GovDateRange | null
   id: string
+  hideLabels: boolean
 }
 
 export const DateRange = (props: DateRangeProps) => {
-  const { setDateRange, errors, legends, id, dateRange, isSaveAndPrint} = props
+  const { setDateRange, errors, legends, id, dateRange, isSaveAndPrint, hideLabels } = props
   const [fromDay, setFromDay] = useState(extractDatePartString(DatePartsNames.DAY, dateRange?.from))
   const [fromMonth, setFromMonth] = useState(extractDatePartString(DatePartsNames.MONTH, dateRange?.from))
   const [fromYear, setFromYear] = useState(extractDatePartString(DatePartsNames.YEAR, dateRange?.from))
@@ -92,6 +93,7 @@ export const DateRange = (props: DateRangeProps) => {
               setMonth={setFromMonth}
               setYear={setFromYear}
               error={errors[`${id}FromDay`]}
+              hideLabels={hideLabels}
             />
           </div>
           <div className="container third">
@@ -105,6 +107,7 @@ export const DateRange = (props: DateRangeProps) => {
               setMonth={setToMonth}
               setYear={setToYear}
               error={errors[`${id}ToDay`]}
+              hideLabels={hideLabels}
             />
           </div>
         </div>

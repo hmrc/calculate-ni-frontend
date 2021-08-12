@@ -14,8 +14,8 @@ function LateInterestRatesTable(props: InterestRatesTableProps) {
   const { rates } = props
   return (
     <div className="full">
-      <h2 className="section-heading">Interest rates</h2>
-      <table className="section-outer--top interest-rates">
+      <table className="interest-rates">
+        <caption className="section-heading subsection nomar-top">Interest rates</caption>
         <thead>
         <tr>
           <th scope="col"><strong>From</strong></th>
