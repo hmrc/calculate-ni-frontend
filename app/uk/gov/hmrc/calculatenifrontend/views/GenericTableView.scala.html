@@ -35,7 +35,8 @@
 
       <form method="GET">
         <div class="govuk-form-group">
-          <select name="date" class="govuk-select">
+          <label class="govuk-label" for="date">Select a tax year</label>
+          <select name="date" id="date" class="govuk-select">
             @intervals.map { case (k,v) =>
               <option value="@{k.toString}" @if(k == selectedInterval){selected}>@v</option>
             }
