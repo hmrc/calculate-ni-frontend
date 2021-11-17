@@ -16,13 +16,14 @@
 
 @import uk.gov.hmrc.calculatenifrontend.config.AppConfig
 @import uk.gov.hmrc.calculatenifrontend.views.FooterLinks
-@import uk.gov.hmrc.govukfrontend.views.Layouts
 @import uk.gov.hmrc.hmrcfrontend.views.html.components._
+@import uk.gov.hmrc.calculatenifrontend.views.html.Head
+
 
 @this(
   govukLayout: uk.gov.hmrc.calculatenifrontend.views.html.templates.niCalcLayout,
   head: Head,
-  header: hmrcInternalHeader
+  header: HmrcInternalHeader
 )
 
 @(pageTitle: Option[String] = None,
