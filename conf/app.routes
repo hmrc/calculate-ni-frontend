@@ -1,5 +1,4 @@
 # microservice specific routes
-->         /govuk-frontend          govuk.Routes
 ->         /hmrc-frontend           hmrcfrontend.Routes
 GET        /tables/classOne         uk.gov.hmrc.calculatenifrontend.controllers.TablesController.classOne(date: Option[java.time.LocalDate], category: Option[Char])
 GET        /tables/classTwo         uk.gov.hmrc.calculatenifrontend.controllers.TablesController.classTwo(date: Option[java.time.LocalDate])

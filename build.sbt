@@ -11,7 +11,7 @@ val build                    = taskKey[Unit]("Copy JS and Config to react app")
 
 val appName = "calculate-ni-frontend"
 
-val silencerVersion = "1.7.5"
+val silencerVersion = "1.7.7"
 
 installReactDependencies := {
   val result = JavaScriptBuild.npmProcess(reactDirectory.value, "install").run().exitValue()
@@ -61,10 +61,9 @@ lazy val microservice = Project(appName, file("."))
     majorVersion                     := 0,
     scalaVersion                     := "2.12.14",
     libraryDependencies              ++= Seq(
-      "uk.gov.hmrc"             %% "bootstrap-frontend-play-28" % "5.6.0",
-      "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "0.81.0-play-28",
-      "uk.gov.hmrc"             %% "play-frontend-govuk"        % "0.80.0-play-28",
-      "com.github.pureconfig"   %% "pureconfig"                 % "0.16.0",
+      "uk.gov.hmrc"             %% "bootstrap-frontend-play-28" % "5.16.0",
+      "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "1.26.0-play-28",
+      "com.github.pureconfig"   %% "pureconfig"                 % "0.17.0",
       "org.typelevel"           %% "cats-core"                  % "2.6.1",
       "org.typelevel"           %% "spire"                      % "0.17.0"
     ),
@@ -74,18 +73,17 @@ lazy val microservice = Project(appName, file("."))
       "io.circe" %%% "circe-parser"
     ).map(_ % circeVersion),
     libraryDependencies              ++= Seq(
-      "org.scalatest"           %% "scalatest"                % "3.2.9",
-      "com.vladsch.flexmark"    %  "flexmark-all"             % "0.35.10",
-      "com.typesafe.play"       %% "play-test"                % play.core.PlayVersion.current,
-      "com.github.tototoshi"    %% "scala-csv"                % "1.3.8",
-      "org.scalatestplus"       %% "scalacheck-1-15"          % "3.2.9.0",
-      "com.propensive"          %% "magnolia"                 % "0.7.1",
-      "io.chrisdavenport"       %% "cats-scalacheck"          % "0.3.0"
+      "uk.gov.hmrc"             %% "bootstrap-test-play-28"     % "5.16.0",
+      "com.typesafe.play"       %% "play-test"                  % play.core.PlayVersion.current,
+      "com.github.tototoshi"    %% "scala-csv"                  % "1.3.8",
+      "org.scalatestplus"       %% "scalacheck-1-15"            % "3.2.9.0",
+      "com.propensive"          %% "magnolia"                   % "0.17.0",
+      "io.chrisdavenport"       %% "cats-scalacheck"            % "0.3.1"
     ).map(_ % Test),
     TwirlKeys.templateImports ++= Seq(
       "uk.gov.hmrc.calculatenifrontend.config.AppConfig",
       "uk.gov.hmrc.govukfrontend.views.html.components._",
-      "uk.gov.hmrc.govukfrontend.views.html.helpers._"
+      "uk.gov.hmrc.govukfrontend.views.html.components.implicits._"
     ),
     play.sbt.routes.RoutesKeys.routesImport += "uk.gov.hmrc.calculatenifrontend.controllers.Binders._",
     scalacOptions += "-P:silencer:pathFilters=routes",
