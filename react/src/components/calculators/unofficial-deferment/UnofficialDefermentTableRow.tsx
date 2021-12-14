@@ -110,7 +110,7 @@ const UnofficialDefermentTableRow = (props: {
         <MqTableCell
           key={`band-cell-${band.label}`}
           cellClassName={`input ${errors?.[`${row.id}-${band.label}`] ? "error-cell" : ""}`}
-          cellStyle={thStyles.dynamicCellContentAttr(band.label)}>
+          cellStyle={{}}>
           {printView ?
             <div>{numeral(band.amount).format('$0,0.00')}</div>
             :

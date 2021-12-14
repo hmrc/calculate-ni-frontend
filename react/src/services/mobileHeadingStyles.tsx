@@ -1,7 +1,5 @@
 import {css} from '@emotion/react'
 
-export const dynamicCellContentAttr = (value: string) => css({[mq[0]]: {':before': { content: `"${value}"` }}})
-
 export const excludePrint = ['@media not print']
 export const mq = [`@media (max-width: ${760}px)`]
 
