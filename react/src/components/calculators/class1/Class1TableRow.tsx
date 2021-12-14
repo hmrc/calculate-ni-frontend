@@ -198,7 +198,7 @@ export default function Class1TableRow(props: TableRowProps) {
       {/* Bands */}
       {showBands && bandNames?.map(k =>
         <MqTableCell
-          cellStyle={thStyles.dynamicCellContentAttr(k)}
+          cellStyle={{}}
           key={`${k}-val`}
         >
           {getBandValue(row.bands, k)}
@@ -221,7 +221,7 @@ export default function Class1TableRow(props: TableRowProps) {
 
       {printView && contributionNames && contributionNames?.map((cB: string) =>
         <MqTableCell
-          cellStyle={thStyles.dynamicCellContentAttr(cB)}
+          cellStyle={{}}
           key={`${cB}-val`}
         >
           {getContributionBandValue(row.contributionBands, cB)}

@@ -71,7 +71,7 @@ function CategoryTotals(props: {
               {formatCurrencyAmount(categoryTotals[c]?.gross)}
             </MqTableCell>
             {categoryTotals[c]?.bands && categoryTotals[c]?.bands.map(k =>
-              <MqTableCell key={`${k.name}-cat-val`} cellStyle={thStyles.dynamicCellContentAttr(k.name)}>
+              <MqTableCell key={`${k.name}-cat-val`} cellStyle={{}}>
                 {numeral(k.amountInBand).format('$0,0.00')}
               </MqTableCell>
             )}
@@ -93,7 +93,7 @@ function CategoryTotals(props: {
 
 
             {categoryTotals[c]?.contributionBands && categoryTotals[c]?.contributionBands.map(k =>
-              <MqTableCell key={`${k.name}-cat-val`} cellStyle={thStyles.dynamicCellContentAttr(k.name)}>
+              <MqTableCell key={`${k.name}-cat-val`} cellStyle={{}}>
                 {numeral(k.employeeContributions).format('$0,0.00')}
               </MqTableCell>
             )}
@@ -109,7 +109,7 @@ function CategoryTotals(props: {
           {bandNames?.map(k => {
               const resultBand = result?.bandTotals.resultBands.get(k)
               return (
-                <MqTableCell key={`${k}-band-total`} cellStyle={thStyles.dynamicCellContentAttr(k)}>
+                <MqTableCell key={`${k}-band-total`} cellStyle={{}}>
                   {resultBand && <strong>{formatCurrencyAmount(resultBand.gross)}</strong>}
                 </MqTableCell>
               )
@@ -133,7 +133,7 @@ function CategoryTotals(props: {
           {contributionNames?.map(k => {
             const resultContributionBand = result?.bandTotals.resultContributionBands.get(k)
             return (
-              <MqTableCell key={`${k}-band-total`} cellStyle={thStyles.dynamicCellContentAttr(k)}>
+              <MqTableCell key={`${k}-band-total`} cellStyle={{}}>
                 {resultContributionBand && <strong>{formatCurrencyAmount(resultContributionBand.employee)}</strong>}
               </MqTableCell>
             )
