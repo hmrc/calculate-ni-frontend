@@ -85,22 +85,22 @@ class TablesController @Inject()(
         val selectedInterval = ni.classTwo.keySet.find(_.contains(dateP)).get
         val lowerBound = selectedInterval.lowerValue.get
         
-        val noOfWeeks = selectedInterval.numberOfWeeks().get
+//        val noOfWeeks = selectedInterval.numberOfWeeks().get
         val response = List (
           "Term Date" -> LocalDate.of(lowerBound.getYear, 4, 9).ukFormat, // unknown... but always the 9th of april
           "Weekly Rate" -> data.weeklyRate.default.toString,
-          "Rate Total" -> (data.weeklyRate.default * noOfWeeks).toString
+          "Rate Total" -> (data.weeklyRate.default * data.noOfWeeks).toString
         ) ++ (data.weeklyRate.voluntary match {
           case None => Nil
           case Some(vdw) => List (
             "Voluntary Development Workers (VDW) Weekly Rate" -> vdw,
-            "Voluntary Development Workers (VDW) Total" -> vdw * noOfWeeks
+            "Voluntary Development Workers (VDW) Total" -> vdw * data.noOfWeeks
           )
         }) ++ (data.weeklyRate.fishermen match {
           case None => Nil
           case Some(vdw) => List (
             "Share Fishing Weekly Rate" -> vdw.toString,
-            "Share Fishing Total" -> (vdw * noOfWeeks).toString
+            "Share Fishing Total" -> (vdw * data.noOfWeeks).toString
           )
         }) ++ List (
 //          "Date Late For Short Term Benefits (STB)" -> "???",
@@ -108,7 +108,7 @@ class TablesController @Inject()(
           "Small Profits Threshold/Small Earnings Exemption (SPT/SEE)" ->
             data.smallEarningsException.fold("N/A")(_.toString), // below which paying is optional
           "Date High Rate Provision (HRP) Applies" -> (lowerBound, data).getHigherRateDate.value.ukFormat, 
-          "No of Wks" -> noOfWeeks.toString,
+          "No of Wks" -> data.noOfWeeks.toString,
 //          "Earnings Factor (includes enhance)" -> "???",
         )
         Ok(genericPage(dateP, intervals, "Class 2", response.map{case (k,v) => (k,Html(v.toString))}))
