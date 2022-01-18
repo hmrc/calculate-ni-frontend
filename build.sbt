@@ -11,7 +11,7 @@ val build                    = taskKey[Unit]("Copy JS and Config to react app")
 
 val appName = "calculate-ni-frontend"
 
-val silencerVersion = "1.7.7"
+val silencerVersion = "1.7.8"
 
 installReactDependencies := {
   val result = JavaScriptBuild.npmProcess(reactDirectory.value, "install").run().exitValue()
@@ -61,10 +61,10 @@ lazy val microservice = Project(appName, file("."))
     majorVersion                     := 0,
     scalaVersion                     := "2.12.14",
     libraryDependencies              ++= Seq(
-      "uk.gov.hmrc"             %% "bootstrap-frontend-play-28" % "5.16.0",
-      "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "1.26.0-play-28",
-      "com.github.pureconfig"   %% "pureconfig"                 % "0.17.0",
-      "org.typelevel"           %% "cats-core"                  % "2.6.1",
+      "uk.gov.hmrc"             %% "bootstrap-frontend-play-28" % "5.19.0",
+      "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "1.31.0-play-28",
+      "com.github.pureconfig"   %% "pureconfig"                 % "0.17.1",
+      "org.typelevel"           %% "cats-core"                  % "2.7.0",
       "org.typelevel"           %% "spire"                      % "0.17.0"
     ),
     libraryDependencies ++= Seq(
@@ -73,9 +73,9 @@ lazy val microservice = Project(appName, file("."))
       "io.circe" %%% "circe-parser"
     ).map(_ % circeVersion),
     libraryDependencies              ++= Seq(
-      "uk.gov.hmrc"             %% "bootstrap-test-play-28"     % "5.16.0",
+      "uk.gov.hmrc"             %% "bootstrap-test-play-28"     % "5.19.0",
       "com.typesafe.play"       %% "play-test"                  % play.core.PlayVersion.current,
-      "com.github.tototoshi"    %% "scala-csv"                  % "1.3.8",
+      "com.github.tototoshi"    %% "scala-csv"                  % "1.3.10",
       "org.scalatestplus"       %% "scalacheck-1-15"            % "3.2.9.0",
       "com.propensive"          %% "magnolia"                   % "0.17.0",
       "io.chrisdavenport"       %% "cats-scalacheck"            % "0.3.1"
