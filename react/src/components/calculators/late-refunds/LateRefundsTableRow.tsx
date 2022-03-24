@@ -31,7 +31,7 @@ function LateRefundsTableRow(props: {
     setResults,
     results
   } = useContext(LateRefundsContext)
-  const [taxYear, setTaxYear] = useState<TaxYear | null>(null)
+  const [taxYear, setTaxYear] = useState<TaxYear | null>(row.taxYear)
   const [day, setDay] = useState(extractDatePartString(DatePartsNames.DAY, row.paymentDate))
   const [month, setMonth] = useState(extractDatePartString(DatePartsNames.MONTH, row.paymentDate))
   const [year, setYear] = useState(extractDatePartString(DatePartsNames.YEAR, row.paymentDate))
