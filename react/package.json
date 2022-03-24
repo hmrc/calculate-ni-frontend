@@ -28,7 +28,7 @@
     "react-scripts": "3.4.3",
     "typescript": "~3.7.2",
     "uniqid": "^5.2.0",
-    "validator": "^13.1.17"
+    "validator": "^13.7.0"
   },
   "scripts": {
     "start": "react-scripts start",
