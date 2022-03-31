@@ -62,7 +62,7 @@ lazy val microservice = Project(appName, file("."))
     scalaVersion                     := "2.12.14",
     libraryDependencies              ++= Seq(
       "uk.gov.hmrc"             %% "bootstrap-frontend-play-28" % "5.21.0",
-      "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "3.7.0-play-28",
+      "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "3.9.0-play-28",
       "com.github.pureconfig"   %% "pureconfig"                 % "0.17.1",
       "org.typelevel"           %% "cats-core"                  % "2.7.0",
       "org.typelevel"           %% "spire"                      % "0.17.0"
