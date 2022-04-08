@@ -101,7 +101,7 @@ export function useLateRefundsForm() {
 
   useEffect(() => {
     const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
-      .filter((ty: TaxYear) => isBeforeToday(ty.to))
+      .filter((ty: TaxYear) => isBeforeToday(ty.from))
     setTaxYears(taxYearData)
     setDefaultRow({...initRow, taxYear: taxYearData[0]})
   }, [ClassOneCalculator, NiFrontendInterface])
