@@ -105,7 +105,7 @@ export function useLateInterestForm() {
 
   useEffect(() => {
     const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
-      .filter((ty: TaxYear) => isBeforeToday(ty.to) && ty.to.getFullYear() > 1992)
+      .filter((ty: TaxYear) => isBeforeToday(ty.from) && ty.to.getFullYear() > 1992)
     setTaxYears(taxYearData)
   }, [ClassOneCalculator])
 
