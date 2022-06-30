@@ -76,23 +76,32 @@ case class Configuration (
 
   lazy val classOne: Map[Interval[LocalDate], Map[String, RateDefinition]] =
     data.collect{
-      case (y,ConfigurationPeriod(l,Some(c1bands),_,_,_,_)) =>
+      case (y,ConfigurationPeriod(l,Some(c1bands),_,_,_,_,_)) =>
         y -> c1bands.map {case (k,v) =>
           val lowerCaseLimits = l.map {case (lk,lv) => lk.toLowerCase -> lv} 
           k -> v.confirmWith(k, lowerCaseLimits)
         }
     }
 
+  lazy val directors: Map[Interval[LocalDate], Map[String, RateDefinition]] =
+    data.collect{
+      case (y,ConfigurationPeriod(l,_,_,_,_,_,Some(directorsBands))) =>
+        y -> directorsBands.map {case (k,v) =>
+          val lowerCaseLimits = l.map {case (lk,lv) => lk.toLowerCase -> lv}
+          k -> v.confirmWith(k, lowerCaseLimits)
+        }
+    }
+
   lazy val classTwo: Map[Interval[LocalDate], ClassTwo] =
     data.collect{
-      case (y,ConfigurationPeriod(l,_,Some(c2),_,_,_)) =>
+      case (y,ConfigurationPeriod(l,_,Some(c2),_,_,_,_)) =>
         val lowerCaseLimits = l.map {case (lk,lv) => lk.toLowerCase -> lv} 
         y -> c2.confirm(y, lowerCaseLimits.get("lel").map(_.effectiveWeek))
     }
 
   lazy val classThree: Map[Interval[LocalDate], ClassThree] =
     data.collect{
-      case (y,ConfigurationPeriod(l,_,_,Some(c3),_,_)) =>
+      case (y,ConfigurationPeriod(l,_,_,Some(c3),_,_,_)) =>
         val lowerCaseLimits = l.map {case (lk,lv) => lk.toLowerCase -> lv} 
         y -> c3.confirm(y, lowerCaseLimits.get("lel").map(_.effectiveWeek))
     }
@@ -150,16 +159,24 @@ case class Configuration (
                         appropriatePersonalPensionScheme: Option[Boolean],
                         netPaid: Money = Money.Zero,
                         employeePaid: Money = Money.Zero
-                        ) =
+                        ) = {
+    lazy val config =
+      (directors.at(from), classOne.at(from)) match {
+        case(Some(directors), _) => directors
+        case(_, Some(classOne))  => classOne
+        case _ => throw new IllegalStateException(s"No directors or C1 config defined for $from")
+      }
+
     DirectorsResult(
       from,
       to,
-      classOne.at(from).getOrElse(throw new IllegalStateException(s"No C1 config defined for $from")),
+      config,
       rows,
       appropriatePersonalPensionScheme,
       netPaid,
       employeePaid
     )
+  }
 
   def calculateUnofficialDeferment(
     taxYear: Int,

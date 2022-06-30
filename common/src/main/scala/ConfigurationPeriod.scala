@@ -22,5 +22,6 @@ case class ConfigurationPeriod(
   classTwo: Option[ClassTwo.ClassTwoVague],
   classThree: Option[ClassThree.ClassThreeVague],
   classFour: Option[ClassFour],
-  unofficialDeferment: Option[TaxYearBandLimits]
+  unofficialDeferment: Option[TaxYearBandLimits],
+  directors: Option[Map[String, RateDefinition.VagueRateDefinition]]
 )
