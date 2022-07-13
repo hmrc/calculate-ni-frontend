@@ -47,7 +47,7 @@ class Directors (
   ).toJSObject
 
   def getTaxYearsWithOptions: js.Array[String] =
-    config.classOne.keys.map(_.toString).toJSArray
+    config.directorsImpl.keys.map(_.toString).toJSArray
 
   def isAppropriatePersonalPensionSchemeApplicable(on: Date) =
     on.getYear < 2012

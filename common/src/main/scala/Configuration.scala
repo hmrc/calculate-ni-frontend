@@ -92,6 +92,9 @@ case class Configuration (
         }
     }
 
+  lazy val directorsImpl: Map[Interval[LocalDate], Map[String, RateDefinition]] =
+    classOne.filterKeys(_.doesNotContain(LocalDate.of(2022, 4, 6))) ++ directors
+
   lazy val classTwo: Map[Interval[LocalDate], ClassTwo] =
     data.collect{
       case (y,ConfigurationPeriod(l,_,Some(c2),_,_,_,_)) =>
@@ -163,7 +166,7 @@ case class Configuration (
     lazy val config =
       (directors.at(from), classOne.at(from)) match {
         case(Some(directors), _) => directors
-        case(_, Some(classOne))  => classOne
+        case(_, Some(classOne)) if (from.getYear != 2022) => classOne
         case _ => throw new IllegalStateException(s"No directors or C1 config defined for $from")
       }
 
