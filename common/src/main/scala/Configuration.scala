@@ -68,7 +68,8 @@ case class Configuration (
   categoryNames: Map[Char, String],
   data: Map[Interval[LocalDate], ConfigurationPeriod],
   interestOnLatePayment: Map[Interval[LocalDate], Percentage],
-  interestOnRepayment: Map[Interval[LocalDate], Percentage]
+  interestOnRepayment: Map[Interval[LocalDate], Percentage],
+  directorsDivergeDate: LocalDate
 ){
 
   def mapValuesOpt[A](f: ConfigurationPeriod => Option[A]): Map[Interval[LocalDate], A] =
@@ -92,8 +93,7 @@ case class Configuration (
         }
     }
 
-  lazy val directorsImpl: Map[Interval[LocalDate], Map[String, RateDefinition]] =
-    classOne.filterKeys(_.doesNotContain(LocalDate.of(2022, 4, 6))) ++ directors
+  lazy val directorsImpl: Map[Interval[LocalDate], Map[String, RateDefinition]] = classOne.filterKeys(_.hasBelow(directorsDivergeDate)) ++ directors
 
   lazy val classTwo: Map[Interval[LocalDate], ClassTwo] =
     data.collect{
@@ -147,7 +147,6 @@ case class Configuration (
     )
   }
 
-
   def calculateClassOne(
     on: LocalDate,
     rows: List[ClassOneRowInput],
@@ -166,7 +165,7 @@ case class Configuration (
     lazy val config =
       (directors.at(from), classOne.at(from)) match {
         case(Some(directors), _) => directors
-        case(_, Some(classOne)) if (from.getYear != 2022) => classOne
+        case(_, Some(classOne)) if (from.getYear < directorsDivergeDate.getYear) => classOne
         case _ => throw new IllegalStateException(s"No directors or C1 config defined for $from")
       }
 
