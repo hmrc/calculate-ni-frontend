@@ -130,11 +130,13 @@ object ConfigLoader {
       categoryNames <- objCur.atKey("category-names") flatMap catReader.from
       interestLate  <- objCur.atKey("interest-on-late-payment") flatMap datePercentReader.from
       interestRepay <- objCur.atKey("interest-on-repayment") flatMap datePercentReader.from
+      directorsDiverge <- objCur.atKey("directors-diverge-date") flatMap localDateConvert.from
       yearsObj      =  objCur.withoutKey("interest-on-late-payment")
                              .withoutKey("interest-on-repayment")
                              .withoutKey("category-names")
+                             .withoutKey("directors-diverge-date")
       years         <- confPeriodReader.from(yearsObj)
-    } yield Configuration(categoryNames, years, interestLate, interestRepay)
+    } yield Configuration(categoryNames, years, interestLate, interestRepay, directorsDiverge)
   }
 
   lazy val default: Configuration = {
