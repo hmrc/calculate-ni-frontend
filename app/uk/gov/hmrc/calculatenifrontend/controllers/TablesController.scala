@@ -79,6 +79,7 @@ class TablesController @Inject()(
   ): Action[AnyContent] = Action { implicit request =>
     val intervals: List[(LocalDate, String)] = intervalDropdown(ni.classTwo)
     val dateP = date.getOrElse(intervals.head._1)
+    val voluntaryYearSelect: Seq[Int] = 2006 to 2015
 
     ni.classTwo.at(dateP) match {
       case Some(data) =>
@@ -102,17 +103,27 @@ class TablesController @Inject()(
             "Share Fishing Weekly Rate" -> vdw.toString,
             "Share Fishing Total" -> (vdw * data.noOfWeeks).toString
           )
-        }) ++ List (
-//          "Date Late For Short Term Benefits (STB)" -> "???",
-          "Final Date For Payment" -> (lowerBound, data).getFinalDate.value.ukFormat,
+        }) ++ (if (voluntaryYearSelect.contains(lowerBound.getYear)) {
+        List (
+        //          "Date Late For Short Term Benefits (STB)" -> "???",
+        "Final Date For Voluntary Payment" -> (lowerBound, data).getFinalDate.value.ukFormat,
           "Small Profits Threshold/Small Earnings Exemption (SPT/SEE)" ->
             data.smallEarningsException.fold("N/A")(_.toString), // below which paying is optional
           "Date High Rate Provision (HRP) Applies" -> (lowerBound, data).getHigherRateDate.value.ukFormat, 
           "No of Wks" -> data.noOfWeeks.toString,
 //          "Earnings Factor (includes enhance)" -> "???",
-        )
-        Ok(genericPage(dateP, intervals, "Class 2", response.map{case (k,v) => (k,Html(v.toString))}))
-      case None => NotFound("")
+        )} else {
+        List (
+        //          "Date Late For Short Term Benefits (STB)" -> "???",
+        "Final Date For Payment" -> (lowerBound, data).getFinalDate.value.ukFormat,
+        "Small Profits Threshold/Small Earnings Exemption (SPT/SEE)" ->
+          data.smallEarningsException.fold("N/A")(_.toString), // below which paying is optional
+        "Date High Rate Provision (HRP) Applies" -> (lowerBound, data).getHigherRateDate.value.ukFormat,
+        "No of Wks" -> data.noOfWeeks.toString,
+        //          "Earnings Factor (includes enhance)" -> "???",
+      )})
+      Ok(genericPage(dateP, intervals, "Class 2", response.map{case (k,v) => (k,Html(v.toString))}))
+       case None => NotFound("")
     }
   }
 
