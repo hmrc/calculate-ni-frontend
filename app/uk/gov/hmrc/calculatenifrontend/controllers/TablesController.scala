@@ -79,11 +79,18 @@ class TablesController @Inject()(
   ): Action[AnyContent] = Action { implicit request =>
     val intervals: List[(LocalDate, String)] = intervalDropdown(ni.classTwo)
     val dateP = date.getOrElse(intervals.head._1)
+    val voluntaryYearSelect: Seq[Int] = 2006 to 2015
 
     ni.classTwo.at(dateP) match {
       case Some(data) =>
         val selectedInterval = ni.classTwo.keySet.find(_.contains(dateP)).get
         val lowerBound = selectedInterval.lowerValue.get
+
+        val finalPaymentString: String = if (voluntaryYearSelect.contains(lowerBound.getYear)) {
+          "Final Date For Voluntary Payment"
+        } else {
+          "Final Date For Payment"
+        }
         
 //        val noOfWeeks = selectedInterval.numberOfWeeks().get
         val response = List (
@@ -103,16 +110,16 @@ class TablesController @Inject()(
             "Share Fishing Total" -> (vdw * data.noOfWeeks).toString
           )
         }) ++ List (
-//          "Date Late For Short Term Benefits (STB)" -> "???",
-          "Final Date For Payment" -> (lowerBound, data).getFinalDate.value.ukFormat,
+        //          "Date Late For Short Term Benefits (STB)" -> "???",
+          finalPaymentString -> (lowerBound, data).getFinalDate.value.ukFormat,
           "Small Profits Threshold/Small Earnings Exemption (SPT/SEE)" ->
             data.smallEarningsException.fold("N/A")(_.toString), // below which paying is optional
           "Date High Rate Provision (HRP) Applies" -> (lowerBound, data).getHigherRateDate.value.ukFormat, 
           "No of Wks" -> data.noOfWeeks.toString,
 //          "Earnings Factor (includes enhance)" -> "???",
         )
-        Ok(genericPage(dateP, intervals, "Class 2", response.map{case (k,v) => (k,Html(v.toString))}))
-      case None => NotFound("")
+      Ok(genericPage(dateP, intervals, "Class 2", response.map{case (k,v) => (k,Html(v.toString))}))
+       case None => NotFound("")
     }
   }
 
