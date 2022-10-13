@@ -11,7 +11,7 @@ val build                    = taskKey[Unit]("Copy JS and Config to react app")
 
 val appName = "calculate-ni-frontend"
 
-val silencerVersion = "1.7.9"
+val silencerVersion = "1.7.11"
 
 installReactDependencies := {
   val result = JavaScriptBuild.npmProcess(reactDirectory.value, "install").run().exitValue()
@@ -62,7 +62,7 @@ lazy val microservice = Project(appName, file("."))
     scalaVersion                     := "2.12.14",
     libraryDependencies              ++= Seq(
       "uk.gov.hmrc"             %% "bootstrap-frontend-play-28" % "5.25.0",
-      "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "3.22.0-play-28",
+      "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "3.32.0-play-28",
       "com.github.pureconfig"   %% "pureconfig"                 % "0.17.1",
       "org.typelevel"           %% "cats-core"                  % "2.8.0",
       "org.typelevel"           %% "spire"                      % "0.17.0"
@@ -78,7 +78,7 @@ lazy val microservice = Project(appName, file("."))
       "com.github.tototoshi"    %% "scala-csv"                  % "1.3.10",
       "org.scalatestplus"       %% "scalacheck-1-15"            % "3.2.11.0",
       "com.propensive"          %% "magnolia"                   % "0.17.0",
-      "io.chrisdavenport"       %% "cats-scalacheck"            % "0.3.1",
+      "io.chrisdavenport"       %% "cats-scalacheck"            % "0.3.2",
       "com.vladsch.flexmark"    % "flexmark-all"                % "0.62.2"
     ).map(_ % Test),
     TwirlKeys.templateImports ++= Seq(
@@ -105,7 +105,7 @@ lazy val microservice = Project(appName, file("."))
   .settings(integrationTestSettings(): _*)
   .settings(resolvers += Resolver.jcenterRepo)
 
-val circeVersion = "0.14.2"
+val circeVersion = "0.14.3"
 
 /** common components holding the logic of the calculation */
 lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform, JVMPlatform)
