@@ -176,10 +176,9 @@ export function useNiFrontend() {
 
         setLoading(false)
 
-      } catch(e) {
+      } catch {
         setLoading(false)
-        setError('Configuration not loaded: ' + e.toString())
-        console.log(e)
+        console.log(error)
       }
     })()
   }, [error])
