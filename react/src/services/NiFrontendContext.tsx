@@ -158,33 +158,8 @@ export function useNiFrontend() {
             setError('')
             setConfig(config)
 
-              try{
-                const jsonRes = JSON.stringify(config)
-
-                try{
-                  const result = new NiFrontend(jsonRes)
-
-                  try {
-                    setNiFrontendInterface(result)
-                  }
-                  catch(e) {
-                    setError("setNiFrontendInterface ERROR" +  e.toString())
-                    console.log(error)
-                  }
-                }
-                catch(e) {
-                  setError("NiFrontend ERROR" +  e.toString())
-                  console.log(error)
-                }
-              }
-              catch(e) {
-                setError("stringify ERROR" +  e.toString())
-                console.log(error)
-              }
-
-          } else {
-            setError("Undefined json from calculate-ni/national-insurance.json")
-            console.log(error)
+            const result = new NiFrontend(JSON.stringify(config))
+            setNiFrontendInterface(result)
           }
         } else {
           setError('Configuration unable to be loaded from server.')
@@ -192,12 +167,13 @@ export function useNiFrontend() {
 
         setLoading(false)
 
-      } catch {
+      } catch(error) {
         setLoading(false)
+        setError('Configuration not loaded: ' + error.toString())
         console.log(error)
       }
     })()
-  }, [error])
+  }, [])
   return {
     loading,
     error,
