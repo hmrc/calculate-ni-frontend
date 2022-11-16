@@ -13,7 +13,7 @@ export enum NiClassName {
 }
 
 // tax year keys are in this format [2013-04-06, 2014-04-05)
-export const taxYearStringFormat: RegExp = new RegExp(/^\[[0-9]{4}-[0-9]{2}-[0-9]{2}, [0-9]{4}-[0-9]{2}-[0-9]{2}[)\]]$/)
+export const taxYearStringFormat: RegExp = /^\[[0-9]{4}-[0-9]{2}-[0-9]{2}, [0-9]{4}-[0-9]{2}-[0-9]{2}[)\]]{1}$/
 export const extractFromDateString = (ty: string) => ty.substr(1, 10)
 export const extractToDateString = (ty: string) => ty.substr(13, 10)
 export const sortByTaxYear = (a: TaxYear, b: TaxYear) => (a.id < b.id ? 1 : (a.id > b.id ? -1 : 0))
