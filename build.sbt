@@ -1,5 +1,7 @@
+import org.scalajs.linker.interface.ESVersion
 import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
+
 import scala.sys.process._
 
 val reactDirectory           = settingKey[File]("The directory where the react application is located")
@@ -154,6 +156,7 @@ lazy val `frontend` = project
     ),
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
+    scalaJSLinkerConfig ~= (_.withESFeatures(_.withESVersion(ESVersion.ES2018))),
     publish := {},
     publishLocal := {}
   )
