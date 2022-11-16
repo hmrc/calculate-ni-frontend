@@ -168,17 +168,17 @@ export function useNiFrontend() {
                     setNiFrontendInterface(result)
                   }
                   catch(e) {
-                    setError("setNiFrontendInterface ERROR" +  e.toString() + "\n\n" + result.toString())
+                    setError("setNiFrontendInterface ERROR" +  e.toString())
                     console.log(error)
                   }
                 }
                 catch(e) {
-                  setError("NiFrontend ERROR" +  e.toString() + "\n\n" + jsonRes)
+                  setError("NiFrontend ERROR" +  e.toString())
                   console.log(error)
                 }
               }
               catch(e) {
-                setError("stringify ERROR" +  e.toString() + "\n\n" + config)
+                setError("stringify ERROR" +  e.toString())
                 console.log(error)
               }
 
