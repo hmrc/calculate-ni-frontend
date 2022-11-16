@@ -158,14 +158,30 @@ export function useNiFrontend() {
             setError('')
             setConfig(config)
 
-            try {
-              const result = new NiFrontend(JSON.stringify(config))
-              setNiFrontendInterface(result)
-            } catch(e) {
-              setError("Failed to initialise NiFrontendInterface due to error: " + e.toString())
-              console.log(e)
-              throw e
-            }
+              try{
+                const jsonRes = JSON.stringify(config)
+
+                try{
+                  const result = new NiFrontend(jsonRes)
+
+                  try {
+                    setNiFrontendInterface(result)
+                  }
+                  catch(e) {
+                    setError("setNiFrontendInterface ERROR" +  e.toString() + "\n\n" + result.toString())
+                    console.log(error)
+                  }
+                }
+                catch(e) {
+                  setError("NiFrontend ERROR" +  e.toString() + "\n\n" + jsonRes)
+                  console.log(error)
+                }
+              }
+              catch(e) {
+                setError("stringify ERROR" +  e.toString() + "\n\n" + config)
+                console.log(error)
+              }
+
           } else {
             setError("Undefined json from calculate-ni/national-insurance.json")
             console.log(error)
