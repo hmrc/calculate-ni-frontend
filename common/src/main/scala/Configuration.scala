@@ -64,6 +64,22 @@ import spire.math.Interval
   *
   * Source: https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/882271/Table-a4.pdf
   * */
+case class Configuration1 (
+  categoryNames: Map[Char, String],
+)
+case class Configuration2 (
+  data: Map[Interval[LocalDate], ConfigurationPeriod],
+)
+case class Configuration3 (
+  interestOnLatePayment: Map[Interval[LocalDate], Percentage],
+)
+case class Configuration4 (
+  interestOnRepayment: Map[Interval[LocalDate], Percentage],
+)
+case class Configuration5 (
+  directorsDivergeDate: LocalDate
+)
+
 case class Configuration (
   categoryNames: Map[Char, String],
   data: Map[Interval[LocalDate], ConfigurationPeriod],

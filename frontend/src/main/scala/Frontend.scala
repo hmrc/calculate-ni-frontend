@@ -22,9 +22,37 @@ import scala.scalajs.js, js.annotation.JSExportTopLevel
 @JSExportTopLevel("NiFrontend")
 class NiFrontend(json: String) extends js.Object {
 
-  val config: Configuration = EoiJsonEncoding.fromJson(json) match {
-    case Right(z) => z
-    case Left(err) => throw new IllegalArgumentException(s"$err")
+//  val config: Configuration = EoiJsonEncoding.fromJson(json) match {
+//    case Right(z) => z
+//    case Left(err) => throw new IllegalArgumentException(s"$err")
+//  }
+  val config: Configuration =
+    EoiJsonEncoding.fromJson1(json) match {
+    case Right(z1) =>
+      EoiJsonEncoding.fromJson2(json) match {
+        case Right(z2) =>
+          EoiJsonEncoding.fromJson3(json) match {
+            case Right(z3) =>
+              EoiJsonEncoding.fromJson4(json) match {
+                case Right(z4) =>
+                  EoiJsonEncoding.fromJson5(json) match {
+                    case Right(z5) =>
+                      Configuration(
+                        z1.categoryNames,
+                        z2.data,
+                        z3.interestOnLatePayment,
+                        z4.interestOnRepayment,
+                        z5.directorsDivergeDate
+                      )
+                    case Left(err) => throw new IllegalArgumentException(s"5 directorsDivergeDate $err")
+                  }
+                case Left(err) => throw new IllegalArgumentException(s"4 interestOnRepayment $err")
+              }
+            case Left(err) => throw new IllegalArgumentException(s"3 interestOnLatePayment $err")
+          }
+        case Left(err) => throw new IllegalArgumentException(s"2 data $err")
+      }
+    case Left(err) => throw new IllegalArgumentException(s"1 categoryNames $err")
   }
 
   lazy val classOne = new ClassOneFrontend(config)

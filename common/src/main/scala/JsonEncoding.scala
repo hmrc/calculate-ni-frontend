@@ -105,4 +105,10 @@ object EoiJsonEncoding {
   }
 
   def fromJson(in: String): Either[Error,Configuration] = decode[Configuration](in)
+  def fromJson1(in: String): Either[Error,Configuration1] = decode[Configuration1](in)
+  def fromJson2(in: String): Either[Error,Configuration2] = decode[Configuration2](in)
+  def fromJson3(in: String): Either[Error,Configuration3] = decode[Configuration3](in)
+  def fromJson4(in: String): Either[Error,Configuration4] = decode[Configuration4](in)
+  def fromJson5(in: String): Either[Error,Configuration5] = decode[Configuration5](in)
+
 }
