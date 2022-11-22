@@ -35,7 +35,8 @@
 @hmrcAdminHeader = @{
   Html(s"""<div class="govuk-width-container">${header(
       InternalHeader(
-      serviceName = Some("National Insurance (NI) Calculator Support Tool")
+      serviceName = Some("National Insurance (NI) Calculator Support Tool"),
+      serviceUrl = "/calculate-ni"
     ))}</div>""")
 }
 
