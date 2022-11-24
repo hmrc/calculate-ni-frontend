@@ -13,7 +13,7 @@ val build                    = taskKey[Unit]("Copy JS and Config to react app")
 
 val appName = "calculate-ni-frontend"
 
-val silencerVersion = "1.7.11"
+val silencerVersion = "1.7.12"
 
 installReactDependencies := {
   val result = JavaScriptBuild.npmProcess(reactDirectory.value, "install").run().exitValue()
@@ -58,15 +58,15 @@ moveReact := {
 }
 
 lazy val microservice = Project(appName, file("."))
-  .enablePlugins(play.sbt.PlayScala, SbtGitVersioning, SbtDistributablesPlugin)
+  .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
   .settings(
     majorVersion                     := 0,
-    scalaVersion                     := "2.12.14",
+    scalaVersion                     := "2.12.17",
     libraryDependencies              ++= Seq(
       "uk.gov.hmrc"             %% "bootstrap-frontend-play-28" % "5.25.0",
-      "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "3.32.0-play-28",
-      "com.github.pureconfig"   %% "pureconfig"                 % "0.17.1",
-      "org.typelevel"           %% "cats-core"                  % "2.8.0",
+      "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "3.34.0-play-28",
+      "com.github.pureconfig"   %% "pureconfig"                 % "0.17.2",
+      "org.typelevel"           %% "cats-core"                  % "2.9.0",
       "org.typelevel"           %% "spire"                      % "0.17.0"
     ),
     libraryDependencies ++= Seq(
