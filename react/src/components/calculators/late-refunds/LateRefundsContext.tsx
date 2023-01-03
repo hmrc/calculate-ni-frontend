@@ -93,18 +93,18 @@ export function useLateRefundsForm() {
   const {
     NiFrontendInterface
   } = useContext(NiFrontendContext)
-  const ClassOneCalculator = NiFrontendInterface.classOne
+  const DirectorsCalculator = NiFrontendInterface.directors
   const InterestOnLateRefundsCalculator = NiFrontendInterface.interestOnRefundsClassOne
   const [defaultRow, setDefaultRow] = useState<LateRefundsTableRowProps>(initRow)
   const [rows, setRows] = useState<Array<LateRefundsTableRowProps>>([defaultRow])
   const [rates, setRates] = useState<Rate[] | null>([])
 
   useEffect(() => {
-    const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
+    const taxYearData = buildTaxYears(DirectorsCalculator.getTaxYearsWithOptions)
       .filter((ty: TaxYear) => isBeforeToday(ty.from))
     setTaxYears(taxYearData)
     setDefaultRow({...initRow, taxYear: taxYearData[0]})
-  }, [ClassOneCalculator, NiFrontendInterface])
+  }, [DirectorsCalculator, NiFrontendInterface])
 
   useEffect(() => {
     if(defaultRow) {
