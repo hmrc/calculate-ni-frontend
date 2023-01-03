@@ -6,6 +6,7 @@ import {Class1DebtRow, DetailsProps, GovDateRange, TaxYear, Rate} from '../../..
 import {buildTaxYears} from "../../../config";
 import {GenericErrors} from '../../../validation/validation'
 import {
+  DirectorsCalculator,
   initInterestOnLateClassOne, InterestOnLateClassOne,
   NiFrontendContext
 } from "../../../services/NiFrontendContext";
@@ -86,7 +87,7 @@ export function useLateInterestForm() {
   const {
     NiFrontendInterface
   } = useContext(NiFrontendContext)
-  const ClassOneCalculator = NiFrontendInterface.classOne
+  const DirectorsCalculator = NiFrontendInterface.directors
   const InterestOnLateClassOneCalculator = NiFrontendInterface.interestOnLateClassOne
   const [rates, setRates] = useState<Rate[] | null>([])
   const defaultRows = [{
@@ -104,10 +105,10 @@ export function useLateInterestForm() {
   }, [InterestOnLateClassOneCalculator])
 
   useEffect(() => {
-    const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
+    const taxYearData = buildTaxYears(DirectorsCalculator.getTaxYearsWithOptions)
       .filter((ty: TaxYear) => isBeforeToday(ty.from) && ty.to.getFullYear() > 1992)
     setTaxYears(taxYearData)
-  }, [ClassOneCalculator])
+  }, [DirectorsCalculator])
 
   useEffect(() => {
     if(!results) {
