@@ -6,7 +6,6 @@ import {Class1DebtRow, DetailsProps, GovDateRange, TaxYear, Rate} from '../../..
 import {buildTaxYears} from "../../../config";
 import {GenericErrors} from '../../../validation/validation'
 import {
-  DirectorsCalculator,
   initInterestOnLateClassOne, InterestOnLateClassOne,
   NiFrontendContext
 } from "../../../services/NiFrontendContext";
