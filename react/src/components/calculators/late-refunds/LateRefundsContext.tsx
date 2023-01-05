@@ -9,7 +9,7 @@ import {
   NiFrontendContext
 } from '../../../services/NiFrontendContext'
 import {GenericErrors} from '../../../validation/validation'
-import {isBeforeToday} from "../../../services/utils";
+import {isNotCurrentYear} from "../../../services/utils";
 
 export interface LateRefundsTableRowProps {
   id: string
@@ -101,7 +101,7 @@ export function useLateRefundsForm() {
 
   useEffect(() => {
     const taxYearData = buildTaxYears(DirectorsCalculator.getTaxYearsWithOptions)
-      .filter((ty: TaxYear) => isBeforeToday(ty.from))
+      .filter((ty: TaxYear) => isNotCurrentYear(ty.from))
     setTaxYears(taxYearData)
     setDefaultRow({...initRow, taxYear: taxYearData[0]})
   }, [DirectorsCalculator, NiFrontendInterface])

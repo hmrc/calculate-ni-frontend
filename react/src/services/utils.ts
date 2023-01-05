@@ -225,6 +225,8 @@ export const decimalToPercent = (decimal: number) => parseFloat((decimal * 1000 
 
 export const isBeforeToday = (d: Date) => moment(d).isBefore(moment())
 
+export const isNotCurrentYear = (d: Date) => moment(d).isBefore(moment().subtract(1, 'years'))
+
 export const zeroPad = (int: string) => int.length === 1 ? `0${int}` : int
 
 const reduceBandNames = (rows: Row[] | DirectorsUIRow[]) => rows
