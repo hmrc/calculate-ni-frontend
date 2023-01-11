@@ -9,7 +9,7 @@ import {
   NiFrontendContext
 } from '../../../services/NiFrontendContext'
 import {GenericErrors} from '../../../validation/validation'
-import {isBeforeToday} from "../../../services/utils";
+import {isNotCurrentYear} from "../../../services/utils";
 
 export interface LateRefundsTableRowProps {
   id: string
@@ -93,18 +93,18 @@ export function useLateRefundsForm() {
   const {
     NiFrontendInterface
   } = useContext(NiFrontendContext)
-  const ClassOneCalculator = NiFrontendInterface.classOne
+  const DirectorsCalculator = NiFrontendInterface.directors
   const InterestOnLateRefundsCalculator = NiFrontendInterface.interestOnRefundsClassOne
   const [defaultRow, setDefaultRow] = useState<LateRefundsTableRowProps>(initRow)
   const [rows, setRows] = useState<Array<LateRefundsTableRowProps>>([defaultRow])
   const [rates, setRates] = useState<Rate[] | null>([])
 
   useEffect(() => {
-    const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
-      .filter((ty: TaxYear) => isBeforeToday(ty.from))
+    const taxYearData = buildTaxYears(DirectorsCalculator.getTaxYearsWithOptions)
+      .filter((ty: TaxYear) => isNotCurrentYear(ty.from))
     setTaxYears(taxYearData)
     setDefaultRow({...initRow, taxYear: taxYearData[0]})
-  }, [ClassOneCalculator, NiFrontendInterface])
+  }, [DirectorsCalculator, NiFrontendInterface])
 
   useEffect(() => {
     if(defaultRow) {
