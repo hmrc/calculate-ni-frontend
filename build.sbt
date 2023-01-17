@@ -63,11 +63,11 @@ lazy val microservice = Project(appName, file("."))
     majorVersion                     := 0,
     scalaVersion                     := "2.12.17",
     libraryDependencies              ++= Seq(
-      "uk.gov.hmrc"             %% "bootstrap-frontend-play-28" % "5.25.0",
-      "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "4.1.0-play-28",
-      "com.github.pureconfig"   %% "pureconfig"                 % "0.17.2",
-      "org.typelevel"           %% "cats-core"                  % "2.9.0",
-      "org.typelevel"           %% "spire"                      % "0.17.0"
+      "uk.gov.hmrc"           %% "bootstrap-frontend-play-28" % "5.25.0",
+      "uk.gov.hmrc"           %% "play-frontend-hmrc"         % "6.2.0-play-28",
+      "com.github.pureconfig" %% "pureconfig"                 % "0.17.2",
+      "org.typelevel"         %% "cats-core"                  % "2.9.0",
+      "org.typelevel"         %% "spire"                      % "0.17.0"
     ),
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core",
@@ -75,13 +75,13 @@ lazy val microservice = Project(appName, file("."))
       "io.circe" %%% "circe-parser"
     ).map(_ % circeVersion),
     libraryDependencies              ++= Seq(
-      "uk.gov.hmrc"             %% "bootstrap-test-play-28"     % "5.25.0",
-      "com.typesafe.play"       %% "play-test"                  % play.core.PlayVersion.current,
-      "com.github.tototoshi"    %% "scala-csv"                  % "1.3.10",
-      "org.scalatestplus"       %% "scalacheck-1-15"            % "3.2.11.0",
-      "com.propensive"          %% "magnolia"                   % "0.17.0",
-      "io.chrisdavenport"       %% "cats-scalacheck"            % "0.3.2",
-      "com.vladsch.flexmark"    % "flexmark-all"                % "0.62.2"
+      "uk.gov.hmrc"          %% "bootstrap-test-play-28" % "5.25.0",
+      "com.typesafe.play"    %% "play-test"              % play.core.PlayVersion.current,
+      "com.github.tototoshi" %% "scala-csv"              % "1.3.10",
+      "org.scalatestplus"    %% "scalacheck-1-15"        % "3.2.11.0",
+      "com.propensive"       %% "magnolia"               % "0.17.0",
+      "io.chrisdavenport"    %% "cats-scalacheck"        % "0.3.2",
+      "com.vladsch.flexmark" %  "flexmark-all"           % "0.62.2"
     ).map(_ % Test),
     TwirlKeys.templateImports ++= Seq(
       "uk.gov.hmrc.calculatenifrontend.config.AppConfig",
