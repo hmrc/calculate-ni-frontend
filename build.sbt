@@ -1,6 +1,5 @@
 import org.scalajs.linker.interface.ESVersion
 import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
-import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
 
 import scala.sys.process._
 
@@ -102,7 +101,6 @@ lazy val microservice = Project(appName, file("."))
     Compile / unmanagedResources += file("national-insurance.conf"),
     dist := (dist dependsOn moveReact).value
   )
-  .settings(publishingSettings: _*)
   .configs(IntegrationTest)
   .settings(integrationTestSettings(): _*)
   .settings(resolvers += Resolver.jcenterRepo)
