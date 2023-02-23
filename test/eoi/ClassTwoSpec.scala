@@ -16,8 +16,7 @@
 
 package eoi
 
-import cats.syntax.apply._
-import cats.instances.option._
+import cats.implicits._
 
 class ClassTwoSpec extends SpreadsheetTest {
 
@@ -40,12 +39,10 @@ class ClassTwoSpec extends SpreadsheetTest {
       ) map (result.totalDue equalOrExplain _)
 
       (
-        row.get("no conts due") flatMap Int.unapply
-      ) map (result.numberOfContributions equalOrExplain _)
-
-      (
-        row.get("total amount") flatMap MoneyStr.unapply
-      ) map (result.totalDue equalOrExplain _)
+        row.get("class 2 rate") >>= MoneyStr.unapply
+      ) map (
+        result.rate equalOrExplain _
+      )
 
       (
         row.get("date higher rate") flatMap Date.unapply
