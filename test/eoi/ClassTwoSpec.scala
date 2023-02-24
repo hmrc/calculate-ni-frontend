@@ -39,10 +39,8 @@ class ClassTwoSpec extends SpreadsheetTest {
       ) map (result.totalDue equalOrExplain _)
 
       (
-        row.get("class 2 rate") >>= MoneyStr.unapply
-      ) map (
-        result.rate equalOrExplain _
-      )
+        row.get("class 2 rate") flatMap MoneyStr.unapply
+      ) map (result.rate equalOrExplain _)
 
       (
         row.get("date higher rate") flatMap Date.unapply
