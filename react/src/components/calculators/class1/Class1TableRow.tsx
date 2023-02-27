@@ -1,4 +1,4 @@
-import React, {Dispatch, useContext, useEffect} from "react"
+import React, {Dispatch, useContext, useEffect, useState} from "react"
 import {periods, PeriodValue, periodValueToLabel} from "../../../config";
 import numeral from "numeral";
 import * as thStyles from '../../../services/mobileHeadingStyles'
@@ -39,6 +39,9 @@ export default function Class1TableRow(props: TableRowProps) {
     setResult,
     categoryNames
   } = useContext(ClassOneContext)
+
+    const [periodRowsValue, setPeriodRowsValue] = useState<Row>(row)
+
 
   const handleChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
     invalidateResults()
@@ -149,7 +152,23 @@ export default function Class1TableRow(props: TableRowProps) {
       </MqTableCell>
 
       <MqTableCell cellStyle={thStyles.periodNumber}>
-        {row.number}
+          {printView ?
+              <div>{periodRowsValue?.number}</div>
+              :
+              <React.Fragment>
+                  <TextInput
+                      hiddenLabel={true}
+                      name={`${periodRowsValue?.id}-period`}
+                      labelText={`Period for row number ${index + 1}`}
+                      inputClassName="period-number"
+                      inputValue={periodRowsValue?.number}
+                      onChangeCallback={(e) => {
+                          setPeriodRowsValue(parseInt(e.currentTarget.value) as any)
+                      }}
+                      onPaste={(e: React.ClipboardEvent) => handlePaste(e, periodRowsValue)}
+                  />
+              </React.Fragment>
+          }
       </MqTableCell>
 
 
