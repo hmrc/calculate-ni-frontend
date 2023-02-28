@@ -151,7 +151,7 @@ export default function Class1TableRow(props: TableRowProps) {
         }
       </MqTableCell>
 
-      <MqTableCell cellStyle={thStyles.periodNumber}>
+      <MqTableCell cellStyle={thStyles.periodNumber} cellClassName="input">
           {printView ?
               <div>{periodRowsValue?.number}</div>
               :
