@@ -1,222 +1,259 @@
-import React, {Dispatch, useContext, useEffect, useState, SetStateAction} from "react";
-import {DetailsProps, GenericObject, TaxYear, TotalsInCategories} from "../../../interfaces";
-import {buildTaxYears, periods, PeriodValue} from "../../../config";
-import {GenericErrors} from "../../../validation/validation";
-import {mapCategoryTotalsResponse} from "../../../services/utils";
-import {categoryNamesToObject, initClassOneCalculator, NiFrontendContext} from "../../../services/NiFrontendContext";
+import React, {
+  Dispatch,
+  useContext,
+  useEffect,
+  useState,
+  SetStateAction,
+} from "react";
+import {
+  DetailsProps,
+  GenericObject,
+  TaxYear,
+  TotalsInCategories,
+} from "../../../interfaces";
+import { buildTaxYears, periods, PeriodValue } from "../../../config";
+import { GenericErrors } from "../../../validation/validation";
+import { mapCategoryTotalsResponse } from "../../../services/utils";
+import {
+  categoryNamesToObject,
+  initClassOneCalculator,
+  NiFrontendContext,
+} from "../../../services/NiFrontendContext";
 import uniqid from "uniqid";
 
 const initRow = {
   id: uniqid(),
-  category: '',
-  gross: '',
+  category: "",
+  gross: "",
   ee: 0,
   er: 0,
   number: 1,
-  period: PeriodValue.WEEKLY
-}
+  period: PeriodValue.WEEKLY,
+};
 
 const initialDetails = {
-  fullName: '',
-  ni: '',
-  reference: '',
-  preparedBy: '',
-  date: '',
-}
+  fullName: "",
+  ni: "",
+  reference: "",
+  preparedBy: "",
+  date: "",
+};
 
-const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) => ({
+const detailsReducer = (
+  state: DetailsProps,
+  action: { [x: string]: string }
+) => ({
   ...state,
   ...action,
-})
+});
 
 export interface Row {
-  id: string
-  category: string
-  number: number
-  period: PeriodValue
-  gross: string
-  ee: number
-  er: number
-  bands?: Array<Band>
-  explain?: Array<string>
-  totalContributions?: number
-  contributionBands?: Array<ContributionBand>
+  id: string;
+  category: string;
+  number: number;
+  period: PeriodValue;
+  gross: string;
+  ee: number;
+  er: number;
+  bands?: Array<Band>;
+  explain?: Array<string>;
+  totalContributions?: number;
+  contributionBands?: Array<ContributionBand>;
 }
 
 export interface ClassOneRowInterface {
-  id: string,
-  period: string, // "M", "W" or "4W"
-  category: string,
-  grossPay: number,
-  contractedOutStandardRate: boolean
+  id: string;
+  period: string; // "M", "W" or "4W"
+  category: string;
+  grossPay: number;
+  contractedOutStandardRate: boolean;
 }
 
 interface Calculator {
-  calculate: Function
-  getApplicableCategories: Function
-  getTaxYears: Array<string>
+  calculate: Function;
+  getApplicableCategories: Function;
+  getTaxYears: Array<string>;
 }
 
 interface CalculatedTotals {
-  gross: number
-  net: number
-  employee: number
-  employer: number
+  gross: number;
+  net: number;
+  employee: number;
+  employer: number;
 }
 
 export interface Band {
-  name: string
-  amountInBand: number
+  name: string;
+  amountInBand: number;
 }
 
 export interface ContributionBand {
-  name: string
-  employeeContributions: number
+  name: string;
+  employeeContributions: number;
 }
 
 export interface CalculatedRow {
-  name: string
-  resultBands: Array<Band>
-  resultContributionBands: Array<ContributionBand>
-  employee: number
-  employer: number
-  totalContributions: number
-  explain: Array<string>
+  name: string;
+  resultBands: Array<Band>;
+  resultContributionBands: Array<ContributionBand>;
+  employee: number;
+  employer: number;
+  totalContributions: number;
+  explain: Array<string>;
 }
 
 interface TotalRow {
-  employee: number
-  employer: number
-  total: number
+  employee: number;
+  employer: number;
+  total: number;
 }
 
 export interface BandTotals {
-  resultBands: Map<string, v>
-  resultContributionBands: Map<string, v>
+  resultBands: Map<string, v>;
+  resultContributionBands: Map<string, v>;
 }
 
 export interface v {
-  gross: number
-  employee: number
-  employer: number
-  net: number
+  gross: number;
+  employee: number;
+  employer: number;
+  net: number;
 }
 
 export interface CategoryTotals {
-  gross: number
-  employee: number
-  employer: number
-  net: number
-  resultBands: Map<string, v>
-  resultContributionBands: Map<string, v>
+  gross: number;
+  employee: number;
+  employer: number;
+  net: number;
+  resultBands: Map<string, v>;
+  resultContributionBands: Map<string, v>;
 }
 
 export interface Class1Result {
-  resultRows: CalculatedRow[]
-  totals: CalculatedTotals
-  overpayment: TotalRow
-  underpayment: TotalRow
-  employerContributions: number
-  categoryTotals: Map<string, CategoryTotals>
-  bandTotals: BandTotals
+  resultRows: CalculatedRow[];
+  totals: CalculatedTotals;
+  overpayment: TotalRow;
+  underpayment: TotalRow;
+  employerContributions: number;
+  categoryTotals: Map<string, CategoryTotals>;
+  bandTotals: BandTotals;
 }
 
 interface ClassOneContext {
-  ClassOneCalculator: Calculator
-  taxYears: TaxYear[]
-  taxYear: TaxYear | null
-  setTaxYear: Dispatch<TaxYear | null>
-  defaultRow: Row,
-  rows: Array<Row>
-  setRows: Dispatch<SetStateAction<Array<Row>>>
-  details: DetailsProps
-  setDetails: Function,
-  niPaidNet: string
-  setNiPaidNet: Dispatch<string>
-  niPaidEmployee: string
-  setNiPaidEmployee: Dispatch<string>
-  errors: GenericErrors
-  setErrors: Dispatch<GenericErrors>
-  categoryTotals: TotalsInCategories
-  setCategoryTotals: Dispatch<TotalsInCategories>
-  categories: Array<string>
-  setCategories: Dispatch<Array<string>>
-  activeRowId: string | null
-  setActiveRowId: Dispatch<string | null>
-  setPeriodNumbers: Function
-  result: Class1Result | null
-  setResult: Dispatch<Class1Result | null>
-  categoryNames: GenericObject
+  ClassOneCalculator: Calculator;
+  taxYears: TaxYear[];
+  taxYear: TaxYear | null;
+  setTaxYear: Dispatch<TaxYear | null>;
+  defaultRow: Row;
+  niRow: Row;
+  setNiRow: Dispatch<Row>;
+  rows: Array<Row>;
+  setRows: Dispatch<SetStateAction<Array<Row>>>;
+  details: DetailsProps;
+  setDetails: Function;
+  niPaidNet: string;
+  setNiPaidNet: Dispatch<string>;
+  niPaidEmployee: string;
+  setNiPaidEmployee: Dispatch<string>;
+  errors: GenericErrors;
+  setErrors: Dispatch<GenericErrors>;
+  categoryTotals: TotalsInCategories;
+  setCategoryTotals: Dispatch<TotalsInCategories>;
+  categories: Array<string>;
+  setCategories: Dispatch<Array<string>>;
+  setDefaultRow: Dispatch<Row>;
+  activeRowId: string | null;
+  setActiveRowId: Dispatch<string | null>;
+  setPeriodNumbers: Function;
+  result: Class1Result | null;
+  setResult: Dispatch<Class1Result | null>;
+  categoryNames: GenericObject;
 }
 
-export const ClassOneContext = React.createContext<ClassOneContext>(
-  {
-    ClassOneCalculator: initClassOneCalculator,
-    taxYears: [],
-    taxYear: null,
-    setTaxYear: () => {},
-    defaultRow: initRow,
-    rows: [initRow],
-    setRows: () => {},
-    details: initialDetails,
-    setDetails: () => {},
-    niPaidNet: '',
-    setNiPaidNet: () => {},
-    niPaidEmployee: '',
-    setNiPaidEmployee: () => {},
-    errors: {},
-    setErrors: () => {},
-    categoryTotals: {},
-    setCategoryTotals: () => {},
-    categories: [],
-    setCategories: () => {},
-    activeRowId: null,
-    setActiveRowId: () => {},
-    setPeriodNumbers: () => {},
-    result: null,
-    setResult: () => {},
-    categoryNames: {}
-  }
-)
+export const ClassOneContext = React.createContext<ClassOneContext>({
+  ClassOneCalculator: initClassOneCalculator,
+  taxYears: [],
+  taxYear: null,
+  setTaxYear: () => {},
+  defaultRow: initRow,
+  niRow: initRow,
+  setNiRow: () => {},
+  rows: [initRow],
+  setRows: () => {},
+  details: initialDetails,
+  setDetails: () => {},
+  niPaidNet: "",
+  setNiPaidNet: () => {},
+  niPaidEmployee: "",
+  setNiPaidEmployee: () => {},
+  errors: {},
+  setErrors: () => {},
+  categoryTotals: {},
+  setCategoryTotals: () => {},
+  categories: [],
+  setCategories: () => {},
+  activeRowId: null,
+  setActiveRowId: () => {},
+  setPeriodNumbers: () => {},
+  result: null,
+  setResult: () => {},
+  categoryNames: {},
+
+  setDefaultRow: () => {},
+});
 
 export function useClassOneForm() {
-  const {
-    NiFrontendInterface
-  } = useContext(NiFrontendContext)
-  const ClassOneCalculator = NiFrontendInterface.classOne
-  const [taxYears, setTaxYears] = useState<TaxYear[]>([])
-  const [taxYear, setTaxYear] = useState<TaxYear | null>(null)
-  const [defaultRow, setDefaultRow] = useState<Row>(initRow)
-  const [categoryNames, setCategoryNames] = useState<GenericObject>({})
-  const [categories, setCategories] = useState<Array<string>>([])
-  const [details, setDetails] = React.useReducer(detailsReducer, initialDetails)
-  const [errors, setErrors] = useState<GenericErrors>({})
-  const [niPaidNet, setNiPaidNet] = useState<string>('')
-  const [niPaidEmployee, setNiPaidEmployee] = useState<string>('')
-  const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({})
-  const [result, setResult] = useState<Class1Result | null>(null)
-  const [activeRowId, setActiveRowId] = useState<string | null>(null)
+  const { NiFrontendInterface } = useContext(NiFrontendContext);
+  const ClassOneCalculator = NiFrontendInterface.classOne;
+  const [taxYears, setTaxYears] = useState<TaxYear[]>([]);
+  const [taxYear, setTaxYear] = useState<TaxYear | null>(null);
+  const [niRow, setNiRow] = useState<Row>(initRow);
+  const [defaultRow, setDefaultRow] = useState<Row>({
+    ...initRow,
+    number: niRow?.number === initRow.number ? 1 : niRow?.number,
+  });
+  // const [defaultRow, setDefaultRow] = useState<Row>({...initRow});
+  const [categoryNames, setCategoryNames] = useState<GenericObject>({});
+  const [categories, setCategories] = useState<Array<string>>([]);
+  const [details, setDetails] = React.useReducer(
+    detailsReducer,
+    initialDetails
+  );
+  const [errors, setErrors] = useState<GenericErrors>({});
+  const [niPaidNet, setNiPaidNet] = useState<string>("");
+  const [niPaidEmployee, setNiPaidEmployee] = useState<string>("");
+  const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({});
+  const [result, setResult] = useState<Class1Result | null>(null);
+  const [activeRowId, setActiveRowId] = useState<string | null>(null);
 
   useEffect(() => {
-    if(taxYear && taxYear.from) {
-      const categoriesForTaxYear = ClassOneCalculator.getApplicableCategories(taxYear.from)
-      if(categoriesForTaxYear) {
-        setCategories(categoriesForTaxYear.split(''))
+    if (taxYear && taxYear.from) {
+      const categoriesForTaxYear = ClassOneCalculator.getApplicableCategories(
+        taxYear.from
+      );
+      if (categoriesForTaxYear) {
+        setCategories(categoriesForTaxYear.split(""));
         setDefaultRow((prevState: Row) => ({
           ...prevState,
-          category: categoriesForTaxYear[0]
-        }))
+          category: categoriesForTaxYear[0],
+        }));
       }
     }
-  }, [taxYear, ClassOneCalculator])
+  }, [taxYear, ClassOneCalculator]);
 
-  useEffect(() => {
-    if(defaultRow) {
-      setRows([defaultRow])
-     }
-   }, [defaultRow])
+  // useEffect(() => {
+  //   if (defaultRow) {
+  //     if (defaultRow.number === niRow.number) {
+  //       setNiRow(defaultRow);
+  //       setRows([defaultRow]);
+  //     } else {
+  //       setRows([{ ...defaultRow, number: niRow.number }]);
+  //       setNiRow({ ...defaultRow, number: niRow.number });
+  //     }
+  //   }
+  // }, [defaultRow, niRow.number]);
 
-  const [rows, setRows] = useState<Array<Row>>([defaultRow])
+  const [rows, setRows] = useState<Array<Row>>([defaultRow]);
 
   useEffect(() => {
     if(result && result.resultRows) {
@@ -248,25 +285,28 @@ export function useClassOneForm() {
         return row
       }))
     }
-  }, [result])
+  }, [result]);
 
   useEffect(() => {
-    if(result && result.categoryTotals) {
-      setCategoryTotals(mapCategoryTotalsResponse(result.categoryTotals, rows))
+    if (result && result.categoryTotals) {
+      setCategoryTotals(mapCategoryTotalsResponse(result.categoryTotals, rows));
     }
-  }, [result, rows])
+  }, [result, rows]);
 
   useEffect(() => {
-    setTaxYear(taxYears[0])
-  }, [taxYears])
+    setTaxYear(taxYears[0]);
+  }, [taxYears]);
 
   useEffect(() => {
-    const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears)
-    setTaxYears(taxYearData)
-    setCategoryNames(categoryNamesToObject(ClassOneCalculator.getCategoryNames))
-  }, [ClassOneCalculator])
+    const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears);
+    setTaxYears(taxYearData);
+    setCategoryNames(
+      categoryNamesToObject(ClassOneCalculator.getCategoryNames)
+    );
+  }, [ClassOneCalculator]);
 
   const setPeriodNumbers = (deletedRow: string | undefined) => {
+      console.log('In setPeriodNumber...');
     for (let period in periods) {
       let periodAccumulator = 0
       const newRows = deletedRow ?
@@ -289,6 +329,9 @@ export function useClassOneForm() {
     taxYear,
     setTaxYear,
     defaultRow,
+    niRow,
+    setNiRow,
+    setDefaultRow,
     rows,
     setRows,
     details,
@@ -308,6 +351,6 @@ export function useClassOneForm() {
     setPeriodNumbers,
     result,
     setResult,
-    categoryNames
-  }
+    categoryNames,
+  };
 }

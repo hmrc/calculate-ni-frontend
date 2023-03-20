@@ -23,6 +23,7 @@ export default function TableRow(props: TableRowProps) {
   }, [activeRowId, row.id, rowRef]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleClickFocus = (event: React.MouseEvent): void => {
+      console.log('I\'m being clicked', {id: row.id});
     setRetainFocus(event.target instanceof HTMLInputElement || event.target instanceof HTMLSelectElement)
     setActiveRowId(row.id)
   }

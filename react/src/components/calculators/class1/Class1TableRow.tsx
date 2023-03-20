@@ -50,9 +50,26 @@ export default function Class1TableRow(props: TableRowProps) {
     result,
     setResult,
     categoryNames,
+    niRow,
+    setNiRow,
   } = useContext(ClassOneContext);
 
-  const [periodRowsValue, setPeriodRowsValue] = useState<Row>(row);
+  // let updatedRowNumber: Row;
+
+  const [periodRowsValue, setPeriodRowsValue] = useState({...row});
+
+
+
+
+
+  useEffect(() => {
+    console.log({ row });
+
+  }, [row, periodRowsValue]);
+
+  useEffect(() => {
+      // updatedRowNumber = row.number === niRow?.number ? row : niRow
+  }, [row, niRow]);
 
   const handleChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
     invalidateResults();
@@ -81,6 +98,19 @@ export default function Class1TableRow(props: TableRowProps) {
     );
   };
 
+
+    const handlePeriodChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
+        const enteredValue = parseInt(e.currentTarget.value);
+        const newPeriod = isNaN(enteredValue) ? "" : enteredValue;
+        setRows(
+            rows.map((cur: Row) =>
+                cur.id === r.id
+                    ? { ...cur, [e.currentTarget.name]: newPeriod }
+                    : cur
+            )
+        );
+    }
+
   const periodCallBack = () => {
     setPeriodNumbers();
   };
@@ -93,7 +123,7 @@ export default function Class1TableRow(props: TableRowProps) {
     return {
       id: uniqid(),
       category: row.category,
-      number: row.number,
+      number: niRow.number !== row.number ? niRow.number : row.number,
       period: row.period,
       gross: val,
       ee: row.ee,
@@ -131,22 +161,6 @@ export default function Class1TableRow(props: TableRowProps) {
     setActiveRowId(remainingPastedRows[0].id);
   };
 
-  useEffect(periodCallBack, [row.period]);
-
-  useEffect(() => {
-    setRows((prevState) =>
-      prevState.map((cur: Row) =>
-        cur.id === row.id
-          ? {
-              ...cur,
-              category: categories.includes(cur.category)
-                ? cur.category
-                : categories[0],
-            }
-          : cur
-      )
-    );
-  }, [categories, setRows, row.id]);
 
   return (
     <TableRow
@@ -193,15 +207,15 @@ export default function Class1TableRow(props: TableRowProps) {
           <React.Fragment>
             <TextInput
               hiddenLabel={true}
-              name={`${periodRowsValue?.id}-period`}
+              // name={`${periodRowsValue?.id}-period`}
+              name="number"
               labelText={`Period for row number ${index + 1}`}
               inputClassName="period-number"
-              inputValue={periodRowsValue?.number}
-              onChangeCallback={(e) => {
-                setPeriodRowsValue(parseInt(e.currentTarget.value) as any);
-              }}
+              // inputValue={isNaN(periodRowsValue?.number) ? "" : periodRowsValue?.number}
+              inputValue={isNaN(row?.number) ? "" : row?.number}
+              onChangeCallback={(e: React.ChangeEvent<HTMLInputElement>) => handlePeriodChange(row, e)}
               onPaste={(e: React.ClipboardEvent) =>
-                handlePaste(e, periodRowsValue)
+                handlePaste(e, row)
               }
             />
           </React.Fragment>
