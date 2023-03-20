@@ -78,7 +78,6 @@ const Class1Page = () => {
       niPaidNet: niPaidNet,
       niPaidEmployee: niPaidEmployee,
     };
-    console.log({ payload });
 
     if (validateClassOnePayload(payload, setErrors)) {
       const requestRows: Array<ClassOneRowInterface> = rows.map(
