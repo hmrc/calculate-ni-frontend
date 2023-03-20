@@ -1,5 +1,7 @@
 year, payment / enquiry date, total earnings factor, no conts due, class 2 rate, total amount, date higher rate, final payment date
 ,,,,,,,
+# Date formats dd/mm/yyyy and yyyy-mm-dd are interchangeable
+2023, 09/02/2024,3453,1,3.45,3.45, 2025-04-06, 2030-04-05
 2015,2021-02-09,3453,21,3.05,64.05,2017-04-06,2023-07-31
 2016,2021-02-09,3453,21,3.05,64.05,2018-04-06,2023-07-31
 2017,2021-02-09,3453,21,3.05,64.05,2019-04-06,2024-04-05
