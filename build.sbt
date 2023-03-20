@@ -63,7 +63,7 @@ lazy val microservice = Project(appName, file("."))
     scalaVersion                     := "2.12.17",
     libraryDependencies              ++= Seq(
       "uk.gov.hmrc"           %% "bootstrap-frontend-play-28" % "5.25.0",
-      "uk.gov.hmrc"           %% "play-frontend-hmrc"         % "6.2.0-play-28",
+      "uk.gov.hmrc"           %% "play-frontend-hmrc"         % "6.8.0-play-28",
       "com.github.pureconfig" %% "pureconfig"                 % "0.17.2",
       "org.typelevel"         %% "cats-core"                  % "2.9.0",
       "org.typelevel"         %% "spire"                      % "0.17.0"
@@ -105,7 +105,7 @@ lazy val microservice = Project(appName, file("."))
   .settings(integrationTestSettings(): _*)
   .settings(resolvers += Resolver.jcenterRepo)
 
-val circeVersion = "0.14.3"
+val circeVersion = "0.14.5"
 
 /** common components holding the logic of the calculation */
 lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform, JVMPlatform)
