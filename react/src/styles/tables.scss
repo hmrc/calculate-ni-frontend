@@ -146,6 +146,44 @@ table thead th, table td, table tbody th {
   }
 }
 
+.ni-info-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+
+  p {
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 25px;
+    margin-left: 10px;
+  }
+}
+
+.class1-periods-section {
+  margin-top: 50px;
+  font-size: 19px;
+  font-weight: 300;
+
+  &-title{
+    line-height: 17px;
+    margin-bottom: 14px;
+  }
+
+  &-subtitle{
+    line-height: 25px;
+    color: #505A5F;
+  }
+
+  table {
+    width: auto;
+    margin-top: 20px;
+  }
+
+  table tr th{
+    padding-right: 40px;
+  }
+}
+
 table {
   tr {
     &.active {
@@ -261,6 +299,11 @@ table {
 
       &:has(input:focus) {
         background: green !important;
+      }
+
+      &.table-input input {
+        height: 42px;
+        margin: 4px 0;
       }
     }
 

@@ -1,4 +1,4 @@
-import React, { Dispatch, useContext, useEffect, useState } from "react";
+import React, { Dispatch, useContext } from "react";
 import { periods, PeriodValue, periodValueToLabel } from "../../../config";
 import numeral from "numeral";
 import * as thStyles from "../../../services/mobileHeadingStyles";
@@ -26,6 +26,7 @@ interface TableRowProps {
   showExplanation?: string;
   contributionNames: string[];
   bandNames?: string[];
+  repeatQty: number;
 }
 
 export default function Class1TableRow(props: TableRowProps) {
@@ -38,6 +39,7 @@ export default function Class1TableRow(props: TableRowProps) {
     showExplanation,
     bandNames,
     contributionNames,
+    repeatQty
   } = props;
   const {
     activeRowId,
@@ -46,30 +48,16 @@ export default function Class1TableRow(props: TableRowProps) {
     setRows,
     errors,
     categories,
-    setPeriodNumbers,
     result,
     setResult,
     categoryNames,
     niRow,
-    setNiRow,
+    setPeriodType,
+    setIsRepeatAllow,
+    getAllowedRows,
   } = useContext(ClassOneContext);
 
-  // let updatedRowNumber: Row;
-
-  const [periodRowsValue, setPeriodRowsValue] = useState({...row});
-
-
-
-
-
-  useEffect(() => {
-    console.log({ row });
-
-  }, [row, periodRowsValue]);
-
-  useEffect(() => {
-      // updatedRowNumber = row.number === niRow?.number ? row : niRow
-  }, [row, niRow]);
+  const periodRowsValue = {...row};
 
   const handleChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
     invalidateResults();
@@ -85,7 +73,8 @@ export default function Class1TableRow(props: TableRowProps) {
     );
   };
 
-  const handleSelectChange = (
+  // category change handler
+  const handleSelectChangeCategory = (
     r: Row,
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -97,6 +86,44 @@ export default function Class1TableRow(props: TableRowProps) {
       )
     );
   };
+
+    // period change handler
+    const handleSelectChangePeriod = (
+        r: Row,
+        e: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        let newRows = rows;
+        let periodType = e.currentTarget.value;
+        setPeriodType(periodType);
+
+        if(periodType === 'W' && newRows.length > 53) { // if period is weekly and table rows are greater than 53
+            newRows = rows.slice(0, 53);
+        }
+        else if(periodType === '2W' && newRows.length > 27) { // if period is fortnightly and table rows are greater than 27
+            newRows = rows.slice(0, 27);
+        }
+        else if(periodType === '4W' && newRows.length > 14) { // if period is 4 weekly and table rows are greater than 14
+            newRows = rows.slice(0, 14);
+        }
+        else if(periodType === 'M' && newRows.length > 12) { // if period is monthly and table rows are greater than 12
+            newRows = rows.slice(0, 12);
+        }
+
+        // validation for repeat rows
+        const currentTotalRows = newRows.length;
+        if (getAllowedRows(currentTotalRows, periodType) === 0 || repeatQty > getAllowedRows(currentTotalRows, periodType)) { // validation for repeat qty if maximum limit is reached
+            setIsRepeatAllow(false);
+        }
+        else {
+            setIsRepeatAllow(true);
+        }
+
+        setRows(
+            newRows.map((cur: Row) => {
+                return { ...cur, [e.currentTarget.name]: periodType };
+            })
+        )
+    };
 
 
     const handlePeriodChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,10 +137,6 @@ export default function Class1TableRow(props: TableRowProps) {
             )
         );
     }
-
-  const periodCallBack = () => {
-    setPeriodNumbers();
-  };
 
   const invalidateResults = () => {
     setResult(null);
@@ -186,7 +209,7 @@ export default function Class1TableRow(props: TableRowProps) {
             <select
               name="period"
               value={row.period}
-              onChange={(e) => handleSelectChange?.(row, e)}
+              onChange={(e) => handleSelectChangePeriod?.(row, e)}
               className="borderless"
               id={`row${index}-period`}
             >
@@ -240,7 +263,7 @@ export default function Class1TableRow(props: TableRowProps) {
             <select
               name="category"
               value={row.category}
-              onChange={(e) => handleSelectChange?.(row, e)}
+              onChange={(e) => handleSelectChangeCategory?.(row, e)}
               className="borderless"
               id={`row${index}-category`}
             >

@@ -168,6 +168,11 @@ interface ClassOneContext {
   result: Class1Result | null;
   setResult: Dispatch<Class1Result | null>;
   categoryNames: GenericObject;
+  periodType: string;
+  setPeriodType: Dispatch<string>;
+  isRepeatAllow: boolean;
+  setIsRepeatAllow: Dispatch<boolean>;
+  getAllowedRows: Function;
 }
 
 export const ClassOneContext = React.createContext<ClassOneContext>({
@@ -198,8 +203,12 @@ export const ClassOneContext = React.createContext<ClassOneContext>({
   result: null,
   setResult: () => {},
   categoryNames: {},
-
   setDefaultRow: () => {},
+  periodType: 'W',
+  setPeriodType: () => '',
+  isRepeatAllow: true,
+  setIsRepeatAllow: () => '',
+  getAllowedRows: () => '',
 });
 
 export function useClassOneForm() {
@@ -225,6 +234,8 @@ export function useClassOneForm() {
   const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({});
   const [result, setResult] = useState<Class1Result | null>(null);
   const [activeRowId, setActiveRowId] = useState<string | null>(null);
+  const [periodType, setPeriodType] = useState<string>("W");
+  const [isRepeatAllow, setIsRepeatAllow] = useState<boolean>(true);
 
   useEffect(() => {
     if (taxYear && taxYear.from) {
@@ -240,6 +251,29 @@ export function useClassOneForm() {
       }
     }
   }, [taxYear, ClassOneCalculator]);
+
+    // to find the number of allowed rows for selected period type
+    const getAllowedRows = (currentTotalRows: number, getPeriodType: string = '') => {
+        if(!getPeriodType) {
+            getPeriodType = periodType;
+        }
+        let maxRows = 0;
+        if(getPeriodType === 'W') { // if period is weekly
+            maxRows = 53;
+        }
+        else if(getPeriodType === '2W') { // if period is fortnightly
+            maxRows = 27;
+        }
+        else if(getPeriodType === '4W') { // if period is 4 weekly
+            maxRows = 14;
+        }
+        else if(getPeriodType === 'M' ) { // if period is monthly
+            maxRows = 12;
+        }
+
+        // to check if entered value is greater than maximum allowed rows
+        return Math.abs(maxRows - currentTotalRows);
+    }
 
   // useEffect(() => {
   //   if (defaultRow) {
@@ -294,10 +328,6 @@ export function useClassOneForm() {
   }, [result, rows]);
 
   useEffect(() => {
-    setTaxYear(taxYears[0]);
-  }, [taxYears]);
-
-  useEffect(() => {
     const taxYearData = buildTaxYears(ClassOneCalculator.getTaxYears);
     setTaxYears(taxYearData);
     setCategoryNames(
@@ -306,20 +336,11 @@ export function useClassOneForm() {
   }, [ClassOneCalculator]);
 
   const setPeriodNumbers = (deletedRow: string | undefined) => {
-      console.log('In setPeriodNumber...');
     for (let period in periods) {
-      let periodAccumulator = 0
       const newRows = deletedRow ?
         [...rows.filter((row: Row) => row.id !== deletedRow)]
         :
         [...rows]
-      newRows.forEach(row => {
-        if(periods.hasOwnProperty(period) &&
-          periods[period] === row.period) {
-            periodAccumulator += 1
-            row.number = periodAccumulator
-          }
-        })
       setRows(newRows)
     }
   }
@@ -352,5 +373,10 @@ export function useClassOneForm() {
     result,
     setResult,
     categoryNames,
+    periodType,
+    setPeriodType,
+    isRepeatAllow,
+    setIsRepeatAllow,
+    getAllowedRows
   };
 }

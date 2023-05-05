@@ -68,6 +68,23 @@ export interface TaxYear {
   to: Date
 }
 
+export type CustomRow = Row & {date: string}
+export interface TaxYearPeriodType {
+    from: string
+    txYears: TaxYear[]
+}
+
+export interface Class1PaymentSectionProps {
+    memoizedTaxYears: {display: TaxYear[], grouped: TaxYearPeriodType[]}
+    resetTotals: () => void
+    taxYearPeriod: TaxYearPeriodType | undefined
+}
+
+export interface Class1PeriodsTableProps {
+    customRows: Array<CustomRow>
+    handleDateInputChange: (row: any, e: React.ChangeEvent<HTMLInputElement>) => void
+}
+
 export interface Class1FormProps {
   resetTotals: () => void
   handleShowSummary: (event: React.FormEvent) => void

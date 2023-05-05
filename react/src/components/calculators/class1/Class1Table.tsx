@@ -1,13 +1,17 @@
 import React, {useContext, useState} from 'react'
-import {ClassOneContext, Row} from "./ClassOneContext";
-import {TableProps} from '../../../interfaces'
+import {Class1Result, ClassOneContext, Row} from "./ClassOneContext";
+import {SavePrintBaseProps, TableProps} from '../../../interfaces'
 import Class1TableRow from "./Class1TableRow";
 import SortToggle from "../../../assets/select-dropdown-arrows.svg"
 import ExplainRow from "../shared/ExplainRow";
 import {getBandNames, getContributionBandNames} from "../../../services/utils";
 
-export default function Class1Table(props: TableProps) {
-  const { showBands, printView } = props
+interface Class1TableProps extends TableProps {
+    repeatQty: number
+}
+
+export default function Class1Table(props: Class1TableProps) {
+  const { showBands, printView, repeatQty } = props
   const [showExplanation, setShowExplanation] = useState<string>('')
   const {
     rows,
@@ -92,6 +96,7 @@ export default function Class1Table(props: TableProps) {
               showExplanation={showExplanation}
               contributionNames={contributionNames}
               bandNames={bandNames}
+              repeatQty={repeatQty}
             />
             {!printView && result && showExplanation === r.id &&
               <tr aria-live="polite" className="explanation-row">
