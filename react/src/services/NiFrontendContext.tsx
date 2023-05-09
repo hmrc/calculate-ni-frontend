@@ -159,7 +159,6 @@ export function useNiFrontend() {
             setConfig(config)
 
             const result = new NiFrontend(JSON.stringify(config))
-              console.log({config, result});
             setNiFrontendInterface(result)
           }
         } else {
