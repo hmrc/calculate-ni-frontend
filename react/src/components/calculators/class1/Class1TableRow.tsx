@@ -137,7 +137,7 @@ export default function Class1TableRow(props: TableRowProps) {
     // period number validations for max number of weeks allowed period wise
     const maxRowNumber = getAllowedRows(rows.length, row.period, true);
     if (newPeriod > maxRowNumber || newPeriod < 1) {
-      newPeriod = '';
+      newPeriod = "";
     }
 
     setRows(
@@ -171,7 +171,7 @@ export default function Class1TableRow(props: TableRowProps) {
   };
 
   const handlePaste = (e: React.ClipboardEvent, r: Row) => {
-      e.preventDefault();
+    e.preventDefault();
 
     const clipboardData = e.clipboardData;
     const pastedText =

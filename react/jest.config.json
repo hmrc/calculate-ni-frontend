@@ -10,5 +10,10 @@
   "setupFilesAfterEnv": ["@testing-library/jest-dom/extend-expect"],
   "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\]$"],
   "collectCoverage": true,
-  "coverageDirectory": "/Users/abelade/Documents/git-files/coverage/reports"
+  "coverageDirectory": "/Users/abelade/Documents/git-files/coverage/reports",
+  "testEnvironmentOptions": {
+    "node": {
+      "max_old_space_size": 4096
+    }
+  }
 }
