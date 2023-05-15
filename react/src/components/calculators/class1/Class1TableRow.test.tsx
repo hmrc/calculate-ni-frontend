@@ -1,15 +1,13 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Class1TableRow from "./Class1TableRow";
 import { ClassOneContext } from "./ClassOneContext";
 import { periods, PeriodValue, periodValueToLabel } from "../../../config";
+import userEvent from "@testing-library/user-event";
+import {act} from "@testing-library/react-hooks";
 
 jest.mock("../shared/ExplainToggle", () => () => (
   <div data-testid="explain-toggle">Explain Toggle</div>
-));
-
-jest.mock("../../helpers/formhelpers/TextInput", () => () => (
-  <div data-testid="text-input">Text Input</div>
 ));
 
 const rows = [
@@ -82,7 +80,7 @@ const mockValue: any = {
   activeRowId: "1",
   setActiveRowId: jest.fn(),
   setResult: jest.fn(),
-  categoryNames: { A: "Category 1", C: "Category 2" },
+  categoryNames: { A: "Category1", C: "Category2" },
   niRow: rows[0],
   setPeriodType: jest.fn(),
   setIsRepeatAllow: jest.fn(),
@@ -90,21 +88,36 @@ const mockValue: any = {
 };
 
 const mockValueOptional: any = {
-    ...mockValue,
-    rows: [{...rows[0], number: undefined}],
-    errors: {},
-}
+  ...mockValue,
+  rows: [{ ...rows[0], number: undefined }],
+  errors: {},
+};
 
 jest.mock("../../../config", () => ({
-  periods: ["Weekly", "Fortnightly", "Four weekly", "Monthly", "Annual"],
+  periods: ["W", "2W", "4W", "M", "A"],
   PeriodValue: jest.fn(),
-  periodValueToLabel: () => "Weekly",
+  periodValueToLabel: jest.fn(),
 }));
 
 jest.mock("../../../services/utils", () => ({
   getBandValue: () => "Band 1",
   getContributionBandValue: () => "Band 2",
+  buildDescribedByKeys: () => "test",
 }));
+
+const setShowExplanation = jest.fn();
+const props = {
+  row: rows[0],
+  index: 0,
+  showBands: true,
+  printView: false,
+  setShowExplanation,
+  showExplanation: "1",
+  contributionNames: ["ee", "er"],
+  bandNames: ["band1", "band2"],
+  repeatQty: 1,
+  contextValue: mockValue,
+};
 
 const renderComponent = (props: any) => {
   const {
@@ -137,9 +150,11 @@ const renderComponent = (props: any) => {
   );
 };
 
-const setShowExplanation = jest.fn();
-
 describe("Class1TableRow", () => {
+  beforeEach(() => {
+    jest.spyOn(console, "error").mockImplementation(() => {});
+  });
+
   describe("when bands to show and a print view", () => {
     beforeEach(() => {
       renderComponent({
@@ -163,17 +178,25 @@ describe("Class1TableRow", () => {
 
   describe("when no bands to show and without a print view", () => {
     beforeEach(() => {
+      renderComponent(props);
+    });
+
+    it("should render payment contribution table row without print view", () => {
+      expect(screen.findAllByRole("tr")).not.toBeNull();
+    });
+  });
+
+  describe("when render without optional values", () => {
+    beforeEach(() => {
       renderComponent({
-        row: rows[0],
+        row: mockValueOptional.rows[0],
         index: 0,
         showBands: true,
         printView: false,
         setShowExplanation,
         showExplanation: "1",
-        contributionNames: ["ee", "er"],
-        bandNames: ["band1", "band2"],
         repeatQty: 1,
-        contextValue: mockValue,
+        contextValue: mockValueOptional,
       });
     });
 
@@ -182,22 +205,156 @@ describe("Class1TableRow", () => {
     });
   });
 
-    describe("when render without optional values", () => {
-        beforeEach(() => {
-            renderComponent({
-                row: mockValueOptional.rows[0],
-                index: 0,
-                showBands: true,
-                printView: false,
-                setShowExplanation,
-                showExplanation: "1",
-                repeatQty: 1,
-                contextValue: mockValueOptional,
-            });
-        });
+  describe("callback function handleSelectChangeCategory", () => {
+    it("should change category value", () => {
+      const { container } = renderComponent(props);
 
-        it("should render payment contribution table row without print view", () => {
-            expect(screen.findAllByRole("tr")).not.toBeNull();
-        });
+      const selectOne = container.querySelector(
+        `select[name="category"]`
+      ) as HTMLSelectElement;
+      fireEvent.change(selectOne, {
+        target: { value: "Category1" },
+      });
+      expect(mockValue.setRows).toBeCalled();
     });
+  });
+
+  describe("callback function handleChange", () => {
+    const { container } = renderComponent(props);
+    const input = container.querySelector(
+      `input[name="1-gross"]`
+    ) as HTMLInputElement;
+
+    it("should change gross value", () => {
+      fireEvent.change(input, {
+        target: { value: "111" },
+      });
+      expect(mockValue.setRows).toBeCalled();
+    });
+
+    it("should paste gross value", () => {
+      fireEvent.paste(input, {
+        clipboardData: {
+          getData: () => "101",
+        },
+      });
+      expect(mockValue.setRows).toBeCalled();
+    });
+  });
+
+  describe("callback function handlePeriodChange", () => {
+    const { container } = renderComponent(props);
+    const input = container.querySelector(
+        `input[name="number"]`
+    ) as HTMLInputElement;
+
+    it("should change period number value", () => {
+      act(() => {
+        fireEvent.change(input, {
+          target: {value: "2"},
+        });
+      });
+      expect(mockValue.setRows).toBeCalled();
+    });
+
+    it("should paste period number value", () => {
+      fireEvent.paste(input, {
+        clipboardData: {
+          getData: () => "3",
+        },
+      });
+      expect(mockValue.setRows).toBeCalled();
+    });
+  });
+
+  describe("callback function handleSelectChangePeriod", () => {
+    describe("when selected period type is Monthly and total rows greater than 12", () => {
+      it("should change period value to Monthly", () => {
+        const mockConData: any = {
+          ...mockValue,
+          rows: Array(13).fill(rows[0]),
+        };
+        const data: any = { ...props, contextValue: mockConData };
+        const { container } = renderComponent(data);
+
+        const selectOne = container.querySelector(
+          `select[name="period"]`
+        ) as HTMLSelectElement;
+        fireEvent.change(selectOne, {
+          target: { value: "M" },
+        });
+        expect(mockValue.setPeriodType).toBeCalledWith("M");
+        expect(mockValue.setRows).toBeCalled();
+        expect(mockValue.setIsRepeatAllow).toBeCalledWith(true);
+      });
+    });
+
+    describe("when selected period type is Weekly and total rows greater than 53", () => {
+      it("should change period value to Weekly", () => {
+        const mockConData: any = {
+          ...mockValue,
+          rows: Array(54).fill(rows[0]),
+        };
+        const data: any = { ...props, contextValue: mockConData };
+        const { container } = renderComponent(data);
+
+        const selectOne = container.querySelector(
+          `select[name="period"]`
+        ) as HTMLSelectElement;
+        fireEvent.change(selectOne, {
+          target: { value: "W" },
+        });
+        expect(mockValue.setPeriodType).toBeCalledWith("W");
+        expect(mockValue.setRows).toBeCalled();
+        expect(mockValue.setIsRepeatAllow).toBeCalledWith(true);
+      });
+    });
+
+    describe("when selected period type is Fortnightly and total rows greater than 27", () => {
+      it("should change period value to Fortnightly", () => {
+        const mockConData: any = {
+          ...mockValue,
+          rows: Array(28).fill(rows[0]),
+        };
+        const data: any = { ...props, contextValue: mockConData };
+        const { container } = renderComponent(data);
+
+        const selectOne = container.querySelector(
+          `select[name="period"]`
+        ) as HTMLSelectElement;
+        fireEvent.change(selectOne, {
+          target: { value: "2W" },
+        });
+        expect(mockValue.setPeriodType).toBeCalledWith("2W");
+        expect(mockValue.setRows).toBeCalled();
+        expect(mockValue.setIsRepeatAllow).toBeCalledWith(true);
+      });
+    });
+
+    describe("when selected period type is Fourweekly and total rows greater than 14", () => {
+      it("should change period value to Fourweekly and repeatQty is greater than allowed rows", () => {
+        const mockConData: any = {
+          ...mockValue,
+          rows: Array(15).fill(rows[0]),
+          getAllowedRows: () => 14,
+        };
+        const data: any = {
+          ...props,
+          contextValue: mockConData,
+          repeatQty: 16,
+        };
+        const { container } = renderComponent(data);
+
+        const selectOne = container.querySelector(
+          `select[name="period"]`
+        ) as HTMLSelectElement;
+        fireEvent.change(selectOne, {
+          target: { value: "4W" },
+        });
+        expect(mockValue.setPeriodType).toBeCalledWith("4W");
+        expect(mockValue.setRows).toBeCalled();
+        expect(mockValue.setIsRepeatAllow).toBeCalledWith(false);
+      });
+    });
+  });
 });

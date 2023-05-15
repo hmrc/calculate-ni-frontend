@@ -127,6 +127,7 @@ export default function Class1TableRow(props: TableRowProps) {
 
 
     const handlePeriodChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log("val: ", e.currentTarget.value, r)
         const enteredValue = parseInt(e.currentTarget.value);
         const newPeriod = isNaN(enteredValue) ? "" : enteredValue;
         setRows(
@@ -167,6 +168,7 @@ export default function Class1TableRow(props: TableRowProps) {
   };
 
   const handlePaste = (e: React.ClipboardEvent, r: Row) => {
+      console.log("handlePaste: ", e, r)
     const clipboardData = e.clipboardData;
     const pastedText =
       clipboardData.getData("Text") || clipboardData.getData("text/plain");
