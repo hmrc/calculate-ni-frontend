@@ -46,8 +46,8 @@ object ConfigWriterInstances {
 
   implicit class RichString(in: String) {
     def needsQuoting: Boolean = in.contains(" ") || in.contains(",")
-    def optQuoted = if (needsQuoting) s"""\"$in\"""" else in
-    def indent(cols: Int): String = in.lines.map("  ".repeat(cols) ++ _).mkString("\n")
+    def optQuoted: String = if (needsQuoting) s"""\"$in\"""" else in
+    def indent(cols: Int): String = in.linesIterator.map("  ".repeat(cols) ++ _).mkString("\n")
     def repeat(times: Int): String = {
       @annotation.tailrec
       def inner(rem: Int = times - 1, acc: String = in): String = rem match {

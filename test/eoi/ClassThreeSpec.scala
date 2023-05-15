@@ -28,8 +28,7 @@ class ClassThreeSpec extends SpreadsheetTest {
       (row.get("year") >>= TaxYear.unapply).map(_.start),
       row.get("payment / enquiry date") >>= Date.unapply,
       row.get("total earnings factor") >>= MoneyStr.unapply
-    ).mapN(config.calculateClassThree) map {
-      result =>
+    ).mapN(config.calculateClassThree) map {result =>
 
       (
         row.get("no conts due") >>= Int.unapply
@@ -38,6 +37,10 @@ class ClassThreeSpec extends SpreadsheetTest {
       (
         row.get("total amount") >>= MoneyStr.unapply
       ) map (result.totalDue equalOrExplain _)
+
+      (
+        row.get("class 3 rate") >>= MoneyStr.unapply
+      ) map (result.rate equalOrExplain _)
 
       (
         row.get("date higher rate") >>= Date.unapply
