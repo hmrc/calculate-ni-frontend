@@ -21,23 +21,23 @@ export default function Class1PeriodsTable(props: Class1PeriodsTableProps) {
   const { errors, customRows } = useContext(ClassOneContext);
 
   return (
-    <table className="contribution-details">
+    <table className="contribution-details" data-testid="periods-table">
       <thead>
         <tr>
-          <th scope="col" className="border">
+          <th scope="col" className="border" data-testid="header-period-type">
             <strong>Period type</strong>
           </th>
-          <th scope="col" className="border">
+          <th scope="col" className="border" data-testid="header-period">
             <strong>Period</strong>
           </th>
-          <th scope="col" className="border">
+          <th scope="col" className="border" data-testid="header-date-ni-paid">
             <strong>Date NI paid</strong>
           </th>
         </tr>
       </thead>
       <tbody>
         {customRows.map((row, index) => (
-          <tr key={row.id}>
+          <tr key={row.id} data-testid="periods-table-row">
             <td className="border">{getPeriodName(row.period)}</td>
             <td className="border">{row.number}</td>
             <td

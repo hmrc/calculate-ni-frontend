@@ -110,7 +110,7 @@ function Class1Form(props: Class1FormProps) {
   };
 
   return (
-    <div className="table-wrapper">
+    <div className="table-wrapper" data-testid="class1-ni-tax-section">
       <div className="container">
         <div className="form-group half">
           <SelectTaxYear

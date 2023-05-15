@@ -1,0 +1,14 @@
+{
+  "moduleDirectories": ["node_modules"],
+  "testEnvironment": "jsdom",
+  "transform": {
+    "^.+\\.(ts|tsx)$": "ts-jest",
+    "^.+\\.(js|jsx)$": "babel-jest",
+    "^.+\\.svg$": "jest-svg-transformer"
+  },
+  "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+  "setupFilesAfterEnv": ["@testing-library/jest-dom/extend-expect"],
+  "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\]$"],
+  "collectCoverage": true,
+  "coverageDirectory": "/Users/abelade/Documents/git-files/coverage/reports"
+}

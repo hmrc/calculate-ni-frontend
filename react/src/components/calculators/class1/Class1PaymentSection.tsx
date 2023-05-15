@@ -58,7 +58,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
     if (enteredValue > allowedRows) {
       // don't allow to add more rows
       setRepeatQty(allowedRows);
-    } else if (getAllowedRows(currentTotalRows) === 0) {
+    } else if (allowedRows === 0) {
       // validation for repeat qty if maximum limit is reached
       setIsRepeatAllow(false);
     } else {
@@ -492,6 +492,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
               type="number"
               name="repeatQty"
               id="repeatQty"
+              data-testid="repeat-qty"
               value={repeatQty || ""}
               onChange={(e) => {
                 handleMaxValue(parseInt(e.currentTarget.value));
