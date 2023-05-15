@@ -184,7 +184,6 @@ export default function Class1TableRow(props: TableRowProps) {
     setActiveRowId(remainingPastedRows[0].id);
   };
 
-
   return (
     <TableRow
       row={row}
@@ -327,7 +326,7 @@ export default function Class1TableRow(props: TableRowProps) {
 
       {printView &&
         contributionNames &&
-        contributionNames?.map((cB: string) => (
+        contributionNames.map((cB: string) => (
           <MqTableCell cellStyle={{}} key={`${cB}-val`}>
             {getContributionBandValue(row.contributionBands, cB)}
           </MqTableCell>

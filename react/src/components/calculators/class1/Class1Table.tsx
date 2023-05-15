@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react'
-import {Class1Result, ClassOneContext, Row} from "./ClassOneContext";
-import {SavePrintBaseProps, TableProps} from '../../../interfaces'
+import {ClassOneContext, Row} from "./ClassOneContext";
+import {TableProps} from '../../../interfaces'
 import Class1TableRow from "./Class1TableRow";
 import SortToggle from "../../../assets/select-dropdown-arrows.svg"
 import ExplainRow from "../shared/ExplainRow";
@@ -37,7 +37,7 @@ export default function Class1Table(props: Class1TableProps) {
   const displayBands: boolean = showBands && bandNames.length > 0
 
   return (
-    <table className="contribution-details" id="results-table" tabIndex={-1}>
+    <table className="contribution-details" id="results-table" tabIndex={-1} data-testid="payment-table">
       <caption>Contribution payment details</caption>
       <colgroup>
         <col span={4} />

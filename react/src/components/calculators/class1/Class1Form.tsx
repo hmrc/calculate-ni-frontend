@@ -62,8 +62,6 @@ function Class1Form(props: Class1FormProps) {
       //set default tax year
       if (display.length > 0) {
         setTaxYear(display[0]);
-      } else {
-        setTaxYear(taxYears[0]);
       }
 
       return { display, grouped };
@@ -97,7 +95,7 @@ function Class1Form(props: Class1FormProps) {
   };
 
   return (
-    <div className="table-wrapper">
+    <div className="table-wrapper" data-testid="class1-ni-tax-section">
         <div className="container">
           <div className="form-group half">
             <SelectTaxYear

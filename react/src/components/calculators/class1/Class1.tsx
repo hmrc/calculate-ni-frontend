@@ -133,6 +133,7 @@ const Class1Page = () => {
         aria-live="polite"
         ref={resultRef}
         tabIndex={-1}
+        data-testid="result-announcement"
       >
         {successNotificationsOn && result && (
           <SuccessNotification table={true} totals={true} />
@@ -150,7 +151,7 @@ const Class1Page = () => {
 
           <h1>{pageTitle}</h1>
 
-          <form onSubmit={handleSubmit} noValidate>
+          <form onSubmit={handleSubmit} noValidate data-testid="class-one-form">
             <Details details={details} handleChange={handleDetailsChange} />
 
             <Class1Form
