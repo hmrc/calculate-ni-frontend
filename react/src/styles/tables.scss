@@ -148,8 +148,8 @@ table thead th, table td, table tbody th {
 
 .ni-info-section {
   display: flex;
-  align-items: center;
-  margin-bottom: 15px;
+  align-items: flex-start;
+  margin-bottom: 40px;
 
   p {
     font-weight: 700;

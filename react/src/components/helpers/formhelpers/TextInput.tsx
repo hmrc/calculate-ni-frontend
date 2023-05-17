@@ -22,7 +22,8 @@ function TextInput(props: TextInputProps) {
     inputMode,
     onBlurCallback,
     error,
-    onPaste
+    onPaste,
+    inputType
   } = props
   const describedby = buildDescribedByKeys(name,{
     hint,
@@ -50,7 +51,7 @@ function TextInput(props: TextInputProps) {
       <input
         className={`${inputClassName}${error ? ` govuk-input--error`: ``}`}
         name={name}
-        type="text"
+        type={inputType || "text"}
         id={name}
         value={inputValue}
         onChange={onChangeCallback}

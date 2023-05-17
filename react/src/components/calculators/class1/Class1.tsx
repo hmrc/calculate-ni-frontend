@@ -37,6 +37,7 @@ const Class1Page = () => {
     defaultRow,
     rows,
     setRows,
+    customRows,
     errors,
     setErrors,
     details,
@@ -77,6 +78,7 @@ const Class1Page = () => {
       rows: rows,
       niPaidNet: niPaidNet,
       niPaidEmployee: niPaidEmployee,
+      customRows: customRows,
     };
 
     if (validateClassOnePayload(payload, setErrors)) {
