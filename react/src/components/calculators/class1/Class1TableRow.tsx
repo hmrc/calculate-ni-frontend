@@ -203,7 +203,7 @@ export default function Class1TableRow(props: TableRowProps) {
 
       <MqTableCell cellStyle={thStyles.selectPeriod} cellClassName="input">
         {printView ? (
-          <div>{periodValueToLabel(row.period)}</div>
+          <>{periodValueToLabel(row.period)}</>
         ) : (
           <>
             <label
@@ -231,20 +231,18 @@ export default function Class1TableRow(props: TableRowProps) {
 
       <MqTableCell cellStyle={thStyles.periodNumber} cellClassName="input">
         {printView ? (
-          <div>{periodRowsValue?.number}</div>
+          <>{periodRowsValue?.number}</>
         ) : (
-          <React.Fragment>
-            <TextInput
-              hiddenLabel={true}
-              name="number"
-              labelText={`Period for row number ${index + 1}`}
-              inputClassName="period-number"
-              inputValue={isNaN(row?.number) ? "" : row?.number}
-              onChangeCallback={(e: React.ChangeEvent<HTMLInputElement>) =>
-                handlePeriodChange(row, e)
-              }
-            />
-          </React.Fragment>
+          <input
+            className="period-number"
+            name="number"
+            type="text"
+            id={`${row.id}-number`}
+            value={isNaN(row?.number) ? "" : row?.number}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handlePeriodChange(row, e)
+            }
+          />
         )}
       </MqTableCell>
 
@@ -254,7 +252,7 @@ export default function Class1TableRow(props: TableRowProps) {
         cellClassName="input"
       >
         {printView ? (
-          <div>{row.category}</div>
+          <>{row.category}</>
         ) : (
           <>
             <label
@@ -288,20 +286,19 @@ export default function Class1TableRow(props: TableRowProps) {
         }`}
       >
         {printView ? (
-          <div>£{row.gross}</div>
+          <>£{row.gross}</>
         ) : (
-          <React.Fragment>
-            <TextInput
-              hiddenLabel={true}
-              name={`${row.id}-gross`}
-              labelText={`Gross pay for row number ${index + 1}`}
-              inputClassName="gross-pay"
-              inputValue={row.gross}
-              onChangeCallback={(e) => handleChange?.(row, e)}
-              error={errors[`${row.id}-gross`]}
-              onPaste={(e: React.ClipboardEvent) => handlePaste(e, row)}
-            />
-          </React.Fragment>
+          <input
+            className={`gross-pay ${
+              errors[`${row.id}-gross`] ? ` govuk-input--error` : ``
+            }`}
+            name={`${row.id}-gross`}
+            type="text"
+            id={`${row.id}-gross`}
+            value={row.gross}
+            onChange={(e) => handleChange?.(row, e)}
+            onPaste={(e: React.ClipboardEvent) => handlePaste(e, row)}
+          />
         )}
       </MqTableCell>
 

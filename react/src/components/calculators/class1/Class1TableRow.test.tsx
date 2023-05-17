@@ -3,7 +3,6 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import Class1TableRow from "./Class1TableRow";
 import { ClassOneContext } from "./ClassOneContext";
 import { periods, PeriodValue, periodValueToLabel } from "../../../config";
-import userEvent from "@testing-library/user-event";
 import {act} from "@testing-library/react-hooks";
 
 jest.mock("../shared/ExplainToggle", () => () => (
@@ -151,9 +150,9 @@ const renderComponent = (props: any) => {
 };
 
 describe("Class1TableRow", () => {
-  beforeEach(() => {
+  /*beforeEach(() => {
     jest.spyOn(console, "error").mockImplementation(() => {});
-  });
+  });*/
 
   describe("when bands to show and a print view", () => {
     beforeEach(() => {
@@ -227,7 +226,7 @@ describe("Class1TableRow", () => {
 
     it("should change gross value", () => {
       fireEvent.change(input, {
-        target: { value: "111" },
+        target: { value: 111 },
       });
       expect(mockValue.setRows).toBeCalled();
     });
@@ -235,7 +234,7 @@ describe("Class1TableRow", () => {
     it("should paste gross value", () => {
       fireEvent.paste(input, {
         clipboardData: {
-          getData: () => "101",
+          getData: () => 101,
         },
       });
       expect(mockValue.setRows).toBeCalled();
@@ -249,11 +248,9 @@ describe("Class1TableRow", () => {
     ) as HTMLInputElement;
 
     it("should change period number value", () => {
-      act(() => {
         fireEvent.change(input, {
-          target: {value: "2"},
+          target: {value: 12},
         });
-      });
       expect(mockValue.setRows).toBeCalled();
     });
 

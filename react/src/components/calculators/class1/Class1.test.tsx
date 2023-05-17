@@ -196,6 +196,8 @@ const mockValue: any = {
   isRepeatAllow: true,
   setIsRepeatAllow: jest.fn(),
   getAllowedRows: jest.fn(),
+  customRows: [],
+  setCustomRows: jest.fn(),
 };
 
 const mockNotiValue: any = {

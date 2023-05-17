@@ -41,7 +41,7 @@ export default function Class1Table(props: Class1TableProps) {
           <th scope="col">
             <strong>Row</strong>
           </th>
-          <th scope="col" className="select-period">
+          <th scope="col" className="select-period" data-testid="sort-period">
             <strong>
               {printView ? 'Period': 'Select period'}
             </strong>

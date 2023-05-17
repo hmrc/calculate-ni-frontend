@@ -2,6 +2,7 @@ import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import Class1PeriodsTable from "./Class1PeriodsTable";
 import { PeriodValue } from "../../../config";
+import { ClassOneContext } from "./ClassOneContext";
 
 const customRows = [
   {
@@ -55,17 +56,20 @@ const customRows = [
   },
 ];
 
+const mockValue: any = {
+  customRows,
+  errors: {},
+};
+
 const handleDateInputChange = jest.fn();
 
 describe("Class1PeriodsTable", () => {
   describe("when props data passed", () => {
     beforeEach(() => {
       render(
-        <Class1PeriodsTable
-          // @ts-ignore -- to cover ternary operator condition
-          customRows={customRows}
-          handleDateInputChange={handleDateInputChange}
-        />
+        <ClassOneContext.Provider value={mockValue}>
+          <Class1PeriodsTable handleDateInputChange={handleDateInputChange} />
+        </ClassOneContext.Provider>
       );
     });
 
@@ -89,12 +93,12 @@ describe("Class1PeriodsTable", () => {
     });
 
     it("should call callback function when text input is changed", () => {
-      const selectOne = screen.getByRole("textbox", {
-        name: "Date NI paid for row number 1",
-      });
-      fireEvent.change(selectOne, {
-        target: { value: "abc" },
-      });
+      // @ts-ignore
+        const input = screen
+        .getByText("Date NI paid for row number 1")
+        .closest("tr")
+        .querySelector("input") as HTMLInputElement;
+      fireEvent.change(input, { target: { value: "2022-05-18" } });
       expect(handleDateInputChange).toHaveBeenCalledTimes(1);
     });
   });
@@ -102,7 +106,7 @@ describe("Class1PeriodsTable", () => {
     beforeEach(() => {
       render(
         // @ts-ignore -- to cover ternary operator condition
-        <Class1PeriodsTable customRows={[]} />
+        <Class1PeriodsTable />
       );
     });
 
