@@ -54,7 +54,7 @@ export default function Class1Table(props: Class1TableProps) {
         </tr>
         <tr>
           <th scope="col">
-            #<span className="govuk-visually-hidden"> Row number</span>
+            <strong>Row</strong>
           </th>
           <th scope="col" className="column-toggle select-period" aria-sort={periodSortDirection} onClick={handleSortPeriod}>
             <strong>
@@ -76,8 +76,8 @@ export default function Class1Table(props: Class1TableProps) {
           {printView &&
             <th scope="col"><strong>Total</strong></th>
           }
-          <th scope="col"><strong><abbr title="Employee">EE</abbr></strong></th>
-          <th scope="col"><strong><abbr title="Employer">ER</abbr></strong></th>
+          <th scope="col"><strong>Employee</strong></th>
+          <th scope="col"><strong>Employer</strong></th>
           {!printView && result && <th scope="col"><span className="govuk-visually-hidden">Explain results</span></th>}
 
           {printView && contributionNames && contributionNames.map((cB: string) => (<th scope="col" key={cB}>{cB}</th>))}

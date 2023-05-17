@@ -30,10 +30,12 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
     isRepeatAllow,
     setIsRepeatAllow,
     getAllowedRows,
+    customRows,
+    setCustomRows,
+    errors,
   } = useContext(ClassOneContext);
 
   const [repeatQty, setRepeatQty] = useState<number>(1);
-  const [customRows, setCustomRows] = useState<CustomRow[]>([]);
 
   // to clear the table
   const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
@@ -50,7 +52,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
     if (enteredValue > allowedRows) {
       // don't allow to add more rows
       setRepeatQty(allowedRows);
-    } else if (allowedRows === 0) {
+    } else if (getAllowedRows(currentTotalRows) === 0) {
       // validation for repeat qty if maximum limit is reached
       setIsRepeatAllow(false);
     } else {
@@ -198,26 +200,19 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
         }
       });
     }
-  }, [rows, taxYear, memoizedTaxYearWeeks, memoizedTaxYears, taxYearPeriod]);
+  }, [
+    rows,
+    taxYear,
+    memoizedTaxYearWeeks,
+    memoizedTaxYears,
+    taxYearPeriod,
+    setCustomRows,
+  ]);
 
   // repeat row button click handler
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
-
-      const repeatTimes = repeatQty > 0 ? repeatQty : 1;
-      const currentTotalRows = rows.length + repeatQty;
-      const allowedRows = getAllowedRows(currentTotalRows);
-      if (getAllowedRows(rows.length) === 0) {
-        // validation for repeat qty if maximum limit is reached
-        setIsRepeatAllow(false);
-        return false;
-      } else if (repeatQty > allowedRows) {
-        // don't allow to add more rows
-        setIsRepeatAllow(false);
-      } else {
-        setIsRepeatAllow(true);
-      }
 
       const rowToDuplicate: Row = activeRowId
         ? getRowByActiveId()
@@ -225,8 +220,34 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
 
       if (!rowToDuplicate.number) return false;
 
-      const newRows = [];
       let initialPeriodNumber = rowToDuplicate.number;
+      let repeatTimes = repeatQty > 0 ? repeatQty : 1;
+      const currentTotalRows = rows.length + repeatQty;
+      const remAllowedRows = getAllowedRows(currentTotalRows);
+      const maxAllowedRows = getAllowedRows(currentTotalRows, "", true);
+      const getMaxPeriod = Math.max(...rows.map((r) => r.number));
+      const getPeriodRowsAllowed = Math.abs(maxAllowedRows - getMaxPeriod);
+
+      // validations for max limit of rows allowed
+      if (getAllowedRows(rows.length) === 0 || getPeriodRowsAllowed === 0) {
+        // validation for repeat qty if maximum limit is reached
+        setIsRepeatAllow(false);
+        return false;
+      } else {
+        if (repeatTimes > remAllowedRows) {
+          // don't allow to add more rows
+          setIsRepeatAllow(false);
+        }
+
+        if (repeatTimes > getPeriodRowsAllowed) {
+          repeatTimes = getPeriodRowsAllowed;
+          setIsRepeatAllow(false);
+        } else {
+          setIsRepeatAllow(true);
+        }
+      }
+
+      const newRows = [];
       for (let i = 0; i < repeatTimes; i++) {
         const id = uniqid();
         initialPeriodNumber += 1;
@@ -255,7 +276,15 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
       }
       setRows(updatedRows);
     },
-    [repeatQty, activeRowId, rows, getRowByActiveId, setRows]
+    [
+      repeatQty,
+      activeRowId,
+      rows,
+      getRowByActiveId,
+      setRows,
+      getAllowedRows,
+      setIsRepeatAllow,
+    ]
   );
 
   // delete selected row button click handler
@@ -287,6 +316,10 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
       const { value } = e.target;
 
       if (value) {
+        // remove id from errors
+        delete errors[row.id];
+        setErrors(errors);
+
         const updatedRow = { ...row, date: value };
         const updatedRows = customRows.map((r) => {
           if (r.id === row.id) {
@@ -297,7 +330,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
         setCustomRows(updatedRows);
       }
     },
-    [customRows]
+    [customRows, errors, setCustomRows, setErrors]
   );
 
   return (
@@ -344,10 +377,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
       </div>
 
       {customRows.length > 0 && (
-        <Class1PeriodsSection
-          customRows={customRows}
-          handleDateInputChange={handleDateInputChange}
-        />
+        <Class1PeriodsSection handleDateInputChange={handleDateInputChange} />
       )}
 
       <div className="form-group" style={{ marginTop: "25px" }}>

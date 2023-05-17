@@ -6,6 +6,7 @@ import React, {
   SetStateAction,
 } from "react";
 import {
+  CustomRow,
   DetailsProps,
   GenericObject,
   TaxYear,
@@ -23,7 +24,7 @@ import uniqid from "uniqid";
 
 const initRow = {
   id: uniqid(),
-  category: "",
+  category: "A",
   gross: "",
   ee: 0,
   er: 0,
@@ -149,6 +150,8 @@ interface ClassOneContext {
   setNiRow: Dispatch<Row>;
   rows: Array<Row>;
   setRows: Dispatch<SetStateAction<Array<Row>>>;
+  customRows: Array<CustomRow>;
+  setCustomRows: Dispatch<SetStateAction<Array<CustomRow>>>;
   details: DetailsProps;
   setDetails: Function;
   niPaidNet: string;
@@ -185,6 +188,8 @@ export const ClassOneContext = React.createContext<ClassOneContext>({
   setNiRow: () => {},
   rows: [initRow],
   setRows: () => {},
+  customRows: [],
+  setCustomRows: () => {},
   details: initialDetails,
   setDetails: () => {},
   niPaidNet: "",
@@ -204,11 +209,11 @@ export const ClassOneContext = React.createContext<ClassOneContext>({
   setResult: () => {},
   categoryNames: {},
   setDefaultRow: () => {},
-  periodType: 'W',
-  setPeriodType: () => '',
+  periodType: "W",
+  setPeriodType: () => "",
   isRepeatAllow: true,
-  setIsRepeatAllow: () => '',
-  getAllowedRows: () => '',
+  setIsRepeatAllow: () => "",
+  getAllowedRows: () => "",
 });
 
 export function useClassOneForm() {
@@ -252,72 +257,69 @@ export function useClassOneForm() {
     }
   }, [taxYear, ClassOneCalculator]);
 
-    // to find the number of allowed rows for selected period type
-    const getAllowedRows = (currentTotalRows: number, getPeriodType: string = '') => {
-        if(!getPeriodType) {
-            getPeriodType = periodType;
-        }
-        let maxRows = 0;
-        if(getPeriodType === 'W') { // if period is weekly
-            maxRows = 53;
-        }
-        else if(getPeriodType === '2W') { // if period is fortnightly
-            maxRows = 27;
-        }
-        else if(getPeriodType === '4W') { // if period is 4 weekly
-            maxRows = 14;
-        }
-        else if(getPeriodType === 'M' ) { // if period is monthly
-            maxRows = 12;
-        }
-
-        // to check if entered value is greater than maximum allowed rows
-        return Math.abs(maxRows - currentTotalRows);
+  // to find the number of allowed rows for selected period type
+  const getAllowedRows = (
+    currentTotalRows: number,
+    getPeriodType: string = "",
+    isGetMaxRows: boolean = false
+  ) => {
+    if (!getPeriodType) {
+      getPeriodType = periodType;
+    }
+    let maxRows = 0;
+    if (getPeriodType === "W") {
+      // if period is weekly
+      maxRows = 53;
+    } else if (getPeriodType === "2W") {
+      // if period is fortnightly
+      maxRows = 27;
+    } else if (getPeriodType === "4W") {
+      // if period is 4 weekly
+      maxRows = 14;
+    } else if (getPeriodType === "M") {
+      // if period is monthly
+      maxRows = 12;
     }
 
-  // useEffect(() => {
-  //   if (defaultRow) {
-  //     if (defaultRow.number === niRow.number) {
-  //       setNiRow(defaultRow);
-  //       setRows([defaultRow]);
-  //     } else {
-  //       setRows([{ ...defaultRow, number: niRow.number }]);
-  //       setNiRow({ ...defaultRow, number: niRow.number });
-  //     }
-  //   }
-  // }, [defaultRow, niRow.number]);
+    if (isGetMaxRows) return maxRows;
+
+    return Math.abs(maxRows - currentTotalRows);
+  };
 
   const [rows, setRows] = useState<Array<Row>>([defaultRow]);
+  const [customRows, setCustomRows] = useState<Array<CustomRow>>([]);
 
   useEffect(() => {
-    if(result && result.resultRows) {
-      setRows((prevState: Row[]) => prevState.map(row => {
-        const matchingRow: CalculatedRow | undefined =
-          result.resultRows
-            .find(resultRow =>
-              resultRow.name === row.id
-            )
-        if(matchingRow) {
-          return {
-            ...row,
-            ee: matchingRow.employee,
-            er: matchingRow.employer,
-            totalContributions: matchingRow.totalContributions,
-            bands: matchingRow.resultBands,
-            explain: matchingRow.explain,
-            contributionBands: matchingRow.resultContributionBands
+    if (result && result.resultRows) {
+      setRows((prevState: Row[]) =>
+        prevState.map((row) => {
+          const matchingRow: CalculatedRow | undefined = result.resultRows.find(
+            (resultRow) => resultRow.name === row.id
+          );
+          if (matchingRow) {
+            return {
+              ...row,
+              ee: matchingRow.employee,
+              er: matchingRow.employer,
+              totalContributions: matchingRow.totalContributions,
+              bands: matchingRow.resultBands,
+              explain: matchingRow.explain,
+              contributionBands: matchingRow.resultContributionBands,
+            };
           }
-        }
-        return row
-      }))
+          return row;
+        })
+      );
     } else {
-      setRows((prevState: Row[]) => prevState.map(row => {
-        delete row.totalContributions
-        delete row.explain
-        row.ee = 0
-        row.er = 0
-        return row
-      }))
+      setRows((prevState: Row[]) =>
+        prevState.map((row) => {
+          delete row.totalContributions;
+          delete row.explain;
+          row.ee = 0;
+          row.er = 0;
+          return row;
+        })
+      );
     }
   }, [result]);
 
@@ -336,14 +338,14 @@ export function useClassOneForm() {
   }, [ClassOneCalculator]);
 
   const setPeriodNumbers = (deletedRow: string | undefined) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (let period in periods) {
-      const newRows = deletedRow ?
-        [...rows.filter((row: Row) => row.id !== deletedRow)]
-        :
-        [...rows]
-      setRows(newRows)
+      const newRows = deletedRow
+        ? [...rows.filter((row: Row) => row.id !== deletedRow)]
+        : [...rows];
+      setRows(newRows);
     }
-  }
+  };
   return {
     ClassOneCalculator,
     taxYears,
@@ -355,6 +357,8 @@ export function useClassOneForm() {
     setDefaultRow,
     rows,
     setRows,
+    customRows,
+    setCustomRows,
     details,
     setDetails,
     errors,
@@ -377,6 +381,6 @@ export function useClassOneForm() {
     setPeriodType,
     isRepeatAllow,
     setIsRepeatAllow,
-    getAllowedRows
+    getAllowedRows,
   };
 }

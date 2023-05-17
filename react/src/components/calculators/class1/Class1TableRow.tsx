@@ -11,7 +11,6 @@ import TextInput from "../../helpers/formhelpers/TextInput";
 import MqTableCell from "../shared/MqTableCell";
 import ExplainToggle from "../shared/ExplainToggle";
 import TableRow from "../shared/TableRow";
-import uniqid from "uniqid";
 import {
   getBandValue,
   getContributionBandValue,
@@ -39,7 +38,7 @@ export default function Class1TableRow(props: TableRowProps) {
     showExplanation,
     bandNames,
     contributionNames,
-    repeatQty
+    repeatQty,
   } = props;
   const {
     activeRowId,
@@ -51,13 +50,12 @@ export default function Class1TableRow(props: TableRowProps) {
     result,
     setResult,
     categoryNames,
-    niRow,
     setPeriodType,
     setIsRepeatAllow,
     getAllowedRows,
   } = useContext(ClassOneContext);
 
-  const periodRowsValue = {...row};
+  const periodRowsValue = { ...row };
 
   const handleChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
     invalidateResults();
@@ -87,57 +85,61 @@ export default function Class1TableRow(props: TableRowProps) {
     );
   };
 
-    // period change handler
-    const handleSelectChangePeriod = (
-        r: Row,
-        e: React.ChangeEvent<HTMLSelectElement>
-    ) => {
-        let newRows = rows;
-        let periodType = e.currentTarget.value;
-        setPeriodType(periodType);
+  // period change handler
+  const handleSelectChangePeriod = (
+    r: Row,
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    let newRows = rows;
+    let periodType = e.currentTarget.value;
+    setPeriodType(periodType);
 
-        if(periodType === 'W' && newRows.length > 53) { // if period is weekly and table rows are greater than 53
-            newRows = rows.slice(0, 53);
-        }
-        else if(periodType === '2W' && newRows.length > 27) { // if period is fortnightly and table rows are greater than 27
-            newRows = rows.slice(0, 27);
-        }
-        else if(periodType === '4W' && newRows.length > 14) { // if period is 4 weekly and table rows are greater than 14
-            newRows = rows.slice(0, 14);
-        }
-        else if(periodType === 'M' && newRows.length > 12) { // if period is monthly and table rows are greater than 12
-            newRows = rows.slice(0, 12);
-        }
-
-        // validation for repeat rows
-        const currentTotalRows = newRows.length;
-        if (getAllowedRows(currentTotalRows, periodType) === 0 || repeatQty > getAllowedRows(currentTotalRows, periodType)) { // validation for repeat qty if maximum limit is reached
-            setIsRepeatAllow(false);
-        }
-        else {
-            setIsRepeatAllow(true);
-        }
-
-        setRows(
-            newRows.map((cur: Row) => {
-                return { ...cur, [e.currentTarget.name]: periodType };
-            })
-        )
-    };
-
-
-    const handlePeriodChange = (r: Row, e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log("val: ", e.currentTarget.value, r)
-        const enteredValue = parseInt(e.currentTarget.value);
-        const newPeriod = isNaN(enteredValue) ? "" : enteredValue;
-        setRows(
-            rows.map((cur: Row) =>
-                cur.id === r.id
-                    ? { ...cur, [e.currentTarget.name]: newPeriod }
-                    : cur
-            )
-        );
+    if (periodType === "W" && newRows.length > 53) {
+      // if period is weekly and table rows are greater than 53
+      newRows = rows.slice(0, 53);
+    } else if (periodType === "2W" && newRows.length > 27) {
+      // if period is fortnightly and table rows are greater than 27
+      newRows = rows.slice(0, 27);
+    } else if (periodType === "4W" && newRows.length > 14) {
+      // if period is 4 weekly and table rows are greater than 14
+      newRows = rows.slice(0, 14);
+    } else if (periodType === "M" && newRows.length > 12) {
+      // if period is monthly and table rows are greater than 12
+      newRows = rows.slice(0, 12);
     }
+
+    // validation for repeat rows
+    const currentTotalRows = newRows.length;
+    if (
+      getAllowedRows(currentTotalRows, periodType) === 0 ||
+      repeatQty > getAllowedRows(currentTotalRows, periodType)
+    ) {
+      // validation for repeat qty if maximum limit is reached
+      setIsRepeatAllow(false);
+    } else {
+      setIsRepeatAllow(true);
+    }
+
+    setRows(
+      newRows.map((cur: Row) => {
+        return { ...cur, [e.currentTarget.name]: periodType };
+      })
+    );
+  };
+
+  const handlePeriodChange = (
+    r: Row,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    console.log("val: ", e.currentTarget.value, r);
+    const enteredValue = parseInt(e.currentTarget.value);
+    const newPeriod = isNaN(enteredValue) ? "" : enteredValue;
+    setRows(
+      rows.map((cur: Row) =>
+        cur.id === r.id ? { ...cur, [e.currentTarget.name]: newPeriod } : cur
+      )
+    );
+  };
 
   const invalidateResults = () => {
     setResult(null);
@@ -145,13 +147,8 @@ export default function Class1TableRow(props: TableRowProps) {
 
   const createPastedRow = (val: string) => {
     return {
-      id: uniqid(),
-      category: row.category,
-      number: niRow.number !== row.number ? niRow.number : row.number,
-      period: row.period,
+      ...row,
       gross: val,
-      ee: row.ee,
-      er: row.er,
     };
   };
 
@@ -168,7 +165,7 @@ export default function Class1TableRow(props: TableRowProps) {
   };
 
   const handlePaste = (e: React.ClipboardEvent, r: Row) => {
-      console.log("handlePaste: ", e, r)
+    console.log("handlePaste: ", e, r);
     const clipboardData = e.clipboardData;
     const pastedText =
       clipboardData.getData("Text") || clipboardData.getData("text/plain");
@@ -231,15 +228,12 @@ export default function Class1TableRow(props: TableRowProps) {
           <React.Fragment>
             <TextInput
               hiddenLabel={true}
-              // name={`${periodRowsValue?.id}-period`}
               name="number"
               labelText={`Period for row number ${index + 1}`}
               inputClassName="period-number"
-              // inputValue={isNaN(periodRowsValue?.number) ? "" : periodRowsValue?.number}
               inputValue={isNaN(row?.number) ? "" : row?.number}
-              onChangeCallback={(e: React.ChangeEvent<HTMLInputElement>) => handlePeriodChange(row, e)}
-              onPaste={(e: React.ClipboardEvent) =>
-                handlePaste(e, row)
+              onChangeCallback={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handlePeriodChange(row, e)
               }
             />
           </React.Fragment>
