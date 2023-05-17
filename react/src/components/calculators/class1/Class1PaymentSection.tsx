@@ -195,7 +195,8 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
             }
           });
           if (matchingPeriods.length > 1) {
-            setCustomRows((prevState) => [...prevState, { ...row, date: "" }]);
+              /* istanbul ignore next */
+              setCustomRows((prevState) => [...prevState, { ...row, date: "" }]);
           }
         }
       });

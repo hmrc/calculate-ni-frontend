@@ -1,7 +1,6 @@
 import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { renderHook, act } from "@testing-library/react-hooks";
-import userEvent from "@testing-library/user-event";
 import { PeriodValue } from "../../../config";
 import { ClassOneContext, useClassOneForm } from "./ClassOneContext";
 import {

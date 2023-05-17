@@ -56,7 +56,7 @@ export default function Class1Table(props: Class1TableProps) {
           <th scope="col">
             <strong>Row</strong>
           </th>
-          <th scope="col" className="column-toggle select-period" aria-sort={periodSortDirection} onClick={handleSortPeriod}>
+          <th scope="col" className="column-toggle select-period" aria-sort={periodSortDirection} data-testid="sort-period" onClick={handleSortPeriod}>
             <strong>
               {printView ? 'Period': 'Select period'}
               {!printView &&

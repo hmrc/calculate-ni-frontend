@@ -1,6 +1,5 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import Class1PaymentSection from "./Class1PaymentSection";
 import { PeriodValue } from "../../../config";
 import { ClassOneContext } from "./ClassOneContext";
@@ -77,6 +76,30 @@ const setResult = jest.fn();
 const setActiveRowId = jest.fn();
 const setIsRepeatAllow = jest.fn();
 const setRows = jest.fn();
+const setCustomRows = jest.fn();
+
+const mockCustomRows = [
+  {
+    id: "4",
+    category: "A",
+    period: "4W",
+    gross: "",
+    number: 4,
+    ee: 0,
+    er: 0,
+    date: "",
+  },
+  {
+    id: "8",
+    category: "A",
+    period: "4W",
+    gross: "",
+    number: 8,
+    ee: 0,
+    er: 0,
+    date: "",
+  },
+];
 
 const mockValue: any = {
   rows,
@@ -90,6 +113,9 @@ const mockValue: any = {
   isRepeatAllow: true,
   setIsRepeatAllow,
   setRows,
+  customRows: mockCustomRows,
+  setCustomRows,
+  errors: {},
 };
 
 const mockValueElse: any = {
@@ -106,7 +132,7 @@ const mockValueRepeatAllow: any = {
   isRepeatAllow: true,
 };
 
-const mockValueRepeatNotAllow: any = {
+const mockValueRepeatAllowMore: any = {
   ...mockValueElse,
   activeRowId: "",
   getAllowedRows: () => 1,
@@ -157,7 +183,7 @@ describe("Class1PaymentSection", () => {
       .mockImplementation(() => [rows, setState]);
   });
 
-  describe("when more than one row", () => {
+  describe("when remaining allowed rows is greater than zero and repeat row is allow", () => {
     beforeEach(() => {
       renderComponent({
         memoizedTaxYears: {
@@ -184,8 +210,8 @@ describe("Class1PaymentSection", () => {
         .getByText("Date NI paid for row number 1")
         .closest("tr")
         .querySelector("input") as HTMLInputElement;
-      fireEvent.change(input, { target: { value: "01/01/2022" } });
-      expect(setState).toBeCalled();
+      fireEvent.change(input, { target: { value: "2022-05-18" } });
+      expect(setCustomRows).toBeCalled();
     });
 
     it("should change repeat row quantity when repeat row input is changed", async () => {
@@ -194,7 +220,7 @@ describe("Class1PaymentSection", () => {
       await expect(mockValue.setIsRepeatAllow).toHaveBeenCalledWith(true);
     });
 
-    it("should not allow to add more rows than it is allowed period wise", async () => {
+    it("should change repeat qty to maximum allowed value when entered more than allowed period wise", async () => {
       const input = screen.getByTestId("repeat-qty");
       fireEvent.change(input, { target: { value: 64 } });
       await expect(setState).toHaveBeenCalledWith(52);
@@ -229,7 +255,7 @@ describe("Class1PaymentSection", () => {
     });
   });
 
-  describe("when only one row", () => {
+  describe("when remaining allowed rows is zero and repeat row is not allow", () => {
     beforeEach(() => {
       jest.spyOn(console, "warn").mockImplementation(() => {});
 
@@ -268,7 +294,7 @@ describe("Class1PaymentSection", () => {
     });
   });
 
-  describe("when only one row and allowed repeat row is 0", () => {
+  describe("when remaining allowed rows is zero and repeat row is allow", () => {
     beforeEach(() => {
       jest.spyOn(console, "warn").mockImplementation(() => {});
       jest.spyOn(React, "useState").mockImplementation(() => [2, setState]);
@@ -293,7 +319,7 @@ describe("Class1PaymentSection", () => {
     });
   });
 
-  describe("when only one row and allowed repeat row is grater than 0", () => {
+  describe("when remaining allowed rows is grater than 0 and repeat row is not allow", () => {
     beforeEach(() => {
       jest.spyOn(console, "warn").mockImplementation(() => {});
       jest.spyOn(React, "useState").mockImplementation(() => [0, setState]);
@@ -305,7 +331,7 @@ describe("Class1PaymentSection", () => {
         },
         resetTotals,
         taxYearPeriod: mockTaxYearPeriod,
-        contextValue: mockValueRepeatNotAllow,
+        contextValue: mockValueRepeatAllowMore,
       });
     });
 
@@ -345,6 +371,30 @@ describe("Class1PaymentSection", () => {
       fireEvent.click(button);
 
       expect(mockValue.setIsRepeatAllow).toHaveBeenCalled();
+    });
+  });
+
+  describe("when repeat qty is more than allowed period wise", () => {
+    beforeEach(() => {
+      jest.spyOn(console, "warn").mockImplementation(() => {});
+      jest.spyOn(React, "useState").mockImplementation(() => [12, setState]);
+
+      renderComponent({
+        memoizedTaxYears: {
+          taxYears: mockTaxYearPeriod.txYears,
+          grouped: [mockTaxYearPeriod],
+        },
+        resetTotals,
+        taxYearPeriod: mockTaxYearPeriod,
+        contextValue: mockValueRepeatAllowMore,
+      });
+    });
+
+    it("should not allow to add more rows", async () => {
+      const button = screen.getByText("Repeat row");
+      fireEvent.click(button);
+
+      await expect(mockValue.setIsRepeatAllow).toHaveBeenCalledWith(false);
     });
   });
 });

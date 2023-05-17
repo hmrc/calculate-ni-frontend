@@ -1,6 +1,5 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import Class1Form from "./Class1Form";
 import { ClassOneContext } from "./ClassOneContext";
 import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
