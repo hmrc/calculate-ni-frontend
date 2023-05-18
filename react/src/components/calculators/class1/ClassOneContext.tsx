@@ -288,7 +288,7 @@ export function useClassOneForm() {
 
   const [rows, setRows] = useState<Array<Row>>([defaultRow]);
   const [customRows, setCustomRows] = useState<Array<CustomRow>>([]);
-
+console.log('result', result)
   useEffect(() => {
     if (result && result.resultRows) {
       setRows((prevState: Row[]) =>

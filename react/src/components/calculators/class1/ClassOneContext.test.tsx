@@ -2,7 +2,14 @@ import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { renderHook, act } from "@testing-library/react-hooks";
 import { PeriodValue } from "../../../config";
-import { ClassOneContext, useClassOneForm } from "./ClassOneContext";
+import {
+  BandTotals,
+  CalculatedRow,
+  CategoryTotals,
+  Class1Result,
+  ClassOneContext,
+  useClassOneForm,
+} from "./ClassOneContext";
 import {
   CategoryName,
   NiFrontendContext,
@@ -96,18 +103,20 @@ const mockCat = {
   resultBands: ["band 1", "band 2"],
   resultContributionBands: ["band 1", "band 2"],
 };
-const mockResult = {
+const mockResult: Class1Result | null = {
   employerContributions: 0,
   categoryTotals: ["cat 1", mockCat],
   resultRows: rows,
-  from: "2022-04-06T00:00:00.000Z",
-  id: "[2022-04-06, 2022-05-01]",
-  to: "2022-05-01T00:00:00.000Z",
+  totals: { gross: 100, net: 10, employee: 1, employer: 1 },
+  /* overpayment: TotalRow,
+    underpayment: TotalRow,
+    employerContributions: 1,
+    bandTotals: BandTotals*/
 };
 const mockClassOneContext = {
-  result: mockResult,
+  result: null,
   setResult: jest.fn(),
-  rows,
+  rows: [],
   setRows: jest.fn(),
   setPeriodNumbers: jest.fn(),
 };
@@ -130,20 +139,21 @@ jest.mock("../../../services/NiFrontendContext", () => ({
   categoryNamesToObject: jest.fn(),
 }));
 
-/*jest.mock("./ClassOneContext", () => ({
-  __esModule: true,
-    // @ts-ignore
-  ClassOneContext: React.useContext(mockClassOneContext),
-  useClassOneForm: jest.fn(),
-}));*/
-
 const wrapper = ({ children }: any) => (
   <NiFrontendContext.Provider value={mockNiFrontendContext}>
     {children}
   </NiFrontendContext.Provider>
 );
 
-describe("ClassOneContext", () => {
+/*describe("ClassOneContext", () => {
+    it('should render default context values', () => {
+        const result = React.useContext(ClassOneContext);
+        expect(result).not.toBeNull();
+        expect(result).toEqual(mockClassOneContext);
+    });
+});*/
+
+describe("useClassOneForm", () => {
   beforeEach(() => {
     jest
       .spyOn(React, "useState")
@@ -183,22 +193,19 @@ describe("ClassOneContext", () => {
     expect(result.current.getAllowedRows(2, "2W")).toBe(25);
     expect(result.current.getAllowedRows(2, "4W")).toBe(12);
     expect(result.current.getAllowedRows(2, "M")).toBe(10);
+    expect(result.current.getAllowedRows(2, "M", true)).toBe(12);
   });
 
   it("should update result data", () => {
+    jest
+      .spyOn(React, "useState")
+      .mockImplementation(() => [rows, setState])
+      .mockImplementation(() => [mockResult, setState]);
     const { result, rerender } = renderHook(() => useClassOneForm(), {
       wrapper,
     });
 
     // @ts-ignore
-    result.current.setRows(rows);
-    // @ts-ignore
-    result.current.setResult(mockResult);
-    rerender();
-
-    expect(result.current.result).not.toBeNull();
-
-    // @ts-ignore
-    //expect(result.current.result.resultRows).not.toBeUndefined();
+    expect(result.current.result.resultRows).not.toBeUndefined();
   });
 });

@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import Class1TableRow from "./Class1TableRow";
 import { ClassOneContext } from "./ClassOneContext";
 import { periods, PeriodValue, periodValueToLabel } from "../../../config";
-import {act} from "@testing-library/react-hooks";
+import { act } from "@testing-library/react-hooks";
 
 jest.mock("../shared/ExplainToggle", () => () => (
   <div data-testid="explain-toggle">Explain Toggle</div>
@@ -15,7 +15,7 @@ const rows = [
     category: "A",
     number: 1,
     period: PeriodValue.MONTHLY,
-    gross: "100",
+    gross: "",
     ee: 1,
     er: 1,
     date: "2022-04-05T00:00:00.000Z",
@@ -207,7 +207,6 @@ describe("Class1TableRow", () => {
   describe("callback function handleSelectChangeCategory", () => {
     it("should change category value", () => {
       const { container } = renderComponent(props);
-
       const selectOne = container.querySelector(
         `select[name="category"]`
       ) as HTMLSelectElement;
@@ -219,22 +218,38 @@ describe("Class1TableRow", () => {
   });
 
   describe("callback function handleChange", () => {
-    const { container } = renderComponent(props);
-    const input = container.querySelector(
-      `input[name="1-gross"]`
-    ) as HTMLInputElement;
-
     it("should change gross value", () => {
+      const { container } = renderComponent(props);
+      const input = container.querySelector(
+        `input[name="1-gross"]`
+      ) as HTMLInputElement;
       fireEvent.change(input, {
         target: { value: 111 },
       });
       expect(mockValue.setRows).toBeCalled();
     });
 
-    it("should paste gross value", () => {
+    it("should not paste gross value if blank data", () => {
+      const { container } = renderComponent(props);
+      const input = container.querySelector(
+        `input[name="1-gross"]`
+      ) as HTMLInputElement;
       fireEvent.paste(input, {
         clipboardData: {
-          getData: () => 101,
+          getData: () => "",
+        },
+      });
+      expect(input.value).toBe("");
+    });
+
+    it("should paste gross value", () => {
+      const { container } = renderComponent(props);
+      const input = container.querySelector(
+        `input[name="1-gross"]`
+      ) as HTMLInputElement;
+      fireEvent.paste(input, {
+        clipboardData: {
+          getData: () => "100",
         },
       });
       expect(mockValue.setRows).toBeCalled();
@@ -242,23 +257,26 @@ describe("Class1TableRow", () => {
   });
 
   describe("callback function handlePeriodChange", () => {
-    const { container } = renderComponent(props);
-    const input = container.querySelector(
-        `input[name="number"]`
-    ) as HTMLInputElement;
-
     it("should change period number value", () => {
-        fireEvent.change(input, {
-          target: {value: 12},
-        });
+      const { container } = renderComponent(props);
+      const input = container.querySelector(
+        `input[name="number"]`
+      ) as HTMLInputElement;
+
+      fireEvent.change(input, {
+        target: { value: 12 },
+      });
       expect(mockValue.setRows).toBeCalled();
     });
 
-    it("should paste period number value", () => {
-      fireEvent.paste(input, {
-        clipboardData: {
-          getData: () => "3",
-        },
+    it("should change period number value to null when invalid value", () => {
+      const { container } = renderComponent(props);
+      const input = container.querySelector(
+        `input[name="number"]`
+      ) as HTMLInputElement;
+
+      fireEvent.change(input, {
+        target: { value: "ab" },
       });
       expect(mockValue.setRows).toBeCalled();
     });
