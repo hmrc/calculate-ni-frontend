@@ -288,9 +288,9 @@ export function useClassOneForm() {
 
   const [rows, setRows] = useState<Array<Row>>([defaultRow]);
   const [customRows, setCustomRows] = useState<Array<CustomRow>>([]);
-console.log('result', result)
+
   useEffect(() => {
-    if (result && result.resultRows) {
+    if (result && result.resultRows) { console.log('test:', result.resultRows)
       setRows((prevState: Row[]) =>
         prevState.map((row) => {
           const matchingRow: CalculatedRow | undefined = result.resultRows.find(
@@ -336,7 +336,7 @@ console.log('result', result)
       categoryNamesToObject(ClassOneCalculator.getCategoryNames)
     );
   }, [ClassOneCalculator]);
-
+console.log('taxyear:', rows.length, result)
   const setPeriodNumbers = (deletedRow: string | undefined) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (let period in periods) {
