@@ -1,19 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { renderHook, act } from "@testing-library/react-hooks";
 import { PeriodValue } from "../../../config";
 import {
+  Band,
   BandTotals,
   CalculatedRow,
   CategoryTotals,
   Class1Result,
   ClassOneContext,
+  ContributionBand,
+  Row,
   useClassOneForm,
+  v,
 } from "./ClassOneContext";
 import {
   CategoryName,
   NiFrontendContext,
 } from "../../../services/NiFrontendContext";
+import { SuccessNotificationContext } from "../../../services/SuccessNotificationContext";
 
 const mockNiFrontendContext: any = {
   NiFrontendInterface: {
@@ -29,7 +34,7 @@ const mockNiFrontendContext: any = {
   },
 };
 
-const rows = [
+const mockRows = [
   {
     id: "1",
     category: "A",
@@ -95,24 +100,67 @@ const mockTaxYearPeriod = {
   ],
 };
 
+const mockResultBands: Map<string, v> = new Map([
+  ["band 1", { gross: 100, employee: 1, employer: 1, net: 10 }],
+  ["band 2", { gross: 100, employee: 1, employer: 1, net: 10 }],
+]);
+
+const mockResultContributionBands: Map<string, v> = new Map([
+  ["band 1", { gross: 100, employee: 1, employer: 1, net: 10 }],
+  ["band 2", { gross: 100, employee: 1, employer: 1, net: 10 }],
+]);
+
 const mockCat = {
   gross: 100,
   employee: 1,
   employer: 1,
   net: 10,
-  resultBands: ["band 1", "band 2"],
-  resultContributionBands: ["band 1", "band 2"],
+  resultBands: mockResultBands,
+  resultContributionBands: mockResultContributionBands,
 };
+
+const mockCategoryTotals = new Map([["A", mockCat]]);
+
+const mockResultRows: CalculatedRow[] = [
+  {
+    name: "row 1",
+    // @ts-ignore
+    resultBands: mockResultBands,
+    // @ts-ignore
+    resultContributionBands: mockResultContributionBands,
+    employee: 1,
+    employer: 1,
+    totalContributions: 1,
+    explain: ["Explain 1", "Explain 2"],
+  },
+];
+
 const mockResult: Class1Result | null = {
+  resultRows: mockResultRows,
+  totals: {
+    gross: 100,
+    employee: 0,
+    employer: 0,
+    net: 0,
+  },
+  underpayment: {
+    employee: 0,
+    employer: 0,
+    total: 0,
+  },
+  overpayment: {
+    employee: 0,
+    employer: 0,
+    total: 0,
+  },
   employerContributions: 0,
-  categoryTotals: ["cat 1", mockCat],
-  resultRows: rows,
-  totals: { gross: 100, net: 10, employee: 1, employer: 1 },
-  /* overpayment: TotalRow,
-    underpayment: TotalRow,
-    employerContributions: 1,
-    bandTotals: BandTotals*/
+  bandTotals: {
+    resultBands: mockResultBands,
+    resultContributionBands: mockResultContributionBands,
+  },
+  categoryTotals: mockCategoryTotals,
 };
+
 const mockClassOneContext = {
   result: null,
   setResult: jest.fn(),
@@ -160,14 +208,15 @@ describe("useClassOneForm", () => {
       // @ts-ignore
       .mockImplementation((init) => [init, setState])
       .mockImplementation(() => [mockTaxYearPeriod.txYears, setState])
-      .mockImplementation(() => [mockTaxYearPeriod.txYears[0], setState]);
+      .mockImplementation(() => [mockTaxYearPeriod.txYears[0], setState])
+      .mockImplementation(() => [mockRows, setState]);
     jest
       .spyOn(React, "useContext")
       .mockImplementation(() => mockNiFrontendContext);
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    //jest.clearAllMocks();
   });
 
   it("should render the context hook", () => {
@@ -177,12 +226,15 @@ describe("useClassOneForm", () => {
   });
 
   it("should reset period number after deleting row", () => {
-    jest.spyOn(React, "useState").mockImplementation(() => [rows, setState]);
+    //jest.spyOn(React, "useState").mockImplementation(() => [mockRows, setState]);
 
     const { result } = renderHook(() => useClassOneForm(), { wrapper });
-    result.current.setPeriodNumbers("2");
-    // @ts-ignore
-    result.current.setResult(mockResult);
+
+    act(() => {
+      result.current.setPeriodNumbers("2");
+      // @ts-ignore
+      result.current.setResult(mockResult);
+    });
     expect(result.current.setRows).toBeCalled();
   });
 
@@ -195,15 +247,39 @@ describe("useClassOneForm", () => {
     expect(result.current.getAllowedRows(2, "M")).toBe(10);
     expect(result.current.getAllowedRows(2, "M", true)).toBe(12);
   });
+});
 
+describe("useClassOneForm state", () => {
   it("should update result data", () => {
+    //jest.spyOn(React, "useState").mockImplementation(() => [mockResult, setState]);
+
+    // @ts-ignore
+    const rows: Array<Row> = mockRows;
+    // @ts-ignore
+    const result2: Class1Result = mockResult;
+
+    // @ts-ignore
+    // useState.mockReturnValueOnce([rows, jest.fn()]);
+    // @ts-ignore
+    useState.mockReturnValueOnce([result2, jest.fn()]);
+/*
     jest
       .spyOn(React, "useState")
       .mockImplementation(() => [rows, setState])
-      .mockImplementation(() => [mockResult, setState]);
+      .mockImplementation(() => [result2, setState]);*/
+
     const { result, rerender } = renderHook(() => useClassOneForm(), {
       wrapper,
     });
+    //jest.spyOn(result.current, "setRows").mockImplementation(() => rows)
+    //jest.spyOn(result.current, "setResult").mockImplementation(() => mockResult)
+
+    //rerender()
+    /*
+    jest
+      .spyOn(React, "useState")
+      .mockImplementation(() => [rows, setState])
+      .mockImplementation(() => [mockResult, setState]);*/
 
     // @ts-ignore
     expect(result.current.result.resultRows).not.toBeUndefined();
