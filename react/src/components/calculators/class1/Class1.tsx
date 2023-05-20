@@ -49,6 +49,8 @@ const Class1Page = () => {
     result,
     setResult,
     setActiveRowId,
+      isMultiYear,
+      customSplitRows
   } = useContext(ClassOneContext);
   const { successNotificationsOn } = useContext(SuccessNotificationContext);
   const titleWithPrefix = hasKeys(errors) ? "Error: " + pageTitle : pageTitle;
@@ -75,7 +77,8 @@ const Class1Page = () => {
   const submitForm = (showSummaryIfValid: boolean) => {
     setErrors({});
     const payload = {
-      rows: rows,
+      //rows: rows,
+      rows: isMultiYear ? customSplitRows : rows,
       niPaidNet: niPaidNet,
       niPaidEmployee: niPaidEmployee,
       customRows: customRows,
@@ -95,7 +98,11 @@ const Class1Page = () => {
 
       const netNi = stripCommas(payload.niPaidNet) || "0";
       const employeeNi = stripCommas(payload.niPaidEmployee) || "0";
-
+        console.log("submitForm payload", payload);
+        console.log('taxyYear', taxYear)
+        console.log('requestRows', requestRows)
+        console.log('niPaidNet', netNi)
+        console.log('employeeNi', employeeNi)
       taxYear &&
         setResult(
           ClassOneCalculator.calculate(

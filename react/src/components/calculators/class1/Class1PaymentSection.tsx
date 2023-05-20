@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import { Class1PaymentSectionProps } from "../../../interfaces";
+import { Class1PaymentSectionProps, CustomRow } from "../../../interfaces";
 import Class1Table from "./Class1Table";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import Class1PeriodsSection from "./Class1PeriodsSection";
@@ -33,6 +33,9 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
     customRows,
     setCustomRows,
     errors,
+    isMultiYear,
+    customSplitRows,
+    setCustomSplitRows,
   } = useContext(ClassOneContext);
 
   const [repeatQty, setRepeatQty] = useState<number>(1);
@@ -104,6 +107,8 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
   useEffect(() => {
     if (rows && rows.length > 0) {
       setCustomRows([]);
+      let splitRows: any[] = [];
+
       rows.forEach((row) => {
         const period = row.period;
         const rowNumber = row.number;
@@ -155,7 +160,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
               .format(DATE_FORMAT_DD_MM_YYYY);
           }
         }
-
+        console.log("date: ", startDateOfWeek, endDateOfWeek);
         // to check if period is between start and end date of tax year range
         if (
           startDateOfWeek &&
@@ -194,11 +199,45 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
               matchingPeriods.push(ty);
             }
           });
+
+          const getDateValue = customRows.find((r) => r.id === row.id);
           if (matchingPeriods.length > 1) {
-            setCustomRows((prevState) => [...prevState, { ...row, date: "" }]);
+            setCustomRows((prevState) => [
+              ...prevState,
+              {
+                ...row,
+                date: getDateValue?.date
+                  ? moment(getDateValue.date).format(DATE_FORMAT_YYYY_MM_DD)
+                  : moment(startDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
+                      DATE_FORMAT_YYYY_MM_DD
+                    ),
+                minDate: moment(startDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
+                  DATE_FORMAT_YYYY_MM_DD
+                ),
+                maxDate: moment(endDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
+                  DATE_FORMAT_YYYY_MM_DD
+                ),
+              },
+            ]);
+          }
+
+          // if split year
+          if (isMultiYear) {
+            splitRows.push({
+              ...row,
+              date: getDateValue?.date
+                ? moment(getDateValue.date).format(DATE_FORMAT_YYYY_MM_DD)
+                : moment(startDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
+                    DATE_FORMAT_YYYY_MM_DD
+                  ),
+            });
           }
         }
       });
+
+      if (isMultiYear) {
+        setCustomSplitRows(splitRows);
+      }
     }
   }, [
     rows,
@@ -207,6 +246,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
     memoizedTaxYears,
     taxYearPeriod,
     setCustomRows,
+    //customRows,
   ]);
 
   // repeat row button click handler
@@ -220,13 +260,14 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
 
       if (!rowToDuplicate.number) return false;
 
-      let initialPeriodNumber = rowToDuplicate.number;
+      //let initialPeriodNumber = rowToDuplicate.number;
       let repeatTimes = repeatQty > 0 ? repeatQty : 1;
       const currentTotalRows = rows.length + repeatQty;
       const remAllowedRows = getAllowedRows(currentTotalRows);
       const maxAllowedRows = getAllowedRows(currentTotalRows, "", true);
       const getMaxPeriod = Math.max(...rows.map((r) => r.number));
       const getPeriodRowsAllowed = Math.abs(maxAllowedRows - getMaxPeriod);
+      let initialPeriodNumber = getMaxPeriod;
 
       // validations for max limit of rows allowed
       if (getAllowedRows(rows.length) === 0 || getPeriodRowsAllowed === 0) {
@@ -264,16 +305,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
         newRows.push(newRow);
       }
 
-      const selectedIndex = activeRowId
-        ? rows.findIndex((r) => r.id === activeRowId)
-        : rows.length - 1;
-      let updatedRows = [...rows];
-
-      if (selectedIndex === rows.length - 1) {
-        updatedRows = [...updatedRows, ...newRows];
-      } else {
-        updatedRows.splice(selectedIndex + 1, 0, ...newRows);
-      }
+      const updatedRows = [...rows, ...newRows];
       setRows(updatedRows);
     },
     [
@@ -328,6 +360,15 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
           return r;
         });
         setCustomRows(updatedRows);
+
+        const updatedSplitRows = customSplitRows.map((s) => {
+          if (s.id === row.id) {
+            const updatedSplitRow = { ...s, date: value };
+            return updatedSplitRow;
+          }
+          return s;
+        });
+        setCustomSplitRows(updatedSplitRows);
       }
     },
     [customRows, errors, setCustomRows, setErrors]

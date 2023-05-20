@@ -60,6 +60,7 @@ export interface Row {
   explain?: Array<string>;
   totalContributions?: number;
   contributionBands?: Array<ContributionBand>;
+  date?: string;
 }
 
 export interface ClassOneRowInterface {
@@ -142,6 +143,8 @@ export interface Class1Result {
 
 interface ClassOneContext {
   ClassOneCalculator: Calculator;
+    isMultiYear: boolean;
+    setIsMultiYear: Dispatch<boolean>;
   taxYears: TaxYear[];
   taxYear: TaxYear | null;
   setTaxYear: Dispatch<TaxYear | null>;
@@ -176,10 +179,14 @@ interface ClassOneContext {
   isRepeatAllow: boolean;
   setIsRepeatAllow: Dispatch<boolean>;
   getAllowedRows: Function;
+  customSplitRows: Array<CustomRow>;
+  setCustomSplitRows: Dispatch<SetStateAction<Array<CustomRow>>>;
 }
 
 export const ClassOneContext = React.createContext<ClassOneContext>({
   ClassOneCalculator: initClassOneCalculator,
+  isMultiYear: false,
+  setIsMultiYear: () => {},
   taxYears: [],
   taxYear: null,
   setTaxYear: () => {},
@@ -214,11 +221,14 @@ export const ClassOneContext = React.createContext<ClassOneContext>({
   isRepeatAllow: true,
   setIsRepeatAllow: () => "",
   getAllowedRows: () => "",
+  customSplitRows: [],
+  setCustomSplitRows: () => {},
 });
 
 export function useClassOneForm() {
   const { NiFrontendInterface } = useContext(NiFrontendContext);
   const ClassOneCalculator = NiFrontendInterface.classOne;
+    const [isMultiYear, setIsMultiYear] = useState<boolean>(false);
   const [taxYears, setTaxYears] = useState<TaxYear[]>([]);
   const [taxYear, setTaxYear] = useState<TaxYear | null>(null);
   const [niRow, setNiRow] = useState<Row>(initRow);
@@ -241,6 +251,7 @@ export function useClassOneForm() {
   const [activeRowId, setActiveRowId] = useState<string | null>(null);
   const [periodType, setPeriodType] = useState<string>("W");
   const [isRepeatAllow, setIsRepeatAllow] = useState<boolean>(true);
+  const [customSplitRows, setCustomSplitRows] = useState<Array<CustomRow>>([]);
 
   useEffect(() => {
     if (taxYear && taxYear.from) {
@@ -348,6 +359,8 @@ export function useClassOneForm() {
   };
   return {
     ClassOneCalculator,
+    isMultiYear,
+    setIsMultiYear,
     taxYears,
     taxYear,
     setTaxYear,
@@ -382,5 +395,7 @@ export function useClassOneForm() {
     isRepeatAllow,
     setIsRepeatAllow,
     getAllowedRows,
+    customSplitRows,
+    setCustomSplitRows,
   };
 }

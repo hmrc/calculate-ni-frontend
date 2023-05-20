@@ -54,6 +54,8 @@ export default function Class1PeriodsTable(props: Class1PeriodsTableProps) {
                 inputType="date"
                 error={errors[`${row.id}-date`]}
                 onChangeCallback={(e) => handleDateInputChange?.(row, e)}
+                min={row?.minDate}
+                max={row?.maxDate}
               />
             </td>
           </tr>
