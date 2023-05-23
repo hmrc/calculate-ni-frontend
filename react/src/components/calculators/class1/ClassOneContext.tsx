@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import {
   CustomRow,
+  CustomSplitRows,
   DetailsProps,
   GenericObject,
   TaxYear,
@@ -143,8 +144,8 @@ export interface Class1Result {
 
 interface ClassOneContext {
   ClassOneCalculator: Calculator;
-    isMultiYear: boolean;
-    setIsMultiYear: Dispatch<boolean>;
+  isMultiYear: boolean;
+  setIsMultiYear: Dispatch<boolean>;
   taxYears: TaxYear[];
   taxYear: TaxYear | null;
   setTaxYear: Dispatch<TaxYear | null>;
@@ -179,8 +180,8 @@ interface ClassOneContext {
   isRepeatAllow: boolean;
   setIsRepeatAllow: Dispatch<boolean>;
   getAllowedRows: Function;
-  customSplitRows: Array<CustomRow>;
-  setCustomSplitRows: Dispatch<SetStateAction<Array<CustomRow>>>;
+  customSplitRows: CustomSplitRows;
+  setCustomSplitRows: Dispatch<SetStateAction<CustomSplitRows>>;
 }
 
 export const ClassOneContext = React.createContext<ClassOneContext>({
@@ -221,14 +222,14 @@ export const ClassOneContext = React.createContext<ClassOneContext>({
   isRepeatAllow: true,
   setIsRepeatAllow: () => "",
   getAllowedRows: () => "",
-  customSplitRows: [],
+  customSplitRows: {},
   setCustomSplitRows: () => {},
 });
 
 export function useClassOneForm() {
   const { NiFrontendInterface } = useContext(NiFrontendContext);
   const ClassOneCalculator = NiFrontendInterface.classOne;
-    const [isMultiYear, setIsMultiYear] = useState<boolean>(false);
+  const [isMultiYear, setIsMultiYear] = useState<boolean>(false);
   const [taxYears, setTaxYears] = useState<TaxYear[]>([]);
   const [taxYear, setTaxYear] = useState<TaxYear | null>(null);
   const [niRow, setNiRow] = useState<Row>(initRow);
@@ -236,7 +237,7 @@ export function useClassOneForm() {
     ...initRow,
     number: niRow?.number === initRow.number ? 1 : niRow?.number,
   });
-  // const [defaultRow, setDefaultRow] = useState<Row>({...initRow});
+
   const [categoryNames, setCategoryNames] = useState<GenericObject>({});
   const [categories, setCategories] = useState<Array<string>>([]);
   const [details, setDetails] = React.useReducer(
@@ -251,7 +252,7 @@ export function useClassOneForm() {
   const [activeRowId, setActiveRowId] = useState<string | null>(null);
   const [periodType, setPeriodType] = useState<string>("W");
   const [isRepeatAllow, setIsRepeatAllow] = useState<boolean>(true);
-  const [customSplitRows, setCustomSplitRows] = useState<Array<CustomRow>>([]);
+  const [customSplitRows, setCustomSplitRows] = useState<CustomSplitRows>({});
 
   useEffect(() => {
     if (taxYear && taxYear.from) {

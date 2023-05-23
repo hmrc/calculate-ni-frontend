@@ -87,7 +87,7 @@ function Class1Form(props: Class1FormProps) {
         setIsMultiYear(false);
       }
     }
-  }, [taxYear, memoizedTaxYears]);
+  }, [taxYear, memoizedTaxYears, setIsMultiYear]);
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { display } = memoizedTaxYears;

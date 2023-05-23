@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import { Class1PaymentSectionProps, CustomRow } from "../../../interfaces";
+import { Class1PaymentSectionProps } from "../../../interfaces";
 import Class1Table from "./Class1Table";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import Class1PeriodsSection from "./Class1PeriodsSection";
@@ -36,6 +36,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
     isMultiYear,
     customSplitRows,
     setCustomSplitRows,
+    setPeriodType,
   } = useContext(ClassOneContext);
 
   const [repeatQty, setRepeatQty] = useState<number>(1);
@@ -46,6 +47,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
     resetTotals();
     setRepeatQty(1);
     setIsRepeatAllow(true);
+    setPeriodType("W");
   };
 
   // to handle maximum value for repeat row input
@@ -104,150 +106,183 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
     return [];
   }, [taxYear, getWeeksBetween]);
 
-  useEffect(() => {
-    if (rows && rows.length > 0) {
-      setCustomRows([]);
-      let splitRows: any[] = [];
+  useEffect(
+    () => {
+      if (rows && rows.length > 0) {
+        setCustomRows([]);
+        let splitRows: any = {};
 
-      rows.forEach((row) => {
-        const period = row.period;
-        const rowNumber = row.number;
-        let firstWeekNumber = rowNumber;
-        let lastWeekNumber = rowNumber;
+        rows.forEach((row) => {
+          const period = row.period;
+          const rowNumber = row.number;
+          let firstWeekNumber = rowNumber;
+          let lastWeekNumber = rowNumber;
 
-        //  get week for period
-        const week = memoizedTaxYearWeeks.find((w) => w.week === rowNumber);
-        let startDateOfWeek = week?.startDateOfWeek;
-        let endDateOfWeek = week?.endDateOfWeek;
+          //  get week for period
+          const week = memoizedTaxYearWeeks.find((w) => w.week === rowNumber);
+          let startDateOfWeek = week?.startDateOfWeek;
+          let endDateOfWeek = week?.endDateOfWeek;
 
-        if (period === "2W") {
-          // if period is fortnightly
-          lastWeekNumber = rowNumber * 2;
-          firstWeekNumber = lastWeekNumber - 1;
-        } else if (period === "4W") {
-          // if period is 4 weekly
-          lastWeekNumber = rowNumber * 4;
-          firstWeekNumber = lastWeekNumber - 3;
-        }
-
-        // get week for first and last week number
-        if (period !== "W") {
-          const firstWeek = memoizedTaxYearWeeks.find(
-            (w) => w.week === firstWeekNumber
-          );
-          startDateOfWeek = firstWeek?.startDateOfWeek;
-          // get week for last week number if period is fortnightly or 4 weekly
-          if (period !== "M") {
-            const lastWeek = memoizedTaxYearWeeks.find(
-              (w) => w.week === lastWeekNumber
-            );
-            endDateOfWeek = lastWeek?.endDateOfWeek;
+          if (period === "2W") {
+            // if period is fortnightly
+            lastWeekNumber = rowNumber * 2;
+            firstWeekNumber = lastWeekNumber - 1;
+          } else if (period === "4W") {
+            // if period is 4 weekly
+            lastWeekNumber = rowNumber * 4;
+            firstWeekNumber = lastWeekNumber - 3;
           }
-          // if period is monthly
-          else {
-            const yearFirstWeek = memoizedTaxYearWeeks.find(
-              (w) => w.week === 1
-            );
-            const yearFirstWeekDate = yearFirstWeek?.startDateOfWeek;
-            // add number of months to year start date
-            startDateOfWeek = moment(yearFirstWeekDate, DATE_FORMAT_DD_MM_YYYY)
-              .add(rowNumber - 1, "month")
-              .format(DATE_FORMAT_DD_MM_YYYY);
-            // add 30 days to start date to get end date of month
-            endDateOfWeek = moment(startDateOfWeek, DATE_FORMAT_DD_MM_YYYY)
-              .add(1, "month")
-              .subtract(1, "day")
-              .format(DATE_FORMAT_DD_MM_YYYY);
-          }
-        }
-        console.log("date: ", startDateOfWeek, endDateOfWeek);
-        // to check if period is between start and end date of tax year range
-        if (
-          startDateOfWeek &&
-          endDateOfWeek &&
-          taxYearPeriod &&
-          taxYearPeriod.txYears.length > 1
-        ) {
-          const matchingPeriods: any[] = [];
-          taxYearPeriod.txYears.forEach((ty) => {
-            const { from, to } = ty;
-            const fromDate = moment(from, DATE_FORMAT_DD_MM_YYYY).format(
-              DATE_FORMAT_YYYY_MM_DD
-            );
-            const toDate = moment(to, DATE_FORMAT_DD_MM_YYYY).format(
-              DATE_FORMAT_YYYY_MM_DD
-            );
 
-            if (
-              moment(fromDate).isBetween(
-                moment(startDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
-                  DATE_FORMAT_YYYY_MM_DD
-                ),
-                moment(endDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
-                  DATE_FORMAT_YYYY_MM_DD
-                )
-              ) ||
-              moment(toDate).isBetween(
-                moment(startDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
-                  DATE_FORMAT_YYYY_MM_DD
-                ),
-                moment(endDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
-                  DATE_FORMAT_YYYY_MM_DD
-                )
-              )
-            ) {
-              matchingPeriods.push(ty);
+          // to set last week number if it is greater than total weeks in tax year
+          if (lastWeekNumber > memoizedTaxYearWeeks.length) {
+            lastWeekNumber = memoizedTaxYearWeeks.length;
+          }
+
+          // get week for first and last week number
+          if (period !== "W") {
+            const firstWeek = memoizedTaxYearWeeks.find(
+              (w) => w.week === firstWeekNumber
+            );
+            startDateOfWeek = firstWeek?.startDateOfWeek;
+            // get week for last week number if period is fortnightly or 4 weekly
+            if (period !== "M") {
+              const lastWeek = memoizedTaxYearWeeks.find(
+                (w) => w.week === lastWeekNumber
+              );
+              endDateOfWeek = lastWeek?.endDateOfWeek;
             }
-          });
-
-          const getDateValue = customRows.find((r) => r.id === row.id);
-          if (matchingPeriods.length > 1) {
-            setCustomRows((prevState) => [
-              ...prevState,
-              {
-                ...row,
-                date: getDateValue?.date
-                  ? moment(getDateValue.date).format(DATE_FORMAT_YYYY_MM_DD)
-                  : moment(startDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
-                      DATE_FORMAT_YYYY_MM_DD
-                    ),
-                minDate: moment(startDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
-                  DATE_FORMAT_YYYY_MM_DD
-                ),
-                maxDate: moment(endDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
-                  DATE_FORMAT_YYYY_MM_DD
-                ),
-              },
-            ]);
+            // if period is monthly
+            else {
+              const yearFirstWeek = memoizedTaxYearWeeks.find(
+                (w) => w.week === 1
+              );
+              const yearFirstWeekDate = yearFirstWeek?.startDateOfWeek;
+              // add number of months to year start date
+              startDateOfWeek = moment(
+                yearFirstWeekDate,
+                DATE_FORMAT_DD_MM_YYYY
+              )
+                .add(rowNumber - 1, "month")
+                .format(DATE_FORMAT_DD_MM_YYYY);
+              // add 30 days to start date to get end date of month
+              endDateOfWeek = moment(startDateOfWeek, DATE_FORMAT_DD_MM_YYYY)
+                .add(1, "month")
+                .subtract(1, "day")
+                .format(DATE_FORMAT_DD_MM_YYYY);
+            }
           }
+          // to check if period is between start and end date of tax year range
+          if (
+            startDateOfWeek &&
+            endDateOfWeek &&
+            taxYearPeriod &&
+            taxYearPeriod.txYears.length > 1
+          ) {
+            const matchingPeriods: any[] = [];
+            taxYearPeriod.txYears.forEach((ty, index) => {
+              const { from, to } = ty;
+              let customRowFlag = false;
+              const periodKey = `period-${index}`;
+              const fromDate = moment(from, DATE_FORMAT_DD_MM_YYYY).format(
+                DATE_FORMAT_YYYY_MM_DD
+              );
+              const toDate = moment(to, DATE_FORMAT_DD_MM_YYYY).format(
+                DATE_FORMAT_YYYY_MM_DD
+              );
 
-          // if split year
-          if (isMultiYear) {
-            splitRows.push({
-              ...row,
-              date: getDateValue?.date
-                ? moment(getDateValue.date).format(DATE_FORMAT_YYYY_MM_DD)
-                : moment(startDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
+              const formattedStartDateOfWeek = moment(
+                startDateOfWeek,
+                DATE_FORMAT_DD_MM_YYYY
+              ).format(DATE_FORMAT_YYYY_MM_DD);
+              const formattedEndDateOfWeek = moment(
+                endDateOfWeek,
+                DATE_FORMAT_DD_MM_YYYY
+              ).format(DATE_FORMAT_YYYY_MM_DD);
+
+              let splitWeekFlag = false;
+              if (
+                moment(fromDate).isBetween(
+                  formattedStartDateOfWeek,
+                  formattedEndDateOfWeek
+                ) ||
+                moment(toDate).isBetween(
+                  formattedStartDateOfWeek,
+                  formattedEndDateOfWeek
+                )
+              ) {
+                matchingPeriods.push(ty);
+                splitWeekFlag = true;
+              }
+
+              // if split year
+              if (
+                isMultiYear &&
+                moment(formattedEndDateOfWeek).isSameOrAfter(fromDate) &&
+                moment(formattedEndDateOfWeek).isSameOrBefore(toDate)
+              ) {
+                customRowFlag = true;
+              }
+
+              // if period group match
+              if (customRowFlag) {
+                if (!splitRows[periodKey]) {
+                  splitRows[periodKey] = {
+                    rows: [],
+                    from: splitWeekFlag
+                      ? new Date(formattedStartDateOfWeek)
+                      : from,
+                  };
+                }
+                splitRows[periodKey].rows.push({
+                  ...row,
+                  date: getDateValue?.date
+                    ? moment(getDateValue.date).format(DATE_FORMAT_YYYY_MM_DD)
+                    : moment(startDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
+                        DATE_FORMAT_YYYY_MM_DD
+                      ),
+                });
+              }
+            });
+
+            const getDateValue = customRows.find((r) => r.id === row.id);
+            if (matchingPeriods.length > 1) {
+              setCustomRows((prevState) => [
+                ...prevState,
+                {
+                  ...row,
+                  date: getDateValue?.date
+                    ? moment(getDateValue.date).format(DATE_FORMAT_YYYY_MM_DD)
+                    : moment(startDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
+                        DATE_FORMAT_YYYY_MM_DD
+                      ),
+                  minDate: moment(
+                    startDateOfWeek,
+                    DATE_FORMAT_DD_MM_YYYY
+                  ).format(DATE_FORMAT_YYYY_MM_DD),
+                  maxDate: moment(endDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
                     DATE_FORMAT_YYYY_MM_DD
                   ),
-            });
+                },
+              ]);
+            }
           }
-        }
-      });
+        });
 
-      if (isMultiYear) {
-        setCustomSplitRows(splitRows);
+        if (isMultiYear) {
+          setCustomSplitRows(splitRows);
+        }
       }
-    }
-  }, [
-    rows,
-    taxYear,
-    memoizedTaxYearWeeks,
-    memoizedTaxYears,
-    taxYearPeriod,
-    setCustomRows,
-    //customRows,
-  ]);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      rows,
+      taxYear,
+      memoizedTaxYearWeeks,
+      memoizedTaxYears,
+      taxYearPeriod,
+      setCustomRows,
+    ]
+  );
 
   // repeat row button click handler
   const handleClick = useCallback(
@@ -260,7 +295,6 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
 
       if (!rowToDuplicate.number) return false;
 
-      //let initialPeriodNumber = rowToDuplicate.number;
       let repeatTimes = repeatQty > 0 ? repeatQty : 1;
       const currentTotalRows = rows.length + repeatQty;
       const remAllowedRows = getAllowedRows(currentTotalRows);
@@ -361,16 +395,35 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
         });
         setCustomRows(updatedRows);
 
-        const updatedSplitRows = customSplitRows.map((s) => {
-          if (s.id === row.id) {
-            const updatedSplitRow = { ...s, date: value };
-            return updatedSplitRow;
+        const getCurrentRow = Object.values(customSplitRows)
+          .flatMap((obj) => obj.rows)
+          .find((oRow) => oRow.id === row.id);
+
+        // Update the date value
+        if (getCurrentRow) {
+          getCurrentRow.date = value;
+        }
+
+        // Get the parent key of the updated value
+        let parentKey;
+        Object.entries(customSplitRows).forEach(([key, value]) => {
+          const updatedRow = value.rows.find((uRow) => uRow.id === row.id);
+          if (updatedRow) {
+            parentKey = key;
+            return true;
           }
-          return s;
         });
-        setCustomSplitRows(updatedSplitRows);
+
+        // Update the from value
+        if (parentKey) {
+          // @ts-ignore
+          customSplitRows[parentKey].from = new Date(value);
+        }
+
+        setCustomSplitRows(customSplitRows);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [customRows, errors, setCustomRows, setErrors]
   );
 

@@ -49,8 +49,8 @@ const Class1Page = () => {
     result,
     setResult,
     setActiveRowId,
-      isMultiYear,
-      customSplitRows
+    isMultiYear,
+    customSplitRows,
   } = useContext(ClassOneContext);
   const { successNotificationsOn } = useContext(SuccessNotificationContext);
   const titleWithPrefix = hasKeys(errors) ? "Error: " + pageTitle : pageTitle;
@@ -76,9 +76,116 @@ const Class1Page = () => {
 
   const submitForm = (showSummaryIfValid: boolean) => {
     setErrors({});
+
+    if (isMultiYear) {
+      let getResults: any[] = [];
+      Object.keys(customSplitRows).forEach((key: any) => {
+        let getData = customSplitRows[key];
+
+        let getRowResult = calculateRows({
+          rows: getData.rows,
+          niPaidNet,
+          niPaidEmployee,
+          customRows,
+          from: getData.from,
+        });
+        getResults.push(getRowResult);
+      });
+
+      if (getResults.length === 0 || !getResults[0]) return;
+
+      // combine results
+      if (getResults.length > 1) {
+        const finalResult = getResults.reduce((acc, obj) => {
+          obj.bandTotals.resultBands.forEach((value: any, key: any) => {
+            const getExisting = acc.bandTotals.resultBands.get(key);
+
+            getExisting.gross += value.gross;
+            getExisting.employee += value.employee;
+            getExisting.employer += value.employer;
+            getExisting.net += value.net;
+          });
+
+          obj.bandTotals.resultContributionBands.forEach(
+            (value: any, key: any) => {
+              const getExisting =
+                acc.bandTotals.resultContributionBands.get(key);
+
+              getExisting.gross += value.gross;
+              getExisting.employee += value.employee;
+              getExisting.employer += value.employer;
+              getExisting.net += value.net;
+            }
+          );
+
+          obj.categoryTotals.forEach((value: any, key: any) => {
+            const getExisting = acc.categoryTotals.get(key);
+
+            getExisting.gross += value.gross;
+            getExisting.employee += value.employee;
+            getExisting.employer += value.employer;
+            getExisting.net += value.net;
+            getExisting.resultBands = acc.bandTotals.resultBands;
+            getExisting.resultContributionBands = acc.bandTotals.resultBands;
+          });
+
+          return {
+            ...acc,
+            resultRows: acc.resultRows.concat(obj.resultRows),
+            employerContributions:
+              acc.employerContributions + obj.employerContributions,
+            underpayment: {
+              employee: acc.underpayment.employee + obj.underpayment.employee,
+              employer: acc.underpayment.employer + obj.underpayment.employer,
+              total: acc.underpayment.total + obj.underpayment.total,
+            },
+            overpayment: {
+              employee: acc.overpayment.employee + obj.overpayment.employee,
+              employer: acc.overpayment.employer + obj.overpayment.employer,
+              total: acc.overpayment.total + obj.overpayment.total,
+            },
+            totals: {
+              employee: acc.totals.employee + obj.totals.employee,
+              employer: acc.totals.employer + obj.totals.employer,
+              net: acc.totals.net + obj.totals.net,
+              gross: acc.totals.gross + obj.totals.gross,
+            },
+          };
+        });
+        setResult(finalResult);
+      } else {
+        setResult(getResults[0]);
+      }
+
+      if (showSummaryIfValid) {
+        setShowSummary(true);
+      }
+    } else {
+      const getResult =
+        taxYear &&
+        calculateRows({
+          rows,
+          niPaidNet,
+          niPaidEmployee,
+          customRows,
+          from: taxYear.from,
+        });
+
+      if (getResult) {
+        taxYear && setResult(getResult);
+
+        if (showSummaryIfValid) {
+          setShowSummary(true);
+        }
+      }
+    }
+  };
+
+  const calculateRows = (props: any) => {
+    const { rows, niPaidNet, niPaidEmployee, customRows, from } = props;
+
     const payload = {
-      //rows: rows,
-      rows: isMultiYear ? customSplitRows : rows,
+      rows: rows,
       niPaidNet: niPaidNet,
       niPaidEmployee: niPaidEmployee,
       customRows: customRows,
@@ -98,23 +205,16 @@ const Class1Page = () => {
 
       const netNi = stripCommas(payload.niPaidNet) || "0";
       const employeeNi = stripCommas(payload.niPaidEmployee) || "0";
-        console.log("submitForm payload", payload);
-        console.log('taxyYear', taxYear)
-        console.log('requestRows', requestRows)
-        console.log('niPaidNet', netNi)
-        console.log('employeeNi', employeeNi)
-      taxYear &&
-        setResult(
-          ClassOneCalculator.calculate(
-            taxYear.from,
-            requestRows,
-            netNi,
-            employeeNi
-          )
-        );
-      if (showSummaryIfValid) {
-        setShowSummary(true);
-      }
+
+      const result = ClassOneCalculator.calculate(
+        from,
+        requestRows,
+        netNi,
+        employeeNi
+      );
+      return result;
+    } else {
+      return "";
     }
   };
 

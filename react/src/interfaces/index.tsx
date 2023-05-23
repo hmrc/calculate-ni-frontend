@@ -85,6 +85,15 @@ export interface TaxYearPeriodType {
   txYears: TaxYear[];
 }
 
+export interface CustomSplitRow {
+    from : string;
+    rows: CustomRow[];
+}
+
+export interface CustomSplitRows {
+    [key: string]: CustomSplitRow;
+}
+
 export interface Class1PaymentSectionProps {
   memoizedTaxYears: { display: TaxYear[]; grouped: TaxYearPeriodType[] };
   resetTotals: () => void;
