@@ -198,6 +198,10 @@ const mockValue: any = {
   getAllowedRows: jest.fn(),
   customRows: [],
   setCustomRows: jest.fn(),
+  isMultiYear: true,
+  setIsMultiYear: jest.fn(),
+  CustomSplitRows: {},
+  setCustomSplitRows: jest.fn(),
 };
 
 const mockNotiValue: any = {

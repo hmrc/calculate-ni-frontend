@@ -79,18 +79,20 @@ const Class1Page = () => {
 
     if (isMultiYear) {
       let getResults: any[] = [];
-      Object.keys(customSplitRows).forEach((key: any) => {
-        let getData = customSplitRows[key];
+      customSplitRows &&
+        Object.keys(customSplitRows).length > 0 &&
+        Object.keys(customSplitRows).forEach((key: any) => {
+          let getData = customSplitRows[key];
 
-        let getRowResult = calculateRows({
-          rows: getData.rows,
-          niPaidNet,
-          niPaidEmployee,
-          customRows,
-          from: getData.from,
+          let getRowResult = calculateRows({
+            rows: getData.rows,
+            niPaidNet,
+            niPaidEmployee,
+            customRows,
+            from: getData.from,
+          });
+          getResults.push(getRowResult);
         });
-        getResults.push(getRowResult);
-      });
 
       if (getResults.length === 0 || !getResults[0]) return;
 
