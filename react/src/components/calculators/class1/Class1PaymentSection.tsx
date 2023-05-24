@@ -179,6 +179,8 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
             taxYearPeriod.txYears.length > 1
           ) {
             const matchingPeriods: any[] = [];
+            const getDateValue = customRows.find((r) => r.id === row.id);
+
             taxYearPeriod.txYears.forEach((ty, index) => {
               const { from, to } = ty;
               let customRowFlag = false;
@@ -226,11 +228,19 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
               // if period group match
               if (customRowFlag) {
                 if (!splitRows[periodKey]) {
+                    let splitRowFromDate = from;
+                    if(splitWeekFlag) {
+                        if(getDateValue?.date) {
+                            splitRowFromDate = new Date(getDateValue.date)
+                        }
+                        else {
+                            splitRowFromDate = new Date(formattedStartDateOfWeek)
+                        }
+                    }
+
                   splitRows[periodKey] = {
                     rows: [],
-                    from: splitWeekFlag
-                      ? new Date(formattedStartDateOfWeek)
-                      : from,
+                    from: splitRowFromDate,
                   };
                 }
                 splitRows[periodKey].rows.push({
@@ -244,7 +254,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
               }
             });
 
-            const getDateValue = customRows.find((r) => r.id === row.id);
+            // if period is between start and end date of tax year range
             if (matchingPeriods.length > 1) {
               setCustomRows((prevState) => [
                 ...prevState,

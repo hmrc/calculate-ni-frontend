@@ -79,18 +79,19 @@ const Class1Page = () => {
 
     if (isMultiYear) {
       let getResults: any[] = [];
-      Object.keys(customSplitRows).forEach((key: any) => {
-        let getData = customSplitRows[key];
-
-        let getRowResult = calculateRows({
-          rows: getData.rows,
-          niPaidNet,
-          niPaidEmployee,
-          customRows,
-          from: getData.from,
+      customSplitRows &&
+        Object.keys(customSplitRows).length > 0 &&
+        Object.keys(customSplitRows).forEach((key: any) => {
+          let getData = customSplitRows[key];
+          let getRowResult = calculateRows({
+            rows: getData.rows,
+            niPaidNet,
+            niPaidEmployee,
+            customRows,
+            from: getData.from,
+          });
+          getResults.push(getRowResult);
         });
-        getResults.push(getRowResult);
-      });
 
       if (getResults.length === 0 || !getResults[0]) return;
 
@@ -99,34 +100,43 @@ const Class1Page = () => {
         const finalResult = getResults.reduce((acc, obj) => {
           obj.bandTotals.resultBands.forEach((value: any, key: any) => {
             const getExisting = acc.bandTotals.resultBands.get(key);
-
-            getExisting.gross += value.gross;
-            getExisting.employee += value.employee;
-            getExisting.employer += value.employer;
-            getExisting.net += value.net;
+            if (!getExisting) {
+              acc.bandTotals.resultBands.set(key, value);
+            } else {
+              getExisting.gross += value.gross;
+              getExisting.employee += value.employee;
+              getExisting.employer += value.employer;
+              getExisting.net += value.net;
+            }
           });
 
           obj.bandTotals.resultContributionBands.forEach(
             (value: any, key: any) => {
               const getExisting =
                 acc.bandTotals.resultContributionBands.get(key);
-
-              getExisting.gross += value.gross;
-              getExisting.employee += value.employee;
-              getExisting.employer += value.employer;
-              getExisting.net += value.net;
+              if (!getExisting) {
+                acc.bandTotals.resultContributionBands.set(key, value);
+              } else {
+                getExisting.gross += value.gross;
+                getExisting.employee += value.employee;
+                getExisting.employer += value.employer;
+                getExisting.net += value.net;
+              }
             }
           );
 
           obj.categoryTotals.forEach((value: any, key: any) => {
             const getExisting = acc.categoryTotals.get(key);
-
-            getExisting.gross += value.gross;
-            getExisting.employee += value.employee;
-            getExisting.employer += value.employer;
-            getExisting.net += value.net;
-            getExisting.resultBands = acc.bandTotals.resultBands;
-            getExisting.resultContributionBands = acc.bandTotals.resultBands;
+            if (!getExisting) {
+              acc.categoryTotals.set(key, value);
+            } else {
+              getExisting.gross += value.gross;
+              getExisting.employee += value.employee;
+              getExisting.employer += value.employer;
+              getExisting.net += value.net;
+              getExisting.resultBands = acc.bandTotals.resultBands;
+              getExisting.resultContributionBands = acc.bandTotals.resultBands;
+            }
           });
 
           return {
@@ -152,6 +162,7 @@ const Class1Page = () => {
             },
           };
         });
+
         setResult(finalResult);
       } else {
         setResult(getResults[0]);
