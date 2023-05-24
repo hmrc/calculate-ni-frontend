@@ -172,11 +172,8 @@ export default function Class1TableRow(props: TableRowProps) {
   };
 
   const handlePaste = (e: React.ClipboardEvent, r: Row) => {
-<<<<<<< HEAD
     e.preventDefault();
 
-=======
->>>>>>> fixed coverage
     const clipboardData = e.clipboardData;
     const pastedText =
       clipboardData.getData("Text") || clipboardData.getData("text/plain");
