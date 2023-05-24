@@ -83,33 +83,39 @@ const validateNiPaid = (
       name: "Net NI paid",
       message: "NI paid net contributions must be entered",
     };
-  } else if (net !== "" && net !== "") {
-    if (isNaN(+net)) {
-      errors.niPaidNet = {
-        link: "niPaidNet",
-        name: "Net NI paid",
-        message: "NI paid net contributions must be an amount of money",
-      };
-    } else if (!isNaN(+employee) && parseFloat(net) < parseFloat(employee)) {
-      errors.niPaidNet = {
-        link: "niPaidNet",
-        name: "Net NI paid",
-        message:
-          "NI paid net contributions cannot be less than employee contributions",
-      };
-    } else if (isNaN(+employee)) {
-      errors.niPaidEmployee = {
-        link: "niPaidNet",
-        name: "Net NI paid",
-        message: "NI paid employee contributions must be an amount of money",
-      };
-    }
   } else if (employee === "" && net !== "") {
     errors.niPaidEmployee = {
       link: "niPaidEmployee",
       name: "Net NI paid by employee",
       message: "NI paid employee contributions must be entered",
     };
+  } else if (net !== "" && employee !== "") {
+    if (isNaN(+net)) {
+      errors.niPaidNet = {
+        link: "niPaidNet",
+        name: "Net NI paid",
+        message: "NI paid net contributions must be an amount of money",
+      };
+    }
+    if (isNaN(+employee)) {
+      errors.niPaidEmployee = {
+        link: "niPaidNet",
+        name: "Net NI paid",
+        message: "NI paid employee contributions must be an amount of money",
+      };
+    }
+    if (
+      !isNaN(+net) &&
+      !isNaN(+employee) &&
+      parseFloat(net) < parseFloat(employee)
+    ) {
+      errors.niPaidNet = {
+        link: "niPaidNet",
+        name: "Net NI paid",
+        message:
+          "NI paid net contributions cannot be less than employee contributions",
+      };
+    }
   }
 };
 
@@ -381,6 +387,41 @@ const validateClass1CustomRows = (
           ? `NI paid date for row ${index + 1} must be entered`
           : `NI paid date must be entered`,
       };
+    } else {
+      // date validations
+      const dateParts = cRow.date.split("-");
+      let getYear: string | number = dateParts[0];
+      let errorFlag = false;
+
+      if (!getYear || !dateParts[1] || !dateParts[2]) {
+        errorFlag = true;
+      } else {
+        getYear = Number(dateParts[0]);
+
+        // compare entered date with today's date
+        const todayDate = moment().format("YYYY-MM-DD");
+        const enteredDate = moment(cRow.date).format("YYYY-MM-DD");
+
+        // check if year is valid and if future date
+        if (
+          isNaN(getYear) ||
+          getYear.toString().length !== 4 ||
+          getYear < 1975 ||
+          todayDate.localeCompare(enteredDate) < 0
+        ) {
+          errorFlag = true;
+        }
+      }
+
+      if (errorFlag) {
+        errors[`${cRow.id}-date`] = {
+          name: `NI paid date`,
+          link: `${cRow.id}-date`,
+          message: manyRows
+            ? `NI paid date for row ${index + 1} must be a valid date`
+            : `NI paid date must be a valid date`,
+        };
+      }
     }
   });
 };

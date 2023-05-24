@@ -75,10 +75,23 @@ export interface TaxYear {
   to: Date;
 }
 
-export type CustomRow = Row & { date: string };
+export type CustomRow = Row & {
+  date: string;
+  minDate?: string;
+  maxDate?: string;
+};
 export interface TaxYearPeriodType {
   from: string;
   txYears: TaxYear[];
+}
+
+export interface CustomSplitRow {
+    from : string;
+    rows: CustomRow[];
+}
+
+export interface CustomSplitRows {
+    [key: string]: CustomSplitRow;
 }
 
 export interface Class1PaymentSectionProps {
@@ -185,6 +198,8 @@ export interface TextInputProps {
   error?: any; // todo
   onPaste?: React.ClipboardEventHandler<HTMLInputElement>;
   inputType?: string;
+  min?: string;
+  max?: string;
 }
 
 export interface DateParts {

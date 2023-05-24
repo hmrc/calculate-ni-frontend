@@ -23,8 +23,9 @@ function Class1Form(props: Class1FormProps) {
     taxYear,
     setTaxYear,
     setResult,
+    isMultiYear,
+    setIsMultiYear,
   } = useContext(ClassOneContext);
-  const [isMultiYear, setIsMultiYear] = useState<boolean>(false);
   const [taxYearPeriod, setTaxYearPeriod] = useState<TaxYearPeriodType | undefined>({ from: "", txYears: []});
 
   const memoizedTaxYears = useMemo(() => {
@@ -84,7 +85,7 @@ function Class1Form(props: Class1FormProps) {
         setIsMultiYear(false);
       }
     }
-  }, [taxYear, memoizedTaxYears]);
+  }, [taxYear, memoizedTaxYears, setIsMultiYear]);
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { display } = memoizedTaxYears;

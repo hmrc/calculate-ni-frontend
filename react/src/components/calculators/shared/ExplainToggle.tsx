@@ -17,7 +17,7 @@ export default function ExplainToggle(props: ExplainToggleProps) {
         className={`govuk-tag ${showExplanation === id ?
           `govuk-tag--blue` : `govuk-tag--grey`}`}
       >
-        <span aria-hidden="true">?</span>
+        <span aria-hidden="true">=</span>
         <span className="govuk-visually-hidden">
           {showExplanation ?
             'Hide the explanation of results in this row' : 'Explain the results in this row'

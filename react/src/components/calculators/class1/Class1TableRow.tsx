@@ -132,7 +132,14 @@ export default function Class1TableRow(props: TableRowProps) {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const enteredValue = parseInt(e.currentTarget.value);
-    const newPeriod = isNaN(enteredValue) ? "" : enteredValue;
+    let newPeriod = isNaN(enteredValue) ? "" : enteredValue;
+
+    // period number validations for max number of weeks allowed period wise
+    const maxRowNumber = getAllowedRows(rows.length, row.period, true);
+    if (newPeriod > maxRowNumber || newPeriod < 1) {
+      newPeriod = '';
+    }
+
     setRows(
       rows.map((cur: Row) =>
         cur.id === r.id ? { ...cur, [e.currentTarget.name]: newPeriod } : cur
@@ -165,6 +172,8 @@ export default function Class1TableRow(props: TableRowProps) {
   };
 
   const handlePaste = (e: React.ClipboardEvent, r: Row) => {
+      e.preventDefault();
+
     const clipboardData = e.clipboardData;
     const pastedText =
       clipboardData.getData("Text") || clipboardData.getData("text/plain");
@@ -174,6 +183,7 @@ export default function Class1TableRow(props: TableRowProps) {
     const cellValues = splitPastedCellsToArray(pastedText);
     const activeRowIndex = rows.findIndex((r: Row) => r.id === row.id);
     const remainingPastedRows = cellValues.map((val) => createPastedRow(val));
+
     setRows([
       ...rows.slice(0, activeRowIndex),
       ...remainingPastedRows,

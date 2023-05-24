@@ -23,7 +23,9 @@ function TextInput(props: TextInputProps) {
     onBlurCallback,
     error,
     onPaste,
-    inputType
+    inputType,
+      min,
+        max
   } = props
   const describedby = buildDescribedByKeys(name,{
     hint,
@@ -61,6 +63,8 @@ function TextInput(props: TextInputProps) {
         onBlur={onBlurCallback}
         aria-describedby={describedby}
         onPaste={onPaste}
+        {...(min ? {min: min} : {})}
+        {...(max ? {max: max} : {})}
       />
     </div>
   )

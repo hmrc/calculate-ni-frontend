@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import {
   CustomRow,
+  CustomSplitRows,
   DetailsProps,
   GenericObject,
   TaxYear,
@@ -60,6 +61,7 @@ export interface Row {
   explain?: Array<string>;
   totalContributions?: number;
   contributionBands?: Array<ContributionBand>;
+  date?: string;
 }
 
 export interface ClassOneRowInterface {
@@ -142,6 +144,8 @@ export interface Class1Result {
 
 interface ClassOneContext {
   ClassOneCalculator: Calculator;
+  isMultiYear: boolean;
+  setIsMultiYear: Dispatch<boolean>;
   taxYears: TaxYear[];
   taxYear: TaxYear | null;
   setTaxYear: Dispatch<TaxYear | null>;
@@ -176,10 +180,14 @@ interface ClassOneContext {
   isRepeatAllow: boolean;
   setIsRepeatAllow: Dispatch<boolean>;
   getAllowedRows: Function;
+  customSplitRows: CustomSplitRows;
+  setCustomSplitRows: Dispatch<SetStateAction<CustomSplitRows>>;
 }
 
 export const ClassOneContext = React.createContext<ClassOneContext>({
   ClassOneCalculator: initClassOneCalculator,
+  isMultiYear: false,
+  setIsMultiYear: () => {},
   taxYears: [],
   taxYear: null,
   setTaxYear: () => {},
@@ -214,11 +222,14 @@ export const ClassOneContext = React.createContext<ClassOneContext>({
   isRepeatAllow: true,
   setIsRepeatAllow: () => "",
   getAllowedRows: () => "",
+  customSplitRows: {},
+  setCustomSplitRows: () => {},
 });
 
 export function useClassOneForm() {
   const { NiFrontendInterface } = useContext(NiFrontendContext);
   const ClassOneCalculator = NiFrontendInterface.classOne;
+  const [isMultiYear, setIsMultiYear] = useState<boolean>(false);
   const [taxYears, setTaxYears] = useState<TaxYear[]>([]);
   const [taxYear, setTaxYear] = useState<TaxYear | null>(null);
   const [niRow, setNiRow] = useState<Row>(initRow);
@@ -226,7 +237,7 @@ export function useClassOneForm() {
     ...initRow,
     number: niRow?.number === initRow.number ? 1 : niRow?.number,
   });
-  // const [defaultRow, setDefaultRow] = useState<Row>({...initRow});
+
   const [categoryNames, setCategoryNames] = useState<GenericObject>({});
   const [categories, setCategories] = useState<Array<string>>([]);
   const [details, setDetails] = React.useReducer(
@@ -241,6 +252,7 @@ export function useClassOneForm() {
   const [activeRowId, setActiveRowId] = useState<string | null>(null);
   const [periodType, setPeriodType] = useState<string>("W");
   const [isRepeatAllow, setIsRepeatAllow] = useState<boolean>(true);
+  const [customSplitRows, setCustomSplitRows] = useState<CustomSplitRows>({});
 
   useEffect(() => {
     if (taxYear && taxYear.from) {
@@ -290,7 +302,7 @@ export function useClassOneForm() {
   const [customRows, setCustomRows] = useState<Array<CustomRow>>([]);
 
   useEffect(() => {
-    if (result && result.resultRows) { console.log('test:', result.resultRows)
+    if (result && result.resultRows) {
       setRows((prevState: Row[]) =>
         prevState.map((row) => {
           const matchingRow: CalculatedRow | undefined = result.resultRows.find(
@@ -336,7 +348,7 @@ export function useClassOneForm() {
       categoryNamesToObject(ClassOneCalculator.getCategoryNames)
     );
   }, [ClassOneCalculator]);
-console.log('taxyear:', rows.length, result)
+
   const setPeriodNumbers = (deletedRow: string | undefined) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (let period in periods) {
@@ -348,6 +360,8 @@ console.log('taxyear:', rows.length, result)
   };
   return {
     ClassOneCalculator,
+    isMultiYear,
+    setIsMultiYear,
     taxYears,
     taxYear,
     setTaxYear,
@@ -382,5 +396,7 @@ console.log('taxyear:', rows.length, result)
     isRepeatAllow,
     setIsRepeatAllow,
     getAllowedRows,
+    customSplitRows,
+    setCustomSplitRows,
   };
 }

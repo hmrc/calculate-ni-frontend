@@ -2,7 +2,6 @@ import React, {useContext, useState} from 'react'
 import {ClassOneContext, Row} from "./ClassOneContext";
 import {TableProps} from '../../../interfaces'
 import Class1TableRow from "./Class1TableRow";
-import SortToggle from "../../../assets/select-dropdown-arrows.svg"
 import ExplainRow from "../shared/ExplainRow";
 import {getBandNames, getContributionBandNames} from "../../../services/utils";
 
@@ -15,22 +14,8 @@ export default function Class1Table(props: Class1TableProps) {
   const [showExplanation, setShowExplanation] = useState<string>('')
   const {
     rows,
-    setRows,
-    setErrors,
     result
   } = useContext(ClassOneContext)
-
-  const [periodSortDirection, setPeriodSortDirection] = useState<'ascending' | 'descending' | 'none' | undefined>('none')
-
-  const handleSortPeriod = (e: React.MouseEvent) => {
-    e.preventDefault()
-    setErrors({})
-    setRows(rows
-      .slice()
-      .sort((a: Row, b: Row) =>
-        (a.period < b.period ? 1 : (a.period > b.period) ? -1 : 0)))
-    setPeriodSortDirection('descending')
-  }
 
   const bandNames = getBandNames(rows)
   const contributionNames = getContributionBandNames(rows)
@@ -56,14 +41,9 @@ export default function Class1Table(props: Class1TableProps) {
           <th scope="col">
             <strong>Row</strong>
           </th>
-          <th scope="col" className="column-toggle select-period" aria-sort={periodSortDirection} data-testid="sort-period" onClick={handleSortPeriod}>
+          <th scope="col" className="select-period">
             <strong>
               {printView ? 'Period': 'Select period'}
-              {!printView &&
-                <abbr title="Sort periods">
-                  <img src={SortToggle} alt="Sort by period" />
-                </abbr>
-              }
             </strong>
           </th>
           <th scope="col" className="notes"><strong>Period No.</strong></th>
