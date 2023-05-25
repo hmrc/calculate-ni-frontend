@@ -1,151 +1,124 @@
-import React, {useContext, useState} from 'react';
-import uniqid from 'uniqid';
+import React, { useContext, useEffect, useState, useMemo } from "react";
+import _ from "lodash";
 
-import numeral from 'numeral'
-import 'numeral/locales/en-gb';
+import numeral from "numeral";
+import "numeral/locales/en-gb";
 
-import Class1Table from './Class1Table'
-import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
 
 // types
-import { Class1FormProps } from '../../../interfaces';
-import {ClassOneContext, Row} from "./ClassOneContext";
+import { Class1FormProps, TaxYearPeriodType } from "../../../interfaces";
+import { ClassOneContext } from "./ClassOneContext";
 import NiPaidInputs from "../shared/NiPaidInputs";
+import moment from "moment";
+import Class1PaymentSection from "./Class1PaymentSection";
+import Class1NIInfoSection from "./Class1NIInfoSection";
 
-numeral.locale('en-gb');
+numeral.locale("en-gb");
 
 function Class1Form(props: Class1FormProps) {
-  const { resetTotals } = props
+  const { resetTotals } = props;
   const {
     taxYears,
     taxYear,
     setTaxYear,
-    rows,
-    setRows,
-    setActiveRowId,
-    activeRowId,
-    setErrors,
-    setPeriodNumbers,
-    setResult
-  } = useContext(ClassOneContext)
-  const [repeatQty, setRepeatQty] = useState<number>(1)
+    setResult,
+    isMultiYear,
+    setIsMultiYear,
+  } = useContext(ClassOneContext);
+  const [taxYearPeriod, setTaxYearPeriod] = useState<TaxYearPeriodType | undefined>({ from: "", txYears: []});
+
+  const memoizedTaxYears = useMemo(() => {
+    if (taxYears && taxYears.length > 0) {
+      const grouped = _.chain(taxYears)
+        .groupBy((ty) => {
+          return moment(ty.from).year();
+        })
+        .map((txYears, from) => ({ from, txYears }))
+        .orderBy((group) => moment(group.from).year(), ["desc"])
+        .value();
+
+      const display = grouped.map((ty) => {
+        if (ty.txYears.length > 1) {
+          //Get the earliest start date and the latest end date
+          const earliestStartDate = moment.min(
+            ty.txYears.map((tx) => moment(tx.from))
+          );
+          const latestEndDate = moment.max(
+            ty.txYears.map((tx) => moment(tx.to))
+          );
+          const dateFormat = "YYYY-MM-DD";
+          return {
+            id: `[${moment(earliestStartDate).format(dateFormat)}, ${moment(
+              latestEndDate
+            ).format(dateFormat)}]`,
+            from: earliestStartDate.toDate(),
+            to: latestEndDate.toDate(),
+          };
+        } else {
+          return ty.txYears[0];
+        }
+      });
+
+      //set default tax year
+      if (display.length > 0) {
+        setTaxYear(display[0]);
+      } else {
+        setTaxYear(taxYears[0]);
+      }
+
+      return { display, grouped };
+    }
+    return { grouped: [], display: [] };
+  }, [taxYears, setTaxYear]);
+
+  useEffect(() => {
+    if (taxYear && memoizedTaxYears) {
+      const taxYearStart = moment(taxYear.from).year();
+      const { grouped } = memoizedTaxYears;
+      const taxYearPeriods = grouped.find((row) => {
+        return row.from === taxYearStart.toString();
+      });
+      setTaxYearPeriod(taxYearPeriods);
+
+      if (taxYearPeriods && taxYearPeriods?.txYears?.length > 1) {
+        setIsMultiYear(true);
+      } else {
+        setIsMultiYear(false);
+      }
+    }
+  }, [taxYear, memoizedTaxYears, setIsMultiYear]);
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTaxYear(taxYears.find(ty => ty.id === e.target.value) || taxYears[0])
-    setResult(null)
-  }
-
-  const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    resetTotals()
-    setRepeatQty(1)
-  }
-
-  const getRowByActiveId = () => {
-    return rows.filter(r => (r.id === activeRowId))[0]
-  }
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setResult(null)
-    const repeatTimes = repeatQty > 0 ? repeatQty : 1
-    let arrayItemsToAdd = Array.from(Array(repeatTimes).keys())
-    const newRows = arrayItemsToAdd.map(r => {
-      const rowToDuplicate: Row = activeRowId ? getRowByActiveId() : rows[rows.length - 1]
-      const periodNumber = rows.filter(row => row.period === rowToDuplicate.period).length + 1
-      const id = uniqid()
-      return {
-        id: id,
-        category: rowToDuplicate.category,
-        period: rowToDuplicate.period,
-        gross: rowToDuplicate.gross,
-        number: periodNumber,
-        ee: 0,
-        er: 0
-      }
-    })
-    setRows([...rows, ...newRows])
-    setActiveRowId(newRows[newRows.length - 1].id)
-  }
-
-  const handleDeleteRow = (e: React.MouseEvent) => {
-    e.preventDefault()
-    if(activeRowId) {
-      setPeriodNumbers(activeRowId)
-      setErrors({})
-      setResult(null)
-      setActiveRowId(null)
-    }
-  }
+    const { display } = memoizedTaxYears;
+    const selectedTaxYear =
+      display.find((ty) => ty.id === e.target.value) || display[0];
+    setTaxYear(selectedTaxYear);
+    setResult(null);
+  };
 
   return (
-    <>
-      <div className="form-group table-wrapper">
+    <div className="table-wrapper">
         <div className="container">
           <div className="form-group half">
             <SelectTaxYear
-              taxYears={taxYears}
+              taxYears={memoizedTaxYears.display}
               taxYear={taxYear}
               handleTaxYearChange={handleTaxYearChange}
             />
           </div>
         </div>
 
+        {isMultiYear && <Class1NIInfoSection taxYear={taxYear} />}
+
         <NiPaidInputs context={ClassOneContext} />
 
-        <Class1Table
-          showBands={false}
-          printView={false}
-        />
-
-        <div className="container stack-right">
-
-          <div className="container">
-            <div className="form-group repeat-button">
-              <SecondaryButton
-                label="Delete active row"
-                onClick={handleDeleteRow}
-                disabled={!activeRowId || rows.length === 1}
-              />
-            </div>
-
-            <div className="form-group repeat-button repeat-row">
-              <SecondaryButton
-                label="Repeat row"
-                onClick={handleClick}
-              />
-              {` x `}
-              <label htmlFor="repeatQty" className="govuk-visually-hidden">Repeat quantity</label>
-              <input
-                className="govuk-input govuk-input--width-2 borderless"
-                type="number"
-                name="repeatQty"
-                id="repeatQty"
-                value={repeatQty}
-                onChange={(e) => {
-                  setRepeatQty(parseInt(e.currentTarget.value))
-                }}
-              />
-            </div>
-
-            <div className="form-group">
-              <SecondaryButton
-                label="Clear table"
-                onClick={handleClear}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="form-group">
-          <button className="govuk-button nomar" type="submit">
-            Calculate
-          </button>
-        </div>
-      </div>
-    </>
-
-  )
+        <Class1PaymentSection
+            memoizedTaxYears={memoizedTaxYears}
+            resetTotals={resetTotals}
+            taxYearPeriod={taxYearPeriod} />
+    </div>
+  );
 }
 
 export default Class1Form;

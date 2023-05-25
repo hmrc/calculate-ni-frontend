@@ -2,31 +2,20 @@ import React, {useContext, useState} from 'react'
 import {ClassOneContext, Row} from "./ClassOneContext";
 import {TableProps} from '../../../interfaces'
 import Class1TableRow from "./Class1TableRow";
-import SortToggle from "../../../assets/select-dropdown-arrows.svg"
 import ExplainRow from "../shared/ExplainRow";
 import {getBandNames, getContributionBandNames} from "../../../services/utils";
 
-export default function Class1Table(props: TableProps) {
-  const { showBands, printView } = props
+interface Class1TableProps extends TableProps {
+    repeatQty: number
+}
+
+export default function Class1Table(props: Class1TableProps) {
+  const { showBands, printView, repeatQty } = props
   const [showExplanation, setShowExplanation] = useState<string>('')
   const {
     rows,
-    setRows,
-    setErrors,
     result
   } = useContext(ClassOneContext)
-
-  const [periodSortDirection, setPeriodSortDirection] = useState<'ascending' | 'descending' | 'none' | undefined>('none')
-
-  const handleSortPeriod = (e: React.MouseEvent) => {
-    e.preventDefault()
-    setErrors({})
-    setRows(rows
-      .slice()
-      .sort((a: Row, b: Row) =>
-        (a.period < b.period ? 1 : (a.period > b.period) ? -1 : 0)))
-    setPeriodSortDirection('descending')
-  }
 
   const bandNames = getBandNames(rows)
   const contributionNames = getContributionBandNames(rows)
@@ -50,16 +39,11 @@ export default function Class1Table(props: TableProps) {
         </tr>
         <tr>
           <th scope="col">
-            #<span className="govuk-visually-hidden"> Row number</span>
+            <strong>Row</strong>
           </th>
-          <th scope="col" className="column-toggle select-period" aria-sort={periodSortDirection} onClick={handleSortPeriod}>
+          <th scope="col" className="select-period">
             <strong>
               {printView ? 'Period': 'Select period'}
-              {!printView &&
-                <abbr title="Sort periods">
-                  <img src={SortToggle} alt="Sort by period" />
-                </abbr>
-              }
             </strong>
           </th>
           <th scope="col" className="notes"><strong>Period No.</strong></th>
@@ -72,8 +56,8 @@ export default function Class1Table(props: TableProps) {
           {printView &&
             <th scope="col"><strong>Total</strong></th>
           }
-          <th scope="col"><strong><abbr title="Employee">EE</abbr></strong></th>
-          <th scope="col"><strong><abbr title="Employer">ER</abbr></strong></th>
+          <th scope="col"><strong>Employee</strong></th>
+          <th scope="col"><strong>Employer</strong></th>
           {!printView && result && <th scope="col"><span className="govuk-visually-hidden">Explain results</span></th>}
 
           {printView && contributionNames && contributionNames.map((cB: string) => (<th scope="col" key={cB}>{cB}</th>))}
@@ -92,6 +76,7 @@ export default function Class1Table(props: TableProps) {
               showExplanation={showExplanation}
               contributionNames={contributionNames}
               bandNames={bandNames}
+              repeatQty={repeatQty}
             />
             {!printView && result && showExplanation === r.id &&
               <tr aria-live="polite" className="explanation-row">

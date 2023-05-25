@@ -22,7 +22,10 @@ function TextInput(props: TextInputProps) {
     inputMode,
     onBlurCallback,
     error,
-    onPaste
+    onPaste,
+    inputType,
+      min,
+        max
   } = props
   const describedby = buildDescribedByKeys(name,{
     hint,
@@ -50,7 +53,7 @@ function TextInput(props: TextInputProps) {
       <input
         className={`${inputClassName}${error ? ` govuk-input--error`: ``}`}
         name={name}
-        type="text"
+        type={inputType || "text"}
         id={name}
         value={inputValue}
         onChange={onChangeCallback}
@@ -60,6 +63,8 @@ function TextInput(props: TextInputProps) {
         onBlur={onBlurCallback}
         aria-describedby={describedby}
         onPaste={onPaste}
+        {...(min ? {min: min} : {})}
+        {...(max ? {max: max} : {})}
       />
     </div>
   )

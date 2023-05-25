@@ -39,6 +39,7 @@ function Class1Print(props: Class1DirectorsSavePrintProps) {
         <Class1Table
           showBands={true}
           printView={true}
+          repeatQty={0}
         />
 
         <h2 className="govuk-heading-m">
