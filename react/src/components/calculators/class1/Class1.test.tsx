@@ -39,8 +39,10 @@ jest.mock("../shared/NiPaidInputs", () => () => (
   <div data-testid="class1-ni-paid-inputs-section">NI Tax section</div>
 ));
 
+const mockValidateClassOnePayload = () => jest.fn();
 jest.mock("../../../validation/validation", () => ({
-  validateClassOnePayload: () => true,
+  // validateClassOnePayload: () => true,
+  validateClassOnePayload: mockValidateClassOnePayload,
   stripCommas: jest.fn(),
 }));
 
@@ -107,28 +109,161 @@ const rows = [
   },
 ];
 
-const mockCat = {
-  gross: 100,
-  employee: 1,
-  employer: 1,
-  net: 10,
-  resultBands: ["band 1", "band 2"],
-  resultContributionBands: ["band 1", "band 2"],
-};
-
 const mockResult = {
-  employerContributions: 0,
-  categoryTotals: ["cat 1", mockCat],
+  categoryTotals: new Map([
+    [
+      "A",
+      {
+        gross: 6000,
+        employee: 492.9,
+        employer: 586.92,
+        net: 1079.82,
+        resultBands: {},
+        resultContributionBands: {},
+      },
+    ],
+  ]),
   resultRows: rows,
   from: "2022-04-06T00:00:00.000Z",
   id: "[2022-04-06, 2022-05-01]",
   to: "2022-05-01T00:00:00.000Z",
+  bandTotals: {
+    resultBands: new Map([
+      [
+        "Up to LEL",
+        {
+          gross: 1476,
+          employee: 0,
+          employer: 0,
+          net: 0,
+        },
+      ],
+      [
+        "LEL to PT",
+        {
+          gross: 804,
+          employee: 0,
+          employer: 0,
+          net: 0,
+        },
+      ],
+      [
+        "PT to UEL",
+        {
+          gross: 3720,
+          employee: 492.9,
+          employer: 0,
+          net: 0,
+        },
+      ],
+    ]),
+    resultContributionBands: new Map([
+      [
+        "Up to LEL",
+        {
+          gross: 1476,
+          employee: 0,
+          employer: 0,
+          net: 0,
+        },
+      ],
+      [
+        "LEL to PT",
+        {
+          gross: 804,
+          employee: 0,
+          employer: 0,
+          net: 0,
+        },
+      ],
+      [
+        "PT to UEL",
+        {
+          gross: 3720,
+          employee: 492.9,
+          employer: 0,
+          net: 0,
+        },
+      ],
+    ]),
+  },
+  employerPaid: 0,
+  totals: {
+    gross: 6000,
+    employee: 492.9,
+    employer: 586.92,
+    net: 1079.82,
+  },
+  underpayment: {
+    employee: 492.9,
+    employer: 586.92,
+    total: 1079.82,
+  },
+  overpayment: {
+    employee: 0,
+    employer: 0,
+    total: 0,
+  },
+  employerContributions: 0,
+};
+
+const mockResultMultiple: any = {
+  ...mockResult,
+  categoryTotals: new Map([
+    [
+      "A",
+      {
+        gross: 6000,
+        employee: 492.9,
+        employer: 586.92,
+        net: 1079.82,
+        resultBands: {},
+        resultContributionBands: {},
+      },
+    ],
+    [
+      "V",
+      {
+        gross: 6000,
+        employee: 492.9,
+        employer: 586.92,
+        net: 1079.82,
+        resultBands: {},
+        resultContributionBands: {},
+      },
+    ],
+  ]),
+  bandTotals: {
+    resultBands: new Map([
+      [
+        "Up to LEL 22",
+        {
+          gross: 1476,
+          employee: 0,
+          employer: 0,
+          net: 0,
+        },
+      ],
+    ]),
+    resultContributionBands: new Map([
+      [
+        "Up to LEL 22",
+        {
+          gross: 1476,
+          employee: 0,
+          employer: 0,
+          net: 0,
+        },
+      ],
+    ]),
+  },
 };
 
 const mockNiFrontendContext: any = {
   NiFrontendInterface: {
     classOne: {
-      calculate: () => mockResult,
+      //calculate: () => mockResult,
+      calculate: () => jest.fn(),
       getApplicableCategories: () => new Date("2022-04-06").toDateString(),
       getTaxYears: ["2022-04-06", "2023-04-05"],
       getCategoryNames: [
@@ -145,6 +280,71 @@ const mockDetails: any = {
   reference: "ref",
   preparedBy: "prepared by",
   date: "2022-04-06",
+};
+
+const mockCustomSplitRows: any = {
+  "period-2": {
+    rows: [
+      {
+        id: "1",
+        category: "A",
+        gross: "1000",
+        ee: 0,
+        er: 0,
+        number: 1,
+        period: "2W",
+        date: "2022-04-06",
+      },
+    ],
+    from: new Date("2022-04-06"),
+  },
+};
+const mockCustomSplitRowsMulti: any = {
+  "period-0": {
+    rows: [
+      {
+        id: "1",
+        category: "A",
+        gross: "1000",
+        ee: 0,
+        er: 0,
+        number: 1,
+        period: "2W",
+        date: "2022-04-06",
+      },
+    ],
+    from: new Date("2022-04-06"),
+  },
+  "period-1": {
+    rows: [
+      {
+        id: "2",
+        category: "A",
+        gross: "1000",
+        ee: 0,
+        er: 0,
+        number: 2,
+        period: "2W",
+        date: "2022-07-06",
+      },
+    ],
+    from: new Date("2022-07-06"),
+  },
+  "period-2": {
+    rows: [
+      {
+        id: "3",
+        category: "A",
+        gross: "1000",
+        ee: 0,
+        er: 0,
+        number: 3,
+        period: "2W",
+        date: "2022-11-06",
+      },
+    ],
+    from: new Date("2022-11-06"),
+  },
 };
 
 const mockValue: any = {
@@ -167,7 +367,8 @@ const mockValue: any = {
       to: new Date("2023-04-05T00:00:00.000Z"),
     },
   ],
-  result: mockResult,
+  //result: mockResult,
+  result: [],
   setResult: jest.fn(),
   rows,
   setRows: jest.fn(),
@@ -200,7 +401,7 @@ const mockValue: any = {
   setCustomRows: jest.fn(),
   isMultiYear: true,
   setIsMultiYear: jest.fn(),
-  CustomSplitRows: {},
+  customSplitRows: mockCustomSplitRows,
   setCustomSplitRows: jest.fn(),
 };
 
@@ -234,20 +435,34 @@ const mockUseHasKeys = hasKeys as jest.MockedFunction<typeof hasKeys>;
 
 const setState = jest.fn();
 
+const doCalculate = () => {
+  const { container } = render(<Class1 />);
+
+  const button = container.querySelector(
+    "button[type='submit']"
+  ) as HTMLButtonElement;
+  fireEvent.click(button);
+};
+
 describe("Class1", () => {
-  describe("when have to show summary", () => {
-    beforeEach(() => {
+  beforeEach(() => {
+    jest.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe("when form in print mode", () => {
+    it("renders section", () => {
       jest.spyOn(React, "useState").mockImplementation(() => [true, setState]);
       mockUseHasKeys.mockReturnValue(true);
       render(<Class1 />);
-    });
-
-    it("renders section", () => {
       expect(screen.queryByTestId("result-announcement")).not.toBeNull();
     });
   });
 
-  describe("when don't have to show summary", () => {
+  describe("when form in submit mode", () => {
     beforeEach(() => {
       jest.spyOn(React, "useState").mockImplementation(() => [false, setState]);
       mockUseHasKeys.mockReturnValue(true);
@@ -262,12 +477,85 @@ describe("Class1", () => {
       expect(screen.queryByTestId("class-one-form")).not.toBeNull();
     });
 
-    it("should submit form on clicking calculate button", async () => {
-      const button = screen.getByRole("button", { name: "Calculate" });
-      fireEvent.click(button);
+    describe("when split year with 3 periods", () => {
+      beforeEach(() => {
+        mockValue.isMultiYear = true;
+      });
 
-      expect(mockValue.setActiveRowId).toHaveBeenCalled();
-      expect(mockValue.setResult).toHaveBeenCalledWith(mockResult);
+      it("should submit form on clicking calculate button and should not set result when result is empty", async () => {
+        mockValue.customSplitRows = undefined;
+        mockNiFrontendContext.NiFrontendInterface.classOne.calculate = jest
+          .fn()
+          .mockReturnValue([]);
+        mockValue.result = [];
+
+        doCalculate();
+
+        expect(mockValue.setResult).not.toHaveBeenCalled();
+      });
+
+      it("should submit form on clicking calculate button and should set result", async () => {
+        mockValue.customSplitRows = mockCustomSplitRowsMulti;
+        mockNiFrontendContext.NiFrontendInterface.classOne.calculate = jest
+          .fn()
+          .mockReturnValueOnce(mockResult)
+          .mockReturnValueOnce(mockResultMultiple)
+          .mockReturnValue(mockResultMultiple);
+        mockValue.result = mockResult;
+
+        doCalculate();
+
+        expect(mockValue.setActiveRowId).toHaveBeenCalled();
+        expect(mockValue.setResult).toHaveBeenCalled();
+      });
+    });
+
+    describe("when split year with 1 period", () => {
+      beforeEach(() => {
+        mockValue.isMultiYear = true;
+        mockValue.customSplitRows = mockCustomSplitRows;
+        mockNiFrontendContext.NiFrontendInterface.classOne.calculate = jest
+          .fn()
+          .mockReturnValue(mockResult);
+        mockValue.result = mockResult;
+      });
+
+      it("should submit form on clicking calculate button", async () => {
+        doCalculate();
+
+        expect(mockValue.setActiveRowId).toHaveBeenCalled();
+        expect(mockValue.setResult).toHaveBeenCalled();
+      });
+    });
+
+    describe("when no split year", () => {
+      beforeEach(() => {
+        mockValue.isMultiYear = false;
+        mockValue.customSplitRows = {};
+      });
+
+      it("should submit form on clicking calculate button and should not set result when result is empty", async () => {
+        mockNiFrontendContext.NiFrontendInterface.classOne.calculate = jest
+          .fn()
+          .mockReturnValue(null);
+        mockValue.result = null;
+
+        doCalculate();
+
+        expect(mockValue.setResult).not.toHaveBeenCalled();
+      });
+
+      it("should submit form on clicking calculate button and should set result", async () => {
+        mockNiFrontendContext.NiFrontendInterface.classOne.calculate = jest
+          .fn()
+          .mockReturnValue(mockResult);
+        mockValue.result = mockResult;
+
+        doCalculate();
+
+        expect(mockValue.setActiveRowId).toHaveBeenCalled();
+        expect(mockValue.setResult).toHaveBeenCalledWith(mockResult);
+      });
     });
 
     it("should call reset callback on clicking clear table button", () => {
@@ -282,10 +570,31 @@ describe("Class1", () => {
       expect(mockValue.setNiPaidNet).toHaveBeenCalledWith("");
     });
 
-    it("should call handleShowSummary callback on clicking Save & Print button", () => {
+    it("should call handleShowSummary callback on clicking Save & Print button and should not show summary as no data", () => {
       const button = screen.getByRole("button", { name: "Save and print" });
       fireEvent.click(button);
 
+      expect(mockValue.setActiveRowId).toHaveBeenCalledWith(null);
+      expect(mockValue.setResult).toHaveBeenCalled();
+    });
+
+    it("should call handleShowSummary callback on clicking Save & Print button and should show summary", () => {
+      mockValue.isMultiYear = true;
+      mockValue.customSplitRows = mockCustomSplitRows;
+      mockNiFrontendContext.NiFrontendInterface.classOne.calculate = jest
+        .fn()
+        .mockReturnValue(mockResult);
+      mockValue.result = mockResult;
+        mockValidateClassOnePayload.mockImplementation(() => false);
+
+      const { container } = render(<Class1 />);
+
+      const button = Array.from(container.querySelectorAll("button")).find(
+        // @ts-ignore
+        (el) => el.textContent.includes("Save and print")
+      ) as HTMLButtonElement;
+
+      fireEvent.click(button);
       expect(mockValue.setActiveRowId).toHaveBeenCalledWith(null);
       expect(mockValue.setResult).toHaveBeenCalled();
     });

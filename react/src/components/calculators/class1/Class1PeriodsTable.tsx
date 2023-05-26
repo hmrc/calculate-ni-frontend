@@ -42,7 +42,7 @@ export default function Class1PeriodsTable(props: Class1PeriodsTableProps) {
             <td className="border">{row.number}</td>
             <td
               className={`border table-input ${
-                errors?.[`${row.id}-date`] ? "error-cell" : ""
+                errors[`${row.id}-date`] ? "error-cell" : ""
               }`}
             >
               <TextInput
@@ -50,12 +50,12 @@ export default function Class1PeriodsTable(props: Class1PeriodsTableProps) {
                 name={`${row.id}-date`}
                 labelText={`Date NI paid for row number ${index + 1}`}
                 inputClassName="gross-pay"
-                inputValue={row?.date || ""}
+                inputValue={row.date || ""}
                 inputType="date"
                 error={errors[`${row.id}-date`]}
-                onChangeCallback={(e) => handleDateInputChange?.(row, e)}
-                min={row?.minDate}
-                max={row?.maxDate}
+                onChangeCallback={(e) => handleDateInputChange(row, e)}
+                min={row.minDate}
+                max={row.maxDate}
               />
             </td>
           </tr>

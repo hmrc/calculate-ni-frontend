@@ -109,7 +109,6 @@ export interface Class1PeriodsTableProps {
 
 export interface Class1FormProps {
   resetTotals: () => void;
-  handleShowSummary: (event: React.FormEvent) => void;
 }
 
 export interface DirectorsFormProps {

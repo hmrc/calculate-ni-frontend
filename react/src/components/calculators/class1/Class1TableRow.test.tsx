@@ -284,7 +284,7 @@ describe("Class1TableRow", () => {
 
   describe("callback function handleSelectChangePeriod", () => {
     describe("when selected period type is Monthly and total rows greater than 12", () => {
-      it("should change period value to Monthly", () => {
+      it("should change period value to Monthly and should set 12 rows only", () => {
         const mockConData: any = {
           ...mockValue,
           rows: Array(13).fill(rows[0]),
@@ -305,7 +305,7 @@ describe("Class1TableRow", () => {
     });
 
     describe("when selected period type is Weekly and total rows greater than 53", () => {
-      it("should change period value to Weekly", () => {
+      it("should change period value to Weekly and should set 53 rows only", () => {
         const mockConData: any = {
           ...mockValue,
           rows: Array(54).fill(rows[0]),
@@ -326,7 +326,7 @@ describe("Class1TableRow", () => {
     });
 
     describe("when selected period type is Fortnightly and total rows greater than 27", () => {
-      it("should change period value to Fortnightly", () => {
+      it("should change period value to Fortnightly and should set 27 rows only", () => {
         const mockConData: any = {
           ...mockValue,
           rows: Array(28).fill(rows[0]),
@@ -346,8 +346,34 @@ describe("Class1TableRow", () => {
       });
     });
 
-    describe("when selected period type is Fourweekly and total rows greater than 14", () => {
-      it("should change period value to Fourweekly and repeatQty is greater than allowed rows", () => {
+      describe("when selected period type is Fourweekly and total rows less than 14", () => {
+          it("should change period value to Fourweekly and should set all rows", () => {
+              const mockConData: any = {
+                  ...mockValue,
+                  rows: Array(10).fill(rows[0]),
+                  getAllowedRows: () => 14,
+              };
+              const data: any = {
+                  ...props,
+                  contextValue: mockConData,
+                  repeatQty: 16,
+              };
+              const { container } = renderComponent(data);
+
+              const selectOne = container.querySelector(
+                  `select[name="period"]`
+              ) as HTMLSelectElement;
+              fireEvent.change(selectOne, {
+                  target: { value: "4W" },
+              });
+              expect(mockValue.setPeriodType).toBeCalledWith("4W");
+              expect(mockValue.setRows).toBeCalled();
+              expect(mockValue.setIsRepeatAllow).toBeCalledWith(false);
+          });
+      });
+
+    describe("when selected period type is Fourweekly and total rows greater than 14 and repeatQty is greater than allowed rows", () => {
+      it("should change period value to Fourweekly and should set 14 rows only", () => {
         const mockConData: any = {
           ...mockValue,
           rows: Array(15).fill(rows[0]),

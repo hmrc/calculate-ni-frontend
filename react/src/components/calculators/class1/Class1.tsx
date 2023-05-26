@@ -201,7 +201,7 @@ const Class1Page = () => {
       niPaidEmployee: niPaidEmployee,
       customRows: customRows,
     };
-
+console.log("vv---", validateClassOnePayload(payload, setErrors) ? "valid" : "invalid")
     if (validateClassOnePayload(payload, setErrors)) {
       const requestRows: Array<ClassOneRowInterface> = rows.map(
         (row: Row) =>
@@ -274,10 +274,7 @@ const Class1Page = () => {
           <form onSubmit={handleSubmit} noValidate data-testid="class-one-form">
             <Details details={details} handleChange={handleDetailsChange} />
 
-            <Class1Form
-              resetTotals={resetTotals}
-              handleShowSummary={handleShowSummary}
-            />
+            <Class1Form resetTotals={resetTotals} />
           </form>
         </>
       )}
