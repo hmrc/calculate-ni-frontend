@@ -40,6 +40,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
   } = useContext(ClassOneContext);
 
   const [repeatQty, setRepeatQty] = useState<number>(1);
+  const [isUpdateFlag, setIsUpdateFlag] = useState<boolean>(false);
 
   // to clear the table
   const handleClear = (e: React.ChangeEvent<HTMLButtonElement>) => {
@@ -227,30 +228,59 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
 
               // if period group match
               if (customRowFlag) {
-                if (!splitRows[periodKey]) {
+                // compare split period ni paid date with from date of tax year
+                if (
+                  getDateValue?.date &&
+                  moment(getDateValue?.date).isBefore(fromDate) &&
+                  rowNumber !== 1
+                ) {
+                  // move week to previous period
+                  let previousPeriodKey = `period-${index - 1}`;
+                  splitRows[previousPeriodKey].rows.push({
+                    ...row,
+                    date: getDateValue.date,
+                  });
+                } else if (
+                  moment(formattedStartDateOfWeek).isBefore(fromDate) &&
+                  rowNumber !== 1 &&
+                  !getDateValue?.date
+                ) {
+                  // move week to previous period
+                  let previousPeriodKey = `period-${index - 1}`;
+                  splitRows[previousPeriodKey].rows.push({
+                    ...row,
+                    date: formattedStartDateOfWeek,
+                  });
+                } else {
+                  if (!splitRows[periodKey]) {
                     let splitRowFromDate = from;
-                    if(splitWeekFlag) {
-                        if(getDateValue?.date) {
-                            splitRowFromDate = new Date(getDateValue.date)
-                        }
-                        else {
-                            splitRowFromDate = new Date(formattedStartDateOfWeek)
-                        }
+                    if (splitWeekFlag) {
+                      if (getDateValue?.date) {
+                        splitRowFromDate = new Date(getDateValue.date);
+                      } else {
+                        splitRowFromDate = new Date(formattedStartDateOfWeek);
+                      }
                     }
 
-                  splitRows[periodKey] = {
-                    rows: [],
-                    from: splitRowFromDate,
-                  };
+                    splitRows[periodKey] = {
+                      rows: [],
+                      from: splitRowFromDate,
+                    };
+                  }
+
+                  let customWeekStartDate = fromDate;
+                  if (splitRows[periodKey].rows.length > 0) {
+                    customWeekStartDate = getDateValue?.date
+                      ? moment(getDateValue.date).format(DATE_FORMAT_YYYY_MM_DD)
+                      : moment(startDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
+                          DATE_FORMAT_YYYY_MM_DD
+                        );
+                  }
+                  splitRows[periodKey].rows.push({
+                    ...row,
+                    date: customWeekStartDate,
+                  });
                 }
-                splitRows[periodKey].rows.push({
-                  ...row,
-                  date: getDateValue?.date
-                    ? moment(getDateValue.date).format(DATE_FORMAT_YYYY_MM_DD)
-                    : moment(startDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
-                        DATE_FORMAT_YYYY_MM_DD
-                      ),
-                });
               }
             });
 
@@ -282,6 +312,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
           setCustomSplitRows(splitRows);
         }
       }
+      isUpdateFlag && setIsUpdateFlag(false);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
@@ -291,6 +322,8 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
       memoizedTaxYears,
       taxYearPeriod,
       setCustomRows,
+      setCustomSplitRows,
+      isUpdateFlag,
     ]
   );
 
@@ -389,6 +422,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
   // handle change in date input in custom rows for period
   const handleDateInputChange = useCallback(
     (row, e: React.ChangeEvent<HTMLInputElement>) => {
+      setIsUpdateFlag(true);
       const { value } = e.target;
 
       if (value) {
@@ -434,7 +468,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [customRows, errors, setCustomRows, setErrors]
+    [customRows, errors, setCustomRows, setErrors, setIsUpdateFlag]
   );
 
   return (
