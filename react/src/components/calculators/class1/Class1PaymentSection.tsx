@@ -172,6 +172,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
                 .format(DATE_FORMAT_DD_MM_YYYY);
             }
           }
+
           // to check if period is between start and end date of tax year range
           if (
             startDateOfWeek &&
@@ -181,7 +182,6 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
           ) {
             const matchingPeriods: any[] = [];
             const getDateValue = customRows.find((r) => r.id === row.id);
-
             taxYearPeriod.txYears.forEach((ty, index) => {
               const { from, to } = ty;
               let customRowFlag = false;
@@ -201,7 +201,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
                 endDateOfWeek,
                 DATE_FORMAT_DD_MM_YYYY
               ).format(DATE_FORMAT_YYYY_MM_DD);
-
+                console.log("from---", fromDate, toDate, formattedStartDateOfWeek, formattedEndDateOfWeek)
               let splitWeekFlag = false;
               if (
                 moment(fromDate).isBetween(
@@ -212,7 +212,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
                   formattedStartDateOfWeek,
                   formattedEndDateOfWeek
                 )
-              ) {
+              ) { console.log("split", rowNumber, row.id, getDateValue?.id);
                 matchingPeriods.push(ty);
                 splitWeekFlag = true;
               }

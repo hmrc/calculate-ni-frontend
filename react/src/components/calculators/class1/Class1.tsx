@@ -258,7 +258,7 @@ const Class1Page = () => {
       niPaidEmployee: niPaidEmployee,
       customRows: customRows,
     };
-
+console.log("vv---", validateClassOnePayload(payload, setErrors) ? "valid" : "invalid")
     if (validateClassOnePayload(payload, setErrors)) {
       const requestRows: Array<ClassOneRowInterface> = rows.map(
         (row: Row) =>

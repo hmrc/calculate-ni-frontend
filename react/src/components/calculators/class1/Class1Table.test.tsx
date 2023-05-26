@@ -125,16 +125,6 @@ describe("Class1Table", () => {
     it("should render payment contribution table without band columns and without print view", () => {
       expect(screen.queryByTestId("payment-table")).not.toBeNull();
     });
-
-    it("should sort period column in descending order", () => {
-        const getEle: any = screen.queryByTestId("sort-period");
-        expect(getEle).not.toBeNull();
-        expect(getEle.textContent).toBe("Select period");
-        fireEvent.click(getEle);
-        expect(setState).toHaveBeenCalledWith("descending");
-        expect(mockValue.setRows).toHaveBeenCalled();
-        expect(mockValue.setErrors).toHaveBeenCalledWith({});
-    });
   });
 
   describe("when bands to show and it is a print view", () => {

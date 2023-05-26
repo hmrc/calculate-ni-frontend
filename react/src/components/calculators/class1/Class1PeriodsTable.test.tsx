@@ -61,6 +61,15 @@ const mockValue: any = {
   errors: {},
 };
 
+const mockValueWithErrors: any = {
+  ...mockValue,
+  errors: {
+    "1-date": {
+      date: "Date is required",
+    },
+  },
+};
+
 const handleDateInputChange = jest.fn();
 
 describe("Class1PeriodsTable", () => {
@@ -94,7 +103,7 @@ describe("Class1PeriodsTable", () => {
 
     it("should call callback function when text input is changed", () => {
       // @ts-ignore
-        const input = screen
+      const input = screen
         .getByText("Date NI paid for row number 1")
         .closest("tr")
         .querySelector("input") as HTMLInputElement;
@@ -102,6 +111,29 @@ describe("Class1PeriodsTable", () => {
       expect(handleDateInputChange).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe("when props data passed with errors", () => {
+    beforeEach(() => {
+      render(
+        <ClassOneContext.Provider value={mockValueWithErrors}>
+          <Class1PeriodsTable handleDateInputChange={handleDateInputChange} />
+        </ClassOneContext.Provider>
+      );
+    });
+
+    it("should show error", () => {
+      // @ts-ignore
+      const input = screen
+        .getByText("Date NI paid for row number 1")
+        .closest("tr")
+        .querySelector("input") as HTMLInputElement;
+      fireEvent.change(input, { target: { value: "" } });
+
+      const getErrorCell = (input.closest("td") as HTMLDivElement) || null;
+      expect(getErrorCell).toHaveClass("error-cell");
+    });
+  });
+
   describe("when props data not passed", () => {
     beforeEach(() => {
       render(

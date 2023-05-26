@@ -4,7 +4,6 @@ import Class1Form from "./Class1Form";
 import { ClassOneContext } from "./ClassOneContext";
 import SelectTaxYear from "../../helpers/formhelpers/SelectTaxYear";
 
-const handleShowSummary = jest.fn();
 const resetTotals = jest.fn();
 const handleTaxYearChange = jest.fn();
 
@@ -40,6 +39,8 @@ const mockValue: any = {
         },
     ],
     setResult: jest.fn(),
+    setIsMultiYear: jest.fn(),
+    isMultiYear: true
 };
 
 const mockValueOneTaxYears: any = {
@@ -56,26 +57,27 @@ const mockValueOneTaxYears: any = {
             to: new Date("2022-12-05T00:00:00.000Z"),
         },
     ],
+    isMultiYear: false
 };
 
 const mockValueNoTaxYears: any = {
     ...mockValue,
     taxYear: null,
     taxYears: [],
+    isMultiYear: false
 };
 
 const renderComponent = (value: any) =>
     render(
         <ClassOneContext.Provider value={value}>
             <Class1Form
-                handleShowSummary={handleShowSummary}
                 resetTotals={resetTotals}
             />
         </ClassOneContext.Provider>
     );
 
 describe("Class1Form", () => {
-    describe("when tax years", () => {
+    describe("when split tax years", () => {
         beforeEach(() => {
             renderComponent(mockValue);
         });
@@ -99,12 +101,12 @@ describe("Class1Form", () => {
         });
     });
 
-    describe("when one tax year", () => {
+    describe("when no split tax year", () => {
         beforeEach(() => {
             renderComponent(mockValueOneTaxYears);
         });
 
-        it("should render NI Info section", () => {
+        it("should not render NI Info section", () => {
             expect(screen.queryByTestId("class1-ni-info-section")).toBeNull();
         });
     });
@@ -114,7 +116,7 @@ describe("Class1Form", () => {
             renderComponent(mockValueNoTaxYears);
         });
 
-        it("should render NI Info section", () => {
+        it("should not render NI Info section", () => {
             expect(screen.queryByTestId("class1-ni-info-section")).toBeNull();
         });
     });
