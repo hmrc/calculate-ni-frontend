@@ -77,6 +77,14 @@ function Class1Form(props: Class1FormProps) {
       const taxYearPeriods = grouped.find((row) => {
         return row.from === taxYearStart.toString();
       });
+      // sort tax years by start date ascending
+      if(taxYearPeriods) {
+          taxYearPeriods.txYears.sort(
+              // @ts-ignore
+              (a, b) => a.from - b.from
+          );
+      }
+
       setTaxYearPeriod(taxYearPeriods);
 
       if (taxYearPeriods && taxYearPeriods?.txYears?.length > 1) {

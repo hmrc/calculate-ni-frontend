@@ -142,8 +142,6 @@ const Class1Page = () => {
           return {
             ...acc,
             resultRows: acc.resultRows.concat(obj.resultRows),
-            employerContributions:
-              acc.employerContributions + obj.employerContributions,
             underpayment: {
               employee: acc.underpayment.employee + obj.underpayment.employee,
               employer: acc.underpayment.employer + obj.underpayment.employer,
