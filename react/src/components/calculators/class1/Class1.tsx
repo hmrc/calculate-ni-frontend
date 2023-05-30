@@ -241,7 +241,6 @@ const Class1Page = () => {
 
       if (getResult) {
         taxYear && setResult(getResult);
-
         if (showSummaryIfValid) {
           setShowSummary(true);
         }
@@ -258,7 +257,7 @@ const Class1Page = () => {
       niPaidEmployee: niPaidEmployee,
       customRows: customRows,
     };
-console.log("vv---", validateClassOnePayload(payload, setErrors) ? "valid" : "invalid")
+
     if (validateClassOnePayload(payload, setErrors)) {
       const requestRows: Array<ClassOneRowInterface> = rows.map(
         (row: Row) =>
