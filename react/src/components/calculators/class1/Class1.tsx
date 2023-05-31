@@ -79,8 +79,12 @@ const Class1Page = () => {
 
     if (isMultiYear) {
       let getResults: any[] = [];
-      customSplitRows &&
-        Object.keys(customSplitRows).length > 0 &&
+      const totalPeriods = customSplitRows
+        ? Object.keys(customSplitRows).length
+        : 0;
+
+      // calculate results for each period
+      totalPeriods > 0 &&
         Object.keys(customSplitRows).forEach((key: any) => {
           let getData = customSplitRows[key];
           let getRowResult = calculateRows({
@@ -96,6 +100,7 @@ const Class1Page = () => {
       if (getResults.length === 0 || !getResults[0]) return;
 
       // combine results
+      let finalResultToSet: any = "";
       if (getResults.length > 1) {
         const finalResult = getResults.reduce((acc, obj) => {
           obj.bandTotals.resultBands.forEach((value: any, key: any) => {
@@ -142,18 +147,6 @@ const Class1Page = () => {
           return {
             ...acc,
             resultRows: acc.resultRows.concat(obj.resultRows),
-            employerContributions:
-              acc.employerContributions + obj.employerContributions,
-            underpayment: {
-              employee: acc.underpayment.employee + obj.underpayment.employee,
-              employer: acc.underpayment.employer + obj.underpayment.employer,
-              total: acc.underpayment.total + obj.underpayment.total,
-            },
-            overpayment: {
-              employee: acc.overpayment.employee + obj.overpayment.employee,
-              employer: acc.overpayment.employer + obj.overpayment.employer,
-              total: acc.overpayment.total + obj.overpayment.total,
-            },
             totals: {
               employee: acc.totals.employee + obj.totals.employee,
               employer: acc.totals.employer + obj.totals.employer,
@@ -163,10 +156,74 @@ const Class1Page = () => {
           };
         });
 
-        setResult(finalResult);
+        finalResultToSet = finalResult;
       } else {
-        setResult(getResults[0]);
+        finalResultToSet = getResults[0];
       }
+
+      // calculate underpayment and overpayment
+      let getUnderpayment = finalResultToSet.underpayment;
+      let getOverpayment = finalResultToSet.overpayment;
+      let getTotals = finalResultToSet.totals;
+      let employerContributions = finalResultToSet.employerContributions;
+
+      if (niPaidNet) {
+        // for net contributions
+        if (getTotals.net - parseFloat(niPaidNet) >= 0) {
+          getUnderpayment.total = (
+            getTotals.net - parseFloat(niPaidNet)
+          ).toFixed(2);
+          getOverpayment.total = 0;
+        } else {
+          getOverpayment.total = (
+            parseFloat(niPaidNet) - getTotals.net
+          ).toFixed(2);
+          getUnderpayment.total = 0;
+        }
+      } else {
+        getUnderpayment.total = getTotals.net;
+        getOverpayment.total = 0;
+      }
+
+      if (niPaidEmployee) {
+        // for employee contributions
+        if (getTotals.employee - parseFloat(niPaidEmployee) >= 0) {
+          getUnderpayment.employee = (
+            getTotals.employee - parseFloat(niPaidEmployee)
+          ).toFixed(2);
+          getOverpayment.employee = 0;
+        } else {
+          getOverpayment.employee = (
+            parseFloat(niPaidEmployee) - getTotals.employee
+          ).toFixed(2);
+          getUnderpayment.employee = 0;
+        }
+      } else {
+        getUnderpayment.employee = getTotals.employee;
+        getOverpayment.employee = 0;
+      }
+
+      if (employerContributions) {
+        // for employer contributions
+        if (getTotals.employer - employerContributions >= 0) {
+          getUnderpayment.employer = (
+            getTotals.employer - employerContributions
+          ).toFixed(2);
+          getOverpayment.employer = 0;
+        } else {
+          getOverpayment.employer = (
+            employerContributions - getTotals.employer
+          ).toFixed(2);
+          getUnderpayment.employer = 0;
+        }
+      } else {
+        getUnderpayment.employer = getTotals.employer;
+        getOverpayment.employer = 0;
+      }
+
+      finalResultToSet.underpayment = getUnderpayment;
+      finalResultToSet.overpayment = getOverpayment;
+      setResult(finalResultToSet);
 
       if (showSummaryIfValid) {
         setShowSummary(true);
@@ -273,10 +330,7 @@ const Class1Page = () => {
           <form onSubmit={handleSubmit} noValidate>
             <Details details={details} handleChange={handleDetailsChange} />
 
-            <Class1Form
-              resetTotals={resetTotals}
-              handleShowSummary={handleShowSummary}
-            />
+            <Class1Form resetTotals={resetTotals} />
           </form>
         </>
       )}
