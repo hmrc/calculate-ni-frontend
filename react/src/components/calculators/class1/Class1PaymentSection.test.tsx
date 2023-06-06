@@ -66,9 +66,20 @@ const rows = [
   },
 ];
 
+const mockRows = rows.map((row) => ({
+  ...row,
+  period: PeriodValue.FOURWEEKLY,
+}));
+mockRows.sort((a, b) => a.number - b.number);
+
 const mockTaxYearPeriod = {
   from: "6 April 2022-5 April 2023",
   txYears: [
+    {
+      id: "[2022-02-06, 2022-04-05]",
+      from: new Date("2022-02-06"),
+      to: new Date("2022-04-05"),
+    },
     {
       id: "[2022-04-06, 2022-07-05]",
       from: new Date("2022-04-06"),
@@ -87,6 +98,12 @@ const mockTaxYearPeriod = {
   ],
 };
 
+const mockTaxYear = {
+  id: "[2022-04-06, 2023-04-05]",
+  from: new Date("2022-04-06"),
+  to: new Date("2023-04-05"),
+};
+
 const setPeriodNumbers = jest.fn();
 const setErrors = jest.fn();
 const setResult = jest.fn();
@@ -100,7 +117,7 @@ const mockCustomRows = [
   {
     id: "4",
     category: "A",
-    period: "2W",
+    period: "4W",
     gross: "",
     number: 4,
     ee: 0,
@@ -110,24 +127,41 @@ const mockCustomRows = [
   {
     id: "8",
     category: "A",
-    period: "2W",
+    period: "4W",
     gross: "",
     number: 8,
     ee: 0,
     er: 0,
     date: "",
   },
+  {
+    id: "1",
+    category: "A",
+    period: "4W",
+    gross: "",
+    number: 1,
+    ee: 0,
+    er: 0,
+    date: "2022-04-01",
+  },
 ];
 
-// const mockCustomSplitRows = {};
 const mockCustomSplitRows = {
-  "period-1": {
+  "period--1": {
+    from: new Date("2022-03-06"),
+    rows: [],
+  },
+  "period-0": {
     from: new Date("2022-04-06"),
+    rows: [],
+  },
+  "period-1": {
+    from: new Date("2022-07-06"),
     rows: [
       {
         id: "4",
         category: "A",
-        period: "2W",
+        period: "4W",
         gross: "",
         number: 4,
         ee: 0,
@@ -140,7 +174,7 @@ const mockCustomSplitRows = {
 
 const mockValue: any = {
   rows,
-  taxYear: mockTaxYearPeriod.txYears[0],
+  taxYear: mockTaxYear,
   activeRowId: "1",
   setPeriodNumbers,
   setErrors,
@@ -187,15 +221,19 @@ jest.mock("../../../services/utils", () => ({
   buildDescribedByKeys: () => "test",
 }));
 
-const renderComponent = (props: any) => {
-  const { memoizedTaxYears, resetTotals, taxYearPeriod, contextValue } = props;
+const renderComponent = (contextValue: any) => {
+  const memoizedTaxYears = {
+    taxYears: mockTaxYearPeriod.txYears,
+    grouped: [mockTaxYearPeriod],
+  };
 
   return render(
     <ClassOneContext.Provider value={contextValue}>
       <Class1PaymentSection
+        // @ts-ignore
         memoizedTaxYears={memoizedTaxYears}
         resetTotals={resetTotals}
-        taxYearPeriod={taxYearPeriod}
+        taxYearPeriod={mockTaxYearPeriod}
       />
     </ClassOneContext.Provider>
   );
@@ -227,15 +265,7 @@ describe("Class1PaymentSection", () => {
 
   describe("when remaining allowed rows is greater than zero and repeat row is allow", () => {
     beforeEach(() => {
-      renderComponent({
-        memoizedTaxYears: {
-          taxYears: mockTaxYearPeriod.txYears,
-          grouped: [mockTaxYearPeriod],
-        },
-        resetTotals,
-        taxYearPeriod: mockTaxYearPeriod,
-        contextValue: mockValue,
-      });
+      renderComponent(mockValue);
     });
 
     it("should render class1 table", () => {
@@ -301,15 +331,7 @@ describe("Class1PaymentSection", () => {
     beforeEach(() => {
       jest.spyOn(console, "warn").mockImplementation(() => {});
 
-      renderComponent({
-        memoizedTaxYears: {
-          taxYears: mockTaxYearPeriod.txYears,
-          grouped: [mockTaxYearPeriod],
-        },
-        resetTotals,
-        taxYearPeriod: mockTaxYearPeriod,
-        contextValue: mockValueElse,
-      });
+      renderComponent(mockValueElse);
     });
 
     it("should render class1 table", () => {
@@ -341,15 +363,7 @@ describe("Class1PaymentSection", () => {
       jest.spyOn(console, "warn").mockImplementation(() => {});
       jest.spyOn(React, "useState").mockImplementation(() => [2, setState]);
 
-      renderComponent({
-        memoizedTaxYears: {
-          taxYears: mockTaxYearPeriod.txYears,
-          grouped: [mockTaxYearPeriod],
-        },
-        resetTotals,
-        taxYearPeriod: mockTaxYearPeriod,
-        contextValue: mockValueRepeatAllow,
-      });
+      renderComponent(mockValueRepeatAllow);
     });
 
     it("should call repeat row callback function when repeat row button is clicked ", async () => {
@@ -366,15 +380,7 @@ describe("Class1PaymentSection", () => {
       jest.spyOn(console, "warn").mockImplementation(() => {});
       jest.spyOn(React, "useState").mockImplementation(() => [0, setState]);
 
-      renderComponent({
-        memoizedTaxYears: {
-          taxYears: mockTaxYearPeriod.txYears,
-          grouped: [mockTaxYearPeriod],
-        },
-        resetTotals,
-        taxYearPeriod: mockTaxYearPeriod,
-        contextValue: mockValueRepeatAllowMore,
-      });
+      renderComponent(mockValueRepeatAllowMore);
     });
 
     it("should call repeat row callback function when repeat row button is clicked ", async () => {
@@ -395,15 +401,7 @@ describe("Class1PaymentSection", () => {
         rows: [{ ...mockValue.rows[0], number: undefined }],
       };
 
-      renderComponent({
-        memoizedTaxYears: {
-          taxYears: mockTaxYearPeriod.txYears,
-          grouped: [mockTaxYearPeriod],
-        },
-        resetTotals,
-        taxYearPeriod: mockTaxYearPeriod,
-        contextValue: mockValueNoNumber,
-      });
+      renderComponent(mockValueNoNumber);
     });
 
     it("should not allow to repeat row when repeat row button is clicked", () => {
@@ -421,15 +419,7 @@ describe("Class1PaymentSection", () => {
       jest.spyOn(console, "warn").mockImplementation(() => {});
       jest.spyOn(React, "useState").mockImplementation(() => [12, setState]);
 
-      renderComponent({
-        memoizedTaxYears: {
-          taxYears: mockTaxYearPeriod.txYears,
-          grouped: [mockTaxYearPeriod],
-        },
-        resetTotals,
-        taxYearPeriod: mockTaxYearPeriod,
-        contextValue: mockValueRepeatAllowMore,
-      });
+      renderComponent(mockValueRepeatAllowMore);
     });
 
     it("should not allow to add more rows", async () => {
@@ -440,27 +430,45 @@ describe("Class1PaymentSection", () => {
     });
   });
 
-  describe("test", () => {
+  describe("test split period validations", () => {
     it("should move row to previous period when entered date is less than current period start date", () => {
       let customRows = mockValue.customRows;
-      customRows[0].date = "2022-04-11";
+      customRows[0].date = "2022-04-01";
 
-      renderComponent({
-        memoizedTaxYears: {
-          taxYears: mockTaxYearPeriod.txYears,
-          grouped: [mockTaxYearPeriod],
-        },
-        resetTotals,
-        taxYearPeriod: mockTaxYearPeriod,
-        contextValue: { ...mockValue, customRows },
+      renderComponent({ ...mockValue, customRows, rows: mockRows });
+
+      expect(setCustomRows).toBeCalled();
+    });
+
+    it("should move row to previous period when entered date is greater than current period start date and current week start date", () => {
+      let customRows = mockValue.customRows;
+      customRows.push({
+        id: "3",
+        category: "A",
+        period: "4W",
+        gross: "",
+        number: 3,
+        ee: 0,
+        er: 0,
+        date: "2022-04-20",
       });
 
-      // @ts-ignore
-      const input = screen
-        .getByText("Date NI paid for row number 1")
-        .closest("tr")
-        .querySelector("input") as HTMLInputElement;
-      fireEvent.change(input, { target: { value: "2022-04-11" } });
+      renderComponent({ ...mockValue, customRows, rows: mockRows });
+
+      expect(setCustomRows).toBeCalled();
+    });
+
+    it("should use current week start date when entered date is null", () => {
+      let customRows = mockValue.customRows.map((row: any) => {
+        if (row.number === 1) {
+          row.date = "";
+          return row;
+        }
+        return row;
+      });
+
+      renderComponent({ ...mockValue, customRows, rows: mockRows });
+
       expect(setCustomRows).toBeCalled();
     });
   });

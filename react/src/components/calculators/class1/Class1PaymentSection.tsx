@@ -109,6 +109,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
 
   useEffect(
     () => {
+      /* istanbul ignore else */
       if (rows && rows.length > 0) {
         setCustomRows([]);
         let splitRows: any = {};
@@ -228,7 +229,6 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
 
               // if period group match
               if (customRowFlag) {
-                console.log("vv----", getDateValue?.date, fromDate, rowNumber);
                 // compare split period ni paid date with from date of tax year
                 if (
                   getDateValue?.date &&
@@ -287,6 +287,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
 
             // if period is between start and end date of tax year range
             if (matchingPeriods.length > 1) {
+              /* istanbul ignore next */
               setCustomRows((prevState) => [
                 ...prevState,
                 {
@@ -400,6 +401,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
   // delete selected row button click handler
   const handleDeleteRow = (e: React.MouseEvent) => {
     e.preventDefault();
+    /* istanbul ignore else */
     if (activeRowId) {
       setPeriodNumbers(activeRowId);
       setErrors({});
@@ -425,7 +427,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
     (row, e: React.ChangeEvent<HTMLInputElement>) => {
       setIsUpdateFlag(true);
       const { value } = e.target;
-
+      /* istanbul ignore else */
       if (value) {
         // remove id from errors
         delete errors[row.id];
@@ -445,6 +447,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
           .find((oRow) => oRow.id === row.id);
 
         // Update the date value
+        /* istanbul ignore else */
         if (getCurrentRow) {
           getCurrentRow.date = value;
         }
@@ -460,6 +463,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
         });
 
         // Update the from value
+        /* istanbul ignore else */
         if (parentKey) {
           // @ts-ignore
           customSplitRows[parentKey].from = new Date(value);

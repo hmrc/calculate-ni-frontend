@@ -2,8 +2,7 @@ import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import Class1TableRow from "./Class1TableRow";
 import { ClassOneContext } from "./ClassOneContext";
-import { periods, PeriodValue, periodValueToLabel } from "../../../config";
-import { act } from "@testing-library/react-hooks";
+import { PeriodValue } from "../../../config";
 
 jest.mock("../shared/ExplainToggle", () => () => (
   <div data-testid="explain-toggle">Explain Toggle</div>
@@ -150,9 +149,9 @@ const renderComponent = (props: any) => {
 };
 
 describe("Class1TableRow", () => {
-  /*beforeEach(() => {
+  beforeEach(() => {
     jest.spyOn(console, "error").mockImplementation(() => {});
-  });*/
+  });
 
   describe("when bands to show and a print view", () => {
     beforeEach(() => {
@@ -346,31 +345,31 @@ describe("Class1TableRow", () => {
       });
     });
 
-      describe("when selected period type is Fourweekly and total rows less than 14", () => {
-          it("should change period value to Fourweekly and should set all rows", () => {
-              const mockConData: any = {
-                  ...mockValue,
-                  rows: Array(10).fill(rows[0]),
-                  getAllowedRows: () => 14,
-              };
-              const data: any = {
-                  ...props,
-                  contextValue: mockConData,
-                  repeatQty: 16,
-              };
-              const { container } = renderComponent(data);
+    describe("when selected period type is Fourweekly and total rows less than 14", () => {
+      it("should change period value to Fourweekly and should set all rows", () => {
+        const mockConData: any = {
+          ...mockValue,
+          rows: Array(10).fill(rows[0]),
+          getAllowedRows: () => 14,
+        };
+        const data: any = {
+          ...props,
+          contextValue: mockConData,
+          repeatQty: 16,
+        };
+        const { container } = renderComponent(data);
 
-              const selectOne = container.querySelector(
-                  `select[name="period"]`
-              ) as HTMLSelectElement;
-              fireEvent.change(selectOne, {
-                  target: { value: "4W" },
-              });
-              expect(mockValue.setPeriodType).toBeCalledWith("4W");
-              expect(mockValue.setRows).toBeCalled();
-              expect(mockValue.setIsRepeatAllow).toBeCalledWith(false);
-          });
+        const selectOne = container.querySelector(
+          `select[name="period"]`
+        ) as HTMLSelectElement;
+        fireEvent.change(selectOne, {
+          target: { value: "4W" },
+        });
+        expect(mockValue.setPeriodType).toBeCalledWith("4W");
+        expect(mockValue.setRows).toBeCalled();
+        expect(mockValue.setIsRepeatAllow).toBeCalledWith(false);
       });
+    });
 
     describe("when selected period type is Fourweekly and total rows greater than 14 and repeatQty is greater than allowed rows", () => {
       it("should change period value to Fourweekly and should set 14 rows only", () => {

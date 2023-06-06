@@ -41,7 +41,6 @@ jest.mock("../shared/NiPaidInputs", () => () => (
 ));
 
 jest.mock("../../../validation/validation", () => ({
-  //validateClassOnePayload: () => true,
   validateClassOnePayload: jest.fn(),
   stripCommas: jest.fn(),
 }));
@@ -264,7 +263,6 @@ const mockResultMultiple: any = {
 const mockNiFrontendContext: any = {
   NiFrontendInterface: {
     classOne: {
-      //calculate: () => mockResult,
       calculate: () => jest.fn(),
       getApplicableCategories: () => new Date("2022-04-06").toDateString(),
       getTaxYears: ["2022-04-06", "2023-04-05"],
@@ -369,7 +367,6 @@ const mockValue: any = {
       to: new Date("2023-04-05T00:00:00.000Z"),
     },
   ],
-  //result: mockResult,
   result: [],
   setResult: jest.fn(),
   rows,
@@ -449,6 +446,7 @@ const doCalculate = () => {
 describe("Class1", () => {
   beforeEach(() => {
     jest.spyOn(console, "error").mockImplementation(() => {});
+    jest.spyOn(console, "warn").mockImplementation(() => {});
     mockValidateClassOnePayload.mockReturnValue(true);
   });
 
@@ -525,11 +523,101 @@ describe("Class1", () => {
         mockValidateClassOnePayload.mockReturnValue(true);
       });
 
-      it("should submit form on clicking calculate button", async () => {
+      it("should submit form on clicking calculate button", () => {
         doCalculate();
 
         expect(mockValue.setActiveRowId).toHaveBeenCalled();
         expect(mockValue.setResult).toHaveBeenCalled();
+      });
+
+      it("when NI paid amount is less than total due NI", () => {
+        mockValue.niPaidNet = "1000";
+        mockValue.result.totals.net = "1100";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("100.00");
+        expect(mockValue.result.overpayment.total).toEqual(0);
+      });
+
+      it("when NI paid amount is more than total due NI", () => {
+        mockValue.niPaidNet = "1100";
+        mockValue.result.totals.net = "1000";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual(0);
+        expect(mockValue.result.overpayment.total).toEqual("100.00");
+      });
+
+      it("when NI paid amount is not entered", () => {
+        mockValue.niPaidNet = "";
+        mockValue.result.totals.net = "1100";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("1100");
+        expect(mockValue.result.overpayment.total).toEqual(0);
+      });
+
+      it("when NI paid employee amount is less than total due NI employee", () => {
+        mockValue.niPaidEmployee = "1000";
+        mockValue.result.totals.employee = "1100";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.employee).toEqual("100.00");
+        expect(mockValue.result.overpayment.employee).toEqual(0);
+      });
+
+      it("when NI paid employee amount is more than total due NI employee", () => {
+        mockValue.niPaidEmployee = "1100";
+        mockValue.result.totals.employee = "1000";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.employee).toEqual(0);
+        expect(mockValue.result.overpayment.employee).toEqual("100.00");
+      });
+
+      it("when NI paid employee amount is not entered", () => {
+        mockValue.niPaidEmployee = "";
+        mockValue.result.totals.employee = "1100";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.employee).toEqual("1100");
+        expect(mockValue.result.overpayment.employee).toEqual(0);
+      });
+
+      it("when employer contributions amount is less than total due NI employer", () => {
+        mockValue.result.employerContributions = 1000;
+        mockValue.result.totals.employer = "1100";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.employer).toEqual("100.00");
+        expect(mockValue.result.overpayment.employer).toEqual(0);
+      });
+
+      it("when employer contributions amount is more than total due NI employer", () => {
+        mockValue.result.employerContributions = 1100;
+        mockValue.result.totals.employer = "1000";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.employer).toEqual(0);
+        expect(mockValue.result.overpayment.employer).toEqual("100.00");
+      });
+
+      it("when employer contributions amount is not zero", () => {
+        mockValue.result.employerContributions = 0;
+        mockValue.result.totals.employer = "1100";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.employer).toEqual("1100");
+        expect(mockValue.result.overpayment.employer).toEqual(0);
       });
     });
 
@@ -593,7 +681,6 @@ describe("Class1", () => {
       fireEvent.click(button);
 
       expect(mockValue.setActiveRowId).toHaveBeenCalledWith(null);
-      //expect(mockValue.setResult).toHaveBeenCalled();
     });
 
     it("should call handleShowSummary callback on clicking Save & Print button and should show summary", () => {

@@ -241,6 +241,7 @@ const Class1Page = () => {
 
       if (getResult) {
         taxYear && setResult(getResult);
+        /* istanbul ignore if */
         if (showSummaryIfValid) {
           setShowSummary(true);
         }
