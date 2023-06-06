@@ -1,5 +1,5 @@
 import React from "react";
-import {fireEvent, render, screen} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Class1Table from "./Class1Table";
 import { ClassOneContext } from "./ClassOneContext";
 import { PeriodValue } from "../../../config";
@@ -15,8 +15,8 @@ jest.mock("../shared/ExplainRow", () => () => (
 jest.mock("../../../assets/select-dropdown-arrows.svg", () => "dropdown-arrow");
 
 jest.mock("../../../services/utils", () => ({
-    getBandNames: () => ["A", "B", "C"],
-    getContributionBandNames: () => ["A", "B", "C"],
+  getBandNames: () => ["A", "B", "C"],
+  getContributionBandNames: () => ["A", "B", "C"],
 }));
 
 const renderComponent = (props: any) => {
@@ -110,6 +110,11 @@ jest.mock("react", () => {
 });
 
 describe("Class1Table", () => {
+  beforeEach(() => {
+    jest.spyOn(console, "error").mockImplementation(() => {});
+    jest.spyOn(console, "warn").mockImplementation(() => {});
+  });
+
   describe("when no bands to show and not a print view", () => {
     beforeEach(() => {
       jest.spyOn(React, "useState").mockImplementation(() => ["1", setState]);

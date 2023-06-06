@@ -82,19 +82,19 @@ describe("Class1PeriodsTable", () => {
       );
     });
 
-    it("should render periods table", () => {
-      expect(screen.queryByTestId("periods-table")).not.toBeNull();
-    });
-
     it("should render correct table headers", () => {
-      expect(screen.getAllByTestId(/^header-*/)).toHaveLength(3);
-      expect(screen.queryByTestId("header-period-type")).toHaveTextContent(
-        "Period type"
-      );
       expect(screen.queryByTestId("header-period")).toHaveTextContent("Period");
       expect(screen.queryByTestId("header-date-ni-paid")).toHaveTextContent(
         "Date NI paid"
       );
+      expect(screen.getAllByTestId(/^header-*/)).toHaveLength(3);
+      expect(screen.queryByTestId("header-period-type")).toHaveTextContent(
+        "Period type"
+      );
+    });
+
+    it("should render periods table", () => {
+      expect(screen.queryByTestId("periods-table")).not.toBeNull();
     });
 
     it("should render correct numbers of table data rows", () => {

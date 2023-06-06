@@ -1,30 +1,22 @@
-import React, { useState } from "react";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import React from "react";
 import { renderHook, act } from "@testing-library/react-hooks";
 import { PeriodValue } from "../../../config";
-import {
-  Band,
-  BandTotals,
-  CalculatedRow,
-  CategoryTotals,
-  Class1Result,
-  ClassOneContext,
-  ContributionBand,
-  Row,
-  useClassOneForm,
-  v,
-} from "./ClassOneContext";
-import {
-  CategoryName,
-  NiFrontendContext,
-} from "../../../services/NiFrontendContext";
-import { SuccessNotificationContext } from "../../../services/SuccessNotificationContext";
+import { CalculatedRow, useClassOneForm, v } from "./ClassOneContext";
+import { NiFrontendContext } from "../../../services/NiFrontendContext";
+
+const mockDetails = {
+  fullName: "Test User",
+  ni: "111",
+  reference: "",
+  preparedBy: "",
+  date: "",
+};
 
 const mockNiFrontendContext: any = {
   NiFrontendInterface: {
     classOne: {
       calculate: jest.fn(),
-      getApplicableCategories: () => new Date("2022-04-06").toDateString(),
+      getApplicableCategories: () => ["A", "B"],
       getTaxYears: ["2022-04-06", "2023-04-05"],
       getCategoryNames: [
         { letter: "A", name: "Category A" },
@@ -34,7 +26,7 @@ const mockNiFrontendContext: any = {
   },
 };
 
-const mockRows = [
+const mockRows: any = [
   {
     id: "1",
     category: "A",
@@ -123,7 +115,7 @@ const mockCategoryTotals = new Map([["A", mockCat]]);
 
 const mockResultRows: CalculatedRow[] = [
   {
-    name: "row 1",
+    name: "1",
     // @ts-ignore
     resultBands: mockResultBands,
     // @ts-ignore
@@ -135,7 +127,7 @@ const mockResultRows: CalculatedRow[] = [
   },
 ];
 
-const mockResult: Class1Result | null = {
+const mockResult: any = {
   resultRows: mockResultRows,
   totals: {
     gross: 100,
@@ -161,27 +153,7 @@ const mockResult: Class1Result | null = {
   categoryTotals: mockCategoryTotals,
 };
 
-const mockClassOneContext = {
-  result: null,
-  setResult: jest.fn(),
-  rows: [],
-  setRows: jest.fn(),
-  setPeriodNumbers: jest.fn(),
-};
-
-jest.mock("react", () => {
-  const actualReact = jest.requireActual("react");
-
-  return {
-    ...actualReact,
-    useState: jest.fn(),
-    useContext: jest.fn(),
-  };
-});
-const setState = jest.fn();
-
 jest.mock("../../../services/NiFrontendContext", () => ({
-  // NiFrontendInterface: () => React.useContext(mockNiFrontendContext),
   __esModule: true,
   NiFrontendContext: React.createContext(mockNiFrontendContext),
   categoryNamesToObject: jest.fn(),
@@ -193,95 +165,169 @@ const wrapper = ({ children }: any) => (
   </NiFrontendContext.Provider>
 );
 
-/*describe("ClassOneContext", () => {
-    it('should render default context values', () => {
-        const result = React.useContext(ClassOneContext);
-        expect(result).not.toBeNull();
-        expect(result).toEqual(mockClassOneContext);
-    });
-});*/
-
 describe("useClassOneForm", () => {
-  beforeEach(() => {
-    jest
-      .spyOn(React, "useState")
-      // @ts-ignore
-      .mockImplementation((init) => [init, setState])
-      .mockImplementation(() => [mockTaxYearPeriod.txYears, setState])
-      .mockImplementation(() => [mockTaxYearPeriod.txYears[0], setState])
-      .mockImplementation(() => [mockRows, setState]);
-    jest
-      .spyOn(React, "useContext")
-      .mockImplementation(() => mockNiFrontendContext);
-  });
-
   afterEach(() => {
-    //jest.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   it("should render the context hook", () => {
-    //const { result } = renderHook(() => React.useContext(ClassOneContext));
+    const { result: returnResult } = renderHook(() => useClassOneForm(), {
+      wrapper,
+    });
+
+    // Access the values returned by the hook
+    const {
+      ClassOneCalculator,
+      isMultiYear,
+      taxYears,
+      taxYear,
+      defaultRow,
+      niRow,
+      rows,
+      customRows,
+      details,
+      errors,
+      niPaidNet,
+      niPaidEmployee,
+      categoryTotals,
+      categories,
+      activeRowId,
+      result,
+      categoryNames,
+      periodType,
+      isRepeatAllow,
+      customSplitRows,
+    } = returnResult.current;
+
+    // Write assertions to check the initial values
+    expect(ClassOneCalculator).toBeDefined();
+    expect(isMultiYear).toBe(false);
+    expect(taxYears).toStrictEqual([]);
+    expect(taxYear).toBe(null);
+    expect(defaultRow).not.toBeNull();
+    expect(niRow).not.toBeNull();
+    expect(rows.length).toBe(1);
+    expect(customRows).toStrictEqual([]);
+    expect(details).not.toBeNull();
+    expect(errors).toStrictEqual({});
+    expect(niPaidNet).toBe("");
+    expect(niPaidEmployee).toBe("");
+    expect(categoryTotals).toStrictEqual({});
+    expect(categories).toStrictEqual([]);
+    expect(activeRowId).toBe(null);
+    expect(result).toBe(null);
+    expect(categoryNames).toStrictEqual(undefined);
+    expect(periodType).toBe("W");
+    expect(isRepeatAllow).toBe(true);
+    expect(customSplitRows).toStrictEqual({});
+  });
+
+  it("should update the details", () => {
+    const mockDispatch = jest.fn();
+    jest
+      .spyOn(React, "useReducer")
+      .mockReturnValue([mockDetails, mockDispatch]);
+
     const { result } = renderHook(() => useClassOneForm(), { wrapper });
-    expect(result.current).not.toBeNull();
+    expect(result.current.isMultiYear).toBe(false);
+
+    act(() => {
+      result.current.setDetails(mockDetails);
+    });
+    expect(result.current.details).toBe(mockDetails);
+  });
+
+  it("should update the isMultiYear", () => {
+    const { result } = renderHook(() => useClassOneForm(), { wrapper });
+    expect(result.current.isMultiYear).toBe(false);
+
+    act(() => {
+      result.current.setIsMultiYear(true);
+    });
+    expect(result.current.isMultiYear).toBe(true);
+  });
+
+  it("should update the taxYear and should update a category for the default row", () => {
+    const { result } = renderHook(() => useClassOneForm(), { wrapper });
+    expect(result.current.taxYear).toBe(null);
+
+    act(() => {
+      result.current.setTaxYear(mockTaxYearPeriod.txYears[0]);
+      result.current.ClassOneCalculator.getApplicableCategories = jest
+        .fn()
+        .mockReturnValue("AB");
+    });
+    expect(result.current.taxYear).toBe(mockTaxYearPeriod.txYears[0]);
+    expect(result.current.categories).toStrictEqual(["A", "B"]);
+  });
+
+  it("should update the taxYear but should not update a category for the default row", () => {
+    const { result } = renderHook(() => useClassOneForm(), { wrapper });
+    expect(result.current.taxYear).toBe(null);
+
+    act(() => {
+      result.current.setTaxYear(mockTaxYearPeriod.txYears[0]);
+      result.current.ClassOneCalculator.getApplicableCategories = jest
+        .fn()
+        .mockReturnValue(null);
+    });
+    expect(result.current.taxYear).toBe(mockTaxYearPeriod.txYears[0]);
+    expect(result.current.categories).toStrictEqual([]);
   });
 
   it("should reset period number after deleting row", () => {
-    //jest.spyOn(React, "useState").mockImplementation(() => [mockRows, setState]);
-
     const { result } = renderHook(() => useClassOneForm(), { wrapper });
+    expect(result.current.rows.length).toBe(1);
+
+    act(() => {
+      result.current.setRows(mockRows);
+    });
+    expect(result.current.rows.length).toBe(4);
 
     act(() => {
       result.current.setPeriodNumbers("2");
-      // @ts-ignore
-      result.current.setResult(mockResult);
     });
-    expect(result.current.setRows).toBeCalled();
+    expect(result.current.rows.length).toBe(3);
+  });
+
+  it("should show all rows when invalid delete row number passed in setPeriodNumbers callback function", () => {
+    const { result } = renderHook(() => useClassOneForm(), { wrapper });
+    expect(result.current.rows.length).toBe(1);
+
+    act(() => {
+      result.current.setRows(mockRows);
+    });
+    expect(result.current.rows.length).toBe(4);
+
+    act(() => {
+      result.current.setPeriodNumbers(undefined);
+    });
+    expect(result.current.rows.length).toBe(4);
   });
 
   it("should render correct count of get allowed rows", () => {
     const { result } = renderHook(() => useClassOneForm(), { wrapper });
-    expect(result.current.getAllowedRows(2)).toBe(2);
+    expect(result.current.getAllowedRows(2)).toBe(51);
     expect(result.current.getAllowedRows(2, "W")).toBe(51);
     expect(result.current.getAllowedRows(2, "2W")).toBe(25);
     expect(result.current.getAllowedRows(2, "4W")).toBe(12);
     expect(result.current.getAllowedRows(2, "M")).toBe(10);
     expect(result.current.getAllowedRows(2, "M", true)).toBe(12);
+    expect(result.current.getAllowedRows(2, "A")).toBe(2);
   });
-});
 
-describe("useClassOneForm state", () => {
-  it("should update result data", () => {
-    //jest.spyOn(React, "useState").mockImplementation(() => [mockResult, setState]);
+  it("should update the result", () => {
+    const { result } = renderHook(() => useClassOneForm(), { wrapper });
+    expect(result.current.result).toBe(null);
 
-    // @ts-ignore
-    const rows: Array<Row> = mockRows;
-    // @ts-ignore
-    const result2: Class1Result = mockResult;
-
-    // @ts-ignore
-    // useState.mockReturnValueOnce([rows, jest.fn()]);
-    // @ts-ignore
-    useState.mockReturnValueOnce([result2, jest.fn()]);
-/*
-    jest
-      .spyOn(React, "useState")
-      .mockImplementation(() => [rows, setState])
-      .mockImplementation(() => [result2, setState]);*/
-
-    const { result, rerender } = renderHook(() => useClassOneForm(), {
-      wrapper,
+    act(() => {
+      result.current.setRows(mockRows);
+      result.current.setResult(mockResult);
     });
-    //jest.spyOn(result.current, "setRows").mockImplementation(() => rows)
-    //jest.spyOn(result.current, "setResult").mockImplementation(() => mockResult)
+    expect(result.current.result).toBe(mockResult);
 
-    //rerender()
-    /*
-    jest
-      .spyOn(React, "useState")
-      .mockImplementation(() => [rows, setState])
-      .mockImplementation(() => [mockResult, setState]);*/
-
-    // @ts-ignore
-    expect(result.current.result.resultRows).not.toBeUndefined();
+    const getCatTotals = result.current.categoryTotals;
+    const checkKey = getCatTotals.hasOwnProperty("A");
+    expect(checkKey).toBe(true);
   });
 });

@@ -1,7 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import Class1PeriodsSection from "./Class1PeriodsSection";
-import { PeriodValue } from "../../../config";
 
 const handleDateInputChange = jest.fn();
 
@@ -12,9 +11,7 @@ jest.mock("./Class1PeriodsTable", () => () => (
 describe("Class1PeriodsSection", () => {
   beforeEach(() => {
     render(
-      <Class1PeriodsSection
-        handleDateInputChange={handleDateInputChange}
-      />
+      <Class1PeriodsSection handleDateInputChange={handleDateInputChange} />
     );
   });
 

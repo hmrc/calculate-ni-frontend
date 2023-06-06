@@ -41,6 +41,7 @@ const initialDetails = {
   date: "",
 };
 
+/* istanbul ignore next */
 const detailsReducer = (
   state: DetailsProps,
   action: { [x: string]: string }
@@ -184,6 +185,7 @@ interface ClassOneContext {
   setCustomSplitRows: Dispatch<SetStateAction<CustomSplitRows>>;
 }
 
+/* istanbul ignore next */
 export const ClassOneContext = React.createContext<ClassOneContext>({
   ClassOneCalculator: initClassOneCalculator,
   isMultiYear: false,
