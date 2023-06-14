@@ -10,6 +10,7 @@
   "setupFilesAfterEnv": ["@testing-library/jest-dom/extend-expect"],
   "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\]$"],
   "collectCoverage": true,
+  "verbose": true,
   "coverageDirectory": "/Users/abelade/Documents/git-files/coverage/reports",
   "testEnvironmentOptions": {
     "node": {
