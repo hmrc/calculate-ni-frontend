@@ -49,6 +49,7 @@ jest.mock("../../../services/useDocumentTitle", () => ({
   useDocumentTitle: jest.fn(),
 }));
 
+// @ts-ignore
 jest.spyOn(React, "useEffect").mockImplementation((f) => f());
 jest.spyOn(React, "useRef").mockImplementation(() => ({
   current: {
@@ -56,6 +57,7 @@ jest.spyOn(React, "useRef").mockImplementation(() => ({
   },
 }));
 
+// @ts-ignore
 const mockValidateClassOnePayload = validateClassOnePayload as jest.Mock;
 
 const rows = [
@@ -430,6 +432,7 @@ jest.mock("react", () => {
 });
 
 jest.mock("../../../services/utils");
+// @ts-ignore
 const mockUseHasKeys = hasKeys as jest.MockedFunction<typeof hasKeys>;
 
 const setState = jest.fn();
