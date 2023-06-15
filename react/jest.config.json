@@ -18,6 +18,7 @@
       "max_old_space_size": 4096
     }
   },
+  "silent": true,
   "moduleNameMapper": {
     "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
     "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/__mocks__/fileMock.js"
