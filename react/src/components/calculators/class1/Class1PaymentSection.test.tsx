@@ -329,8 +329,6 @@ describe("Class1PaymentSection", () => {
 
   describe("when remaining allowed rows is zero and repeat row is not allow", () => {
     beforeEach(() => {
-      jest.spyOn(console, "warn").mockImplementation(() => {});
-
       renderComponent(mockValueElse);
     });
 
@@ -360,7 +358,6 @@ describe("Class1PaymentSection", () => {
 
   describe("when remaining allowed rows is zero and repeat row is allow", () => {
     beforeEach(() => {
-      jest.spyOn(console, "warn").mockImplementation(() => {});
       jest.spyOn(React, "useState").mockImplementation(() => [2, setState]);
 
       renderComponent(mockValueRepeatAllow);
@@ -377,7 +374,6 @@ describe("Class1PaymentSection", () => {
 
   describe("when remaining allowed rows is grater than 0", () => {
     beforeEach(() => {
-      jest.spyOn(console, "warn").mockImplementation(() => {});
       jest.spyOn(React, "useState").mockImplementation(() => [0, setState]);
 
       renderComponent(mockValueRepeatAllowMore);
@@ -394,8 +390,6 @@ describe("Class1PaymentSection", () => {
 
   describe("when active row has not a number", () => {
     beforeEach(() => {
-      jest.spyOn(console, "warn").mockImplementation(() => {});
-
       const mockValueNoNumber = {
         ...mockValue,
         rows: [{ ...mockValue.rows[0], number: undefined }],
@@ -416,7 +410,6 @@ describe("Class1PaymentSection", () => {
 
   describe("when repeat qty is more than allowed period wise", () => {
     beforeEach(() => {
-      jest.spyOn(console, "warn").mockImplementation(() => {});
       jest.spyOn(React, "useState").mockImplementation(() => [12, setState]);
 
       renderComponent(mockValueRepeatAllowMore);

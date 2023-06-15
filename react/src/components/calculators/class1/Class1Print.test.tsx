@@ -39,7 +39,6 @@ jest.mock("../shared/DetailsPrint", () => () => (
 
 describe("Class1Print", () => {
   beforeEach(() => {
-    jest.spyOn(console, "warn").mockImplementation(() => {});
     renderComponent(mockValue);
   });
 

@@ -110,11 +110,6 @@ jest.mock("react", () => {
 });
 
 describe("Class1Table", () => {
-  beforeEach(() => {
-    jest.spyOn(console, "error").mockImplementation(() => {});
-    jest.spyOn(console, "warn").mockImplementation(() => {});
-  });
-
   describe("when no bands to show and not a print view", () => {
     beforeEach(() => {
       jest.spyOn(React, "useState").mockImplementation(() => ["1", setState]);

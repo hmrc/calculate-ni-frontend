@@ -73,10 +73,6 @@ const renderComponent = (value: any) =>
   );
 
 describe("Class1Form", () => {
-  beforeEach(() => {
-    jest.spyOn(console, "warn").mockImplementation(() => {});
-  });
-
   describe("when split tax years", () => {
     beforeEach(() => {
       renderComponent(mockValue);

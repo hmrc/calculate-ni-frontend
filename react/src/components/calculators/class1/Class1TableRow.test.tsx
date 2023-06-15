@@ -149,10 +149,6 @@ const renderComponent = (props: any) => {
 };
 
 describe("Class1TableRow", () => {
-  beforeEach(() => {
-    jest.spyOn(console, "error").mockImplementation(() => {});
-  });
-
   describe("when bands to show and a print view", () => {
     beforeEach(() => {
       renderComponent({

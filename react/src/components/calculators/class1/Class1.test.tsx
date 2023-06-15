@@ -448,8 +448,6 @@ const doCalculate = () => {
 
 describe("Class1", () => {
   beforeEach(() => {
-    jest.spyOn(console, "error").mockImplementation(() => {});
-    jest.spyOn(console, "warn").mockImplementation(() => {});
     mockValidateClassOnePayload.mockReturnValue(true);
   });
 
