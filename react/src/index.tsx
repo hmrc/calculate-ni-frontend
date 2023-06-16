@@ -6,7 +6,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 if (process.env.NODE_ENV !== 'production') {
-  var axe = require('react-axe')
+  var axe = require('@axe-core/react')
   axe(React, ReactDOM, 1000)
 }
 
