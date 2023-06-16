@@ -22,7 +22,7 @@ export interface Class2Or3Result {
   finalPaymentDate: Date
 }
 
-interface Class2Or3Context {
+interface Class2Or3ContextProps {
   ClassTwoCalculator: Class2Or3Calculator
   ClassThreeCalculator: Class2Or3Calculator
   class2TaxYears: TaxYear[]
@@ -56,7 +56,7 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
 })
 
 
-export const Class2Or3Context = React.createContext<Class2Or3Context>(
+export const Class2Or3Context = React.createContext<Class2Or3ContextProps>(
   {
     ClassTwoCalculator: initClass2Or3Calculator,
     ClassThreeCalculator: initClass2Or3Calculator,

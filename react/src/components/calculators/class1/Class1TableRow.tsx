@@ -7,7 +7,6 @@ import * as thStyles from "../../../services/mobileHeadingStyles";
 import { ClassOneContext, Row } from "./ClassOneContext";
 
 // components
-import TextInput from "../../helpers/formhelpers/TextInput";
 import MqTableCell from "../shared/MqTableCell";
 import ExplainToggle from "../shared/ExplainToggle";
 import TableRow from "../shared/TableRow";

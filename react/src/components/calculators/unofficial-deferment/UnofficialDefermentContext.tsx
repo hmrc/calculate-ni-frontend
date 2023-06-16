@@ -80,7 +80,7 @@ export interface UnofficialDefermentRequestRow extends UnofficialDefermentRowBas
   bands: Array<RequestBand>
 }
 
-interface UnofficialDefermentContext {
+interface UnofficialDefermentContextProps {
   UnofficialDefermentCalculator: UnofficialDefermentCalculator
   taxYears: number[]
   taxYear: number
@@ -106,7 +106,7 @@ interface UnofficialDefermentContext {
   setUserBands: Dispatch<BandAmount[]>
 }
 
-export const UnofficialDefermentContext = React.createContext<UnofficialDefermentContext>(
+export const UnofficialDefermentContext = React.createContext<UnofficialDefermentContextProps>(
   {
     UnofficialDefermentCalculator: initUnofficialDefermentCalculator,
     taxYears: [],

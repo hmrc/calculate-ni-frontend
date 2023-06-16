@@ -8,11 +8,11 @@ import {LateRefundsContext, LateRefundsTableRowProps} from './LateRefundsContext
 import LateRefundsTableRow from './LateRefundsTableRow'
 import SecondaryButton from '../../helpers/gov-design-system/SecondaryButton'
 
-interface LateRefundsTable {
+interface LateRefundsTableProps {
   printView: boolean
 }
 
-function LateRefundsTable(props: LateRefundsTable) {
+function LateRefundsTable(props: LateRefundsTableProps) {
   const {printView} = props
   const {
     defaultRow,

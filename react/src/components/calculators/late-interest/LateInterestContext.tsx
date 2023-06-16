@@ -32,7 +32,7 @@ interface LateInterestResults {
   totalDailyInterest: string | null
 }
 
-interface LateInterestContext {
+interface LateInterestContextProps {
   InterestOnLateClassOneCalculator: InterestOnLateClassOne
   details: DetailsProps
   setDetails: Function
@@ -53,7 +53,7 @@ interface LateInterestContext {
   setHasRemissionPeriod: Dispatch<boolean>
 }
 
-export const LateInterestContext = React.createContext<LateInterestContext>(
+export const LateInterestContext = React.createContext<LateInterestContextProps>(
   {
     InterestOnLateClassOneCalculator: initInterestOnLateClassOne,
     details: detailsState,

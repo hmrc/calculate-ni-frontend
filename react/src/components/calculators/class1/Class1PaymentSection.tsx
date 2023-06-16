@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import { Class1PaymentSectionProps, CustomRow } from "../../../interfaces";
+import { Class1PaymentSectionProps } from "../../../interfaces";
 import Class1Table from "./Class1Table";
 import SecondaryButton from "../../helpers/gov-design-system/SecondaryButton";
 import Class1PeriodsSection from "./Class1PeriodsSection";
