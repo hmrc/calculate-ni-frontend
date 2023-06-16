@@ -7,11 +7,11 @@ import Class1DebtTableRow from './Class1DebtTableRow'
 import {LateInterestContext} from './LateInterestContext'
 import {Class1DebtRow} from '../../../interfaces'
 
-interface LateInterestDebtTable {
+interface LateInterestDebtTableProps {
   printView: boolean
 }
 
-function LateInterestDebtTable(props: LateInterestDebtTable) {
+function LateInterestDebtTable(props: LateInterestDebtTableProps) {
   const { printView } = props
   const {
     rows

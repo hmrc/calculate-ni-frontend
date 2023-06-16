@@ -143,7 +143,7 @@ export interface Class1Result {
   bandTotals: BandTotals;
 }
 
-interface ClassOneContext {
+interface ClassOneContextProps {
   ClassOneCalculator: Calculator;
   isMultiYear: boolean;
   setIsMultiYear: Dispatch<boolean>;
@@ -186,7 +186,7 @@ interface ClassOneContext {
 }
 
 /* istanbul ignore next */
-export const ClassOneContext = React.createContext<ClassOneContext>({
+export const ClassOneContext = React.createContext<ClassOneContextProps>({
   ClassOneCalculator: initClassOneCalculator,
   isMultiYear: false,
   setIsMultiYear: () => {},

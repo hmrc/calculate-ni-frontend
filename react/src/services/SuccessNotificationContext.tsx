@@ -1,11 +1,11 @@
 import React, {Dispatch} from "react";
 
-interface SuccessNotificationContext {
+interface SuccessNotificationContextProps {
   successNotificationsOn: boolean
   setSuccessNotificationsOn: Dispatch<boolean>
 }
 
-export const SuccessNotificationContext = React.createContext<SuccessNotificationContext>(
+export const SuccessNotificationContext = React.createContext<SuccessNotificationContextProps>(
   {
     successNotificationsOn: true,
     setSuccessNotificationsOn: () => {}

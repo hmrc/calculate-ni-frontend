@@ -23,7 +23,7 @@ export const class3DefaultRows = [{
   dateRange: {from: null, to: null}
 }]
 
-interface Class3Context {
+interface Class3ContextProps {
   details: DetailsProps
   setDetails: Function
   day: string,
@@ -49,7 +49,7 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
 })
 
 
-export const Class3Context = React.createContext<Class3Context>(
+export const Class3Context = React.createContext<Class3ContextProps>(
   {
     details: initialDetails,
     setDetails: () => {},
