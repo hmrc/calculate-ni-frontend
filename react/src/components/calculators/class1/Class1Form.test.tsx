@@ -123,9 +123,7 @@ describe("Class1Form", () => {
     });
 
     it("should change value when tax year is selected", () => {
-      const selectOne = screen.getByRole("option", {
-        name: "6 April 2022 - 5 December 2022",
-      });
+      const selectOne = screen.getByTestId("taxYear");
       fireEvent.change(selectOne, {
         target: { value: "[2022-04-06, 2022-12-05]" },
       });
@@ -133,13 +131,11 @@ describe("Class1Form", () => {
     });
 
     it("should select default value when tax year is not selected", () => {
-      const selectOne = screen.getByRole("option", {
-        name: "6 April 2022 - 5 December 2022",
-      });
+      const selectOne = screen.getByTestId("taxYear");
       fireEvent.change(selectOne, {
         target: { value: "" },
       });
-      expect(selectOne).toHaveValue("");
+      expect(selectOne).toHaveValue("[2022-04-06, 2022-12-05]");
     });
   });
 });
