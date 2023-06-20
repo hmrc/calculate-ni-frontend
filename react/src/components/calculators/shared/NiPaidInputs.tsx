@@ -1,8 +1,9 @@
-import React, {Context, useContext} from "react"
+import React, {Context, useContext, useEffect, useState} from "react"
 import CurrencyInput from "../../helpers/gov-design-system/CurrencyInput";
 
 export default function NiPaidInputs(props: {context: Context<any>}) {
   const { context } = props
+    const [person, setPerson] = useState<String>("Ben")
   const {
     errors,
     niPaidNet,
@@ -10,6 +11,16 @@ export default function NiPaidInputs(props: {context: Context<any>}) {
     niPaidEmployee,
     setNiPaidEmployee
   } = useContext(context)
+
+  const handleChangeNet = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNiPaidNet(e.target.value)
+    setPerson(person + (person.length - 2).toString())
+  }
+
+  useEffect(() => {
+    console.log(person)
+  }, [person])
+
   return (
     <div className="field-row">
       <div className="field-col">
@@ -18,8 +29,8 @@ export default function NiPaidInputs(props: {context: Context<any>}) {
           label="NI paid net (optional)"
           value={niPaidNet}
           error={errors.niPaidNet}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNiPaidNet(e.target.value)}
-          hint="How much has been paid in total"
+          onChange={handleChangeNet}
+          hint="How much you chucked in"
         />
       </div>
       <div className="field-col">
