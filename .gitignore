@@ -45,6 +45,7 @@ app/assets/robots.txt
 project/metals.sbt
 */target
 react/build
+react/coverage
 /node_modules
 /react/node_modules
 /react/src/calculation.js
