@@ -25,7 +25,7 @@ import { SuccessNotification } from "../shared/SuccessNotification";
 import { SuccessNotificationContext } from "../../../services/SuccessNotificationContext";
 import PrintButtons from "../shared/PrintButtons";
 
-const pageTitle = "Calculate Class 1 National Insurance (NI) contributions";
+const pageTitle = "This is the calculation for class 1";
 
 const Class1Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false);
