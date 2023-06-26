@@ -12,7 +12,7 @@
   "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\]$"],
   "collectCoverage": true,
   "verbose": true,
-  "coverageDirectory": "/Users/abelade/Documents/git-files/coverage/reports",
+  "coverageDirectory": "./coverage/reports",
   "testEnvironmentOptions": {
     "node": {
       "max_old_space_size": 4096
