@@ -28,6 +28,7 @@ import PrintButtons from "../shared/PrintButtons";
 const pageTitle = "This is the calculation for class 1";
 
 const Class1Page = () => {
+  const [number, setNumber] = useState<number>(0);
   const [showSummary, setShowSummary] = useState<boolean>(false);
   const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>;
@@ -55,6 +56,10 @@ const Class1Page = () => {
   const { successNotificationsOn } = useContext(SuccessNotificationContext);
   const titleWithPrefix = hasKeys(errors) ? "Error: " + pageTitle : pageTitle;
   useDocumentTitle(titleWithPrefix);
+
+  const handleChangeValue = () => {
+
+  };
 
   const handleDetailsChange = ({
     currentTarget: { name, value },
