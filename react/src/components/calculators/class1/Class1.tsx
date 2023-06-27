@@ -19,6 +19,7 @@ import {
   useClassOneForm,
   ClassOneRowInterface,
   Row,
+  TestContext,
 } from "./ClassOneContext";
 import { useDocumentTitle } from "../../../services/useDocumentTitle";
 import { SuccessNotification } from "../shared/SuccessNotification";
@@ -55,6 +56,7 @@ const Class1Page = () => {
   } = useContext(ClassOneContext);
   const { successNotificationsOn } = useContext(SuccessNotificationContext);
   const titleWithPrefix = hasKeys(errors) ? "Error: " + pageTitle : pageTitle;
+  const testUse = useContext(TestContext)
   useDocumentTitle(titleWithPrefix);
 
   const handleChangeValue = () => {

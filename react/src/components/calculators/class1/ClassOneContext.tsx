@@ -23,6 +23,13 @@ import {
 } from "../../../services/NiFrontendContext";
 import uniqid from "uniqid";
 
+const [string, setString] = useState<string>("This is also a Test");
+
+export const TestContext = React.createContext<TestContext>({
+        string: "This is a test",
+        setString: () => {}
+        });
+
 const initRow = {
   id: uniqid(),
   category: "A",
