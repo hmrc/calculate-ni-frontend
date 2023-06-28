@@ -37,6 +37,8 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
     customSplitRows,
     setCustomSplitRows,
     setPeriodType,
+    myCountry,
+    setMyCountry
   } = useContext(ClassOneContext);
 
   const [repeatQty, setRepeatQty] = useState<number>(1);
@@ -419,6 +421,17 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
     }
   };
 
+  const handleCountryChange = () => {
+    const countries = ["England", "Scotland", "Wales", "Northern Ireland"];
+    if(myCountry) {
+      if(myCountry == "Northern Ireland") {
+        setMyCountry(countries[0]);
+      } else {
+        setMyCountry(countries[countries.indexOf(myCountry) + 1]);
+      }
+    }
+  };
+
   // handle change in date input in custom rows for period
   const handleDateInputChange = useCallback(
     (row, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -518,9 +531,10 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
       )}
 
       <div className="form-group" style={{ marginTop: "25px" }}>
-        <button className="govuk-button nomar" type="submit">
+        <button className="govuk-button nomar" type="submit" onClick={handleCountryChange}>
           Calculate
         </button>
+        <p>Calculating rates for: {myCountry}</p>
       </div>
     </>
   );

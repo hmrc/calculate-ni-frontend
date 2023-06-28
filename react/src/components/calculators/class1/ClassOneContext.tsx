@@ -182,6 +182,8 @@ interface ClassOneContext {
   getAllowedRows: Function;
   customSplitRows: CustomSplitRows;
   setCustomSplitRows: Dispatch<SetStateAction<CustomSplitRows>>;
+  myCountry: string | null,
+  setMyCountry: Function
 }
 
 export const ClassOneContext = React.createContext<ClassOneContext>({
@@ -224,9 +226,12 @@ export const ClassOneContext = React.createContext<ClassOneContext>({
   getAllowedRows: () => "",
   customSplitRows: {},
   setCustomSplitRows: () => {},
+  myCountry: "England",
+  setMyCountry: () => {}
 });
 
 export function useClassOneForm() {
+  const [myCountry, setMyCountry] = useState<string>("England")
   const { NiFrontendInterface } = useContext(NiFrontendContext);
   const ClassOneCalculator = NiFrontendInterface.classOne;
   const [isMultiYear, setIsMultiYear] = useState<boolean>(false);
@@ -398,5 +403,7 @@ export function useClassOneForm() {
     getAllowedRows,
     customSplitRows,
     setCustomSplitRows,
+    myCountry,
+    setMyCountry
   };
 }
