@@ -50,3 +50,4 @@ react/coverage
 /react/node_modules
 /react/src/calculation.js
 npm-debug.log*
+/react/coverage/

@@ -30,7 +30,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --config ./jest.config.json",
+    "test": "node --max_old_space_size=4096 node_modules/.bin/jest --config ./jest.config.json --runInBand",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:8668",
