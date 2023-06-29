@@ -332,7 +332,7 @@ const Class1Page = () => {
         <>
           {hasKeys(errors) && <ErrorSummary errors={errors} />}
 
-          <h1>{pageTitle}</h1>
+          <h1>{TestContext}</h1>
 
           <form onSubmit={handleSubmit} noValidate>
             <Details details={details} handleChange={handleDetailsChange} />

@@ -25,7 +25,7 @@ import uniqid from "uniqid";
 
 const [string, setString] = useState<string>("This is also a Test");
 
-export const TestContext = React.createContext<TestContext>({
+export const TestContext = React.createContext({
         string: "This is a test",
         setString: () => {}
         });
