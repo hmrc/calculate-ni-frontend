@@ -26,7 +26,9 @@ function Class1Form(props: Class1FormProps) {
     isMultiYear,
     setIsMultiYear,
   } = useContext(ClassOneContext);
-  const [taxYearPeriod, setTaxYearPeriod] = useState<TaxYearPeriodType | undefined>({ from: "", txYears: []});
+  const [taxYearPeriod, setTaxYearPeriod] = useState<
+    TaxYearPeriodType | undefined
+  >({ from: "", txYears: [] });
 
   const memoizedTaxYears = useMemo(() => {
     if (taxYears && taxYears.length > 0) {
@@ -61,16 +63,18 @@ function Class1Form(props: Class1FormProps) {
       });
 
       //set default tax year
-      if (display.length > 0) {
-        setTaxYear(display[0]);
-      } else {
-        setTaxYear(taxYears[0]);
+      if (!taxYear) {
+        if (display.length > 0) {
+          setTaxYear(display[0]);
+        } else {
+          setTaxYear(taxYears[0]);
+        }
       }
 
       return { display, grouped };
     }
     return { grouped: [], display: [] };
-  }, [taxYears, setTaxYear]);
+  }, [taxYears, setTaxYear]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (taxYear && memoizedTaxYears) {
@@ -80,11 +84,11 @@ function Class1Form(props: Class1FormProps) {
         return row.from === taxYearStart.toString();
       });
       // sort tax years by start date ascending
-      if(taxYearPeriods) {
-          taxYearPeriods.txYears.sort(
-              // @ts-ignore
-              (a, b) => a.from - b.from
-          );
+      if (taxYearPeriods) {
+        taxYearPeriods.txYears.sort(
+          // @ts-ignore
+          (a, b) => a.from - b.from
+        );
       }
 
       setTaxYearPeriod(taxYearPeriods);
@@ -107,24 +111,25 @@ function Class1Form(props: Class1FormProps) {
 
   return (
     <div className="table-wrapper">
-        <div className="container">
-          <div className="form-group half">
-            <SelectTaxYear
-              taxYears={memoizedTaxYears.display}
-              taxYear={taxYear}
-              handleTaxYearChange={handleTaxYearChange}
-            />
-          </div>
+      <div className="container">
+        <div className="form-group half">
+          <SelectTaxYear
+            taxYears={memoizedTaxYears.display}
+            taxYear={taxYear}
+            handleTaxYearChange={handleTaxYearChange}
+          />
         </div>
+      </div>
 
-        {isMultiYear && <Class1NIInfoSection taxYear={taxYear} />}
+      {isMultiYear && <Class1NIInfoSection taxYear={taxYear} />}
 
-        <NiPaidInputs context={ClassOneContext} />
+      <NiPaidInputs context={ClassOneContext} />
 
-        <Class1PaymentSection
-            memoizedTaxYears={memoizedTaxYears}
-            resetTotals={resetTotals}
-            taxYearPeriod={taxYearPeriod} />
+      <Class1PaymentSection
+        memoizedTaxYears={memoizedTaxYears}
+        resetTotals={resetTotals}
+        taxYearPeriod={taxYearPeriod}
+      />
     </div>
   );
 }
