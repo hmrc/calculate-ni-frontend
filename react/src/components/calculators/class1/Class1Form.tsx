@@ -62,24 +62,29 @@ function Class1Form(props: Class1FormProps) {
         }
       });
 
-      //set default tax year
-      if (!taxYear) {
-        if (display.length > 0) {
-          setTaxYear(display[0]);
-        } else {
-          setTaxYear(taxYears[0]);
-        }
-      }
-
       return { display, grouped };
     }
     return { grouped: [], display: [] };
   }, [taxYears, setTaxYear]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    if (!taxYear && memoizedTaxYears) {
+        const {display} = memoizedTaxYears;
+
+        //set default tax year
+        if (display.length > 0) {
+            setTaxYear(display[0]);
+        } else {
+            setTaxYear(taxYears[0]);
+        }
+    }
+  }, [memoizedTaxYears, taxYear, setTaxYear, taxYears]);
+
+  useEffect(() => {
     if (taxYear && memoizedTaxYears) {
       const taxYearStart = moment(taxYear.from).year();
       const { grouped } = memoizedTaxYears;
+      // @ts-ignore
       const taxYearPeriods = grouped.find((row) => {
         return row.from === taxYearStart.toString();
       });
@@ -103,6 +108,7 @@ function Class1Form(props: Class1FormProps) {
 
   const handleTaxYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { display } = memoizedTaxYears;
+    // @ts-ignore
     const selectedTaxYear =
       display.find((ty) => ty.id === e.target.value) || display[0];
     setTaxYear(selectedTaxYear);
