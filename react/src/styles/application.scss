@@ -1,6 +1,6 @@
-$govuk-assets-path: "/calculate-ni/lib/govuk-frontend/govuk/assets/";
+$hmrc-assets-path: "/../node_modules/hmrc-frontend/hmrc/";
+$govuk-assets-path: "/../node_modules/govuk-frontend/govuk/assets/";
 @import "node_modules/govuk-frontend/govuk/all";
-$hmrc-assets-path: "/calculate-ni/lib/hmrc-frontend/hmrc/";
 @import "node_modules/hmrc-frontend/hmrc/all";
 
 @import "reset";

@@ -51,7 +51,7 @@ const detailsReducer = (state: DetailsProps, action: { [x: string]: string }) =>
   ...action,
 })
 
-interface DirectorsContext {
+interface DirectorsContextProps {
   DirectorsCalculator: DirectorsCalculator
   ClassOneCalculator: ClassOneCalculator
   taxYears: TaxYear[]
@@ -87,7 +87,7 @@ interface DirectorsContext {
   categoryNames: GenericObject
 }
 
-export const DirectorsContext = React.createContext<DirectorsContext>(
+export const DirectorsContext = React.createContext<DirectorsContextProps>(
   {
     DirectorsCalculator: initDirectorsCalculator,
     ClassOneCalculator: initClassOneCalculator,

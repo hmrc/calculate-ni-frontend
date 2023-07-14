@@ -233,13 +233,13 @@ const reduceBandNames = (rows: Row[] | DirectorsUIRow[]) => rows
     .filter((r: Row | DirectorsUIRow) => r.bands && r.bands.length > 0)
     .reduce(
         (list: string[], next: Row | DirectorsUIRow) =>
-            [...list, ...next.bands?.map((n: Band) => n.name)], [] as string[]
+            [...list, ...next.bands?.map((n: Band) => n.name) || []], [] as string[]
     )
 const reduceContributionBandNames = (rows: Row[] | DirectorsUIRow[]) => rows
     .filter((r: Row | DirectorsUIRow) => r.contributionBands && r.contributionBands.length > 0)
     .reduce(
         (list: string[], next: Row | DirectorsUIRow) =>
-            [...list, ...next.contributionBands?.map((n: ContributionBand) => n.name)], [] as string[]
+            [...list, ...next.contributionBands?.map((n: ContributionBand) => n.name) || []], [] as string[]
     )
 
 export const getContributionBandNames = (rows: Row[] | DirectorsUIRow[]) => [...new Set<string>(reduceContributionBandNames(rows))]

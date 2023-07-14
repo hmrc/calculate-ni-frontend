@@ -13,7 +13,7 @@ export default function Header(props: HeaderProps) {
         </a>
       </div>
       <div className="hmrc-internal-header__service-name">
-        <a href="/calculate-ni" className="hmrc-internal-header__link">
+        <a href="/calculate-ni" className="hmrc-internal-header__link" data-testid="ni-calculation-header">
           {props.serviceName}
         </a>
       </div>

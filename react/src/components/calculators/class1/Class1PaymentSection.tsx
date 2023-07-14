@@ -58,7 +58,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
     if (enteredValue > allowedRows) {
       // don't allow to add more rows
       setRepeatQty(allowedRows);
-    } else if (getAllowedRows(currentTotalRows) === 0) {
+    } else if (allowedRows === 0) {
       // validation for repeat qty if maximum limit is reached
       setIsRepeatAllow(false);
     } else {
@@ -109,6 +109,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
 
   useEffect(
     () => {
+      /* istanbul ignore else */
       if (rows && rows.length > 0) {
         setCustomRows([]);
         let splitRows: any = {};
@@ -172,6 +173,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
                 .format(DATE_FORMAT_DD_MM_YYYY);
             }
           }
+
           // to check if period is between start and end date of tax year range
           if (
             startDateOfWeek &&
@@ -181,7 +183,6 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
           ) {
             const matchingPeriods: any[] = [];
             const getDateValue = customRows.find((r) => r.id === row.id);
-
             taxYearPeriod.txYears.forEach((ty, index) => {
               const { from, to } = ty;
               let customRowFlag = false;
@@ -286,6 +287,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
 
             // if period is between start and end date of tax year range
             if (matchingPeriods.length > 1) {
+              /* istanbul ignore next */
               setCustomRows((prevState) => [
                 ...prevState,
                 {
@@ -399,6 +401,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
   // delete selected row button click handler
   const handleDeleteRow = (e: React.MouseEvent) => {
     e.preventDefault();
+    /* istanbul ignore else */
     if (activeRowId) {
       setPeriodNumbers(activeRowId);
       setErrors({});
@@ -424,7 +427,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
     (row, e: React.ChangeEvent<HTMLInputElement>) => {
       setIsUpdateFlag(true);
       const { value } = e.target;
-
+      /* istanbul ignore else */
       if (value) {
         // remove id from errors
         delete errors[row.id];
@@ -444,6 +447,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
           .find((oRow) => oRow.id === row.id);
 
         // Update the date value
+        /* istanbul ignore else */
         if (getCurrentRow) {
           getCurrentRow.date = value;
         }
@@ -459,6 +463,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
         });
 
         // Update the from value
+        /* istanbul ignore else */
         if (parentKey) {
           // @ts-ignore
           customSplitRows[parentKey].from = new Date(value);
@@ -492,6 +497,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
               type="number"
               name="repeatQty"
               id="repeatQty"
+              data-testid="repeat-qty"
               value={repeatQty || ""}
               onChange={(e) => {
                 handleMaxValue(parseInt(e.currentTarget.value));

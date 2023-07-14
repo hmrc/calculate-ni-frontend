@@ -40,7 +40,7 @@ export default function Home() {
                       Class 1 NI calculators
                     </h2>
                     <ul className="govuk-list govuk-list--bullet">
-                      <li><Link to="/class-1" className="govuk-link">Calculate Class 1 National Insurance (NI) contributions</Link></li>
+                      <li><Link to="/class-1" className="govuk-link" data-testid="class1-link">Calculate Class 1 National Insurance (NI) contributions</Link></li>
                       <li><Link to="/directors" className="govuk-link">Directors’ contributions</Link></li>
                       <li><Link to="/unofficial-deferment" className="govuk-link">Class 1 NI contributions an employer owes due to unofficial
                         deferment</Link></li>
