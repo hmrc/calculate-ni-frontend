@@ -117,14 +117,14 @@ const initService: NiFrontendService = {
   unofficialDeferment: initUnofficialDefermentCalculator
 }
 
-interface NiFrontendContext {
+interface NiFrontendContextProps {
   NiFrontendInterface: NiFrontendService
   loading: boolean
   config: any
   error: string
 }
 
-export const NiFrontendContext = React.createContext<NiFrontendContext>(
+export const NiFrontendContext = React.createContext<NiFrontendContextProps>(
   {
     NiFrontendInterface: initService,
     config: {},
@@ -167,7 +167,7 @@ export function useNiFrontend() {
 
         setLoading(false)
 
-      } catch(error) {
+      } catch(error: any) {
         setLoading(false)
         setError('Configuration not loaded: ' + error.toString())
         console.log(error)

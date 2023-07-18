@@ -41,6 +41,7 @@ const initialDetails = {
   date: "",
 };
 
+/* istanbul ignore next */
 const detailsReducer = (
   state: DetailsProps,
   action: { [x: string]: string }
@@ -142,7 +143,7 @@ export interface Class1Result {
   bandTotals: BandTotals;
 }
 
-interface ClassOneContext {
+interface ClassOneContextProps {
   ClassOneCalculator: Calculator;
   isMultiYear: boolean;
   setIsMultiYear: Dispatch<boolean>;
@@ -184,7 +185,8 @@ interface ClassOneContext {
   setCustomSplitRows: Dispatch<SetStateAction<CustomSplitRows>>;
 }
 
-export const ClassOneContext = React.createContext<ClassOneContext>({
+/* istanbul ignore next */
+export const ClassOneContext = React.createContext<ClassOneContextProps>({
   ClassOneCalculator: initClassOneCalculator,
   isMultiYear: false,
   setIsMultiYear: () => {},

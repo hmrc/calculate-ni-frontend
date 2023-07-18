@@ -1,17 +1,19 @@
 import React from "react";
 
-export default function BackLink(props: {callBack: Function}){
-  const handleBackLink = (e: { preventDefault: () => void; }) => {
-    e.preventDefault()
-    props.callBack()
-  }
+export default function BackLink(props: { callBack: Function }) {
+  const handleBackLink = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    props.callBack();
+  };
 
   return (
     <a
       href="#hideSummary"
       className="govuk-back-link"
-      onClick={handleBackLink}>
+      onClick={handleBackLink}
+      data-testid="back-link"
+    >
       Back
     </a>
-  )
+  );
 }

@@ -1,0 +1,26 @@
+{
+  "moduleDirectories": ["node_modules"],
+  "testEnvironment": "jsdom",
+  "transform": {
+    "^.+\\.(ts|tsx)$": "ts-jest",
+    "^.+\\.(js|jsx)$": "babel-jest",
+    "^.+\\.svg$": "jest-svg-transformer"
+  },
+  "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+  "setupFilesAfterEnv": ["@testing-library/jest-dom/extend-expect"],
+  "setupFiles": ["mutationobserver-shim"],
+  "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\]$"],
+  "collectCoverage": true,
+  "verbose": true,
+  "coverageDirectory": "./coverage/reports",
+  "testEnvironmentOptions": {
+    "node": {
+      "max_old_space_size": 4096
+    }
+  },
+  "silent": true,
+  "moduleNameMapper": {
+    "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
+    "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/__mocks__/fileMock.js"
+  }
+}

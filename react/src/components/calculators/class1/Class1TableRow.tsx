@@ -7,7 +7,6 @@ import * as thStyles from "../../../services/mobileHeadingStyles";
 import { ClassOneContext, Row } from "./ClassOneContext";
 
 // components
-import TextInput from "../../helpers/formhelpers/TextInput";
 import MqTableCell from "../shared/MqTableCell";
 import ExplainToggle from "../shared/ExplainToggle";
 import TableRow from "../shared/TableRow";
@@ -137,7 +136,7 @@ export default function Class1TableRow(props: TableRowProps) {
     // period number validations for max number of weeks allowed period wise
     const maxRowNumber = getAllowedRows(rows.length, row.period, true);
     if (newPeriod > maxRowNumber || newPeriod < 1) {
-      newPeriod = '';
+      newPeriod = "";
     }
 
     setRows(
@@ -162,6 +161,7 @@ export default function Class1TableRow(props: TableRowProps) {
     return pastedText
       .replace(
         /"((?:[^"]*(?:\r\n|\n\r|\n|\r))+[^"]+)"/gm,
+        /* istanbul ignore next */
         function (match, p1) {
           return p1.replace(/""/g, '"').replace(/\r\n|\n\r|\n|\r/g, " ");
         }
@@ -171,12 +171,12 @@ export default function Class1TableRow(props: TableRowProps) {
   };
 
   const handlePaste = (e: React.ClipboardEvent, r: Row) => {
-      e.preventDefault();
+    e.preventDefault();
 
     const clipboardData = e.clipboardData;
     const pastedText =
       clipboardData.getData("Text") || clipboardData.getData("text/plain");
-    if (!pastedText && pastedText.length) {
+    if (!pastedText) {
       return;
     }
     const cellValues = splitPastedCellsToArray(pastedText);
@@ -203,7 +203,7 @@ export default function Class1TableRow(props: TableRowProps) {
 
       <MqTableCell cellStyle={thStyles.selectPeriod} cellClassName="input">
         {printView ? (
-          <div>{periodValueToLabel(row.period)}</div>
+          <>{periodValueToLabel(row.period)}</>
         ) : (
           <>
             <label
@@ -215,7 +215,7 @@ export default function Class1TableRow(props: TableRowProps) {
             <select
               name="period"
               value={row.period}
-              onChange={(e) => handleSelectChangePeriod?.(row, e)}
+              onChange={(e) => handleSelectChangePeriod(row, e)}
               className="borderless"
               id={`row${index}-period`}
             >
@@ -231,20 +231,18 @@ export default function Class1TableRow(props: TableRowProps) {
 
       <MqTableCell cellStyle={thStyles.periodNumber} cellClassName="input">
         {printView ? (
-          <div>{periodRowsValue?.number}</div>
+          <>{periodRowsValue?.number}</>
         ) : (
-          <React.Fragment>
-            <TextInput
-              hiddenLabel={true}
-              name="number"
-              labelText={`Period for row number ${index + 1}`}
-              inputClassName="period-number"
-              inputValue={isNaN(row?.number) ? "" : row?.number}
-              onChangeCallback={(e: React.ChangeEvent<HTMLInputElement>) =>
-                handlePeriodChange(row, e)
-              }
-            />
-          </React.Fragment>
+          <input
+            className="period-number"
+            name="number"
+            type="text"
+            id={`${row.id}-number`}
+            value={isNaN(row.number) || !row.number ? "" : row.number}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handlePeriodChange(row, e)
+            }
+          />
         )}
       </MqTableCell>
 
@@ -254,7 +252,7 @@ export default function Class1TableRow(props: TableRowProps) {
         cellClassName="input"
       >
         {printView ? (
-          <div>{row.category}</div>
+          <>{row.category}</>
         ) : (
           <>
             <label
@@ -266,7 +264,7 @@ export default function Class1TableRow(props: TableRowProps) {
             <select
               name="category"
               value={row.category}
-              onChange={(e) => handleSelectChangeCategory?.(row, e)}
+              onChange={(e) => handleSelectChangeCategory(row, e)}
               className="borderless"
               id={`row${index}-category`}
             >
@@ -284,24 +282,23 @@ export default function Class1TableRow(props: TableRowProps) {
       <MqTableCell
         cellStyle={thStyles.enterGrossPay}
         cellClassName={`input ${
-          errors?.[`${row.id}-gross`] ? "error-cell" : ""
+          errors[`${row.id}-gross`] ? "error-cell" : ""
         }`}
       >
         {printView ? (
-          <div>£{row.gross}</div>
+          <>£{row.gross}</>
         ) : (
-          <React.Fragment>
-            <TextInput
-              hiddenLabel={true}
-              name={`${row.id}-gross`}
-              labelText={`Gross pay for row number ${index + 1}`}
-              inputClassName="gross-pay"
-              inputValue={row.gross}
-              onChangeCallback={(e) => handleChange?.(row, e)}
-              error={errors[`${row.id}-gross`]}
-              onPaste={(e: React.ClipboardEvent) => handlePaste(e, row)}
-            />
-          </React.Fragment>
+          <input
+            className={`gross-pay ${
+              errors[`${row.id}-gross`] ? ` govuk-input--error` : ``
+            }`}
+            name={`${row.id}-gross`}
+            type="text"
+            id={`${row.id}-gross`}
+            value={row.gross}
+            onChange={(e) => handleChange(row, e)}
+            onPaste={(e: React.ClipboardEvent) => handlePaste(e, row)}
+          />
         )}
       </MqTableCell>
 
@@ -330,7 +327,7 @@ export default function Class1TableRow(props: TableRowProps) {
 
       {printView &&
         contributionNames &&
-        contributionNames?.map((cB: string) => (
+        contributionNames.map((cB: string) => (
           <MqTableCell cellStyle={{}} key={`${cB}-val`}>
             {getContributionBandValue(row.contributionBands, cB)}
           </MqTableCell>

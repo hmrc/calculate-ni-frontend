@@ -26,6 +26,7 @@ function SelectTaxYear(props: SelectTaxYearProps) {
       <select
         value={taxYear?.id}
         onChange={handleTaxYearChange}
+        data-testid="taxYear"
         id="taxYear"
         name="taxYear"
         className={

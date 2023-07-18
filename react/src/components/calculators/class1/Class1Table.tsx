@@ -22,7 +22,7 @@ export default function Class1Table(props: Class1TableProps) {
   const displayBands: boolean = showBands && bandNames.length > 0
 
   return (
-    <table className="contribution-details" id="results-table" tabIndex={-1}>
+    <table className="contribution-details" id="results-table" tabIndex={-1} data-testid="payment-table">
       <caption>Contribution payment details</caption>
       <colgroup>
         <col span={4} />
@@ -41,7 +41,7 @@ export default function Class1Table(props: Class1TableProps) {
           <th scope="col">
             <strong>Row</strong>
           </th>
-          <th scope="col" className="select-period">
+          <th scope="col" className="select-period" data-testid="sort-period">
             <strong>
               {printView ? 'Period': 'Select period'}
             </strong>

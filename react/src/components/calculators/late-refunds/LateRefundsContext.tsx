@@ -39,7 +39,7 @@ const stateReducer = (state: DetailsProps, action: { [x: string]: string }) => (
   ...action,
 })
 
-interface LateRefundsContext {
+interface LateRefundsContextProps {
   InterestOnLateRefundsCalculator: InterestOnRefundsClassOne
   details: DetailsProps
   setDetails: Function
@@ -64,7 +64,7 @@ const initRow = {
   interestDue: ''
 }
 
-export const LateRefundsContext = React.createContext<LateRefundsContext>(
+export const LateRefundsContext = React.createContext<LateRefundsContextProps>(
   {
     InterestOnLateRefundsCalculator: initInterestOnRefundsClassOne,
     details: detailsState,
