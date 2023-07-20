@@ -230,58 +230,63 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
               // if period group match
               if (customRowFlag) {
                 // compare split period ni paid date with from date of tax year
+                let splitKey = periodKey;
+                let splitDate: any = "";
+                let splitFrom: any = "";
+
                 if (
                   getDateValue?.date &&
                   moment(getDateValue?.date).isBefore(fromDate) &&
                   rowNumber !== 1
                 ) {
                   // move week to previous period
-                  let previousPeriodKey = `period-${index - 1}`;
-                  splitRows[previousPeriodKey].rows.push({
-                    ...row,
-                    date: getDateValue.date,
-                  });
+                  splitKey = `period-${index - 1}`;
+                  splitDate = getDateValue.date;
+                  splitFrom = getDateValue.date;
                 } else if (
                   moment(formattedStartDateOfWeek).isBefore(fromDate) &&
                   rowNumber !== 1 &&
                   !getDateValue?.date
                 ) {
                   // move week to previous period
-                  let previousPeriodKey = `period-${index - 1}`;
-                  splitRows[previousPeriodKey].rows.push({
-                    ...row,
-                    date: formattedStartDateOfWeek,
-                  });
+                  splitKey = `period-${index - 1}`;
+                  splitDate = formattedStartDateOfWeek;
+                  splitFrom = formattedStartDateOfWeek;
                 } else {
-                  if (!splitRows[periodKey]) {
-                    let splitRowFromDate = from;
-                    if (splitWeekFlag) {
-                      if (getDateValue?.date) {
-                        splitRowFromDate = new Date(getDateValue.date);
-                      } else {
-                        splitRowFromDate = new Date(formattedStartDateOfWeek);
-                      }
+                  let splitRowFromDate = from;
+                  if (splitWeekFlag) {
+                    if (getDateValue?.date) {
+                      splitRowFromDate = new Date(getDateValue.date);
+                    } else {
+                      splitRowFromDate = new Date(formattedStartDateOfWeek);
                     }
-
-                    splitRows[periodKey] = {
-                      rows: [],
-                      from: splitRowFromDate,
-                    };
                   }
 
                   let customWeekStartDate = fromDate;
-                  if (splitRows[periodKey].rows.length > 0) {
+                  if (
+                    splitRows[periodKey] &&
+                    splitRows[periodKey].rows.length > 0
+                  ) {
                     customWeekStartDate = getDateValue?.date
                       ? moment(getDateValue.date).format(DATE_FORMAT_YYYY_MM_DD)
                       : moment(startDateOfWeek, DATE_FORMAT_DD_MM_YYYY).format(
                           DATE_FORMAT_YYYY_MM_DD
                         );
                   }
-                  splitRows[periodKey].rows.push({
-                    ...row,
-                    date: customWeekStartDate,
-                  });
+                  splitDate = customWeekStartDate;
+                  splitFrom = splitRowFromDate;
                 }
+
+                if (!splitRows[splitKey]) {
+                  splitRows[splitKey] = {
+                    rows: [],
+                    from: splitFrom,
+                  };
+                }
+                splitRows[splitKey].rows.push({
+                  ...row,
+                  date: splitDate,
+                });
               }
             });
 

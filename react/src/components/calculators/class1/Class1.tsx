@@ -92,7 +92,7 @@ const Class1Page = () => {
             niPaidNet,
             niPaidEmployee,
             customRows,
-            from: getData.from,
+            from: new Date(getData.from),
           });
           getResults.push(getRowResult);
         });
