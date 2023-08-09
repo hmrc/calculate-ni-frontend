@@ -194,7 +194,6 @@ describe("useClassOneForm", () => {
       activeRowId,
       result,
       categoryNames,
-      periodType,
       isRepeatAllow,
       customSplitRows,
     } = returnResult.current;
@@ -217,7 +216,6 @@ describe("useClassOneForm", () => {
     expect(activeRowId).toBe(null);
     expect(result).toBe(null);
     expect(categoryNames).toStrictEqual(undefined);
-    expect(periodType).toBe("W");
     expect(isRepeatAllow).toBe(true);
     expect(customSplitRows).toStrictEqual({});
   });
@@ -303,17 +301,6 @@ describe("useClassOneForm", () => {
       result.current.setPeriodNumbers(undefined);
     });
     expect(result.current.rows.length).toBe(4);
-  });
-
-  it("should render correct count of get allowed rows", () => {
-    const { result } = renderHook(() => useClassOneForm(), { wrapper });
-    expect(result.current.getAllowedRows(2)).toBe(51);
-    expect(result.current.getAllowedRows(2, "W")).toBe(51);
-    expect(result.current.getAllowedRows(2, "2W")).toBe(25);
-    expect(result.current.getAllowedRows(2, "4W")).toBe(12);
-    expect(result.current.getAllowedRows(2, "M")).toBe(10);
-    expect(result.current.getAllowedRows(2, "M", true)).toBe(12);
-    expect(result.current.getAllowedRows(2, "A")).toBe(2);
   });
 
   it("should update the result", () => {

@@ -111,7 +111,6 @@ const setActiveRowId = jest.fn();
 const setIsRepeatAllow = jest.fn();
 const setRows = jest.fn();
 const setCustomRows = jest.fn();
-const setPeriodType = jest.fn();
 
 const mockCustomRows = [
   {
@@ -187,7 +186,6 @@ const mockValue: any = {
   customRows: mockCustomRows,
   setCustomRows,
   errors: {},
-  setPeriodType,
   customSplitRows: mockCustomSplitRows,
   setCustomSplitRows: jest.fn(),
   isMultiYear: true,
@@ -263,7 +261,7 @@ describe("Class1PaymentSection", () => {
       .mockImplementation(() => [rows, setState]);
   });
 
-  describe("when remaining allowed rows is greater than zero and repeat row is allow", () => {
+  describe("when repeat row", () => {
     beforeEach(() => {
       renderComponent(mockValue);
     });
@@ -289,13 +287,12 @@ describe("Class1PaymentSection", () => {
     it("should change repeat row quantity when repeat row input is changed", async () => {
       const input = screen.getByTestId("repeat-qty");
       fireEvent.change(input, { target: { value: 2 } });
-      await expect(mockValue.setIsRepeatAllow).toHaveBeenCalledWith(true);
     });
 
-    it("should change repeat qty to maximum allowed value when entered more than allowed period wise", async () => {
+    it("should change repeat qty value", async () => {
       const input = screen.getByTestId("repeat-qty");
       fireEvent.change(input, { target: { value: 64 } });
-      await expect(setState).toHaveBeenCalledWith(52);
+      await expect(setState).toHaveBeenCalledWith(64);
     });
 
     it("should call repeat row callback function when repeat row button is clicked", async () => {
@@ -327,67 +324,6 @@ describe("Class1PaymentSection", () => {
     });
   });
 
-  describe("when remaining allowed rows is zero and repeat row is not allow", () => {
-    beforeEach(() => {
-      renderComponent(mockValueElse);
-    });
-
-    it("should render class1 table", () => {
-      expect(screen.queryByTestId("class1-table")).not.toBeNull();
-    });
-
-    it("should render class1 periods section", () => {
-      expect(screen.queryByTestId("class1-periods-section")).not.toBeNull();
-    });
-
-    it("should call delete callback function when delete active row button is clicked", () => {
-      fireEvent.click(screen.getByText("Delete active row"));
-      expect(setPeriodNumbers).toHaveBeenCalled();
-    });
-
-    it("should disabled repeat row button", () => {
-      expect(screen.queryByText("Repeat row")).toBeDisabled();
-    });
-
-    it("should not allow to add more rows as allowed rows count is 0", async () => {
-      const input = screen.getByTestId("repeat-qty");
-      fireEvent.change(input, { target: { value: 0 } });
-      await expect(mockValue.setIsRepeatAllow).toHaveBeenCalledWith(false);
-    });
-  });
-
-  describe("when remaining allowed rows is zero and repeat row is allow", () => {
-    beforeEach(() => {
-      jest.spyOn(React, "useState").mockImplementation(() => [2, setState]);
-
-      renderComponent(mockValueRepeatAllow);
-    });
-
-    it("should call repeat row callback function when repeat row button is clicked ", async () => {
-      const button = screen.getByText("Repeat row");
-      expect(button).toBeEnabled();
-
-      fireEvent.click(button);
-      await expect(mockValue.setRows).toHaveBeenCalled();
-    });
-  });
-
-  describe("when remaining allowed rows is grater than 0", () => {
-    beforeEach(() => {
-      jest.spyOn(React, "useState").mockImplementation(() => [0, setState]);
-
-      renderComponent(mockValueRepeatAllowMore);
-    });
-
-    it("should call repeat row callback function when repeat row button is clicked ", async () => {
-      const button = screen.getByText("Repeat row");
-      expect(button).toBeEnabled();
-
-      fireEvent.click(button);
-      await expect(mockValue.setRows).toHaveBeenCalled();
-    });
-  });
-
   describe("when active row has not a number", () => {
     beforeEach(() => {
       const mockValueNoNumber = {
@@ -405,21 +341,6 @@ describe("Class1PaymentSection", () => {
       fireEvent.click(button);
 
       expect(mockValue.setIsRepeatAllow).toHaveBeenCalled();
-    });
-  });
-
-  describe("when repeat qty is more than allowed period wise", () => {
-    beforeEach(() => {
-      jest.spyOn(React, "useState").mockImplementation(() => [12, setState]);
-
-      renderComponent(mockValueRepeatAllowMore);
-    });
-
-    it("should not allow to add more rows", async () => {
-      const button = screen.getByText("Repeat row");
-      fireEvent.click(button);
-
-      await expect(mockValue.setIsRepeatAllow).toHaveBeenCalledWith(false);
     });
   });
 

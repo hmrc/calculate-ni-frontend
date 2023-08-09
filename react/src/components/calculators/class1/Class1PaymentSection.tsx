@@ -29,14 +29,12 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
     setResult,
     isRepeatAllow,
     setIsRepeatAllow,
-    getAllowedRows,
     customRows,
     setCustomRows,
     errors,
     isMultiYear,
     customSplitRows,
     setCustomSplitRows,
-    setPeriodType,
   } = useContext(ClassOneContext);
 
   const [repeatQty, setRepeatQty] = useState<number>(1);
@@ -48,23 +46,6 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
     resetTotals();
     setRepeatQty(1);
     setIsRepeatAllow(true);
-    setPeriodType("W");
-  };
-
-  // to handle maximum value for repeat row input
-  const handleMaxValue = (enteredValue: number) => {
-    const currentTotalRows = rows.length;
-    const allowedRows = getAllowedRows(currentTotalRows);
-    if (enteredValue > allowedRows) {
-      // don't allow to add more rows
-      setRepeatQty(allowedRows);
-    } else if (allowedRows === 0) {
-      // validation for repeat qty if maximum limit is reached
-      setIsRepeatAllow(false);
-    } else {
-      setRepeatQty(enteredValue);
-      setIsRepeatAllow(true);
-    }
   };
 
   // to get the selected row by id
@@ -346,43 +327,21 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
       if (!rowToDuplicate.number) return false;
 
       let repeatTimes = repeatQty > 0 ? repeatQty : 1;
-      const currentTotalRows = rows.length + repeatQty;
-      const remAllowedRows = getAllowedRows(currentTotalRows);
-      const maxAllowedRows = getAllowedRows(currentTotalRows, "", true);
-      const getMaxPeriod = Math.max(...rows.map((r) => r.number));
-      const getPeriodRowsAllowed = Math.abs(maxAllowedRows - getMaxPeriod);
-      let initialPeriodNumber = getMaxPeriod;
-
-      // validations for max limit of rows allowed
-      if (getAllowedRows(rows.length) === 0 || getPeriodRowsAllowed === 0) {
-        // validation for repeat qty if maximum limit is reached
-        setIsRepeatAllow(false);
-        return false;
-      } else {
-        if (repeatTimes > remAllowedRows) {
-          // don't allow to add more rows
-          setIsRepeatAllow(false);
-        }
-
-        if (repeatTimes > getPeriodRowsAllowed) {
-          repeatTimes = getPeriodRowsAllowed;
-          setIsRepeatAllow(false);
-        } else {
-          setIsRepeatAllow(true);
-        }
-      }
-
+      let periodNumber = rows.filter(
+        (row) => row.period === rowToDuplicate.period
+      ).length;
       const newRows = [];
+
       for (let i = 0; i < repeatTimes; i++) {
         const id = uniqid();
-        initialPeriodNumber += 1;
+        periodNumber += 1;
 
         const newRow = {
           id: id,
           category: rowToDuplicate.category,
           period: rowToDuplicate.period,
           gross: rowToDuplicate.gross,
-          number: initialPeriodNumber,
+          number: periodNumber,
           ee: 0,
           er: 0,
         };
@@ -391,16 +350,9 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
 
       const updatedRows = [...rows, ...newRows];
       setRows(updatedRows);
+      setActiveRowId(newRows[newRows.length - 1].id);
     },
-    [
-      repeatQty,
-      activeRowId,
-      rows,
-      getRowByActiveId,
-      setRows,
-      getAllowedRows,
-      setIsRepeatAllow,
-    ]
+    [repeatQty, activeRowId, rows, getRowByActiveId, setRows, setIsRepeatAllow]
   );
 
   // delete selected row button click handler
@@ -412,18 +364,6 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
       setErrors({});
       setResult(null);
       setActiveRowId(null);
-
-      // validation for repeat qty if maximum limit is reached
-      const currentTotalRows = rows.length - 1;
-      if (
-        getAllowedRows(currentTotalRows) === 0 ||
-        repeatQty > getAllowedRows(currentTotalRows)
-      ) {
-        // validation for repeat qty if maximum limit is reached
-        setIsRepeatAllow(false);
-      } else {
-        setIsRepeatAllow(true);
-      }
     }
   };
 
@@ -505,7 +445,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
               data-testid="repeat-qty"
               value={repeatQty || ""}
               onChange={(e) => {
-                handleMaxValue(parseInt(e.currentTarget.value));
+                setRepeatQty(parseInt(e.currentTarget.value));
               }}
             />
           </div>

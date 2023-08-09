@@ -176,11 +176,8 @@ interface ClassOneContextProps {
   result: Class1Result | null;
   setResult: Dispatch<Class1Result | null>;
   categoryNames: GenericObject;
-  periodType: string;
-  setPeriodType: Dispatch<string>;
   isRepeatAllow: boolean;
   setIsRepeatAllow: Dispatch<boolean>;
-  getAllowedRows: Function;
   customSplitRows: CustomSplitRows;
   setCustomSplitRows: Dispatch<SetStateAction<CustomSplitRows>>;
 }
@@ -219,11 +216,8 @@ export const ClassOneContext = React.createContext<ClassOneContextProps>({
   setResult: () => {},
   categoryNames: {},
   setDefaultRow: () => {},
-  periodType: "W",
-  setPeriodType: () => "",
   isRepeatAllow: true,
   setIsRepeatAllow: () => "",
-  getAllowedRows: () => "",
   customSplitRows: {},
   setCustomSplitRows: () => {},
 });
@@ -252,7 +246,6 @@ export function useClassOneForm() {
   const [categoryTotals, setCategoryTotals] = useState<TotalsInCategories>({});
   const [result, setResult] = useState<Class1Result | null>(null);
   const [activeRowId, setActiveRowId] = useState<string | null>(null);
-  const [periodType, setPeriodType] = useState<string>("W");
   const [isRepeatAllow, setIsRepeatAllow] = useState<boolean>(true);
   const [customSplitRows, setCustomSplitRows] = useState<CustomSplitRows>({});
 
@@ -270,35 +263,6 @@ export function useClassOneForm() {
       }
     }
   }, [taxYear, ClassOneCalculator]);
-
-  // to find the number of allowed rows for selected period type
-  const getAllowedRows = (
-    currentTotalRows: number,
-    getPeriodType: string = "",
-    isGetMaxRows: boolean = false
-  ) => {
-    if (!getPeriodType) {
-      getPeriodType = periodType;
-    }
-    let maxRows = 0;
-    if (getPeriodType === "W") {
-      // if period is weekly
-      maxRows = 53;
-    } else if (getPeriodType === "2W") {
-      // if period is fortnightly
-      maxRows = 27;
-    } else if (getPeriodType === "4W") {
-      // if period is 4 weekly
-      maxRows = 14;
-    } else if (getPeriodType === "M") {
-      // if period is monthly
-      maxRows = 12;
-    }
-
-    if (isGetMaxRows) return maxRows;
-
-    return Math.abs(maxRows - currentTotalRows);
-  };
 
   const [rows, setRows] = useState<Array<Row>>([defaultRow]);
   const [customRows, setCustomRows] = useState<Array<CustomRow>>([]);
@@ -393,11 +357,8 @@ export function useClassOneForm() {
     result,
     setResult,
     categoryNames,
-    periodType,
-    setPeriodType,
     isRepeatAllow,
     setIsRepeatAllow,
-    getAllowedRows,
     customSplitRows,
     setCustomSplitRows,
   };

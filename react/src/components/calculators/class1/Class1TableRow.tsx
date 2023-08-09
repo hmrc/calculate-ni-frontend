@@ -49,9 +49,6 @@ export default function Class1TableRow(props: TableRowProps) {
     result,
     setResult,
     categoryNames,
-    setPeriodType,
-    setIsRepeatAllow,
-    getAllowedRows,
   } = useContext(ClassOneContext);
 
   const periodRowsValue = { ...row };
@@ -89,41 +86,13 @@ export default function Class1TableRow(props: TableRowProps) {
     r: Row,
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    let newRows = rows;
-    let periodType = e.currentTarget.value;
-    setPeriodType(periodType);
+      let periodType = e.currentTarget.value;
 
-    if (periodType === "W" && newRows.length > 53) {
-      // if period is weekly and table rows are greater than 53
-      newRows = rows.slice(0, 53);
-    } else if (periodType === "2W" && newRows.length > 27) {
-      // if period is fortnightly and table rows are greater than 27
-      newRows = rows.slice(0, 27);
-    } else if (periodType === "4W" && newRows.length > 14) {
-      // if period is 4 weekly and table rows are greater than 14
-      newRows = rows.slice(0, 14);
-    } else if (periodType === "M" && newRows.length > 12) {
-      // if period is monthly and table rows are greater than 12
-      newRows = rows.slice(0, 12);
-    }
-
-    // validation for repeat rows
-    const currentTotalRows = newRows.length;
-    if (
-      getAllowedRows(currentTotalRows, periodType) === 0 ||
-      repeatQty > getAllowedRows(currentTotalRows, periodType)
-    ) {
-      // validation for repeat qty if maximum limit is reached
-      setIsRepeatAllow(false);
-    } else {
-      setIsRepeatAllow(true);
-    }
-
-    setRows(
-      newRows.map((cur: Row) => {
-        return { ...cur, [e.currentTarget.name]: periodType };
-      })
-    );
+      setRows(
+          rows.map((cur: Row) =>
+              cur.id === r.id ? { ...cur, [e.currentTarget.name]: periodType } : cur
+          )
+      );
   };
 
   const handlePeriodChange = (
@@ -132,12 +101,6 @@ export default function Class1TableRow(props: TableRowProps) {
   ) => {
     const enteredValue = parseInt(e.currentTarget.value);
     let newPeriod = isNaN(enteredValue) ? "" : enteredValue;
-
-    // period number validations for max number of weeks allowed period wise
-    const maxRowNumber = getAllowedRows(rows.length, row.period, true);
-    if (newPeriod > maxRowNumber || newPeriod < 1) {
-      newPeriod = "";
-    }
 
     setRows(
       rows.map((cur: Row) =>
