@@ -330,18 +330,20 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
       let periodNumber = rows.filter(
         (row) => row.period === rowToDuplicate.period
       ).length;
+      const getMaxPeriod = Math.max(...rows.map((r) => r.number));
+      let initialPeriodNumber = getMaxPeriod;
       const newRows = [];
 
       for (let i = 0; i < repeatTimes; i++) {
         const id = uniqid();
-        periodNumber += 1;
+        initialPeriodNumber += 1;
 
         const newRow = {
           id: id,
           category: rowToDuplicate.category,
           period: rowToDuplicate.period,
           gross: rowToDuplicate.gross,
-          number: periodNumber,
+          number: initialPeriodNumber,
           ee: 0,
           er: 0,
         };
