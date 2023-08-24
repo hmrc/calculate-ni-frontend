@@ -11,6 +11,7 @@ import Class1Form from "./Class1Form";
 import Totals from "../shared/Totals";
 import Class1Print from "./Class1Print";
 import ErrorSummary from "../../helpers/gov-design-system/ErrorSummary";
+import Theme from "./ThemeContext";
 
 // utils
 import { hasKeys } from "../../../services/utils";
@@ -347,6 +348,8 @@ const Class1Page = () => {
           context={ClassOneContext}
         />
       </div>
+
+      <Theme />
 
       <PrintButtons
         showSummary={showSummary}
