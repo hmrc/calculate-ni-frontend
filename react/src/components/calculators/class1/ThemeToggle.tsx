@@ -17,7 +17,7 @@ const ThemeToggle = function () {
         }
     };
     return (
-        <button className="govuk-button nomar" type="submit" onClick={handleThemeChange}>
+        <button className="button govuk-button govuk-button--secondary nomar" type="submit" onClick={handleThemeChange}>
             Change Theme
         </button>
     );

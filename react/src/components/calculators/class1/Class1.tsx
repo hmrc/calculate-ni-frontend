@@ -350,7 +350,9 @@ const Class1Page = () => {
         />
       </div>
 
-      <Theme />
+      <div>
+        <Theme />
+      </div>
 
       <PrintButtons
         showSummary={showSummary}
