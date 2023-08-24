@@ -327,10 +327,10 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
       if (!rowToDuplicate.number) return false;
 
       let repeatTimes = repeatQty > 0 ? repeatQty : 1;
-      let periodNumber = rows.filter(
+      let rowOfSamePeriod = rows.filter(
         (row) => row.period === rowToDuplicate.period
-      ).length;
-      const getMaxPeriod = Math.max(...rows.map((r) => r.number));
+      );
+      const getMaxPeriod = Math.max(...rowOfSamePeriod.map((r) => r.number));
       let initialPeriodNumber = getMaxPeriod;
       const newRows = [];
 
