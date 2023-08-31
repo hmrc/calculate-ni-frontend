@@ -1,9 +1,9 @@
 import React, {
-  useContext,
-  useState,
-  useEffect,
   useCallback,
+  useContext,
+  useEffect,
   useMemo,
+  useState,
 } from "react";
 import { Class1PaymentSectionProps } from "../../../interfaces";
 import Class1Table from "./Class1Table";
@@ -327,11 +327,12 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
       if (!rowToDuplicate.number) return false;
 
       let repeatTimes = repeatQty > 0 ? repeatQty : 1;
-      let rowOfSamePeriod = rows.filter(
+      let rowOfSamePeriod = rows &&  rows.filter(
         (row) => row.period === rowToDuplicate.period
       );
-      const getMaxPeriod = Math.max(...rowOfSamePeriod.map((r) => r.number));
-      let initialPeriodNumber = getMaxPeriod;
+      let initialPeriodNumber = rowOfSamePeriod && Math.max(
+        ...rowOfSamePeriod.map((r) => r.number)
+      );
       const newRows = [];
 
       for (let i = 0; i < repeatTimes; i++) {
