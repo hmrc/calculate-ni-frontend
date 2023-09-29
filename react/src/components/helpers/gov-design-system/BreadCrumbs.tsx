@@ -9,7 +9,7 @@ export default function BreadCrumbs() {
     (route: RouteName) => route.pathname === location.pathname
   )
   return (
-    <div className="govuk-breadcrumbs">
+    <div className="govuk-breadcrumbs" role="navigation">
       <ol className="govuk-breadcrumbs__list">
         <li className="govuk-breadcrumbs__list-item">
           <Link className="govuk-breadcrumbs__link" to="/">Home</Link>

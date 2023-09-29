@@ -7,7 +7,7 @@
     "^.+\\.svg$": "jest-svg-transformer"
   },
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
-  "setupFilesAfterEnv": ["@testing-library/jest-dom/extend-expect"],
+  "setupFilesAfterEnv": ["@testing-library/jest-dom"],
   "setupFiles": ["mutationobserver-shim"],
   "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\]$"],
   "collectCoverage": true,

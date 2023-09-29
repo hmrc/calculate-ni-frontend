@@ -5,7 +5,7 @@ import { PhaseBannerProps } from '../../../interfaces'
 
 export default function PhaseBanner(props: PhaseBannerProps) {
   return (
-    <div className="govuk-phase-banner">
+    <div className="govuk-phase-banner" id="govuk-phase-banner">
       <p className="govuk-phase-banner__content">
         <strong className="govuk-tag govuk-phase-banner__content__tag">
           {props.type}

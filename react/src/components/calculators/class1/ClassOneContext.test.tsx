@@ -1,5 +1,5 @@
 import React from "react";
-import { renderHook, act } from "@testing-library/react-hooks";
+import { renderHook, act } from "@testing-library/react";
 import { PeriodValue } from "../../../config";
 import { CalculatedRow, useClassOneForm, v } from "./ClassOneContext";
 import { NiFrontendContext } from "../../../services/NiFrontendContext";
