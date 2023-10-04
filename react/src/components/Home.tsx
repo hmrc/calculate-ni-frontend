@@ -57,7 +57,7 @@ export default function Home() {
                     </h2>
                     <ul className="govuk-list govuk-list--bullet">
                       <li><Link to="/late-interest" className="govuk-link">Interest on late or unpaid Class 1 NI contributions</Link></li>
-                      <li><Link to="/late-refunds" className="govuk-link">Interest on late-paid refunds from 1993 to 1994</Link></li>
+                      <li><Link to="/late-refunds" className="govuk-link">Interest on late-paid refunds from 1993</Link></li>
                     </ul>
                   </nav>
 

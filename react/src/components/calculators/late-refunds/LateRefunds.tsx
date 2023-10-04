@@ -18,7 +18,7 @@ import PrintButtons from "../shared/PrintButtons";
 import {validateLateRefundsPayload} from "./validation";
 import {InterestRow} from "../../../calculation";
 
-const pageTitle = 'Interest on late-paid refunds from 1993 to 1994'
+const pageTitle = 'Interest on late-paid refunds from 1993'
 
 const LateRefundsPage = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
