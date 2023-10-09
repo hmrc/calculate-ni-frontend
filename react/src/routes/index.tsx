@@ -29,7 +29,7 @@ const routes = [
   },
   {
     pathname: '/late-refunds',
-    name: 'Interest on late-paid refunds from 1993 to 1994'
+    name: 'Interest on late-paid refunds from 1993'
   }
 ]
 
