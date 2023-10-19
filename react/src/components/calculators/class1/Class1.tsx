@@ -304,7 +304,7 @@ const Class1Page = () => {
   }, [result, resultRef, totalsRef, successNotificationsOn]);
 
   return (
-    <div>
+    <div data-testid="class-1-component">
       <div
         className="result-announcement"
         aria-live="polite"

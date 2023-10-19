@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Node.js Version
 
-Using Node version 16.10.0. 
+Using Node version 18.2.0. 
 
 You can check node version by running `node -v`.
 If you have nvm installed, you can run `nvm use` to switch to the correct version.

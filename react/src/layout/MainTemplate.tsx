@@ -12,7 +12,7 @@ export default function MainTemplate(props: {  children: ReactNode}) {
     <div tabIndex={-1} className="no-focus-outline" ref={pageRef}>
       <a href="#main-content" className="govuk-skip-link">Skip to main content</a>
       <div className="govuk-width-container">
-        <Header serviceName={serviceName} />
+        <Header serviceName={serviceName}/>
         <PhaseBanner type="ALPHA" link="#feedback" />
         <BreadCrumbs />
         <main className="govuk-main-wrapper" id="main-content">

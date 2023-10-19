@@ -18,13 +18,20 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "types": [
       "@emotion/react/types/css-prop",
       "@testing-library/jest-dom"
-    ]
+    ],
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "src"
+    "src/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "./node_modules",
+    "./node_modules/*",
+    "./node_modules/@types/node/index.d.ts"
   ]
 }

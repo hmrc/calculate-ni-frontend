@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef} from "react";
+import React, {Fragment, useContext, useEffect, useRef} from "react";
 import {Link} from "react-router-dom";
 import {NiFrontendContext} from "../services/NiFrontendContext";
 import {useDocumentTitle} from "../services/useDocumentTitle";
@@ -17,7 +17,7 @@ export default function Home() {
     notificationStatusRef.current && notificationStatusRef.current.focus()
   }, [successNotificationsOn, notificationStatusRef])
   return (
-    <>
+    <Fragment data-testid={"home-component"}>
       {loading ?
         <span className="loading">Loading configuration...</span>
         :
@@ -90,6 +90,6 @@ export default function Home() {
           }
         </>
       }
-  </>
+  </Fragment>
   )
 }

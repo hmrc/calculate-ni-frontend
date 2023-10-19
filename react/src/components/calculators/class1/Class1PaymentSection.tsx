@@ -54,7 +54,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
   }, [rows, activeRowId]);
 
   // to get the number of weeks between two dates
-  const getWeeksBetween = useCallback((startDate, endDate) => {
+  const getWeeksBetween = useCallback((startDate: any, endDate: any) => {
     const startMoment = moment(startDate, DATE_FORMAT_DD_MM_YYYY);
     const endMoment = moment(endDate, DATE_FORMAT_DD_MM_YYYY);
     return endMoment.diff(startMoment, "weeks") + 1;
@@ -372,7 +372,7 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
 
   // handle change in date input in custom rows for period
   const handleDateInputChange = useCallback(
-    (row, e: React.ChangeEvent<HTMLInputElement>) => {
+    (row: any, e: React.ChangeEvent<HTMLInputElement>) => {
       setIsUpdateFlag(true);
       const { value } = e.target;
       /* istanbul ignore else */
