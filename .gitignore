@@ -22,6 +22,7 @@ precompiled
 /.project
 project/project
 project/target
+project/.bloop
 /RUNNING_PID
 server.pid
 /.settings
@@ -49,3 +50,8 @@ react/coverage
 /react/src/calculation.js
 npm-debug.log*
 /react/coverage/
+.bloop
+.bsp
+.java-version
+.metals
+
