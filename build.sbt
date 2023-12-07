@@ -102,7 +102,6 @@ lazy val microservice = Project(appName, file("."))
     dist := (dist dependsOn moveReact).value
   )
   .configs(IntegrationTest)
-  .settings(integrationTestSettings(): _*)
   .settings(resolvers += Resolver.jcenterRepo)
 
 val circeVersion = "0.14.5"
