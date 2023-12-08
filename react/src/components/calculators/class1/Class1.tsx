@@ -140,23 +140,27 @@ const Class1Page = () => {
               getExisting.employer += value.employer;
               getExisting.net += value.net;
 
+              const mergedResultBands = new Map();
               getExisting.resultBands.forEach((v: any, k: any) => {
                 let mergedObj: any = {};
                 const current = value.resultBands.get(k);
                 Object.keys(v).forEach((x) => {
                   mergedObj[x] = v[x] + current[x]
                 });
-                getExisting.resultBands.set(k, mergedObj);
+                mergedResultBands.set(k, mergedObj);
               });
+              getExisting.resultBands = mergedResultBands
 
+              const mergedResultContributionBands = new Map();
               getExisting.resultContributionBands.forEach((v: any, k: any) => {
                 let mergedObj: any = {};
                 const current = value.resultContributionBands.get(k);
                 Object.keys(v).forEach((x) => {
                   mergedObj[x] = v[x] + current[x]
                 });
-                getExisting.resultContributionBands.set(k, mergedObj);
+                mergedResultContributionBands.set(k, mergedObj);
               });
+              getExisting.resultContributionBands = mergedResultContributionBands
             }
           });
 
