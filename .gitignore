@@ -30,6 +30,7 @@ target
 test-result
 tmp
 .idea_modules
+.bsp
 bin
 app/assets/configuration.json
 app/assets/javascripts/calculation.js
