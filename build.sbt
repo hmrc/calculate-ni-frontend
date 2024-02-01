@@ -90,7 +90,7 @@ lazy val microservice = Project(appName, file("."))
     play.sbt.routes.RoutesKeys.routesImport += "uk.gov.hmrc.calculatenifrontend.controllers.Binders._",
     scalacOptions += "-P:silencer:pathFilters=routes",
     scalacOptions += "-P:silencer:pathFilters=target/.*",
-    scalacOptions += "-Xlint:byname-implicit",
+    scalacOptions += "-Xlint:-byname-implicit",
     libraryDependencies ++= Seq(
       compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
       "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
@@ -127,7 +127,7 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
       "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
     ),
     scalacOptions -= "-Xfatal-warnings",
-    scalacOptions += "-Xlint:byname-implicit",
+    scalacOptions += "-Xlint:-byname-implicit",
     scalacOptions += "-Ymacro-annotations",
     publish := {},
     publishLocal := {}
@@ -140,7 +140,7 @@ lazy val `frontend` = project
     scalaVersion := "2.13.8",
     majorVersion := 0,
     scalacOptions -= "-Xfatal-warnings",
-    scalacOptions += "-Xlint:byname-implicit",
+    scalacOptions += "-Xlint:-byname-implicit",
     scalacOptions += "-Ymacro-annotations",
     scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(

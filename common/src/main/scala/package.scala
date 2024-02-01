@@ -81,11 +81,10 @@ package object eoi extends spire.syntax.FieldSyntax {
       }
 
       @annotation.tailrec
-      def inner(rem: BigDecimal, bandsRemaining: List[BigDecimal], out: List[BigDecimal]): (List[BigDecimal], BigDecimal) = bandsRemaining match {
+      def inner(rem: BigDecimal, bandsRemaining: List[BigDecimal], out: List[BigDecimal]): (List[BigDecimal], BigDecimal) = (bandsRemaining: @unchecked) match {
         case Nil => (out, rem)
         case x::xs if rem > x => inner(rem - x, xs, x :: out)
         case x::xs if rem <= x => ( xs.map{_ => BigDecimal(0)} ++ (rem :: out), 0)
-        case List(_) => (out, rem)
       }
 
       val (bandsOut, remaining) = inner(in, deltas.toList, Nil)
