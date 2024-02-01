@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,8 +36,8 @@ package object eoi extends spire.syntax.FieldSyntax {
       override def fromDouble(n: Double): B = f(u.fromDouble(n))
       def div(a: B, b: B): B = f(u.div(g(a),g(b)))
 
-      def gcd(a: B,b: B)(implicit ev: Eq[B]): B = f(u.gcd(g(a), g(b))(ev.contramap(f)))
-      def lcm(a: B,b: B)(implicit ev: Eq[B]): B = f(u.lcm(g(a), g(b))(ev.contramap(f)))
+      override def gcd(a: B,b: B)(implicit ev: Eq[B]): B = f(u.gcd(g(a), g(b))(ev.contramap(f)))
+      override def lcm(a: B,b: B)(implicit ev: Eq[B]): B = f(u.lcm(g(a), g(b))(ev.contramap(f)))
     }
   }
 
@@ -59,6 +59,7 @@ package object eoi extends spire.syntax.FieldSyntax {
       def toInt(x: B): Int = u.toInt(g(x))
       def toLong(x: B): Long = u.toLong(g(x))
       def compare(x: B,y: B): Int = u.compare(g(x),g(y))
+      def parseString(string: String): Option[B] = u.parseString(string).map(f(_))// throw new Exception("parseString called for RichNumeric")
     }
   }
 
@@ -82,8 +83,9 @@ package object eoi extends spire.syntax.FieldSyntax {
       @annotation.tailrec
       def inner(rem: BigDecimal, bandsRemaining: List[BigDecimal], out: List[BigDecimal]): (List[BigDecimal], BigDecimal) = bandsRemaining match {
         case Nil => (out, rem)
-        case (x::xs) if rem > x => inner(rem - x, xs, x :: out)
-        case (x::xs) if rem <= x => ( xs.map{_ => BigDecimal(0)} ++ (rem :: out), 0)
+        case x::xs if rem > x => inner(rem - x, xs, x :: out)
+        case x::xs if rem <= x => ( xs.map{_ => BigDecimal(0)} ++ (rem :: out), 0)
+        case List(_) => (out, rem)
       }
 
       val (bandsOut, remaining) = inner(in, deltas.toList, Nil)
@@ -109,7 +111,7 @@ package object eoi extends spire.syntax.FieldSyntax {
     def formatPercentage: String = {
       val p = in * 100
       if (p.isWhole)
-        s"${p.toBigInt()}%"
+        s"${p.toBigInt}%"
       else
         s"${p.setScale(20).toString.reverse.dropWhile(_ == '0').reverse}%"
     }
@@ -143,14 +145,7 @@ package object eoi extends spire.syntax.FieldSyntax {
     def compare(x: LocalDate, y: LocalDate): Int = x.toEpochDay compare y.toEpochDay
   }
 
-  implicit class RichListPair[K,V](in: List[(K,V)]) {
-    /** Build a map from a list of key/value pairs with a combining function. */
-    def toMapWith(f: (V, V) => V): Map[K,V] = {
-      in.groupBy(_._1).mapValues(_.map(_._2).reduce(f))
-    }
-  }
-
-  implicit class RichBufferedIterator[A](value: BufferedIterator[A]) {
+  implicit class RichBufferedIterator[A](value: scala.collection.BufferedIterator[A]) {
     /** Takes longest prefix of values produced by this iterator that satisfy a predicate. 
       * Does not consume any values that do not pass the predicate test.
       *
@@ -163,7 +158,7 @@ package object eoi extends spire.syntax.FieldSyntax {
     def safeTakeWhile(p: A => Boolean): Iterator[A] = {
       new scala.collection.AbstractIterator[A] {
         def hasNext: Boolean = value.headOption.fold(false)(p)
-        def next(): A = value.next
+        def next(): A = value.next()
       }
     }
   }

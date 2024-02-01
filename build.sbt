@@ -60,13 +60,13 @@ lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
   .settings(
     majorVersion                     := 0,
-    scalaVersion                     := "2.12.17",
+    scalaVersion                     := "2.13.8",
     libraryDependencies              ++= Seq(
       "uk.gov.hmrc"           %% "bootstrap-frontend-play-28" % "5.25.0",
       "uk.gov.hmrc"           %% "play-frontend-hmrc"         % "6.8.0-play-28",
       "com.github.pureconfig" %% "pureconfig"                 % "0.17.2",
       "org.typelevel"         %% "cats-core"                  % "2.9.0",
-      "org.typelevel"         %% "spire"                      % "0.17.0"
+      "org.typelevel"         %% "spire"                      % "0.18.0"
     ),
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core",
@@ -90,7 +90,7 @@ lazy val microservice = Project(appName, file("."))
     play.sbt.routes.RoutesKeys.routesImport += "uk.gov.hmrc.calculatenifrontend.controllers.Binders._",
     scalacOptions += "-P:silencer:pathFilters=routes",
     scalacOptions += "-P:silencer:pathFilters=target/.*",
-    scalacOptions += "-Ypartial-unification",
+    scalacOptions += "-Xlint:byname-implicit",
     libraryDependencies ++= Seq(
       compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
       "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
@@ -111,7 +111,7 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
   .withoutSuffixFor(JVMPlatform)
   .crossType(sbtcrossproject.CrossPlugin.autoImport.CrossType.Pure)
   .settings(
-    scalaVersion := "2.12.14",
+    scalaVersion := "2.13.8",
     majorVersion := 0,
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core",
@@ -120,16 +120,15 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
     ).map(_ % circeVersion),
     libraryDependencies ++= Seq(
       "org.typelevel" %%% "cats-core" % "2.1.1",
-      "org.typelevel" %%% "spire" % "0.17.0-RC1"
+      "org.typelevel" %%% "spire" % "0.18.0"
     ),
     libraryDependencies ++= Seq(
       compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
       "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
     ),
     scalacOptions -= "-Xfatal-warnings",
-    addCompilerPlugin(
-      "org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full
-    ),
+    scalacOptions += "-Xlint:byname-implicit",
+    scalacOptions += "-Ymacro-annotations",
     publish := {},
     publishLocal := {}
   )
@@ -138,9 +137,11 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
 lazy val `frontend` = project
   .enablePlugins(ScalaJSPlugin)
   .settings(
-    scalaVersion := "2.12.14",
+    scalaVersion := "2.13.8",
     majorVersion := 0,
     scalacOptions -= "-Xfatal-warnings",
+    scalacOptions += "-Xlint:byname-implicit",
+    scalacOptions += "-Ymacro-annotations",
     scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "1.1.0",
@@ -151,7 +152,6 @@ lazy val `frontend` = project
       compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
       "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
     ),
-    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
     scalaJSLinkerConfig ~= (_.withESFeatures(_.withESVersion(ESVersion.ES2018))),
     publish := {},

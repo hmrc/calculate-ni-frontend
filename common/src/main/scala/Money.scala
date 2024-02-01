@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ case class Money(value: BigDecimal) extends AnyVal {
   def setScale(dp: Int, roundingMode: BigDecimal.RoundingMode.Value) =
     Money(value.setScale(dp, roundingMode))
 
-  def isWhole = value.isWhole()
+  def isWhole = value.isWhole
 
   def roundUpWhole: Money =
     Money(value.setScale(0, BigDecimal.RoundingMode.CEILING))

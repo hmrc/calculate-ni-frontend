@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -115,9 +115,24 @@ object RateDefinition {
         }
 
         this.copy(
-          month = this.month.filter(_ => eff.effectiveMonth != eff.month),
-          week = this.week.filter(_ => eff.effectiveWeek != eff.week),
-          fourWeek = this.fourWeek.filter(_ => eff.effectiveFourWeek != eff.fourWeek)          
+          month = this.month.filter(_ => (eff.effectiveMonth, eff.month) match {
+            case (effMonth, Some(month)) if effMonth != month =>
+              true
+            case _ =>
+              false
+          }),
+          week = this.week.filter(_ => (eff.effectiveWeek, eff.week) match {
+            case (effWeek, Some(week)) if effWeek != week =>
+              true
+            case _ =>
+              false
+          }),
+          fourWeek = this.fourWeek.filter(_ => (eff.effectiveFourWeek, eff.fourWeek) match {
+            case (effFourWeek, Some(fourWeek)) if effFourWeek != fourWeek =>
+              true
+            case _ =>
+              false
+          })
         )
       }
     }

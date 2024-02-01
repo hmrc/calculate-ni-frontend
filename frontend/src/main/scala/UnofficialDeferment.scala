@@ -21,6 +21,7 @@ import eoi.Class1Band._
 import scala.scalajs.js
 import js.JSConverters._
 import scala.scalajs.js.annotation.JSExportTopLevel
+import scala.language.postfixOps
 
 class UnofficialDeferment(config: Configuration) extends js.Object {
 
