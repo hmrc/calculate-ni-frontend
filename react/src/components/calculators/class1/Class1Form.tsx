@@ -34,7 +34,14 @@ function Class1Form(props: Class1FormProps) {
     if (taxYears && taxYears.length > 0) {
       const grouped = _.chain(taxYears)
         .groupBy((ty) => {
-          return moment(ty.from).year();
+            const startDate = moment(ty.from)
+            const endDate = moment(ty.to)
+            const cutOffDate = moment(`${startDate.year()}-04-06`, "YYYY-MM-DD");
+            if(startDate.year() === endDate.year() && startDate.isBefore(cutOffDate)) {
+                return startDate.year() -1;
+            } else {
+                return startDate.year();
+            }
         })
         .map((txYears, from) => ({ from, txYears }))
         .orderBy((group) => moment(group.from).year(), ["desc"])
