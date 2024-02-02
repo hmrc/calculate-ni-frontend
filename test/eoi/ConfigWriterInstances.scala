@@ -20,7 +20,7 @@ import pureconfig._
 import pureconfig.syntax._
 import com.typesafe.config._
 import com.typesafe.config.ConfigRenderOptions.defaults
-import collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import java.time.format.DateTimeFormatter
 import java.time.LocalDate
 import pureconfig.configurable._
@@ -117,7 +117,7 @@ object ConfigWriterInstances {
 
   implicit def charBdWriter[A](implicit vr: ConfigWriter[A]): ConfigWriter[Map[Char, A]] =
     ConfigWriter[Map[String, A]].contramap{ x =>
-      x.groupBy(_._2).mapValues(_.map(_._1).toList.sorted.mkString).map(_.swap)
+      x.groupBy(_._2).view.mapValues(_.map(_._1).toList.sorted.mkString).toMap.map(_.swap)
     }
 
   implicit val localDateWriter: ConfigWriter[LocalDate] =

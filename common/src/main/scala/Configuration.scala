@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,7 +74,7 @@ case class Configuration (
 ){
 
   def mapValuesOpt[A](f: ConfigurationPeriod => Option[A]): Map[Interval[LocalDate], A] =
-    data.mapValues(f).collect{ case (k,Some(v)) => (k,v) }
+    data.view.mapValues(f).collect{ case (k,Some(v)) => (k,v) }.toMap
 
   lazy val classOne: Map[Interval[LocalDate], Map[String, RateDefinition]] =
     data.collect{
@@ -94,7 +94,7 @@ case class Configuration (
         }
     }
 
-  lazy val directorsImpl: Map[Interval[LocalDate], Map[String, RateDefinition]] = classOne.filterKeys(_.hasBelow(directorsDivergeDate)) ++ directors
+  lazy val directorsImpl: Map[Interval[LocalDate], Map[String, RateDefinition]] = classOne.view.filterKeys(_.hasBelow(directorsDivergeDate)).toMap ++ directors
 
   lazy val classTwo: Map[Interval[LocalDate], ClassTwo] =
     data.collect{

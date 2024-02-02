@@ -41,7 +41,7 @@ class ClassOneSpec extends AnyFunSpec with ExplainTestSupport {
 
     files foreach { file =>
       val reader = CSVReader.open(file)
-      val lines = reader.all.zipWithIndex
+      val lines = reader.all().zipWithIndex
 
       lines foreach { case (line, indexMinus) =>
         line.map(_.trim) match {

@@ -52,7 +52,5 @@ react/coverage
 npm-debug.log*
 /react/coverage/
 .bloop
-.bsp
 .java-version
 .metals
-
