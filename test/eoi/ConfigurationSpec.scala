@@ -29,7 +29,9 @@ class ConfigurationSpec extends AnyFunSpec with ScalaCheckPropertyChecks with Ar
     val c1 = ConfigLoader.default
     it("should be convertible into JSON and back without loss") {
       val json = EoiJsonEncoding.toJson(c1).toString
-      val Right(c2) = EoiJsonEncoding.fromJson(json)
+      val c2 = (EoiJsonEncoding.fromJson(json): @unchecked) match {
+        case Right(x) => x
+      }
       assert(c1 === c2, "JSON Encoding roundtrip")
     }
   }
@@ -39,7 +41,9 @@ class ConfigurationSpec extends AnyFunSpec with ScalaCheckPropertyChecks with Ar
       forAll { c1: Configuration =>
         {
           val json = EoiJsonEncoding.toJson(c1).toString
-          val Right(c2) = EoiJsonEncoding.fromJson(json)
+          val c2 = (EoiJsonEncoding.fromJson(json): @unchecked) match {
+            case Right(x) => x
+          }
           assert(c1 === c2, "JSON Encoding roundtrip")
         }
       }
