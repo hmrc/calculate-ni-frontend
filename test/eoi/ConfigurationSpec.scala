@@ -26,25 +26,25 @@ class ConfigurationSpec extends AnyFunSpec with ScalaCheckPropertyChecks with Ar
   def parameters: Gen.Parameters = Gen.Parameters.default.withSize(20)
 
   describe("The default configuration") {
-    val c1 = ConfigLoader.default
+    val c = ConfigLoader.default
     it("should be convertible into JSON and back without loss") {
-      val json = EoiJsonEncoding.toJson(c1).toString
-      val c2 = (EoiJsonEncoding.fromJson(json): @unchecked) match {
-        case Right(x) => x
+      val json = EoiJsonEncoding.toJson(c).toString
+      EoiJsonEncoding.fromJson(json) match {
+        case Right(x) => assert(c === x, "JSON Encoding roundtrip")
+        case _ => fail("Failed to convert JSON to config")
       }
-      assert(c1 === c2, "JSON Encoding roundtrip")
     }
   }
 
   describe("A random configuration") {
     it("should be convertible into JSON and back without loss") {
-      forAll { c1: Configuration =>
+      forAll { c: Configuration =>
         {
-          val json = EoiJsonEncoding.toJson(c1).toString
-          val c2 = (EoiJsonEncoding.fromJson(json): @unchecked) match {
-            case Right(x) => x
+          val json = EoiJsonEncoding.toJson(c).toString
+          EoiJsonEncoding.fromJson(json) match {
+            case Right(x) => assert(c === x, "JSON Encoding roundtrip")
+            case _ => fail("Failed to convert JSON to config")
           }
-          assert(c1 === c2, "JSON Encoding roundtrip")
         }
       }
     }

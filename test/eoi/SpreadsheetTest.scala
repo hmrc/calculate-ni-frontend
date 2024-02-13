@@ -96,13 +96,10 @@ trait SpreadsheetTest extends AnyFunSpec with Matchers with ExplainTestSupport {
     files.foreach { file =>
       val reader = CSVReader.open(file)
       val lines = reader.all().zipWithIndex.filterNot(_._1.mkString.startsWith("#"))
-      val ((headers,_)::data) = lines.map {
-        case (r,i) => r.map(_.trim) -> (i+1)
-        case _ => List("") -> 0
-      }
+      val data = lines.map {case (r, i) => r.map(_.trim) -> (i + 1)}
 
-      data.foreach { case (line, index) =>
-        val dataMap: Map[String, String] = (headers zip line.map(_.trim)).toMap
+      data.tail.foreach { case (line, index) =>
+        val dataMap: Map[String, String] = (data.head._1 zip line.map(_.trim)).toMap
         it(s"${file.getName}:${index}") {
           lineTest(dataMap)
         }
