@@ -12,7 +12,9 @@ val build                    = taskKey[Unit]("Copy JS and Config to react app")
 
 val appName = "calculate-ni-frontend"
 
-val silencerVersion = "1.7.12"
+val silencerVersion = "1.7.14"
+
+val bootstrapVersion = "8.4.0"
 
 installReactDependencies := {
   val result = JavaScriptBuild.npmProcess(reactDirectory.value, "install").run().exitValue()
@@ -60,10 +62,10 @@ lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
   .settings(
     majorVersion                     := 0,
-    scalaVersion                     := "2.13.8",
+    scalaVersion                     := "2.13.12",
     libraryDependencies              ++= Seq(
-      "uk.gov.hmrc"           %% "bootstrap-frontend-play-28" % "5.25.0",
-      "uk.gov.hmrc"           %% "play-frontend-hmrc"         % "6.8.0-play-28",
+      "uk.gov.hmrc"           %% "bootstrap-frontend-play-30" % bootstrapVersion,
+      "uk.gov.hmrc"           %% "play-frontend-hmrc-play-30" % "8.5.0",
       "com.github.pureconfig" %% "pureconfig"                 % "0.17.2",
       "org.typelevel"         %% "cats-core"                  % "2.9.0",
       "org.typelevel"         %% "spire"                      % "0.18.0"
@@ -74,8 +76,7 @@ lazy val microservice = Project(appName, file("."))
       "io.circe" %%% "circe-parser"
     ).map(_ % circeVersion),
     libraryDependencies              ++= Seq(
-      "uk.gov.hmrc"          %% "bootstrap-test-play-28" % "5.25.0",
-      "com.typesafe.play"    %% "play-test"              % play.core.PlayVersion.current,
+      "uk.gov.hmrc"          %% "bootstrap-test-play-30" % bootstrapVersion,
       "com.github.tototoshi" %% "scala-csv"              % "1.3.10",
       "org.scalatestplus"    %% "scalacheck-1-15"        % "3.2.11.0",
       "com.propensive"       %% "magnolia"               % "0.17.0",
@@ -84,8 +85,7 @@ lazy val microservice = Project(appName, file("."))
     ).map(_ % Test),
     TwirlKeys.templateImports ++= Seq(
       "uk.gov.hmrc.calculatenifrontend.config.AppConfig",
-      "uk.gov.hmrc.govukfrontend.views.html.components._",
-      "uk.gov.hmrc.govukfrontend.views.html.components.implicits._"
+      "uk.gov.hmrc.hmrcfrontend.views.html.components._",
     ),
     play.sbt.routes.RoutesKeys.routesImport += "uk.gov.hmrc.calculatenifrontend.controllers.Binders._",
     scalacOptions += "-P:silencer:pathFilters=routes",
@@ -129,6 +129,11 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
     scalacOptions -= "-Xfatal-warnings",
     scalacOptions += "-Xlint:-byname-implicit",
     scalacOptions += "-Ymacro-annotations",
+    scalacOptions ++= Seq(
+      "-feature",
+      "-Wconf:src=routes/.*:s",
+      "-Wconf:cat=unused-imports&src=html/.*:s"
+    ),
     publish := {},
     publishLocal := {}
   )
@@ -137,11 +142,16 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
 lazy val `frontend` = project
   .enablePlugins(ScalaJSPlugin)
   .settings(
-    scalaVersion := "2.13.8",
+    scalaVersion := "2.13.12",
     majorVersion := 0,
     scalacOptions -= "-Xfatal-warnings",
     scalacOptions += "-Xlint:-byname-implicit",
     scalacOptions += "-Ymacro-annotations",
+    scalacOptions ++= Seq(
+      "-feature",
+      "-Wconf:src=routes/.*:s",
+      "-Wconf:cat=unused-imports&src=html/.*:s"
+    ),
     scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "1.1.0",

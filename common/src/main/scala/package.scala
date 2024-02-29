@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
+import algebra.Order
 import spire.math.Interval
 import spire.math.interval._
 import spire.implicits._
 import spire.algebra.{Eq, Field}
+
 import java.time.{DayOfWeek, LocalDate}
 
 package object eoi extends spire.syntax.FieldSyntax {
@@ -138,7 +140,7 @@ package object eoi extends spire.syntax.FieldSyntax {
       value.find{case (k,v) => k.contains(in)}
   }
 
-  implicit val localDateSpireOrdering = new spire.algebra.Order[LocalDate] {
+  implicit val localDateSpireOrdering: Order[LocalDate] = new spire.algebra.Order[LocalDate] {
     // for some reason fromOrdered doesn't resolve when using >= for example
     // probably something to do with cats/spire interop
     def compare(x: LocalDate, y: LocalDate): Int = x.toEpochDay compare y.toEpochDay
@@ -300,7 +302,7 @@ package object eoi extends spire.syntax.FieldSyntax {
       }
     }
 
-  implicit val catsOrderDateInterval =
+  implicit val catsOrderDateInterval: Order[Interval[LocalDate]] =
     cats.Order.fromOrdering(orderInterval[LocalDate](orderLocalDate))
 
   implicit class RichLocalDate(val value: LocalDate) extends AnyVal {

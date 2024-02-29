@@ -95,13 +95,13 @@ object ConfigLoader {
     }
   }
 
-  implicit val periodMapReader = anyMapReader[Interval[LocalDate], Map[String, RateDefinition]]
-  implicit val classTwoReader = anyMapReader[Interval[LocalDate], ClassTwo]
-  implicit val classThreeReader = anyMapReader[Interval[LocalDate], ClassThree]  
-  implicit val catReader = anyMapReader[Char, String]
-  implicit val dateMoneyReader = anyMapReader[Interval[LocalDate], Money]
-  implicit val datePercentReader = anyMapReader[Interval[LocalDate], Percentage]    
-  implicit val classFourReader = anyMapReader[Interval[LocalDate], ClassFour]
+  implicit val periodMapReader: ConfigReader[Map[Interval[LocalDate], Map[String, RateDefinition]]] = anyMapReader[Interval[LocalDate], Map[String, RateDefinition]]
+  implicit val classTwoReader: ConfigReader[Map[Interval[LocalDate], ClassTwo]] = anyMapReader[Interval[LocalDate], ClassTwo]
+  implicit val classThreeReader: ConfigReader[Map[Interval[LocalDate], ClassThree]] = anyMapReader[Interval[LocalDate], ClassThree]
+  implicit val catReader: ConfigReader[Map[Char, String]] = anyMapReader[Char, String]
+  implicit val dateMoneyReader: ConfigReader[Map[Interval[LocalDate], Money]] = anyMapReader[Interval[LocalDate], Money]
+  implicit val datePercentReader: ConfigReader[Map[Interval[LocalDate], Percentage]] = anyMapReader[Interval[LocalDate], Percentage]
+  implicit val classFourReader: ConfigReader[Map[Interval[LocalDate], ClassFour]] = anyMapReader[Interval[LocalDate], ClassFour]
 
   implicit val c1BandReader: ConfigReader[Class1Band] = ConfigReader[String].emap { str => 
     Class1Band.fromString(str) match {
@@ -109,8 +109,8 @@ object ConfigLoader {
       case None => Left(CannotConvert(str, "Class1Band", s"$str is not a valid Class1Band"))
     }
   }
-  implicit val ratesBandReader = anyMapReader[Class1Band, Map[Char, Percentage]]
-  implicit val udReader = anyMapReader[Interval[LocalDate], TaxYearBandLimits]       
+  implicit val ratesBandReader: ConfigReader[Map[Class1Band, Map[Char, Percentage]]] = anyMapReader[Class1Band, Map[Char, Percentage]]
+  implicit val udReader: ConfigReader[Map[Interval[LocalDate], TaxYearBandLimits]] = anyMapReader[Interval[LocalDate], TaxYearBandLimits]
 
   lazy val get = ConfigSource.default.load[Map[Interval[LocalDate], Map[String, RateDefinition]]] match {
     case Right(conf) => conf
@@ -122,7 +122,7 @@ object ConfigLoader {
     case Left(err) => throw new IllegalArgumentException(err.prettyPrint())
   }
 
-  implicit val confPeriodReader = anyMapReader[Interval[LocalDate], ConfigurationPeriod]
+  implicit val confPeriodReader: ConfigReader[Map[Interval[LocalDate], ConfigurationPeriod]] = anyMapReader[Interval[LocalDate], ConfigurationPeriod]
 
   implicit val topLevelReader: ConfigReader[Configuration] = new ConfigReader[Configuration] {
     def from(cur: ConfigCursor): ConfigReader.Result[Configuration] = for {
