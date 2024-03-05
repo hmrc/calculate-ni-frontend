@@ -16,13 +16,11 @@
 
 package eoi
 
-import com.github.ghik.silencer.silent
 
 object Period extends Enumeration {
   type Period = Vala
 
-  @silent("non-string constructors")
-  protected case class Vala(string: String, qtyInYear: Int) extends super.Val 
+  protected case class Vala(string: String, qtyInYear: Int) extends Enumeration
 
   val Week = Vala("Wk", 52)
   val Month = Vala("Mnth", 12)
