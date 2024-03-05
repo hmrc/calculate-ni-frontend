@@ -12,7 +12,7 @@ addSbtPlugin("uk.gov.hmrc" % "sbt-distributables" % "2.5.0")
 
 addSbtPlugin("org.playframework"  % "sbt-plugin"  % "3.0.1")
 
-addSbtPlugin("org.irundaia.sbt" % "sbt-sassify" % "1.5.1")
+addSbtPlugin("io.github.irundaia" % "sbt-sassify" % "1.5.2")
 
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.13.0")
 
