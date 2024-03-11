@@ -154,7 +154,6 @@ package object eoi extends spire.syntax.FieldSyntax {
       *  @return  An iterator returning the values produced by this iterator, until
       *           this iterator produces a value that does not satisfy
       *           the predicate `p`.
-      *  @note    Reuse: $consumesAndProducesIterator
       */
     def safeTakeWhile(p: A => Boolean): Iterator[A] = {
       new scala.collection.AbstractIterator[A] {
