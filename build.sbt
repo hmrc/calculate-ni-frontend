@@ -11,8 +11,6 @@ val build                    = taskKey[Unit]("Copy JS and Config to react app")
 
 val appName = "calculate-ni-frontend"
 
-val silencerVersion = "1.7.14"
-
 val bootstrapVersion = "8.5.0"
 
 installReactDependencies := {
@@ -65,8 +63,8 @@ lazy val microservice = Project(appName, file("."))
     libraryDependencies              ++= Seq(
       "uk.gov.hmrc"           %% "bootstrap-frontend-play-30" % bootstrapVersion,
       "uk.gov.hmrc"           %% "play-frontend-hmrc-play-30" % "8.5.0",
-      "com.github.pureconfig" %% "pureconfig"                 % "0.17.2",
-      "org.typelevel"         %% "cats-core"                  % "2.9.0",
+      "com.github.pureconfig" %% "pureconfig"                 % "0.17.6",
+      "org.typelevel"         %% "cats-core"                  % "2.10.0",
       "org.typelevel"         %% "spire"                      % "0.18.0"
     ),
     libraryDependencies ++= Seq(
@@ -77,10 +75,10 @@ lazy val microservice = Project(appName, file("."))
     libraryDependencies              ++= Seq(
       "uk.gov.hmrc"          %% "bootstrap-test-play-30" % bootstrapVersion,
       "com.github.tototoshi" %% "scala-csv"              % "1.3.10",
-      "org.scalatestplus"    %% "scalacheck-1-15"        % "3.2.11.0",
+      "org.scalatestplus"    %% "scalacheck-1-17"        % "3.2.18.0",
       "com.propensive"       %% "magnolia"               % "0.17.0",
       "io.chrisdavenport"    %% "cats-scalacheck"        % "0.3.2",
-      "com.vladsch.flexmark" %  "flexmark-all"           % "0.62.2"
+      "com.vladsch.flexmark" %  "flexmark-all"           % "0.64.8"
     ).map(_ % Test),
     TwirlKeys.templateImports ++= Seq(
       "uk.gov.hmrc.calculatenifrontend.config.AppConfig",
@@ -150,10 +148,6 @@ lazy val `frontend` = project
       "org.scala-js" %%% "scalajs-dom" % "1.1.0",
       "org.scala-js" %%% "scalajs-java-time" % "1.0.0",
       "org.typelevel" %%% "simulacrum" % "1.0.0"
-    ),
-    libraryDependencies ++= Seq(
-      compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
-      "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
     ),
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
     scalaJSLinkerConfig ~= (_.withESFeatures(_.withESVersion(ESVersion.ES2018))),

@@ -21,7 +21,6 @@ import scala.scalajs.js.annotation._
 import scala.scalajs.js.Date
 import scala.scalajs.js, js.JSConverters._
 import JsObjectAdapter.ops._
-import com.github.ghik.silencer.silent
 
 @JSExportTopLevel("ClassOneFrontend")
 class ClassOneFrontend(
@@ -92,129 +91,8 @@ object ClassOneFrontend {
    * Any of the elements of ClassOneResult can be made accessible to the
    * JS frontend from here.
    */
-  @silent("never used") // the compiler seems to think everything is private
   implicit def c1ResultLikeAdapter[A <: ClassOneResultLike]: JsObjectAdapter[A] = new JsObjectAdapter[A] {
     def toJSObject(in: A): js.Object = new js.Object {
-
-      // the rows
-      val resultRows: js.Array[js.Object] = in.rowsOutput.map { row => new js.Object {
-        val name = row.rowId
-
-        // the bands for which the user should see the earnings
-        val resultBands = row.displaySummaryBands.map { band => new js.Object {
-          val name = band.bandId
-
-          // anywhere where we have an 'Explained' datatype we can call 'value' to get
-          // the Scala value (normally a BigDecimal) -
-          val amountInBand = if (name == "Up to LEL")
-            if (band.amountInBand.value == band.moneyInterval.value.upperValue.get)
-              band.amountInBand.value.toDouble
-            else
-              0.0
-          else 
-            band.amountInBand.value.toDouble
-
-          // or call 'explain' to get a List[String] trace -
-          val amountInBandExplain: js.Array[String] = band.amountInBand.explain.toJSArray
-        }: js.Object }.toJSArray
-
-        // the bands for which the user should see the contributions
-        val resultContributionBands = row.displaySummaryContributionBands.map { band => new js.Object {
-          val name = band.bandId
-          val employeeContributions = band.employeeContributions.value.toDouble
-        }: js.Object }.toJSArray
-
-        val employer = row.employerContributions.value.toDouble
-        val employee = row.employeeContributions.value.toDouble
-        val explain = (row.employeeContributions.explain ++ row.employerContributions.explain).dedupPreserveOrder.toJSArray
-
-      }: js.Object }.toJSArray
-
-      val employerPaid = in.employerPaid.value.toDouble
-
-      // aggregate values
-      val totals = new js.Object {
-        val gross = in.grossPay.value.toDouble
-        val employee = in.employeeContributions.value.toDouble
-        val employer = in.employerContributions.value.toDouble
-        val net = in.totalContributions.value.toDouble
-      }
-
-      val underpayment = new js.Object {
-        val employee = in.underpayment.employee.value.toDouble
-        val employer = in.underpayment.employer.value.toDouble
-        val total = in.underpayment.total.value.toDouble
-      }
-
-      val overpayment = new js.Object {
-        val employee = in.overpayment.employee.value.toDouble
-        val employer = in.overpayment.employer.value.toDouble
-        val total = in.overpayment.total.value.toDouble
-      }
-
-      val employerContributions = in.employerPaid.value.toDouble
-
-      def calcTotals(key: String, x: List[ClassOneRowOutput#ClassOneRowOutputBand]): (String, js.Object) = {
-        key match {
-          case "Up to LEL" =>
-            key -> new js.Object {
-              val gross = x.flatMap{ b => 
-                if (b.amountInBand.value == b.moneyInterval.value.upperValue.get)
-                  Some(b.amountInBand.value)
-                else
-                  None
-              }.sum.toDouble
-              val employee = x.map(_.employeeContributions.value).sum.toDouble
-              val employer = x.map(_.employerContributions.value).sum.toDouble
-              val net = x.map(_.employerContributions.value).sum.toDouble
-            }
-          case _ =>
-            key -> new js.Object {
-              val gross = x.map(_.amountInBand.value).sum.toDouble
-              val employee = x.map(_.employeeContributions.value).sum.toDouble
-              val employer = x.map(_.employerContributions.value).sum.toDouble
-              val net = x.map(_.employerContributions.value).sum.toDouble
-            }
-        }
-      }
-
-      val categoryTotals = {
-        in.rowsOutput.groupBy(_.category).map {
-          case (cat, matchingRows) =>
-            cat.toString -> new js.Object {
-              val gross = matchingRows.map(_.money).sum.toDouble
-              val employee = matchingRows.map(_.employeeContributions.value).sum.toDouble
-              val employer = matchingRows.map(_.employerContributions.value).sum.toDouble
-              val net = matchingRows.map(_.totalContributions.value).sum.toDouble
-              val resultBands = matchingRows
-                .flatMap(_.displaySummaryBands)
-                .groupBy(_.bandId)
-                .map(Function.tupled(calcTotals))
-                .toJSMap
-              val resultContributionBands = matchingRows
-                .flatMap(_.displaySummaryContributionBands)
-                .groupBy(_.bandId)
-                .map(Function.tupled(calcTotals))
-                .toJSMap
-            }
-        }
-      }.toJSMap
-
-      val bandTotals = new js.Object {
-
-        val resultBands = in.rowsOutput
-          .flatMap(_.displaySummaryBands)
-          .groupBy(_.bandId)
-          .map(Function.tupled(calcTotals))
-          .toJSMap
-
-        val resultContributionBands = in.rowsOutput
-          .flatMap(_.displaySummaryContributionBands)
-          .groupBy(_.bandId)
-          .map(Function.tupled(calcTotals))
-          .toJSMap
-
-      }
     }
   }
 }

@@ -19,9 +19,7 @@ package frontend
 
 import scala.scalajs.js, js.JSConverters._
 import spire.math.Interval
-import com.github.ghik.silencer.silent
 
-@silent("private val")
 class WeeklyContributions(
   config: Configuration
 ) extends js.Object {
@@ -50,8 +48,6 @@ class WeeklyContributions(
     val total = r.map(_._2).sum
 
     new js.Object {
-      val totalWeeks = total
-      val years = yearsSeq
     }
   }
 

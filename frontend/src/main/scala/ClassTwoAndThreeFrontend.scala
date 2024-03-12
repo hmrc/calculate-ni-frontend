@@ -22,20 +22,14 @@ import scala.scalajs.js, js.JSConverters._
 import java.time.LocalDate
 import JsObjectAdapter.ops._
 import spire.math.Interval
-import com.github.ghik.silencer.silent
 
-@silent("private val")
+
 class ClassTwoAndThreeFrontend[A <: ClassTwoOrThree](
   rates: Map[Interval[LocalDate], A]
 ) extends js.Object {
 
   implicit val c2ResultAdapter : JsObjectAdapter[ClassTwoAndThreeResult[A]] = new JsObjectAdapter[ClassTwoAndThreeResult[A]] {
     def toJSObject(in: ClassTwoAndThreeResult[A]): js.Object = new js.Object {
-      val contributionsDue: Int = in.numberOfContributions.value
-      val rate: Double = in.rate.value.toDouble
-      val totalAmountDue: Double = in.totalDue.value.toDouble
-      val dateHigherRateApply: js.Date = in.higherProvisionsApplyOn.value
-      val finalPaymentDate: js.Date = in.finalDate.value
     }
   }
 

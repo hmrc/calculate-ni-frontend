@@ -21,9 +21,8 @@ import scala.scalajs.js.annotation._
 import scala.scalajs.js, js.JSConverters._
 import java.time.LocalDate
 import spire.math.Interval
-import com.github.ghik.silencer.silent
 
-@silent("private val")
+
 abstract class InterestFrontend extends js.Object {
 
   protected def calculationFunction(
