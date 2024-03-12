@@ -13,7 +13,7 @@ val appName = "calculate-ni-frontend"
 
 val silencerVersion = "1.7.14"
 
-val bootstrapVersion = "8.4.0"
+val bootstrapVersion = "8.5.0"
 
 installReactDependencies := {
   val result = JavaScriptBuild.npmProcess(reactDirectory.value, "install").run().exitValue()

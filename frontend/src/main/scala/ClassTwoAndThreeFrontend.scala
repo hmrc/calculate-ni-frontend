@@ -29,7 +29,7 @@ class ClassTwoAndThreeFrontend[A <: ClassTwoOrThree](
   rates: Map[Interval[LocalDate], A]
 ) extends js.Object {
 
-  implicit val c2ResultAdapter = new JsObjectAdapter[ClassTwoAndThreeResult[A]] {
+  implicit val c2ResultAdapter : JsObjectAdapter[ClassTwoAndThreeResult[A]] = new JsObjectAdapter[ClassTwoAndThreeResult[A]] {
     def toJSObject(in: ClassTwoAndThreeResult[A]): js.Object = new js.Object {
       val contributionsDue: Int = in.numberOfContributions.value
       val rate: Double = in.rate.value.toDouble
