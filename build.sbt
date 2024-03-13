@@ -105,7 +105,7 @@ lazy val microservice = Project(appName, file("."))
   )
   .settings(resolvers += Resolver.jcenterRepo)
 
-val circeVersion = "0.14.5"
+val circeVersion = "0.14.6"
 
 /** common components holding the logic of the calculation */
 lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform, JVMPlatform)
