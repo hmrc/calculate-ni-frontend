@@ -22,7 +22,6 @@ import scala.scalajs.js, js.JSConverters._
 import java.time.LocalDate
 import spire.math.Interval
 
-
 abstract class InterestFrontend extends js.Object {
 
   protected def calculationFunction(

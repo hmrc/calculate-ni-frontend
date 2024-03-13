@@ -70,10 +70,17 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
       val ifNotUdIsDue: Boolean = difference == 0 || ifNotUD < difference
       val resultRows: js.Array[js.Object] = result.rowsOutput.toJSArray.map { r =>
         new js.Object {
+          val id: String = r.id
+          val gross: Double = r.grossPay.toDouble
+          val overUel: Double = r.earningsOverUEL.toDouble
+          val nicsNonCo: Double = r.nicsNonCO.toDouble
+          val ifNotUd: Double = r.ifNotUD.toDouble
         }
       }
       val report: js.Array[js.Object] = result.report.toJSArray.map{ r =>
         new js.Object {
+          val label: String = r._1
+          val value: Double = r._2.toDouble
         }
       }
     }
@@ -114,6 +121,8 @@ class UnofficialDeferment(config: Configuration) extends js.Object {
       case (k,v) => displayedLimits.get(k) -> v
     }.collect { case (Some(l),amt) =>
         new js.Object {
+          val label = l
+          val amount = amt.toDouble
         }
     }
   }

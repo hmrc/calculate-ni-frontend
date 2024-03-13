@@ -13,6 +13,8 @@ val appName = "calculate-ni-frontend"
 
 val bootstrapVersion = "8.5.0"
 
+val silencerVersion = "1.7.16"
+
 installReactDependencies := {
   val result = JavaScriptBuild.npmProcess(reactDirectory.value, "install").run().exitValue()
   if (result != 0)
@@ -86,6 +88,10 @@ lazy val microservice = Project(appName, file("."))
     ),
     play.sbt.routes.RoutesKeys.routesImport += "uk.gov.hmrc.calculatenifrontend.controllers.Binders._",
     scalacOptions += "-Xlint:-byname-implicit",
+    libraryDependencies ++= Seq(
+      compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
+      "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
+    ),
     scalacOptions ++= Seq(
       "-feature",
       "-Wconf:src=routes/.*:s",

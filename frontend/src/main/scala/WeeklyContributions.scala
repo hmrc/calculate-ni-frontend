@@ -48,6 +48,8 @@ class WeeklyContributions(
     val total = r.map(_._2).sum
 
     new js.Object {
+      val totalWeeks = total
+      val years = yearsSeq
     }
   }
 
