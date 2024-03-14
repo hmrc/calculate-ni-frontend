@@ -138,9 +138,9 @@ object ConfigWriterInstances {
     }
   }
 
-  implicit val moneyIntervalWriter = intervalWriter[Money](_.toString)
+  implicit val moneyIntervalWriter: ConfigWriter[Interval[Money]] = intervalWriter[Money](_.toString)
 
-  implicit val vagueRateDefinitionWriter =
+  implicit val vagueRateDefinitionWriter: ConfigWriter[RateDefinition.VagueRateDefinition] =
     ConfigWriter[Map[String, ConfigValue]].contramap[RateDefinition.VagueRateDefinition] {
       rateDef =>
       import rateDef._
@@ -173,8 +173,8 @@ object ConfigWriterInstances {
       data.map{ case (k,v) => (k.toString.filterNot(_ == ' '),v) }
     }
 
-  val confPeriodUnordered = ConfigWriter[ConfigurationPeriod]
-  implicit val confPeriod = new ConfigWriter[ConfigurationPeriod] {
+  val confPeriodUnordered: ConfigWriter[ConfigurationPeriod] = ConfigWriter[ConfigurationPeriod]
+  implicit val confPeriod: ConfigWriter[ConfigurationPeriod] = new ConfigWriter[ConfigurationPeriod] {
     def to(a: ConfigurationPeriod): ConfigValue = {
       confPeriodUnordered.to(a) match {
         case obj: ConfigObject => obj

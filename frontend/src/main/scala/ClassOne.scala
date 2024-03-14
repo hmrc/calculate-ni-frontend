@@ -21,7 +21,6 @@ import scala.scalajs.js.annotation._
 import scala.scalajs.js.Date
 import scala.scalajs.js, js.JSConverters._
 import JsObjectAdapter.ops._
-import com.github.ghik.silencer.silent
 
 @JSExportTopLevel("ClassOneFrontend")
 class ClassOneFrontend(
@@ -92,7 +91,6 @@ object ClassOneFrontend {
    * Any of the elements of ClassOneResult can be made accessible to the
    * JS frontend from here.
    */
-  @silent("never used") // the compiler seems to think everything is private
   implicit def c1ResultLikeAdapter[A <: ClassOneResultLike]: JsObjectAdapter[A] = new JsObjectAdapter[A] {
     def toJSObject(in: A): js.Object = new js.Object {
 
@@ -111,7 +109,7 @@ object ClassOneFrontend {
               band.amountInBand.value.toDouble
             else
               0.0
-          else 
+          else
             band.amountInBand.value.toDouble
 
           // or call 'explain' to get a List[String] trace -
@@ -158,7 +156,7 @@ object ClassOneFrontend {
         key match {
           case "Up to LEL" =>
             key -> new js.Object {
-              val gross = x.flatMap{ b => 
+              val gross = x.flatMap{ b =>
                 if (b.amountInBand.value == b.moneyInterval.value.upperValue.get)
                   Some(b.amountInBand.value)
                 else

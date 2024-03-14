@@ -1,5 +1,4 @@
 import org.scalajs.linker.interface.ESVersion
-import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
 
 import scala.sys.process._
 
@@ -12,7 +11,9 @@ val build                    = taskKey[Unit]("Copy JS and Config to react app")
 
 val appName = "calculate-ni-frontend"
 
-val silencerVersion = "1.7.12"
+val bootstrapVersion = "8.5.0"
+
+val silencerVersion = "1.7.16"
 
 installReactDependencies := {
   val result = JavaScriptBuild.npmProcess(reactDirectory.value, "install").run().exitValue()
@@ -60,12 +61,12 @@ lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
   .settings(
     majorVersion                     := 0,
-    scalaVersion                     := "2.13.8",
+    scalaVersion                     := "2.13.12",
     libraryDependencies              ++= Seq(
-      "uk.gov.hmrc"           %% "bootstrap-frontend-play-28" % "5.25.0",
-      "uk.gov.hmrc"           %% "play-frontend-hmrc"         % "6.8.0-play-28",
-      "com.github.pureconfig" %% "pureconfig"                 % "0.17.2",
-      "org.typelevel"         %% "cats-core"                  % "2.9.0",
+      "uk.gov.hmrc"           %% "bootstrap-frontend-play-30" % bootstrapVersion,
+      "uk.gov.hmrc"           %% "play-frontend-hmrc-play-30" % "8.5.0",
+      "com.github.pureconfig" %% "pureconfig"                 % "0.17.6",
+      "org.typelevel"         %% "cats-core"                  % "2.10.0",
       "org.typelevel"         %% "spire"                      % "0.18.0"
     ),
     libraryDependencies ++= Seq(
@@ -74,26 +75,27 @@ lazy val microservice = Project(appName, file("."))
       "io.circe" %%% "circe-parser"
     ).map(_ % circeVersion),
     libraryDependencies              ++= Seq(
-      "uk.gov.hmrc"          %% "bootstrap-test-play-28" % "5.25.0",
-      "com.typesafe.play"    %% "play-test"              % play.core.PlayVersion.current,
+      "uk.gov.hmrc"          %% "bootstrap-test-play-30" % bootstrapVersion,
       "com.github.tototoshi" %% "scala-csv"              % "1.3.10",
-      "org.scalatestplus"    %% "scalacheck-1-15"        % "3.2.11.0",
+      "org.scalatestplus"    %% "scalacheck-1-17"        % "3.2.18.0",
       "com.propensive"       %% "magnolia"               % "0.17.0",
       "io.chrisdavenport"    %% "cats-scalacheck"        % "0.3.2",
-      "com.vladsch.flexmark" %  "flexmark-all"           % "0.62.2"
+      "com.vladsch.flexmark" %  "flexmark-all"           % "0.64.8"
     ).map(_ % Test),
     TwirlKeys.templateImports ++= Seq(
       "uk.gov.hmrc.calculatenifrontend.config.AppConfig",
-      "uk.gov.hmrc.govukfrontend.views.html.components._",
-      "uk.gov.hmrc.govukfrontend.views.html.components.implicits._"
+      "uk.gov.hmrc.hmrcfrontend.views.html.components._",
     ),
     play.sbt.routes.RoutesKeys.routesImport += "uk.gov.hmrc.calculatenifrontend.controllers.Binders._",
-    scalacOptions += "-P:silencer:pathFilters=routes",
-    scalacOptions += "-P:silencer:pathFilters=target/.*",
     scalacOptions += "-Xlint:-byname-implicit",
     libraryDependencies ++= Seq(
       compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
       "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
+    ),
+    scalacOptions ++= Seq(
+      "-feature",
+      "-Wconf:src=routes/.*:s",
+      "-Wconf:cat=unused-imports&src=html/.*:s"
     ),
     PlayKeys.playDefaultPort := 8668,
     reactDirectory := (Compile / baseDirectory) { _ /"react" }.value,
@@ -101,10 +103,9 @@ lazy val microservice = Project(appName, file("."))
     Compile / unmanagedResources += file("national-insurance.conf"),
     dist := (dist dependsOn moveReact).value
   )
-  .configs(IntegrationTest)
   .settings(resolvers += Resolver.jcenterRepo)
 
-val circeVersion = "0.14.5"
+val circeVersion = "0.14.6"
 
 /** common components holding the logic of the calculation */
 lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform, JVMPlatform)
@@ -122,13 +123,14 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
       "org.typelevel" %%% "cats-core" % "2.1.1",
       "org.typelevel" %%% "spire" % "0.18.0"
     ),
-    libraryDependencies ++= Seq(
-      compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
-      "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
-    ),
     scalacOptions -= "-Xfatal-warnings",
     scalacOptions += "-Xlint:-byname-implicit",
     scalacOptions += "-Ymacro-annotations",
+    scalacOptions ++= Seq(
+      "-feature",
+      "-Wconf:src=routes/.*:s",
+      "-Wconf:cat=unused-imports&src=html/.*:s"
+    ),
     publish := {},
     publishLocal := {}
   )
@@ -137,20 +139,21 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
 lazy val `frontend` = project
   .enablePlugins(ScalaJSPlugin)
   .settings(
-    scalaVersion := "2.13.8",
+    scalaVersion := "2.13.12",
     majorVersion := 0,
     scalacOptions -= "-Xfatal-warnings",
     scalacOptions += "-Xlint:-byname-implicit",
     scalacOptions += "-Ymacro-annotations",
+    scalacOptions ++= Seq(
+      "-feature",
+      "-Wconf:src=routes/.*:s",
+      "-Wconf:cat=unused-imports&src=html/.*:s"
+    ),
     scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "1.1.0",
       "org.scala-js" %%% "scalajs-java-time" % "1.0.0",
       "org.typelevel" %%% "simulacrum" % "1.0.0"
-    ),
-    libraryDependencies ++= Seq(
-      compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
-      "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
     ),
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
     scalaJSLinkerConfig ~= (_.withESFeatures(_.withESVersion(ESVersion.ES2018))),

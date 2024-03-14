@@ -19,6 +19,7 @@ package frontend
 
 import scala.scalajs.js
 import simulacrum._
+import scala.language.implicitConversions
 
 @typeclass trait JsObjectAdapter[A] {
   def toJSObject(in: A): js.Object
