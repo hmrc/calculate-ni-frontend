@@ -25,7 +25,7 @@ import cats.implicits._
 object EoiJsonEncoding {
 
   // Todo enumeratum? Scala 3 enum backporting? 
-  implicit def class1BandKeyEncoder = new KeyEncoder[Class1Band] {
+  implicit def class1BandKeyEncoder: KeyEncoder[Class1Band] = new KeyEncoder[Class1Band] {
     import Class1Band._
     def apply(in: Class1Band): String = in match {
       case BelowLEL => "BelowLEL"
@@ -39,15 +39,15 @@ object EoiJsonEncoding {
     }
   }
 
-  implicit def class1BandKeyDecoder = new KeyDecoder[Class1Band] {
+  implicit def class1BandKeyDecoder: KeyDecoder[Class1Band] = new KeyDecoder[Class1Band] {
     def apply(in: String): Option[Class1Band] = Class1Band.fromString(in)
   }
 
-  implicit def dateKeyEncoder = new KeyEncoder[LocalDate] {
+  implicit def dateKeyEncoder: KeyEncoder[LocalDate] = new KeyEncoder[LocalDate] {
     def apply(in: LocalDate): String = in.toString()
   }
 
-  implicit def intervalKeyEncoder[A](implicit inner: KeyEncoder[A]) = new KeyEncoder[Interval[A]] {
+  implicit def intervalKeyEncoder[A](implicit inner: KeyEncoder[A]): KeyEncoder[Interval[A]] = new KeyEncoder[Interval[A]] {
     def apply(i: Interval[A]): String = {
 
       val l = i.lowerBound match {
@@ -70,11 +70,11 @@ object EoiJsonEncoding {
 
   def toJson(in: Configuration): Json = in.asJson
 
-  implicit def dateKeyDecoder = new KeyDecoder[LocalDate] {
+  implicit def dateKeyDecoder: KeyDecoder[LocalDate] = new KeyDecoder[LocalDate] {
     def apply(in: String): Option[LocalDate] = util.Try{LocalDate.parse(in)}.toOption
   }
 
-  implicit def intervalKeyDecoder[A](implicit inner: KeyDecoder[A], order: spire.algebra.Order[A]) = new KeyDecoder[Interval[A]] {
+  implicit def intervalKeyDecoder[A](implicit inner: KeyDecoder[A], order: spire.algebra.Order[A]): KeyDecoder[Interval[A]] = new KeyDecoder[Interval[A]] {
     def apply(key: String): Option[Interval[A]] = {
       key.split(",").toList match {
         case (l::h::Nil) =>
@@ -97,7 +97,7 @@ object EoiJsonEncoding {
     }
   }
 
-  implicit def charKeyDecoder = new KeyDecoder[Char] {
+  implicit def charKeyDecoder: KeyDecoder[Char] = new KeyDecoder[Char] {
     def apply(key: String): Option[Char] = key.toList match {
       case (h::Nil) => Some(h)
       case _ => None

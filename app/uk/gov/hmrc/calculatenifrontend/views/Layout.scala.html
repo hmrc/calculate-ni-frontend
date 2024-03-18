@@ -30,7 +30,7 @@
   headBlock: Option[Html] = None,
   scriptsBlock: Option[Html] = None,
   beforeContentBlock: Option[Html] = None
-)(contentBlock: Html)(implicit messages: Messages, appConfig: AppConfig)
+)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
 @hmrcAdminHeader = @{
   Html(s"""<div class="govuk-width-container">${header(
@@ -45,6 +45,5 @@
     headBlock = Some(head(headBlock)),
     headerBlock = Some(hmrcAdminHeader),
     scriptsBlock = scriptsBlock,
-    beforeContentBlock = beforeContentBlock,
-    footerItems = FooterLinks()
+    beforeContentBlock = beforeContentBlock
 )(contentBlock)

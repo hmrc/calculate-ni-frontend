@@ -36,8 +36,7 @@ export default function Class1TableRow(props: TableRowProps) {
     setShowExplanation,
     showExplanation,
     bandNames,
-    contributionNames,
-    repeatQty,
+    contributionNames
   } = props;
   const {
     activeRowId,

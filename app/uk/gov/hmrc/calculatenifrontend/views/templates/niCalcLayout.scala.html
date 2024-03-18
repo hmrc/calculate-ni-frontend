@@ -14,14 +14,11 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.govukfrontend.views.html.components.{Header => GovHeader, Footer => GovFooter}
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage._
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcStandardPage
 
 @this(
-        govukTemplate: GovukTemplate,
-        govukHeader: GovukHeader,
-        govukFooter: GovukFooter,
-        govukBackLink: GovukBackLink
+        hmrcStandardPage: HmrcStandardPage
 )
 
 @(
@@ -29,40 +26,24 @@
         headBlock: Option[Html] = None,
         headerBlock: Option[Html] = None,
         beforeContentBlock: Option[Html] = None,
-        footerBlock: Option[Html] = None,
         footerItems: Seq[FooterItem] = Seq.empty,
         bodyEndBlock: Option[Html] = None,
         scriptsBlock: Option[Html] = None
-)(contentBlock: Html)(implicit messages: Messages)
+)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
-@headerDefault = {
-@headerBlock.getOrElse {
-  @govukHeader(GovHeader(
-    homepageUrl = Some("https://www.gov.uk/"),
-    serviceName = Some(messages("service.name")),
-    serviceUrl = Some(messages("service.homePageUrl")),
-    containerClasses = None))
-}
-}
-
-@footerDefault = {
-@footerBlock.getOrElse {
-  @govukFooter(new GovFooter(meta = Some(Meta(items = Some(footerItems)))))
-}
-}
-
-@bodyEndDefault = {
-@bodyEndBlock
-@scriptsBlock
-}
-
-@govukTemplate(
-  htmlLang = Some(messages.lang.code),
-  pageTitle = pageTitle,
-  headBlock = headBlock,
-  headerBlock = headerDefault,
-  beforeContentBlock = beforeContentBlock,
-  footerBlock = footerDefault,
-  mainClasses = Some("govuk-main-wrapper--auto-spacing"),
-  bodyEndBlock = Some(bodyEndDefault)
+@hmrcStandardPage(
+    HmrcStandardPageParams(
+        pageTitle = pageTitle,
+        serviceName = Some(messages("service.name")),
+        serviceURLs = ServiceURLs(
+            serviceUrl = Some(messages("service.homePageUrl")),
+            signOutUrl = None,
+            accessibilityStatementUrl = None
+        ),
+        templateOverrides = TemplateOverrides(
+            additionalHeadBlock = headBlock,
+            additionalScriptsBlock = scriptsBlock,
+            beforeContentBlock = beforeContentBlock,
+        )
+    )
 )(contentBlock)

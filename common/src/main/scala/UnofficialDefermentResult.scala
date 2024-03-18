@@ -42,7 +42,7 @@ object Class1Band {
     AboveUEL
   )
 
-  implicit val c1bandOrder = new Ordering[Class1Band] {
+  implicit val c1bandOrder: Ordering[Class1Band] = new Ordering[Class1Band] {
     def compare(x: Class1Band, y: Class1Band): Int =
       entries.indexOf(x) compare entries.indexOf(y)
   }

@@ -23,6 +23,6 @@ package object Binders {
 
   implicit def localDate(
     implicit stringBinder: QueryStringBindable[String]
-  ) = stringBinder.transform(LocalDate.parse, {x: LocalDate => x.toString})
+  ): AnyRef with QueryStringBindable[LocalDate] = stringBinder.transform(LocalDate.parse, { x: LocalDate => x.toString})
 
 }
