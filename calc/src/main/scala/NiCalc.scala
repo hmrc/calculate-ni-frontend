@@ -136,7 +136,8 @@ object MainFrame extends Frame {
 
   def loadConfig = {
     ConfigSource.file(new java.io.File("eoi.conf")).recoverWith{
-    case err => ConfigSource.default
+    case err => println(s"unable to read eoi.conf, using fallback: $err")
+      ConfigSource.default
     }.load[Configuration]
   }
 
