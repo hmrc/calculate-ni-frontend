@@ -117,7 +117,7 @@ object DirectorsResult {
   }
 
   // Where did these come from? Should they be in the configuration file?
-  val categoryOrder2016Onwards: List[Char] = "BMAZJCHVFILS".toList
+  val categoryOrder2016Onwards: List[Char] = "BMAZJCHVFILSDEGKNPQRTWY".toList
 
   // Where did these come from? Should they be in the configuration file?  
   def categoryOrderPre2016(app: Boolean): List[Char] =
