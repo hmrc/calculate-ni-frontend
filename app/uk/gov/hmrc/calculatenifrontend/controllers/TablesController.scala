@@ -115,7 +115,7 @@ class TablesController @Inject()(
           "Small Profits Threshold/Small Earnings Exemption (SPT/SEE)" ->
             data.smallEarningsException.fold("N/A")(_.toString), // below which paying is optional
           "Lower Profits Threshold (LPT)" ->
-            data.lowerProfitsThreshold.fold("N/A")(_.toString), // below which paying is optional
+            data.lowerProfitsThreshold.fold("N/A")(_.toString), // Only applies to 2022-23 and 2023-24
           "Date High Rate Provision (HRP) Applies" -> (lowerBound, data).getHigherRateDate.value.ukFormat, 
           "No of Wks" -> data.noOfWeeks.toString,
 //          "Earnings Factor (includes enhance)" -> "???",
