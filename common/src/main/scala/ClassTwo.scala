@@ -24,6 +24,7 @@ import java.time.LocalDate
 case class ClassTwo(
   weeklyRate: ClassTwoRates,
   smallEarningsException: Option[Money],
+  lowerProfitsThreshold: Option[Money],
   hrpDate: Option[LocalDate],
   finalDate: Option[LocalDate],
   noOfWeeks: Int = 52,
@@ -40,6 +41,7 @@ object ClassTwo {
   case class ClassTwoVague(
     weeklyRate: ClassTwoRates,
     smallEarningsException: Option[Money],
+    lowerProfitsThreshold: Option[Money],
     hrpDate: Option[LocalDate],
     finalDate: Option[LocalDate],
     noOfWeeks: Int = 52,
@@ -49,6 +51,7 @@ object ClassTwo {
     def confirm(year: Interval[LocalDate], fallbackLEL: Option[Money]) = ClassTwo(
       weeklyRate,
       smallEarningsException,
+      lowerProfitsThreshold,
       hrpDate,
       finalDate, 
       noOfWeeks,
