@@ -26,7 +26,6 @@ import pureconfig.error._
 import pureconfig.generic.auto._
 import scala.util.control.NonFatal
 import spire.algebra.Order
-import spire.implicits._
 import spire.math.Interval
 import spire.math.interval._
 
