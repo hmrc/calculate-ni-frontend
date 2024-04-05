@@ -17,7 +17,6 @@
 package eoi
 
 import spire.math.Interval
-import spire.implicits._
 
 trait EffectiveRate {
   def year: Interval[Money]

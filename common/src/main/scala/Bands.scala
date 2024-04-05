@@ -17,7 +17,6 @@
 package eoi
 
 import spire.math.Interval
-import spire.implicits._
 
 case class Bands(
   year: Interval[Money],

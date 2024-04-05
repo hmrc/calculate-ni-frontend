@@ -11,9 +11,9 @@ val build                    = taskKey[Unit]("Copy JS and Config to react app")
 
 val appName = "calculate-ni-frontend"
 
+val scalaLanguageVersion = "2.13.13"
 val bootstrapVersion = "8.5.0"
-
-val silencerVersion = "1.7.16"
+val catsVersion = "2.10.0"
 
 installReactDependencies := {
   val result = JavaScriptBuild.npmProcess(reactDirectory.value, "install").run().exitValue()
@@ -61,12 +61,12 @@ lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
   .settings(
     majorVersion                     := 0,
-    scalaVersion                     := "2.13.12",
+    scalaVersion                     := scalaLanguageVersion,
     libraryDependencies              ++= Seq(
       "uk.gov.hmrc"           %% "bootstrap-frontend-play-30" % bootstrapVersion,
       "uk.gov.hmrc"           %% "play-frontend-hmrc-play-30" % "8.5.0",
       "com.github.pureconfig" %% "pureconfig"                 % "0.17.6",
-      "org.typelevel"         %% "cats-core"                  % "2.10.0",
+      "org.typelevel"         %% "cats-core"                  % catsVersion,
       "org.typelevel"         %% "spire"                      % "0.18.0"
     ),
     libraryDependencies ++= Seq(
@@ -88,10 +88,6 @@ lazy val microservice = Project(appName, file("."))
     ),
     play.sbt.routes.RoutesKeys.routesImport += "uk.gov.hmrc.calculatenifrontend.controllers.Binders._",
     scalacOptions += "-Xlint:-byname-implicit",
-    libraryDependencies ++= Seq(
-      compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
-      "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
-    ),
     scalacOptions ++= Seq(
       "-feature",
       "-Wconf:src=routes/.*:s",
@@ -112,7 +108,7 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
   .withoutSuffixFor(JVMPlatform)
   .crossType(sbtcrossproject.CrossPlugin.autoImport.CrossType.Pure)
   .settings(
-    scalaVersion := "2.13.8",
+    scalaVersion := scalaLanguageVersion,
     majorVersion := 0,
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core",
@@ -120,7 +116,7 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
       "io.circe" %%% "circe-parser"
     ).map(_ % circeVersion),
     libraryDependencies ++= Seq(
-      "org.typelevel" %%% "cats-core" % "2.1.1",
+      "org.typelevel" %%% "cats-core" % catsVersion,
       "org.typelevel" %%% "spire" % "0.18.0"
     ),
     scalacOptions -= "-Xfatal-warnings",
@@ -139,7 +135,7 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
 lazy val `frontend` = project
   .enablePlugins(ScalaJSPlugin)
   .settings(
-    scalaVersion := "2.13.12",
+    scalaVersion := scalaLanguageVersion,
     majorVersion := 0,
     scalacOptions -= "-Xfatal-warnings",
     scalacOptions += "-Xlint:-byname-implicit",

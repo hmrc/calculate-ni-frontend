@@ -16,7 +16,6 @@
 
 package eoi
 
-import cats.implicits._
 import org.scalatest._, funspec._
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import org.scalacheck._
