@@ -1,14 +1,14 @@
 
 {
   "categoryNames" : {
-    "X" : "Exempt",
-    "J" : "Deferred",
-    "A" : "Regular",
-    "M" : "Under 21",
-    "B" : "Married women and widows",
-    "C" : "Pension age",
-    "H" : "Apprentice under 25",
-    "Z" : "Deferred and under 21"
+    "X" : "",
+    "J" : "",
+    "A" : "",
+    "M" : "",
+    "B" : "",
+    "C" : "",
+    "H" : "",
+    "Z" : ""
   },
   "classOne" : {
     "[2017-04-05,2018-04-05)" : {
