@@ -12,7 +12,7 @@ val build                    = taskKey[Unit]("Copy JS and Config to react app")
 val appName = "calculate-ni-frontend"
 
 val scalaLanguageVersion = "2.13.13"
-val bootstrapVersion = "8.5.0"
+val bootstrapVersion = "8.6.0"
 val catsVersion = "2.10.0"
 
 installReactDependencies := {
@@ -64,7 +64,7 @@ lazy val microservice = Project(appName, file("."))
     scalaVersion                     := scalaLanguageVersion,
     libraryDependencies              ++= Seq(
       "uk.gov.hmrc"           %% "bootstrap-frontend-play-30" % bootstrapVersion,
-      "uk.gov.hmrc"           %% "play-frontend-hmrc-play-30" % "8.5.0",
+      "uk.gov.hmrc"           %% "play-frontend-hmrc-play-30" % "10.4.0",
       "com.github.pureconfig" %% "pureconfig"                 % "0.17.6",
       "org.typelevel"         %% "cats-core"                  % catsVersion,
       "org.typelevel"         %% "spire"                      % "0.18.0"

@@ -18,12 +18,19 @@
 @import uk.gov.hmrc.calculatenifrontend.views.FooterLinks
 @import uk.gov.hmrc.hmrcfrontend.views.html.components._
 @import uk.gov.hmrc.calculatenifrontend.views.html.Head
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage.HmrcStandardPageParams
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukLayout
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcInternalHead
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.HmrcInternalHeader
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.internalheader.InternalHeader
 
 
 @this(
   govukLayout: uk.gov.hmrc.calculatenifrontend.views.html.templates.niCalcLayout,
-  head: Head,
-  header: HmrcInternalHeader
+//  govukLayout: GovukLayout,
+  header: HmrcInternalHeader,
+  hmrcInternalHeader: HmrcInternalHeader,
+  hmrcInternalHead: HmrcInternalHead
 )
 
 @(pageTitle: Option[String] = None,
@@ -42,8 +49,12 @@
 
 @govukLayout(
     pageTitle = pageTitle,
-    headBlock = Some(head(headBlock)),
-    headerBlock = Some(hmrcAdminHeader),
+    headBlock = Some(hmrcInternalHead(headBlock)),
+    headerBlock = Some(hmrcInternalHeader(InternalHeader(
+        homepageUrl = "https://www.gov.uk/government/organisations/hm-revenue-customs",
+        serviceName = Some("National Insurance (NI) Calculator Support Tool TEST"),
+        serviceUrl = "/calculate-ni",
+        useTudorCrown = Some(true)))),
     scriptsBlock = scriptsBlock,
     beforeContentBlock = beforeContentBlock
 )(contentBlock)

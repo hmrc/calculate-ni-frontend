@@ -32,7 +32,7 @@
 )(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
 @hmrcStandardPage(
-    HmrcStandardPageParams(
+        HmrcStandardPageParams(
         pageTitle = pageTitle,
         serviceName = Some(messages("service.name")),
         serviceURLs = ServiceURLs(
@@ -43,7 +43,7 @@
         templateOverrides = TemplateOverrides(
             additionalHeadBlock = headBlock,
             additionalScriptsBlock = scriptsBlock,
-            beforeContentBlock = beforeContentBlock,
+            beforeContentBlock = beforeContentBlock
         )
     )
 )(contentBlock)
