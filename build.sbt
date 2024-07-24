@@ -11,8 +11,8 @@ val build                    = taskKey[Unit]("Copy JS and Config to react app")
 
 val appName = "calculate-ni-frontend"
 
-val scalaLanguageVersion = "2.13.13"
-val bootstrapVersion = "8.6.0"
+val scalaLanguageVersion = "2.13.14"
+val bootstrapVersion = "9.1.0"
 val catsVersion = "2.10.0"
 
 installReactDependencies := {
