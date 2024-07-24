@@ -13,7 +13,7 @@ val appName = "calculate-ni-frontend"
 
 val scalaLanguageVersion = "2.13.14"
 val bootstrapVersion = "9.1.0"
-val catsVersion = "2.10.0"
+val catsVersion = "2.12.0"
 
 installReactDependencies := {
   val result = JavaScriptBuild.npmProcess(reactDirectory.value, "install").run().exitValue()
@@ -64,8 +64,8 @@ lazy val microservice = Project(appName, file("."))
     scalaVersion                     := scalaLanguageVersion,
     libraryDependencies              ++= Seq(
       "uk.gov.hmrc"           %% "bootstrap-frontend-play-30" % bootstrapVersion,
-      "uk.gov.hmrc"           %% "play-frontend-hmrc-play-30" % "10.4.0",
-      "com.github.pureconfig" %% "pureconfig"                 % "0.17.6",
+      "uk.gov.hmrc"           %% "play-frontend-hmrc-play-30" % "10.5.0",
+      "com.github.pureconfig" %% "pureconfig"                 % "0.17.7",
       "org.typelevel"         %% "cats-core"                  % catsVersion,
       "org.typelevel"         %% "spire"                      % "0.18.0"
     ),
@@ -76,7 +76,7 @@ lazy val microservice = Project(appName, file("."))
     ).map(_ % circeVersion),
     libraryDependencies              ++= Seq(
       "uk.gov.hmrc"          %% "bootstrap-test-play-30" % bootstrapVersion,
-      "com.github.tototoshi" %% "scala-csv"              % "1.3.10",
+      "com.github.tototoshi" %% "scala-csv"              % "2.0.0",
       "org.scalatestplus"    %% "scalacheck-1-17"        % "3.2.18.0",
       "com.propensive"       %% "magnolia"               % "0.17.0",
       "io.chrisdavenport"    %% "cats-scalacheck"        % "0.3.2",
@@ -101,7 +101,7 @@ lazy val microservice = Project(appName, file("."))
   )
   .settings(resolvers += Resolver.jcenterRepo)
 
-val circeVersion = "0.14.6"
+val circeVersion = "0.14.9"
 
 /** common components holding the logic of the calculation */
 lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform, JVMPlatform)
