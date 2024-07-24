@@ -14,8 +14,11 @@
  * limitations under the License.
  *@
 
-@this()
+@import uk.gov.hmrc.hmrcfrontend.config.AssetsConfig
+@import views.html.helper.CSPNonce
 
-@(headBlock: Option[Html] = None)
+@this(assetsConfig: AssetsConfig)
+
+@(headBlock: Option[Html] = None)(implicit request: RequestHeader)
+<link href="@assetsConfig.hmrcFrontendCssUrl" @CSPNonce.attr media="all" rel="stylesheet" type="text/css" />
 @headBlock
-<link href='@controllers.routes.Assets.versioned("stylesheets/application.css")' media="screen" rel="stylesheet" type="text/css" />
