@@ -34,7 +34,7 @@ to allow the unsupported modification of the standard GovUk page header to the i
         hmrcInternalHeader: HmrcInternalHeader,
         hmrcAltHead: HmrcInternalHeadAlt
 )
-@(params: HmrcStandardPageParams,beforeContentBlock : Option[Html] = None)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
+@(params: HmrcStandardPageParams,beforeContentBlock : Option[Html] = None)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
 @import params._
 
 @govukLayout(
