@@ -349,7 +349,7 @@ const Class1Page = () => {
           <h1>{pageTitle}</h1>
 
           <form onSubmit={handleSubmit} noValidate data-testid="class-one-form">
-            <Details details={details} handleChange={handleDetailsChange} />
+            <Details details={details} hiddenText='for Calculate Class 1 National Insurance (NI) contributions' handleChange={handleDetailsChange} />
 
             <Class1Form resetTotals={resetTotals} />
           </form>

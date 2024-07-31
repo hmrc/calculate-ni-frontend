@@ -39,6 +39,7 @@ export interface PhaseBannerProps {
 
 export interface DetailsForm {
   details: DetailsProps;
+  hiddenText?:string;
   handleChange: ({
     currentTarget: { name, value },
   }: React.ChangeEvent<HTMLInputElement>) => void;
@@ -50,6 +51,7 @@ export interface DetailsProps {
   reference: string;
   preparedBy: string;
   date: string;
+  hiddenText?: string
 }
 
 export interface Calculated {
