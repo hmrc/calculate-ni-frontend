@@ -50,7 +50,6 @@ export interface DetailsProps {
   reference: string;
   preparedBy: string;
   date: string;
-  hiddenText?: string
 }
 
 export interface Calculated {
