@@ -442,8 +442,9 @@ export default function Class1PaymentSection(props: Class1PaymentSectionProps) {
             </label>
             <input
               className="govuk-input govuk-input--width-2 borderless"
-              type="number"
+              type="text"
               name="repeatQty"
+              inputMode="numeric"
               id="repeatQty"
               data-testid="repeat-qty"
               value={repeatQty || ""}

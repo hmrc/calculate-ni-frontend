@@ -18,8 +18,7 @@ function Details (props: DetailsForm) {
         aria-controls="calculation-meta"
         className={`toggle icon ${showDetails ? 'arrow-up' : 'arrow-right'}`}
         onClick={() => setShowDetails(!showDetails)}>
-        {showDetails ? 'Close details' : 'Open details'}
-        <span className="govuk-visually-hidden">about customer, date and operator for this calculation</span>
+        {showDetails ? 'Close details for this calculation' : 'Enter more details for this calculation'}
       </button>
       <div
         aria-labelledby="details-control"
