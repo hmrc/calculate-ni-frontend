@@ -173,7 +173,6 @@ object ConfigWriterInstances {
       data.map{ case (k,v) => (k.toString.filterNot(_ == ' '),v) }
     }
 
-  val confPeriodUnordered: ConfigWriter[ConfigurationPeriod] = ConfigWriter[ConfigurationPeriod]
   implicit val confPeriod: ConfigWriter[ConfigurationPeriod] = new ConfigWriter[ConfigurationPeriod] {
     def to(a: ConfigurationPeriod): ConfigValue = {
       confPeriodUnordered.to(a) match {
@@ -183,6 +182,7 @@ object ConfigWriterInstances {
     }
 
   }
+  val confPeriodUnordered: ConfigWriter[ConfigurationPeriod] = ConfigWriter[ConfigurationPeriod]
 
   implicit val configurationWriter: ConfigWriter[eoi.Configuration] =
     ConfigWriter[Map[String, ConfigValue]].contramap[eoi.Configuration] {
