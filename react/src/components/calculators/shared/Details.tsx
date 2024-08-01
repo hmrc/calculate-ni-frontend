@@ -7,7 +7,7 @@ import {DetailsForm} from '../../../interfaces'
 import TextInput from '../../helpers/formhelpers/TextInput'
 
 function Details (props: DetailsForm) {
-  const { details, hiddenText, handleChange } = props
+  const { details, handleChange } = props
   const [showDetails, setShowDetails] = useState(false)
   return (
     <>
@@ -18,8 +18,7 @@ function Details (props: DetailsForm) {
         aria-controls="calculation-meta"
         className={`toggle icon ${showDetails ? 'arrow-up' : 'arrow-right'}`}
         onClick={() => setShowDetails(!showDetails)}>
-        {showDetails ? 'Close details' : 'Open details'}
-        <span className="govuk-visually-hidden">{hiddenText}</span>
+        {showDetails ? 'Close details for this calculation' : 'Enter more details for this calculation'}
       </button>
       <div
         aria-labelledby="details-control"
