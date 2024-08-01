@@ -1,0 +1,56 @@
+@*
+ * Copyright 2024 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@*
+This is a slight variation of the play-frontend-hmrc uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcStandardPage template
+to allow the unsupported modification of the standard GovUk page header to the internal HMRC standard header
+*@
+
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukLayout
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcScripts
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage.HmrcStandardPageParams
+@import uk.gov.hmrc.govukfrontend.views.html.components.FixedWidthPageLayout
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.HmrcInternalHeader
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.internalheader.InternalHeader
+@import uk.gov.hmrc.calculatenifrontend.views.html.templates.HmrcInternalHeadAlt
+
+@this(
+        govukLayout: GovukLayout,
+        hmrcScripts: HmrcScripts,
+        fixedWidthPageLayout: FixedWidthPageLayout,
+        hmrcInternalHeader: HmrcInternalHeader,
+        hmrcAltHead: HmrcInternalHeadAlt
+)
+@(params: HmrcStandardPageParams,beforeContentBlock : Option[Html] = None)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
+@import params._
+
+@govukLayout(
+    pageTitle = pageTitle,
+    beforeContentBlock = beforeContentBlock,
+    headBlock = Some(hmrcAltHead(headBlock = templateOverrides.additionalHeadBlock)),
+    headerBlock = Some(hmrcInternalHeader(InternalHeader(
+        homepageUrl = "https://www.gov.uk/government/organisations/hm-revenue-customs",
+        serviceName = Some("National Insurance (NI) Calculator Support Tool"),
+        serviceUrl = "/calculate-ni",
+        useTudorCrown = Some(true)))),
+    scriptsBlock = Some(hmrcScripts(scriptsBlock = templateOverrides.additionalScriptsBlock)),
+    assetPath = None,
+    pageLayout = templateOverrides.pageLayout orElse Some(fixedWidthPageLayout(_))
+)(contentBlock)
+
+@{
+    //$COVERAGE-OFF$
+}

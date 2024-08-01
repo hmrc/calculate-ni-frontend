@@ -14,36 +14,31 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.calculatenifrontend.config.AppConfig
-@import uk.gov.hmrc.calculatenifrontend.views.FooterLinks
-@import uk.gov.hmrc.hmrcfrontend.views.html.components._
-@import uk.gov.hmrc.calculatenifrontend.views.html.Head
-
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage.HmrcStandardPageParams
+@import uk.gov.hmrc.calculatenifrontend.views.html.templates.HmrcAdminPage
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage.TemplateOverrides
 
 @this(
-  govukLayout: uk.gov.hmrc.calculatenifrontend.views.html.templates.niCalcLayout,
-  head: Head,
-  header: HmrcInternalHeader
+  hmrcAdminPage: HmrcAdminPage
 )
 
 @(pageTitle: Option[String] = None,
   headBlock: Option[Html] = None,
   scriptsBlock: Option[Html] = None,
   beforeContentBlock: Option[Html] = None
-)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
+)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
 
-@hmrcAdminHeader = @{
-  Html(s"""<div class="govuk-width-container">${header(
-      InternalHeader(
-      serviceName = Some("National Insurance (NI) Calculator Support Tool"),
-      serviceUrl = "/calculate-ni"
-    ))}</div>""")
+@head = {
+    <link href='@controllers.routes.Assets.versioned("stylesheets/application.css")' media="screen" rel="stylesheet" type="text/css" />
 }
 
-@govukLayout(
-    pageTitle = pageTitle,
-    headBlock = Some(head(headBlock)),
-    headerBlock = Some(hmrcAdminHeader),
-    scriptsBlock = scriptsBlock,
-    beforeContentBlock = beforeContentBlock
+@hmrcAdminPage(
+    HmrcStandardPageParams(
+        templateOverrides = TemplateOverrides(
+            additionalHeadBlock = Some(head),
+            additionalScriptsBlock = scriptsBlock
+        ),
+        pageTitle = pageTitle
+    ),
+    beforeContentBlock = None
 )(contentBlock)

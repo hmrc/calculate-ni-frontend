@@ -24,7 +24,7 @@ layout: Layout,
 breadcrumbs: uk.gov.hmrc.calculatenifrontend.views.html.helpers.breadcrumbs
 )
 
-@(selectedInterval: LocalDate, intervals: List[(LocalDate, String)], selectedCategory: Char, categories: List[Char], bands: List[(String, RateDefinition)])(implicit request: Request[_], messages: Messages)
+@(selectedInterval: LocalDate, intervals: List[(LocalDate, String)], selectedCategory: Char, categories: List[Char], bands: List[(String, RateDefinition)])(implicit request: RequestHeader, messages: Messages)
 
 @pageTitle = @{"Class One"}
 
