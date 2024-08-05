@@ -61,7 +61,7 @@ function TextInput(props: TextInputProps) {
         pattern={pattern}
         inputMode={inputMode}
         onBlur={onBlurCallback}
-        aria-describedby={describedby}
+        {...(describedby ? { 'aria-describedby': describedby } : {})}
         onPaste={onPaste}
         {...(min ? {min: min} : {})}
         {...(max ? {max: max} : {})}

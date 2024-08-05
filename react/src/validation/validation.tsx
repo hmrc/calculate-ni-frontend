@@ -150,7 +150,7 @@ export const validateDirectorsPayload = (
   if (!payload.earningsPeriod) {
     errors.earningsPeriod = {
       name: "Earnings period",
-      link: "earningsPeriod",
+      link: "earningsPeriod-Annual",
       message: "Select either Annual or Pro Rata",
     };
   } else if (payload.earningsPeriod === PeriodLabel.PRORATA) {
