@@ -26,11 +26,12 @@ function Radios(props: RadiosProps) {
     hint,
     error
   })
+
   return (
     <div className={`govuk-form-group${error ? ` govuk-form-group--error` : ``}`}>
       <fieldset
         className="govuk-fieldset" id={name}
-        aria-describedby={describedBy}
+        {...(describedBy ? { 'aria-describedby': describedBy } : {})}
       >
 
         {isPageHeading ?
@@ -54,7 +55,7 @@ function Radios(props: RadiosProps) {
               <div className="govuk-radios__item">
                 <input
                   className="govuk-radios__input"
-                  id={`${name}-${item.value}`}
+                  id={`${name}-${item.value.replace(/\s+/g, '')}`}
                   name={name}
                   type="radio"
                   value={item.value}
@@ -63,7 +64,7 @@ function Radios(props: RadiosProps) {
                     handleChange(e.target.value)
                   }}
                 />
-                <label className="govuk-label govuk-radios__label" htmlFor={`${name}-${item.value}`}>
+                <label className="govuk-label govuk-radios__label" htmlFor={`${name}-${item.value.replace(/\s+/g, '')}`}>
                   {item.label}
                 </label>
               </div>
