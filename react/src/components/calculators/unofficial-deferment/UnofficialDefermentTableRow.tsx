@@ -116,7 +116,7 @@ const UnofficialDefermentTableRow = (props: {
             :
             <TextInput
               hiddenLabel={true}
-              name={`${row.id}-${band.label}`}
+              name={`${row.id.trim().replace(/\s+/g, '')}-${band.label.trim().replace(/\s+/g, '')}`}
               labelText={`${band.label} for row number ${i + 1}`}
               inputClassName="gross-pay"
               inputValue={band.amount ? band.amount : ''}
