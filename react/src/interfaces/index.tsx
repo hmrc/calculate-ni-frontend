@@ -192,6 +192,7 @@ export interface TextInputProps {
   placeholderText?: string;
   pattern?: string;
   inputMode?: "numeric";
+  autoComplete?: string;
   onChangeCallback: React.ChangeEventHandler<HTMLInputElement>;
   onBlurCallback?: React.ChangeEventHandler<HTMLInputElement>;
   error?: any; // todo

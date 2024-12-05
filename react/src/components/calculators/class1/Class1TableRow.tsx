@@ -194,7 +194,13 @@ export default function Class1TableRow(props: TableRowProps) {
       <MqTableCell cellStyle={thStyles.periodNumber} cellClassName="input">
         {printView ? (
           <>{periodRowsValue?.number}</>
-        ) : (
+        ) : (<>
+          <label
+              className="govuk-visually-hidden"
+              htmlFor={`${row.id}-number`}
+            >
+               Period Number for row number {index + 1}
+            </label>
           <input
             className="period-number"
             name="number"
@@ -205,6 +211,7 @@ export default function Class1TableRow(props: TableRowProps) {
               handlePeriodChange(row, e)
             }
           />
+          </>
         )}
       </MqTableCell>
 
@@ -250,6 +257,14 @@ export default function Class1TableRow(props: TableRowProps) {
         {printView ? (
           <>£{row.gross}</>
         ) : (
+          <>
+          <label
+              className="govuk-visually-hidden"
+              htmlFor={`${row.id}-gross`}
+            >
+              Gross pay for row number {index + 1}
+            </label>
+          
           <input
             className={`gross-pay ${
               errors[`${row.id}-gross`] ? ` govuk-input--error` : ``
@@ -261,6 +276,7 @@ export default function Class1TableRow(props: TableRowProps) {
             onChange={(e) => handleChange(row, e)}
             onPaste={(e: React.ClipboardEvent) => handlePaste(e, row)}
           />
+          </>
         )}
       </MqTableCell>
 
