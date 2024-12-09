@@ -21,9 +21,9 @@ function Class1Print(props: Class1DirectorsSavePrintProps) {
       <div className="print-content">
         <BackLink callBack={() => setShowSummary(false)} />
 
-        <h2 className="govuk-heading-l" data-testid="print-title">
+        <h1 className="govuk-heading-l" data-testid="print-title">
           {title}
-        </h2>
+        </h1>
 
         <DetailsPrint details={details} />
 
