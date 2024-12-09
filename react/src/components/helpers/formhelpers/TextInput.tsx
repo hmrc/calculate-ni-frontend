@@ -24,6 +24,7 @@ function TextInput(props: TextInputProps) {
     error,
     onPaste,
     inputType,
+    autoComplete,
       min,
         max
   } = props
@@ -61,6 +62,7 @@ function TextInput(props: TextInputProps) {
         pattern={pattern}
         inputMode={inputMode}
         onBlur={onBlurCallback}
+        autoComplete= {autoComplete}
         {...(describedby ? { 'aria-describedby': describedby } : {})}
         onPaste={onPaste}
         {...(min ? {min: min} : {})}

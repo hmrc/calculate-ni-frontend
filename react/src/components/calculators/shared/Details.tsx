@@ -33,6 +33,7 @@ function Details (props: DetailsForm) {
                 <TextInput
                   labelText="Customer’s full name (optional)"
                   name="fullName"
+                  autoComplete = "name"
                   inputClassName="form-control full"
                   inputValue={details.fullName}
                   onChangeCallback={handleChange}
