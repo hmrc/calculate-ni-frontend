@@ -102,7 +102,13 @@ button {
     font-size: 18px;
     margin-bottom: 2ex;
     &:focus {
-      outline: 3px solid $govuk-focus-colour;
+      outline: 3px solid transparent;
+      color: #0b0c0c;
+      background-color: $govuk-focus-colour;
+      box-shadow: 0 -2px $govuk-focus-colour, 0 4px #0b0c0c;
+      text-decoration: none;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
     }
   }
 }
