@@ -1,39 +1,31 @@
 import org.scalajs.linker.interface.ESVersion
-
 import scala.sys.process._
-
 val reactDirectory           = settingKey[File]("The directory where the react application is located")
 val installReactDependencies = taskKey[Unit]("Install the dependencies for the react application")
 val buildReactApp            = taskKey[Unit]("Build the react application")
 val copyInJS                 = taskKey[File]("Build and copy in the JS file")
 val moveReact                = taskKey[Int]("move the compiled react application into the play assets")
 val build                    = taskKey[Unit]("Copy JS and Config to react app")
-
 val appName = "calculate-ni-frontend"
-
-val scalaLanguageVersion = "2.13.15"
-val bootstrapVersion = "9.6.0"
+val scalaLanguageVersion = "2.13.16"
+val bootstrapVersion = "9.7.0"
 val catsVersion = "2.12.0"
-
 installReactDependencies := {
   val result = JavaScriptBuild.npmProcess(reactDirectory.value, "install").run().exitValue()
   if (result != 0)
     throw new Exception("Npm install failed.")
 }
-
 copyInJS := {
   // generate the Javascript logic
   val Attributed(outFiles) = (frontend / Compile / fullOptJS).value
   val dest = reactDirectory.value / "src" / "calculation.js"
   println(s"copying $outFiles to $dest")
-
   // suppress warnings in generated code
   (Process("echo" ::
     """|/* eslint-disable */
        |var BigInt = function(n) { return n; };""".stripMargin :: Nil)
     #> dest
-  ).run().exitValue()
-
+    ).run().exitValue()
   // get around BigInt compatibility issues with IE11/scalajs1
   (Process("sed" ::
     "-e" :: """s/"object"===typeof __ScalaJSEnv&&__ScalaJSEnv?__ScalaJSEnv://""" ::
@@ -41,7 +33,6 @@ copyInJS := {
     baseDirectory.value) #>> dest).run().exitValue()
   dest
 }
-
 buildReactApp := {
   val deps: Unit = installReactDependencies.value
   val reactJsFile: Unit = copyInJS.value
@@ -49,14 +40,12 @@ buildReactApp := {
   if (result != 0)
     throw new Exception("npm run build failed.")
 }
-
 moveReact := {
   val reactApp: Unit = buildReactApp.value
   import scala.sys.process.{Process, ProcessBuilder}
   val result = Process("./sync-build.sh" :: Nil, baseDirectory.value).run().exitValue()
   1
 }
-
 lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
   .settings(
@@ -77,8 +66,8 @@ lazy val microservice = Project(appName, file("."))
     libraryDependencies              ++= Seq(
       "uk.gov.hmrc"          %% "bootstrap-test-play-30" % bootstrapVersion,
       "com.github.tototoshi" %% "scala-csv"              % "2.0.0",
-      "org.scalatestplus"    %% "scalacheck-1-17"        % "3.2.18.0",
-      "com.propensive"       %% "magnolia"               % "0.17.0",
+      "org.scalatestplus"    %% "scalacheck-1-18"        % "3.2.19.0",
+      "com.softwaremill.magnolia1_2"       %% "magnolia"               % "1.1.10",
       "io.chrisdavenport"    %% "cats-scalacheck"        % "0.3.2",
       "com.vladsch.flexmark" %  "flexmark-all"           % "0.64.8"
     ).map(_ % Test),
@@ -100,9 +89,7 @@ lazy val microservice = Project(appName, file("."))
     dist := (dist dependsOn moveReact).value
   )
   .settings(resolvers += Resolver.jcenterRepo)
-
 val circeVersion = "0.14.10"
-
 /** common components holding the logic of the calculation */
 lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform, JVMPlatform)
   .withoutSuffixFor(JVMPlatform)
@@ -130,7 +117,6 @@ lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform
     publish := {},
     publishLocal := {}
   )
-
 /** ScalaJS calculation logic, used by the react frontend */
 lazy val `frontend` = project
   .enablePlugins(ScalaJSPlugin)
@@ -147,9 +133,9 @@ lazy val `frontend` = project
     ),
     scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(
-      "org.scala-js" %%% "scalajs-dom" % "1.1.0",
+      "org.scala-js" %%% "scalajs-dom" % "2.8.0",
       "org.scala-js" %%% "scalajs-java-time" % "1.0.0",
-      "org.typelevel" %%% "simulacrum" % "1.0.0"
+      "org.typelevel" %%% "simulacrum" % "1.0.1"
     ),
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
     scalaJSLinkerConfig ~= (_.withESFeatures(_.withESVersion(ESVersion.ES2018))),
@@ -157,3 +143,4 @@ lazy val `frontend` = project
     publishLocal := {}
   )
   .dependsOn(common.js)
+maintainer := "test@hmrc.com"
