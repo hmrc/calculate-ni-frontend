@@ -254,6 +254,40 @@ This enables the business logic, written and tested in Scala, to be utilised on 
 
 Once the configuration is loaded the JS interface is no longer dependent on the microservice and will continue to run inside the users browser should the microservice be shut down.
 
+## Running Service Locally
+
+- Run command:
+```console
+sbt dist
+```
+- Followed by:
+```console
+sbt "run 8668"
+```
+
+
+
+
+## Maintaining Libraries and Reproducible Builds
+
+
+### Building and Assembling the Project:
+- When building and assembling the project, we solely rely on the provided package-lock.json.
+- This means using the npm ci command instead of npm install.
+
+### npm ci:
+
+- Installs dependencies based on the package-lock.json file.
+- Ensures that the exact versions specified in package-lock.json are installed. 
+
+### Updating Libraries:
+- When we want to update libraries, we do so consciously.
+- Run npm install to update the dependencies according to the version ranges specified in package.json.
+- After updating, test the project to ensure everything works correctly with the new versions.
+- Once satisfied, we commit the updated package-lock.json file into version control.
+
+
+
 ### License
  
 This code is open source software licensed under the [Apache 2.0 License]("http://www.apache.org/licenses/LICENSE-2.0.html").

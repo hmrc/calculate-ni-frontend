@@ -15,7 +15,7 @@ val bootstrapVersion = "9.7.0"
 val catsVersion = "2.12.0"
 
 installReactDependencies := {
-  val result = JavaScriptBuild.npmProcess(reactDirectory.value, "install").run().exitValue()
+  val result = JavaScriptBuild.npmProcess(reactDirectory.value, "ci").run().exitValue()
   if (result != 0)
     throw new Exception("Npm install failed.")
 }
