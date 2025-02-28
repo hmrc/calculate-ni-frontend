@@ -23,6 +23,7 @@ object Period extends Enumeration {
   protected case class Vala(string: String, qtyInYear: Int) extends Enumeration
 
   val Week = Vala("Wk", 52)
+  val TwoWeek = Vala("2Wk", 52/2)
   val Month = Vala("Mnth", 12)
   val FourWeek = Vala("4Wk", 52/4)
   val Year = Vala("Ann", 1)

@@ -35,6 +35,7 @@ object PeriodParse {
   def unapply(in: String): Option[Period.Period] = Some(in) collect {
     case "M" => Period.Month
     case "W" => Period.Week
+    case "2W" => Period.TwoWeek
     case "4W" => Period.FourWeek
     case "Y" => Period.Year
   }

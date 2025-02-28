@@ -62,6 +62,9 @@ case class ClassOneRowOutput(
           case Week => definition.week.fold {
             definition.effectiveWeek.gives(s"$id: year / 52 = ${definition.year} / 52")
           }(_.pure[Explained])
+          case TwoWeek => definition.twoWeek.fold {
+            definition.effectiveTwoWeek.gives(s"$id: year / 26 = ${definition.year} / 26")
+          }(_.pure[Explained])
           case bad => sys.error(s"Unknown period - $bad")
         }
 
