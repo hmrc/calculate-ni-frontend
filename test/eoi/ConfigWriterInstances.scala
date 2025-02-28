@@ -148,6 +148,7 @@ object ConfigWriterInstances {
         year.filterNot(x => x.isPoint || x.isEmpty).map{r => "year" -> r.toConfig},
         month.filterNot(x => x.isPoint || x.isEmpty).map{r => "month" -> r.toConfig},
         week.filterNot(x => x.isPoint || x.isEmpty).map{r => "week" -> r.toConfig},
+        twoWeek.filterNot(x => x.isPoint || x.isEmpty).map{r => "two-week" -> r.toConfig},
         fourWeek.filterNot(x => x.isPoint || x.isEmpty).map{r => "four-week" -> r.toConfig},
         Some(employee).filter(_.nonEmpty).map{r => "employee" -> r.toConfig},
         Some(employer).filter(_.nonEmpty).map{r => "employer" -> r.toConfig},

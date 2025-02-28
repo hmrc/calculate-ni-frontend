@@ -33,6 +33,7 @@ class ClassOneSpec extends AnyFunSpec with ExplainTestSupport {
   def parsePeriod(in: String): Period.Period = in match {
     case "M" => Period.Month
     case "W" => Period.Week
+    case "2W" => Period.TwoWeek
     case "4W" => Period.FourWeek
     case "Y" => Period.Year
   }

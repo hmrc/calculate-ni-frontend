@@ -50,13 +50,13 @@ class ClassOneFrontend(
         case ClassOneRow(id, period, category, grossPay, _) =>
           val p = period match {
             case "W" => Period.Week
-            case "2W" => Period.Week
+            case "2W" => Period.TwoWeek
             case "M" => Period.Month
             case "4W" => Period.FourWeek
             case _ => throw new IllegalStateException("Unknown Period")
           }
 
-          ClassOneRowInput(id, Money(BigDecimal(grossPay)), category.head, p, if (period == "2W") 2 else 1 )
+          ClassOneRowInput(id, Money(BigDecimal(grossPay)), category.head, p, 1 )
       },
       Money(BigDecimal(netPaid)),
       Money(BigDecimal(employeePaid))

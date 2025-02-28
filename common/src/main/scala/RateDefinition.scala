@@ -22,6 +22,7 @@ trait EffectiveRate {
   def year: Interval[Money]
   def month: Option[Interval[Money]]
   def week: Option[Interval[Money]]
+  def twoWeek: Option[Interval[Money]]
   def fourWeek: Option[Interval[Money]]
   def employee: Map[Char, Percentage]
   def employer: Map[Char, Percentage]
@@ -31,6 +32,8 @@ trait EffectiveRate {
     month.getOrElse(year.mapBounds(x => (x / 12).setScale(0, BigDecimal.RoundingMode.HALF_UP)))
   def effectiveWeek =
     week.getOrElse(year.mapBounds(x => (x / 52).setScale(0, BigDecimal.RoundingMode.HALF_UP)))
+  def effectiveTwoWeek =
+    twoWeek.getOrElse(year.mapBounds(x => (x / 26).setScale(0, BigDecimal.RoundingMode.HALF_UP)))
   def effectiveFourWeek =
     fourWeek.getOrElse(year.mapBounds(x => (x / 13).setScale(0, BigDecimal.RoundingMode.HALF_UP)))
 }
@@ -39,6 +42,7 @@ case class GrossPayException(
   year: Interval[Money],
   month: Option[Interval[Money]],
   week: Option[Interval[Money]],
+  twoWeek: Option[Interval[Money]],
   fourWeek: Option[Interval[Money]],
   employee: Map[Char, Percentage] = Map.empty,
   employer: Map[Char, Percentage] = Map.empty  
@@ -48,6 +52,7 @@ case class RateDefinition(
   year: Interval[Money],
   month: Option[Interval[Money]],
   week: Option[Interval[Money]],
+  twoWeek: Option[Interval[Money]],
   fourWeek: Option[Interval[Money]],
   employee: Map[Char, Percentage] = Map.empty,
   employer: Map[Char, Percentage] = Map.empty,
@@ -65,6 +70,7 @@ case class RateDefinition(
       period match {
         case Year => ex.effectiveYear.contains(grossPay)
         case Month => ex.effectiveMonth.contains(grossPay)
+        case TwoWeek => ex.effectiveTwoWeek.contains(grossPay)
         case FourWeek => ex.effectiveFourWeek.contains(grossPay)
         case Week => ex.effectiveWeek.contains(grossPay)
         case _ => false
@@ -86,6 +92,7 @@ object RateDefinition {
     year: Option[Interval[Money]],
     month: Option[Interval[Money]],
     week: Option[Interval[Money]],
+    twoWeek: Option[Interval[Money]],
     fourWeek: Option[Interval[Money]],
     employee: Map[Char, Percentage] = Map.empty,
     employer: Map[Char, Percentage] = Map.empty,
@@ -108,6 +115,7 @@ object RateDefinition {
           val year = y
           val month = that.month
           val week = that.week
+          val twoWeek = that.twoWeek
           val fourWeek = that.fourWeek
           val employee = that.employee
           val employer = that.employer
@@ -122,6 +130,12 @@ object RateDefinition {
           }),
           week = this.week.filter(_ => (eff.effectiveWeek, eff.week) match {
             case (effWeek, Some(week)) if effWeek != week =>
+              true
+            case _ =>
+              false
+          }),
+          twoWeek = this.twoWeek.filter(_ => (eff.effectiveTwoWeek, eff.twoWeek) match {
+            case (effTwoWeek, Some(twoWeek)) if effTwoWeek != twoWeek =>
               true
             case _ =>
               false
@@ -153,6 +167,7 @@ object RateDefinition {
               Interval.atOrAbove(ll.effectiveYear),
               Interval.atOrAbove(ll.effectiveMonth),
               Interval.atOrAbove(ll.effectiveWeek),
+              Interval.atOrAbove(ll.effectiveTwoWeek),
               Interval.atOrAbove(ll.effectiveFourWeek)
             )
           }
@@ -163,6 +178,7 @@ object RateDefinition {
               Interval.openUpper(Money.Zero, ul.effectiveYear),
               Interval.openUpper(Money.Zero, ul.effectiveMonth),
               Interval.openUpper(Money.Zero, ul.effectiveWeek),
+              Interval.openUpper(Money.Zero, ul.effectiveTwoWeek),
               Interval.openUpper(Money.Zero, ul.effectiveFourWeek)
             )
         }
@@ -172,6 +188,7 @@ object RateDefinition {
             Interval.openUpper(ll.effectiveYear, ul.effectiveYear),
             Interval.openUpper(ll.effectiveMonth, ul.effectiveMonth),
             Interval.openUpper(ll.effectiveWeek, ul.effectiveWeek),
+            Interval.openUpper(ll.effectiveTwoWeek, ul.effectiveTwoWeek),
             Interval.openUpper(ll.effectiveFourWeek, ul.effectiveFourWeek)
           )
         }
@@ -184,7 +201,8 @@ object RateDefinition {
         (year orElse fallbackLimits.map(_._1)).getOrElse(sys.error(s"Cannot find rate for $name - $limits")),
         month orElse fallbackLimits.map(_._2),
         week orElse fallbackLimits.map(_._3),
-        fourWeek orElse fallbackLimits.map(_._4),
+        twoWeek orElse fallbackLimits.map(_._4),
+        fourWeek orElse fallbackLimits.map(_._5),
         employee,
         employer,
         contractedOutStandardRate,

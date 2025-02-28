@@ -22,6 +22,7 @@ case class Bands(
   year: Interval[Money],
   month: Option[Interval[Money]] = None,
   week: Option[Interval[Money]] = None,
+  twoWeek: Option[Interval[Money]] = None,
   fourWeek: Option[Interval[Money]] = None
 ) {
   def interval(period: Period.Period, qty: BigDecimal = 1): Interval[Money] = {
@@ -30,6 +31,7 @@ case class Bands(
       case Period.Year => year.mapBounds(_ * qtyM)
       case Period.Month => month.getOrElse(year.mapBounds(_ / 12 * qtyM))
       case Period.Week => week.getOrElse(year.mapBounds(_ / 52 * qtyM))
+      case Period.TwoWeek => twoWeek.getOrElse(year.mapBounds(_ / 26 * qtyM))
       case Period.FourWeek => fourWeek.getOrElse(year.mapBounds(_ / 13 * qtyM))
       case bad => sys.error(s"Unknown period - $bad")
     }
