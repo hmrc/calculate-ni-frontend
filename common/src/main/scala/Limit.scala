@@ -21,16 +21,19 @@ case class Limit(
   year: Money,
   month: Option[Money],
   week: Option[Money],
+  twoWeek: Option[Money],
   fourWeek: Option[Money]
 ) {
 
   private def calculatedMonth = (year / 12).setScale(0, BigDecimal.RoundingMode.HALF_UP)
   private def calculatedWeek = (year / 52).setScale(0, BigDecimal.RoundingMode.HALF_UP)
+  private def calculatedTwoWeek = (year / 26).setScale(0, BigDecimal.RoundingMode.HALF_UP)
   private def calculatedFourWeek = (year / 13).setScale(0, BigDecimal.RoundingMode.HALF_UP)  
 
   def effectiveYear = year
   def effectiveMonth = month getOrElse calculatedMonth
   def effectiveWeek = week getOrElse calculatedWeek
+  def effectiveTwoWeek = twoWeek getOrElse calculatedTwoWeek
   def effectiveFourWeek = fourWeek getOrElse calculatedFourWeek
 
   def simplify = Limit(
@@ -38,6 +41,7 @@ case class Limit(
     year,
     month.filter(_ != calculatedMonth),
     week.filter(_ != calculatedWeek),
+    twoWeek.filter(_ != calculatedTwoWeek),
     fourWeek.filter(_ != calculatedFourWeek)
   )
 }

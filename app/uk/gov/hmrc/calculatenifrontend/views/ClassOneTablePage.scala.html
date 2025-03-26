@@ -73,16 +73,22 @@ breadcrumbs: uk.gov.hmrc.calculatenifrontend.views.html.helpers.breadcrumbs
               <td class="govuk-table__cell">@{band.effectiveWeek.upperValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>
             </tr>
             <tr class="govuk-table__row">
-              <th scope="col" class="govuk-table__header">Monthly</th>
-              <td class="govuk-table__cell">@{band.effectiveMonth.lowerValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>
+              <th scope="col" class="govuk-table__header">Two weekly</th>
+              <td class="govuk-table__cell">@{band.effectiveTwoWeek.lowerValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>
               <th scope="col" class="govuk-table__header">To</th>
-              <td class="govuk-table__cell">@{band.effectiveMonth.upperValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>
+              <td class="govuk-table__cell">@{band.effectiveTwoWeek.upperValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>
             </tr>
             <tr class="govuk-table__row">
               <th scope="col" class="govuk-table__header">Four weekly</th>
               <td class="govuk-table__cell">@{band.effectiveFourWeek.lowerValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>
               <th scope="col" class="govuk-table__header">To</th>
               <td class="govuk-table__cell">@{band.effectiveFourWeek.upperValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Monthly</th>
+              <td class="govuk-table__cell">@{band.effectiveMonth.lowerValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>
+              <th scope="col" class="govuk-table__header">To</th>
+              <td class="govuk-table__cell">@{band.effectiveMonth.upperValue.fold("∞")(x => f"£${x.toInt}%,d")}</td>
             </tr>
             <tr class="govuk-table__row">
               <th scope="col" class="govuk-table__header">Annually</th>
