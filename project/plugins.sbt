@@ -5,7 +5,7 @@ resolvers += Resolver.url("HMRC-open-artefacts-ivy2", url("https://open.artefact
 resolvers += Resolver.typesafeRepo("releases")
 addSbtPlugin("uk.gov.hmrc" % "sbt-auto-build" % "3.24.0")
 addSbtPlugin("uk.gov.hmrc" % "sbt-distributables" % "2.6.0")
-addSbtPlugin("org.playframework"  % "sbt-plugin"  % "3.0.7")
+addSbtPlugin("org.playframework"  % "sbt-plugin"  % "3.0.8")
 addSbtPlugin("io.github.irundaia" % "sbt-sassify" % "1.5.2")
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.18.1")
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.3.2")
