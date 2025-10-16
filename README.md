@@ -243,7 +243,7 @@ Scala and transpiled via [Scala.js]("https://www.scala-js.org/").
 The frontend subproject exists as a façade to the common library, mapping some datatypes and providing a more idiomatic JS
 interface. 
 
-The `copyInJS` task runs `fullOptJS`, performs some replacements (using `sed`) to the resultant JS allowing it to be consumed by the
+The `sbt copyInJS` task runs `fullOptJS`, performs some replacements (using `sed`) to the resultant JS allowing it to be consumed by the
 react frontend and finally copies it into the react folder. 
 
 ## React
@@ -265,6 +265,15 @@ sbt dist
 sbt "run 8668"
 ```
 
+This will start running the backend service on port 8668. 
+
+- To run the front-end, navigate to the `react` directory and run:
+```console
+npm start
+``` 
+(also see README.md file in `react` directory)
+
+If the application is not rendering changes made locally, a force refresh (shift F5) may be required to clear the browser cache. Alternatively, open the application in an incognito/private window.
 
 
 
