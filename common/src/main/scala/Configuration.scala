@@ -166,7 +166,7 @@ case class Configuration (
     lazy val config =
       (directors.at(from), classOne.at(from)) match {
         case(Some(directors), _) => directors
-        case(_, Some(classOne)) if (from.getYear <= directorsDivergeDate.getYear) => classOne
+        case(_, Some(classOne)) if (from.getYear < directorsDivergeDate.getYear) => classOne
         case _ => throw new IllegalStateException(s"No directors or C1 config defined for $from")
       }
 
