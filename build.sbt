@@ -155,3 +155,6 @@ lazy val `frontend` = project
     publishLocal := {}
   )
   .dependsOn(common.js)
+
+addCommandAlias("runAllChecks", ";clean;compile;coverage;test;coverageReport")
+
