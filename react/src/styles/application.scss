@@ -1,7 +1,8 @@
 $hmrc-assets-path: "/../node_modules/hmrc-frontend/hmrc/";
 $govuk-assets-path: "/../node_modules/govuk-frontend/dist/govuk/assets/";
-@import "node_modules/govuk-frontend/dist/govuk/all";
-@import "node_modules/hmrc-frontend/hmrc/all";
+$govuk-suppressed-warnings: ("import-using-all", "legacy-organisation-colours", "deprecated-syntax-division");
+@import "govuk-frontend/dist/govuk/index";
+@import "hmrc-frontend/hmrc/all";
 
 @import "reset";
 @import "errors";
