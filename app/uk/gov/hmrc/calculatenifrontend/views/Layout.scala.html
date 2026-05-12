@@ -14,9 +14,10 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage.HmrcStandardPageParams
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage._
 @import uk.gov.hmrc.calculatenifrontend.views.html.templates.HmrcAdminPage
 @import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage.TemplateOverrides
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 
 @this(
   hmrcAdminPage: HmrcAdminPage
@@ -34,6 +35,7 @@
 
 @hmrcAdminPage(
     HmrcStandardPageParams(
+        isWelshTranslationAvailable = true,
         templateOverrides = TemplateOverrides(
             additionalHeadBlock = Some(head),
             additionalScriptsBlock = scriptsBlock
