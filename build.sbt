@@ -11,7 +11,7 @@ val build                    = taskKey[Unit]("Copy JS and Config to react app")
 
 val appName = "calculate-ni-frontend"
 val scalaLanguageVersion = "2.13.18"
-val bootstrapVersion = "10.7.0"
+val bootstrapVersion = "10.8.0"
 val catsVersion = "2.13.0"
 
 installReactDependencies := {
@@ -99,7 +99,7 @@ lazy val microservice = Project(appName, file("."))
     dist := (dist dependsOn moveReact).value
   )
 
-val circeVersion = "0.14.15"
+val circeVersion = "0.14.16"
 
 /** common components holding the logic of the calculation */
 lazy val common = sbtcrossproject.CrossPlugin.autoImport.crossProject(JSPlatform, JVMPlatform)
