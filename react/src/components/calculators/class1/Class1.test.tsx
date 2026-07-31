@@ -484,6 +484,70 @@ describe("Class1", () => {
         mockValue.isMultiYear = true;
       });
 
+      // tests path in CLass1.tsx
+      it("when total underpayment is sum of employee and employers underpayments in multi-split year", () => {
+        mockValue.niPaidEmployee = "1000";
+        mockValue.result.totals.employee = "1100";
+        mockValue.result.employerContributions = "1000";
+        mockValue.result.totals.employer = "1100";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("200.00");
+        expect(mockValue.result.overpayment.total).toEqual("0");
+      });
+
+
+      it("when total overpayment is sum of employee and employers overpayments in multi-split year", () => {
+        mockValue.niPaidEmployee = "1100.50";
+        mockValue.result.totals.employee = "1100";
+        mockValue.result.employerContributions = "1000";
+        mockValue.result.totals.employer = "1200";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("200.50");
+        expect(mockValue.result.overpayment.total).toEqual("0");
+      });
+
+
+      it("when employee has overpaid and employer has underpaid in multi-split year", () => {
+        mockValue.niPaidEmployee = "2000";
+        mockValue.result.totals.employee = "1000";
+        mockValue.result.employerContributions = "1000";
+        mockValue.result.totals.employer = "2000";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("1000");
+        expect(mockValue.result.overpayment.total).toEqual("1000");
+      });
+
+
+
+      it("when total underpayment is sum of employee and employers underpayments in multi-split year", () => {
+        mockValue.niPaidEmployee = "1000";
+        mockValue.result.totals.employee = "1100";
+        mockValue.result.employerContributions = "1000";
+        mockValue.result.totals.employer = "1100";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("200.00");
+        expect(mockValue.result.overpayment.total).toEqual("0");
+      });
+
+      it("when NI paid amount is 0", () => {
+        mockValue.niPaidNet = "0";
+        mockValue.result.totals.net = "1100";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("1100");
+        expect(mockValue.result.overpayment.total).toEqual(0);
+      });
+
+
       it("should submit form on clicking calculate button and should not set result when result is empty", async () => {
         mockValue.customSplitRows = undefined;
         mockNiFrontendContext.NiFrontendInterface.classOne.calculate = jest
@@ -551,8 +615,61 @@ describe("Class1", () => {
         expect(mockValue.result.overpayment.total).toEqual("100.00");
       });
 
-      it("when NI paid amount is not entered", () => {
-        mockValue.niPaidNet = "";
+      // tests the CLass1.tsx
+      it("when total underpayment is sum of employee and employers underpayments in split year", () => {
+        mockValue.niPaidEmployee = "1000";
+        mockValue.result.totals.employee = "1100";
+        mockValue.result.employerContributions = "1000";
+        mockValue.result.totals.employer = "1100";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("200.00");
+        expect(mockValue.result.overpayment.total).toEqual("0");
+      });
+
+
+      it("when total overpayment is sum of employee and employers overpayments in split year", () => {
+        mockValue.niPaidEmployee = "1100.50";
+        mockValue.result.totals.employee = "1100";
+        mockValue.result.employerContributions = "1000";
+        mockValue.result.totals.employer = "1200";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("200.50");
+        expect(mockValue.result.overpayment.total).toEqual("0");
+      });
+
+
+      it("when employee has overpaid and employer has underpaid in split year", () => {
+        mockValue.niPaidEmployee = "2000";
+        mockValue.result.totals.employee = "1000";
+        mockValue.result.employerContributions = "1000";
+        mockValue.result.totals.employer = "2000";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("1000");
+        expect(mockValue.result.overpayment.total).toEqual("1000");
+      });
+
+
+
+      it("when total underpayment is sum of employee and employers underpayments in split year", () => {
+        mockValue.niPaidEmployee = "1000";
+        mockValue.result.totals.employee = "1100";
+        mockValue.result.employerContributions = "1000";
+        mockValue.result.totals.employer = "1100";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("200.00");
+        expect(mockValue.result.overpayment.total).toEqual("0");
+      });
+
+      it("when NI paid amount is 0", () => {
+        mockValue.niPaidNet = "0";
         mockValue.result.totals.net = "1100";
 
         doCalculate();
@@ -626,6 +743,76 @@ describe("Class1", () => {
       beforeEach(() => {
         mockValue.isMultiYear = false;
         mockValue.customSplitRows = {};
+      });
+
+      it("when total overpayment is sum of employee and employers overpayments in non-split year", () => {
+        // tests the ClassOneResult Path
+        mockValue.isMultiYear = false;
+        mockValue.niPaidEmployee = "1100.50";
+        mockValue.result.totals.employee = "1100";
+        mockValue.result.employerContributions = "1000";
+        mockValue.result.totals.employer = "1200";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("200.50");
+        expect(mockValue.result.overpayment.total).toEqual("0");
+      });
+
+      it("when employer has overpaid and employee has underpaid in non-split year", () => {
+        // tests the ClassOneResult Path
+        mockValue.isMultiYear = false;
+        mockValue.niPaidEmployee = "200";
+        mockValue.result.totals.employee = "1000";
+        mockValue.result.employerContributions = "2000";
+        mockValue.result.totals.employer = "1000";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("800");
+        expect(mockValue.result.overpayment.total).toEqual("1000");
+      });
+
+      it("when employer has overpaid and employee has underpaid in non-split year", () => {
+        // tests path in ClassOneResult Path
+        mockValue.isMultiYear = false;
+        mockValue.niPaidEmployee = "200";
+        mockValue.result.totals.employee = "1000";
+        mockValue.result.employerContributions = "2000";
+        mockValue.result.totals.employer = "1000";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("800");
+        expect(mockValue.result.overpayment.total).toEqual("1000");
+      });
+
+      it("when employee has overpaid and employer has underpaid in non-split year", () => {
+        // tests path in ClassOneResult Path
+        mockValue.isMultiYear = false;
+        mockValue.niPaidEmployee = "2000";
+        mockValue.result.totals.employee = "1000";
+        mockValue.result.employerContributions = "1000";
+        mockValue.result.totals.employer = "2000";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("1000");
+        expect(mockValue.result.overpayment.total).toEqual("1000");
+      });
+
+      it("when total underpayment is sum of employee and employers underpayments in non-split year", () => {
+        // tests the ClassOneResult Path
+        mockValue.isMultiYear = false;
+        mockValue.niPaidEmployee = "1000";
+        mockValue.result.totals.employee = "1100";
+        mockValue.result.employerContributions = "1000";
+        mockValue.result.totals.employer = "1100";
+
+        doCalculate();
+
+        expect(mockValue.result.underpayment.total).toEqual("200.00");
+        expect(mockValue.result.overpayment.total).toEqual("0");
       });
 
       it("should submit form on clicking calculate button and should not set result when result is empty", async () => {
