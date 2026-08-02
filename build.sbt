@@ -150,7 +150,7 @@ lazy val `frontend` = project
       "org.typelevel" %%% "simulacrum" % "1.0.1"
     ),
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
-    scalaJSLinkerConfig ~= (_.withESFeatures(_.withESVersion(ESVersion.ES2018))),
+    scalaJSLinkerConfig ~= (_.withESFeatures(_.withESVersion(ESVersion.ES2022))),
     publish := {},
     publishLocal := {}
   )

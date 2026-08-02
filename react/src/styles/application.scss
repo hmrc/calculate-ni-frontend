@@ -1,7 +1,9 @@
-$hmrc-assets-path: "/../node_modules/hmrc-frontend/hmrc/";
-$govuk-assets-path: "/../node_modules/govuk-frontend/dist/govuk/assets/";
-@import "node_modules/govuk-frontend/dist/govuk/all";
-@import "node_modules/hmrc-frontend/hmrc/all";
+@use "node_modules/govuk-frontend/dist/govuk" as * with (
+  $govuk-assets-path: "/../node_modules/govuk-frontend/dist/govuk/assets/"
+);
+@use "node_modules/hmrc-frontend/hmrc/all" as * with (
+  $hmrc-assets-path: "/../node_modules/hmrc-frontend/hmrc/"
+);
 
 @import "reset";
 @import "errors";

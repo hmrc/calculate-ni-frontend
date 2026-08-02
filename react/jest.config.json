@@ -2,9 +2,18 @@
   "moduleDirectories": ["node_modules"],
   "testEnvironment": "jsdom",
   "transform": {
-    "^.+\\.(ts|tsx)$": "ts-jest",
+    "^.+\\.(ts|tsx)$": [
+      "ts-jest",
+      {
+        "tsconfig": {
+          "target": "es5",
+          "module": "commonjs",
+          "skipLibCheck": true
+        }
+      }
+    ],
     "^.+\\.(js|jsx)$": "babel-jest",
-    "^.+\\.svg$": "jest-svg-transformer"
+    "^.+\\.svg$": "jest-transformer-svg"
   },
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
   "setupFilesAfterEnv": ["@testing-library/jest-dom"],

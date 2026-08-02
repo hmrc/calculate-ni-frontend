@@ -4,7 +4,7 @@ import { useLayoutEffect } from "react"
 import { useLocation } from "react-router-dom"
 
 export const useScrollToTop = ({ ref }:{
-  ref: React.MutableRefObject<HTMLDivElement>
+  ref: React.RefObject<HTMLDivElement | null>
 }): void => {
   const { pathname } = useLocation()
   const previousPathname = usePrevious(pathname)
@@ -17,7 +17,9 @@ export const useScrollToTop = ({ ref }:{
     window.scrollTo(0, 0)
 
     const clearTimer = setTimeout(() => {
-      ref.current.focus()
+      if (ref.current) {
+        ref.current.focus()
+      }
     }, 100)
 
     return (): void => {

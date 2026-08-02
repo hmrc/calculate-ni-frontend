@@ -15,8 +15,8 @@ import {DateRange} from "../shared/DateRange";
 const pageTitle = 'Weekly contribution conversion'
 
 const Class3Page = () => {
-  const breakdownRef = useRef() as React.MutableRefObject<HTMLDivElement>
-  const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const breakdownRef =  useRef<HTMLDivElement>(null)
+  const resultRef =  useRef<HTMLDivElement>(null)
   const [showSummary, setShowSummary] = useState<boolean>(false)
   const {
     details,
@@ -68,9 +68,9 @@ const Class3Page = () => {
   }
 
   useEffect(() => {
-    if(successNotificationsOn && results) {
+    if(successNotificationsOn && results && resultRef.current) {
       resultRef.current.focus()
-    } else if (results) {
+    } else if (results && breakdownRef.current) {
       breakdownRef.current.focus()
     }
   }, [results, resultRef, breakdownRef, successNotificationsOn])
@@ -124,7 +124,7 @@ const Class3Page = () => {
 
         </div>
       </form>
-
+n
 
       <div ref={breakdownRef} className="no-focus-outline" tabIndex={-1}>
         <Class3Breakdown isSaveAndPrint={showSummary} results={results} />

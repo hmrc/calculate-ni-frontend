@@ -22,8 +22,8 @@ const pageTitle = 'Interest on late-paid refunds from 1993'
 
 const LateRefundsPage = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
-  const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
-  const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const resultRef =useRef<HTMLDivElement>(null);
+  const totalsRef =useRef<HTMLDivElement>(null);
   const {
     InterestOnLateRefundsCalculator,
     rows,
@@ -80,9 +80,9 @@ const LateRefundsPage = () => {
   }
 
   useEffect(() => {
-    if(successNotificationsOn && results) {
+    if (successNotificationsOn && results && resultRef.current) {
       resultRef.current.focus()
-    } else if (results) {
+    } else if (results && totalsRef.current) {
       totalsRef.current.focus()
     }
   }, [results, resultRef, totalsRef, successNotificationsOn])
