@@ -26,8 +26,8 @@ const pageTitle = 'Class 1 NI contributions an employer owes due to unofficial d
 
 function UnofficialDefermentPage() {
     const [showSummary, setShowSummary] = useState<boolean>(false)
-    const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
-    const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>
+    const resultRef =useRef<HTMLDivElement>(null);
+    const totalsRef =useRef<HTMLDivElement>(null);
     const {
         UnofficialDefermentCalculator,
         taxYear,
@@ -107,9 +107,9 @@ function UnofficialDefermentPage() {
     }
 
     useEffect(() => {
-        if(successNotificationsOn && results) {
+        if(successNotificationsOn && results && resultRef.current) {
             resultRef.current.focus()
-        } else if (results) {
+        } else if (results && totalsRef.current) {
             totalsRef.current.focus()
         }
     }, [results, resultRef, totalsRef, successNotificationsOn])

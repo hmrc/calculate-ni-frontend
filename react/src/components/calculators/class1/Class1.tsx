@@ -29,8 +29,8 @@ const pageTitle = "Calculate Class 1 National Insurance (NI) contributions";
 
 const Class1Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false);
-  const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>;
-  const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+  const resultRef = useRef<HTMLDivElement>(null);
+  const totalsRef = useRef<HTMLDivElement>(null);
   const {
     ClassOneCalculator,
     taxYear,
@@ -316,9 +316,9 @@ const Class1Page = () => {
   };
 
   useEffect(() => {
-    if (successNotificationsOn && result) {
+    if (successNotificationsOn && result && resultRef.current) {
       resultRef.current.focus();
-    } else if (result) {
+    } else if (result && totalsRef.current) {
       totalsRef.current.focus();
     }
   }, [result, resultRef, totalsRef, successNotificationsOn]);

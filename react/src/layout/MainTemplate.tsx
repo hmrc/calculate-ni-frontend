@@ -6,7 +6,7 @@ import React, {ReactNode, useRef} from "react";
 import {useScrollToTop} from "../services/useScrollTop";
 
 export default function MainTemplate(props: {  children: ReactNode}) {
-  const pageRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const pageRef =useRef<HTMLDivElement>(null);
   useScrollToTop({ ref: pageRef })
   return (
     <div tabIndex={-1} className="no-focus-outline" ref={pageRef}>

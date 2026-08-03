@@ -11,7 +11,7 @@ interface TableRowProps {
 
 export default function TableRow(props: TableRowProps) {
   const { children, row, index, rows, activeRowId, setActiveRowId } = props;
-  const rowRef = useRef() as React.MutableRefObject<HTMLTableRowElement>;
+  const rowRef = useRef<HTMLDivElement>(null);
   const [retainFocus, setRetainFocus] = useState<boolean>(false);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function TableRow(props: TableRowProps) {
       onClick={handleClickFocus}
       aria-selected={activeRowId === row.id}
       tabIndex={-1}
-      ref={rowRef}
+      ref={rowRef as unknown as React.RefObject<HTMLTableRowElement>}
       onKeyDown={handleKeyDown}
     >
       {children}

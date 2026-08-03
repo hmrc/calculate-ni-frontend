@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect, useRef} from 'react'
+import React, {useState, useContext, useEffect, useRef, RefObject} from 'react'
 import {stripCommas, validateClass2Or3Payload} from '../../../validation/validation'
 import {hasKeys} from "../../../services/utils";
 import {useDocumentTitle} from "../../../services/useDocumentTitle";
@@ -21,8 +21,8 @@ const pageTitle = 'Class 2 or 3 NI contributions needed for a qualifying year'
 
 const Class2Or3Page = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
-  const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
-  const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const resultRef = useRef<HTMLDivElement>(null);
+  const totalsRef = useRef<HTMLDivElement>(null);
   const {
     ClassTwoCalculator,
     ClassThreeCalculator,
@@ -94,9 +94,9 @@ const Class2Or3Page = () => {
   }
 
   useEffect(() => {
-    if(successNotificationsOn && result) {
+    if(successNotificationsOn && result && resultRef.current) {
       resultRef.current.focus()
-    } else if (result) {
+    } else if (result && totalsRef.current) {
       totalsRef.current.focus()
     }
   }, [result, resultRef, totalsRef, successNotificationsOn])
