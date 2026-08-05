@@ -24,8 +24,8 @@ const pageTitle = 'Directors’ contributions'
 
 const DirectorsPage = () => {
   const [showSummary, setShowSummary] = useState<boolean>(false)
-  const resultRef = useRef() as React.MutableRefObject<HTMLDivElement>
-  const totalsRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const resultRef = useRef<HTMLDivElement>(null);
+  const totalsRef = useRef<HTMLDivElement>(null);
   const {
     DirectorsCalculator,
     taxYears,
@@ -127,15 +127,15 @@ const DirectorsPage = () => {
   }
 
   useEffect(() => {
-    if(result) {
+    if(result && resultRef.current) {
       resultRef.current.focus()
     }
   }, [result, resultRef])
 
   useEffect(() => {
-    if(successNotificationsOn && result) {
+    if(successNotificationsOn && result && resultRef.current) {
       resultRef.current.focus()
-    } else if (result) {
+    } else if (result && totalsRef.current) {
       totalsRef.current.focus()
     }
   }, [result, resultRef, totalsRef, successNotificationsOn])

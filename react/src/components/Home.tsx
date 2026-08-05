@@ -10,7 +10,7 @@ const pageTitle = serviceName
 
 export default function Home() {
   const { error, loading } = useContext(NiFrontendContext)
-  const notificationStatusRef = useRef() as React.MutableRefObject<HTMLParagraphElement>
+  const notificationStatusRef = useRef<HTMLParagraphElement>(null)
   const { successNotificationsOn, setSuccessNotificationsOn } = useContext(SuccessNotificationContext)
   useDocumentTitle(pageTitle)
   useEffect(() => {

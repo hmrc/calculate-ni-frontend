@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Node.js Version
 
-Using Node version 18.2.0. 
+Using Node version v21.6.2.
 
 You can check node version by running `node -v`.
 If you have nvm installed, you can run `nvm use` to switch to the correct version.
@@ -44,13 +44,17 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## To run the test cases
+## To run the jest test cases
+
+Change into the react folder: `cd react/`.
 
 To run test cases of whole project, run `npm test`.
 
 To run test cases of class1 folder only, run `npm test class1/`.
 
-## To run the test cases
+## To run the jest test cases with coverage
+
+Change into the react folder: `cd react/`.
 
 To run test coverage of whole project, run `npm test -- --coverage`.
 
