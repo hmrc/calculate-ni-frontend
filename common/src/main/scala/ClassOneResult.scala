@@ -80,9 +80,16 @@ trait ClassOneResultLike {
       s"underpayment.employer: max(0, employerContributions - employerPaid) = max(0, $c - $p)"
     }
 
-    def total: Explained[Money] = totalContributions.flatMap { total =>
-      (total - netPaid).max(Money.Zero) gives
-        s"net underpayment = max(0, totalContributions - netPaid) = max(0, $total - $netPaid)"
+    def total: Explained[Money] = {(
+      employee,
+      employer,
+      totalContributions
+    ).tupled.flatMap {
+      case (ee,er, _) if er > 0 =>
+        (ee + er) gives s"underpayment.total: underpayment.employee + underpayment.employer = $ee + $er"
+      case (_,_, tc) =>
+        (netPaid - tc).max(Money.Zero) gives s"underpayment.total: max(0, netPaid - totalContributions) = max(0, $netPaid - $total)"
+    }
     }
 
     override def toString = (employee.value, employer.value).toString
