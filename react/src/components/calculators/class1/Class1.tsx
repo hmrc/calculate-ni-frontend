@@ -189,7 +189,14 @@ const Class1Page = () => {
 
       if (niPaidNet) {
         // for net contributions
-        if (getTotals.net - parseFloat(niPaidNet) >= 0) {
+        if (getUnderpayment.employer > 0){
+          getUnderpayment.total = (
+              parseFloat(getUnderpayment.employee) + parseFloat(getUnderpayment.employer)
+          ).toFixed(2);
+          getOverpayment.total = (
+              parseFloat(getOverpayment.employee) + parseFloat(getOverpayment.employer)
+          ).toFixed(2);
+        } else if (getTotals.net - parseFloat(niPaidNet) >= 0) {
           getUnderpayment.total = (
             getTotals.net - parseFloat(niPaidNet)
           ).toFixed(2);
