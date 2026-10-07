@@ -192,10 +192,10 @@ const mockResult = {
   },
   employerPaid: 0,
   totals: {
-    gross: 6000,
-    employee: 492.9,
-    employer: 586.92,
-    net: 1079.82,
+    gross: 500,
+    employee: 200,
+    employer: 300,
+    net: 500.00,
   },
   underpayment: {
     employee: 492.9,
@@ -376,7 +376,7 @@ const mockValue: any = {
   setPeriodNumbers: jest.fn(),
   details: mockDetails,
   setDetails: jest.fn(),
-  niPaidNet: "100,20",
+  niPaidNet: "100.20",
   setNiPaidNet: jest.fn(),
   defaultRow: rows[0],
   niRow: rows[0],
@@ -532,23 +532,53 @@ describe("Class1", () => {
       });
 
       it("when NI paid amount is less than total due NI", () => {
-        mockValue.niPaidNet = "1000";
-        mockValue.result.totals.net = "1100";
+        mockValue.niPaidEmployee = "1000";
+        mockValue.result.totals.employee = "1000";
+        mockValue.result.employerContributions = "1000";
+        mockValue.result.totals.employer = "1100";
+        mockValue.result.underpayment.employer = "100"
+        mockValue.result.underpayment.employee = "0"
+        mockValue.result.overpayment.employer = "0"
+        mockValue.result.overpayment.employee = "0"
 
         doCalculate();
 
         expect(mockValue.result.underpayment.total).toEqual("100.00");
-        expect(mockValue.result.overpayment.total).toEqual(0);
+        expect(mockValue.result.overpayment.total).toEqual("0.00");
       });
 
-      it("when NI paid amount is more than total due NI", () => {
-        mockValue.niPaidNet = "1100";
-        mockValue.result.totals.net = "1000";
+      it("when Employer overpayment offsets employee underpayment", () => {
+        mockValue.result.underpayment.employer = "0"
+        mockValue.result.underpayment.employee = "100"
+        mockValue.niPaidEmployee = "100";
+        mockValue.niPaidNet = "600"
+        mockValue.result.employerContributions = "300";
+        mockValue.result.employeeContributions = "200";
+        mockValue.result.totals.employee = "100";
+        mockValue.result.overpayment.employer = "200"
+        mockValue.result.overpayment.employee = "0"
 
         doCalculate();
 
-        expect(mockValue.result.underpayment.total).toEqual(0);
         expect(mockValue.result.overpayment.total).toEqual("100.00");
+        expect(mockValue.result.underpayment.total).toEqual(0);
+      });
+      it("when Employee overpayment must not offset employer underpayment", () => {
+        mockValue.result.underpayment.employer = "100"
+        mockValue.result.underpayment.employee = "0"
+        mockValue.niPaidEmployee = "300";
+        mockValue.niPaidNet = "600"
+        mockValue.result.employerContributions = "400";
+        mockValue.result.employeeContributions = "200";
+        mockValue.result.totals.employee = "300";
+        mockValue.result.totals.employer = "300";
+        mockValue.result.overpayment.employer = "0"
+        mockValue.result.overpayment.employee = "100"
+
+        doCalculate();
+
+         expect(mockValue.result.overpayment.total).toEqual("100.00");
+        expect(mockValue.result.underpayment.total).toEqual("100.00");
       });
 
       it("when NI paid amount is not entered", () => {
