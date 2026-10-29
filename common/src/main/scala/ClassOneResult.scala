@@ -80,15 +80,17 @@ trait ClassOneResultLike {
       s"underpayment.employer: max(0, employerContributions - employerPaid) = max(0, $c - $p)"
     }
 
-    def total: Explained[Money] ={(
-        employee,
-        employer
-      ).tupled.flatMap {case (ee,er) =>
-        (ee + er) gives s"underpayment.total: underpayment.employee + underpayment.employer = $ee + $er"
+    def total: Explained[Money] = {
+      if (employer.value.toInt > 0)  {
+        (employee, employer).tupled.flatMap {
+          case (ee,er) => (ee + er)  gives s"underpayment.total: underpayment.employee + underpayment.employer = $ee + $er"
+      }} else {
+      totalContributions.flatMap { total =>
+      (total - netPaid).max(Money.Zero) gives
+        s"net underpayment = max(0, totalContributions - netPaid) = max(0, $total - $netPaid)"}
       }
-}
-
-    override def toString = (employee.value, employer.value).toString
+    }
+    override def toString: String = (employee.value, employer.value).toString
   }
 
   object overpayment {
@@ -105,17 +107,20 @@ trait ClassOneResultLike {
       s"overpayment.employer: max(0, $employerPaid - $employerContributions) = max(0, $p - $c)"
     }
 
-    def total: Explained[Money] = {(
-        employee,
-        employer
-      ).tupled.flatMap {case (ee,er) =>
-        (ee + er) gives s"overpayment.total: overpayment.employee + overpayment.employer = $ee + $er"
-      }}
-
-    override def toString = (employee.value, employer.value).toString
+    def total: Explained[Money] = {
+      if (employee.value > 0 ) {
+        (employee, employer).tupled.flatMap {
+          case (ee,er) => (ee + er)  gives s"overpayment.total: overpayment.employee + overpayment.employer = $ee + $er"
+        }} else {
+        totalContributions.flatMap { total =>
+          (netPaid - total).max(Money.Zero) gives
+            s"net overpayment = max(0, totalContributions - netPaid) = max(0, $netPaid - $total)"}
+      }
+    }
+    override def toString: String = (employee.value, employer.value).toString
   }
-
 }
+
 
 case class ClassOneResult(
   on: LocalDate,
